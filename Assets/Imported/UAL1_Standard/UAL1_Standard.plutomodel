@@ -1,0 +1,53 @@
+PLUTOMODEL	1
+SOURCE	project://SourceModels/UAL1_Standard/UAL1_Standard.glb
+SOURCE_ID	8b3d61e6b0bde27e348d075f2c262b01
+SOURCE_HASH	8204546033772031995
+IMPORTER_VERSION	2
+OBJECT	15563061709532230224	Mesh	UAL1_Standard	project://Imported/UAL1_Standard/UAL1_Standard.plutomesh
+OBJECT	8606608695071728683	Material	M_UAL1_Standard_0	project://Imported/UAL1_Standard/M_UAL1_Standard_0.plutomaterial
+OBJECT	8606607595560100472	Material	M_UAL1_Standard_1	project://Imported/UAL1_Standard/M_UAL1_Standard_1.plutomaterial
+OBJECT	8606610894094985105	Material	M_UAL1_Standard_2	project://Imported/UAL1_Standard/M_UAL1_Standard_2.plutomaterial
+OBJECT	10532409351424519043	Animation	UAL1_Standard Animations	project://Imported/UAL1_Standard/UAL1_Standard.plutoanim
+OBJECT	9708134979540129692	Animation Clip	A_TPose	project://Imported/UAL1_Standard/Clips/UAL1_Standard_A_TPose_0.plutoclip
+OBJECT	8462305544657992702	Animation Clip	Crouch_Fwd_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Crouch_Fwd_Loop_1.plutoclip
+OBJECT	9384942449035962143	Animation Clip	Crouch_Idle_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Crouch_Idle_Loop_2.plutoclip
+OBJECT	110498540791525825	Animation Clip	Dance_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Dance_Loop_3.plutoclip
+OBJECT	10279122072164144204	Animation Clip	Death01	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Death01_4.plutoclip
+OBJECT	15888363883780633781	Animation Clip	Driving_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Driving_Loop_5.plutoclip
+OBJECT	984221582638376568	Animation Clip	Fixing_Kneeling	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Fixing_Kneeling_6.plutoclip
+OBJECT	3383237867330451290	Animation Clip	Hit_Chest	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Hit_Chest_7.plutoclip
+OBJECT	10567131401080425679	Animation Clip	Hit_Head	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Hit_Head_8.plutoclip
+OBJECT	10641248273461411936	Animation Clip	Idle_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Idle_Loop_9.plutoclip
+OBJECT	7578411017095071047	Animation Clip	Idle_Talking_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Idle_Talking_Loop_10.plutoclip
+OBJECT	2456503773756211711	Animation Clip	Idle_Torch_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Idle_Torch_Loop_11.plutoclip
+OBJECT	2223468135767583465	Animation Clip	Interact	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Interact_12.plutoclip
+OBJECT	2095942867181476182	Animation Clip	Jog_Fwd_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Jog_Fwd_Loop_13.plutoclip
+OBJECT	9582829445804279957	Animation Clip	Jump_Land	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Jump_Land_14.plutoclip
+OBJECT	13231290502216557198	Animation Clip	Jump_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Jump_Loop_15.plutoclip
+OBJECT	10096618825336285996	Animation Clip	Jump_Start	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Jump_Start_16.plutoclip
+OBJECT	6847285430968053056	Animation Clip	PickUp_Table	project://Imported/UAL1_Standard/Clips/UAL1_Standard_PickUp_Table_17.plutoclip
+OBJECT	17386293159855747995	Animation Clip	Pistol_Aim_Down	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Pistol_Aim_Down_18.plutoclip
+OBJECT	7965273380347822190	Animation Clip	Pistol_Aim_Neutral	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Pistol_Aim_Neutral_19.plutoclip
+OBJECT	7265351489658878202	Animation Clip	Pistol_Aim_Up	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Pistol_Aim_Up_20.plutoclip
+OBJECT	7550089436837162430	Animation Clip	Pistol_Idle_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Pistol_Idle_Loop_21.plutoclip
+OBJECT	7924889859556343120	Animation Clip	Pistol_Reload	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Pistol_Reload_22.plutoclip
+OBJECT	11830380416285870820	Animation Clip	Pistol_Shoot	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Pistol_Shoot_23.plutoclip
+OBJECT	9027568406907637014	Animation Clip	Punch_Cross	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Punch_Cross_24.plutoclip
+OBJECT	11498056857763952071	Animation Clip	Punch_Jab	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Punch_Jab_25.plutoclip
+OBJECT	16601994298061326422	Animation Clip	Push_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Push_Loop_26.plutoclip
+OBJECT	10325899029063163788	Animation Clip	Roll	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Roll_27.plutoclip
+OBJECT	14670850617732542576	Animation Clip	Sitting_Enter	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Sitting_Enter_28.plutoclip
+OBJECT	13447151968671369614	Animation Clip	Sitting_Exit	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Sitting_Exit_29.plutoclip
+OBJECT	386185434352938387	Animation Clip	Sitting_Idle_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Sitting_Idle_Loop_30.plutoclip
+OBJECT	5252252901242167115	Animation Clip	Sitting_Talking_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Sitting_Talking_Loop_31.plutoclip
+OBJECT	6383845274732493387	Animation Clip	Spell_Simple_Enter	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Spell_Simple_Enter_32.plutoclip
+OBJECT	4083779351237659295	Animation Clip	Spell_Simple_Exit	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Spell_Simple_Exit_33.plutoclip
+OBJECT	6346135564871515500	Animation Clip	Spell_Simple_Idle_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Spell_Simple_Idle_Loop_34.plutoclip
+OBJECT	8320823655315516202	Animation Clip	Spell_Simple_Shoot	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Spell_Simple_Shoot_35.plutoclip
+OBJECT	9546629618652996438	Animation Clip	Sprint_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Sprint_Loop_36.plutoclip
+OBJECT	17171493539288016732	Animation Clip	Swim_Fwd_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Swim_Fwd_Loop_37.plutoclip
+OBJECT	17196605338606365225	Animation Clip	Swim_Idle_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Swim_Idle_Loop_38.plutoclip
+OBJECT	7960112094241165765	Animation Clip	Sword_Attack	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Sword_Attack_39.plutoclip
+OBJECT	10482968935173961835	Animation Clip	Sword_Idle	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Sword_Idle_40.plutoclip
+OBJECT	1184605240785095183	Animation Clip	Walk_Formal_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Walk_Formal_Loop_41.plutoclip
+OBJECT	9265174048819016769	Animation Clip	Walk_Loop	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Walk_Loop_42.plutoclip
