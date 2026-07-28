@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <AssemblyName>CoDplutoproject.Scripts</AssemblyName>
+    <RootNamespace>CoDplutoproject.Scripts</RootNamespace>
+    <OutputPath>Assets/Managed/</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Assets/Scripts/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:/Users/Cameron.Airlie/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/PlutoGE.ScriptCore.csproj" />
+  </ItemGroup>
+  <Target Name="CopyScriptCoreRuntimeFiles" AfterTargets="Build">
+    <ItemGroup>
+      <ScriptCoreRuntimeFiles Include="C:/Users/Cameron.Airlie/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/$(Configuration)/$(TargetFramework)/PlutoGE.ScriptCore.runtimeconfig.json" />
+      <ScriptCoreRuntimeFiles Include="C:/Users/Cameron.Airlie/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/$(Configuration)/$(TargetFramework)/PlutoGE.ScriptCore.deps.json" Condition="Exists('C:/Users/Cameron.Airlie/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/$(Configuration)/$(TargetFramework)/PlutoGE.ScriptCore.deps.json')" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ScriptCoreRuntimeFiles)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" Condition="@(ScriptCoreRuntimeFiles) != ''" />
+  </Target>
+</Project>

@@ -1,0 +1,9 @@
+AnimationSetVersion=1
+Clip=project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_draw_0.plutoclip
+Clip=project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_hide_1.plutoclip
+Clip=project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_idle_2.plutoclip
+Clip=project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_reload_3.plutoclip
+Clip=project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_reload_full_4.plutoclip
+Clip=project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_shoot_5.plutoclip
+Clip=project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_sprint_6.plutoclip
+Clip=project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_walk_7.plutoclip

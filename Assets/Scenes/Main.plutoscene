@@ -1,0 +1,773 @@
+SCENE	1
+ENTITY	1	0	1	Player	0.000000,1.545055,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	1	ScriptComponent
+PROPERTY	Source	2	PlutoGE.ScriptCore.Examples.KinematicFpsController	0
+PROPERTY	camera	9	2	0
+PROPERTY	weaponModel	9	25	0
+PROPERTY	weaponAnimator	9	25	0
+PROPERTY	muzzleFlash	9	0	0
+PROPERTY	shotAudio	9	25	0
+PROPERTY	reloadAudio	9	0	0
+PROPERTY	emptyAudio	9	0	0
+PROPERTY	ammoText	9	43	0
+PROPERTY	promptText	9	0	0
+PROPERTY	mouseSensitivity	0	0.100000	0
+PROPERTY	adsSensitivityMultiplier	0	0.720000	0
+PROPERTY	minimumPitch	0	-88.000000	0
+PROPERTY	maximumPitch	0	88.000000	0
+PROPERTY	hipFov	0	78.000000	0
+PROPERTY	adsFov	0	60.000000	0
+PROPERTY	fovSharpness	0	14.000000	0
+PROPERTY	standingCameraHeight	0	0.000000	0
+PROPERTY	crouchingCameraHeight	0	-0.500000	0
+PROPERTY	cameraHeightSharpness	0	16.000000	0
+PROPERTY	walkSpeed	0	5.400000	0
+PROPERTY	sprintSpeed	0	8.000000	0
+PROPERTY	crouchSpeed	0	3.100000	0
+PROPERTY	adsSpeedMultiplier	0	0.720000	0
+PROPERTY	groundAcceleration	0	38.000000	0
+PROPERTY	groundDeceleration	0	30.000000	0
+PROPERTY	airAcceleration	0	9.000000	0
+PROPERTY	jumpHeight	0	1.150000	0
+PROPERTY	gravity	0	-26.000000	0
+PROPERTY	groundCheckDistance	0	1.120000	0
+PROPERTY	groundProbeOffset	0	0.120000	0
+PROPERTY	skinWidth	0	0.030000	0
+PROPERTY	slideEntrySpeed	0	6.500000	0
+PROPERTY	slideDuration	0	0.720000	0
+PROPERTY	slideFriction	0	8.000000	0
+PROPERTY	automaticFire	4	true	0
+PROPERTY	magazineSize	1	30	0
+PROPERTY	startingReserveAmmo	1	120	0
+PROPERTY	roundsPerMinute	0	720.000000	0
+PROPERTY	reloadDuration	0	1.750000	0
+PROPERTY	damage	0	30.000000	0
+PROPERTY	headshotMultiplier	0	1.500000	0
+PROPERTY	range	0	180.000000	0
+PROPERTY	hipSpreadDegrees	0	1.250000	0
+PROPERTY	adsSpreadDegrees	0	0.180000	0
+PROPERTY	movementSpreadDegrees	0	0.800000	0
+PROPERTY	recoilPitch	0	0.750000	0
+PROPERTY	recoilYaw	0	0.320000	0
+PROPERTY	recoilRecovery	0	9.000000	0
+PROPERTY	damageableTag	2	Enemy	0
+PROPERTY	headTag	2	Head	0
+PROPERTY	damageMethod	2	TakeDamage	0
+PROPERTY	hipPosition	3	0.070000,-0.130000,0.020000	0
+PROPERTY	adsPosition	3	0.000000,-0.090000,0.000000	0
+PROPERTY	weaponPositionSharpness	0	18.000000	0
+PROPERTY	weaponSway	0	0.001800	0
+PROPERTY	bobFrequency	0	9.000000	0
+PROPERTY	bobAmount	0	0.018000	0
+PROPERTY	interactionDistance	0	3.000000	0
+PROPERTY	interactableTag	2	Interactable	0
+PROPERTY	interactMethod	2	Interact	0
+END_COMPONENT
+COMPONENT	1	ColliderComponent
+PROPERTY	Shape	6	2	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	1	RigidbodyComponent
+PROPERTY	Mass	0	1.000000	0
+PROPERTY	Linear Drag	0	0.000000	0
+PROPERTY	Angular Drag	0	0.050000	0
+PROPERTY	Friction	0	1.800000	0
+PROPERTY	Use Gravity	4	true	0
+PROPERTY	Is Kinematic	4	true	0
+PROPERTY	Freeze Rotation	4	false	0
+PROPERTY	Velocity	3	0.000000,0.000000,0.000000	0
+PROPERTY	Angular Velocity	3	0.000000,0.000000,0.000000	0
+END_COMPONENT
+ENTITY	2	1	1	Camera	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	2	CameraComponent
+PROPERTY	FOV	0	60.000000	0
+PROPERTY	NearPlane	0	0.100000	0
+PROPERTY	FarPlane	0	100.000000	0
+PROPERTY	MainCamera	4	true	0
+PROPERTY	PostProcessPresetAsset	2	project://PostProcessing/main.plutopostprocess	0
+END_COMPONENT
+COMPONENT	2	SoundListenerComponent
+PROPERTY	Primary	4	true	0
+PROPERTY	MasterVolume	0	1.000000	0
+PROPERTY	OcclusionStrength	0	1.000000	0
+PROPERTY	AirAbsorptionStrength	0	1.000000	0
+PROPERTY	LowPassStrength	0	0.000000	0
+END_COMPONENT
+ENTITY	25	2	1	animation_low-poly_val	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	25	AnimationComponent
+PROPERTY	SourceAnimation	2	project://SourceModels/animation_low-poly_val/animation_low-poly_val Animations.plutoanim	0
+PROPERTY	AnimationGraph	2	project://AnimGraphs/player.plutoanimgraph	0
+PROPERTY	CurrentClipIndex	6	11	14	LVA4_Armature|wpn_val_draw	LVA4_Armature|wpn_val_hide	LVA4_Armature|wpn_val_idle	LVA4_Armature|wpn_val_reload	LVA4_Armature|wpn_val_reload_full	LVA4_Armature|wpn_val_shoot	LVA4_Armature|wpn_val_sprint	LVA4_Armature|wpn_val_walk	animation_low-poly_val_LVA4_Armature_wpn_val_idle_2	animation_low-poly_val_LVA4_Armature_wpn_val_shoot_5	animation_low-poly_val_LVA4_Armature_wpn_val_reload_3	animation_low-poly_val_LVA4_Armature_wpn_val_idle_2	animation_low-poly_val_LVA4_Armature_wpn_val_shoot_5	animation_low-poly_val_LVA4_Armature_wpn_val_reload_3
+PROPERTY	Time	0	4.656826	0
+PROPERTY	Speed	0	1.000000	0
+PROPERTY	Playing	4	true	0
+PROPERTY	Looping	4	true	0
+PROPERTY	Autoplay	4	true	0
+PROPERTY	ClipCount	1	14	0
+PROPERTY	Clips.0.Name	2	LVA4_Armature|wpn_val_draw	0
+PROPERTY	Clips.0.Duration	0	0.500000	0
+PROPERTY	Clips.0.ChannelCount	1	194	0
+PROPERTY	Clips.1.Name	2	LVA4_Armature|wpn_val_hide	0
+PROPERTY	Clips.1.Duration	0	0.500000	0
+PROPERTY	Clips.1.ChannelCount	1	194	0
+PROPERTY	Clips.2.Name	2	LVA4_Armature|wpn_val_idle	0
+PROPERTY	Clips.2.Duration	0	8.333333	0
+PROPERTY	Clips.2.ChannelCount	1	82	0
+PROPERTY	Clips.3.Name	2	LVA4_Armature|wpn_val_reload	0
+PROPERTY	Clips.3.Duration	0	2.500000	0
+PROPERTY	Clips.3.ChannelCount	1	78	0
+PROPERTY	Clips.4.Name	2	LVA4_Armature|wpn_val_reload_full	0
+PROPERTY	Clips.4.Duration	0	3.333333	0
+PROPERTY	Clips.4.ChannelCount	1	81	0
+PROPERTY	Clips.5.Name	2	LVA4_Armature|wpn_val_shoot	0
+PROPERTY	Clips.5.Duration	0	0.500000	0
+PROPERTY	Clips.5.ChannelCount	1	194	0
+PROPERTY	Clips.6.Name	2	LVA4_Armature|wpn_val_sprint	0
+PROPERTY	Clips.6.Duration	0	1.000000	0
+PROPERTY	Clips.6.ChannelCount	1	80	0
+PROPERTY	Clips.7.Name	2	LVA4_Armature|wpn_val_walk	0
+PROPERTY	Clips.7.Duration	0	1.000000	0
+PROPERTY	Clips.7.ChannelCount	1	75	0
+PROPERTY	Clips.8.Name	2	animation_low-poly_val_LVA4_Armature_wpn_val_idle_2	0
+PROPERTY	Clips.8.Duration	0	8.333333	0
+PROPERTY	Clips.8.ChannelCount	1	82	0
+PROPERTY	Clips.9.Name	2	animation_low-poly_val_LVA4_Armature_wpn_val_shoot_5	0
+PROPERTY	Clips.9.Duration	0	0.500000	0
+PROPERTY	Clips.9.ChannelCount	1	194	0
+PROPERTY	Clips.10.Name	2	animation_low-poly_val_LVA4_Armature_wpn_val_reload_3	0
+PROPERTY	Clips.10.Duration	0	2.500000	0
+PROPERTY	Clips.10.ChannelCount	1	78	0
+PROPERTY	Clips.11.Name	2	animation_low-poly_val_LVA4_Armature_wpn_val_idle_2	0
+PROPERTY	Clips.11.Duration	0	8.333333	0
+PROPERTY	Clips.11.ChannelCount	1	82	0
+PROPERTY	Clips.12.Name	2	animation_low-poly_val_LVA4_Armature_wpn_val_shoot_5	0
+PROPERTY	Clips.12.Duration	0	0.500000	0
+PROPERTY	Clips.12.ChannelCount	1	194	0
+PROPERTY	Clips.13.Name	2	animation_low-poly_val_LVA4_Armature_wpn_val_reload_3	0
+PROPERTY	Clips.13.Duration	0	2.500000	0
+PROPERTY	Clips.13.ChannelCount	1	78	0
+END_COMPONENT
+COMPONENT	25	SoundEmitterComponent
+PROPERTY	Clip	2	project://Sounds/gun_shot.wav	0
+PROPERTY	PlayOnAwake	4	false	0
+PROPERTY	Looping	4	false	0
+PROPERTY	Spatialized	4	true	0
+PROPERTY	Volume	0	1.000000	0
+PROPERTY	Pitch	0	1.000000	0
+PROPERTY	MinDistance	0	1.000000	0
+PROPERTY	MaxDistance	0	30.000000	0
+PROPERTY	Rolloff	0	1.000000	0
+PROPERTY	OcclusionStrength	0	1.000000	0
+PROPERTY	AirAbsorptionStrength	0	1.000000	0
+PROPERTY	LowPassStrength	0	0.000000	0
+END_COMPONENT
+ENTITY	26	25	1	Object_10	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	26	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	0	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
+PROPERTY	ModelObjectId	2	8194938600375813045	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	18	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	0
+PROPERTY	MaterialSlots.3.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	0
+PROPERTY	MaterialSlots.4.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	0
+PROPERTY	MaterialSlots.5.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	0
+PROPERTY	MaterialSlots.6.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	0
+PROPERTY	MaterialSlots.7.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	0
+PROPERTY	MaterialSlots.8.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	0
+PROPERTY	MaterialSlots.9.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	0
+PROPERTY	MaterialSlots.10.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	0
+PROPERTY	MaterialSlots.11.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	0
+PROPERTY	MaterialSlots.12.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	0
+PROPERTY	MaterialSlots.13.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	0
+PROPERTY	MaterialSlots.14.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	0
+PROPERTY	MaterialSlots.15.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	0
+PROPERTY	MaterialSlots.16.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	0
+PROPERTY	MaterialSlots.17.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	0
+END_COMPONENT
+ENTITY	27	25	1	Object_11	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	27	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
+PROPERTY	ModelObjectId	2	8194938600375813045	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	18	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	0
+PROPERTY	MaterialSlots.3.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	0
+PROPERTY	MaterialSlots.4.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	0
+PROPERTY	MaterialSlots.5.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	0
+PROPERTY	MaterialSlots.6.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	0
+PROPERTY	MaterialSlots.7.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	0
+PROPERTY	MaterialSlots.8.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	0
+PROPERTY	MaterialSlots.9.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	0
+PROPERTY	MaterialSlots.10.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	0
+PROPERTY	MaterialSlots.11.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	0
+PROPERTY	MaterialSlots.12.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	0
+PROPERTY	MaterialSlots.13.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	0
+PROPERTY	MaterialSlots.14.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	0
+PROPERTY	MaterialSlots.15.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	0
+PROPERTY	MaterialSlots.16.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	0
+PROPERTY	MaterialSlots.17.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	0
+END_COMPONENT
+ENTITY	28	25	1	Object_13	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	28	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	2	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
+PROPERTY	ModelObjectId	2	8194938600375813045	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	18	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	0
+PROPERTY	MaterialSlots.3.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	0
+PROPERTY	MaterialSlots.4.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	0
+PROPERTY	MaterialSlots.5.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	0
+PROPERTY	MaterialSlots.6.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	0
+PROPERTY	MaterialSlots.7.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	0
+PROPERTY	MaterialSlots.8.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	0
+PROPERTY	MaterialSlots.9.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	0
+PROPERTY	MaterialSlots.10.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	0
+PROPERTY	MaterialSlots.11.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	0
+PROPERTY	MaterialSlots.12.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	0
+PROPERTY	MaterialSlots.13.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	0
+PROPERTY	MaterialSlots.14.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	0
+PROPERTY	MaterialSlots.15.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	0
+PROPERTY	MaterialSlots.16.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	0
+PROPERTY	MaterialSlots.17.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	0
+END_COMPONENT
+ENTITY	29	25	1	Object_14	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	29	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	3	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
+PROPERTY	ModelObjectId	2	8194938600375813045	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	18	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	0
+PROPERTY	MaterialSlots.3.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	0
+PROPERTY	MaterialSlots.4.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	0
+PROPERTY	MaterialSlots.5.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	0
+PROPERTY	MaterialSlots.6.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	0
+PROPERTY	MaterialSlots.7.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	0
+PROPERTY	MaterialSlots.8.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	0
+PROPERTY	MaterialSlots.9.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	0
+PROPERTY	MaterialSlots.10.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	0
+PROPERTY	MaterialSlots.11.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	0
+PROPERTY	MaterialSlots.12.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	0
+PROPERTY	MaterialSlots.13.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	0
+PROPERTY	MaterialSlots.14.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	0
+PROPERTY	MaterialSlots.15.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	0
+PROPERTY	MaterialSlots.16.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	0
+PROPERTY	MaterialSlots.17.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	0
+END_COMPONENT
+ENTITY	30	25	1	Object_126	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	30	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	4	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
+PROPERTY	ModelObjectId	2	8194938600375813045	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	18	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	0
+PROPERTY	MaterialSlots.3.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	0
+PROPERTY	MaterialSlots.4.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	0
+PROPERTY	MaterialSlots.5.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	0
+PROPERTY	MaterialSlots.6.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	0
+PROPERTY	MaterialSlots.7.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	0
+PROPERTY	MaterialSlots.8.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	0
+PROPERTY	MaterialSlots.9.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	0
+PROPERTY	MaterialSlots.10.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	0
+PROPERTY	MaterialSlots.11.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	0
+PROPERTY	MaterialSlots.12.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	0
+PROPERTY	MaterialSlots.13.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	0
+PROPERTY	MaterialSlots.14.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	0
+PROPERTY	MaterialSlots.15.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	0
+PROPERTY	MaterialSlots.16.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	0
+PROPERTY	MaterialSlots.17.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	0
+END_COMPONENT
+ENTITY	31	25	1	Object_128	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	31	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	5	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
+PROPERTY	ModelObjectId	2	8194938600375813045	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	18	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	0
+PROPERTY	MaterialSlots.3.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	0
+PROPERTY	MaterialSlots.4.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	0
+PROPERTY	MaterialSlots.5.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	0
+PROPERTY	MaterialSlots.6.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	0
+PROPERTY	MaterialSlots.7.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	0
+PROPERTY	MaterialSlots.8.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	0
+PROPERTY	MaterialSlots.9.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	0
+PROPERTY	MaterialSlots.10.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	0
+PROPERTY	MaterialSlots.11.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	0
+PROPERTY	MaterialSlots.12.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	0
+PROPERTY	MaterialSlots.13.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	0
+PROPERTY	MaterialSlots.14.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	0
+PROPERTY	MaterialSlots.15.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	0
+PROPERTY	MaterialSlots.16.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	0
+PROPERTY	MaterialSlots.17.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	0
+END_COMPONENT
+ENTITY	32	25	1	Object_129	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	32	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	6	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
+PROPERTY	ModelObjectId	2	8194938600375813045	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	18	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	0
+PROPERTY	MaterialSlots.3.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	0
+PROPERTY	MaterialSlots.4.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	0
+PROPERTY	MaterialSlots.5.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	0
+PROPERTY	MaterialSlots.6.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	0
+PROPERTY	MaterialSlots.7.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	0
+PROPERTY	MaterialSlots.8.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	0
+PROPERTY	MaterialSlots.9.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	0
+PROPERTY	MaterialSlots.10.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	0
+PROPERTY	MaterialSlots.11.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	0
+PROPERTY	MaterialSlots.12.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	0
+PROPERTY	MaterialSlots.13.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	0
+PROPERTY	MaterialSlots.14.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	0
+PROPERTY	MaterialSlots.15.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	0
+PROPERTY	MaterialSlots.16.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	0
+PROPERTY	MaterialSlots.17.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	0
+END_COMPONENT
+ENTITY	33	25	1	Object_130	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	33	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	7	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
+PROPERTY	ModelObjectId	2	8194938600375813045	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	18	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	0
+PROPERTY	MaterialSlots.3.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	0
+PROPERTY	MaterialSlots.4.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	0
+PROPERTY	MaterialSlots.5.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	0
+PROPERTY	MaterialSlots.6.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	0
+PROPERTY	MaterialSlots.7.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	0
+PROPERTY	MaterialSlots.8.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	0
+PROPERTY	MaterialSlots.9.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	0
+PROPERTY	MaterialSlots.10.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	0
+PROPERTY	MaterialSlots.11.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	0
+PROPERTY	MaterialSlots.12.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	0
+PROPERTY	MaterialSlots.13.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	0
+PROPERTY	MaterialSlots.14.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	0
+PROPERTY	MaterialSlots.15.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	0
+PROPERTY	MaterialSlots.16.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	0
+PROPERTY	MaterialSlots.17.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	0
+END_COMPONENT
+ENTITY	34	25	1	Object_131	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	34	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	8	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
+PROPERTY	ModelObjectId	2	8194938600375813045	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	18	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	0
+PROPERTY	MaterialSlots.3.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	0
+PROPERTY	MaterialSlots.4.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	0
+PROPERTY	MaterialSlots.5.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	0
+PROPERTY	MaterialSlots.6.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	0
+PROPERTY	MaterialSlots.7.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	0
+PROPERTY	MaterialSlots.8.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	0
+PROPERTY	MaterialSlots.9.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	0
+PROPERTY	MaterialSlots.10.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	0
+PROPERTY	MaterialSlots.11.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	0
+PROPERTY	MaterialSlots.12.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	0
+PROPERTY	MaterialSlots.13.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	0
+PROPERTY	MaterialSlots.14.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	0
+PROPERTY	MaterialSlots.15.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	0
+PROPERTY	MaterialSlots.16.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	0
+PROPERTY	MaterialSlots.17.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	0
+END_COMPONENT
+ENTITY	35	25	1	Object_132	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	35	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	9	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
+PROPERTY	ModelObjectId	2	8194938600375813045	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	18	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	0
+PROPERTY	MaterialSlots.3.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	0
+PROPERTY	MaterialSlots.4.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	0
+PROPERTY	MaterialSlots.5.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	0
+PROPERTY	MaterialSlots.6.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	0
+PROPERTY	MaterialSlots.7.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	0
+PROPERTY	MaterialSlots.8.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	0
+PROPERTY	MaterialSlots.9.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	0
+PROPERTY	MaterialSlots.10.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	0
+PROPERTY	MaterialSlots.11.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	0
+PROPERTY	MaterialSlots.12.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	0
+PROPERTY	MaterialSlots.13.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	0
+PROPERTY	MaterialSlots.14.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	0
+PROPERTY	MaterialSlots.15.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	0
+PROPERTY	MaterialSlots.16.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	0
+PROPERTY	MaterialSlots.17.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	0
+END_COMPONENT
+ENTITY	36	25	1	Object_133	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	36	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	10	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
+PROPERTY	ModelObjectId	2	8194938600375813045	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	18	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	0
+PROPERTY	MaterialSlots.3.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	0
+PROPERTY	MaterialSlots.4.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	0
+PROPERTY	MaterialSlots.5.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	0
+PROPERTY	MaterialSlots.6.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	0
+PROPERTY	MaterialSlots.7.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	0
+PROPERTY	MaterialSlots.8.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	0
+PROPERTY	MaterialSlots.9.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	0
+PROPERTY	MaterialSlots.10.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	0
+PROPERTY	MaterialSlots.11.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	0
+PROPERTY	MaterialSlots.12.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	0
+PROPERTY	MaterialSlots.13.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	0
+PROPERTY	MaterialSlots.14.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	0
+PROPERTY	MaterialSlots.15.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	0
+PROPERTY	MaterialSlots.16.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	0
+PROPERTY	MaterialSlots.17.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	0
+END_COMPONENT
+ENTITY	37	25	1	Object_134	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	37	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	11	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
+PROPERTY	ModelObjectId	2	8194938600375813045	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	18	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	0
+PROPERTY	MaterialSlots.3.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	0
+PROPERTY	MaterialSlots.4.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	0
+PROPERTY	MaterialSlots.5.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	0
+PROPERTY	MaterialSlots.6.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	0
+PROPERTY	MaterialSlots.7.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	0
+PROPERTY	MaterialSlots.8.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	0
+PROPERTY	MaterialSlots.9.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	0
+PROPERTY	MaterialSlots.10.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	0
+PROPERTY	MaterialSlots.11.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	0
+PROPERTY	MaterialSlots.12.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	0
+PROPERTY	MaterialSlots.13.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	0
+PROPERTY	MaterialSlots.14.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	0
+PROPERTY	MaterialSlots.15.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	0
+PROPERTY	MaterialSlots.16.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	0
+PROPERTY	MaterialSlots.17.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	0
+END_COMPONENT
+ENTITY	38	25	1	Object_135	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	38	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	12	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
+PROPERTY	ModelObjectId	2	8194938600375813045	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	18	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	0
+PROPERTY	MaterialSlots.3.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	0
+PROPERTY	MaterialSlots.4.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	0
+PROPERTY	MaterialSlots.5.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	0
+PROPERTY	MaterialSlots.6.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	0
+PROPERTY	MaterialSlots.7.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	0
+PROPERTY	MaterialSlots.8.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	0
+PROPERTY	MaterialSlots.9.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	0
+PROPERTY	MaterialSlots.10.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	0
+PROPERTY	MaterialSlots.11.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	0
+PROPERTY	MaterialSlots.12.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	0
+PROPERTY	MaterialSlots.13.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	0
+PROPERTY	MaterialSlots.14.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	0
+PROPERTY	MaterialSlots.15.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	0
+PROPERTY	MaterialSlots.16.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	0
+PROPERTY	MaterialSlots.17.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	0
+END_COMPONENT
+ENTITY	39	25	1	Object_136	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	39	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	13	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
+PROPERTY	ModelObjectId	2	8194938600375813045	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	18	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	0
+PROPERTY	MaterialSlots.3.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	0
+PROPERTY	MaterialSlots.4.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	0
+PROPERTY	MaterialSlots.5.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	0
+PROPERTY	MaterialSlots.6.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	0
+PROPERTY	MaterialSlots.7.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	0
+PROPERTY	MaterialSlots.8.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	0
+PROPERTY	MaterialSlots.9.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	0
+PROPERTY	MaterialSlots.10.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	0
+PROPERTY	MaterialSlots.11.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	0
+PROPERTY	MaterialSlots.12.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	0
+PROPERTY	MaterialSlots.13.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	0
+PROPERTY	MaterialSlots.14.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	0
+PROPERTY	MaterialSlots.15.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	0
+PROPERTY	MaterialSlots.16.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	0
+PROPERTY	MaterialSlots.17.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	0
+END_COMPONENT
+ENTITY	40	25	1	Object_137	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	40	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	14	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
+PROPERTY	ModelObjectId	2	8194938600375813045	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	18	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	0
+PROPERTY	MaterialSlots.3.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	0
+PROPERTY	MaterialSlots.4.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	0
+PROPERTY	MaterialSlots.5.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	0
+PROPERTY	MaterialSlots.6.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	0
+PROPERTY	MaterialSlots.7.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	0
+PROPERTY	MaterialSlots.8.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	0
+PROPERTY	MaterialSlots.9.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	0
+PROPERTY	MaterialSlots.10.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	0
+PROPERTY	MaterialSlots.11.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	0
+PROPERTY	MaterialSlots.12.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	0
+PROPERTY	MaterialSlots.13.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	0
+PROPERTY	MaterialSlots.14.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	0
+PROPERTY	MaterialSlots.15.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	0
+PROPERTY	MaterialSlots.16.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	0
+PROPERTY	MaterialSlots.17.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	0
+END_COMPONENT
+ENTITY	41	25	1	Object_138	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	41	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	15	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
+PROPERTY	ModelObjectId	2	8194938600375813045	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	18	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	0
+PROPERTY	MaterialSlots.3.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	0
+PROPERTY	MaterialSlots.4.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	0
+PROPERTY	MaterialSlots.5.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	0
+PROPERTY	MaterialSlots.6.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	0
+PROPERTY	MaterialSlots.7.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	0
+PROPERTY	MaterialSlots.8.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	0
+PROPERTY	MaterialSlots.9.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	0
+PROPERTY	MaterialSlots.10.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	0
+PROPERTY	MaterialSlots.11.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	0
+PROPERTY	MaterialSlots.12.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	0
+PROPERTY	MaterialSlots.13.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	0
+PROPERTY	MaterialSlots.14.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	0
+PROPERTY	MaterialSlots.15.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	0
+PROPERTY	MaterialSlots.16.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	0
+PROPERTY	MaterialSlots.17.MaterialAsset	2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	0
+END_COMPONENT
+ENTITY	4	0	1	Floor	0.000000,-1.170000,0.000000	0.000000,0.000000,0.000000	50.000000,1.000000,50.000000
+COMPONENT	4	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	1	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Ground.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Ground.plutomaterial	0
+END_COMPONENT
+COMPONENT	4	ColliderComponent
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+ENTITY	5	0	1	Sky	0.000000,300.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	5	PhysicalSkyComponent
+PROPERTY	Rayleigh Strength	0	1.000000	0
+PROPERTY	Mie Strength	0	0.650000	0
+PROPERTY	Mie Anisotropy	0	0.800000	0
+PROPERTY	Ozone Strength	0	1.000000	0
+PROPERTY	Sun Intensity	0	12.000000	0
+PROPERTY	Sun Angular Radius	0	0.270000	0
+PROPERTY	Sun Color	3	1.000000,0.980000,0.920000	0
+PROPERTY	Exposure	0	1.000000	0
+PROPERTY	Night Intensity	0	0.035000	0
+PROPERTY	Star Intensity	0	1.000000	0
+PROPERTY	Moon Intensity	0	0.800000	0
+PROPERTY	Moon Angular Radius	0	0.260000	0
+PROPERTY	Moon Color	3	0.550000,0.650000,1.000000	0
+PROPERTY	Ground Color	3	0.012000,0.015000,0.020000	0
+END_COMPONENT
+COMPONENT	5	VolumetricCloudComponent
+PROPERTY	Size	3	1000.000000,300.000000,1000.000000	0
+PROPERTY	Coverage	0	0.550000	0
+PROPERTY	Density	0	1.000000	0
+PROPERTY	Extinction	0	0.035000	0
+PROPERTY	Scattering Albedo	0	0.900000	0
+PROPERTY	Anisotropy	0	0.650000	0
+PROPERTY	Ambient Light	0	0.220000	0
+PROPERTY	Cloud Color	3	1.000000,0.980000,0.950000	0
+PROPERTY	Base Noise Scale	0	0.006000	0
+PROPERTY	Detail Noise Scale	0	0.035000	0
+PROPERTY	Detail Erosion	0	0.320000	0
+PROPERTY	Wind Direction	3	1.000000,0.000000,0.250000	0
+PROPERTY	Wind Speed	0	8.000000	0
+PROPERTY	Render Scale	0	0.500000	0
+PROPERTY	Primary Steps	1	24	0
+PROPERTY	Light Steps	1	3	0
+END_COMPONENT
+ENTITY	6	0	1	Directional Light	0.000000,0.000000,0.000000	-58.799843,60.945396,0.000000	1.000000,1.000000,1.000000
+COMPONENT	6	LightComponent
+PROPERTY	Color	3	1.000000,1.000000,1.000000	0
+PROPERTY	Intensity	0	10.000000	0
+PROPERTY	Range	0	10.000000	0
+PROPERTY	CastsShadows	4	true	0
+PROPERTY	Direction	3	-0.452839,-0.855363,-0.251577	0
+PROPERTY	LightType	6	1	3	Point	Directional	Spot
+PROPERTY	Static	4	false	0
+PROPERTY	Shadow Cascade Count	1	4	0
+PROPERTY	Shadow Resolution	1	2048	0
+PROPERTY	Shadow Cascade Resolution Falloff	0	0.500000	0
+PROPERTY	Shadow Distance (0 = Camera Far)	0	150.000000	0
+PROPERTY	Near Shadow Distance (0 = Auto)	0	8.000000	0
+PROPERTY	Shadow Split Lambda	0	0.900000	0
+PROPERTY	Shadow Cascade Blend Distance	0	4.000000	0
+PROPERTY	Shadow Softness (0 = Hard Shadows)	0	1.500000	0
+PROPERTY	Shadow Min Caster Texel Radius	0	0.000000	0
+PROPERTY	Shadow Filter Enabled	4	true	0
+PROPERTY	Shadow Filter Render Scale	0	0.500000	0
+PROPERTY	Shadow Filter Radius	1	2	0
+PROPERTY	Shadow Filter Depth Scale	0	0.015000	0
+PROPERTY	Shadow Filter Min Depth Scale	0	0.050000	0
+PROPERTY	Shadow Filter Normal Threshold	0	0.720000	0
+PROPERTY	Shadow Filter Normal Softness	0	0.260000	0
+END_COMPONENT
+ENTITY	43	0	1	AmmoCounter	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	43	CanvasComponent
+PROPERTY	Enabled	4	true	0
+PROPERTY	RenderMode	6	0	2	ScreenSpaceOverlay	WorldSpaceOverlay
+PROPERTY	ScaleFactor	0	1.000000	0
+PROPERTY	SortingOrder	1	0	0
+END_COMPONENT
+COMPONENT	43	RectTransformComponent
+PROPERTY	Enabled	4	true	0
+PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
+PROPERTY	AnchoredPosition	7	-201.000000,-164.000000	0
+PROPERTY	SizeDelta	7	100.000000,40.000000	0
+PROPERTY	Pivot	7	0.500000,0.500000	0
+PROPERTY	AnchorMin	7	0.500000,0.500000	0
+PROPERTY	AnchorMax	7	0.500000,0.500000	0
+END_COMPONENT
+COMPONENT	43	UITextComponent
+PROPERTY	Enabled	4	true	0
+PROPERTY	Text	2	0 / 0	0
+PROPERTY	Color	5	1.000000,1.000000,1.000000,1.000000	0
+PROPERTY	FontSize	0	39.000000	0
+PROPERTY	FontPath	2		0
+PROPERTY	RichText	4	true	0
+END_COMPONENT

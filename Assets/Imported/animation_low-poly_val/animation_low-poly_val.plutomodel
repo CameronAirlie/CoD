@@ -1,0 +1,33 @@
+PLUTOMODEL	1
+SOURCE	project://SourceModels/animation_low-poly_val/animation_low-poly_val.glb
+SOURCE_ID	938d56ba6f2e7c95bfe160b2fc08922d
+SOURCE_HASH	1239797346361890301
+IMPORTER_VERSION	2
+OBJECT	8194938600375813045	Mesh	animation_low-poly_val	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh
+OBJECT	5083346164116760822	Material	M_animation_low-poly_val_0	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial
+OBJECT	5083347263628389033	Material	M_animation_low-poly_val_1	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial
+OBJECT	5083343965093504400	Material	M_animation_low-poly_val_2	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial
+OBJECT	5083345064605132611	Material	M_animation_low-poly_val_3	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial
+OBJECT	5083350562163273666	Material	M_animation_low-poly_val_4	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial
+OBJECT	5083351661674901877	Material	M_animation_low-poly_val_5	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial
+OBJECT	5083348363140017244	Material	M_animation_low-poly_val_6	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial
+OBJECT	5083349462651645455	Material	M_animation_low-poly_val_7	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial
+OBJECT	5083354960209786510	Material	M_animation_low-poly_val_8	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial
+OBJECT	5083356059721414721	Material	M_animation_low-poly_val_9	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial
+OBJECT	7314478608586269179	Material	M_animation_low-poly_val_10	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial
+OBJECT	7314477509074640968	Material	M_animation_low-poly_val_11	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial
+OBJECT	7314480807609525601	Material	M_animation_low-poly_val_12	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial
+OBJECT	7314479708097897390	Material	M_animation_low-poly_val_13	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial
+OBJECT	7314483006632782023	Material	M_animation_low-poly_val_14	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial
+OBJECT	7314481907121153812	Material	M_animation_low-poly_val_15	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial
+OBJECT	7314485205656038445	Material	M_animation_low-poly_val_16	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial
+OBJECT	7314484106144410234	Material	M_animation_low-poly_val_17	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial
+OBJECT	12645924796542351960	Animation	animation_low-poly_val Animations	project://Imported/animation_low-poly_val/animation_low-poly_val.plutoanim
+OBJECT	8872892681727504188	Animation Clip	LVA4_Armature|wpn_val_draw	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_draw_0.plutoclip
+OBJECT	11084033806960095714	Animation Clip	LVA4_Armature|wpn_val_hide	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_hide_1.plutoclip
+OBJECT	4794621713556769092	Animation Clip	LVA4_Armature|wpn_val_idle	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_idle_2.plutoclip
+OBJECT	4696403244884349111	Animation Clip	LVA4_Armature|wpn_val_reload	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_reload_3.plutoclip
+OBJECT	10731992696993006909	Animation Clip	LVA4_Armature|wpn_val_reload_full	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_reload_full_4.plutoclip
+OBJECT	6900616098868976593	Animation Clip	LVA4_Armature|wpn_val_shoot	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_shoot_5.plutoclip
+OBJECT	9107440345895972722	Animation Clip	LVA4_Armature|wpn_val_sprint	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_sprint_6.plutoclip
+OBJECT	6326061402509119179	Animation Clip	LVA4_Armature|wpn_val_walk	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_walk_7.plutoclip

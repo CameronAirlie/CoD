@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "CoD.Scripts/1.0.0": {
+        "dependencies": {
+          "PlutoGE.ScriptCore": "1.0.0"
+        },
+        "runtime": {
+          "CoD.Scripts.dll": {}
+        }
+      },
+      "PlutoGE.ScriptCore/1.0.0": {
+        "runtime": {
+          "PlutoGE.ScriptCore.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CoD.Scripts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PlutoGE.ScriptCore/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
