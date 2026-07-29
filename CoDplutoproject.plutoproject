@@ -100,8 +100,8 @@ ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.pluto
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutoanim	963	Animation
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	2611229	Mesh
 ASSET	project://Managed/CoD.Scripts.deps.json	836	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	18432	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	16840	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	18944	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	16976	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	173568	Assembly
 ASSET	project://Managed/PlutoGE.ScriptCore.pdb	76940	Unknown
@@ -114,10 +114,10 @@ ASSET	project://PostProcessing/main.plutopostprocess	3624	Post Process Preset
 ASSET	project://Prefabs/AmmoPickup.plutoprefab	1701	Prefab
 ASSET	project://Prefabs/Enemy.plutoprefab	13720	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1705	Prefab
-ASSET	project://Scenes/Main.plutoscene	124769	Scene
+ASSET	project://Scenes/Main.plutoscene	124850	Scene
 ASSET	project://Scripts/EnemySoldierBot.cs	17531	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4012	Script
-ASSET	project://Scripts/PlayerHealth.cs	2724	Script
+ASSET	project://Scripts/PlayerHealth.cs	3568	Script
 ASSET	project://Scripts/SupplyPickup.cs	1497	Script
 ASSET	project://Scripts/SupplySpawner.cs	1815	Script
 ASSET	project://Sounds/engine.wav	760364	Audio
