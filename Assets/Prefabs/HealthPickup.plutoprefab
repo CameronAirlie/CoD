@@ -1,0 +1,43 @@
+SCENE	1
+ENTITY	1	0	1	Health Supply	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	0.750000,0.750000,0.750000
+TAGS	1	2	Interactable	HealthPickup
+COMPONENT	1	ScriptComponent
+PROPERTY	Source	2	CoD.Scripts.SupplyPickup	0
+PROPERTY	ammoAmount	1	0	0
+PROPERTY	healthAmount	0	35.000000	0
+PROPERTY	ammoMethod	2	AddAmmo	0
+PROPERTY	healthMethod	2	Heal	0
+PROPERTY	rotationSpeed	0	45.000000	0
+END_COMPONENT
+COMPONENT	1	ColliderComponent
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	1.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Blocks Audio	4	false	0
+END_COMPONENT
+COMPONENT	1	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	1	0
+PROPERTY	MaterialSlots.0.Color	2	0.120000,0.850000,0.240000,1.000000	0
+PROPERTY	MaterialSlots.0.AlbedoPath	2		0
+PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
+PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
+PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
+PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
+PROPERTY	MaterialSlots.0.Metallic	0	0.050000	0
+PROPERTY	MaterialSlots.0.Roughness	0	0.350000	0
+PROPERTY	MaterialSlots.0.Emission	2	0.030000,0.400000,0.080000	0
+END_COMPONENT
