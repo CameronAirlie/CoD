@@ -26,12 +26,13 @@ PROPERTY	tacticalRepathMax	0	1.250000	0
 PROPERTY	flankAngle	0	55.000000	0
 PROPERTY	retreatRange	0	7.000000	0
 PROPERTY	reactionTime	0	0.300000	0
+PROPERTY	perceptionRefreshInterval	0	0.100000	0
 PROPERTY	roundsPerMinute	0	300.000000	0
 PROPERTY	burstMin	1	3	0
 PROPERTY	burstMax	1	7	0
-PROPERTY	burstPauseMin	0	0.350000	0
-PROPERTY	burstPauseMax	0	0.800000	0
-PROPERTY	damagePerShot	0	12.000000	0
+PROPERTY	burstPauseMin	0	1.000000	0
+PROPERTY	burstPauseMax	0	2.000000	0
+PROPERTY	damagePerShot	0	6.000000	0
 PROPERTY	accuracyDegrees	0	2.000000	0
 PROPERTY	movementSpeedParameter	2	MovementSpeed	0
 PROPERTY	hasTargetParameter	2	HasTarget	0
@@ -101,7 +102,7 @@ COMPONENT	159	AnimationComponent
 PROPERTY	SourceAnimation	2	project://SourceModels/UAL1_Standard/UAL1_Standard Animations.plutoanim	0
 PROPERTY	AnimationGraph	2	project://AnimGraphs/enemy.plutoanimgraph	0
 PROPERTY	CurrentClipIndex	6	48	53	A_TPose	Crouch_Fwd_Loop	Crouch_Idle_Loop	Dance_Loop	Death01	Driving_Loop	Fixing_Kneeling	Hit_Chest	Hit_Head	Idle_Loop	Idle_Talking_Loop	Idle_Torch_Loop	Interact	Jog_Fwd_Loop	Jump_Land	Jump_Loop	Jump_Start	PickUp_Table	Pistol_Aim_Down	Pistol_Aim_Neutral	Pistol_Aim_Up	Pistol_Idle_Loop	Pistol_Reload	Pistol_Shoot	Punch_Cross	Punch_Jab	Push_Loop	Roll	Sitting_Enter	Sitting_Exit	Sitting_Idle_Loop	Sitting_Talking_Loop	Spell_Simple_Enter	Spell_Simple_Exit	Spell_Simple_Idle_Loop	Spell_Simple_Shoot	Sprint_Loop	Swim_Fwd_Loop	Swim_Idle_Loop	Sword_Attack	Sword_Idle	Walk_Formal_Loop	Walk_Loop	UAL1_Standard_Idle_Loop_9	UAL1_Standard_Walk_Loop_42	UAL1_Standard_Pistol_Shoot_23	UAL1_Standard_Pistol_Aim_Neutral_19	UAL1_Standard_Death01_4	UAL1_Standard_Idle_Loop_9	UAL1_Standard_Walk_Loop_42	UAL1_Standard_Pistol_Shoot_23	UAL1_Standard_Pistol_Aim_Neutral_19	UAL1_Standard_Death01_4
-PROPERTY	Time	0	0.000000	0
+PROPERTY	Time	0	0.565582	0
 PROPERTY	Speed	0	1.000000	0
 PROPERTY	Playing	4	true	0
 PROPERTY	Looping	4	true	0

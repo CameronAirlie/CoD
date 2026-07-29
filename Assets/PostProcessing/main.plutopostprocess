@@ -33,7 +33,7 @@ Parameter 3 "Indirect Only" "false" 0
 Effect "VolumetricFog" 0 14
 Parameter 0 "Density" "0.035000" 0
 Parameter 0 "Height Falloff" "0.120000" 0
-Parameter 0 "Height Offset" "-30.000000" 0
+Parameter 0 "Height Offset" "-55.000000" 0
 Parameter 0 "Max Distance" "80.000000" 0
 Parameter 0 "Scattering" "0.650000" 0
 Parameter 0 "Anisotropy" "0.200000" 0
@@ -56,8 +56,8 @@ Parameter 0 "Edge Fade" "0.120000" 0
 Parameter 0 "Fresnel Power" "5.000000" 0
 Parameter 0 "Metallic Boost" "0.750000" 0
 Effect "Bloom" 1 5
-Parameter 0 "Intensity" "0.030000" 0
-Parameter 0 "Threshold" "2.000000" 0
+Parameter 0 "Intensity" "0.100000" 0
+Parameter 0 "Threshold" "1.000000" 0
 Parameter 0 "Soft Knee" "0.500000" 0
 Parameter 0 "Radius" "0.850000" 0
 Parameter 1 "Iterations" "6" 0

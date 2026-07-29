@@ -17,6 +17,7 @@ public sealed class EnemyWaveSpawner : ScriptBehaviour
     [SerializedField] private int maximumAlive = 6;
     [SerializedField] private float timeBetweenWaves = 4.0f;
     [SerializedField] private float timeBetweenSpawns = 0.65f;
+    [SerializedField] private float aliveCountRefreshInterval = 0.25f;
 
     private GameObject?[] _spawnPoints = [];
     private float _time;
@@ -25,6 +26,8 @@ public sealed class EnemyWaveSpawner : ScriptBehaviour
     private int _wave;
     private int _remainingToSpawn;
     private int _nextSpawnPoint;
+    private int _cachedAlive;
+    private float _nextAliveCountRefreshAt;
     private bool _waitingForClear = true;
 
     public override void OnCreate()
@@ -32,21 +35,23 @@ public sealed class EnemyWaveSpawner : ScriptBehaviour
         _spawnPoints = [spawnPointA, spawnPointB, spawnPointC, spawnPointD];
         _nextSpawnPoint = (int)(EntityId % (uint)_spawnPoints.Length);
         _nextWaveAt = MathF.Max(0.0f, timeBetweenWaves);
+        RefreshAliveCount();
     }
 
     public override void OnUpdate(float deltaTime)
     {
         _time += MathF.Max(0.0f, deltaTime);
-        var alive = GameObject.FindByTag(enemyTag).Length;
+        if (_time >= _nextAliveCountRefreshAt)
+            RefreshAliveCount();
 
         if (_remainingToSpawn > 0)
         {
-            if (_time >= _nextSpawnAt && alive < Math.Max(1, maximumAlive))
+            if (_time >= _nextSpawnAt && _cachedAlive < Math.Max(1, maximumAlive))
                 SpawnOne();
             return;
         }
 
-        if (alive > 0)
+        if (_cachedAlive > 0)
         {
             _waitingForClear = true;
             return;
@@ -89,7 +94,16 @@ public sealed class EnemyWaveSpawner : ScriptBehaviour
         }
 
         _remainingToSpawn--;
+        _cachedAlive++;
         _nextSpawnAt = _time + MathF.Max(0.05f, timeBetweenSpawns);
+    }
+
+    private void RefreshAliveCount()
+    {
+        _cachedAlive = string.IsNullOrWhiteSpace(enemyTag)
+            ? 0
+            : GameObject.FindByTag(enemyTag).Length;
+        _nextAliveCountRefreshAt = _time + MathF.Max(0.05f, aliveCountRefreshInterval);
     }
 
     private GameObject? NextValidSpawnPoint()

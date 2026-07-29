@@ -34,6 +34,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     [SerializedField] private float flankAngle = 55.0f;
     [SerializedField] private float retreatRange = 7.0f;
     [SerializedField] private float reactionTime = 0.3f;
+    [SerializedField] private float perceptionRefreshInterval = 0.1f;
     [SerializedField] private float roundsPerMinute = 600.0f;
     [SerializedField] private int burstMin = 3;
     [SerializedField] private int burstMax = 7;
@@ -66,6 +67,13 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private Vector3 _navigationDestination;
     private Vector3 _lastKnownTargetPosition;
     private float _nextTacticalDecisionAt;
+    private float _nextPerceptionRefreshAt;
+    private float _lastAnimationSpeed = float.NaN;
+    private bool _lastHasTarget;
+    private bool _hasLastHasTarget;
+    private bool _lastDead;
+    private bool _hasLastDead;
+    private bool _cachedLineOfSight;
 
     public override void OnCreate()
     {
@@ -79,6 +87,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         _gunAudio = audioOwner.GetComponent<SoundEmitterComponent>();
         _previousPosition = GameObject.WorldPosition;
         _navigationDestination = _previousPosition;
+        _nextPerceptionRefreshAt = NextRandom01() * MathF.Max(0.02f, perceptionRefreshInterval);
         if (target is not null)
         {
             _lastKnownTargetPosition = target.WorldPosition;
@@ -98,7 +107,6 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         displacement.Y = 0.0f;
         _previousPosition = position;
         var navigationSpeed = deltaTime > 0.0001f ? displacement.Length() / deltaTime : 0.0f;
-        UpdateNavigationTarget();
 
         if (_dead)
         {
@@ -116,10 +124,12 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             return;
         }
 
-        var toTarget = target.WorldPosition - GameObject.WorldPosition;
+        var targetPosition = target.WorldPosition;
+        var toTarget = targetPosition - position;
         var horizontal = new Vector3(toTarget.X, 0.0f, toTarget.Z);
-        var distance = horizontal.Length();
-        if (distance > detectionRange || distance < 0.001f)
+        var distanceSquared = horizontal.LengthSquared();
+        var detectionRangeSquared = detectionRange * detectionRange;
+        if (distanceSquared > detectionRangeSquared || distanceSquared < 0.000001f)
         {
             TurnTowardsNavigation(deltaTime);
             _spottedAt = float.MaxValue;
@@ -128,10 +138,16 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             return;
         }
 
+        var distance = MathF.Sqrt(distanceSquared);
         var direction = horizontal / distance;
-        var hasLineOfSight = HasLineOfSight(distance);
+        if (_time >= _nextPerceptionRefreshAt)
+        {
+            _cachedLineOfSight = HasLineOfSight(position, targetPosition, distance);
+            _nextPerceptionRefreshAt = _time + MathF.Max(0.02f, perceptionRefreshInterval);
+        }
+        var hasLineOfSight = _cachedLineOfSight;
         if (hasLineOfSight)
-            _lastKnownTargetPosition = target.WorldPosition;
+            _lastKnownTargetPosition = targetPosition;
 
         if (_time >= _nextTacticalDecisionAt)
             ChooseTacticalDestination(hasLineOfSight);
@@ -258,13 +274,13 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             navigationTarget.WorldPosition = _navigationDestination;
     }
 
-    private bool HasLineOfSight(float distance)
+    private bool HasLineOfSight(Vector3 position, Vector3 targetPosition, float distance)
     {
         if (target is null)
             return false;
 
-        var origin = GameObject.WorldPosition + Vector3.UnitY * eyeHeight;
-        var aimPoint = target.WorldPosition + Vector3.UnitY * targetHeight;
+        var origin = position + Vector3.UnitY * eyeHeight;
+        var aimPoint = targetPosition + Vector3.UnitY * targetHeight;
         var ray = aimPoint - origin;
         return Physics.Raycast(origin, ray, MathF.Max(distance + 2.0f, ray.Length() + 0.2f), GameObject, out var hit)
             && (hit.Entity.EntityId == target.EntityId || hit.Entity.HasTag(targetTag));
@@ -367,14 +383,34 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     private void SetAnimationFloat(string parameter, float value)
     {
-        if (_animation is not null && !string.IsNullOrWhiteSpace(parameter))
-            _animation.SetFloat(parameter, value);
+        if (_animation is null || string.IsNullOrWhiteSpace(parameter))
+            return;
+        if (!float.IsNaN(_lastAnimationSpeed) && MathF.Abs(_lastAnimationSpeed - value) < 0.01f)
+            return;
+        _lastAnimationSpeed = value;
+        _animation.SetFloat(parameter, value);
     }
 
     private void SetAnimationBool(string parameter, bool value)
     {
-        if (_animation is not null && !string.IsNullOrWhiteSpace(parameter))
-            _animation.SetBool(parameter, value);
+        if (_animation is null || string.IsNullOrWhiteSpace(parameter))
+            return;
+
+        if (parameter == hasTargetParameter)
+        {
+            if (_hasLastHasTarget && _lastHasTarget == value)
+                return;
+            _hasLastHasTarget = true;
+            _lastHasTarget = value;
+        }
+        else if (parameter == deadParameter)
+        {
+            if (_hasLastDead && _lastDead == value)
+                return;
+            _hasLastDead = true;
+            _lastDead = value;
+        }
+        _animation.SetBool(parameter, value);
     }
 
     private void SetAnimationTrigger(string parameter)

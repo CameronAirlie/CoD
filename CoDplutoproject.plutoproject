@@ -7,10 +7,10 @@ WINDOW_TITLE	CoD
 WINDOW_SIZE	1280	720
 VSYNC	0
 EDITOR_FONT_SIZE	13
-EDITOR_CAMERA_POSITION	-24.1107	7.10453	-31.7885
+EDITOR_CAMERA_POSITION	-25.1082	11.0407	-0.969704
 EDITOR_CAMERA_SPEED	6
-EDITOR_CAMERA_ROTATION	-190.679	-19.5599
-EDITOR_CAMERA_LENS	45	0.1	100
+EDITOR_CAMERA_ROTATION	-113.039	-17.8798
+EDITOR_CAMERA_LENS	70	0.1	1000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/main.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
 ASSET	engine://builtin/material/default-shaded	0	Material
@@ -100,26 +100,26 @@ ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.pluto
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutoanim	963	Animation
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	2611229	Mesh
 ASSET	project://Managed/CoD.Scripts.deps.json	836	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	15872	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	15768	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	16896	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	16076	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
-ASSET	project://Managed/PlutoGE.ScriptCore.dll	157696	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	71628	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.dll	173568	Assembly
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	76876	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	303	Unknown
 ASSET	project://Materials/BulletHole.plutomaterial	473	Material
 ASSET	project://Materials/Ground.plutomaterial	492	Material
 ASSET	project://Materials/MuzzleFlash.plutomaterial	486	Material
 ASSET	project://Particles/MuzzleFlash.plutoparticles	864	Particle System
 ASSET	project://PostProcessing/main.plutopostprocess	3624	Post Process Preset
-ASSET	project://Prefabs/Enemy.plutoprefab	13673	Prefab
-ASSET	project://Scenes/Main.plutoscene	115489	Scene
-ASSET	project://Scripts/EnemySoldierBot.cs	16114	Script
-ASSET	project://Scripts/EnemyWaveSpawner.cs	3513	Script
+ASSET	project://Prefabs/Enemy.plutoprefab	13720	Prefab
+ASSET	project://Scenes/Main.plutoscene	121521	Scene
+ASSET	project://Scripts/EnemySoldierBot.cs	17531	Script
+ASSET	project://Scripts/EnemyWaveSpawner.cs	4012	Script
 ASSET	project://Scripts/PlayerHealth.cs	2724	Script
 ASSET	project://Sounds/engine.wav	760364	Audio
 ASSET	project://Sounds/footsteps.wav	728108	Audio
-ASSET	project://Sounds/gun_shot.wav	76084	Audio
-ASSET	project://Sounds/hitmarker.wav	200790	Audio
+ASSET	project://Sounds/gun_shot.wav	59456	Audio
+ASSET	project://Sounds/hitmarker.wav	7726	Audio
 ASSET	project://Sounds/melodyloops-shine-beyond-compressed.wav	3901788	Audio
 ASSET	project://Sounds/tyre_screech.wav	11720	Audio
 ASSET	project://SourceModels/UAL1_Standard/.plutoge-cache/meshes/4696578470734905787.pmesh	10546157	Unknown
