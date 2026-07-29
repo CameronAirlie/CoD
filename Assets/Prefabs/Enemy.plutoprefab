@@ -1,11 +1,12 @@
 SCENE	1
-ENTITY	156	0	1	Enemy	3.751819,0.978515,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	156	0	1	Enemy	11.910593,0.800670,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 TAGS	156	1	Enemy
 COMPONENT	156	ScriptComponent
 PROPERTY	Source	2	CoD.Scripts.EnemySoldierBot	0
 PROPERTY	target	9	1	0
 PROPERTY	animationObject	9	159	0
 PROPERTY	gunAudioObject	9	157	0
+PROPERTY	navigationTarget	9	162	0
 PROPERTY	targetTag	2	Player	0
 PROPERTY	targetName	2	Player	0
 PROPERTY	targetDamageMethod	2	TakeDamage	0
@@ -20,7 +21,10 @@ PROPERTY	strafeSpeed	0	2.200000	0
 PROPERTY	turnSharpness	0	10.000000	0
 PROPERTY	eyeHeight	0	1.450000	0
 PROPERTY	targetHeight	0	0.750000	0
-PROPERTY	skinWidth	0	0.030000	0
+PROPERTY	tacticalRepathMin	0	0.650000	0
+PROPERTY	tacticalRepathMax	0	1.250000	0
+PROPERTY	flankAngle	0	55.000000	0
+PROPERTY	retreatRange	0	7.000000	0
 PROPERTY	reactionTime	0	0.300000	0
 PROPERTY	roundsPerMinute	0	300.000000	0
 PROPERTY	burstMin	1	3	0
@@ -59,6 +63,23 @@ PROPERTY	Is Kinematic	4	true	0
 PROPERTY	Freeze Rotation	4	false	0
 PROPERTY	Velocity	3	0.000000,0.000000,0.000000	0
 PROPERTY	Angular Velocity	3	0.000000,0.000000,0.000000	0
+END_COMPONENT
+COMPONENT	156	NavAgentComponent
+PROPERTY	Speed	0	4.200000	0
+PROPERTY	Acceleration	0	10.000000	0
+PROPERTY	Stopping Distance	0	0.750000	0
+PROPERTY	Repath Interval	0	0.200000	0
+PROPERTY	Avoidance Distance	0	1.500000	0
+PROPERTY	Turn Speed	0	360.000000	0
+PROPERTY	Agent Radius	0	0.500000	0
+PROPERTY	Agent Height	0	2.000000	0
+PROPERTY	Use Gravity	4	true	0
+PROPERTY	Gravity	0	9.810000	0
+PROPERTY	Rotate To Velocity	4	false	0
+PROPERTY	Navigate On Start	4	true	0
+PROPERTY	Destination	3	0.000000,0.000000,0.000000	0
+PROPERTY	Target Entity	9	162	0
+PROPERTY	Navigation Mesh	9	707	0
 END_COMPONENT
 ENTITY	157	156	1	Audio	0.000000,0.000000,-0.671811	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	157	SoundEmitterComponent
@@ -280,3 +301,4 @@ PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/UAL1_Standard/M_UAL1
 PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/UAL1_Standard/M_UAL1_Standard_1.plutomaterial	0
 PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/UAL1_Standard/M_UAL1_Standard_2.plutomaterial	0
 END_COMPONENT
+ENTITY	162	156	1	Tactical Destination	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000

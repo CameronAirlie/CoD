@@ -13,6 +13,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     [SerializedField] private GameObject? target;
     [SerializedField] private GameObject? animationObject = null;
     [SerializedField] private GameObject? gunAudioObject = null;
+    [SerializedField] private GameObject? navigationTarget = null;
     [SerializedField] private string targetTag = "Player";
     [SerializedField] private string targetName = "Player";
     [SerializedField] private string targetDamageMethod = "TakeDamage";
@@ -28,8 +29,10 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     [SerializedField] private float turnSharpness = 10.0f;
     [SerializedField] private float eyeHeight = 1.45f;
     [SerializedField] private float targetHeight = 0.75f;
-    [SerializedField] private float skinWidth = 0.03f;
-
+    [SerializedField] private float tacticalRepathMin = 0.65f;
+    [SerializedField] private float tacticalRepathMax = 1.25f;
+    [SerializedField] private float flankAngle = 55.0f;
+    [SerializedField] private float retreatRange = 7.0f;
     [SerializedField] private float reactionTime = 0.3f;
     [SerializedField] private float roundsPerMinute = 600.0f;
     [SerializedField] private int burstMin = 3;
@@ -59,6 +62,10 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private int _strafeDirection = 1;
     private uint _randomState;
     private bool _dead;
+    private Vector3 _previousPosition;
+    private Vector3 _navigationDestination;
+    private Vector3 _lastKnownTargetPosition;
+    private float _nextTacticalDecisionAt;
 
     public override void OnCreate()
     {
@@ -70,6 +77,14 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         var audioOwner = gunAudioObject ?? GameObject;
         _animation = animationOwner.GetComponent<AnimationComponent>();
         _gunAudio = audioOwner.GetComponent<SoundEmitterComponent>();
+        _previousPosition = GameObject.WorldPosition;
+        _navigationDestination = _previousPosition;
+        if (target is not null)
+        {
+            _lastKnownTargetPosition = target.WorldPosition;
+            ChooseTacticalDestination(false);
+        }
+        UpdateNavigationTarget();
         SetAnimationFloat(movementSpeedParameter, 0.0f);
         SetAnimationBool(hasTargetParameter, false);
         SetAnimationBool(deadParameter, false);
@@ -78,6 +93,13 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     public override void OnUpdate(float deltaTime)
     {
         _time += MathF.Max(0.0f, deltaTime);
+        var position = GameObject.WorldPosition;
+        var displacement = position - _previousPosition;
+        displacement.Y = 0.0f;
+        _previousPosition = position;
+        var navigationSpeed = deltaTime > 0.0001f ? displacement.Length() / deltaTime : 0.0f;
+        UpdateNavigationTarget();
+
         if (_dead)
         {
             if (_time >= _destroyAt)
@@ -99,6 +121,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         var distance = horizontal.Length();
         if (distance > detectionRange || distance < 0.001f)
         {
+            TurnTowardsNavigation(deltaTime);
             _spottedAt = float.MaxValue;
             SetAnimationFloat(movementSpeedParameter, 0.0f);
             SetAnimationBool(hasTargetParameter, false);
@@ -107,26 +130,29 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
         var direction = horizontal / distance;
         var hasLineOfSight = HasLineOfSight(distance);
+        if (hasLineOfSight)
+            _lastKnownTargetPosition = target.WorldPosition;
+
+        if (_time >= _nextTacticalDecisionAt)
+            ChooseTacticalDestination(hasLineOfSight);
 
         // Start turning as soon as an unobstructed target is in detection range.
         // Requiring the target to already be inside the vision cone here creates
         // a deadlock: a target outside the cone can never cause the bot to turn.
         if (hasLineOfSight)
             TurnTowards(direction, deltaTime);
+        else
+            TurnTowardsNavigation(deltaTime);
 
         var canSeeTarget = hasLineOfSight && IsInsideVisionCone(direction);
         SetAnimationBool(hasTargetParameter, canSeeTarget);
         if (canSeeTarget && _spottedAt == float.MaxValue)
             _spottedAt = _time;
 
-        var movement = ChooseMovement(direction, distance, canSeeTarget);
-        var gravity = -3f * Vector3.UnitY;
-        if (movement.LengthSquared() > 0.001f)
-        {
-            Physics.MoveKinematic(GameObject, movement * deltaTime, skinWidth);
-        }
-        Physics.MoveKinematic(GameObject, gravity * deltaTime, skinWidth);
-        SetAnimationFloat(movementSpeedParameter, movement.Length());
+        // Horizontal movement, collision-safe gravity, path following, and local
+        // avoidance are owned by the native NavAgentComponent. Derive animation
+        // speed from its actual motion instead of moving the entity a second time.
+        SetAnimationFloat(movementSpeedParameter, navigationSpeed);
 
         if (canSeeTarget && IsFacingTarget(direction, firingAngle) &&
             distance <= attackRange && _time >= _spottedAt + reactionTime)
@@ -176,6 +202,60 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         var right = new Vector3(-forward.Z, 0.0f, forward.X);
         var radial = distance < preferredRange * 0.7f ? -forward * moveSpeed * 0.65f : Vector3.Zero;
         return radial + right * (_strafeDirection * strafeSpeed);
+    }
+
+    private void ChooseTacticalDestination(bool hasLineOfSight)
+    {
+        if (target is null || navigationTarget is null)
+            return;
+
+        var targetPosition = hasLineOfSight ? target.WorldPosition : _lastKnownTargetPosition;
+        var fromTarget = GameObject.WorldPosition - targetPosition;
+        fromTarget.Y = 0.0f;
+        var distance = fromTarget.Length();
+        var radial = distance > 0.001f ? fromTarget / distance : GameObject.Forward;
+        radial.Y = 0.0f;
+        if (radial.LengthSquared() < 0.001f)
+            radial = Vector3.UnitZ;
+        radial = Vector3.Normalize(radial);
+
+        var side = NextRandom01() < 0.5f ? -1.0f : 1.0f;
+        Vector3 destination;
+        if (!hasLineOfSight)
+        {
+            // Push toward the last contact from alternating angles instead of
+            // tracking the player's live transform through walls.
+            destination = targetPosition + RotateY(radial, side * flankAngle) * (preferredRange * 0.55f);
+        }
+        else if (distance < retreatRange)
+        {
+            // Break away from point-blank fights while biasing sideways so bots
+            // do not simply reverse down the same path.
+            destination = targetPosition + RotateY(radial, side * 25.0f) * preferredRange;
+        }
+        else if (distance > preferredRange * 1.35f)
+        {
+            // Close to weapon range on a shallow flank.
+            destination = targetPosition + RotateY(radial, side * 20.0f) * preferredRange;
+        }
+        else
+        {
+            // Reposition around the player between bursts, producing the
+            // lateral pressure expected from an arena/FPS bot.
+            destination = targetPosition + RotateY(radial, side * flankAngle) * preferredRange;
+        }
+
+        destination.Y = targetPosition.Y;
+        _navigationDestination = destination;
+        UpdateNavigationTarget();
+        _nextTacticalDecisionAt = _time +
+            Lerp(tacticalRepathMin, MathF.Max(tacticalRepathMin, tacticalRepathMax), NextRandom01());
+    }
+
+    private void UpdateNavigationTarget()
+    {
+        if (navigationTarget is not null && navigationTarget.IsValid)
+            navigationTarget.WorldPosition = _navigationDestination;
     }
 
     private bool HasLineOfSight(float distance)
@@ -246,11 +326,20 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     private void TurnTowards(Vector3 direction, float deltaTime)
     {
-        var desiredYaw = MathF.Atan2(direction.X, -direction.Z) * 180.0f / MathF.PI;
+        // PlutoGE entities face local -Z, so positive world X is a negative yaw.
+        var desiredYaw = MathF.Atan2(-direction.X, -direction.Z) * 180.0f / MathF.PI;
         var rotation = Rotation;
         var difference = WrapAngle(desiredYaw - rotation.Y);
         rotation.Y += difference * (1.0f - MathF.Exp(-turnSharpness * deltaTime));
         Rotation = rotation;
+    }
+
+    private void TurnTowardsNavigation(float deltaTime)
+    {
+        var direction = _navigationDestination - GameObject.WorldPosition;
+        direction.Y = 0.0f;
+        if (direction.LengthSquared() > 0.001f)
+            TurnTowards(Vector3.Normalize(direction), deltaTime);
     }
 
     private Vector3 ApplySpread(Vector3 direction, float degrees)
@@ -267,6 +356,8 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private void Die()
     {
         _dead = true;
+        _navigationDestination = GameObject.WorldPosition;
+        UpdateNavigationTarget();
         _destroyAt = _time + MathF.Max(0.0f, deathCleanupDelay);
         SetAnimationFloat(movementSpeedParameter, 0.0f);
         SetAnimationBool(hasTargetParameter, false);
@@ -303,4 +394,14 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     private static float Lerp(float a, float b, float t) => a + (b - a) * Math.Clamp(t, 0.0f, 1.0f);
     private static float WrapAngle(float angle) => (angle + 540.0f) % 360.0f - 180.0f;
+    private static Vector3 RotateY(Vector3 direction, float degrees)
+    {
+        var radians = degrees * MathF.PI / 180.0f;
+        var cosine = MathF.Cos(radians);
+        var sine = MathF.Sin(radians);
+        return Vector3.Normalize(new Vector3(
+            direction.X * cosine + direction.Z * sine,
+            0.0f,
+            -direction.X * sine + direction.Z * cosine));
+    }
 }
