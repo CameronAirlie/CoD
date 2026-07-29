@@ -1,0 +1,35 @@
+SCENE	1
+ENTITY	1	0	1	Remote Player	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	0.800000,1.800000,0.800000
+TAGS	1	1	RemotePlayer
+COMPONENT	1	ColliderComponent
+PROPERTY	Shape	6	2	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Blocks Audio	4	false	0
+END_COMPONENT
+COMPONENT	1	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cylinder	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cylinder	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	1	0
+PROPERTY	MaterialSlots.0.Color	2	0.120000,0.420000,0.950000,1.000000	0
+PROPERTY	MaterialSlots.0.AlbedoPath	2		0
+PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
+PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
+PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
+PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
+PROPERTY	MaterialSlots.0.Metallic	0	0.050000	0
+PROPERTY	MaterialSlots.0.Roughness	0	0.650000	0
+PROPERTY	MaterialSlots.0.Emission	2	0.000000,0.020000,0.080000	0
+END_COMPONENT

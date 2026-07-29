@@ -14,9 +14,9 @@ public sealed class PlayerHealth : ScriptBehaviour
     [SerializedField] private float damageFlashFadeSpeed = 2.4f;
     [SerializedField] private float regenerationDelay = 5.0f;
     [SerializedField] private float regenerationPerSecond = 6.0f;
-    [SerializedField] private bool restartSceneOnDeath = true;
-    [SerializedField] private float restartDelay = 1.5f;
-    [SerializedField] private string sceneToRestart = "Main";
+    [SerializedField] private bool respawnOnDeath = true;
+    [SerializedField] private float respawnDelay = 1.5f;
+    [SerializedField] private float respawnInvulnerability = 1.0f;
 
     private UITextComponent? _label;
     private UIImageComponent? _damageImage;
@@ -24,13 +24,22 @@ public sealed class PlayerHealth : ScriptBehaviour
     private float _time;
     private float _lastDamageAt;
     private float _restartAt;
+    private float _invulnerableUntil;
     private int _displayedHealth = -1;
     private bool _dead;
+    private Vector3 _spawnPosition;
+    private Vector3 _spawnRotation;
+    private RigidbodyComponent? _body;
+
+    public bool IsDead => _dead;
 
     public override void OnCreate()
     {
         _health = MathF.Max(1.0f, maximumHealth);
         _lastDamageAt = _time;
+        _spawnPosition = GameObject.WorldPosition;
+        _spawnRotation = GameObject.WorldRotation;
+        _body = GameObject.GetComponent<RigidbodyComponent>();
         _label = healthText?.GetComponent<UITextComponent>();
         _damageImage = damageOverlay?.GetComponent<UIImageComponent>();
         if (_damageImage is not null)
@@ -50,8 +59,11 @@ public sealed class PlayerHealth : ScriptBehaviour
                 0.0f,
                 _damageImage.Alpha - MathF.Max(0.0f, damageFlashFadeSpeed) * safeDeltaTime);
 
-        if (_dead && restartSceneOnDeath && _time >= _restartAt)
-            SceneManager.LoadScene(sceneToRestart);
+        if (_dead && respawnOnDeath && _time >= _restartAt)
+        {
+            Respawn();
+            return;
+        }
 
         if (!_dead &&
             _health < maximumHealth &&
@@ -67,7 +79,7 @@ public sealed class PlayerHealth : ScriptBehaviour
 
     public void TakeDamage(float amount)
     {
-        if (_dead || amount <= 0.0f)
+        if (_dead || _time < _invulnerableUntil || amount <= 0.0f)
             return;
 
         _lastDamageAt = _time;
@@ -80,8 +92,8 @@ public sealed class PlayerHealth : ScriptBehaviour
         if (_health <= 0.0f)
         {
             _dead = true;
-            _restartAt = _time + MathF.Max(0.0f, restartDelay);
-            Debug.Log("Player killed by enemy bot.");
+            _restartAt = _time + MathF.Max(0.0f, respawnDelay);
+            Debug.Log("Player killed. Respawning...");
         }
     }
 
@@ -91,6 +103,26 @@ public sealed class PlayerHealth : ScriptBehaviour
             return;
         _health = MathF.Min(maximumHealth, _health + amount);
         RefreshLabel();
+    }
+
+    private void Respawn()
+    {
+        GameObject.WorldPosition = _spawnPosition;
+        GameObject.WorldRotation = _spawnRotation;
+        if (_body is not null)
+        {
+            _body.Velocity = Vector3.Zero;
+            _body.AngularVelocity = Vector3.Zero;
+        }
+
+        _health = MathF.Max(1.0f, maximumHealth);
+        _dead = false;
+        _lastDamageAt = _time;
+        _invulnerableUntil = _time + MathF.Max(0.0f, respawnInvulnerability);
+        if (_damageImage is not null)
+            _damageImage.Alpha = 0.0f;
+        RefreshLabel();
+        Debug.Log("Player respawned.");
     }
 
     private void RefreshLabel()

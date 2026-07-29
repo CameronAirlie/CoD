@@ -1,7 +1,7 @@
 PLUTOPROJECT	1
 NAME	CoD
 ASSET_DIR	Assets
-STARTUP_SCENE	project://Scenes/Main.plutoscene
+STARTUP_SCENE	project://Scenes/Title.plutoscene
 SCRIPT_ASSEMBLY	project://Managed/CoD.Scripts.dll
 WINDOW_TITLE	CoD
 WINDOW_SIZE	1280	720
@@ -100,11 +100,11 @@ ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.pluto
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutoanim	963	Animation
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	2611229	Mesh
 ASSET	project://Managed/CoD.Scripts.deps.json	836	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	18944	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	16976	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	48128	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	24724	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
-ASSET	project://Managed/PlutoGE.ScriptCore.dll	173568	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	76940	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.dll	202240	Assembly
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	84196	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	303	Unknown
 ASSET	project://Materials/BulletHole.plutomaterial	473	Material
 ASSET	project://Materials/Ground.plutomaterial	492	Material
@@ -114,12 +114,17 @@ ASSET	project://PostProcessing/main.plutopostprocess	3624	Post Process Preset
 ASSET	project://Prefabs/AmmoPickup.plutoprefab	1701	Prefab
 ASSET	project://Prefabs/Enemy.plutoprefab	13720	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1705	Prefab
-ASSET	project://Scenes/Main.plutoscene	124850	Scene
+ASSET	project://Prefabs/RemotePlayer.plutoprefab	1451	Prefab
+ASSET	project://Scenes/Main.plutoscene	125343	Scene
+ASSET	project://Scenes/Title.plutoscene	24141	Scene
 ASSET	project://Scripts/EnemySoldierBot.cs	17531	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4012	Script
-ASSET	project://Scripts/PlayerHealth.cs	3568	Script
+ASSET	project://Scripts/MultiplayerLaunch.cs	696	Script
+ASSET	project://Scripts/MultiplayerSession.cs	18853	Script
+ASSET	project://Scripts/PlayerHealth.cs	3634	Script
 ASSET	project://Scripts/SupplyPickup.cs	1497	Script
 ASSET	project://Scripts/SupplySpawner.cs	1815	Script
+ASSET	project://Scripts/TitleScreen.cs	5297	Script
 ASSET	project://Sounds/engine.wav	760364	Audio
 ASSET	project://Sounds/footsteps.wav	728108	Audio
 ASSET	project://Sounds/gun_shot.wav	59456	Audio

@@ -11,6 +11,7 @@ CoD is a small demo project created with **[PlutoGE](https://github.com/CameronA
 - Sound effects and background audio
 - A custom post-processing preset
 - Support for managed gameplay scripts through .NET 8
+- Reliable host/client multiplayer with replicated player transforms
 
 ## Running the project
 
@@ -40,6 +41,26 @@ The project is configured for C# scripting with .NET 8. Source files placed unde
 
 > The project files currently reference a local PlutoGE source checkout. Update the `PlutoGE.ScriptCore` project path in the `.csproj` files if your engine is stored elsewhere.
 
+## Multiplayer
+
+The project opens on a title screen. Enter a username, choose **Host Game** to
+start a server, or enter the host's IP address and choose **Join Game**. Click
+either field to edit it; Tab switches fields and Enter joins.
+
+To test locally:
+
+1. Choose **Host Game** in one running copy.
+2. In a second copy, leave the address as `127.0.0.1` and choose **Join Game**.
+3. For LAN play, set the client address to the host machine's LAN address and
+   allow TCP port `7777` through the host firewall.
+
+The game protocol performs a version handshake, assigns stable peer IDs on the
+server, relays validated transforms, interpolates remote proxies, and removes
+them on disconnect. Player-versus-player shots are resolved by the host, which
+validates shot rate and origin before applying damage. `updatesPerSecond`, the
+port, proxy prefab, weapon settings, and interpolation sharpness are editable
+in the Script Component.
+
 ## About PlutoGE
 
 PlutoGE is my custom game engine and is under active development. This repository acts as a practical test bed and demonstration of its rendering, animation, audio, asset-import, scene, and scripting systems.
@@ -47,4 +68,3 @@ PlutoGE is my custom game engine and is under active development. This repositor
 ## Status
 
 This is a demo and work in progress. Features, assets, and project formats may change as PlutoGE evolves.
-
