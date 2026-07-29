@@ -11,7 +11,10 @@ CoD is a small demo project created with **[PlutoGE](https://github.com/CameronA
 - Sound effects and background audio
 - A custom post-processing preset
 - Support for managed gameplay scripts through .NET 8
-- Reliable host/client multiplayer with replicated player transforms
+- A multiplayer title screen with usernames and direct-IP joining
+- Reliable host/client multiplayer with replicated and interpolated players
+- Server-authoritative PvP shooting, damage, death, and respawning
+- Enemy waves, health and ammunition pickups, and runtime HUD elements
 
 ## Running the project
 
@@ -19,7 +22,9 @@ CoD is a small demo project created with **[PlutoGE](https://github.com/CameronA
 2. Open `CoDplutoproject.plutoproject` in PlutoGE.
 3. Run the project from the editor.
 
-The configured startup scene is `Assets/Scenes/Main.plutoscene`, and the default window size is 1280 × 720.
+The configured startup scene is `Assets/Scenes/Title.plutoscene`. It transitions
+to `Assets/Scenes/Main.plutoscene` after hosting or joining a game. The default
+window size is 1280 × 720.
 
 ## Project structure
 
@@ -30,9 +35,12 @@ Assets/
 ├── Managed/          Compiled managed scripting assemblies
 ├── Materials/        Project materials
 ├── PostProcessing/   Post-processing presets
+├── Prefabs/          Enemy, pickup, and remote-player prefabs
 ├── Scenes/           PlutoGE scenes
+├── Scripts/          C# gameplay and multiplayer scripts
 ├── Sounds/           Music and sound effects
-└── SourceModels/     Original model and animation sources
+├── SourceModels/     Original model and animation sources
+└── Textures/         Gameplay and environment textures
 ```
 
 ## Managed scripts
@@ -45,7 +53,8 @@ The project is configured for C# scripting with .NET 8. Source files placed unde
 
 The project opens on a title screen. Enter a username, choose **Host Game** to
 start a server, or enter the host's IP address and choose **Join Game**. Click
-either field to edit it; Tab switches fields and Enter joins.
+either field to edit it; `Tab` switches fields and `Enter` joins. Usernames are
+carried through the protocol and shown in peer join/leave messages.
 
 To test locally:
 
@@ -54,12 +63,34 @@ To test locally:
 3. For LAN play, set the client address to the host machine's LAN address and
    allow TCP port `7777` through the host firewall.
 
-The game protocol performs a version handshake, assigns stable peer IDs on the
-server, relays validated transforms, interpolates remote proxies, and removes
-them on disconnect. Player-versus-player shots are resolved by the host, which
-validates shot rate and origin before applying damage. `updatesPerSecond`, the
-port, proxy prefab, weapon settings, and interpolation sharpness are editable
-in the Script Component.
+Only one process may host on a given port. If another game or editor instance
+already owns TCP port `7777`, stop it or configure a different `serverPort`.
+Joining players do not bind the server port.
+
+### Multiplayer behavior
+
+- A versioned handshake establishes the username and server-assigned peer ID.
+- The host relays validated player transforms to the other peers.
+- Remote-player proxies are interpolated to smooth network updates.
+- The host validates shot origins and fire rate, performs hit detection, and
+  sends damage only to the affected player.
+- Dead players cannot shoot. After the configured delay they respawn at their
+  original spawn transform with full health and brief invulnerability.
+- Respawning does not reload the scene, so the player remains connected to the
+  same server with the same peer identity.
+- Remote proxies are removed when their peer disconnects.
+
+The port, update frequency, proxy prefab, weapon settings, respawn delay,
+respawn invulnerability, and interpolation sharpness are editable through the
+relevant Script Components in `Main.plutoscene`.
+
+### Current networking scope
+
+Networking uses PlutoGE's reliable, ordered TCP transport. Player transform and
+PvP state are networked; the enemy wave simulation and supply pickups remain
+local gameplay systems. Internet play requires the host to expose or forward
+the configured TCP port. No relay, NAT traversal, authentication service, or
+encryption layer is currently included.
 
 ## About PlutoGE
 
