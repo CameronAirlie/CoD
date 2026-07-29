@@ -14,12 +14,12 @@
     <Compile Include="Assets/Scripts/**/*.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:/Users/cam/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/PlutoGE.ScriptCore.csproj" />
+    <ProjectReference Include="C:/Users/Cameron.Airlie/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/PlutoGE.ScriptCore.csproj" />
   </ItemGroup>
   <Target Name="CopyScriptCoreRuntimeFiles" AfterTargets="Build">
     <ItemGroup>
-      <ScriptCoreRuntimeFiles Include="C:/Users/cam/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/$(Configuration)/$(TargetFramework)/PlutoGE.ScriptCore.runtimeconfig.json" />
-      <ScriptCoreRuntimeFiles Include="C:/Users/cam/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/$(Configuration)/$(TargetFramework)/PlutoGE.ScriptCore.deps.json" Condition="Exists('C:/Users/cam/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/$(Configuration)/$(TargetFramework)/PlutoGE.ScriptCore.deps.json')" />
+      <ScriptCoreRuntimeFiles Include="C:/Users/Cameron.Airlie/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/$(Configuration)/$(TargetFramework)/PlutoGE.ScriptCore.runtimeconfig.json" />
+      <ScriptCoreRuntimeFiles Include="C:/Users/Cameron.Airlie/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/$(Configuration)/$(TargetFramework)/PlutoGE.ScriptCore.deps.json" Condition="Exists('C:/Users/Cameron.Airlie/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/$(Configuration)/$(TargetFramework)/PlutoGE.ScriptCore.deps.json')" />
     </ItemGroup>
     <Copy SourceFiles="@(ScriptCoreRuntimeFiles)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" Condition="@(ScriptCoreRuntimeFiles) != ''" />
   </Target>

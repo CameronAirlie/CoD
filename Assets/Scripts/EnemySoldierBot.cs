@@ -106,18 +106,26 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         }
 
         var direction = horizontal / distance;
-        var canSeeTarget = IsInsideVisionCone(direction) && HasLineOfSight(distance);
+        var hasLineOfSight = HasLineOfSight(distance);
+
+        // Start turning as soon as an unobstructed target is in detection range.
+        // Requiring the target to already be inside the vision cone here creates
+        // a deadlock: a target outside the cone can never cause the bot to turn.
+        if (hasLineOfSight)
+            TurnTowards(direction, deltaTime);
+
+        var canSeeTarget = hasLineOfSight && IsInsideVisionCone(direction);
         SetAnimationBool(hasTargetParameter, canSeeTarget);
         if (canSeeTarget && _spottedAt == float.MaxValue)
             _spottedAt = _time;
-        if (canSeeTarget)
-            TurnTowards(direction, deltaTime);
 
         var movement = ChooseMovement(direction, distance, canSeeTarget);
+        var gravity = -3f * Vector3.UnitY;
         if (movement.LengthSquared() > 0.001f)
         {
             Physics.MoveKinematic(GameObject, movement * deltaTime, skinWidth);
         }
+        Physics.MoveKinematic(GameObject, gravity * deltaTime, skinWidth);
         SetAnimationFloat(movementSpeedParameter, movement.Length());
 
         if (canSeeTarget && IsFacingTarget(direction, firingAngle) &&
