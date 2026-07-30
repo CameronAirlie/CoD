@@ -7,9 +7,9 @@ WINDOW_TITLE	CoD
 WINDOW_SIZE	1280	720
 VSYNC	0
 EDITOR_FONT_SIZE	13
-EDITOR_CAMERA_POSITION	-5.35909	22.0196	14.4868
+EDITOR_CAMERA_POSITION	13.5271	0.56381	-1.73717
 EDITOR_CAMERA_SPEED	6
-EDITOR_CAMERA_ROTATION	-7.43891	-51.9598
+EDITOR_CAMERA_ROTATION	139.441	7.44026
 EDITOR_CAMERA_LENS	70	0.1	1000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/main.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -100,11 +100,11 @@ ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.pluto
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutoanim	963	Animation
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	2611229	Mesh
 ASSET	project://Managed/CoD.Scripts.deps.json	836	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	48128	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	24724	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	48640	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	24892	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	202240	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	84196	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	84184	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	303	Unknown
 ASSET	project://Materials/BulletHole.plutomaterial	473	Material
 ASSET	project://Materials/Ground.plutomaterial	492	Material
@@ -112,16 +112,16 @@ ASSET	project://Materials/MuzzleFlash.plutomaterial	486	Material
 ASSET	project://Particles/MuzzleFlash.plutoparticles	864	Particle System
 ASSET	project://PostProcessing/main.plutopostprocess	3624	Post Process Preset
 ASSET	project://Prefabs/AmmoPickup.plutoprefab	1701	Prefab
-ASSET	project://Prefabs/Enemy.plutoprefab	13720	Prefab
+ASSET	project://Prefabs/Enemy.plutoprefab	32742	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1705	Prefab
 ASSET	project://Prefabs/RemotePlayer.plutoprefab	1451	Prefab
-ASSET	project://Scenes/Main.plutoscene	125343	Scene
-ASSET	project://Scenes/Title.plutoscene	24141	Scene
+ASSET	project://Scenes/Main.plutoscene	125351	Scene
+ASSET	project://Scenes/Title.plutoscene	24139	Scene
 ASSET	project://Scripts/EnemySoldierBot.cs	17531	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4012	Script
 ASSET	project://Scripts/MultiplayerLaunch.cs	696	Script
-ASSET	project://Scripts/MultiplayerSession.cs	18853	Script
-ASSET	project://Scripts/PlayerHealth.cs	3634	Script
+ASSET	project://Scripts/MultiplayerSession.cs	19004	Script
+ASSET	project://Scripts/PlayerHealth.cs	4554	Script
 ASSET	project://Scripts/SupplyPickup.cs	1497	Script
 ASSET	project://Scripts/SupplySpawner.cs	1815	Script
 ASSET	project://Scripts/TitleScreen.cs	5297	Script

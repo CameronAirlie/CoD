@@ -1,5 +1,16 @@
 SCENE	1
 ENTITY	1	0	1	Title Screen	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	1	ScriptComponent
+PROPERTY	Source	2	CoD.Scripts.TitleScreen	0
+PROPERTY	usernameField	9	3	0
+PROPERTY	addressField	9	4	0
+PROPERTY	hostButton	9	5	0
+PROPERTY	joinButton	9	6	0
+PROPERTY	statusText	9	7	0
+PROPERTY	gameScene	2	Main	0
+PROPERTY	username	2	Player	0
+PROPERTY	serverAddress	2	0.0.0.0	0
+END_COMPONENT
 COMPONENT	1	CanvasComponent
 PROPERTY	Enabled	4	true	0
 PROPERTY	RenderMode	6	0	4	ScreenSpaceOverlay	WorldSpaceOverlay	ScreenSpaceCamera	WorldSpace
@@ -11,17 +22,6 @@ PROPERTY	ScreenMatchMode	6	0	3	MatchWidthOrHeight	Expand	Shrink
 PROPERTY	SortingOrder	1	0	0
 PROPERTY	WorldSizeMode	6	0	3	WorldUnits	ConstantScreenSize	DistanceScaled
 PROPERTY	FaceCamera	4	true	0
-END_COMPONENT
-COMPONENT	1	ScriptComponent
-PROPERTY	Source	2	CoD.Scripts.TitleScreen	0
-PROPERTY	usernameField	9	3	0
-PROPERTY	addressField	9	4	0
-PROPERTY	hostButton	9	5	0
-PROPERTY	joinButton	9	6	0
-PROPERTY	statusText	9	7	0
-PROPERTY	gameScene	2	Main	0
-PROPERTY	username	2	Player	0
-PROPERTY	serverAddress	2	127.0.0.1	0
 END_COMPONENT
 ENTITY	2	1	1	Game Title	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	2	RectTransformComponent
@@ -54,7 +54,7 @@ END_COMPONENT
 COMPONENT	2	UITextComponent
 PROPERTY	Enabled	4	true	0
 PROPERTY	Text	2	PLUTO COMBAT	0
-PROPERTY	Color	5	0.850000,0.920000,1.000000,1.000000	0
+PROPERTY	Color	5	0.929104,0.962189,1.000000,1.000000	0
 PROPERTY	FontSize	0	64.000000	0
 PROPERTY	FontPath	2		0
 PROPERTY	RichText	4	true	0
@@ -231,7 +231,7 @@ PROPERTY	OutlineWidth	0	0.000000	0
 END_COMPONENT
 COMPONENT	5	UIImageComponent
 PROPERTY	Enabled	4	true	0
-PROPERTY	Color	5	0.080000,0.480000,0.260000,1.000000	0
+PROPERTY	Color	5	0.081477,0.779851,0.395745,1.000000	0
 PROPERTY	TexturePath	2		0
 PROPERTY	PreserveAspect	4	false	0
 PROPERTY	FillAmount	0	1.000000	0
@@ -293,7 +293,7 @@ PROPERTY	OutlineWidth	0	0.000000	0
 END_COMPONENT
 COMPONENT	6	UIImageComponent
 PROPERTY	Enabled	4	true	0
-PROPERTY	Color	5	0.080000,0.300000,0.650000,1.000000	0
+PROPERTY	Color	5	0.129581,0.406485,0.847015,1.000000	0
 PROPERTY	TexturePath	2		0
 PROPERTY	PreserveAspect	4	false	0
 PROPERTY	FillAmount	0	1.000000	0
