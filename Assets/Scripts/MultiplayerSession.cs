@@ -523,7 +523,26 @@ public sealed class MultiplayerSession : ScriptBehaviour
             if (!GameObject.IsValid)
                 return;
             GameObject.WorldPosition = Vector3.Lerp(GameObject.WorldPosition, TargetPosition, blend);
-            GameObject.WorldRotation = Vector3.Lerp(GameObject.WorldRotation, TargetRotation, blend);
+            var rotation = GameObject.WorldRotation;
+            GameObject.WorldRotation = new Vector3(
+                0.0f,
+                LerpAngle(rotation.Y, TargetRotation.Y, blend),
+                0.0f);
+        }
+
+        private static float LerpAngle(float current, float target, float blend)
+        {
+            var difference = (target - current + 180.0f) % 360.0f;
+            if (difference < 0.0f)
+                difference += 360.0f;
+            difference -= 180.0f;
+            return NormalizeAngle(current + difference * Math.Clamp(blend, 0.0f, 1.0f));
+        }
+
+        private static float NormalizeAngle(float angle)
+        {
+            angle %= 360.0f;
+            return angle < 0.0f ? angle + 360.0f : angle;
         }
     }
 }
