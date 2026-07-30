@@ -3,7 +3,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultItems>false</EnableDefaultItems>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <AssemblyName>CoD.Scripts</AssemblyName>
     <RootNamespace>CoD.Scripts</RootNamespace>
@@ -15,14 +15,14 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PlutoGE.ScriptCore">
-      <HintPath>C:/Users/Cameron.Airlie/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/Release/net8.0/PlutoGE.ScriptCore.dll</HintPath>
+      <HintPath>C:/Users/cam/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/Release/net8.0/PlutoGE.ScriptCore.dll</HintPath>
       <Private>true</Private>
     </Reference>
   </ItemGroup>
   <Target Name="CopyScriptCoreRuntimeFiles" AfterTargets="Build">
     <ItemGroup>
-      <ScriptCoreRuntimeFiles Include="C:/Users/Cameron.Airlie/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/Release/net8.0/PlutoGE.ScriptCore.runtimeconfig.json" />
-      <ScriptCoreRuntimeFiles Include="C:/Users/Cameron.Airlie/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/Release/net8.0/PlutoGE.ScriptCore.deps.json" Condition="Exists('C:/Users/Cameron.Airlie/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/Release/net8.0/PlutoGE.ScriptCore.deps.json')" />
+      <ScriptCoreRuntimeFiles Include="C:/Users/cam/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/Release/net8.0/PlutoGE.ScriptCore.runtimeconfig.json" />
+      <ScriptCoreRuntimeFiles Include="C:/Users/cam/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/Release/net8.0/PlutoGE.ScriptCore.deps.json" Condition="Exists('C:/Users/cam/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/Release/net8.0/PlutoGE.ScriptCore.deps.json')" />
     </ItemGroup>
     <Copy SourceFiles="@(ScriptCoreRuntimeFiles)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" Condition="@(ScriptCoreRuntimeFiles) != ''" />
   </Target>

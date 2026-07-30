@@ -1,6 +1,6 @@
 @font-face {
-    font-family: Martian;
-    src: url("../../editor/resources/fonts/MartianMono-StdRg.ttf");
+    font-family: GameUIFont;
+    src: url("../Fonts/Georama.ttf");
 }
 
 body {
@@ -8,8 +8,9 @@ body {
     height: 100%;
     margin: 0;
     color: #f3f7ff;
-    font-family: Martian;
+    font-family: GameUIFont;
     pointer-events: none;
+    focus: none;
 }
 
 #hud {
@@ -70,9 +71,17 @@ body {
     height: 2px;
 }
 
-#crosshair.hidden { visibility: hidden; }
-#crosshair.headshot .arm { background-color: #ffb020; }
-.arm.hit { background-color: #ff3048; }
+#crosshair.hidden {
+    visibility: hidden;
+}
+
+#crosshair.headshot .arm {
+    background-color: #ffb020;
+}
+
+.arm.hit {
+    background-color: #ff3048;
+}
 
 #interaction {
     position: absolute;
@@ -83,25 +92,44 @@ body {
     font-size: 16px;
 }
 
-.arm, .dot {
+.arm,
+.dot {
     position: absolute;
     background-color: #ffffff;
 }
 
-.top, .bottom {
+.top,
+.bottom {
     width: 2px;
     height: 9px;
-    left: 0;
+    left:
+        2px;
 }
 
-.left, .right {
+.left,
+.right {
     width: 9px;
     height: 2px;
     top: 0;
 }
 
-.top { top: -18px; }
-.right { left: 10px; }
-.bottom { top: 10px; }
-.left { left: -18px; }
-.dot { width: 2px; height: 2px; }
+.top {
+    top: -18px;
+}
+
+.right {
+    left: 10px;
+}
+
+.bottom {
+    top: 10px;
+}
+
+.left {
+    left: -18px;
+}
+
+.dot {
+    width: 2px;
+    height: 2px;
+}

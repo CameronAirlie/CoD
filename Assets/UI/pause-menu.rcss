@@ -1,6 +1,6 @@
 @font-face {
-    font-family: Martian;
-    src: url("../../editor/resources/fonts/MartianMono-StdRg.ttf");
+    font-family: GameUIFont;
+    src: url("../Fonts/Georama.ttf");
 }
 
 body {
@@ -8,29 +8,36 @@ body {
     height: 100%;
     margin: 0;
     color: #f4f8ff;
-    font-family: Martian;
+    font-family: GameUIFont;
 }
 
 #backdrop {
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #05080dcc;
+    backdrop-filter: blur(4px);
 }
 
 #menu {
-    position: absolute;
-    left: 8%;
-    top: 15%;
     width: 390px;
     padding: 34px;
     background-color: #101722f2;
-    border-left: 4px #58c8ff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .eyebrow {
     color: #58c8ff;
     font-size: 13px;
     letter-spacing: 3px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 8px;
 }
 
 h1 {
@@ -42,17 +49,18 @@ button {
     display: block;
     width: 100%;
     height: 48px;
-    margin-bottom: 10px;
-    padding-left: 16px;
+    line-height: 48px;
     color: #dce8f5;
     background-color: #1a2634;
-    border: 1px #33495f;
-    text-align: left;
-    font-family: Martian;
+    border: 1px solid #33495f;
+    text-align: center;
+    align-items: center;
+    font-family: GameUIFont;
     font-size: 16px;
 }
 
-button:hover, button:focus {
+button:hover,
+button:focus {
     color: #ffffff;
     background-color: #25445d;
     border-color: #58c8ff;
