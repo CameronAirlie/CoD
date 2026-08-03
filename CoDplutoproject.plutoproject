@@ -21,8 +21,8 @@ ASSET	engine://builtin/mesh/quad	0	Mesh
 ASSET	engine://builtin/mesh/sphere	0	Mesh
 ASSET	engine://builtin/shadergraph/default-lit	0	Shader Graph
 ASSET	engine://builtin/shadergraph/default-unlit	0	Shader Graph
-ASSET	project://AnimGraphs/enemy.plutoanimgraph	1401	Animation Graph
-ASSET	project://AnimGraphs/player.plutoanimgraph	1091	Animation Graph
+ASSET	project://AnimGraphs/enemy.plutoanimgraph	1374	Animation Graph
+ASSET	project://AnimGraphs/player.plutoanimgraph	1070	Animation Graph
 ASSET	project://Fonts/Georama.ttf	434664	Unknown
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_A_TPose_0.plutoclip	332294	Animation Clip
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Crouch_Fwd_Loop_1.plutoclip	273802	Animation Clip
@@ -67,10 +67,10 @@ ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Sword_Attack_39.pluto
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Sword_Idle_40.plutoclip	234797	Animation Clip
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Walk_Formal_Loop_41.plutoclip	195803	Animation Clip
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Walk_Loop_42.plutoclip	195796	Animation Clip
-ASSET	project://Imported/UAL1_Standard/M_UAL1_Standard_0.plutomaterial	452	Material
-ASSET	project://Imported/UAL1_Standard/M_UAL1_Standard_1.plutomaterial	451	Material
-ASSET	project://Imported/UAL1_Standard/M_UAL1_Standard_2.plutomaterial	428	Material
-ASSET	project://Imported/UAL1_Standard/UAL1_Standard.plutoanim	3694	Animation
+ASSET	project://Imported/UAL1_Standard/M_UAL1_Standard_0.plutomaterial	430	Material
+ASSET	project://Imported/UAL1_Standard/M_UAL1_Standard_1.plutomaterial	429	Material
+ASSET	project://Imported/UAL1_Standard/M_UAL1_Standard_2.plutomaterial	406	Material
+ASSET	project://Imported/UAL1_Standard/UAL1_Standard.plutoanim	3650	Animation
 ASSET	project://Imported/UAL1_Standard/UAL1_Standard.plutomesh	1090015	Mesh
 ASSET	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_draw_0.plutoclip	94084	Animation Clip
 ASSET	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_hide_1.plutoclip	94344	Animation Clip
@@ -80,54 +80,59 @@ ASSET	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA
 ASSET	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_shoot_5.plutoclip	92866	Animation Clip
 ASSET	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_sprint_6.plutoclip	71370	Animation Clip
 ASSET	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_walk_7.plutoclip	68097	Animation Clip
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	430	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	449	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	455	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	459	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	456	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	457	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	456	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	456	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	457	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	428	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	452	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	452	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	456	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	455	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	459	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	455	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	459	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	459	Material
-ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutoanim	963	Animation
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	408	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	427	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	433	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	437	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	434	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	435	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	434	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	434	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	435	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	406	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	430	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	430	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	434	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	433	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	437	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	433	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	437	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	437	Material
+ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutoanim	954	Animation
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	2611229	Mesh
-ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	51200	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	26000	Unknown
-ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
+ASSET	project://Managed/CoD.Scripts.deps.json	806	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	86016	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	35700	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	424	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	204800	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	73700	Unknown
-ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	375	Unknown
-ASSET	project://Materials/BulletHole.plutomaterial	473	Material
-ASSET	project://Materials/Ground.plutomaterial	492	Material
-ASSET	project://Materials/MuzzleFlash.plutomaterial	486	Material
-ASSET	project://Particles/MuzzleFlash.plutoparticles	864	Particle System
-ASSET	project://PostProcessing/main.plutopostprocess	3624	Post Process Preset
-ASSET	project://Prefabs/AmmoPickup.plutoprefab	1744	Prefab
-ASSET	project://Prefabs/Enemy.plutoprefab	32742	Prefab
-ASSET	project://Prefabs/HealthPickup.plutoprefab	1748	Prefab
-ASSET	project://Prefabs/RemotePlayer.plutoprefab	1486	Prefab
-ASSET	project://Scenes/Main.plutoscene	126870	Scene
-ASSET	project://Scenes/Title.plutoscene	24139	Scene
-ASSET	project://Scripts/EnemySoldierBot.cs	17740	Script
-ASSET	project://Scripts/EnemyWaveSpawner.cs	4135	Script
-ASSET	project://Scripts/MultiplayerLaunch.cs	714	Script
-ASSET	project://Scripts/MultiplayerSession.cs	20194	Script
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	73424	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	356	Unknown
+ASSET	project://Materials/BulletHole.plutomaterial	451	Material
+ASSET	project://Materials/Ground.plutomaterial	470	Material
+ASSET	project://Materials/MuzzleFlash.plutomaterial	464	Material
+ASSET	project://Particles/MuzzleFlash.plutoparticles	824	Particle System
+ASSET	project://PostProcessing/main.plutopostprocess	3535	Post Process Preset
+ASSET	project://Prefabs/AmmoPickup.plutoprefab	1843	Prefab
+ASSET	project://Prefabs/ArmourPickup.plutoprefab	1848	Prefab
+ASSET	project://Prefabs/Enemy.plutoprefab	32036	Prefab
+ASSET	project://Prefabs/HealthPickup.plutoprefab	1849	Prefab
+ASSET	project://Prefabs/RemotePlayer.plutoprefab	1451	Prefab
+ASSET	project://Scenes/Main.plutoscene	125562	Scene
+ASSET	project://Scenes/Title.plutoscene	23641	Scene
+ASSET	project://Scripts/EnemySoldierBot.cs	17297	Script
+ASSET	project://Scripts/EnemyWaveSpawner.cs	4012	Script
+ASSET	project://Scripts/InventoryMenu.cs	6162	Script
+ASSET	project://Scripts/MultiplayerLaunch.cs	696	Script
+ASSET	project://Scripts/MultiplayerSession.cs	19646	Script
 ASSET	project://Scripts/PauseMenu.cs	262	Script
-ASSET	project://Scripts/PlayerHealth.cs	4667	Script
-ASSET	project://Scripts/SupplyPickup.cs	1544	Script
-ASSET	project://Scripts/SupplySpawner.cs	1864	Script
-ASSET	project://Scripts/TitleScreen.cs	5448	Script
-ASSET	project://Scripts/UIManager.cs	3815	Script
+ASSET	project://Scripts/PlayerController.cs	23820	Script
+ASSET	project://Scripts/PlayerHealth.cs	5774	Script
+ASSET	project://Scripts/PlayerHud.cs	6196	Script
+ASSET	project://Scripts/PlayerInventory.cs	3817	Script
+ASSET	project://Scripts/SupplyPickup.cs	2088	Script
+ASSET	project://Scripts/SupplySpawner.cs	2830	Script
+ASSET	project://Scripts/TitleScreen.cs	5297	Script
+ASSET	project://Scripts/UIManager.cs	5138	Script
 ASSET	project://Sounds/engine.wav	760364	Audio
 ASSET	project://Sounds/footsteps.wav	728108	Audio
 ASSET	project://Sounds/gun_shot.wav	59456	Audio
@@ -152,9 +157,9 @@ ASSET	project://SourceModels/UAL1_Standard/Jog_Fwd_Loop.plutoclip	148999	Animati
 ASSET	project://SourceModels/UAL1_Standard/Jump_Land.plutoclip	187996	Animation Clip
 ASSET	project://SourceModels/UAL1_Standard/Jump_Loop.plutoclip	332296	Animation Clip
 ASSET	project://SourceModels/UAL1_Standard/Jump_Start.plutoclip	195797	Animation Clip
-ASSET	project://SourceModels/UAL1_Standard/M_UAL1_Standard_0.plutomaterial	451	Material
-ASSET	project://SourceModels/UAL1_Standard/M_UAL1_Standard_1.plutomaterial	451	Material
-ASSET	project://SourceModels/UAL1_Standard/M_UAL1_Standard_2.plutomaterial	428	Material
+ASSET	project://SourceModels/UAL1_Standard/M_UAL1_Standard_0.plutomaterial	429	Material
+ASSET	project://SourceModels/UAL1_Standard/M_UAL1_Standard_1.plutomaterial	429	Material
+ASSET	project://SourceModels/UAL1_Standard/M_UAL1_Standard_2.plutomaterial	406	Material
 ASSET	project://SourceModels/UAL1_Standard/PickUp_Table.plutoclip	137299	Animation Clip
 ASSET	project://SourceModels/UAL1_Standard/Pistol_Aim_Down.plutoclip	59302	Animation Clip
 ASSET	project://SourceModels/UAL1_Standard/Pistol_Aim_Neutral.plutoclip	59305	Animation Clip
@@ -179,7 +184,7 @@ ASSET	project://SourceModels/UAL1_Standard/Swim_Fwd_Loop.plutoclip	195800	Animat
 ASSET	project://SourceModels/UAL1_Standard/Swim_Idle_Loop.plutoclip	429801	Animation Clip
 ASSET	project://SourceModels/UAL1_Standard/Sword_Attack.plutoclip	219199	Animation Clip
 ASSET	project://SourceModels/UAL1_Standard/Sword_Idle.plutoclip	234797	Animation Clip
-ASSET	project://SourceModels/UAL1_Standard/UAL1_Standard Animations.plutoanim	3694	Animation
+ASSET	project://SourceModels/UAL1_Standard/UAL1_Standard Animations.plutoanim	3650	Animation
 ASSET	project://SourceModels/UAL1_Standard/UAL1_Standard.glb	7618436	Model
 ASSET	project://SourceModels/UAL1_Standard/UAL1_Standard.plutomesh	1090675	Mesh
 ASSET	project://SourceModels/UAL1_Standard/UAL1_Standard_RM.glb	7620504	Model
@@ -194,25 +199,25 @@ ASSET	project://SourceModels/animation_low-poly_val/LVA4_Armature_wpn_val_reload
 ASSET	project://SourceModels/animation_low-poly_val/LVA4_Armature_wpn_val_shoot.plutoclip	92866	Animation Clip
 ASSET	project://SourceModels/animation_low-poly_val/LVA4_Armature_wpn_val_sprint.plutoclip	71370	Animation Clip
 ASSET	project://SourceModels/animation_low-poly_val/LVA4_Armature_wpn_val_walk.plutoclip	68097	Animation Clip
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	430	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	449	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	455	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	459	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	456	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	457	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	456	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	456	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	457	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	428	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	452	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	452	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	456	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	455	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	459	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	455	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	459	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	459	Material
-ASSET	project://SourceModels/animation_low-poly_val/animation_low-poly_val Animations.plutoanim	963	Animation
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	408	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	427	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	433	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	437	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	434	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	435	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	434	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	434	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_16.plutomaterial	435	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_17.plutomaterial	406	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	430	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	430	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	434	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	433	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	437	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	433	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	437	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	437	Material
+ASSET	project://SourceModels/animation_low-poly_val/animation_low-poly_val Animations.plutoanim	954	Animation
 ASSET	project://SourceModels/animation_low-poly_val/animation_low-poly_val.glb	3725080	Model
 ASSET	project://SourceModels/animation_low-poly_val/animation_low-poly_val.plutomesh	2611229	Mesh
 ASSET	project://Textures/BulletHole/BulletHole.png	7891	Texture
@@ -230,7 +235,9 @@ ASSET	project://Textures/Dark/texture_11.png	9048	Texture
 ASSET	project://Textures/Dark/texture_12.png	9585	Texture
 ASSET	project://Textures/Dark/texture_13.png	9867	Texture
 ASSET	project://Textures/MuzzleFlash/MuzzleFlash.png	90402	Texture
-ASSET	project://UI/hud.rcss	1721	Unknown
-ASSET	project://UI/hud.rml	960	RML Document
-ASSET	project://UI/pause-menu.rcss	1352	Unknown
-ASSET	project://UI/pause-menu.rml	604	RML Document
+ASSET	project://UI/hud.rcss	1953	Unknown
+ASSET	project://UI/hud.rml	1286	RML Document
+ASSET	project://UI/inventory.rcss	1673	Unknown
+ASSET	project://UI/inventory.rml	1484	RML Document
+ASSET	project://UI/pause-menu.rcss	1275	Unknown
+ASSET	project://UI/pause-menu.rml	586	RML Document

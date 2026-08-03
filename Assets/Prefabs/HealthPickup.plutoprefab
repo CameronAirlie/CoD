@@ -5,8 +5,11 @@ COMPONENT	1	ScriptComponent
 PROPERTY	Source	2	CoD.Scripts.SupplyPickup	0
 PROPERTY	ammoAmount	1	0	0
 PROPERTY	healthAmount	0	35.000000	0
+PROPERTY	armourPlateAmount	1	0	0
 PROPERTY	ammoMethod	2	AddAmmo	0
 PROPERTY	healthMethod	2	Heal	0
+PROPERTY	armourMethod	2	AddArmourPlate	0
+PROPERTY	respawnPrefab	2	project://Prefabs/HealthPickup.plutoprefab	0
 PROPERTY	rotationSpeed	0	45.000000	0
 END_COMPONENT
 COMPONENT	1	ColliderComponent

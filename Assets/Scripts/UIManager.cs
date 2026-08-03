@@ -4,15 +4,19 @@ public sealed class UIManager : ScriptBehaviour
 {
     [SerializedField] private GameObject? PauseMenu = null;
     [SerializedField] private GameObject? HUD = null;
+    [SerializedField] private GameObject? Inventory = null;
     [SerializedField] private string PauseDocumentPath = "UI/pause-menu.rml";
     [SerializedField] private string HUDDocumentPath = "UI/hud.rml";
+    [SerializedField] private string InventoryDocumentPath = "UI/inventory.rml";
     [SerializedField] private string MainMenuScene = "Title";
 
     private RmlWidgetComponent? _pauseWidget;
     private RmlWidgetComponent? _hudWidget;
+    private RmlWidgetComponent? _inventoryWidget;
     private RmlDocument? _pauseDocument;
     private RmlDocument? _hudDocument;
     private bool _isPaused;
+    private bool _isInventoryOpen;
     private float _previousTimeScale = 1.0f;
 
     public bool IsPaused => _isPaused;
@@ -21,11 +25,14 @@ public sealed class UIManager : ScriptBehaviour
     {
         _pauseWidget = PauseMenu?.GetComponent<RmlWidgetComponent>();
         _hudWidget = HUD?.GetComponent<RmlWidgetComponent>();
+        _inventoryWidget = Inventory?.GetComponent<RmlWidgetComponent>();
 
         if (_pauseWidget == null)
             Debug.LogError("UIManager: PauseMenu must reference an RmlWidgetComponent.");
         if (_hudWidget == null)
             Debug.LogError("UIManager: HUD must reference an RmlWidgetComponent.");
+        if (_inventoryWidget == null)
+            Debug.LogError("UIManager: Inventory must reference an RmlWidgetComponent.");
 
         if (!string.IsNullOrWhiteSpace(PauseDocumentPath))
         {
@@ -45,13 +52,24 @@ public sealed class UIManager : ScriptBehaviour
         else
             Debug.LogError("UIManager: HUDDocumentPath must be configured.");
 
+        if (string.IsNullOrWhiteSpace(InventoryDocumentPath))
+            Debug.LogError("UIManager: InventoryDocumentPath must be configured.");
+
         ApplyPresentation();
     }
 
     public override void OnUpdate(float deltaTime)
     {
+        if (Input.IsKeyPressed(KeyCode.Tab) && !_isPaused)
+            SetInventoryOpen(!_isInventoryOpen);
+
         if (Input.IsKeyPressed(KeyCode.Escape))
-            SetPaused(!_isPaused);
+        {
+            if (_isInventoryOpen)
+                SetInventoryOpen(false);
+            else
+                SetPaused(!_isPaused);
+        }
     }
 
     public void SetPaused(bool isPaused)
@@ -64,6 +82,7 @@ public sealed class UIManager : ScriptBehaviour
 
         if (isPaused)
         {
+            _isInventoryOpen = false;
             _previousTimeScale = GamePause.TimeScale;
             GamePause.TimeScale = 0.0f;
         }
@@ -76,6 +95,17 @@ public sealed class UIManager : ScriptBehaviour
         ApplyPresentation();
     }
 
+    public void SetInventoryOpen(bool isOpen)
+    {
+        if (_isPaused || _isInventoryOpen == isOpen)
+            return;
+
+        // Keep UI/input updates running normally while the inventory is open.
+        // Player input is already disabled by the unlocked cursor.
+        _isInventoryOpen = isOpen;
+        ApplyPresentation();
+    }
+
     private void ApplyPresentation()
     {
         SetWidgetVisible(_pauseWidget, _isPaused);
@@ -84,13 +114,16 @@ public sealed class UIManager : ScriptBehaviour
         else
             _pauseDocument?.Hide();
 
-        SetWidgetVisible(_hudWidget, !_isPaused);
-        if (_isPaused)
+        SetWidgetVisible(_inventoryWidget, _isInventoryOpen);
+
+        var gameplayVisible = !_isPaused && !_isInventoryOpen;
+        SetWidgetVisible(_hudWidget, gameplayVisible);
+        if (!gameplayVisible)
             _hudDocument?.Hide();
         else
             _hudDocument?.Show();
 
-        Input.CursorLocked = !_isPaused;
+        Input.CursorLocked = gameplayVisible;
     }
 
     public override void OnDestroy()

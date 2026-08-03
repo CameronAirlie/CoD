@@ -1,15 +1,15 @@
 SCENE	1
-ENTITY	1	0	1	Ammo Supply	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	0.900000,0.550000,0.650000
-TAGS	1	2	Interactable	AmmoPickup
+ENTITY	1	0	1	Armour Supply	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	0.900000,0.550000,0.650000
+TAGS	1	2	Interactable	ArmourPickup
 COMPONENT	1	ScriptComponent
 PROPERTY	Source	2	CoD.Scripts.SupplyPickup	0
-PROPERTY	ammoAmount	1	45	0
+PROPERTY	ammoAmount	1	0	0
 PROPERTY	healthAmount	0	0.000000	0
-PROPERTY	armourPlateAmount	1	0	0
+PROPERTY	armourPlateAmount	1	1	0
 PROPERTY	ammoMethod	2	AddAmmo	0
 PROPERTY	healthMethod	2	Heal	0
 PROPERTY	armourMethod	2	AddArmourPlate	0
-PROPERTY	respawnPrefab	2	project://Prefabs/AmmoPickup.plutoprefab	0
+PROPERTY	respawnPrefab	2	project://Prefabs/ArmourPickup.plutoprefab	0
 PROPERTY	rotationSpeed	0	45.000000	0
 END_COMPONENT
 COMPONENT	1	ColliderComponent
@@ -33,7 +33,7 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MaterialSlotCount	1	1	0
-PROPERTY	MaterialSlots.0.Color	2	0.900000,0.570000,0.080000,1.000000	0
+PROPERTY	MaterialSlots.0.Color	2	0.180000,0.620000,0.950000,1.000000	0
 PROPERTY	MaterialSlots.0.AlbedoPath	2		0
 PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
@@ -42,5 +42,5 @@ PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.200000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.300000	0
-PROPERTY	MaterialSlots.0.Emission	2	0.450000,0.180000,0.020000	0
+PROPERTY	MaterialSlots.0.Emission	2	0.020000,0.280000,0.650000	0
 END_COMPONENT

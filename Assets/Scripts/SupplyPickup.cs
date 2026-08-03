@@ -8,8 +8,11 @@ public sealed class SupplyPickup : ScriptBehaviour
 {
     [SerializedField] private int ammoAmount = 0;
     [SerializedField] private float healthAmount = 0.0f;
+    [SerializedField] private int armourPlateAmount = 0;
     [SerializedField] private string ammoMethod = "AddAmmo";
     [SerializedField] private string healthMethod = "Heal";
+    [SerializedField] private string armourMethod = "AddArmourPlate";
+    [SerializedField] private string respawnPrefab = "";
     [SerializedField] private float rotationSpeed = 45.0f;
 
     private bool _consumed;
@@ -34,6 +37,8 @@ public sealed class SupplyPickup : ScriptBehaviour
             granted |= interactor.TryInvoke(ammoMethod, ammoAmount);
         if (healthAmount > 0.0f && !string.IsNullOrWhiteSpace(healthMethod))
             granted |= interactor.TryInvoke(healthMethod, healthAmount);
+        if (armourPlateAmount > 0 && !string.IsNullOrWhiteSpace(armourMethod))
+            granted |= interactor.TryInvoke(armourMethod, armourPlateAmount);
 
         if (!granted)
         {
@@ -42,6 +47,9 @@ public sealed class SupplyPickup : ScriptBehaviour
         }
 
         _consumed = true;
+        var spawner = GameObject.Find("SupplySpawner");
+        if (spawner is not null && !string.IsNullOrWhiteSpace(respawnPrefab))
+            spawner.TryInvoke("PickupConsumed", respawnPrefab, GameObject.WorldPosition, GameObject.WorldRotation);
         GameObject.Destroy();
     }
 }

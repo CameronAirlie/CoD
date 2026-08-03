@@ -1,0 +1,23 @@
+<rml>
+    <head>
+        <title>Inventory</title>
+        <link type="text/rcss" href="inventory.rcss" />
+    </head>
+    <body>
+        <div id="inventory-backdrop">
+            <div id="inventory-panel">
+                <div id="header">
+                    <div><div class="eyebrow">LOADOUT</div><div class="title">INVENTORY</div></div>
+                    <div class="capacity">20 SLOTS</div>
+                </div>
+                <div id="inventory-grid">
+                    <div id="slot-0" class="slot"></div><div id="slot-1" class="slot"></div><div id="slot-2" class="slot"></div><div id="slot-3" class="slot"></div><div id="slot-4" class="slot"></div>
+                    <div id="slot-5" class="slot"></div><div id="slot-6" class="slot"></div><div id="slot-7" class="slot"></div><div id="slot-8" class="slot"></div><div id="slot-9" class="slot"></div>
+                    <div id="slot-10" class="slot"></div><div id="slot-11" class="slot"></div><div id="slot-12" class="slot"></div><div id="slot-13" class="slot"></div><div id="slot-14" class="slot"></div>
+                    <div id="slot-15" class="slot"></div><div id="slot-16" class="slot"></div><div id="slot-17" class="slot"></div><div id="slot-18" class="slot"></div><div id="slot-19" class="slot"></div>
+                </div>
+                <div id="footer"><span>H MED KIT (1s) / G ARMOUR (0.5s)</span><span class="close-hint">TAB / ESC CLOSE</span></div>
+            </div>
+        </div>
+    </body>
+</rml>

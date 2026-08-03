@@ -21,7 +21,13 @@
 
         <div id="weapon" class="panel">
             <div class="ammo"><span id="ammo">30</span><span id="reserve" class="reserve"> / 120</span></div>
-            <progress id="health" value="82" max="100"></progress>
+            <div id="survival-labels"><span>HEALTH <span id="health-value">100</span></span><span>ARMOUR</span></div>
+            <progress id="health" value="100" max="100"></progress>
+            <div id="armour">
+                <div id="armour-0" class="armour-slot"></div>
+                <div id="armour-1" class="armour-slot"></div>
+                <div id="armour-2" class="armour-slot"></div>
+            </div>
         </div>
     </div>
 </body>

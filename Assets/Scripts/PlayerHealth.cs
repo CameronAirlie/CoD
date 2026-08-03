@@ -8,6 +8,8 @@ namespace CoD.Scripts;
 public sealed class PlayerHealth : ScriptBehaviour
 {
     [SerializedField] private float maximumHealth = 100.0f;
+    [SerializedField] private int maximumArmourSlots = 3;
+    [SerializedField] private float armourPerSlot = 25.0f;
     [SerializedField] private GameObject? healthText = null;
     [SerializedField] private GameObject? damageOverlay = null;
     [SerializedField] private float damageFlashAlpha = 0.32f;
@@ -32,6 +34,12 @@ public sealed class PlayerHealth : ScriptBehaviour
     private RigidbodyComponent? _body;
 
     public bool IsDead => _dead;
+    public bool IsFullHealth => _health >= maximumHealth;
+    public float CurrentHealth => _health;
+    public float MaximumHealth => maximumHealth;
+    public int ArmourSlots { get; private set; }
+    public int MaximumArmourSlots => maximumArmourSlots;
+    public event Action<float, float, int, int>? StatusChanged;
 
     public override void OnCreate()
     {
@@ -74,6 +82,7 @@ public sealed class PlayerHealth : ScriptBehaviour
                 MathF.Max(1.0f, maximumHealth),
                 _health + regenerationPerSecond * safeDeltaTime);
             RefreshLabel();
+            PublishStatus();
         }
     }
 
@@ -83,12 +92,20 @@ public sealed class PlayerHealth : ScriptBehaviour
             return;
 
         _lastDamageAt = _time;
-        _health = MathF.Max(0.0f, _health - amount);
+        var remainingDamage = amount;
+        var protectionPerSlot = MathF.Max(0.0f, armourPerSlot);
+        while (ArmourSlots > 0 && remainingDamage > 0.0f)
+        {
+            ArmourSlots--;
+            remainingDamage = MathF.Max(0.0f, remainingDamage - protectionPerSlot);
+        }
+        _health = MathF.Max(0.0f, _health - remainingDamage);
         if (_damageImage is not null)
             _damageImage.Alpha = MathF.Max(
                 _damageImage.Alpha,
                 Math.Clamp(damageFlashAlpha, 0.0f, 1.0f));
         RefreshLabel();
+        PublishStatus();
         if (_health <= 0.0f)
         {
             _dead = true;
@@ -103,6 +120,17 @@ public sealed class PlayerHealth : ScriptBehaviour
             return;
         _health = MathF.Min(maximumHealth, _health + amount);
         RefreshLabel();
+        PublishStatus();
+    }
+
+    public bool AddArmourSlot()
+    {
+        var capacity = Math.Max(0, maximumArmourSlots);
+        if (_dead || ArmourSlots >= capacity)
+            return false;
+        ArmourSlots++;
+        PublishStatus();
+        return true;
     }
 
     private void Respawn()
@@ -116,12 +144,14 @@ public sealed class PlayerHealth : ScriptBehaviour
         }
 
         _health = MathF.Max(1.0f, maximumHealth);
+        ArmourSlots = 0;
         _dead = false;
         _lastDamageAt = _time;
         _invulnerableUntil = _time + MathF.Max(0.0f, respawnInvulnerability);
         if (_damageImage is not null)
             _damageImage.Alpha = 0.0f;
         RefreshLabel();
+        PublishStatus();
         Debug.Log("Player respawned.");
     }
 
@@ -137,4 +167,7 @@ public sealed class PlayerHealth : ScriptBehaviour
         _displayedHealth = displayedHealth;
         _label.Text = $"HP {displayedHealth}";
     }
+
+    private void PublishStatus() => StatusChanged?.Invoke(
+        _health, maximumHealth, ArmourSlots, Math.Max(0, maximumArmourSlots));
 }
