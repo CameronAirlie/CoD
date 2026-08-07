@@ -49,6 +49,7 @@ public sealed class PlayerInventory : ScriptBehaviour
         {
             ArmourPlates--;
             Debug.Log($"Armour equipped: {_health.ArmourSlots}/{_health.MaximumArmourSlots} slots.");
+            _health.EquipArmourSlot();
         }
         _activeUse = UseAction.None;
         Changed?.Invoke();

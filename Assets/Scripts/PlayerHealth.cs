@@ -23,6 +23,7 @@ public sealed class PlayerHealth : ScriptBehaviour
     private UITextComponent? _label;
     private UIImageComponent? _damageImage;
     private float _health;
+    private int _armourSlots;
     private float _time;
     private float _lastDamageAt;
     private float _restartAt;
@@ -37,7 +38,7 @@ public sealed class PlayerHealth : ScriptBehaviour
     public bool IsFullHealth => _health >= maximumHealth;
     public float CurrentHealth => _health;
     public float MaximumHealth => maximumHealth;
-    public int ArmourSlots { get; private set; }
+    public int ArmourSlots => _armourSlots;
     public int MaximumArmourSlots => maximumArmourSlots;
     public event Action<float, float, int, int>? StatusChanged;
 
@@ -96,7 +97,7 @@ public sealed class PlayerHealth : ScriptBehaviour
         var protectionPerSlot = MathF.Max(0.0f, armourPerSlot);
         while (ArmourSlots > 0 && remainingDamage > 0.0f)
         {
-            ArmourSlots--;
+            _armourSlots--;
             remainingDamage = MathF.Max(0.0f, remainingDamage - protectionPerSlot);
         }
         _health = MathF.Max(0.0f, _health - remainingDamage);
@@ -123,12 +124,20 @@ public sealed class PlayerHealth : ScriptBehaviour
         PublishStatus();
     }
 
+    public void EquipArmourSlot()
+    {
+        if (_dead || ArmourSlots <= 0)
+            return;
+        _armourSlots--;
+        PublishStatus();
+    }
+
     public bool AddArmourSlot()
     {
         var capacity = Math.Max(0, maximumArmourSlots);
         if (_dead || ArmourSlots >= capacity)
             return false;
-        ArmourSlots++;
+        _armourSlots++;
         PublishStatus();
         return true;
     }
@@ -144,7 +153,7 @@ public sealed class PlayerHealth : ScriptBehaviour
         }
 
         _health = MathF.Max(1.0f, maximumHealth);
-        ArmourSlots = 0;
+        _armourSlots = 0;
         _dead = false;
         _lastDamageAt = _time;
         _invulnerableUntil = _time + MathF.Max(0.0f, respawnInvulnerability);

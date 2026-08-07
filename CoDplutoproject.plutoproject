@@ -5,7 +5,7 @@ STARTUP_SCENE	project://Scenes/Main.plutoscene
 SCRIPT_ASSEMBLY	project://Managed/CoD.Scripts.dll
 WINDOW_TITLE	CoD
 WINDOW_SIZE	1280	720
-VSYNC	0
+VSYNC	1
 EDITOR_FONT_SIZE	13
 EDITOR_CAMERA_POSITION	13.5271	0.56381	-1.73717
 EDITOR_CAMERA_SPEED	6
@@ -117,7 +117,7 @@ ASSET	project://Prefabs/ArmourPickup.plutoprefab	1848	Prefab
 ASSET	project://Prefabs/Enemy.plutoprefab	32036	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1849	Prefab
 ASSET	project://Prefabs/RemotePlayer.plutoprefab	1451	Prefab
-ASSET	project://Scenes/Main.plutoscene	125562	Scene
+ASSET	project://Scenes/Main.plutoscene	125560	Scene
 ASSET	project://Scenes/Title.plutoscene	23641	Scene
 ASSET	project://Scripts/EnemySoldierBot.cs	17297	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4012	Script
