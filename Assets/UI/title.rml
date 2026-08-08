@@ -1,0 +1,29 @@
+<rml>
+
+  <head>
+    <title>Pluto Combat</title>
+    <link type="text/rcss" href="title.rcss" />
+  </head>
+
+  <body>
+    <div id="title-screen">
+      <div id="menu">
+        <div id="game-title">PLUTO COMBAT</div>
+        <div class="field-row">
+          <label for="username">Username</label>
+          <input tabindex="0" id="username" type="text" value="Player" maxlength="20" />
+        </div>
+        <div class="field-row">
+          <label for="address">Host IP</label>
+          <input tabindex="1" id="address" type="text" value="127.0.0.1" maxlength="15" />
+        </div>
+        <div id="actions">
+          <button tabindex="2" id="host" class="action host">HOST GAME</button>
+          <button tabindex="3" id="join" class="action join">JOIN GAME</button>
+        </div>
+        <div id="status">Enter a username, then host or join a game.</div>
+        <div id="instructions">Click a field to edit it. Tab moves through fields and buttons.</div>
+      </div>
+    </div>
+  </body>
+</rml>

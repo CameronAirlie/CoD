@@ -101,8 +101,8 @@ ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.pluto
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutoanim	954	Animation
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	2611229	Mesh
 ASSET	project://Managed/CoD.Scripts.deps.json	806	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	86016	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	35700	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	85504	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	35272	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	424	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	204800	Assembly
 ASSET	project://Managed/PlutoGE.ScriptCore.pdb	73424	Unknown
@@ -118,7 +118,7 @@ ASSET	project://Prefabs/Enemy.plutoprefab	32036	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1849	Prefab
 ASSET	project://Prefabs/RemotePlayer.plutoprefab	1451	Prefab
 ASSET	project://Scenes/Main.plutoscene	125560	Scene
-ASSET	project://Scenes/Title.plutoscene	23641	Scene
+ASSET	project://Scenes/Title.plutoscene	7140	Scene
 ASSET	project://Scripts/EnemySoldierBot.cs	17297	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4012	Script
 ASSET	project://Scripts/InventoryMenu.cs	6162	Script
@@ -131,7 +131,7 @@ ASSET	project://Scripts/PlayerHud.cs	6196	Script
 ASSET	project://Scripts/PlayerInventory.cs	3817	Script
 ASSET	project://Scripts/SupplyPickup.cs	2088	Script
 ASSET	project://Scripts/SupplySpawner.cs	2830	Script
-ASSET	project://Scripts/TitleScreen.cs	5297	Script
+ASSET	project://Scripts/TitleScreen.cs	3113	Script
 ASSET	project://Scripts/UIManager.cs	5138	Script
 ASSET	project://Sounds/engine.wav	760364	Audio
 ASSET	project://Sounds/footsteps.wav	728108	Audio
@@ -239,5 +239,7 @@ ASSET	project://UI/hud.rcss	1953	Unknown
 ASSET	project://UI/hud.rml	1286	RML Document
 ASSET	project://UI/inventory.rcss	1673	Unknown
 ASSET	project://UI/inventory.rml	1484	RML Document
+ASSET	project://UI/title.rcss	1999	Unknown
+ASSET	project://UI/title.rml	1118	RML Document
 ASSET	project://UI/pause-menu.rcss	1275	Unknown
 ASSET	project://UI/pause-menu.rml	586	RML Document

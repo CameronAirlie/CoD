@@ -1,0 +1,116 @@
+@font-face {
+    font-family: GameUIFont;
+    src: url("../Fonts/Georama.ttf");
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    color: #ffffff;
+    font-family: GameUIFont;
+}
+
+#title-screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#menu {
+    width: 560px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#game-title {
+    margin-bottom: 24px;
+    color: #edf5ff;
+    font-size: 64px;
+    text-align: center;
+    text-shadow: 2px 2px #000000e6;
+}
+
+button {
+    font-family: GameUIFont;
+    tab-index: auto;
+}
+
+.field-row {
+    width: 100%;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    background-color: #0d1424f2;
+    border: 2px solid #24344b;
+    border-radius: 10px;
+}
+
+.field-row:hover {
+    background-color: #142238f2;
+    border-color: #58c8ff;
+}
+
+label {
+    width: 140px;
+    margin-left: 20px;
+    color: #93a9c4;
+    font-size: 22px;
+}
+
+input {
+    width: 368px;
+    height: 52px;
+    padding: 0 12px;
+    color: #ffffff;
+    background-color: transparent;
+    border: 0;
+    font-family: GameUIFont;
+    font-size: 28px;
+    caret-color: #58c8ff;
+    selection-background-color: #287cfb;
+    tab-index: auto;
+}
+
+input:focus { color: #ffffff; }
+
+#actions {
+    width: 100%;
+    margin-top: 8px;
+    display: flex;
+    gap: 20px;
+}
+
+.action {
+    width: 270px;
+    height: 70px;
+    color: #ffffff;
+    border: 0;
+    border-radius: 12px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.host { background-color: #15c765; }
+.join { background-color: #2168d8; }
+.host:hover, .host:focus { background-color: #19e576; }
+.host:active { background-color: #109b4f; }
+.join:hover, .join:focus { background-color: #287cfb; }
+.join:active { background-color: #194fa5; }
+
+#status {
+    height: 50px;
+    margin-top: 10px;
+    color: #bfd1eb;
+    font-size: 20px;
+    text-align: center;
+}
+
+#instructions {
+    color: #8094b3;
+    font-size: 18px;
+    text-align: center;
+}
