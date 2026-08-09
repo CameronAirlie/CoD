@@ -30,7 +30,8 @@ public sealed class PlayerInventory : ScriptBehaviour
         _health = GameObject.GetComponent<PlayerHealth>();
     }
 
-    public override void OnUpdate(float deltaTime)
+    /// <summary>Advances an active use action. Called by the owning player controller.</summary>
+    public void TickUse(float deltaTime)
     {
         if (_activeUse == UseAction.None || deltaTime <= 0.0f)
             return;

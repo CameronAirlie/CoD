@@ -1,12 +1,12 @@
-Color=0.0700747,0.0766005,0.0908375,1
+Color=0.205224,0.470149,1,1
 SurfaceType=Standard
 AlphaMode=Opaque
 AlphaCutoff=0.5
 CastsShadow=true
 UvScale=1,1
-Metallic=1
-Roughness=0.04
-Emission=0,0,0
+Metallic=0
+Roughness=0.55
+Emission=3,25,50
 Transmission=0
 Ior=1.45
 Thickness=0.01

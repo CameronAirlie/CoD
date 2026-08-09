@@ -11,18 +11,18 @@ Parameter 1 "Samples" "8" 0
 Parameter 1 "Blur Radius" "1" 0
 Parameter 3 "Half Resolution" "false" 0
 Parameter 3 "AO Only" "false" 0
-Effect "VCTGI" 1 18
-Parameter 4 "Resolution" "0" 2 "64" "128"
+Effect "VCTGI" 0 18
+Parameter 4 "Resolution" "1" 2 "64" "128"
 Parameter 1 "Cascade Count" "2" 0
-Parameter 0 "Volume Size" "48.000000" 0
-Parameter 0 "Intensity" "5.000000" 0
-Parameter 1 "Cone Count" "5" 0
-Parameter 4 "Trace Quality" "0" 2 "Balanced" "High"
+Parameter 0 "Volume Size" "40.000000" 0
+Parameter 0 "Intensity" "3.000000" 0
+Parameter 1 "Cone Count" "6" 0
+Parameter 4 "Trace Quality" "1" 2 "Balanced" "High"
 Parameter 3 "Inject Local Lights" "true" 0
 Parameter 1 "Voxelization LOD Bias" "0" 0
 Parameter 1 "Voxelization Command Budget" "8" 0
 Parameter 0 "Cone Aperture" "0.550000" 0
-Parameter 0 "Max Distance" "24.000000" 0
+Parameter 0 "Max Distance" "85.000000" 0
 Parameter 0 "Normal Bias" "0.350000" 0
 Parameter 1 "Update Interval" "1" 0
 Parameter 0 "Temporal Blend" "0.920000" 0
@@ -33,7 +33,7 @@ Parameter 3 "Indirect Only" "false" 0
 Effect "VolumetricFog" 0 14
 Parameter 0 "Density" "0.035000" 0
 Parameter 0 "Height Falloff" "0.120000" 0
-Parameter 0 "Height Offset" "-55.000000" 0
+Parameter 0 "Height Offset" "-40.000000" 0
 Parameter 0 "Max Distance" "80.000000" 0
 Parameter 0 "Scattering" "0.650000" 0
 Parameter 0 "Anisotropy" "0.200000" 0
@@ -45,7 +45,7 @@ Parameter 3 "Half Resolution" "true" 0
 Parameter 0 "Color R" "1.000000" 0
 Parameter 0 "Color G" "1.000000" 0
 Parameter 0 "Color B" "1.000000" 0
-Effect "SSR" 1 9
+Effect "SSR" 0 9
 Parameter 0 "Intensity" "0.800000" 0
 Parameter 0 "Max Ray Distance" "30.000000" 0
 Parameter 0 "Thickness" "0.350000" 0
@@ -55,7 +55,7 @@ Parameter 1 "Binary Search Steps" "5" 0
 Parameter 0 "Edge Fade" "0.120000" 0
 Parameter 0 "Fresnel Power" "5.000000" 0
 Parameter 0 "Metallic Boost" "0.750000" 0
-Effect "Bloom" 1 5
+Effect "Bloom" 0 5
 Parameter 0 "Intensity" "0.100000" 0
 Parameter 0 "Threshold" "1.000000" 0
 Parameter 0 "Soft Knee" "0.500000" 0
@@ -72,8 +72,8 @@ Parameter 0 "Exposure" "1.000000" 0
 Parameter 0 "Gamma" "2.200000" 0
 Effect "LensFlare" 1 5
 Parameter 2 "Texture Path" "" 0
-Parameter 0 "Intensity" "0.350000" 0
-Parameter 0 "Threshold" "1.000000" 0
+Parameter 0 "Intensity" "0.100000" 0
+Parameter 0 "Threshold" "2.000000" 0
 Parameter 0 "Scale" "1.000000" 0
 Parameter 0 "Ghost Dispersal" "0.550000" 0
 Effect "TAA" 1 10

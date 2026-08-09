@@ -1,0 +1,42 @@
+SCENE	1
+ENTITY	4612	0	1	Lightsaber	7.079390,2.822327,4.785084	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	4613	4612	1	Hilt	0.000000,-0.047032,0.000000	0.000000,0.000000,0.000000	0.101788,0.234641,0.101788
+COMPONENT	4613	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	1	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Lightsaber_hilt.plutomaterial	0
+END_COMPONENT
+ENTITY	4614	4612	1	Blade	0.000000,0.407890,0.000000	0.000000,0.000000,0.000000	0.070928,0.956556,0.070928
+COMPONENT	4614	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cylinder	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cylinder	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlotCount	1	1	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Lightsaber_blade.plutomaterial	0
+END_COMPONENT
+ENTITY	4615	4614	1	Light	0.000000,-0.261700,0.000000	0.000000,0.000000,0.000000	1.000000,0.999999,1.000000
+COMPONENT	4615	LightComponent
+PROPERTY	Color	3	0.300000,2.500000,5.000000	0
+PROPERTY	Intensity	0	10.000000	0
+PROPERTY	Range	0	10.000000	0
+PROPERTY	CastsShadows	4	false	0
+PROPERTY	Direction	3	-0.000000,-0.000000,-1.000000	0
+PROPERTY	LightType	6	0	3	Point	Directional	Spot
+PROPERTY	Static	4	false	0
+END_COMPONENT

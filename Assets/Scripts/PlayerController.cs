@@ -159,6 +159,7 @@ public sealed class PlayerController : ScriptBehaviour
     private uint _interactionTargetId;
     private GameObject? _interactionTarget;
     private float _interactionProbeCooldown;
+    private Vector2 _mouseDelta;
 
     public override void OnCreate()
     {
@@ -202,7 +203,10 @@ public sealed class PlayerController : ScriptBehaviour
             return;
         }
 
-        if (Input.CursorLocked && _inventory is not null)
+        _inventory?.TickUse(deltaTime);
+
+        var cursorLocked = Input.CursorLocked;
+        if (cursorLocked && _inventory is not null)
         {
             if (Input.IsKeyPressed(KeyCode.H))
                 _inventory.BeginUseHealthKit();
@@ -210,7 +214,7 @@ public sealed class PlayerController : ScriptBehaviour
                 _inventory.BeginUseArmourPlate();
         }
 
-        if (!Input.CursorLocked)
+        if (!cursorLocked)
         {
             _horizontalVelocity = Vector3.Zero;
             _sprinting = false;
@@ -224,6 +228,7 @@ public sealed class PlayerController : ScriptBehaviour
         // }
 
         _shotCooldown = MathF.Max(0.0f, _shotCooldown - deltaTime);
+        _mouseDelta = Input.MouseDelta;
         UpdateReload(deltaTime);
         UpdateLook(deltaTime);
         UpdateMovement(deltaTime);
@@ -237,13 +242,8 @@ public sealed class PlayerController : ScriptBehaviour
     {
         _recoilPitchOffset = Damp(_recoilPitchOffset, 0.0f, recoilRecovery, deltaTime);
         _recoilYawOffset = Damp(_recoilYawOffset, 0.0f, recoilRecovery, deltaTime);
-        if (!Input.CursorLocked)
-        {
-            return;
-        }
-
         var sensitivity = mouseSensitivity * (_aiming ? adsSensitivityMultiplier : 1.0f);
-        var mouse = Input.MouseDelta;
+        var mouse = _mouseDelta;
         _yaw -= mouse.X * sensitivity;
         _pitch = Math.Clamp(_pitch - mouse.Y * sensitivity, minimumPitch, maximumPitch);
         Rotation = new Vector3(0.0f, _yaw + _recoilYawOffset, 0.0f);
@@ -273,7 +273,7 @@ public sealed class PlayerController : ScriptBehaviour
         var moveDirection = right * input.X + forward * input.Y;
         if (moveDirection.LengthSquared() > 1.0f) moveDirection = Vector3.Normalize(moveDirection);
 
-        _aiming = Input.CursorLocked && Input.IsMouseButtonDown(MouseButton.Right) && !_reloading;
+        _aiming = Input.IsMouseButtonDown(MouseButton.Right) && !_reloading;
         var wantsCrouch = Input.IsKeyDown(KeyCode.LeftControl) || _sliding;
         var canSprint = input.Y > 0.1f && !_aiming && !_reloading && !_crouching;
         _sprinting = _grounded && Input.IsKeyDown(KeyCode.LeftShift) && canSprint;
@@ -357,7 +357,7 @@ public sealed class PlayerController : ScriptBehaviour
         var fireHeld = automaticFire
             ? Input.IsMouseButtonDown(MouseButton.Left)
             : Input.IsMouseButtonPressed(MouseButton.Left);
-        if (Input.CursorLocked && fireHeld && !_sprinting && !_sliding)
+        if (fireHeld && !_sprinting && !_sliding)
         {
             TryFire();
         }
@@ -371,7 +371,7 @@ public sealed class PlayerController : ScriptBehaviour
         if (moving) _bobTime += deltaTime * bobFrequency * (_sprinting ? 1.35f : 1.0f);
         var bobScale = moving && !_aiming ? bobAmount : 0.0f;
         var bob = new Vector3(MathF.Cos(_bobTime) * bobScale, MathF.Abs(MathF.Sin(_bobTime)) * bobScale, 0.0f);
-        var sway = Input.MouseDelta * weaponSway;
+        var sway = _mouseDelta * weaponSway;
         var target = (_aiming ? adsPosition : hipPosition) + bob + new Vector3(sway.X, -sway.Y, 0.0f);
         weaponModel.Position = SmoothDamp(weaponModel.Position, target, ref _weaponVelocity,
             1.0f / MathF.Max(weaponPositionSharpness, 0.01f), deltaTime);
@@ -503,12 +503,6 @@ public sealed class PlayerController : ScriptBehaviour
 
     private void UpdateInteraction(float deltaTime)
     {
-        if (!Input.CursorLocked)
-        {
-            SetInteractionTarget(null);
-            return;
-        }
-
         if (Input.IsKeyPressed(KeyCode.E) && _interactionTarget is not null)
         {
             _interactionTarget.TryInvoke(interactMethod, GameObject);

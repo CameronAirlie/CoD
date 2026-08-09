@@ -17,6 +17,7 @@ public sealed class UIManager : ScriptBehaviour
     private RmlDocument? _hudDocument;
     private bool _isPaused;
     private bool _isInventoryOpen;
+    private bool _needsInitialPresentation = true;
     private float _previousTimeScale = 1.0f;
 
     public bool IsPaused => _isPaused;
@@ -60,6 +61,14 @@ public sealed class UIManager : ScriptBehaviour
 
     public override void OnUpdate(float deltaTime)
     {
+        // Scene and RML initialization can change cursor capture after OnCreate.
+        // Reapply the initial gameplay state once the scene is fully live.
+        if (_needsInitialPresentation)
+        {
+            _needsInitialPresentation = false;
+            ApplyPresentation();
+        }
+
         if (Input.IsKeyPressed(KeyCode.Tab) && !_isPaused)
             SetInventoryOpen(!_isInventoryOpen);
 

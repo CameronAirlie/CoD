@@ -5,8 +5,8 @@ using PlutoGE.ScriptCore;
 namespace CoD.Scripts;
 
 /// <summary>
-/// A lightweight infantry bot: acquires the player, chases, strafes, checks
-/// line-of-sight, fires in bursts, takes damage, and dies.
+/// An infantry bot which repeatedly takes a useful firing position, holds it,
+/// and engages the player whenever it has line-of-sight.
 /// </summary>
 public sealed class EnemySoldierBot : ScriptBehaviour
 {
@@ -24,17 +24,19 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     [SerializedField] private float attackRange = 28.0f;
     [SerializedField] private float firingAngle = 8.0f;
     [SerializedField] private float preferredRange = 14.0f;
-    [SerializedField] private float moveSpeed = 4.2f;
-    [SerializedField] private float strafeSpeed = 2.2f;
     [SerializedField] private float turnSharpness = 10.0f;
     [SerializedField] private float eyeHeight = 1.45f;
     [SerializedField] private float targetHeight = 0.75f;
-    [SerializedField] private float tacticalRepathMin = 0.65f;
-    [SerializedField] private float tacticalRepathMax = 1.25f;
-    [SerializedField] private float flankAngle = 55.0f;
-    [SerializedField] private float retreatRange = 7.0f;
+    [SerializedField] private float positionSearchRadiusMin = 8.0f;
+    [SerializedField] private float positionSearchRadiusMax = 22.0f;
+    [SerializedField] private int positionSamples = 12;
+    [SerializedField] private float arrivalDistance = 1.25f;
+    [SerializedField] private float positionMoveTimeout = 8.0f;
+    [SerializedField] private float holdTimeMin = 2.0f;
+    [SerializedField] private float holdTimeMax = 4.0f;
     [SerializedField] private float reactionTime = 0.3f;
     [SerializedField] private float perceptionRefreshInterval = 0.1f;
+    [SerializedField] private float aimLineOfSightGrace = 0.5f;
     [SerializedField] private float roundsPerMinute = 600.0f;
     [SerializedField] private int burstMin = 3;
     [SerializedField] private int burstMax = 7;
@@ -57,23 +59,24 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private float _spottedAt = float.MaxValue;
     private float _nextShotAt;
     private float _nextBurstAt;
-    private float _nextStrafeChangeAt;
     private float _destroyAt;
     private int _shotsLeft;
-    private int _strafeDirection = 1;
     private uint _randomState;
     private bool _dead;
     private Vector3 _previousPosition;
     private Vector3 _navigationDestination;
     private Vector3 _lastKnownTargetPosition;
-    private float _nextTacticalDecisionAt;
+    private float _holdUntil;
+    private float _positionMoveDeadline;
     private float _nextPerceptionRefreshAt;
+    private float _lastLineOfSightAt = float.MinValue;
     private float _lastAnimationSpeed = float.NaN;
     private bool _lastHasTarget;
     private bool _hasLastHasTarget;
     private bool _lastDead;
     private bool _hasLastDead;
     private bool _cachedLineOfSight;
+    private bool _isHolding;
 
     public override void OnCreate()
     {
@@ -91,7 +94,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         if (target is not null)
         {
             _lastKnownTargetPosition = target.WorldPosition;
-            ChooseTacticalDestination(false);
+            ChooseTacticalDestination();
         }
         UpdateNavigationTarget();
         SetAnimationFloat(movementSpeedParameter, 0.0f);
@@ -147,15 +150,23 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         }
         var hasLineOfSight = _cachedLineOfSight;
         if (hasLineOfSight)
+        {
             _lastKnownTargetPosition = targetPosition;
+            _lastLineOfSightAt = _time;
+        }
 
-        if (_time >= _nextTacticalDecisionAt)
-            ChooseTacticalDestination(hasLineOfSight);
+        UpdatePositioning(position);
+        // The navigation marker is a child of the bot in the prefab. Pinning
+        // its world position every frame prevents it travelling along with its
+        // parent and creating a destination the bot can never reach.
+        UpdateNavigationTarget();
 
-        // Start turning as soon as an unobstructed target is in detection range.
-        // Requiring the target to already be inside the vision cone here creates
-        // a deadlock: a target outside the cone can never cause the bot to turn.
-        if (hasLineOfSight)
+        // Keep aiming briefly through single-frame visibility failures. Without
+        // this hysteresis the bot snaps between the player and its waypoint as
+        // raycasts skim corners or another enemy crosses the shot.
+        var shouldAimAtTarget = hasLineOfSight ||
+            _time <= _lastLineOfSightAt + MathF.Max(0.0f, aimLineOfSightGrace);
+        if (shouldAimAtTarget)
             TurnTowards(direction, deltaTime);
         else
             TurnTowardsNavigation(deltaTime);
@@ -201,71 +212,75 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             : null;
     }
 
-    private Vector3 ChooseMovement(Vector3 forward, float distance, bool canSeeTarget)
+    private void UpdatePositioning(Vector3 position)
     {
-        if (!canSeeTarget)
-            return Vector3.Zero;
-
-        if (distance > preferredRange * 1.15f)
-            return forward * moveSpeed;
-
-        if (_time >= _nextStrafeChangeAt)
+        var offset = _navigationDestination - position;
+        offset.Y = 0.0f;
+        if (!_isHolding && offset.LengthSquared() <= arrivalDistance * arrivalDistance)
         {
-            _strafeDirection = NextRandom01() < 0.5f ? -1 : 1;
-            _nextStrafeChangeAt = _time + Lerp(0.7f, 1.8f, NextRandom01());
+            _isHolding = true;
+            _holdUntil = _time + Lerp(holdTimeMin, MathF.Max(holdTimeMin, holdTimeMax), NextRandom01());
+            _navigationDestination = position;
+            UpdateNavigationTarget();
         }
-
-        var right = new Vector3(-forward.Z, 0.0f, forward.X);
-        var radial = distance < preferredRange * 0.7f ? -forward * moveSpeed * 0.65f : Vector3.Zero;
-        return radial + right * (_strafeDirection * strafeSpeed);
+        else if (_isHolding && _time >= _holdUntil)
+        {
+            ChooseTacticalDestination();
+        }
+        else if (!_isHolding && _time >= _positionMoveDeadline)
+        {
+            // A sampled point may be outside the baked navigation mesh. Give
+            // up after a bounded time and select another position.
+            ChooseTacticalDestination();
+        }
     }
 
-    private void ChooseTacticalDestination(bool hasLineOfSight)
+    private void ChooseTacticalDestination()
     {
         if (target is null || navigationTarget is null)
             return;
 
-        var targetPosition = hasLineOfSight ? target.WorldPosition : _lastKnownTargetPosition;
-        var fromTarget = GameObject.WorldPosition - targetPosition;
-        fromTarget.Y = 0.0f;
-        var distance = fromTarget.Length();
-        var radial = distance > 0.001f ? fromTarget / distance : GameObject.Forward;
-        radial.Y = 0.0f;
-        if (radial.LengthSquared() < 0.001f)
-            radial = Vector3.UnitZ;
-        radial = Vector3.Normalize(radial);
+        var playerPosition = target.WorldPosition;
+        var botPosition = GameObject.WorldPosition;
+        var bestPosition = _lastKnownTargetPosition;
+        var bestScore = float.MinValue;
+        var samples = Math.Clamp(positionSamples, 4, 32);
+        var minimumRadius = MathF.Max(2.0f, positionSearchRadiusMin);
+        var maximumRadius = MathF.Max(minimumRadius, positionSearchRadiusMax);
 
-        var side = NextRandom01() < 0.5f ? -1.0f : 1.0f;
-        Vector3 destination;
-        if (!hasLineOfSight)
+        // Test positions around the player. Clear shooting lanes score highest;
+        // weapon-range positions are preferred, with a small travel penalty so
+        // the bot does not cross the whole arena for a marginal improvement.
+        var angleOffset = NextRandom01() * 360.0f;
+        for (var index = 0; index < samples; index++)
         {
-            // Push toward the last contact from alternating angles instead of
-            // tracking the player's live transform through walls.
-            destination = targetPosition + RotateY(radial, side * flankAngle) * (preferredRange * 0.55f);
-        }
-        else if (distance < retreatRange)
-        {
-            // Break away from point-blank fights while biasing sideways so bots
-            // do not simply reverse down the same path.
-            destination = targetPosition + RotateY(radial, side * 25.0f) * preferredRange;
-        }
-        else if (distance > preferredRange * 1.35f)
-        {
-            // Close to weapon range on a shallow flank.
-            destination = targetPosition + RotateY(radial, side * 20.0f) * preferredRange;
-        }
-        else
-        {
-            // Reposition around the player between bursts, producing the
-            // lateral pressure expected from an arena/FPS bot.
-            destination = targetPosition + RotateY(radial, side * flankAngle) * preferredRange;
+            var angle = angleOffset + index * (360.0f / samples);
+            var radius = Lerp(minimumRadius, maximumRadius, NextRandom01());
+            var candidate = playerPosition + RotateY(Vector3.UnitZ, angle) * radius;
+            candidate.Y = botPosition.Y;
+
+            var shotDistance = Vector3.Distance(candidate, playerPosition);
+            var clearShot = HasLineOfSightFrom(candidate, playerPosition);
+            var rangeError = MathF.Abs(shotDistance - preferredRange);
+            var travelDistance = Vector3.Distance(botPosition, candidate);
+            var score = (clearShot ? 1000.0f : 0.0f) - rangeError * 4.0f - travelDistance * 0.35f;
+            if (score > bestScore)
+            {
+                bestScore = score;
+                bestPosition = candidate;
+            }
         }
 
-        destination.Y = targetPosition.Y;
-        _navigationDestination = destination;
+        // If no sampled firing lane is clear, advance toward the last place the
+        // player was seen. The next search will fan out from there.
+        if (bestScore < 0.0f)
+            bestPosition = _lastKnownTargetPosition;
+
+        bestPosition.Y = botPosition.Y;
+        _navigationDestination = bestPosition;
+        _isHolding = false;
+        _positionMoveDeadline = _time + MathF.Max(1.0f, positionMoveTimeout);
         UpdateNavigationTarget();
-        _nextTacticalDecisionAt = _time +
-            Lerp(tacticalRepathMin, MathF.Max(tacticalRepathMin, tacticalRepathMax), NextRandom01());
     }
 
     private void UpdateNavigationTarget()
@@ -282,8 +297,21 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         var origin = position + Vector3.UnitY * eyeHeight;
         var aimPoint = targetPosition + Vector3.UnitY * targetHeight;
         var ray = aimPoint - origin;
-        return Physics.Raycast(origin, ray, MathF.Max(distance + 2.0f, ray.Length() + 0.2f), GameObject, out var hit)
+        var rayLength = ray.Length();
+        if (rayLength < 0.001f)
+            return true;
+        return Physics.Raycast(origin, ray / rayLength, MathF.Max(distance + 2.0f, rayLength + 0.2f), GameObject, out var hit)
             && (hit.Entity.EntityId == target.EntityId || hit.Entity.HasTag(targetTag));
+    }
+
+    private bool HasLineOfSightFrom(Vector3 position, Vector3 targetPosition)
+    {
+        var ray = targetPosition + Vector3.UnitY * targetHeight -
+                  (position + Vector3.UnitY * eyeHeight);
+        var rayLength = ray.Length();
+        return target is not null && rayLength >= 0.001f &&
+            Physics.Raycast(position + Vector3.UnitY * eyeHeight, ray / rayLength, rayLength + 0.2f, GameObject, out var hit) &&
+            (hit.Entity.EntityId == target.EntityId || hit.Entity.HasTag(targetTag));
     }
 
     private bool IsInsideVisionCone(Vector3 direction)

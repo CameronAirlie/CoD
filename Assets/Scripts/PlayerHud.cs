@@ -20,10 +20,14 @@ public sealed class PlayerHud : ScriptBehaviour
     private RmlElement? _interaction;
     private RmlElement? _health;
     private RmlElement? _healthValue;
+    private RmlElement? _crosshair;
     private RmlElement[] _armour = [];
     private RmlElement[] _arms = [];
     private UITween _spread = new(7.0f, 0.07f, UIEase.EaseOut);
     private float _hitTime;
+    private float _renderedGap = float.NaN;
+    private bool _spreadAnimating;
+    private bool _hitVisible;
     private bool _domReady;
 
     public override void OnCreate()
@@ -42,6 +46,7 @@ public sealed class PlayerHud : ScriptBehaviour
         _interaction = _document.Element("interaction");
         _health = _document.Element("health");
         _healthValue = _document.Element("health-value");
+        _crosshair = _document.Element("crosshair");
         _armour =
         [
             _document.Element("armour-0"),
@@ -93,7 +98,7 @@ public sealed class PlayerHud : ScriptBehaviour
     public override void OnUpdate(float deltaTime)
     {
         if (!_domReady && _document is not null && _controller is not null &&
-            _document.Element("crosshair").SetClass("headshot", false))
+            _crosshair is not null && _crosshair.SetClass("headshot", false))
         {
             _domReady = true;
             OnAmmoChanged(new FpsAmmoState(
@@ -106,14 +111,27 @@ public sealed class PlayerHud : ScriptBehaviour
             OnInteractionChanged(null);
         }
         if (_arms.Length != 4) return;
-        var gap = _spread.Update(deltaTime);
-        _arms[0].SetStyle("top", -gap);
-        _arms[1].SetStyle("left", gap);
-        _arms[2].SetStyle("top", gap);
-        _arms[3].SetStyle("left", -gap);
+        if (_spreadAnimating)
+        {
+            var gap = _spread.Update(deltaTime);
+            if (float.IsNaN(_renderedGap) || MathF.Abs(gap - _renderedGap) >= 0.01f)
+            {
+                _renderedGap = gap;
+                _arms[0].SetStyle("top", -gap);
+                _arms[1].SetStyle("left", gap);
+                _arms[2].SetStyle("top", gap);
+                _arms[3].SetStyle("left", -gap);
+            }
+            _spreadAnimating = MathF.Abs(gap - _spread.Target) >= 0.01f;
+        }
 
+        if (_hitTime <= 0.0f) return;
         _hitTime = MathF.Max(0.0f, _hitTime - MathF.Max(deltaTime, 0.0f));
-        foreach (var arm in _arms) arm.SetClass("hit", _hitTime > 0.0f);
+        if (_hitTime <= 0.0f && _hitVisible)
+        {
+            _hitVisible = false;
+            foreach (var arm in _arms) arm.SetClass("hit", false);
+        }
     }
 
     private void OnAmmoChanged(FpsAmmoState state)
@@ -129,13 +147,19 @@ public sealed class PlayerHud : ScriptBehaviour
             : state.IsCrouching ? 5.0f
             : state.IsGrounded ? 7.0f : 14.0f;
         _spread.SetTarget(gap);
-        _document?.Element("crosshair").SetClass("hidden", state.IsSprinting);
+        _spreadAnimating = true;
+        _crosshair?.SetClass("hidden", state.IsSprinting);
     }
 
     private void OnHit(FpsHitEvent hit)
     {
         _hitTime = MathF.Max(0.01f, hitFlashDuration);
-        _document?.Element("crosshair").SetClass("headshot", hit.IsHeadshot);
+        if (!_hitVisible)
+        {
+            _hitVisible = true;
+            foreach (var arm in _arms) arm.SetClass("hit", true);
+        }
+        _crosshair?.SetClass("headshot", hit.IsHeadshot);
     }
 
     private void OnInteractionChanged(GameObject? target)
