@@ -10,10 +10,12 @@ namespace CoD.Scripts;
 /// </summary>
 public sealed class EnemySoldierBot : ScriptBehaviour
 {
+    public bool IsExternalNavigationControlled => _externalNavigationControl;
     [SerializedField] private GameObject? target;
     [SerializedField] private GameObject? animationObject = null;
     [SerializedField] private GameObject? gunAudioObject = null;
     [SerializedField] private GameObject? navigationTarget = null;
+    [SerializedField] private GameObject? networkNameplate = null;
     [SerializedField] private string targetTag = "Player";
     [SerializedField] private string targetName = "Player";
     [SerializedField] private string targetDamageMethod = "TakeDamage";
@@ -77,6 +79,8 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private bool _hasLastDead;
     private bool _cachedLineOfSight;
     private bool _isHolding;
+    private bool _externalNavigationControl;
+    private bool _remoteProxyMode;
 
     public override void OnCreate()
     {
@@ -115,6 +119,20 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         {
             if (_time >= _destroyAt)
                 GameObject.Destroy();
+            return;
+        }
+
+
+        // TDM bots are directed by MultiplayerSession, while the native
+        // NavAgentComponent on this prefab remains responsible for pathfinding,
+        // collision-safe movement, and local avoidance.
+        if (_externalNavigationControl)
+        {
+            if (_remoteProxyMode)
+                _navigationDestination = GameObject.WorldPosition;
+            UpdateNavigationTarget();
+            SetAnimationFloat(movementSpeedParameter, navigationSpeed);
+            SetAnimationBool(hasTargetParameter, false);
             return;
         }
 
@@ -190,7 +208,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     public void TakeDamage(float amount)
     {
-        if (_dead || amount <= 0.0f)
+        if (_externalNavigationControl || _dead || amount <= 0.0f)
             return;
 
         _currentHealth -= amount;
@@ -201,6 +219,56 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     // Also accepts callers which do not provide a damage value.
     public void TakeDamage() => TakeDamage(25.0f);
+
+    public void SetExternalNavigationDestination(float x, float y, float z)
+    {
+        _externalNavigationControl = true;
+        _remoteProxyMode = false;
+        _dead = false;
+        _navigationDestination = new Vector3(x, y, z);
+        UpdateNavigationTarget();
+    }
+
+    public void ResetExternalNavigation(float x, float y, float z)
+    {
+        _externalNavigationControl = true;
+        _remoteProxyMode = false;
+        _dead = false;
+        _currentHealth = MathF.Max(1.0f, health);
+        GameObject.WorldPosition = new Vector3(x, y, z);
+        _previousPosition = GameObject.WorldPosition;
+        _navigationDestination = _previousPosition;
+        UpdateNavigationTarget();
+        SetAnimationBool(deadParameter, false);
+    }
+
+    public void SetRemoteProxyMode()
+    {
+        _externalNavigationControl = true;
+        _remoteProxyMode = true;
+        _dead = false;
+        _navigationDestination = GameObject.WorldPosition;
+        UpdateNavigationTarget();
+        SetAnimationBool(deadParameter, false);
+    }
+
+    public void PlayExternalShootAnimation()
+    {
+        if (!_externalNavigationControl) return;
+        SetAnimationBool(hasTargetParameter, true);
+        SetAnimationTrigger(shootTriggerParameter);
+        _gunAudio?.PlayOneShot();
+    }
+
+    public void ConfigureNetworkNameplate(string username, bool friendly)
+    {
+        if (networkNameplate is null || !networkNameplate.IsValid) return;
+        var label = networkNameplate.GetComponent<UITextComponent>();
+        networkNameplate.Active = friendly;
+        if (label is null) return;
+        label.Text = friendly ? $"[FRIENDLY] {username}" : string.Empty;
+        label.Color = new Vector3(0.22f, 0.68f, 1.0f);
+    }
 
     private void ResolveTarget()
     {

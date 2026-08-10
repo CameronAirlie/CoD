@@ -6,8 +6,22 @@
 <body>
     <div id="hud">
         <div id="objective" class="panel">
-            <div class="eyebrow">OBJECTIVE</div>
-            <div id="objective-title">Reach the extraction point</div>
+            <div class="eyebrow">TEAM DEATHMATCH</div>
+            <div id="match-phase">WAITING FOR PLAYERS</div>
+        </div>
+
+        <div id="match-strip" class="panel">
+            <span id="alpha-score" class="alpha">0</span>
+            <span id="match-clock">05:00</span>
+            <span id="bravo-score" class="bravo">0</span>
+        </div>
+
+        <div id="kill-feed"></div>
+
+        <div id="scoreboard" class="hidden panel">
+            <div class="scoreboard-title">TEAM DEATHMATCH</div>
+            <div class="scoreboard-heading"><span>PLAYER</span><span>K</span><span>D</span></div>
+            <div id="scoreboard-rows"></div>
         </div>
 
         <div id="crosshair">

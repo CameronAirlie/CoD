@@ -7,6 +7,19 @@ using PlutoGE.ScriptCore.Networking;
 
 namespace CoD.Scripts;
 
+public enum MatchPhase { Waiting, Warmup, Playing, Results }
+public enum PlayerTeam { Alpha, Bravo }
+
+public sealed record MatchPlayer(
+    int PeerId, string Username, PlayerTeam Team, int Kills, int Deaths, bool IsBot);
+
+public sealed record MatchSnapshot(
+    MatchPhase Phase, float SecondsRemaining, int ScoreLimit,
+    int AlphaScore, int BravoScore, int LocalPeerId, MatchPlayer[] Players);
+
+public sealed record KillFeedEntry(
+    string Killer, string Victim, PlayerTeam KillerTeam);
+
 /// <summary>
 /// Owns a multiplayer session and replicates player transforms. Attach one
 /// instance to the local Player and select Offline, Host, or Client.
@@ -15,30 +28,62 @@ public sealed class MultiplayerSession : ScriptBehaviour
 {
     private static MultiplayerSession? _activeSession;
 
-    private const int ProtocolVersion = 3;
+    private const int ProtocolVersion = 5;
     private const ushort HandshakeChannel = 1;
     private const ushort TransformChannel = 2;
     private const ushort PeerLeftChannel = 3;
     private const ushort ShootChannel = 4;
     private const ushort DamageChannel = 5;
     private const ushort PeerJoinedChannel = 6;
+    private const ushort MatchStateChannel = 7;
+    private const ushort KillFeedChannel = 8;
+    private const ushort ShotEffectChannel = 9;
+
+    public event Action<MatchSnapshot>? MatchUpdated;
+    public event Action<KillFeedEntry>? KillFeedReceived;
+    public MatchSnapshot? CurrentMatch { get; private set; }
+
+    public bool IsNetworkParticipant(uint entityId) => FindPeerForEntity(entityId) != -1;
 
     [SerializedField] private string mode = "Offline";
     [SerializedField] private string serverAddress = "127.0.0.1";
     [SerializedField] private int serverPort = 7777;
     [SerializedField] private float updatesPerSecond = 20.0f;
     [SerializedField] private string remotePlayerPrefab =
-        "project://Prefabs/RemotePlayer.plutoprefab";
+        "project://Prefabs/Enemy.plutoprefab";
+    [SerializedField] private string hostBotPrefab =
+        "project://Prefabs/Enemy.plutoprefab";
     [SerializedField] private float interpolationSharpness = 14.0f;
     [SerializedField] private GameObject? aimingCamera = null;
     [SerializedField] private float weaponDamage = 30.0f;
     [SerializedField] private float weaponRange = 180.0f;
     [SerializedField] private float roundsPerMinute = 720.0f;
+    [SerializedField] private float warmupDuration = 5.0f;
+    [SerializedField] private float matchDuration = 300.0f;
+    [SerializedField] private float resultsDuration = 10.0f;
+    [SerializedField] private int scoreLimit = 50;
+    [SerializedField] private float multiplayerMaximumHealth = 100.0f;
+    [SerializedField] private float combatRespawnDelay = 1.5f;
+    [SerializedField] private float multiplayerRegenerationDelay = 5.0f;
+    [SerializedField] private float multiplayerRegenerationPerSecond = 6.0f;
+    [SerializedField] private bool fillWithBots = true;
+    [SerializedField] private int minimumParticipants = 6;
+    [SerializedField] private int maximumBots = 5;
+    [SerializedField] private float botPreferredRange = 13.0f;
+    [SerializedField] private float botNavigationRefreshInterval = 0.3f;
+    [SerializedField] private float botStrafeOffset = 4.0f;
+    [SerializedField] private float botAttackRange = 35.0f;
+    [SerializedField] private float botRoundsPerMinute = 360.0f;
+    [SerializedField] private float botDamage = 18.0f;
+    [SerializedField] private float botAccuracyDegrees = 3.0f;
 
     private readonly Dictionary<int, RemotePlayer> _remotePlayers = new();
     private readonly HashSet<int> _authenticatedPeers = new();
     private readonly Dictionary<int, float> _lastAcceptedShotAt = new();
     private readonly Dictionary<int, string> _peerNames = new();
+    private readonly Dictionary<int, PlayerMatchState> _playerStates = new();
+    private readonly Dictionary<int, BotController> _bots = new();
+    private readonly Dictionary<int, MatchPlayer> _knownPlayers = new();
     private NetworkServer? _server;
     private NetworkClient? _client;
     private float _time;
@@ -46,6 +91,12 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private int _localPeerId = -1;
     private bool _shutDown;
     private float _nextLocalShotAt;
+    private float _nextMatchBroadcastAt;
+    private float _phaseEndsAt;
+    private MatchPhase _matchPhase = MatchPhase.Waiting;
+    private int _alphaScore;
+    private int _bravoScore;
+    private int _nextBotId = -1000;
     private int _hostStartAttempts;
     private float _nextHostStartAttemptAt;
     private string _username = "Player";
@@ -92,12 +143,19 @@ public sealed class MultiplayerSession : ScriptBehaviour
             StartHost();
         }
 
+        if (_server is not null)
+        {
+            UpdateMatch(safeDeltaTime);
+            UpdateBots(safeDeltaTime);
+        }
+
         _server?.Poll();
         _client?.Poll();
 
         if (_time >= _nextSendAt)
         {
             SendLocalTransform();
+            SendBotTransforms();
             _nextSendAt = _time + 1.0f / MathF.Max(1.0f, updatesPerSecond);
         }
 
@@ -122,6 +180,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
         _authenticatedPeers.Clear();
         _lastAcceptedShotAt.Clear();
         _peerNames.Clear();
+        _playerStates.Clear();
+        _bots.Clear();
         ClearRemotePlayers();
         _localPeerId = -1;
         if (ReferenceEquals(_activeSession, this))
@@ -135,6 +195,10 @@ public sealed class MultiplayerSession : ScriptBehaviour
         {
             _localPeerId = 0;
             _peerNames[0] = _username;
+            _playerStates[0] = new PlayerMatchState(PlayerTeam.Alpha, false)
+            {
+                Health = MathF.Max(1.0f, multiplayerMaximumHealth)
+            };
             _server = new NetworkServer();
             _server.ClientConnected += peerId =>
                 Debug.Log($"Network peer {peerId} connected; awaiting handshake.");
@@ -142,6 +206,15 @@ public sealed class MultiplayerSession : ScriptBehaviour
             _server.MessageReceived += OnServerMessage;
             _server.Error += exception => Debug.LogError($"Network server: {exception.Message}");
             _server.Start(CheckedPort());
+            BeginPhase(MatchPhase.Warmup, warmupDuration);
+            try
+            {
+                EnsureBotFill();
+            }
+            catch (Exception exception)
+            {
+                Debug.LogError($"TDM bot fill failed without stopping the match: {exception.Message}");
+            }
             _hostStartAttempts = 0;
             Debug.Log($"Hosting multiplayer on port {serverPort}.");
         }
@@ -219,8 +292,13 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 }
 
                 var username = SanitizeUsername(hello.Username, message.PeerId);
+                RemoveOneBot();
                 _authenticatedPeers.Add(message.PeerId);
                 _peerNames[message.PeerId] = username;
+                _playerStates[message.PeerId] = new PlayerMatchState(ChooseTeam(), false)
+                {
+                    Health = MathF.Max(1.0f, multiplayerMaximumHealth)
+                };
                 _server!.SendJson(
                     message.PeerId,
                     HandshakeChannel,
@@ -236,6 +314,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
                     PeerJoinedChannel,
                     new PeerJoined(message.PeerId, username),
                     message.PeerId);
+                BroadcastMatchState();
                 Debug.Log($"{username} joined the game as peer {message.PeerId}.");
                 return;
             }
@@ -310,6 +389,24 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 if (peer is not null)
                     Debug.Log($"{peer.Username} is peer {peer.PeerId}.");
             }
+            else if (message.Channel == MatchStateChannel)
+            {
+                var snapshot = message.GetJson<MatchSnapshot>();
+                if (snapshot is not null)
+                    PublishMatch(snapshot with { LocalPeerId = _localPeerId });
+            }
+            else if (message.Channel == KillFeedChannel)
+            {
+                var entry = message.GetJson<KillFeedEntry>();
+                if (entry is not null)
+                    KillFeedReceived?.Invoke(entry);
+            }
+            else if (message.Channel == ShotEffectChannel)
+            {
+                var effect = message.GetJson<ShotEffect>();
+                if (effect is not null)
+                    PlayRemoteShotEffect(effect.ShooterPeerId);
+            }
         }
         catch (Exception exception)
         {
@@ -352,7 +449,11 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
     private void ResolveShot(int shooterPeerId, ShotRequest shot)
     {
-        if (_server is null || !shot.IsFinite())
+        if (_server is null || _matchPhase != MatchPhase.Playing || !shot.IsFinite())
+            return;
+
+        if (!_playerStates.TryGetValue(shooterPeerId, out var shooterState) ||
+            shooterState.Health <= 0.0f)
             return;
 
         var minimumInterval = 60.0f / MathF.Max(1.0f, roundsPerMinute);
@@ -374,6 +475,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
             return;
 
         _lastAcceptedShotAt[shooterPeerId] = _time;
+        PublishShotEffect(shooterPeerId);
         if (!Physics.Raycast(
                 origin,
                 direction,
@@ -386,11 +488,20 @@ public sealed class MultiplayerSession : ScriptBehaviour
         if (targetPeerId < 0 || targetPeerId == shooterPeerId)
             return;
 
+        if (!_playerStates.TryGetValue(targetPeerId, out var targetState) ||
+            targetState.Team == shooterState.Team || targetState.Health <= 0.0f)
+            return;
+
         var damage = MathF.Max(0.0f, weaponDamage);
+        targetState.Health = MathF.Max(0.0f, targetState.Health - damage);
+        targetState.LastDamagedAt = _time;
         if (targetPeerId == 0)
             GameObject.TryInvoke("TakeDamage", damage);
-        else
+        else if (!_bots.ContainsKey(targetPeerId))
             _server.SendJson(targetPeerId, DamageChannel, new PlayerDamage(damage));
+
+        if (targetState.Health <= 0.0f)
+            RegisterKill(shooterPeerId, targetPeerId);
     }
 
     private int FindPeerForEntity(uint entityId)
@@ -422,7 +533,9 @@ public sealed class MultiplayerSession : ScriptBehaviour
             }
 
             remote = new RemotePlayer(instance, transform.Position, transform.Rotation);
+            instance.TryInvoke("SetRemoteProxyMode");
             _remotePlayers.Add(transform.PeerId, remote);
+            ConfigureNameplate(transform.PeerId, instance);
         }
         remote.TargetPosition = transform.Position;
         remote.TargetRotation = transform.Rotation;
@@ -435,8 +548,11 @@ public sealed class MultiplayerSession : ScriptBehaviour
         var username = _peerNames.Remove(peerId, out var peerName)
             ? peerName
             : $"Peer {peerId}";
+        _playerStates.Remove(peerId);
         RemoveRemotePlayer(peerId);
         _server?.BroadcastJson(PeerLeftChannel, new PeerLeft(peerId));
+        EnsureBotFill();
+        BroadcastMatchState();
         Debug.Log($"{username} left the game.");
     }
 
@@ -451,6 +567,393 @@ public sealed class MultiplayerSession : ScriptBehaviour
         foreach (var remote in _remotePlayers.Values)
             remote.GameObject.Destroy();
         _remotePlayers.Clear();
+    }
+
+    private void EnsureBotFill()
+    {
+        if (_server is null || !fillWithBots)
+        {
+            while (_bots.Count > 0) RemoveOneBot();
+            return;
+        }
+
+        var humanCount = _playerStates.Count - _bots.Count;
+        var desired = Math.Clamp(
+            Math.Max(0, minimumParticipants) - humanCount,
+            0,
+            Math.Max(0, maximumBots));
+        while (_bots.Count > desired) RemoveOneBot();
+        while (_bots.Count < desired && AddBot()) { }
+        BroadcastMatchState();
+    }
+
+    private bool AddBot()
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(hostBotPrefab))
+                return false;
+
+            var peerId = _nextBotId--;
+            var spawn = BotSpawnPosition(peerId);
+            var instance = Prefab.Instantiate(hostBotPrefab, spawn, Vector3.Zero);
+            if (instance is null)
+            {
+                Debug.LogWarning($"Could not instantiate TDM bot prefab '{hostBotPrefab}'.");
+                return false;
+            }
+
+            var team = ChooseTeam();
+            _peerNames[peerId] = $"[BOT] Operator {Math.Abs(peerId + 999)}";
+            _playerStates[peerId] = new PlayerMatchState(team, true)
+            {
+                Health = MathF.Max(1.0f, multiplayerMaximumHealth)
+            };
+            _remotePlayers[peerId] = new RemotePlayer(instance, spawn, Vector3.Zero);
+            _bots[peerId] = new BotController(instance, spawn, unchecked((uint)peerId * 747796405u));
+            instance.TryInvoke("ResetExternalNavigation", spawn.X, spawn.Y, spawn.Z);
+            Debug.Log($"Added {_peerNames[peerId]} to {team}.");
+            return true;
+        }
+        catch (Exception exception)
+        {
+            Debug.LogError($"Could not add TDM bot: {exception.Message}");
+            return false;
+        }
+    }
+
+    private void RemoveOneBot()
+    {
+        if (_bots.Count == 0) return;
+        var peerId = 0;
+        foreach (var id in _bots.Keys)
+        {
+            peerId = id;
+            break;
+        }
+        _bots.Remove(peerId);
+        _playerStates.Remove(peerId);
+        _peerNames.Remove(peerId);
+        RemoveRemotePlayer(peerId);
+        _server?.BroadcastJson(PeerLeftChannel, new PeerLeft(peerId));
+    }
+
+    private void SendBotTransforms()
+    {
+        if (_server is null) return;
+        foreach (var pair in _bots)
+            _server.BroadcastJson(TransformChannel, PlayerTransform.From(pair.Key, pair.Value.GameObject));
+    }
+
+    private void UpdateBots(float deltaTime)
+    {
+        if (_matchPhase != MatchPhase.Playing) return;
+        foreach (var pair in _bots)
+        {
+            var botId = pair.Key;
+            var bot = pair.Value;
+            if (!_playerStates.TryGetValue(botId, out var botState) || botState.Health <= 0.0f)
+                continue;
+
+            var targetId = FindNearestOpponent(botId, bot.GameObject.WorldPosition);
+            var targetObject = GetParticipantObject(targetId);
+            if (targetObject is null || !targetObject.IsValid) continue;
+
+            var offset = targetObject.WorldPosition - bot.GameObject.WorldPosition;
+            offset.Y = 0.0f;
+            var distance = offset.Length();
+            if (distance < 0.001f) continue;
+            var direction = offset / distance;
+            var right = new Vector3(direction.Z, 0.0f, -direction.X);
+            if (_time >= bot.NextNavigationAt)
+            {
+                var destination = targetObject.WorldPosition -
+                    direction * MathF.Max(2.0f, botPreferredRange) +
+                    right * bot.StrafeSign * MathF.Max(0.0f, botStrafeOffset);
+                destination.Y = bot.GameObject.WorldPosition.Y;
+                bot.GameObject.TryInvoke(
+                    "SetExternalNavigationDestination",
+                    destination.X, destination.Y, destination.Z);
+                bot.NextNavigationAt = _time + MathF.Max(0.05f, botNavigationRefreshInterval);
+            }
+            var rotation = bot.GameObject.WorldRotation;
+            rotation.Y = MathF.Atan2(-direction.X, -direction.Z) * 180.0f / MathF.PI;
+            bot.GameObject.WorldRotation = rotation;
+
+            if (_remotePlayers.TryGetValue(botId, out var remote))
+            {
+                remote.TargetPosition = bot.GameObject.WorldPosition;
+                remote.TargetRotation = bot.GameObject.WorldRotation;
+            }
+
+            if (distance <= MathF.Max(1.0f, botAttackRange) && _time >= bot.NextShotAt)
+            {
+                BotFire(botId, targetObject, bot);
+                bot.NextShotAt = _time + 60.0f / MathF.Max(1.0f, botRoundsPerMinute);
+            }
+        }
+    }
+
+    private int FindNearestOpponent(int peerId, Vector3 position)
+    {
+        if (!_playerStates.TryGetValue(peerId, out var source)) return int.MinValue;
+        var bestId = int.MinValue;
+        var bestDistance = float.MaxValue;
+        foreach (var pair in _playerStates)
+        {
+            if (pair.Key == peerId || pair.Value.Team == source.Team || pair.Value.Health <= 0.0f)
+                continue;
+            var candidate = GetParticipantObject(pair.Key);
+            if (candidate is null || !candidate.IsValid) continue;
+            var distance = Vector3.DistanceSquared(position, candidate.WorldPosition);
+            if (distance < bestDistance)
+            {
+                bestDistance = distance;
+                bestId = pair.Key;
+            }
+        }
+        return bestId;
+    }
+
+    private GameObject? GetParticipantObject(int peerId)
+        => peerId == 0 ? GameObject : _remotePlayers.GetValueOrDefault(peerId)?.GameObject;
+
+    private void BotFire(int botId, GameObject intendedTarget, BotController bot)
+    {
+        PublishShotEffect(botId);
+        var origin = bot.GameObject.WorldPosition + Vector3.UnitY * 0.65f;
+        var aimPoint = intendedTarget.WorldPosition + Vector3.UnitY * 0.65f;
+        var direction = aimPoint - origin;
+        if (direction.LengthSquared() < 0.001f) return;
+        direction = ApplyBotSpread(Vector3.Normalize(direction), botAccuracyDegrees, bot);
+        if (!Physics.Raycast(origin, direction, MathF.Max(1.0f, botAttackRange), bot.GameObject, out var hit))
+            return;
+        var victimId = FindPeerForEntity(hit.Entity.EntityId);
+        if (victimId == -1 || victimId == botId) return;
+        if (!_playerStates.TryGetValue(botId, out var shooter) ||
+            !_playerStates.TryGetValue(victimId, out var victim) ||
+            shooter.Team == victim.Team || victim.Health <= 0.0f)
+            return;
+
+        var damage = MathF.Max(0.0f, botDamage);
+        victim.Health = MathF.Max(0.0f, victim.Health - damage);
+        victim.LastDamagedAt = _time;
+        if (victimId == 0) GameObject.TryInvoke("TakeDamage", damage);
+        else if (!_bots.ContainsKey(victimId)) _server?.SendJson(victimId, DamageChannel, new PlayerDamage(damage));
+        if (victim.Health <= 0.0f) RegisterKill(botId, victimId);
+    }
+
+    private void PublishShotEffect(int shooterPeerId)
+    {
+        PlayRemoteShotEffect(shooterPeerId);
+        _server?.BroadcastJson(ShotEffectChannel, new ShotEffect(shooterPeerId));
+    }
+
+    private void PlayRemoteShotEffect(int shooterPeerId)
+    {
+        if (_remotePlayers.TryGetValue(shooterPeerId, out var remote))
+            remote.GameObject.TryInvoke("PlayExternalShootAnimation");
+    }
+
+    private void ConfigureAllNameplates()
+    {
+        foreach (var pair in _remotePlayers)
+            ConfigureNameplate(pair.Key, pair.Value.GameObject);
+    }
+
+    private void ConfigureNameplate(int peerId, GameObject proxy)
+    {
+        var friendly = _knownPlayers.TryGetValue(_localPeerId, out var localPlayer) &&
+            _knownPlayers.TryGetValue(peerId, out var remotePlayer) &&
+            localPlayer.Team == remotePlayer.Team;
+        var username = _knownPlayers.TryGetValue(peerId, out var player)
+            ? player.Username
+            : string.Empty;
+        proxy.TryInvoke("ConfigureNetworkNameplate", username, friendly);
+    }
+
+    private static Vector3 ApplyBotSpread(Vector3 direction, float degrees, BotController bot)
+    {
+        float Next()
+        {
+            bot.RandomState = bot.RandomState * 1664525u + 1013904223u;
+            return (bot.RandomState & 0x00ffffffu) / 16777216.0f;
+        }
+        var tangent = MathF.Tan(MathF.Max(0.0f, degrees) * MathF.PI / 180.0f);
+        var right = Vector3.Cross(direction, Vector3.UnitY);
+        if (right.LengthSquared() < 0.001f) right = Vector3.UnitX;
+        else right = Vector3.Normalize(right);
+        return Vector3.Normalize(direction + right * ((Next() * 2.0f - 1.0f) * tangent) +
+            Vector3.UnitY * ((Next() * 2.0f - 1.0f) * tangent));
+    }
+
+    private Vector3 BotSpawnPosition(int peerId)
+    {
+        var index = Math.Abs(peerId + 1000);
+        var angle = index * 2.3999632f;
+        var radius = 4.0f + index % 3 * 2.0f;
+        return GameObject.WorldPosition + new Vector3(MathF.Cos(angle) * radius, 0.0f, MathF.Sin(angle) * radius);
+    }
+
+    private void UpdateMatch(float deltaTime)
+    {
+        foreach (var pair in _playerStates)
+        {
+            var state = pair.Value;
+            if (state.Health <= 0.0f && _time >= state.RespawnAt)
+            {
+                state.Health = MathF.Max(1.0f, multiplayerMaximumHealth);
+                if (_bots.TryGetValue(pair.Key, out var bot))
+                {
+                    bot.GameObject.TryInvoke(
+                        "ResetExternalNavigation",
+                        bot.SpawnPosition.X, bot.SpawnPosition.Y, bot.SpawnPosition.Z);
+                    bot.NextShotAt = _time + 0.5f;
+                    bot.NextNavigationAt = _time + 0.5f;
+                }
+            }
+            else if (state.Health > 0.0f &&
+                     state.Health < multiplayerMaximumHealth &&
+                     _time >= state.LastDamagedAt + MathF.Max(0.0f, multiplayerRegenerationDelay))
+                state.Health = MathF.Min(
+                    multiplayerMaximumHealth,
+                    state.Health + MathF.Max(0.0f, multiplayerRegenerationPerSecond) * deltaTime);
+        }
+
+        if (_time >= _phaseEndsAt)
+        {
+            if (_matchPhase is MatchPhase.Waiting or MatchPhase.Warmup)
+                BeginPlaying();
+            else if (_matchPhase == MatchPhase.Playing)
+                BeginPhase(MatchPhase.Results, resultsDuration);
+            else
+                BeginPhase(MatchPhase.Warmup, warmupDuration);
+        }
+
+        if (_time >= _nextMatchBroadcastAt)
+        {
+            BroadcastMatchState();
+            _nextMatchBroadcastAt = _time + 0.25f;
+        }
+    }
+
+    private void BeginPlaying()
+    {
+        _alphaScore = 0;
+        _bravoScore = 0;
+        foreach (var state in _playerStates.Values)
+        {
+            state.Kills = 0;
+            state.Deaths = 0;
+            state.Health = MathF.Max(1.0f, multiplayerMaximumHealth);
+        }
+        foreach (var bot in _bots.Values)
+        {
+            bot.GameObject.TryInvoke(
+                "ResetExternalNavigation",
+                bot.SpawnPosition.X, bot.SpawnPosition.Y, bot.SpawnPosition.Z);
+            bot.NextShotAt = _time + 0.5f;
+            bot.NextNavigationAt = _time + 0.5f;
+        }
+        BeginPhase(MatchPhase.Playing, matchDuration);
+    }
+
+    private void BeginPhase(MatchPhase phase, float duration)
+    {
+        _matchPhase = phase;
+        _phaseEndsAt = _time + MathF.Max(0.1f, duration);
+        BroadcastMatchState();
+    }
+
+    private void RegisterKill(int killerPeerId, int victimPeerId)
+    {
+        if (!_playerStates.TryGetValue(killerPeerId, out var killer) ||
+            !_playerStates.TryGetValue(victimPeerId, out var victim))
+            return;
+
+        killer.Kills++;
+        victim.Deaths++;
+        victim.RespawnAt = _time + MathF.Max(0.1f, combatRespawnDelay);
+        if (_bots.TryGetValue(victimPeerId, out var victimBot))
+        {
+            var hidden = victimBot.GameObject.WorldPosition;
+            hidden.Y -= 100.0f;
+            victimBot.GameObject.WorldPosition = hidden;
+            victimBot.GameObject.TryInvoke(
+                "SetExternalNavigationDestination", hidden.X, hidden.Y, hidden.Z);
+            if (_remotePlayers.TryGetValue(victimPeerId, out var remote))
+                remote.TargetPosition = hidden;
+        }
+        if (killer.Team == PlayerTeam.Alpha) _alphaScore++;
+        else _bravoScore++;
+
+        var entry = new KillFeedEntry(
+            _peerNames.GetValueOrDefault(killerPeerId, $"Player{killerPeerId}"),
+            _peerNames.GetValueOrDefault(victimPeerId, $"Player{victimPeerId}"),
+            killer.Team);
+        _server?.BroadcastJson(KillFeedChannel, entry);
+        KillFeedReceived?.Invoke(entry);
+        BroadcastMatchState();
+
+        if (_alphaScore >= Math.Max(1, scoreLimit) || _bravoScore >= Math.Max(1, scoreLimit))
+            BeginPhase(MatchPhase.Results, resultsDuration);
+    }
+
+    private PlayerTeam ChooseTeam()
+    {
+        var alpha = 0;
+        var bravo = 0;
+        foreach (var state in _playerStates.Values)
+        {
+            if (state.Team == PlayerTeam.Alpha) alpha++;
+            else bravo++;
+        }
+        return alpha <= bravo ? PlayerTeam.Alpha : PlayerTeam.Bravo;
+    }
+
+    private void BroadcastMatchState()
+    {
+        var players = new MatchPlayer[_playerStates.Count];
+        var index = 0;
+        foreach (var pair in _playerStates)
+        {
+            var state = pair.Value;
+            players[index++] = new MatchPlayer(
+                pair.Key,
+                _peerNames.GetValueOrDefault(pair.Key, $"Player{pair.Key}"),
+                state.Team,
+                state.Kills,
+                state.Deaths,
+                state.IsBot);
+        }
+
+        Array.Sort(players, static (left, right) =>
+        {
+            var team = left.Team.CompareTo(right.Team);
+            if (team != 0) return team;
+            var kills = right.Kills.CompareTo(left.Kills);
+            return kills != 0 ? kills : left.Deaths.CompareTo(right.Deaths);
+        });
+        var snapshot = new MatchSnapshot(
+            _matchPhase,
+            MathF.Max(0.0f, _phaseEndsAt - _time),
+            Math.Max(1, scoreLimit),
+            _alphaScore,
+            _bravoScore,
+            _localPeerId,
+            players);
+        PublishMatch(snapshot);
+        _server?.BroadcastJson(MatchStateChannel, snapshot);
+    }
+
+    private void PublishMatch(MatchSnapshot snapshot)
+    {
+        CurrentMatch = snapshot;
+        _knownPlayers.Clear();
+        foreach (var player in snapshot.Players)
+            _knownPlayers[player.PeerId] = player;
+        ConfigureAllNameplates();
+        MatchUpdated?.Invoke(snapshot);
     }
 
     private ushort CheckedPort()
@@ -473,6 +976,28 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private sealed record PeerLeft(int PeerId);
     private sealed record PeerJoined(int PeerId, string Username);
     private sealed record PlayerDamage(float Amount);
+    private sealed record ShotEffect(int ShooterPeerId);
+
+    private sealed class PlayerMatchState(PlayerTeam team, bool isBot)
+    {
+        public PlayerTeam Team { get; } = team;
+        public bool IsBot { get; } = isBot;
+        public int Kills { get; set; }
+        public int Deaths { get; set; }
+        public float Health { get; set; } = 100.0f;
+        public float RespawnAt { get; set; }
+        public float LastDamagedAt { get; set; }
+    }
+
+    private sealed class BotController(GameObject gameObject, Vector3 spawnPosition, uint seed)
+    {
+        public GameObject GameObject { get; } = gameObject;
+        public Vector3 SpawnPosition { get; } = spawnPosition;
+        public float NextShotAt { get; set; }
+        public float NextNavigationAt { get; set; }
+        public float StrafeSign { get; set; } = (seed & 1u) == 0 ? -1.0f : 1.0f;
+        public uint RandomState { get; set; } = seed;
+    }
 
     private sealed record ShotRequest(
         float OriginX, float OriginY, float OriginZ,

@@ -14,6 +14,11 @@ CoD is a small demo project created with **[PlutoGE](https://github.com/CameronA
 - A multiplayer title screen with usernames and direct-IP joining
 - Reliable host/client multiplayer with replicated and interpolated players
 - Server-authoritative PvP shooting, damage, death, and respawning
+- Server-authoritative Team Deathmatch with balanced teams, score limits, match phases, and regeneration
+- Replicated match clock, team scores, kill feed, and hold-Tab scoreboard
+- Host-owned TDM bots that fill empty slots and leave automatically as humans join
+- Animated remote soldier characters with replicated locomotion and firing feedback
+- Camera-facing blue world-space nameplates above friendly players and bots
 - Enemy waves, health and ammunition pickups, and runtime HUD elements
 
 ## Running the project
@@ -76,12 +81,23 @@ Joining players do not bind the server port.
   sends damage only to the affected player.
 - Dead players cannot shoot. After the configured delay they respawn at their
   original spawn transform with full health and brief invulnerability.
+- The host assigns players to the smaller team, rejects friendly fire, owns PvP
+  health and scoring, and ends a round on the time or score limit.
+- Matches cycle through warmup, play, and results without disconnecting players.
+- The host fills up to `minimumParticipants` with replicated `[BOT]` players.
+  Bots use the same teams, health, kills, deaths, respawns, scoreboard, and kill
+  feed as humans. `maximumBots` caps how many may be created, and each joining
+  human replaces one bot.
+- Host bots use the navigation-enabled enemy prefab and its native navmesh agent
+  for pathfinding, obstacle avoidance, and local agent avoidance. Multiplayer
+  authority supplies tactical destinations while clients receive interpolated
+  transform snapshots.
 - Respawning does not reload the scene, so the player remains connected to the
   same server with the same peer identity.
 - Remote proxies are removed when their peer disconnects.
 
 The port, update frequency, proxy prefab, weapon settings, respawn delay,
-respawn invulnerability, and interpolation sharpness are editable through the
+respawn invulnerability, bot fill/count/difficulty values, and interpolation sharpness are editable through the
 relevant Script Components in `Main.plutoscene`.
 
 ### Current networking scope

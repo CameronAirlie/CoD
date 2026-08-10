@@ -69,7 +69,7 @@ public sealed class UIManager : ScriptBehaviour
             ApplyPresentation();
         }
 
-        if (Input.IsKeyPressed(KeyCode.Tab) && !_isPaused)
+        if (Input.IsKeyPressed(KeyCode.I) && !_isPaused)
             SetInventoryOpen(!_isInventoryOpen);
 
         if (Input.IsKeyPressed(KeyCode.Escape))

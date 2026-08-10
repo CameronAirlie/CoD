@@ -14,6 +14,7 @@ public sealed class PlayerHud : ScriptBehaviour
 
     private PlayerController? _controller;
     private PlayerHealth? _healthController;
+    private MultiplayerSession? _multiplayer;
     private RmlDocument? _document;
     private RmlElement? _ammo;
     private RmlElement? _reserve;
@@ -21,6 +22,13 @@ public sealed class PlayerHud : ScriptBehaviour
     private RmlElement? _health;
     private RmlElement? _healthValue;
     private RmlElement? _crosshair;
+    private RmlElement? _matchPhase;
+    private RmlElement? _matchClock;
+    private RmlElement? _alphaScore;
+    private RmlElement? _bravoScore;
+    private RmlElement? _scoreboard;
+    private RmlElement? _scoreboardRows;
+    private RmlElement? _killFeed;
     private RmlElement[] _armour = [];
     private RmlElement[] _arms = [];
     private UITween _spread = new(7.0f, 0.07f, UIEase.EaseOut);
@@ -29,11 +37,14 @@ public sealed class PlayerHud : ScriptBehaviour
     private bool _spreadAnimating;
     private bool _hitVisible;
     private bool _domReady;
+    private readonly System.Collections.Generic.List<(string Text, float ExpiresAt)> _feed = [];
+    private float _hudTime;
 
     public override void OnCreate()
     {
         _controller = player?.GetComponent<PlayerController>();
         _healthController = player?.GetComponent<PlayerHealth>();
+        _multiplayer = player?.GetComponent<MultiplayerSession>();
         if (_controller is null)
         {
             Debug.LogError("PlayerHud requires a PlayerController.");
@@ -47,6 +58,13 @@ public sealed class PlayerHud : ScriptBehaviour
         _health = _document.Element("health");
         _healthValue = _document.Element("health-value");
         _crosshair = _document.Element("crosshair");
+        _matchPhase = _document.Element("match-phase");
+        _matchClock = _document.Element("match-clock");
+        _alphaScore = _document.Element("alpha-score");
+        _bravoScore = _document.Element("bravo-score");
+        _scoreboard = _document.Element("scoreboard");
+        _scoreboardRows = _document.Element("scoreboard-rows");
+        _killFeed = _document.Element("kill-feed");
         _armour =
         [
             _document.Element("armour-0"),
@@ -67,6 +85,13 @@ public sealed class PlayerHud : ScriptBehaviour
         _controller.InteractionTargetChanged += OnInteractionChanged;
         if (_healthController is not null)
             _healthController.StatusChanged += OnHealthChanged;
+        if (_multiplayer is not null)
+        {
+            _multiplayer.MatchUpdated += OnMatchUpdated;
+            _multiplayer.KillFeedReceived += OnKillFeed;
+            if (_multiplayer.CurrentMatch is not null)
+                OnMatchUpdated(_multiplayer.CurrentMatch);
+        }
 
         OnAmmoChanged(new FpsAmmoState(
             _controller.Ammo, _controller.ReserveAmmo,
@@ -91,12 +116,24 @@ public sealed class PlayerHud : ScriptBehaviour
         }
         if (_healthController is not null)
             _healthController.StatusChanged -= OnHealthChanged;
+        if (_multiplayer is not null)
+        {
+            _multiplayer.MatchUpdated -= OnMatchUpdated;
+            _multiplayer.KillFeedReceived -= OnKillFeed;
+        }
         _document?.Dispose();
         _document = null;
     }
 
     public override void OnUpdate(float deltaTime)
     {
+        _hudTime += MathF.Max(0.0f, deltaTime);
+        _scoreboard?.SetClass("hidden", !Input.IsKeyDown(KeyCode.Tab));
+        if (_feed.Count > 0 && _feed[0].ExpiresAt <= _hudTime)
+        {
+            _feed.RemoveAt(0);
+            RenderKillFeed();
+        }
         if (!_domReady && _document is not null && _controller is not null &&
             _crosshair is not null && _crosshair.SetClass("headshot", false))
         {
@@ -109,6 +146,8 @@ public sealed class PlayerHud : ScriptBehaviour
                 _controller.IsSprinting, _controller.IsCrouching,
                 _controller.IsSliding));
             OnInteractionChanged(null);
+            if (_multiplayer?.CurrentMatch is not null)
+                OnMatchUpdated(_multiplayer.CurrentMatch);
         }
         if (_arms.Length != 4) return;
         if (_spreadAnimating)
@@ -182,4 +221,55 @@ public sealed class PlayerHud : ScriptBehaviour
         for (var index = 0; index < _armour.Length; index++)
             _armour[index].SetClass("filled", index < armour && index < maximumArmour);
     }
+
+    private void OnMatchUpdated(MatchSnapshot match)
+    {
+        var seconds = Math.Max(0, (int)MathF.Ceiling(match.SecondsRemaining));
+        if (_matchClock is not null) _matchClock.Markup = $"{seconds / 60:00}:{seconds % 60:00}";
+        if (_alphaScore is not null) _alphaScore.Markup = match.AlphaScore.ToString();
+        if (_bravoScore is not null) _bravoScore.Markup = match.BravoScore.ToString();
+        if (_matchPhase is not null)
+        {
+            _matchPhase.Markup = match.Phase switch
+            {
+                MatchPhase.Warmup => "MATCH STARTING",
+                MatchPhase.Playing => $"FIRST TO {match.ScoreLimit}",
+                MatchPhase.Results => match.AlphaScore == match.BravoScore ? "DRAW" :
+                    match.AlphaScore > match.BravoScore ? "ALPHA WINS" : "BRAVO WINS",
+                _ => "WAITING FOR PLAYERS"
+            };
+        }
+
+        if (_scoreboardRows is null) return;
+        var rows = new System.Text.StringBuilder();
+        foreach (var playerState in match.Players)
+        {
+            var teamClass = playerState.Team == PlayerTeam.Alpha ? "alpha-team" : "bravo-team";
+            var localClass = playerState.PeerId == match.LocalPeerId ? " local" : string.Empty;
+            rows.Append($"<div class=\"score-row {teamClass}{localClass}\"><span class=\"player-name\">{EscapeMarkup(playerState.Username)}</span><span class=\"stat\">{playerState.Kills}</span><span class=\"stat\">{playerState.Deaths}</span></div>");
+        }
+        _scoreboardRows.Markup = rows.ToString();
+    }
+
+    private void OnKillFeed(KillFeedEntry entry)
+    {
+        _feed.Add(($"{EscapeMarkup(entry.Killer)} eliminated {EscapeMarkup(entry.Victim)}", _hudTime + 5.0f));
+        while (_feed.Count > 4) _feed.RemoveAt(0);
+        RenderKillFeed();
+    }
+
+    private void RenderKillFeed()
+    {
+        if (_killFeed is null) return;
+        var markup = new System.Text.StringBuilder();
+        foreach (var entry in _feed)
+            markup.Append($"<div class=\"feed-entry\">{entry.Text}</div>");
+        _killFeed.Markup = markup.ToString();
+    }
+
+    private static string EscapeMarkup(string value) => value
+        .Replace("&", "&amp;")
+        .Replace("<", "&lt;")
+        .Replace(">", "&gt;")
+        .Replace("\"", "&quot;");
 }

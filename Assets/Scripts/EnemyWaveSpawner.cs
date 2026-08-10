@@ -100,9 +100,16 @@ public sealed class EnemyWaveSpawner : ScriptBehaviour
 
     private void RefreshAliveCount()
     {
-        _cachedAlive = string.IsNullOrWhiteSpace(enemyTag)
-            ? 0
-            : GameObject.FindByTag(enemyTag).Length;
+        _cachedAlive = 0;
+        if (!string.IsNullOrWhiteSpace(enemyTag))
+        {
+            foreach (var enemy in GameObject.FindByTag(enemyTag))
+            {
+                var controller = enemy.GetComponent<EnemySoldierBot>();
+                if (controller?.IsExternalNavigationControlled != true)
+                    _cachedAlive++;
+            }
+        }
         _nextAliveCountRefreshAt = _time + MathF.Max(0.05f, aliveCountRefreshInterval);
     }
 

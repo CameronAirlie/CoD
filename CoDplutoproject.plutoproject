@@ -1,7 +1,7 @@
 PLUTOPROJECT	1
 NAME	CoD
 ASSET_DIR	Assets
-STARTUP_SCENE	project://Scenes/Main.plutoscene
+STARTUP_SCENE	project://Scenes/Title.plutoscene
 SCRIPT_ASSEMBLY	project://Managed/CoD.Scripts.dll
 WINDOW_TITLE	CoD
 WINDOW_SIZE	1280	720
@@ -101,11 +101,11 @@ ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.pluto
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutoanim	963	Animation
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	2611229	Mesh
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	86016	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	36228	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	111616	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	44216	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	204800	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	73700	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	73740	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	369	Unknown
 ASSET	project://Materials/BulletHole.plutomaterial	473	Material
 ASSET	project://Materials/Ground.plutomaterial	492	Material
@@ -119,23 +119,23 @@ ASSET	project://Prefabs/ArmourPickup.plutoprefab	1894	Prefab
 ASSET	project://Prefabs/Enemy.plutoprefab	16876	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1895	Prefab
 ASSET	project://Prefabs/Lightsaber.plutoprefab	1943	Prefab
-ASSET	project://Prefabs/RemotePlayer.plutoprefab	1486	Prefab
-ASSET	project://Scenes/Main.plutoscene	156702	Scene
+ASSET	project://Prefabs/RemotePlayer.plutoprefab	1451	Prefab
+ASSET	project://Scenes/Main.plutoscene	119182	Scene
 ASSET	project://Scenes/Title.plutoscene	7270	Scene
-ASSET	project://Scripts/EnemySoldierBot.cs	19109	Script
-ASSET	project://Scripts/EnemyWaveSpawner.cs	4135	Script
+ASSET	project://Scripts/EnemySoldierBot.cs	21267	Script
+ASSET	project://Scripts/EnemyWaveSpawner.cs	4254	Script
 ASSET	project://Scripts/InventoryMenu.cs	6328	Script
-ASSET	project://Scripts/MultiplayerLaunch.cs	714	Script
-ASSET	project://Scripts/MultiplayerSession.cs	20194	Script
-ASSET	project://Scripts/PauseMenu.cs	262	Script
-ASSET	project://Scripts/PlayerController.cs	24344	Script
+ASSET	project://Scripts/MultiplayerLaunch.cs	696	Script
+ASSET	project://Scripts/MultiplayerSession.cs	40726	Script
+ASSET	project://Scripts/PauseMenu.cs	271	Script
+ASSET	project://Scripts/PlayerController.cs	24560	Script
 ASSET	project://Scripts/PlayerHealth.cs	6139	Script
-ASSET	project://Scripts/PlayerHud.cs	7117	Script
-ASSET	project://Scripts/PlayerInventory.cs	4059	Script
+ASSET	project://Scripts/PlayerHud.cs	11509	Script
+ASSET	project://Scripts/PlayerInventory.cs	4061	Script
 ASSET	project://Scripts/SupplyPickup.cs	2143	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
 ASSET	project://Scripts/TitleScreen.cs	3209	Script
-ASSET	project://Scripts/UIManager.cs	5656	Script
+ASSET	project://Scripts/UIManager.cs	5672	Script
 ASSET	project://Sounds/engine.wav	760364	Audio
 ASSET	project://Sounds/footsteps.wav	728108	Audio
 ASSET	project://Sounds/gun_shot.wav	59456	Audio
@@ -266,8 +266,8 @@ ASSET	project://Textures/Dark/texture_11.png	9048	Texture
 ASSET	project://Textures/Dark/texture_12.png	9585	Texture
 ASSET	project://Textures/Dark/texture_13.png	9867	Texture
 ASSET	project://Textures/MuzzleFlash/MuzzleFlash.png	90402	Texture
-ASSET	project://UI/hud.rcss	2093	Unknown
-ASSET	project://UI/hud.rml	1320	RML Document
+ASSET	project://UI/hud.rcss	3291	Unknown
+ASSET	project://UI/hud.rml	1884	RML Document
 ASSET	project://UI/inventory.rcss	1692	Unknown
 ASSET	project://UI/inventory.rml	1507	RML Document
 ASSET	project://UI/pause-menu.rcss	1354	Unknown

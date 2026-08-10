@@ -16,7 +16,7 @@
                     <div id="slot-10" class="slot"></div><div id="slot-11" class="slot"></div><div id="slot-12" class="slot"></div><div id="slot-13" class="slot"></div><div id="slot-14" class="slot"></div>
                     <div id="slot-15" class="slot"></div><div id="slot-16" class="slot"></div><div id="slot-17" class="slot"></div><div id="slot-18" class="slot"></div><div id="slot-19" class="slot"></div>
                 </div>
-                <div id="footer"><span>H MED KIT (1s) / G ARMOUR (0.5s)</span><span class="close-hint">TAB / ESC CLOSE</span></div>
+                <div id="footer"><span>H MED KIT (1s) / G ARMOUR (0.5s)</span><span class="close-hint">I / ESC CLOSE</span></div>
             </div>
         </div>
     </body>

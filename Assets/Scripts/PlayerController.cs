@@ -147,6 +147,7 @@ public sealed class PlayerController : ScriptBehaviour
     private int _ammo;
     private int _reserveAmmo;
     private PlayerInventory? _inventory;
+    private MultiplayerSession? _multiplayer;
     private uint _randomState = 0xA341316Cu;
     private bool _grounded;
     private bool _crouching;
@@ -169,6 +170,7 @@ public sealed class PlayerController : ScriptBehaviour
         _cameraHeight = standingCameraHeight;
         _ammo = Math.Max(1, magazineSize);
         _inventory = GameObject.GetComponent<PlayerInventory>();
+        _multiplayer = GameObject.GetComponent<MultiplayerSession>();
         _reserveAmmo = _inventory?.ReserveAmmo ?? Math.Max(0, startingReserveAmmo);
 
         _rigidbody = GameObject.GetComponent<RigidbodyComponent>();
@@ -416,7 +418,8 @@ public sealed class PlayerController : ScriptBehaviour
                     bulletHoleFadeDuration);
             }
 
-            if (hit.Entity.HasTag(damageableTag) || hit.Entity.HasTag(headTag))
+            if ((hit.Entity.HasTag(damageableTag) || hit.Entity.HasTag(headTag)) &&
+                _multiplayer?.IsNetworkParticipant(hit.Entity.EntityId) != true)
             {
                 var isHeadshot = hit.Entity.HasTag(headTag);
                 var dealtDamage = damage * (isHeadshot ? headshotMultiplier : 1.0f);
