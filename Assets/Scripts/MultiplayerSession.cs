@@ -60,7 +60,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     [SerializedField] private string serverAddress = "127.0.0.1";
     [SerializedField] private int serverPort = 7777;
     [SerializedField] private float updatesPerSecond = 20.0f;
-    [SerializedField] private float disconnectTimeout = 10.0f;
+    [SerializedField] private float disconnectTimeout = 3.0f;
     [SerializedField] private string titleScene = "Title";
     [SerializedField] private string remotePlayerPrefab =
         "project://Prefabs/RemotePlayer.plutoprefab";
@@ -223,7 +223,13 @@ public sealed class MultiplayerSession : ScriptBehaviour
         _shutDown = true;
 
         if (_client?.IsConnected == true && _localPeerId >= 0)
+        {
             _client.SendJson(LeaveChannel, new PeerLeft(_localPeerId));
+            // Network sends are queued on a background writer. Give the final
+            // leave frame a brief opportunity to reach the host before Dispose
+            // cancels that writer and closes the process socket.
+            System.Threading.Thread.Sleep(25);
+        }
 
         _server?.Dispose();
         _server = null;
@@ -614,13 +620,13 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 return;
             }
 
-            remote = new RemotePlayer(instance, transform.Position, transform.Rotation);
+            remote = new RemotePlayer(instance, transform.Position, transform.Yaw);
             instance.TryInvoke("SetRemoteProxyMode");
             _remotePlayers.Add(transform.PeerId, remote);
             ConfigureNameplate(transform.PeerId, instance);
         }
         remote.TargetPosition = transform.Position;
-        remote.TargetRotation = transform.Rotation;
+        remote.TargetYaw = transform.Yaw;
     }
 
     private void OnServerPeerDisconnected(int peerId)
@@ -733,7 +739,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
             {
                 Health = MathF.Max(1.0f, multiplayerMaximumHealth)
             };
-            _remotePlayers[peerId] = new RemotePlayer(instance, spawn, Quaternion.Identity);
+            _remotePlayers[peerId] = new RemotePlayer(instance, spawn, 0.0f);
             _bots[peerId] = new BotController(instance, spawn, unchecked((uint)peerId * 747796405u));
             instance.TryInvoke("ResetExternalNavigation", spawn.X, spawn.Y, spawn.Z);
             Debug.Log($"Added {_peerNames[peerId]} to {team}.");
@@ -905,7 +911,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
             if (_remotePlayers.TryGetValue(botId, out var remote))
             {
                 remote.TargetPosition = bot.GameObject.WorldPosition;
-                remote.TargetRotation = bot.GameObject.RotationQuaternion;
+                remote.TargetYaw = bot.GameObject.Rotation.Y;
             }
 
             if (bot.IsEngaging && isStationary && facingTarget && hasLineOfSight &&
@@ -1450,21 +1456,22 @@ public sealed class MultiplayerSession : ScriptBehaviour
     }
 
     private sealed class RemotePlayer(
-        GameObject gameObject, Vector3 position, Quaternion rotation)
+        GameObject gameObject, Vector3 position, float yaw)
     {
         public GameObject GameObject { get; } = gameObject;
         public Vector3 TargetPosition { get; set; } = position;
-        public Quaternion TargetRotation { get; set; } = rotation;
+        public float TargetYaw { get; set; } = yaw;
 
         public void Interpolate(float blend)
         {
             if (!GameObject.IsValid)
                 return;
             GameObject.WorldPosition = Vector3.Lerp(GameObject.WorldPosition, TargetPosition, blend);
-            GameObject.RotationQuaternion = Quaternion.Normalize(Quaternion.Slerp(
-                GameObject.RotationQuaternion,
-                TargetRotation,
-                Math.Clamp(blend, 0.0f, 1.0f)));
+            // Character roots must remain upright. Applying the complete
+            // quaternion through XYZ Euler decomposition can express yaw past
+            // 90 degrees as equivalent 180-degree pitch/roll values. The local
+            // player authors yaw directly, so mirror that value exactly.
+            GameObject.Rotation = new Vector3(0.0f, TargetYaw, 0.0f);
         }
     }
 }
