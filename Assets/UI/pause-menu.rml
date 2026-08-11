@@ -10,6 +10,7 @@
             <div id="menu">
                 <div class="eyebrow">GAME PAUSED</div>
                 <button id="resume">Resume</button>
+                <button id="switch-team">Switch Team</button>
                 <button id="restart">Restart Checkpoint</button>
                 <button id="main-menu">Return to Main Menu</button>
                 <button id="quit">Quit Game</button>

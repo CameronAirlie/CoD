@@ -39,6 +39,7 @@ public sealed class UIManager : ScriptBehaviour
         {
             _pauseDocument = new RmlDocument(PauseDocumentPath);
             _pauseDocument.OnClick("resume", Resume);
+            _pauseDocument.OnClick("switch-team", SwitchTeam);
             _pauseDocument.OnClick("restart", Restart);
             _pauseDocument.OnClick("main-menu", ReturnToMainMenu);
             _pauseDocument.OnClick("quit", Quit);
@@ -169,6 +170,19 @@ public sealed class UIManager : ScriptBehaviour
     {
         SetPaused(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().Name);
+    }
+
+    public void SwitchTeam()
+    {
+        var session = GameObject.Find("Player")?.GetComponent<CoD.Scripts.MultiplayerSession>();
+        if (session is null)
+        {
+            Debug.LogWarning("Cannot switch teams outside a multiplayer match.");
+            return;
+        }
+
+        session.RequestTeamSwitch();
+        SetPaused(false);
     }
 
     public void ReturnToMainMenu()

@@ -84,6 +84,8 @@ Joining players do not bind the server port.
 - The host assigns players to the smaller team, rejects friendly fire, owns PvP
   health and scoring, and ends a round on the time or score limit.
 - Matches cycle through warmup, play, and results without disconnecting players.
+- Players can switch teams from the in-match pause menu; the host validates and
+  replicates the change immediately.
 - The host fills up to `minimumParticipants` with replicated `[BOT]` players.
   Bots use the same teams, health, kills, deaths, respawns, scoreboard, and kill
   feed as humans. `maximumBots` caps how many may be created, and each joining

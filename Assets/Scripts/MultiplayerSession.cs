@@ -28,7 +28,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
 {
     private static MultiplayerSession? _activeSession;
 
-    private const int ProtocolVersion = 7;
+    private const int ProtocolVersion = 8;
     private const ushort HandshakeChannel = 1;
     private const ushort TransformChannel = 2;
     private const ushort PeerLeftChannel = 3;
@@ -42,10 +42,23 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private const ushort LeaveChannel = 11;
     private const ushort HitConfirmationChannel = 12;
     private const ushort DeathEffectChannel = 13;
+    private const ushort TeamSwitchChannel = 14;
 
     public event Action<MatchSnapshot>? MatchUpdated;
     public event Action<KillFeedEntry>? KillFeedReceived;
     public MatchSnapshot? CurrentMatch { get; private set; }
+
+    public void RequestTeamSwitch()
+    {
+        if (_server is not null)
+        {
+            SwitchTeam(0);
+            return;
+        }
+
+        if (_client is not null && _localPeerId >= 0)
+            _client.SendJson(TeamSwitchChannel, new TeamSwitchRequest());
+    }
 
     public bool IsNetworkParticipant(GameObject entity) => FindPeerForEntity(entity) != -1;
 
@@ -407,6 +420,13 @@ public sealed class MultiplayerSession : ScriptBehaviour
                     message.PeerId);
                 BroadcastMatchState();
                 Debug.Log($"{username} joined the game as peer {message.PeerId}.");
+                return;
+            }
+
+            if (message.Channel == TeamSwitchChannel &&
+                _authenticatedPeers.Contains(message.PeerId))
+            {
+                SwitchTeam(message.PeerId);
                 return;
             }
 
@@ -1382,6 +1402,16 @@ public sealed class MultiplayerSession : ScriptBehaviour
         return alpha <= bravo ? PlayerTeam.Alpha : PlayerTeam.Bravo;
     }
 
+    private void SwitchTeam(int peerId)
+    {
+        if (!_playerStates.TryGetValue(peerId, out var state) || state.IsBot)
+            return;
+
+        state.Team = state.Team == PlayerTeam.Alpha ? PlayerTeam.Bravo : PlayerTeam.Alpha;
+        BroadcastMatchState();
+        Debug.Log($"{_peerNames.GetValueOrDefault(peerId, $"Player{peerId}")} switched to {state.Team}.");
+    }
+
     private void BroadcastMatchState()
     {
         var players = new MatchPlayer[_playerStates.Count];
@@ -1455,6 +1485,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private sealed record ShotEffect(int ShooterPeerId);
     private sealed record HitEffect(int VictimPeerId);
     private sealed record DeathEffect(int PeerId);
+    private sealed record TeamSwitchRequest;
     private sealed record HitConfirmation(float Damage, bool IsHeadshot)
     {
         public bool IsFinite() => float.IsFinite(Damage) && Damage > 0.0f;
@@ -1482,7 +1513,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
     private sealed class PlayerMatchState(PlayerTeam team, bool isBot)
     {
-        public PlayerTeam Team { get; } = team;
+        public PlayerTeam Team { get; set; } = team;
         public bool IsBot { get; } = isBot;
         public int Kills { get; set; }
         public int Deaths { get; set; }
