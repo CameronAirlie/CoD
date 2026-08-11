@@ -78,7 +78,7 @@ PROPERTY	Avoidance Distance	0	1.500000	0
 PROPERTY	Turn Speed	0	360.000000	0
 PROPERTY	Agent Radius	0	0.500000	0
 PROPERTY	Agent Height	0	2.000000	0
-PROPERTY	Rotate To Velocity	4	false	0
+PROPERTY	Rotate To Velocity	4	true	0
 PROPERTY	Navigate On Start	4	true	0
 PROPERTY	Destination	3	0.000000,0.000000,0.000000	0
 PROPERTY	Target Entity	9	162	0
@@ -90,7 +90,7 @@ PROPERTY	Linear Drag	0	0.000000	0
 PROPERTY	Angular Drag	0	0.050000	0
 PROPERTY	Friction	0	1.800000	0
 PROPERTY	Use Gravity	4	true	0
-PROPERTY	Is Kinematic	4	false	0
+PROPERTY	Is Kinematic	4	true	0
 PROPERTY	Freeze Rotation	4	true	0
 PROPERTY	Velocity	3	0.000000,0.000000,0.000000	0
 PROPERTY	Angular Velocity	3	0.000000,0.000000,0.000000	0

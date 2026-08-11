@@ -82,10 +82,14 @@ public sealed class MultiplayerSession : ScriptBehaviour
     [SerializedField] private int maximumBots = 5;
     [SerializedField] private float botPreferredRange = 13.0f;
     [SerializedField] private float botNavigationRefreshInterval = 0.75f;
+    [SerializedField] private float botNavigationArrivalDistance = 1.25f;
+    [SerializedField] private float botNavigationMoveTimeout = 8.0f;
+    [SerializedField] private float botTargetReplanDistance = 6.0f;
     [SerializedField] private float botTargetSelectionInterval = 0.5f;
     [SerializedField] private float botPerceptionInterval = 0.15f;
+    [SerializedField] private float botLostSightGrace = 0.5f;
     [SerializedField] private int botThinkBudgetPerFrame = 1;
-    [SerializedField] private float botAttackRange = 35.0f;
+    [SerializedField] private float botAttackRange = 22.0f;
     [SerializedField] private float botRoundsPerMinute = 360.0f;
     [SerializedField] private float botDamage = 18.0f;
     [SerializedField] private float botAccuracyDegrees = 3.0f;
@@ -708,6 +712,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
                     bot.CachedLineOfSight = false;
                     bot.NextPerceptionAt = 0.0f;
                     bot.NextNavigationAt = 0.0f;
+                    bot.HasNavigationDestination = false;
                 }
             }
 
@@ -727,8 +732,9 @@ public sealed class MultiplayerSession : ScriptBehaviour
             var measuredTravel = bot.GameObject.WorldPosition - bot.PreviousPosition;
             measuredTravel.Y = 0.0f;
             bot.PreviousPosition = bot.GameObject.WorldPosition;
-            var travel = bot.Body?.Velocity ??
-                (deltaTime > 0.0001f ? measuredTravel / deltaTime : Vector3.Zero);
+            var travel = bot.Body is not null && !bot.Body.IsKinematic
+                ? bot.Body.Velocity
+                : (deltaTime > 0.0001f ? measuredTravel / deltaTime : Vector3.Zero);
             travel.Y = 0.0f;
             var movementSpeed = travel.Length();
             var isStationary = movementSpeed <= MathF.Max(0.01f, botStationaryFireSpeed);
@@ -736,6 +742,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
             {
                 bot.CachedLineOfSight = HasBotLineOfSight(
                     botId, targetId, bot.GameObject, targetObject);
+                if (bot.CachedLineOfSight)
+                    bot.LastLineOfSightAt = _time;
                 bot.NextPerceptionAt = _time + MathF.Max(0.05f, botPerceptionInterval);
                 thought = true;
             }
@@ -745,6 +753,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
             if (!bot.IsEngaging && canEngage)
             {
                 bot.IsEngaging = true;
+                bot.HasNavigationDestination = false;
                 var stop = bot.GameObject.WorldPosition;
                 bot.GameObject.TryInvoke("SetExternalNavigationDestination", stop.X, stop.Y, stop.Z);
                 if (bot.Body is not null)
@@ -753,14 +762,28 @@ public sealed class MultiplayerSession : ScriptBehaviour
                     bot.Body.Velocity = new Vector3(0.0f, velocity.Y, 0.0f);
                 }
             }
-            else if (bot.IsEngaging && (!hasLineOfSight ||
-                     distance > MathF.Max(1.0f, botAttackRange) * 1.1f))
+            else if (bot.IsEngaging &&
+                     ((_time > bot.LastLineOfSightAt + MathF.Max(0.0f, botLostSightGrace)) ||
+                      distance > MathF.Max(1.0f, botAttackRange) * 1.1f))
             {
                 bot.IsEngaging = false;
                 bot.NextNavigationAt = 0.0f;
+                bot.HasNavigationDestination = false;
             }
 
-            if (canThink && !bot.IsEngaging && _time >= bot.NextNavigationAt)
+            var arrived = bot.HasNavigationDestination &&
+                HorizontalDistance(bot.GameObject.WorldPosition, bot.NavigationDestination) <=
+                MathF.Max(0.1f, botNavigationArrivalDistance);
+            var targetMovedSincePlan = bot.HasNavigationDestination &&
+                HorizontalDistance(targetObject.WorldPosition, bot.TargetPositionAtPlan) >=
+                MathF.Max(1.0f, botTargetReplanDistance);
+            if (arrived)
+                bot.HasNavigationDestination = false;
+
+            if (canThink && !bot.IsEngaging &&
+                (!bot.HasNavigationDestination || targetMovedSincePlan ||
+                 _time >= bot.NavigationMoveDeadline) &&
+                _time >= bot.NextNavigationAt)
             {
                 if (TryChooseBotTacticalDestination(
                         bot, targetId, targetObject, out var destination))
@@ -768,14 +791,20 @@ public sealed class MultiplayerSession : ScriptBehaviour
                     bot.GameObject.TryInvoke(
                         "SetExternalNavigationDestination",
                         destination.X, destination.Y, destination.Z);
+                    bot.NavigationDestination = destination;
+                    bot.TargetPositionAtPlan = targetObject.WorldPosition;
+                    bot.HasNavigationDestination = true;
+                    bot.NavigationMoveDeadline = _time +
+                        MathF.Max(1.0f, botNavigationMoveTimeout);
                 }
                 bot.NextNavigationAt = _time + MathF.Max(0.05f, botNavigationRefreshInterval);
                 thought = true;
             }
-            var lookDirection = !isStationary && travel.LengthSquared() > 0.0001f
-                ? Vector3.Normalize(travel)
-                : direction;
-            TurnBotTowards(bot, lookDirection, deltaTime);
+            // The native NavAgent owns heading while travelling. Writing a
+            // dynamic rigidbody's rotation from script at the same time can
+            // repeatedly resynchronise its physics transform and cause pulsing.
+            if (isStationary)
+                TurnBotTowards(bot, direction, deltaTime);
             var facingTarget = IsBotFacing(bot.GameObject, direction, botFiringAngle);
             bot.GameObject.TryInvoke(
                 "SetExternalAiming", bot.IsEngaging && isStationary && facingTarget);
@@ -850,7 +879,10 @@ public sealed class MultiplayerSession : ScriptBehaviour
             if (!TryProjectBotNavigationPosition(desired, out var candidate))
                 continue;
 
-            var rangeError = MathF.Abs(Vector3.Distance(candidate, target.WorldPosition) - radius);
+            var targetDistance = HorizontalDistance(candidate, target.WorldPosition);
+            if (targetDistance > MathF.Max(radius, botAttackRange))
+                continue;
+            var rangeError = MathF.Abs(targetDistance - radius);
             var travelDistance = Vector3.Distance(bot.GameObject.WorldPosition, candidate);
             var centreDistance = navigationMesh is null
                 ? 0.0f
@@ -1266,6 +1298,11 @@ public sealed class MultiplayerSession : ScriptBehaviour
         public float NextTargetSelectionAt { get; set; } = (seed & 7u) * 0.06f;
         public float NextPerceptionAt { get; set; } = ((seed >> 3) & 7u) * 0.02f;
         public bool CachedLineOfSight { get; set; }
+        public float LastLineOfSightAt { get; set; } = float.MinValue;
+        public bool HasNavigationDestination { get; set; }
+        public Vector3 NavigationDestination { get; set; } = spawnPosition;
+        public Vector3 TargetPositionAtPlan { get; set; } = spawnPosition;
+        public float NavigationMoveDeadline { get; set; }
         public bool IsEngaging { get; set; }
         public float TurnDirection { get; set; } = 1.0f;
         public float StrafeSign { get; set; } = (seed & 1u) == 0 ? -1.0f : 1.0f;

@@ -62,6 +62,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     private AnimationComponent? _animation;
     private SoundEmitterComponent? _gunAudio;
+    private RigidbodyComponent? _body;
     private float _currentHealth;
     private float _time;
     private float _spottedAt = float.MaxValue;
@@ -104,6 +105,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         var audioOwner = gunAudioObject ?? GameObject;
         _animation = animationOwner.GetComponent<AnimationComponent>();
         _gunAudio = audioOwner.GetComponent<SoundEmitterComponent>();
+        _body = GameObject.GetComponent<RigidbodyComponent>();
         _previousPosition = GameObject.WorldPosition;
         _navigationDestination = _previousPosition;
         _nextPerceptionRefreshAt = NextRandom01() * MathF.Max(0.02f, perceptionRefreshInterval);
@@ -126,7 +128,11 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         var displacement = position - _previousPosition;
         displacement.Y = 0.0f;
         _previousPosition = position;
-        var navigationSpeed = deltaTime > 0.0001f ? displacement.Length() / deltaTime : 0.0f;
+        var velocity = _body is not null && !_body.IsKinematic
+            ? _body.Velocity
+            : (deltaTime > 0.0001f ? displacement / deltaTime : Vector3.Zero);
+        velocity.Y = 0.0f;
+        var navigationSpeed = velocity.Length();
 
         if (_dead)
         {
@@ -198,12 +204,16 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         var isStationary = navigationSpeed <= MathF.Max(0.01f, stationaryFireSpeed);
         var shouldAimAtTarget = hasLineOfSight ||
             _time <= _lastLineOfSightAt + MathF.Max(0.0f, aimLineOfSightGrace);
-        if (!isStationary && displacement.LengthSquared() > 0.0001f)
-            TurnTowards(Vector3.Normalize(displacement), deltaTime);
-        else if (shouldAimAtTarget)
-            TurnTowards(direction, deltaTime);
-        else
-            TurnTowardsNavigation(deltaTime);
+        // NavAgentComponent owns rotation while moving. Scripted aiming only
+        // takes over after locomotion has stopped, avoiding transform writes
+        // fighting the dynamic rigidbody every frame.
+        if (isStationary)
+        {
+            if (shouldAimAtTarget)
+                TurnTowards(direction, deltaTime);
+            else
+                TurnTowardsNavigation(deltaTime);
+        }
 
         var canSeeTarget = hasLineOfSight && IsInsideVisionCone(direction);
         SetAnimationBool(hasTargetParameter, isStationary && canSeeTarget);

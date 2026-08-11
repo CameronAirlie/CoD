@@ -134,10 +134,14 @@ PROPERTY	minimumParticipants	1	6	0
 PROPERTY	maximumBots	1	5	0
 PROPERTY	botPreferredRange	0	13.000000	0
 PROPERTY	botNavigationRefreshInterval	0	0.750000	0
+PROPERTY	botNavigationArrivalDistance	0	1.250000	0
+PROPERTY	botNavigationMoveTimeout	0	8.000000	0
+PROPERTY	botTargetReplanDistance	0	6.000000	0
 PROPERTY	botTargetSelectionInterval	0	0.500000	0
 PROPERTY	botPerceptionInterval	0	0.150000	0
+PROPERTY	botLostSightGrace	0	0.500000	0
 PROPERTY	botThinkBudgetPerFrame	1	1	0
-PROPERTY	botAttackRange	0	35.000000	0
+PROPERTY	botAttackRange	0	22.000000	0
 PROPERTY	botRoundsPerMinute	0	360.000000	0
 PROPERTY	botDamage	0	18.000000	0
 PROPERTY	botAccuracyDegrees	0	3.000000	0
