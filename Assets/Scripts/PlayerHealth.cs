@@ -42,12 +42,16 @@ public sealed class PlayerHealth : ScriptBehaviour
     public int MaximumArmourSlots => maximumArmourSlots;
     public event Action<float, float, int, int>? StatusChanged;
 
-    public void ConfigureMultiplayerMaximumHealth(float value)
+    public void ConfigureMultiplayerHealthRules(
+        float maximum, float regenerationDelaySeconds, float regenerationRate)
     {
-        maximumHealth = MathF.Max(1.0f, value);
+        maximumHealth = MathF.Max(1.0f, maximum);
+        regenerationDelay = MathF.Max(0.0f, regenerationDelaySeconds);
+        regenerationPerSecond = MathF.Max(0.0f, regenerationRate);
         _health = maximumHealth;
         _dead = false;
         _restartAt = 0.0f;
+        _lastDamageAt = _time;
         RefreshLabel();
         PublishStatus();
     }

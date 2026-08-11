@@ -253,7 +253,13 @@ public sealed class MultiplayerSession : ScriptBehaviour
         try
         {
             if (_playerHealth is not null)
+            {
                 multiplayerMaximumHealth = MathF.Max(1.0f, _playerHealth.MaximumHealth);
+                _playerHealth.ConfigureMultiplayerHealthRules(
+                    multiplayerMaximumHealth,
+                    multiplayerRegenerationDelay,
+                    multiplayerRegenerationPerSecond);
+            }
             _localPeerId = 0;
             _peerNames[0] = _username;
             _playerStates[0] = new PlayerMatchState(PlayerTeam.Alpha, false)
@@ -381,7 +387,9 @@ public sealed class MultiplayerSession : ScriptBehaviour
                     new ServerWelcome(
                         ProtocolVersion,
                         message.PeerId,
-                        multiplayerMaximumHealth));
+                        multiplayerMaximumHealth,
+                        multiplayerRegenerationDelay,
+                        multiplayerRegenerationPerSecond));
                 foreach (var peer in _peerNames)
                 {
                     _server.SendJson(
@@ -442,7 +450,10 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
                 _localPeerId = welcome.PeerId;
                 if (float.IsFinite(welcome.MaximumHealth) && welcome.MaximumHealth > 0.0f)
-                    _playerHealth?.ConfigureMultiplayerMaximumHealth(welcome.MaximumHealth);
+                    _playerHealth?.ConfigureMultiplayerHealthRules(
+                        welcome.MaximumHealth,
+                        welcome.RegenerationDelay,
+                        welcome.RegenerationPerSecond);
                 Debug.Log($"{_username} joined multiplayer as peer {_localPeerId}.");
                 return;
             }
@@ -1230,6 +1241,11 @@ public sealed class MultiplayerSession : ScriptBehaviour
                     state.Health + MathF.Max(0.0f, multiplayerRegenerationPerSecond) * deltaTime);
         }
 
+        // Keep the host's authoritative match state aligned with the component
+        // that drives its HUD, death, armour, and regeneration.
+        if (_playerHealth is not null && _playerStates.TryGetValue(0, out var hostState))
+            hostState.Health = MathF.Max(0.0f, _playerHealth.CurrentHealth);
+
         if (_time >= _phaseEndsAt)
         {
             if (_matchPhase is MatchPhase.Waiting or MatchPhase.Warmup)
@@ -1386,7 +1402,11 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
     private sealed record ClientHello(int ProtocolVersion, string Username);
     private sealed record ServerWelcome(
-        int ProtocolVersion, int PeerId, float MaximumHealth = 100.0f);
+        int ProtocolVersion,
+        int PeerId,
+        float MaximumHealth = 100.0f,
+        float RegenerationDelay = 5.0f,
+        float RegenerationPerSecond = 6.0f);
     private sealed record PeerLeft(int PeerId);
     private sealed record PeerJoined(int PeerId, string Username);
     private sealed record PlayerDamage(float Amount);
