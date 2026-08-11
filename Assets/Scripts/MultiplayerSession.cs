@@ -81,7 +81,10 @@ public sealed class MultiplayerSession : ScriptBehaviour
     [SerializedField] private int minimumParticipants = 6;
     [SerializedField] private int maximumBots = 5;
     [SerializedField] private float botPreferredRange = 13.0f;
-    [SerializedField] private float botNavigationRefreshInterval = 0.3f;
+    [SerializedField] private float botNavigationRefreshInterval = 0.75f;
+    [SerializedField] private float botTargetSelectionInterval = 0.5f;
+    [SerializedField] private float botPerceptionInterval = 0.15f;
+    [SerializedField] private int botThinkBudgetPerFrame = 1;
     [SerializedField] private float botAttackRange = 35.0f;
     [SerializedField] private float botRoundsPerMinute = 360.0f;
     [SerializedField] private float botDamage = 18.0f;
@@ -682,6 +685,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private void UpdateBots(float deltaTime)
     {
         if (_matchPhase != MatchPhase.Playing) return;
+        var thinkBudget = Math.Max(1, botThinkBudgetPerFrame);
         foreach (var pair in _bots)
         {
             var botId = pair.Key;
@@ -689,14 +693,30 @@ public sealed class MultiplayerSession : ScriptBehaviour
             if (!_playerStates.TryGetValue(botId, out var botState) || botState.Health <= 0.0f)
                 continue;
 
-            var targetId = FindBestOpponent(botId, bot);
-            var targetObject = GetParticipantObject(targetId);
-            if (targetObject is null || !targetObject.IsValid) continue;
-            if (bot.TargetPeerId != targetId)
+            var canThink = thinkBudget > 0;
+            var thought = false;
+            if (canThink && (_time >= bot.NextTargetSelectionAt ||
+                !IsValidBotTarget(botId, bot.TargetPeerId)))
             {
-                bot.TargetPeerId = targetId;
-                bot.IsEngaging = false;
-                bot.NextNavigationAt = 0.0f;
+                var selectedTarget = FindBestOpponent(botId, bot);
+                bot.NextTargetSelectionAt = _time + MathF.Max(0.1f, botTargetSelectionInterval);
+                thought = true;
+                if (bot.TargetPeerId != selectedTarget)
+                {
+                    bot.TargetPeerId = selectedTarget;
+                    bot.IsEngaging = false;
+                    bot.CachedLineOfSight = false;
+                    bot.NextPerceptionAt = 0.0f;
+                    bot.NextNavigationAt = 0.0f;
+                }
+            }
+
+            var targetId = bot.TargetPeerId;
+            var targetObject = GetParticipantObject(targetId);
+            if (targetObject is null || !targetObject.IsValid)
+            {
+                if (thought) thinkBudget--;
+                continue;
             }
 
             var offset = targetObject.WorldPosition - bot.GameObject.WorldPosition;
@@ -712,7 +732,14 @@ public sealed class MultiplayerSession : ScriptBehaviour
             travel.Y = 0.0f;
             var movementSpeed = travel.Length();
             var isStationary = movementSpeed <= MathF.Max(0.01f, botStationaryFireSpeed);
-            var hasLineOfSight = HasBotLineOfSight(botId, targetId, bot.GameObject, targetObject);
+            if (canThink && _time >= bot.NextPerceptionAt)
+            {
+                bot.CachedLineOfSight = HasBotLineOfSight(
+                    botId, targetId, bot.GameObject, targetObject);
+                bot.NextPerceptionAt = _time + MathF.Max(0.05f, botPerceptionInterval);
+                thought = true;
+            }
+            var hasLineOfSight = bot.CachedLineOfSight;
             var canEngage = hasLineOfSight && distance <= MathF.Max(1.0f, botAttackRange);
 
             if (!bot.IsEngaging && canEngage)
@@ -733,7 +760,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 bot.NextNavigationAt = 0.0f;
             }
 
-            if (!bot.IsEngaging && _time >= bot.NextNavigationAt)
+            if (canThink && !bot.IsEngaging && _time >= bot.NextNavigationAt)
             {
                 if (TryChooseBotTacticalDestination(
                         bot, targetId, targetObject, out var destination))
@@ -743,6 +770,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
                         destination.X, destination.Y, destination.Z);
                 }
                 bot.NextNavigationAt = _time + MathF.Max(0.05f, botNavigationRefreshInterval);
+                thought = true;
             }
             var lookDirection = !isStationary && travel.LengthSquared() > 0.0001f
                 ? Vector3.Normalize(travel)
@@ -764,7 +792,19 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 BotFire(botId, targetObject, bot);
                 bot.NextShotAt = _time + 60.0f / MathF.Max(1.0f, botRoundsPerMinute);
             }
+            if (thought) thinkBudget--;
         }
+    }
+
+    private bool IsValidBotTarget(int botId, int targetId)
+    {
+        if (!_playerStates.TryGetValue(botId, out var botState) ||
+            !_playerStates.TryGetValue(targetId, out var targetState) ||
+            targetId == botId || targetState.Health <= 0.0f ||
+            targetState.Team == botState.Team)
+            return false;
+        var target = GetParticipantObject(targetId);
+        return target is not null && target.IsValid;
     }
 
     private int FindBestOpponent(int peerId, BotController bot)
@@ -778,10 +818,6 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 continue;
             var candidate = GetParticipantObject(pair.Key);
             if (candidate is null || !candidate.IsValid) continue;
-            if (!TryResolveBotNavigationDestination(
-                    bot.GameObject.WorldPosition, candidate.WorldPosition, out _))
-                continue;
-
             var score = Vector3.Distance(bot.GameObject.WorldPosition, candidate.WorldPosition);
             if (pair.Key == bot.TargetPeerId)
                 score -= MathF.Max(0.0f, botTargetRetentionBonus);
@@ -811,8 +847,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
             var angle = (angleOffset + index * (360.0f / samples)) * MathF.PI / 180.0f;
             var desired = target.WorldPosition + new Vector3(
                 MathF.Sin(angle) * radius, 0.0f, MathF.Cos(angle) * radius);
-            if (!TryResolveBotNavigationDestination(
-                    bot.GameObject.WorldPosition, desired, out var candidate))
+            if (!TryProjectBotNavigationPosition(desired, out var candidate))
                 continue;
 
             var rangeError = MathF.Abs(Vector3.Distance(candidate, target.WorldPosition) - radius);
@@ -829,7 +864,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
             destination = candidate;
             found = true;
         }
-        return found;
+        return found && TryValidateBotNavigationDestination(
+            bot.GameObject.WorldPosition, destination);
     }
 
     private bool HasLineOfSightFrom(Vector3 position, int targetId, GameObject target)
@@ -992,24 +1028,29 @@ public sealed class MultiplayerSession : ScriptBehaviour
         return GameObject.WorldPosition;
     }
 
-    private bool TryResolveBotNavigationDestination(
-        Vector3 currentPosition, Vector3 desiredPosition, out Vector3 destination)
+    private bool TryProjectBotNavigationPosition(
+        Vector3 desiredPosition, out Vector3 destination)
     {
-        destination = currentPosition;
+        destination = desiredPosition;
         if (navigationMesh is null || !navigationMesh.IsValid ||
             !Navigation.ProjectPoint(
                 navigationMesh, desiredPosition, out var projected,
                 botNavigationAgentRadius, botNavigationAgentHeight))
             return false;
 
-        var path = Navigation.FindPath(
-            navigationMesh, currentPosition, projected,
-            botNavigationAgentRadius, botNavigationAgentHeight);
-        if (!path.Complete || path.Points.Count == 0)
-            return false;
-
         destination = projected;
         return true;
+    }
+
+    private bool TryValidateBotNavigationDestination(
+        Vector3 currentPosition, Vector3 destination)
+    {
+        if (navigationMesh is null || !navigationMesh.IsValid)
+            return false;
+        var path = Navigation.FindPath(
+            navigationMesh, currentPosition, destination,
+            botNavigationAgentRadius, botNavigationAgentHeight);
+        return path.Complete && path.Points.Count > 0;
     }
 
     private void UpdateMatch(float deltaTime)
@@ -1222,6 +1263,9 @@ public sealed class MultiplayerSession : ScriptBehaviour
         public float NextNavigationAt { get; set; }
         public Vector3 PreviousPosition { get; set; } = spawnPosition;
         public int TargetPeerId { get; set; } = int.MinValue;
+        public float NextTargetSelectionAt { get; set; } = (seed & 7u) * 0.06f;
+        public float NextPerceptionAt { get; set; } = ((seed >> 3) & 7u) * 0.02f;
+        public bool CachedLineOfSight { get; set; }
         public bool IsEngaging { get; set; }
         public float TurnDirection { get; set; } = 1.0f;
         public float StrafeSign { get; set; } = (seed & 1u) == 0 ? -1.0f : 1.0f;

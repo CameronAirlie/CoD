@@ -133,7 +133,10 @@ PROPERTY	fillWithBots	4	true	0
 PROPERTY	minimumParticipants	1	6	0
 PROPERTY	maximumBots	1	5	0
 PROPERTY	botPreferredRange	0	13.000000	0
-PROPERTY	botNavigationRefreshInterval	0	0.300000	0
+PROPERTY	botNavigationRefreshInterval	0	0.750000	0
+PROPERTY	botTargetSelectionInterval	0	0.500000	0
+PROPERTY	botPerceptionInterval	0	0.150000	0
+PROPERTY	botThinkBudgetPerFrame	1	1	0
 PROPERTY	botAttackRange	0	35.000000	0
 PROPERTY	botRoundsPerMinute	0	360.000000	0
 PROPERTY	botDamage	0	18.000000	0
