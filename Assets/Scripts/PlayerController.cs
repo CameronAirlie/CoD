@@ -19,6 +19,8 @@ public readonly record struct FpsHitEvent(
     float Damage,
     bool IsHeadshot);
 
+public readonly record struct FpsWeaponShot(Vector3 Origin, Vector3 Direction);
+
 /// <summary>
 /// A responsive, self-contained first-person controller and hitscan weapon.
 /// Optional scene references add a view model, effects, audio, animation and HUD.
@@ -32,7 +34,7 @@ public sealed class PlayerController : ScriptBehaviour
     public event Action<FpsMovementState>? MovementStateChanged;
 
     /// <summary>Raised after a round is successfully fired.</summary>
-    public event Action<int>? WeaponFired;
+    public event Action<FpsWeaponShot>? WeaponFired;
 
     /// <summary>Raised when a fired round damages a target.</summary>
     public event Action<FpsHitEvent>? HitConfirmed;
@@ -408,12 +410,11 @@ public sealed class PlayerController : ScriptBehaviour
         shotAudio?.PlayOneShot(1.0f, 0.97f + NextFloat() * 0.06f);
         muzzleFlash?.Emit(1);
         weaponAnimator?.SetTrigger("Fire");
-        WeaponFired?.Invoke(_ammo);
-
         var movingSpread = _horizontalVelocity.LengthSquared() > 0.5f ? movementSpreadDegrees : 0.0f;
         var spread = (_aiming ? adsSpreadDegrees : hipSpreadDegrees) + movingSpread;
         var direction = ApplySpread(camera?.GameObject.Forward ?? GameObject.Forward, spread);
         var origin = camera?.GameObject.WorldPosition ?? GameObject.WorldPosition;
+        WeaponFired?.Invoke(new FpsWeaponShot(origin, direction));
         if (Physics.Raycast(origin, direction, range, GameObject, out var hit))
         {
             var hitFriendly = _multiplayer?.IsFriendlyNetworkParticipant(hit.Entity) == true;

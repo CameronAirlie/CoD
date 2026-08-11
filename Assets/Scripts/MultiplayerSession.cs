@@ -65,10 +65,22 @@ public sealed class MultiplayerSession : ScriptBehaviour
     public bool IsFriendlyNetworkParticipant(GameObject entity)
     {
         var peerId = FindPeerForEntity(entity);
-        return peerId != -1 &&
-            _knownPlayers.TryGetValue(_localPeerId, out var localPlayer) &&
-            _knownPlayers.TryGetValue(peerId, out var targetPlayer) &&
-            localPlayer.Team == targetPlayer.Team;
+        return peerId != -1 && ArePeersFriendly(_localPeerId, peerId);
+    }
+
+    private bool ArePeersFriendly(int firstPeerId, int secondPeerId)
+    {
+        // The host must use its gameplay state directly. Clients use the latest
+        // replicated snapshot; keeping this decision here prevents presentation
+        // and damage code from developing separate ideas of team allegiance.
+        if (_server is not null)
+            return _playerStates.TryGetValue(firstPeerId, out var firstState) &&
+                _playerStates.TryGetValue(secondPeerId, out var secondState) &&
+                firstState.Team == secondState.Team;
+
+        return _knownPlayers.TryGetValue(firstPeerId, out var firstPlayer) &&
+            _knownPlayers.TryGetValue(secondPeerId, out var secondPlayer) &&
+            firstPlayer.Team == secondPlayer.Team;
     }
 
     [SerializedField] private string mode = "Offline";
@@ -82,7 +94,6 @@ public sealed class MultiplayerSession : ScriptBehaviour
     [SerializedField] private string hostBotPrefab =
         "project://Prefabs/Enemy.plutoprefab";
     [SerializedField] private float interpolationSharpness = 22.0f;
-    [SerializedField] private GameObject? aimingCamera = null;
     [SerializedField] private float weaponDamage = 30.0f;
     [SerializedField] private float multiplayerHeadshotMultiplier = 1.5f;
     [SerializedField] private float weaponRange = 180.0f;
@@ -137,7 +148,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private float _nextSendAt;
     private int _localPeerId = -1;
     private bool _shutDown;
-    private float _nextLocalShotAt;
+    private PlayerController? _playerController;
     private float _nextMatchBroadcastAt;
     private float _phaseEndsAt;
     private MatchPhase _matchPhase = MatchPhase.Waiting;
@@ -157,6 +168,9 @@ public sealed class MultiplayerSession : ScriptBehaviour
             _activeSession.Shutdown();
         _activeSession = this;
         _playerHealth = GameObject.GetComponent<PlayerHealth>();
+        _playerController = GameObject.GetComponent<PlayerController>();
+        if (_playerController is not null)
+            _playerController.WeaponFired += OnLocalWeaponFired;
         navigationMesh ??= GameObject.Find("Navmesh");
 
         if (!MultiplayerLaunch.Mode.Equals("Offline", StringComparison.OrdinalIgnoreCase))
@@ -224,8 +238,6 @@ public sealed class MultiplayerSession : ScriptBehaviour
             _nextSendAt = _time + 1.0f / MathF.Max(1.0f, updatesPerSecond);
         }
 
-        UpdateShooting();
-
         var blend = 1.0f - MathF.Exp(-MathF.Max(0.0f, interpolationSharpness) * safeDeltaTime);
         foreach (var remote in _remotePlayers.Values)
             remote.Interpolate(blend);
@@ -237,6 +249,12 @@ public sealed class MultiplayerSession : ScriptBehaviour
         if (_shutDown)
             return;
         _shutDown = true;
+
+        if (_playerController is not null)
+        {
+            _playerController.WeaponFired -= OnLocalWeaponFired;
+            _playerController = null;
+        }
 
         if (_client?.IsConnected == true && _localPeerId >= 0)
         {
@@ -561,24 +579,17 @@ public sealed class MultiplayerSession : ScriptBehaviour
             _client.SendJson(TransformChannel, transform);
     }
 
-    private void UpdateShooting()
+    private void OnLocalWeaponFired(FpsWeaponShot firedShot)
     {
         if (_localPeerId < 0 ||
-            _playerHealth?.IsDead == true ||
-            !Input.IsMouseButtonDown(MouseButton.Left) ||
-            _time < _nextLocalShotAt)
+            _playerHealth?.IsDead == true)
             return;
 
-        var camera = aimingCamera ?? GameObject;
-        if (!camera.IsValid)
-            return;
-
-        var direction = camera.Forward;
+        var direction = firedShot.Direction;
         if (direction.LengthSquared() < 0.001f)
             return;
 
-        var shot = ShotRequest.From(camera.WorldPosition, Vector3.Normalize(direction));
-        _nextLocalShotAt = _time + 60.0f / MathF.Max(1.0f, roundsPerMinute);
+        var shot = ShotRequest.From(firedShot.Origin, Vector3.Normalize(direction));
         if (_server is not null)
             ResolveShot(0, shot);
         else
@@ -862,6 +873,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
             var canThink = thinkBudget > 0;
             var thought = false;
             var currentTargetValid = IsValidBotTarget(botId, bot.TargetPeerId);
+            if (!currentTargetValid && bot.TargetPeerId != int.MinValue)
+                ClearBotTarget(bot);
             var currentTarget = currentTargetValid
                 ? GetParticipantObject(bot.TargetPeerId)
                 : null;
@@ -1217,9 +1230,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
     private void ConfigureNameplate(int peerId, GameObject proxy)
     {
-        var friendly = _knownPlayers.TryGetValue(_localPeerId, out var localPlayer) &&
-            _knownPlayers.TryGetValue(peerId, out var remotePlayer) &&
-            localPlayer.Team == remotePlayer.Team;
+        var friendly = ArePeersFriendly(_localPeerId, peerId);
         var username = _knownPlayers.TryGetValue(peerId, out var player)
             ? player.Username
             : string.Empty;
@@ -1408,8 +1419,21 @@ public sealed class MultiplayerSession : ScriptBehaviour
             return;
 
         state.Team = state.Team == PlayerTeam.Alpha ? PlayerTeam.Bravo : PlayerTeam.Alpha;
+        foreach (var bot in _bots.Values)
+            ClearBotTarget(bot);
         BroadcastMatchState();
         Debug.Log($"{_peerNames.GetValueOrDefault(peerId, $"Player{peerId}")} switched to {state.Team}.");
+    }
+
+    private static void ClearBotTarget(BotController bot)
+    {
+        bot.TargetPeerId = int.MinValue;
+        bot.IsEngaging = false;
+        bot.CachedLineOfSight = false;
+        bot.NextTargetSelectionAt = 0.0f;
+        bot.NextPerceptionAt = 0.0f;
+        bot.NextNavigationAt = 0.0f;
+        bot.HasNavigationDestination = false;
     }
 
     private void BroadcastMatchState()

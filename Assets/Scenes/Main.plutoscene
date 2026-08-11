@@ -118,7 +118,6 @@ PROPERTY	titleScene	2	Title	0
 PROPERTY	remotePlayerPrefab	2	project://Prefabs/RemotePlayer.plutoprefab	0
 PROPERTY	hostBotPrefab	2	project://Prefabs/Enemy.plutoprefab	0
 PROPERTY	interpolationSharpness	0	22.000000	0
-PROPERTY	aimingCamera	9	2	0
 PROPERTY	weaponDamage	0	30.000000	0
 PROPERTY	multiplayerHeadshotMultiplier	0	1.500000	0
 PROPERTY	weaponRange	0	180.000000	0
