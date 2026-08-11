@@ -28,7 +28,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
 {
     private static MultiplayerSession? _activeSession;
 
-    private const int ProtocolVersion = 6;
+    private const int ProtocolVersion = 7;
     private const ushort HandshakeChannel = 1;
     private const ushort TransformChannel = 2;
     private const ushort PeerLeftChannel = 3;
@@ -39,6 +39,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private const ushort KillFeedChannel = 8;
     private const ushort ShotEffectChannel = 9;
     private const ushort HitEffectChannel = 10;
+    private const ushort LeaveChannel = 11;
 
     public event Action<MatchSnapshot>? MatchUpdated;
     public event Action<KillFeedEntry>? KillFeedReceived;
@@ -221,6 +222,9 @@ public sealed class MultiplayerSession : ScriptBehaviour
             return;
         _shutDown = true;
 
+        if (_client?.IsConnected == true && _localPeerId >= 0)
+            _client.SendJson(LeaveChannel, new PeerLeft(_localPeerId));
+
         _server?.Dispose();
         _server = null;
         _client?.Dispose();
@@ -338,6 +342,12 @@ public sealed class MultiplayerSession : ScriptBehaviour
         {
             if (_authenticatedPeers.Contains(message.PeerId))
                 _peerLastSeenAt[message.PeerId] = _time;
+
+            if (message.Channel == LeaveChannel)
+            {
+                OnServerPeerDisconnected(message.PeerId);
+                return;
+            }
 
             if (message.Channel == HandshakeChannel)
             {
@@ -597,7 +607,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 return;
 
             var instance = Prefab.Instantiate(
-                remotePlayerPrefab, transform.Position, transform.Rotation);
+                remotePlayerPrefab, transform.Position, Vector3.Zero);
             if (instance is null)
             {
                 Debug.LogWarning($"Could not spawn proxy for peer {transform.PeerId}.");
@@ -664,13 +674,22 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private void RemoveRemotePlayer(int peerId)
     {
         if (_remotePlayers.Remove(peerId, out var remote))
-            remote.GameObject.Destroy();
+        {
+            // Native destruction is deferred until the end of the frame. Hide
+            // the proxy immediately so a departed player cannot remain visible.
+            remote.GameObject.Active = false;
+            if (!remote.GameObject.Destroy())
+                Debug.LogWarning($"Could not destroy remote proxy for peer {peerId}.");
+        }
     }
 
     private void ClearRemotePlayers()
     {
         foreach (var remote in _remotePlayers.Values)
+        {
+            remote.GameObject.Active = false;
             remote.GameObject.Destroy();
+        }
         _remotePlayers.Clear();
     }
 
@@ -714,7 +733,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
             {
                 Health = MathF.Max(1.0f, multiplayerMaximumHealth)
             };
-            _remotePlayers[peerId] = new RemotePlayer(instance, spawn, Vector3.Zero);
+            _remotePlayers[peerId] = new RemotePlayer(instance, spawn, Quaternion.Identity);
             _bots[peerId] = new BotController(instance, spawn, unchecked((uint)peerId * 747796405u));
             instance.TryInvoke("ResetExternalNavigation", spawn.X, spawn.Y, spawn.Z);
             Debug.Log($"Added {_peerNames[peerId]} to {team}.");
@@ -886,7 +905,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
             if (_remotePlayers.TryGetValue(botId, out var remote))
             {
                 remote.TargetPosition = bot.GameObject.WorldPosition;
-                remote.TargetRotation = bot.GameObject.Rotation;
+                remote.TargetRotation = bot.GameObject.RotationQuaternion;
             }
 
             if (bot.IsEngaging && isStationary && facingTarget && hasLineOfSight &&
@@ -1401,61 +1420,45 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private sealed record PlayerTransform(
         int PeerId,
         float X, float Y, float Z,
-        float Pitch, float Yaw, float Roll)
+        float RotationX, float RotationY, float RotationZ, float RotationW)
     {
         public Vector3 Position => new(X, Y, Z);
-        public Vector3 Rotation => new(Pitch, Yaw, Roll);
+        public Quaternion Rotation => Quaternion.Normalize(new(
+            RotationX, RotationY, RotationZ, RotationW));
 
         public static PlayerTransform From(int peerId, GameObject player)
         {
             var position = player.WorldPosition;
-            // Rotation is the degree-based Euler value used by gameplay scripts.
-            // WorldRotation is supplied by the native transform path in radians,
-            // so serializing it and applying it as degrees limits proxies to about
-            // +/- PI degrees instead of a full turn.
-            var rotation = player.Rotation;
+            var rotation = player.RotationQuaternion;
             return new PlayerTransform(
                 peerId, position.X, position.Y, position.Z,
-                rotation.X, rotation.Y, rotation.Z);
+                rotation.X, rotation.Y, rotation.Z, rotation.W);
         }
 
         public bool IsFinite() =>
             float.IsFinite(X) && float.IsFinite(Y) && float.IsFinite(Z) &&
-            float.IsFinite(Pitch) && float.IsFinite(Yaw) && float.IsFinite(Roll);
+            float.IsFinite(RotationX) && float.IsFinite(RotationY) &&
+            float.IsFinite(RotationZ) && float.IsFinite(RotationW) &&
+            RotationX * RotationX + RotationY * RotationY +
+            RotationZ * RotationZ + RotationW * RotationW > 0.000001f;
     }
 
     private sealed class RemotePlayer(
-        GameObject gameObject, Vector3 position, Vector3 rotation)
+        GameObject gameObject, Vector3 position, Quaternion rotation)
     {
         public GameObject GameObject { get; } = gameObject;
         public Vector3 TargetPosition { get; set; } = position;
-        public Vector3 TargetRotation { get; set; } = rotation;
+        public Quaternion TargetRotation { get; set; } = rotation;
 
         public void Interpolate(float blend)
         {
             if (!GameObject.IsValid)
                 return;
             GameObject.WorldPosition = Vector3.Lerp(GameObject.WorldPosition, TargetPosition, blend);
-            var rotation = GameObject.Rotation;
-            GameObject.Rotation = new Vector3(
-                0.0f,
-                LerpAngle(rotation.Y, TargetRotation.Y, blend),
-                0.0f);
-        }
-
-        private static float LerpAngle(float current, float target, float blend)
-        {
-            var difference = (target - current + 180.0f) % 360.0f;
-            if (difference < 0.0f)
-                difference += 360.0f;
-            difference -= 180.0f;
-            return NormalizeAngle(current + difference * Math.Clamp(blend, 0.0f, 1.0f));
-        }
-
-        private static float NormalizeAngle(float angle)
-        {
-            angle %= 360.0f;
-            return angle < 0.0f ? angle + 360.0f : angle;
+            GameObject.RotationQuaternion = Quaternion.Normalize(Quaternion.Slerp(
+                GameObject.RotationQuaternion,
+                TargetRotation,
+                Math.Clamp(blend, 0.0f, 1.0f)));
         }
     }
 }
