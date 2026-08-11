@@ -7,9 +7,9 @@ WINDOW_TITLE	CoD
 WINDOW_SIZE	1280	720
 VSYNC	0
 EDITOR_FONT_SIZE	13
-EDITOR_CAMERA_POSITION	-1.54095	3.5406	-10.2166
+EDITOR_CAMERA_POSITION	-0.912096	0.424536	-0.605933
 EDITOR_CAMERA_SPEED	6
-EDITOR_CAMERA_ROTATION	-531.232	-5.11984
+EDITOR_CAMERA_ROTATION	-469.313	-1.63982
 EDITOR_CAMERA_LENS	70	0.1	1000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/main.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -21,7 +21,7 @@ ASSET	engine://builtin/mesh/quad	0	Mesh
 ASSET	engine://builtin/mesh/sphere	0	Mesh
 ASSET	engine://builtin/shadergraph/default-lit	0	Shader Graph
 ASSET	engine://builtin/shadergraph/default-unlit	0	Shader Graph
-ASSET	project://AnimGraphs/enemy.plutoanimgraph	1401	Animation Graph
+ASSET	project://AnimGraphs/enemy.plutoanimgraph	1548	Animation Graph
 ASSET	project://AnimGraphs/player.plutoanimgraph	1091	Animation Graph
 ASSET	project://Fonts/Georama.ttf	434664	Unknown
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_A_TPose_0.plutoclip	332294	Animation Clip
@@ -72,6 +72,7 @@ ASSET	project://Imported/UAL1_Standard/M_UAL1_Standard_1.plutomaterial	451	Mater
 ASSET	project://Imported/UAL1_Standard/M_UAL1_Standard_2.plutomaterial	428	Material
 ASSET	project://Imported/UAL1_Standard/UAL1_Standard.plutoanim	3694	Animation
 ASSET	project://Imported/UAL1_Standard/UAL1_Standard.plutomesh	1090015	Mesh
+ASSET	project://Imported/UAL1_Standard/UAL1_Standard.plutomesh.materials	189	Unknown
 ASSET	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_draw_0.plutoclip	94084	Animation Clip
 ASSET	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_hide_1.plutoclip	94344	Animation Clip
 ASSET	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_idle_2.plutoclip	464623	Animation Clip
@@ -101,37 +102,87 @@ ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.pluto
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutoanim	963	Animation
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	2611229	Mesh
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	112640	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	44652	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	122880	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	48824	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
-ASSET	project://Managed/PlutoGE.ScriptCore.dll	204800	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	73740	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.dll	206848	Assembly
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	74352	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	369	Unknown
 ASSET	project://Materials/BulletHole.plutomaterial	473	Material
 ASSET	project://Materials/Ground.plutomaterial	492	Material
 ASSET	project://Materials/Lightsaber_blade.plutomaterial	447	Material
 ASSET	project://Materials/Lightsaber_hilt.plutomaterial	431	Material
 ASSET	project://Materials/MuzzleFlash.plutomaterial	486	Material
+ASSET	project://Packs/AnimationPack/A_TPose.plutoclip	332294	Animation Clip
+ASSET	project://Packs/AnimationPack/Crouch_Fwd_Loop.plutoclip	273802	Animation Clip
+ASSET	project://Packs/AnimationPack/Crouch_Idle_Loop.plutoclip	383003	Animation Clip
+ASSET	project://Packs/AnimationPack/Dance_Loop.plutoclip	156797	Animation Clip
+ASSET	project://Packs/AnimationPack/Death01.plutoclip	320594	Animation Clip
+ASSET	project://Packs/AnimationPack/Driving_Loop.plutoclip	234799	Animation Clip
+ASSET	project://Packs/AnimationPack/Fixing_Kneeling.plutoclip	648202	Animation Clip
+ASSET	project://Packs/AnimationPack/Hit_Chest.plutoclip	78796	Animation Clip
+ASSET	project://Packs/AnimationPack/Hit_Head.plutoclip	90495	Animation Clip
+ASSET	project://Packs/AnimationPack/Idle_Loop.plutoclip	332296	Animation Clip
+ASSET	project://Packs/AnimationPack/Idle_Talking_Loop.plutoclip	383004	Animation Clip
+ASSET	project://Packs/AnimationPack/Idle_Torch_Loop.plutoclip	188002	Animation Clip
+ASSET	project://Packs/AnimationPack/Interact.plutoclip	273795	Animation Clip
+ASSET	project://Packs/AnimationPack/Jog_Fwd_Loop.plutoclip	148999	Animation Clip
+ASSET	project://Packs/AnimationPack/Jump_Land.plutoclip	187996	Animation Clip
+ASSET	project://Packs/AnimationPack/Jump_Loop.plutoclip	332296	Animation Clip
+ASSET	project://Packs/AnimationPack/Jump_Start.plutoclip	195797	Animation Clip
+ASSET	project://Packs/AnimationPack/M_UAL1_Standard_0.plutomaterial	452	Material
+ASSET	project://Packs/AnimationPack/M_UAL1_Standard_1.plutomaterial	451	Material
+ASSET	project://Packs/AnimationPack/M_UAL1_Standard_2.plutomaterial	428	Material
+ASSET	project://Packs/AnimationPack/PickUp_Table.plutoclip	137299	Animation Clip
+ASSET	project://Packs/AnimationPack/Pistol_Aim_Down.plutoclip	59302	Animation Clip
+ASSET	project://Packs/AnimationPack/Pistol_Aim_Neutral.plutoclip	59305	Animation Clip
+ASSET	project://Packs/AnimationPack/Pistol_Aim_Up.plutoclip	59300	Animation Clip
+ASSET	project://Packs/AnimationPack/Pistol_Idle_Loop.plutoclip	234803	Animation Clip
+ASSET	project://Packs/AnimationPack/Pistol_Reload.plutoclip	234800	Animation Clip
+ASSET	project://Packs/AnimationPack/Pistol_Shoot.plutoclip	113899	Animation Clip
+ASSET	project://Packs/AnimationPack/Punch_Cross.plutoclip	156798	Animation Clip
+ASSET	project://Packs/AnimationPack/Punch_Jab.plutoclip	141196	Animation Clip
+ASSET	project://Packs/AnimationPack/Push_Loop.plutoclip	351796	Animation Clip
+ASSET	project://Packs/AnimationPack/Roll.plutoclip	211391	Animation Clip
+ASSET	project://Packs/AnimationPack/Sitting_Enter.plutoclip	191900	Animation Clip
+ASSET	project://Packs/AnimationPack/Sitting_Exit.plutoclip	160699	Animation Clip
+ASSET	project://Packs/AnimationPack/Sitting_Idle_Loop.plutoclip	234804	Animation Clip
+ASSET	project://Packs/AnimationPack/Sitting_Talking_Loop.plutoclip	383007	Animation Clip
+ASSET	project://Packs/AnimationPack/Spell_Simple_Enter.plutoclip	102205	Animation Clip
+ASSET	project://Packs/AnimationPack/Spell_Simple_Exit.plutoclip	90504	Animation Clip
+ASSET	project://Packs/AnimationPack/Spell_Simple_Idle_Loop.plutoclip	285509	Animation Clip
+ASSET	project://Packs/AnimationPack/Spell_Simple_Shoot.plutoclip	98305	Animation Clip
+ASSET	project://Packs/AnimationPack/Sprint_Loop.plutoclip	117798	Animation Clip
+ASSET	project://Packs/AnimationPack/Swim_Fwd_Loop.plutoclip	195800	Animation Clip
+ASSET	project://Packs/AnimationPack/Swim_Idle_Loop.plutoclip	429801	Animation Clip
+ASSET	project://Packs/AnimationPack/Sword_Attack.plutoclip	219199	Animation Clip
+ASSET	project://Packs/AnimationPack/Sword_Idle.plutoclip	234797	Animation Clip
+ASSET	project://Packs/AnimationPack/UAL1_Standard Animations.plutoanim	3694	Animation
+ASSET	project://Packs/AnimationPack/UAL1_Standard.glb	7618436	Model
+ASSET	project://Packs/AnimationPack/UAL1_Standard.plutomesh	1090015	Mesh
+ASSET	project://Packs/AnimationPack/UAL1_Standard_RM.glb	7620504	Model
+ASSET	project://Packs/AnimationPack/Walk_Formal_Loop.plutoclip	195803	Animation Clip
+ASSET	project://Packs/AnimationPack/Walk_Loop.plutoclip	195796	Animation Clip
 ASSET	project://Particles/MuzzleFlash.plutoparticles	864	Particle System
-ASSET	project://PostProcessing/main.plutopostprocess	3624	Post Process Preset
+ASSET	project://PostProcessing/main.plutopostprocess	3620	Post Process Preset
 ASSET	project://Prefabs/AmmoPickup.plutoprefab	1889	Prefab
 ASSET	project://Prefabs/ArmourPickup.plutoprefab	1894	Prefab
-ASSET	project://Prefabs/Enemy.plutoprefab	18290	Prefab
+ASSET	project://Prefabs/Enemy.plutoprefab	16694	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1895	Prefab
 ASSET	project://Prefabs/Lightsaber.plutoprefab	1943	Prefab
-ASSET	project://Prefabs/RemotePlayer.plutoprefab	1451	Prefab
-ASSET	project://Scenes/Main.plutoscene	119182	Scene
+ASSET	project://Prefabs/RemotePlayer.plutoprefab	14386	Prefab
+ASSET	project://Scenes/Main.plutoscene	119661	Scene
 ASSET	project://Scenes/Title.plutoscene	7275	Scene
-ASSET	project://Scripts/EnemySoldierBot.cs	22505	Script
+ASSET	project://Scripts/EnemySoldierBot.cs	26405	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4254	Script
 ASSET	project://Scripts/InventoryMenu.cs	6328	Script
 ASSET	project://Scripts/MultiplayerLaunch.cs	696	Script
-ASSET	project://Scripts/MultiplayerSession.cs	40860	Script
+ASSET	project://Scripts/MultiplayerSession.cs	55538	Script
 ASSET	project://Scripts/NetworkParticipantHitbox.cs	389	Script
 ASSET	project://Scripts/PauseMenu.cs	271	Script
-ASSET	project://Scripts/PlayerController.cs	24551	Script
+ASSET	project://Scripts/PlayerController.cs	24689	Script
 ASSET	project://Scripts/PlayerHealth.cs	6139	Script
-ASSET	project://Scripts/PlayerHud.cs	11165	Script
+ASSET	project://Scripts/PlayerHud.cs	11213	Script
 ASSET	project://Scripts/PlayerInventory.cs	4061	Script
 ASSET	project://Scripts/SupplyPickup.cs	2143	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script

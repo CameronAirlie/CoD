@@ -12,19 +12,235 @@ PROPERTY	Blocks Audio	4	false	0
 END_COMPONENT
 COMPONENT	1	ScriptComponent
 PROPERTY	Source	2	CoD.Scripts.EnemySoldierBot	0
+PROPERTY	target	9	0	0
 PROPERTY	animationObject	9	2	0
 PROPERTY	gunAudioObject	9	4	0
 PROPERTY	navigationTarget	9	0	0
+PROPERTY	navigationMesh	9	0	0
+PROPERTY	navigationAgentRadius	0	0.500000	0
+PROPERTY	navigationAgentHeight	0	2.000000	0
 PROPERTY	networkNameplate	9	5	0
+PROPERTY	targetTag	2	Player	0
+PROPERTY	targetName	2	Player	0
+PROPERTY	targetDamageMethod	2	TakeDamage	0
+PROPERTY	health	0	100.000000	0
+PROPERTY	detectionRange	0	45.000000	0
+PROPERTY	fieldOfView	0	120.000000	0
+PROPERTY	attackRange	0	28.000000	0
+PROPERTY	firingAngle	0	8.000000	0
+PROPERTY	preferredRange	0	14.000000	0
+PROPERTY	centrePositionWeight	0	1.250000	0
+PROPERTY	turnSharpness	0	10.000000	0
+PROPERTY	stationaryFireSpeed	0	0.200000	0
+PROPERTY	eyeHeight	0	1.450000	0
+PROPERTY	targetHeight	0	0.750000	0
+PROPERTY	positionSearchRadiusMin	0	8.000000	0
+PROPERTY	positionSearchRadiusMax	0	22.000000	0
+PROPERTY	positionSamples	1	12	0
+PROPERTY	arrivalDistance	0	1.250000	0
+PROPERTY	positionMoveTimeout	0	8.000000	0
+PROPERTY	holdTimeMin	0	2.000000	0
+PROPERTY	holdTimeMax	0	4.000000	0
+PROPERTY	reactionTime	0	0.300000	0
+PROPERTY	perceptionRefreshInterval	0	0.100000	0
+PROPERTY	aimLineOfSightGrace	0	0.500000	0
+PROPERTY	roundsPerMinute	0	600.000000	0
+PROPERTY	burstMin	1	3	0
+PROPERTY	burstMax	1	7	0
+PROPERTY	burstPauseMin	0	0.350000	0
+PROPERTY	burstPauseMax	0	0.800000	0
+PROPERTY	damagePerShot	0	12.000000	0
+PROPERTY	accuracyDegrees	0	2.000000	0
+PROPERTY	movementSpeedParameter	2	MovementSpeed	0
+PROPERTY	hasTargetParameter	2	HasTarget	0
+PROPERTY	shootTriggerParameter	2	Shoot	0
+PROPERTY	hitTriggerParameter	2	Hit	0
+PROPERTY	deadParameter	2	Dead	0
+PROPERTY	deathTriggerParameter	2	Death	0
+PROPERTY	deathCleanupDelay	0	2.500000	0
 END_COMPONENT
 ENTITY	2	1	1	Animated Soldier	0.000000,0.000000,0.000000	0.000000,180.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	2	AnimationComponent
 PROPERTY	SourceAnimation	2	project://Packs/AnimationPack/UAL1_Standard Animations.plutoanim	0
 PROPERTY	AnimationGraph	2	project://AnimGraphs/enemy.plutoanimgraph	0
+PROPERTY	CurrentClipIndex	6	50	57	A_TPose	Crouch_Fwd_Loop	Crouch_Idle_Loop	Dance_Loop	Death01	Driving_Loop	Fixing_Kneeling	Hit_Chest	Hit_Head	Idle_Loop	Idle_Talking_Loop	Idle_Torch_Loop	Interact	Jog_Fwd_Loop	Jump_Land	Jump_Loop	Jump_Start	PickUp_Table	Pistol_Aim_Down	Pistol_Aim_Neutral	Pistol_Aim_Up	Pistol_Idle_Loop	Pistol_Reload	Pistol_Shoot	Punch_Cross	Punch_Jab	Push_Loop	Roll	Sitting_Enter	Sitting_Exit	Sitting_Idle_Loop	Sitting_Talking_Loop	Spell_Simple_Enter	Spell_Simple_Exit	Spell_Simple_Idle_Loop	Spell_Simple_Shoot	Sprint_Loop	Swim_Fwd_Loop	Swim_Idle_Loop	Sword_Attack	Sword_Idle	Walk_Formal_Loop	Walk_Loop	Pistol_Idle_Loop	Jog_Fwd_Loop	Sprint_Loop	Pistol_Shoot	Pistol_Aim_Neutral	Hit_Chest	Death01	Pistol_Idle_Loop	Jog_Fwd_Loop	Sprint_Loop	Pistol_Shoot	Pistol_Aim_Neutral	Hit_Chest	Death01
+PROPERTY	Time	0	0.638061	0
 PROPERTY	Speed	0	1.000000	0
 PROPERTY	Playing	4	true	0
 PROPERTY	Looping	4	true	0
 PROPERTY	Autoplay	4	true	0
+PROPERTY	ClipCount	1	57	0
+PROPERTY	Clips.0.Name	2	A_TPose	0
+PROPERTY	Clips.0.Duration	0	2.500000	0
+PROPERTY	Clips.0.ChannelCount	1	195	0
+PROPERTY	Clips.1.Name	2	Crouch_Fwd_Loop	0
+PROPERTY	Clips.1.Duration	0	2.000000	0
+PROPERTY	Clips.1.ChannelCount	1	195	0
+PROPERTY	Clips.2.Name	2	Crouch_Idle_Loop	0
+PROPERTY	Clips.2.Duration	0	2.933333	0
+PROPERTY	Clips.2.ChannelCount	1	195	0
+PROPERTY	Clips.3.Name	2	Dance_Loop	0
+PROPERTY	Clips.3.Duration	0	1.000000	0
+PROPERTY	Clips.3.ChannelCount	1	195	0
+PROPERTY	Clips.4.Name	2	Death01	0
+PROPERTY	Clips.4.Duration	0	2.400000	0
+PROPERTY	Clips.4.ChannelCount	1	195	0
+PROPERTY	Clips.5.Name	2	Driving_Loop	0
+PROPERTY	Clips.5.Duration	0	1.666667	0
+PROPERTY	Clips.5.ChannelCount	1	195	0
+PROPERTY	Clips.6.Name	2	Fixing_Kneeling	0
+PROPERTY	Clips.6.Duration	0	5.200000	0
+PROPERTY	Clips.6.ChannelCount	1	195	0
+PROPERTY	Clips.7.Name	2	Hit_Chest	0
+PROPERTY	Clips.7.Duration	0	0.333333	0
+PROPERTY	Clips.7.ChannelCount	1	195	0
+PROPERTY	Clips.8.Name	2	Hit_Head	0
+PROPERTY	Clips.8.Duration	0	0.433333	0
+PROPERTY	Clips.8.ChannelCount	1	195	0
+PROPERTY	Clips.9.Name	2	Idle_Loop	0
+PROPERTY	Clips.9.Duration	0	2.500000	0
+PROPERTY	Clips.9.ChannelCount	1	195	0
+PROPERTY	Clips.10.Name	2	Idle_Talking_Loop	0
+PROPERTY	Clips.10.Duration	0	2.933333	0
+PROPERTY	Clips.10.ChannelCount	1	195	0
+PROPERTY	Clips.11.Name	2	Idle_Torch_Loop	0
+PROPERTY	Clips.11.Duration	0	1.266667	0
+PROPERTY	Clips.11.ChannelCount	1	195	0
+PROPERTY	Clips.12.Name	2	Interact	0
+PROPERTY	Clips.12.Duration	0	2.000000	0
+PROPERTY	Clips.12.ChannelCount	1	195	0
+PROPERTY	Clips.13.Name	2	Jog_Fwd_Loop	0
+PROPERTY	Clips.13.Duration	0	0.933333	0
+PROPERTY	Clips.13.ChannelCount	1	195	0
+PROPERTY	Clips.14.Name	2	Jump_Land	0
+PROPERTY	Clips.14.Duration	0	1.266667	0
+PROPERTY	Clips.14.ChannelCount	1	195	0
+PROPERTY	Clips.15.Name	2	Jump_Loop	0
+PROPERTY	Clips.15.Duration	0	2.500000	0
+PROPERTY	Clips.15.ChannelCount	1	195	0
+PROPERTY	Clips.16.Name	2	Jump_Start	0
+PROPERTY	Clips.16.Duration	0	1.333333	0
+PROPERTY	Clips.16.ChannelCount	1	195	0
+PROPERTY	Clips.17.Name	2	PickUp_Table	0
+PROPERTY	Clips.17.Duration	0	0.833333	0
+PROPERTY	Clips.17.ChannelCount	1	195	0
+PROPERTY	Clips.18.Name	2	Pistol_Aim_Down	0
+PROPERTY	Clips.18.Duration	0	0.166667	0
+PROPERTY	Clips.18.ChannelCount	1	195	0
+PROPERTY	Clips.19.Name	2	Pistol_Aim_Neutral	0
+PROPERTY	Clips.19.Duration	0	0.166667	0
+PROPERTY	Clips.19.ChannelCount	1	195	0
+PROPERTY	Clips.20.Name	2	Pistol_Aim_Up	0
+PROPERTY	Clips.20.Duration	0	0.166667	0
+PROPERTY	Clips.20.ChannelCount	1	195	0
+PROPERTY	Clips.21.Name	2	Pistol_Idle_Loop	0
+PROPERTY	Clips.21.Duration	0	1.666667	0
+PROPERTY	Clips.21.ChannelCount	1	195	0
+PROPERTY	Clips.22.Name	2	Pistol_Reload	0
+PROPERTY	Clips.22.Duration	0	1.666667	0
+PROPERTY	Clips.22.ChannelCount	1	195	0
+PROPERTY	Clips.23.Name	2	Pistol_Shoot	0
+PROPERTY	Clips.23.Duration	0	0.633333	0
+PROPERTY	Clips.23.ChannelCount	1	195	0
+PROPERTY	Clips.24.Name	2	Punch_Cross	0
+PROPERTY	Clips.24.Duration	0	1.000000	0
+PROPERTY	Clips.24.ChannelCount	1	195	0
+PROPERTY	Clips.25.Name	2	Punch_Jab	0
+PROPERTY	Clips.25.Duration	0	0.866667	0
+PROPERTY	Clips.25.ChannelCount	1	195	0
+PROPERTY	Clips.26.Name	2	Push_Loop	0
+PROPERTY	Clips.26.Duration	0	2.666667	0
+PROPERTY	Clips.26.ChannelCount	1	195	0
+PROPERTY	Clips.27.Name	2	Roll	0
+PROPERTY	Clips.27.Duration	0	1.466667	0
+PROPERTY	Clips.27.ChannelCount	1	195	0
+PROPERTY	Clips.28.Name	2	Sitting_Enter	0
+PROPERTY	Clips.28.Duration	0	1.300000	0
+PROPERTY	Clips.28.ChannelCount	1	195	0
+PROPERTY	Clips.29.Name	2	Sitting_Exit	0
+PROPERTY	Clips.29.Duration	0	1.033333	0
+PROPERTY	Clips.29.ChannelCount	1	195	0
+PROPERTY	Clips.30.Name	2	Sitting_Idle_Loop	0
+PROPERTY	Clips.30.Duration	0	1.666667	0
+PROPERTY	Clips.30.ChannelCount	1	195	0
+PROPERTY	Clips.31.Name	2	Sitting_Talking_Loop	0
+PROPERTY	Clips.31.Duration	0	2.933333	0
+PROPERTY	Clips.31.ChannelCount	1	195	0
+PROPERTY	Clips.32.Name	2	Spell_Simple_Enter	0
+PROPERTY	Clips.32.Duration	0	0.533333	0
+PROPERTY	Clips.32.ChannelCount	1	195	0
+PROPERTY	Clips.33.Name	2	Spell_Simple_Exit	0
+PROPERTY	Clips.33.Duration	0	0.433333	0
+PROPERTY	Clips.33.ChannelCount	1	195	0
+PROPERTY	Clips.34.Name	2	Spell_Simple_Idle_Loop	0
+PROPERTY	Clips.34.Duration	0	2.100000	0
+PROPERTY	Clips.34.ChannelCount	1	195	0
+PROPERTY	Clips.35.Name	2	Spell_Simple_Shoot	0
+PROPERTY	Clips.35.Duration	0	0.500000	0
+PROPERTY	Clips.35.ChannelCount	1	195	0
+PROPERTY	Clips.36.Name	2	Sprint_Loop	0
+PROPERTY	Clips.36.Duration	0	0.666667	0
+PROPERTY	Clips.36.ChannelCount	1	195	0
+PROPERTY	Clips.37.Name	2	Swim_Fwd_Loop	0
+PROPERTY	Clips.37.Duration	0	1.333333	0
+PROPERTY	Clips.37.ChannelCount	1	195	0
+PROPERTY	Clips.38.Name	2	Swim_Idle_Loop	0
+PROPERTY	Clips.38.Duration	0	3.333333	0
+PROPERTY	Clips.38.ChannelCount	1	195	0
+PROPERTY	Clips.39.Name	2	Sword_Attack	0
+PROPERTY	Clips.39.Duration	0	1.533333	0
+PROPERTY	Clips.39.ChannelCount	1	195	0
+PROPERTY	Clips.40.Name	2	Sword_Idle	0
+PROPERTY	Clips.40.Duration	0	1.666667	0
+PROPERTY	Clips.40.ChannelCount	1	195	0
+PROPERTY	Clips.41.Name	2	Walk_Formal_Loop	0
+PROPERTY	Clips.41.Duration	0	1.333333	0
+PROPERTY	Clips.41.ChannelCount	1	195	0
+PROPERTY	Clips.42.Name	2	Walk_Loop	0
+PROPERTY	Clips.42.Duration	0	1.333333	0
+PROPERTY	Clips.42.ChannelCount	1	195	0
+PROPERTY	Clips.43.Name	2	Pistol_Idle_Loop	0
+PROPERTY	Clips.43.Duration	0	1.666667	0
+PROPERTY	Clips.43.ChannelCount	1	195	0
+PROPERTY	Clips.44.Name	2	Jog_Fwd_Loop	0
+PROPERTY	Clips.44.Duration	0	0.933333	0
+PROPERTY	Clips.44.ChannelCount	1	195	0
+PROPERTY	Clips.45.Name	2	Sprint_Loop	0
+PROPERTY	Clips.45.Duration	0	0.666667	0
+PROPERTY	Clips.45.ChannelCount	1	195	0
+PROPERTY	Clips.46.Name	2	Pistol_Shoot	0
+PROPERTY	Clips.46.Duration	0	0.633333	0
+PROPERTY	Clips.46.ChannelCount	1	195	0
+PROPERTY	Clips.47.Name	2	Pistol_Aim_Neutral	0
+PROPERTY	Clips.47.Duration	0	0.166667	0
+PROPERTY	Clips.47.ChannelCount	1	195	0
+PROPERTY	Clips.48.Name	2	Hit_Chest	0
+PROPERTY	Clips.48.Duration	0	0.333333	0
+PROPERTY	Clips.48.ChannelCount	1	195	0
+PROPERTY	Clips.49.Name	2	Death01	0
+PROPERTY	Clips.49.Duration	0	2.400000	0
+PROPERTY	Clips.49.ChannelCount	1	195	0
+PROPERTY	Clips.50.Name	2	Pistol_Idle_Loop	0
+PROPERTY	Clips.50.Duration	0	1.666667	0
+PROPERTY	Clips.50.ChannelCount	1	195	0
+PROPERTY	Clips.51.Name	2	Jog_Fwd_Loop	0
+PROPERTY	Clips.51.Duration	0	0.933333	0
+PROPERTY	Clips.51.ChannelCount	1	195	0
+PROPERTY	Clips.52.Name	2	Sprint_Loop	0
+PROPERTY	Clips.52.Duration	0	0.666667	0
+PROPERTY	Clips.52.ChannelCount	1	195	0
+PROPERTY	Clips.53.Name	2	Pistol_Shoot	0
+PROPERTY	Clips.53.Duration	0	0.633333	0
+PROPERTY	Clips.53.ChannelCount	1	195	0
+PROPERTY	Clips.54.Name	2	Pistol_Aim_Neutral	0
+PROPERTY	Clips.54.Duration	0	0.166667	0
+PROPERTY	Clips.54.ChannelCount	1	195	0
+PROPERTY	Clips.55.Name	2	Hit_Chest	0
+PROPERTY	Clips.55.Duration	0	0.333333	0
+PROPERTY	Clips.55.ChannelCount	1	195	0
+PROPERTY	Clips.56.Name	2	Death01	0
+PROPERTY	Clips.56.Duration	0	2.400000	0
+PROPERTY	Clips.56.ChannelCount	1	195	0
 END_COMPONENT
 ENTITY	3	2	1	Soldier Mesh	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	3	MeshComponent
@@ -38,10 +254,19 @@ PROPERTY	MeshAssetReference	2	project://Imported/UAL1_Standard/UAL1_Standard.plu
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,-1.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MaterialSlotCount	1	3	0
-PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/UAL1_Standard/M_UAL1_Standard_0.plutomaterial	0
-PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/UAL1_Standard/M_UAL1_Standard_1.plutomaterial	0
-PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/UAL1_Standard/M_UAL1_Standard_2.plutomaterial	0
+END_COMPONENT
+ENTITY	6107	2	1	Mannequin	0.000000,-1.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	6107	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	0	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	8b3d61e6b0bde27e348d075f2c262b01	0
+PROPERTY	ModelObjectId	2	15563061709532230224	0
+PROPERTY	MeshAssetReference	2	project://Imported/UAL1_Standard/UAL1_Standard.plutomesh	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
 ENTITY	4	1	1	Gun Audio	0.000000,0.750000,-0.650000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	4	SoundEmitterComponent
@@ -54,6 +279,9 @@ PROPERTY	Pitch	0	1.000000	0
 PROPERTY	MinDistance	0	1.000000	0
 PROPERTY	MaxDistance	0	30.000000	0
 PROPERTY	Rolloff	0	0.100000	0
+PROPERTY	OcclusionStrength	0	1.000000	0
+PROPERTY	AirAbsorptionStrength	0	1.000000	0
+PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
 ENTITY	5	1	1	Friendly Nameplate	0.000000,1.250000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	5	CanvasComponent
@@ -62,6 +290,8 @@ PROPERTY	RenderMode	6	3	4	Screen Space	World Screen Space	Screen Space Camera	Wo
 PROPERTY	ScaleMode	6	2	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
 PROPERTY	ScaleFactor	0	1.000000	0
 PROPERTY	ReferenceResolution	7	240.000000,36.000000	0
+PROPERTY	MatchWidthOrHeight	0	0.500000	0
+PROPERTY	ScreenMatchMode	6	0	3	MatchWidthOrHeight	Expand	Shrink
 PROPERTY	SortingOrder	1	20	0
 PROPERTY	WorldSizeMode	6	0	3	WorldUnits	ConstantScreenSize	DistanceScaled
 PROPERTY	FaceCamera	4	true	0
@@ -76,6 +306,22 @@ PROPERTY	SizeDelta	7	240.000000,36.000000	0
 PROPERTY	Pivot	7	0.500000,0.500000	0
 PROPERTY	AnchorMin	7	0.500000,0.500000	0
 PROPERTY	AnchorMax	7	0.500000,0.500000	0
+PROPERTY	Margin	5	0.000000,0.000000,0.000000,0.000000	0
+PROPERTY	MinimumSize	7	0.000000,0.000000	0
+PROPERTY	MaximumSize	7	100000.000000,100000.000000	0
+PROPERTY	Rotation	0	0.000000	0
+PROPERTY	LocalScale	7	1.000000,1.000000	0
 PROPERTY	Opacity	0	1.000000	0
+PROPERTY	ClipChildren	4	false	0
 PROPERTY	RaycastTarget	4	false	0
+PROPERTY	LayoutMode	6	0	4	None	Horizontal	Vertical	Grid
+PROPERTY	LayoutPadding	5	0.000000,0.000000,0.000000,0.000000	0
+PROPERTY	LayoutSpacing	7	0.000000,0.000000	0
+PROPERTY	GridColumns	1	1	0
+PROPERTY	ControlChildWidth	4	true	0
+PROPERTY	ControlChildHeight	4	true	0
+PROPERTY	ExpandChildWidth	4	false	0
+PROPERTY	ExpandChildHeight	4	false	0
+PROPERTY	HorizontalContentSize	6	0	3	Unconstrained	Minimum	Preferred
+PROPERTY	VerticalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 END_COMPONENT
