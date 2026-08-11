@@ -40,6 +40,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private const ushort ShotEffectChannel = 9;
     private const ushort HitEffectChannel = 10;
     private const ushort LeaveChannel = 11;
+    private const ushort HitConfirmationChannel = 12;
 
     public event Action<MatchSnapshot>? MatchUpdated;
     public event Action<KillFeedEntry>? KillFeedReceived;
@@ -506,6 +507,15 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 if (effect is not null)
                     PlayRemoteHitEffect(effect.VictimPeerId);
             }
+            else if (message.Channel == HitConfirmationChannel)
+            {
+                var confirmation = message.GetJson<HitConfirmation>();
+                if (confirmation is not null && confirmation.IsFinite())
+                    GameObject.TryInvoke(
+                        "ConfirmNetworkHit",
+                        confirmation.Damage,
+                        confirmation.IsHeadshot);
+            }
         }
         catch (Exception exception)
         {
@@ -591,8 +601,9 @@ public sealed class MultiplayerSession : ScriptBehaviour
             targetState.Team == shooterState.Team || targetState.Health <= 0.0f)
             return;
 
+        var isHeadshot = hit.Entity.HasTag("Head");
         var damage = MathF.Max(0.0f, weaponDamage) *
-            (hit.Entity.HasTag("Head") ? MathF.Max(1.0f, multiplayerHeadshotMultiplier) : 1.0f);
+            (isHeadshot ? MathF.Max(1.0f, multiplayerHeadshotMultiplier) : 1.0f);
         targetState.Health = MathF.Max(0.0f, targetState.Health - damage);
         targetState.LastDamagedAt = _time;
         PublishHitEffect(targetPeerId);
@@ -606,6 +617,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
         }
         else if (!_bots.ContainsKey(targetPeerId))
             _server.SendJson(targetPeerId, DamageChannel, new PlayerDamage(damage));
+
+        ConfirmShooterHit(shooterPeerId, damage, isHeadshot);
 
         if (targetState.Health <= 0.0f)
             RegisterKill(shooterPeerId, targetPeerId);
@@ -1132,6 +1145,20 @@ public sealed class MultiplayerSession : ScriptBehaviour
         _server?.BroadcastJson(HitEffectChannel, new HitEffect(victimPeerId));
     }
 
+    private void ConfirmShooterHit(int shooterPeerId, float damage, bool isHeadshot)
+    {
+        if (shooterPeerId == 0)
+        {
+            GameObject.TryInvoke("ConfirmNetworkHit", damage, isHeadshot);
+            return;
+        }
+        if (!_bots.ContainsKey(shooterPeerId))
+            _server?.SendJson(
+                shooterPeerId,
+                HitConfirmationChannel,
+                new HitConfirmation(damage, isHeadshot));
+    }
+
     private void PlayRemoteHitEffect(int victimPeerId)
     {
         if (_remotePlayers.TryGetValue(victimPeerId, out var remote))
@@ -1412,6 +1439,10 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private sealed record PlayerDamage(float Amount);
     private sealed record ShotEffect(int ShooterPeerId);
     private sealed record HitEffect(int VictimPeerId);
+    private sealed record HitConfirmation(float Damage, bool IsHeadshot)
+    {
+        public bool IsFinite() => float.IsFinite(Damage) && Damage > 0.0f;
+    }
 
     private sealed class PlayerMatchState(PlayerTeam team, bool isBot)
     {

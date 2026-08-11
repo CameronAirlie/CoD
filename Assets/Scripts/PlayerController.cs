@@ -50,6 +50,15 @@ public sealed class PlayerController : ScriptBehaviour
     public bool IsCrouching => _crouching;
     public bool IsSliding => _sliding;
 
+    public void ConfirmNetworkHit(float dealtDamage, bool isHeadshot)
+    {
+        if (!float.IsFinite(dealtDamage) || dealtDamage <= 0.0f)
+            return;
+        hitmarkerAudio?.PlayOneShot();
+        HitConfirmed?.Invoke(new FpsHitEvent(
+            GameObject, Vector3.Zero, dealtDamage, isHeadshot));
+    }
+
     // Scene references
     [SerializedField] private CameraComponent? camera = null;
     [SerializedField] private GameObject? weaponModel = null;
