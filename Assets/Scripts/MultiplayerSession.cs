@@ -59,6 +59,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
     [SerializedField] private string serverAddress = "127.0.0.1";
     [SerializedField] private int serverPort = 7777;
     [SerializedField] private float updatesPerSecond = 20.0f;
+    [SerializedField] private float disconnectTimeout = 10.0f;
+    [SerializedField] private string titleScene = "Title";
     [SerializedField] private string remotePlayerPrefab =
         "project://Prefabs/RemotePlayer.plutoprefab";
     [SerializedField] private string hostBotPrefab =
@@ -108,6 +110,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private readonly HashSet<int> _authenticatedPeers = new();
     private readonly Dictionary<int, float> _lastAcceptedShotAt = new();
     private readonly Dictionary<int, string> _peerNames = new();
+    private readonly Dictionary<int, float> _peerLastSeenAt = new();
     private readonly Dictionary<int, PlayerMatchState> _playerStates = new();
     private readonly Dictionary<int, BotController> _bots = new();
     private readonly Dictionary<int, MatchPlayer> _knownPlayers = new();
@@ -128,6 +131,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private float _nextHostStartAttemptAt;
     private string _username = "Player";
     private PlayerHealth? _playerHealth;
+    private float _lastHostMessageAt;
+    private bool _returnToTitle;
 
     public override void OnCreate()
     {
@@ -180,6 +185,21 @@ public sealed class MultiplayerSession : ScriptBehaviour
         _server?.Poll();
         _client?.Poll();
 
+        if (_server is not null)
+            RemoveTimedOutPeers();
+        else if (_client?.IsConnected == true &&
+                 _time - _lastHostMessageAt > MathF.Max(1.0f, disconnectTimeout))
+        {
+            Debug.LogWarning("Multiplayer host timed out.");
+            _returnToTitle = true;
+        }
+
+        if (_returnToTitle)
+        {
+            ReturnToTitle();
+            return;
+        }
+
         if (_time >= _nextSendAt)
         {
             SendLocalTransform();
@@ -207,6 +227,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
         _client = null;
         _authenticatedPeers.Clear();
         _lastAcceptedShotAt.Clear();
+        _peerLastSeenAt.Clear();
         _peerNames.Clear();
         _playerStates.Clear();
         _bots.Clear();
@@ -280,14 +301,18 @@ public sealed class MultiplayerSession : ScriptBehaviour
         _client = new NetworkClient();
         _client.Connected += () =>
         {
+            _lastHostMessageAt = _time;
             Debug.Log($"Connected to {serverAddress}:{serverPort}.");
             _client.SendJson(HandshakeChannel, new ClientHello(ProtocolVersion, _username));
         };
         _client.Disconnected += () =>
         {
+            if (_shutDown)
+                return;
             Debug.LogWarning("Disconnected from multiplayer host.");
             ClearRemotePlayers();
             _localPeerId = -1;
+            _returnToTitle = true;
         };
         _client.MessageReceived += OnClientMessage;
         _client.Error += exception => Debug.LogError($"Network client: {exception.Message}");
@@ -303,6 +328,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
         catch (Exception exception)
         {
             Debug.LogError($"Could not connect to multiplayer host: {exception.Message}");
+            _returnToTitle = true;
         }
     }
 
@@ -310,6 +336,9 @@ public sealed class MultiplayerSession : ScriptBehaviour
     {
         try
         {
+            if (_authenticatedPeers.Contains(message.PeerId))
+                _peerLastSeenAt[message.PeerId] = _time;
+
             if (message.Channel == HandshakeChannel)
             {
                 var hello = message.GetJson<ClientHello>();
@@ -322,6 +351,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 var username = SanitizeUsername(hello.Username, message.PeerId);
                 RemoveOneBot();
                 _authenticatedPeers.Add(message.PeerId);
+                _peerLastSeenAt[message.PeerId] = _time;
                 _peerNames[message.PeerId] = username;
                 _playerStates[message.PeerId] = new PlayerMatchState(ChooseTeam(), false)
                 {
@@ -378,6 +408,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     {
         try
         {
+            _lastHostMessageAt = _time;
             if (message.Channel == HandshakeChannel)
             {
                 var welcome = message.GetJson<ServerWelcome>();
@@ -584,17 +615,50 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
     private void OnServerPeerDisconnected(int peerId)
     {
-        _authenticatedPeers.Remove(peerId);
+        var wasParticipant = _authenticatedPeers.Remove(peerId);
+        _peerLastSeenAt.Remove(peerId);
         _lastAcceptedShotAt.Remove(peerId);
         var username = _peerNames.Remove(peerId, out var peerName)
             ? peerName
             : $"Peer {peerId}";
         _playerStates.Remove(peerId);
         RemoveRemotePlayer(peerId);
+        if (!wasParticipant)
+            return;
         _server?.BroadcastJson(PeerLeftChannel, new PeerLeft(peerId));
         EnsureBotFill();
         BroadcastMatchState();
         Debug.Log($"{username} left the game.");
+    }
+
+    private void RemoveTimedOutPeers()
+    {
+        var timeout = MathF.Max(1.0f, disconnectTimeout);
+        List<int>? timedOut = null;
+        foreach (var peer in _peerLastSeenAt)
+        {
+            if (_time - peer.Value <= timeout)
+                continue;
+            timedOut ??= new List<int>();
+            timedOut.Add(peer.Key);
+        }
+
+        if (timedOut is null)
+            return;
+        foreach (var peerId in timedOut)
+        {
+            Debug.LogWarning($"Peer {peerId} timed out.");
+            OnServerPeerDisconnected(peerId);
+        }
+    }
+
+    private void ReturnToTitle()
+    {
+        _returnToTitle = false;
+        Shutdown();
+        Input.CursorLocked = false;
+        if (!SceneManager.LoadScene(titleScene))
+            Debug.LogError($"Could not load title scene '{titleScene}'.");
     }
 
     private void RemoveRemotePlayer(int peerId)
@@ -822,7 +886,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
             if (_remotePlayers.TryGetValue(botId, out var remote))
             {
                 remote.TargetPosition = bot.GameObject.WorldPosition;
-                remote.TargetRotation = bot.GameObject.WorldRotation;
+                remote.TargetRotation = bot.GameObject.Rotation;
             }
 
             if (bot.IsEngaging && isStationary && facingTarget && hasLineOfSight &&
@@ -933,7 +997,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
         if (direction.LengthSquared() < 0.0001f) return;
         direction = Vector3.Normalize(direction);
         var desiredYaw = MathF.Atan2(-direction.X, -direction.Z) * 180.0f / MathF.PI;
-        var rotation = controller.GameObject.WorldRotation;
+        var rotation = controller.GameObject.Rotation;
         var difference = (desiredYaw - rotation.Y + 540.0f) % 360.0f - 180.0f;
         if (MathF.Abs(MathF.Abs(difference) - 180.0f) < 0.1f)
             difference = 180.0f * controller.TurnDirection;
@@ -941,7 +1005,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
             controller.TurnDirection = MathF.Sign(difference);
         var blend = 1.0f - MathF.Exp(-MathF.Max(0.0f, botTurnSharpness) * MathF.Max(0.0f, deltaTime));
         rotation.Y += difference * blend;
-        controller.GameObject.WorldRotation = rotation;
+        controller.GameObject.Rotation = rotation;
     }
 
     private bool HasBotLineOfSight(
@@ -1345,7 +1409,11 @@ public sealed class MultiplayerSession : ScriptBehaviour
         public static PlayerTransform From(int peerId, GameObject player)
         {
             var position = player.WorldPosition;
-            var rotation = player.WorldRotation;
+            // Rotation is the degree-based Euler value used by gameplay scripts.
+            // WorldRotation is supplied by the native transform path in radians,
+            // so serializing it and applying it as degrees limits proxies to about
+            // +/- PI degrees instead of a full turn.
+            var rotation = player.Rotation;
             return new PlayerTransform(
                 peerId, position.X, position.Y, position.Z,
                 rotation.X, rotation.Y, rotation.Z);
@@ -1368,8 +1436,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
             if (!GameObject.IsValid)
                 return;
             GameObject.WorldPosition = Vector3.Lerp(GameObject.WorldPosition, TargetPosition, blend);
-            var rotation = GameObject.WorldRotation;
-            GameObject.WorldRotation = new Vector3(
+            var rotation = GameObject.Rotation;
+            GameObject.Rotation = new Vector3(
                 0.0f,
                 LerpAngle(rotation.Y, TargetRotation.Y, blend),
                 0.0f);

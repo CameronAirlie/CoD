@@ -21,7 +21,7 @@ ASSET	engine://builtin/mesh/quad	0	Mesh
 ASSET	engine://builtin/mesh/sphere	0	Mesh
 ASSET	engine://builtin/shadergraph/default-lit	0	Shader Graph
 ASSET	engine://builtin/shadergraph/default-unlit	0	Shader Graph
-ASSET	project://AnimGraphs/enemy.plutoanimgraph	1548	Animation Graph
+ASSET	project://AnimGraphs/enemy.plutoanimgraph	1582	Animation Graph
 ASSET	project://AnimGraphs/player.plutoanimgraph	1091	Animation Graph
 ASSET	project://Fonts/Georama.ttf	434664	Unknown
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_A_TPose_0.plutoclip	332294	Animation Clip
@@ -103,10 +103,10 @@ ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutoanim
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	2611229	Mesh
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
 ASSET	project://Managed/CoD.Scripts.dll	122880	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	48824	Unknown
+ASSET	project://Managed/CoD.Scripts.pdb	48784	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	206848	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	74352	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	74312	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	369	Unknown
 ASSET	project://Materials/BulletHole.plutomaterial	473	Material
 ASSET	project://Materials/Ground.plutomaterial	492	Material
@@ -164,30 +164,30 @@ ASSET	project://Packs/AnimationPack/UAL1_Standard_RM.glb	7620504	Model
 ASSET	project://Packs/AnimationPack/Walk_Formal_Loop.plutoclip	195803	Animation Clip
 ASSET	project://Packs/AnimationPack/Walk_Loop.plutoclip	195796	Animation Clip
 ASSET	project://Particles/MuzzleFlash.plutoparticles	864	Particle System
-ASSET	project://PostProcessing/main.plutopostprocess	3620	Post Process Preset
+ASSET	project://PostProcessing/main.plutopostprocess	3623	Post Process Preset
 ASSET	project://Prefabs/AmmoPickup.plutoprefab	1889	Prefab
 ASSET	project://Prefabs/ArmourPickup.plutoprefab	1894	Prefab
-ASSET	project://Prefabs/Enemy.plutoprefab	16694	Prefab
+ASSET	project://Prefabs/Enemy.plutoprefab	16717	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1895	Prefab
 ASSET	project://Prefabs/Lightsaber.plutoprefab	1943	Prefab
 ASSET	project://Prefabs/RemotePlayer.plutoprefab	14386	Prefab
-ASSET	project://Scenes/Main.plutoscene	119661	Scene
+ASSET	project://Scenes/Main.plutoscene	119691	Scene
 ASSET	project://Scenes/Title.plutoscene	7275	Scene
-ASSET	project://Scripts/EnemySoldierBot.cs	26405	Script
-ASSET	project://Scripts/EnemyWaveSpawner.cs	4254	Script
+ASSET	project://Scripts/EnemySoldierBot.cs	26657	Script
+ASSET	project://Scripts/EnemyWaveSpawner.cs	4384	Script
 ASSET	project://Scripts/InventoryMenu.cs	6328	Script
-ASSET	project://Scripts/MultiplayerLaunch.cs	696	Script
-ASSET	project://Scripts/MultiplayerSession.cs	55538	Script
-ASSET	project://Scripts/NetworkParticipantHitbox.cs	389	Script
-ASSET	project://Scripts/PauseMenu.cs	271	Script
-ASSET	project://Scripts/PlayerController.cs	24689	Script
+ASSET	project://Scripts/MultiplayerLaunch.cs	714	Script
+ASSET	project://Scripts/MultiplayerSession.cs	56931	Script
+ASSET	project://Scripts/NetworkParticipantHitbox.cs	401	Script
+ASSET	project://Scripts/PauseMenu.cs	262	Script
+ASSET	project://Scripts/PlayerController.cs	24701	Script
 ASSET	project://Scripts/PlayerHealth.cs	6139	Script
-ASSET	project://Scripts/PlayerHud.cs	11213	Script
-ASSET	project://Scripts/PlayerInventory.cs	4061	Script
+ASSET	project://Scripts/PlayerHud.cs	11330	Script
+ASSET	project://Scripts/PlayerInventory.cs	4059	Script
 ASSET	project://Scripts/SupplyPickup.cs	2143	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
 ASSET	project://Scripts/TitleScreen.cs	3209	Script
-ASSET	project://Scripts/UIManager.cs	5669	Script
+ASSET	project://Scripts/UIManager.cs	5670	Script
 ASSET	project://Sounds/engine.wav	760364	Audio
 ASSET	project://Sounds/footsteps.wav	728108	Audio
 ASSET	project://Sounds/gun_shot.wav	59456	Audio
@@ -318,12 +318,12 @@ ASSET	project://Textures/Dark/texture_11.png	9048	Texture
 ASSET	project://Textures/Dark/texture_12.png	9585	Texture
 ASSET	project://Textures/Dark/texture_13.png	9867	Texture
 ASSET	project://Textures/MuzzleFlash/MuzzleFlash.png	90402	Texture
-ASSET	project://UI/friendly-nameplate.rcss	519	Unknown
-ASSET	project://UI/friendly-nameplate.rml	219	RML Document
+ASSET	project://UI/friendly-nameplate.rcss	549	Unknown
+ASSET	project://UI/friendly-nameplate.rml	228	RML Document
 ASSET	project://UI/hud.rcss	3124	Unknown
-ASSET	project://UI/hud.rml	1845	RML Document
+ASSET	project://UI/hud.rml	1864	RML Document
 ASSET	project://UI/inventory.rcss	1692	Unknown
-ASSET	project://UI/inventory.rml	1504	RML Document
+ASSET	project://UI/inventory.rml	1505	RML Document
 ASSET	project://UI/pause-menu.rcss	1354	Unknown
 ASSET	project://UI/pause-menu.rml	606	RML Document
 ASSET	project://UI/title.rcss	2115	Unknown
