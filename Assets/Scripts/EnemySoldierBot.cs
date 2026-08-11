@@ -73,6 +73,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private uint _randomState;
     private bool _dead;
     private Vector3 _previousPosition;
+    private Vector3 _latePreviousPosition;
     private Vector3 _navigationDestination;
     private Vector3 _lastKnownTargetPosition;
     private float _holdUntil;
@@ -107,6 +108,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         _gunAudio = audioOwner.GetComponent<SoundEmitterComponent>();
         _body = GameObject.GetComponent<RigidbodyComponent>();
         _previousPosition = GameObject.WorldPosition;
+        _latePreviousPosition = _previousPosition;
         _navigationDestination = _previousPosition;
         _nextPerceptionRefreshAt = NextRandom01() * MathF.Max(0.02f, perceptionRefreshInterval);
         if (target is not null)
@@ -232,6 +234,23 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             _shotsLeft = 0;
     }
 
+    public override void OnLateUpdate(float deltaTime)
+    {
+        var position = GameObject.WorldPosition;
+        var actualTravel = position - _latePreviousPosition;
+        actualTravel.Y = 0.0f;
+        _latePreviousPosition = position;
+
+        if (_dead || _remoteProxyMode || deltaTime <= 0.0f)
+            return;
+
+        var travelDistance = actualTravel.Length();
+        var actualSpeed = travelDistance / deltaTime;
+        if (actualSpeed > MathF.Max(0.01f, stationaryFireSpeed) &&
+            !_externalAiming && travelDistance > 0.0001f)
+            TurnTowards(actualTravel / travelDistance, deltaTime);
+    }
+
     public void TakeDamage(float amount)
     {
         if (_externalNavigationControl || _dead || amount <= 0.0f)
@@ -267,6 +286,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         _currentHealth = MathF.Max(1.0f, health);
         GameObject.WorldPosition = new Vector3(x, y, z);
         _previousPosition = GameObject.WorldPosition;
+        _latePreviousPosition = _previousPosition;
         _navigationDestination = _previousPosition;
         UpdateNavigationTarget();
         SetAnimationBool(deadParameter, false);

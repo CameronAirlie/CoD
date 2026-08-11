@@ -699,8 +699,18 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
             var canThink = thinkBudget > 0;
             var thought = false;
-            if (canThink && (_time >= bot.NextTargetSelectionAt ||
-                !IsValidBotTarget(botId, bot.TargetPeerId)))
+            var currentTargetValid = IsValidBotTarget(botId, bot.TargetPeerId);
+            var currentTarget = currentTargetValid
+                ? GetParticipantObject(bot.TargetPeerId)
+                : null;
+            var currentTargetInCombatRange = currentTarget is not null &&
+                HorizontalDistance(bot.GameObject.WorldPosition, currentTarget.WorldPosition) <=
+                MathF.Max(1.0f, botAttackRange);
+            var retainCombatTarget = currentTargetValid &&
+                (bot.IsEngaging ||
+                 (bot.CachedLineOfSight && currentTargetInCombatRange));
+            if (canThink && !retainCombatTarget &&
+                (_time >= bot.NextTargetSelectionAt || !currentTargetValid))
             {
                 var selectedTarget = FindBestOpponent(botId, bot);
                 bot.NextTargetSelectionAt = _time + MathF.Max(0.1f, botTargetSelectionInterval);
