@@ -12,6 +12,7 @@ PROPERTY	Blocks Audio	4	false	0
 END_COMPONENT
 COMPONENT	1	ScriptComponent
 PROPERTY	Source	2	CoD.Scripts.EnemySoldierBot	0
+PROPERTY	remoteProxy	4	true	0
 PROPERTY	target	9	0	0
 PROPERTY	animationObject	9	2	0
 PROPERTY	gunAudioObject	9	4	0

@@ -11,6 +11,7 @@ namespace CoD.Scripts;
 public sealed class EnemySoldierBot : ScriptBehaviour
 {
     public bool IsExternalNavigationControlled => _externalNavigationControl;
+    [SerializedField] private bool remoteProxy = false;
     [SerializedField] private GameObject? target;
     [SerializedField] private GameObject? animationObject = null;
     [SerializedField] private GameObject? gunAudioObject = null;
@@ -97,10 +98,13 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     public override void OnCreate()
     {
+        _remoteProxyMode = remoteProxy;
+        _externalNavigationControl = remoteProxy;
         _currentHealth = MathF.Max(1.0f, health);
         _randomState = EntityId * 747796405u + 2891336453u;
         navigationMesh ??= GameObject.Find("Navmesh");
-        ResolveTarget();
+        if (!_remoteProxyMode)
+            ResolveTarget();
 
         var animationOwner = animationObject ?? GameObject;
         var audioOwner = gunAudioObject ?? GameObject;
@@ -111,7 +115,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         _latePreviousPosition = _previousPosition;
         _navigationDestination = _previousPosition;
         _nextPerceptionRefreshAt = NextRandom01() * MathF.Max(0.02f, perceptionRefreshInterval);
-        if (target is not null)
+        if (!_remoteProxyMode && target is not null)
         {
             _lastKnownTargetPosition = target.WorldPosition;
             ChooseTacticalDestination();
