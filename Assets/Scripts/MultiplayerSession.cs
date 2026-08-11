@@ -28,7 +28,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
 {
     private static MultiplayerSession? _activeSession;
 
-    private const int ProtocolVersion = 5;
+    private const int ProtocolVersion = 6;
     private const ushort HandshakeChannel = 1;
     private const ushort TransformChannel = 2;
     private const ushort PeerLeftChannel = 3;
@@ -38,6 +38,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private const ushort MatchStateChannel = 7;
     private const ushort KillFeedChannel = 8;
     private const ushort ShotEffectChannel = 9;
+    private const ushort HitEffectChannel = 10;
 
     public event Action<MatchSnapshot>? MatchUpdated;
     public event Action<KillFeedEntry>? KillFeedReceived;
@@ -45,15 +46,24 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
     public bool IsNetworkParticipant(GameObject entity) => FindPeerForEntity(entity) != -1;
 
+    public bool IsFriendlyNetworkParticipant(GameObject entity)
+    {
+        var peerId = FindPeerForEntity(entity);
+        return peerId != -1 &&
+            _knownPlayers.TryGetValue(_localPeerId, out var localPlayer) &&
+            _knownPlayers.TryGetValue(peerId, out var targetPlayer) &&
+            localPlayer.Team == targetPlayer.Team;
+    }
+
     [SerializedField] private string mode = "Offline";
     [SerializedField] private string serverAddress = "127.0.0.1";
     [SerializedField] private int serverPort = 7777;
     [SerializedField] private float updatesPerSecond = 20.0f;
     [SerializedField] private string remotePlayerPrefab =
-        "project://Prefabs/Enemy.plutoprefab";
+        "project://Prefabs/RemotePlayer.plutoprefab";
     [SerializedField] private string hostBotPrefab =
         "project://Prefabs/Enemy.plutoprefab";
-    [SerializedField] private float interpolationSharpness = 14.0f;
+    [SerializedField] private float interpolationSharpness = 22.0f;
     [SerializedField] private GameObject? aimingCamera = null;
     [SerializedField] private float weaponDamage = 30.0f;
     [SerializedField] private float multiplayerHeadshotMultiplier = 1.5f;
@@ -72,11 +82,20 @@ public sealed class MultiplayerSession : ScriptBehaviour
     [SerializedField] private int maximumBots = 5;
     [SerializedField] private float botPreferredRange = 13.0f;
     [SerializedField] private float botNavigationRefreshInterval = 0.3f;
-    [SerializedField] private float botStrafeOffset = 4.0f;
     [SerializedField] private float botAttackRange = 35.0f;
     [SerializedField] private float botRoundsPerMinute = 360.0f;
     [SerializedField] private float botDamage = 18.0f;
     [SerializedField] private float botAccuracyDegrees = 3.0f;
+    [SerializedField] private float botStationaryFireSpeed = 0.2f;
+    [SerializedField] private float botTurnSharpness = 10.0f;
+    [SerializedField] private float botFiringAngle = 8.0f;
+    [SerializedField] private int botTacticalPositionSamples = 12;
+    [SerializedField] private float botCentrePositionWeight = 1.25f;
+    [SerializedField] private float botTargetRetentionBonus = 10.0f;
+    [SerializedField] private float botTargetLineOfSightBonus = 6.0f;
+    [SerializedField] private GameObject? navigationMesh = null;
+    [SerializedField] private float botNavigationAgentRadius = 0.5f;
+    [SerializedField] private float botNavigationAgentHeight = 2.0f;
 
     private readonly Dictionary<int, RemotePlayer> _remotePlayers = new();
     private readonly HashSet<int> _authenticatedPeers = new();
@@ -109,6 +128,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
             _activeSession.Shutdown();
         _activeSession = this;
         _playerHealth = GameObject.GetComponent<PlayerHealth>();
+        navigationMesh ??= GameObject.Find("Navmesh");
 
         if (!MultiplayerLaunch.Mode.Equals("Offline", StringComparison.OrdinalIgnoreCase))
         {
@@ -408,6 +428,12 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 if (effect is not null)
                     PlayRemoteShotEffect(effect.ShooterPeerId);
             }
+            else if (message.Channel == HitEffectChannel)
+            {
+                var effect = message.GetJson<HitEffect>();
+                if (effect is not null)
+                    PlayRemoteHitEffect(effect.VictimPeerId);
+            }
         }
         catch (Exception exception)
         {
@@ -497,6 +523,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
             (hit.Entity.HasTag("Head") ? MathF.Max(1.0f, multiplayerHeadshotMultiplier) : 1.0f);
         targetState.Health = MathF.Max(0.0f, targetState.Health - damage);
         targetState.LastDamagedAt = _time;
+        PublishHitEffect(targetPeerId);
         if (targetPeerId == 0)
             GameObject.TryInvoke("TakeDamage", damage);
         else if (!_bots.ContainsKey(targetPeerId))
@@ -662,30 +689,68 @@ public sealed class MultiplayerSession : ScriptBehaviour
             if (!_playerStates.TryGetValue(botId, out var botState) || botState.Health <= 0.0f)
                 continue;
 
-            var targetId = FindNearestOpponent(botId, bot.GameObject.WorldPosition);
+            var targetId = FindBestOpponent(botId, bot);
             var targetObject = GetParticipantObject(targetId);
             if (targetObject is null || !targetObject.IsValid) continue;
+            if (bot.TargetPeerId != targetId)
+            {
+                bot.TargetPeerId = targetId;
+                bot.IsEngaging = false;
+                bot.NextNavigationAt = 0.0f;
+            }
 
             var offset = targetObject.WorldPosition - bot.GameObject.WorldPosition;
             offset.Y = 0.0f;
             var distance = offset.Length();
             if (distance < 0.001f) continue;
             var direction = offset / distance;
-            var right = new Vector3(direction.Z, 0.0f, -direction.X);
-            if (_time >= bot.NextNavigationAt)
+            var measuredTravel = bot.GameObject.WorldPosition - bot.PreviousPosition;
+            measuredTravel.Y = 0.0f;
+            bot.PreviousPosition = bot.GameObject.WorldPosition;
+            var travel = bot.Body?.Velocity ??
+                (deltaTime > 0.0001f ? measuredTravel / deltaTime : Vector3.Zero);
+            travel.Y = 0.0f;
+            var movementSpeed = travel.Length();
+            var isStationary = movementSpeed <= MathF.Max(0.01f, botStationaryFireSpeed);
+            var hasLineOfSight = HasBotLineOfSight(botId, targetId, bot.GameObject, targetObject);
+            var canEngage = hasLineOfSight && distance <= MathF.Max(1.0f, botAttackRange);
+
+            if (!bot.IsEngaging && canEngage)
             {
-                var destination = targetObject.WorldPosition -
-                    direction * MathF.Max(2.0f, botPreferredRange) +
-                    right * bot.StrafeSign * MathF.Max(0.0f, botStrafeOffset);
-                destination.Y = bot.GameObject.WorldPosition.Y;
-                bot.GameObject.TryInvoke(
-                    "SetExternalNavigationDestination",
-                    destination.X, destination.Y, destination.Z);
+                bot.IsEngaging = true;
+                var stop = bot.GameObject.WorldPosition;
+                bot.GameObject.TryInvoke("SetExternalNavigationDestination", stop.X, stop.Y, stop.Z);
+                if (bot.Body is not null)
+                {
+                    var velocity = bot.Body.Velocity;
+                    bot.Body.Velocity = new Vector3(0.0f, velocity.Y, 0.0f);
+                }
+            }
+            else if (bot.IsEngaging && (!hasLineOfSight ||
+                     distance > MathF.Max(1.0f, botAttackRange) * 1.1f))
+            {
+                bot.IsEngaging = false;
+                bot.NextNavigationAt = 0.0f;
+            }
+
+            if (!bot.IsEngaging && _time >= bot.NextNavigationAt)
+            {
+                if (TryChooseBotTacticalDestination(
+                        bot, targetId, targetObject, out var destination))
+                {
+                    bot.GameObject.TryInvoke(
+                        "SetExternalNavigationDestination",
+                        destination.X, destination.Y, destination.Z);
+                }
                 bot.NextNavigationAt = _time + MathF.Max(0.05f, botNavigationRefreshInterval);
             }
-            var rotation = bot.GameObject.WorldRotation;
-            rotation.Y = MathF.Atan2(-direction.X, -direction.Z) * 180.0f / MathF.PI;
-            bot.GameObject.WorldRotation = rotation;
+            var lookDirection = !isStationary && travel.LengthSquared() > 0.0001f
+                ? Vector3.Normalize(travel)
+                : direction;
+            TurnBotTowards(bot, lookDirection, deltaTime);
+            var facingTarget = IsBotFacing(bot.GameObject, direction, botFiringAngle);
+            bot.GameObject.TryInvoke(
+                "SetExternalAiming", bot.IsEngaging && isStationary && facingTarget);
 
             if (_remotePlayers.TryGetValue(botId, out var remote))
             {
@@ -693,7 +758,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 remote.TargetRotation = bot.GameObject.WorldRotation;
             }
 
-            if (distance <= MathF.Max(1.0f, botAttackRange) && _time >= bot.NextShotAt)
+            if (bot.IsEngaging && isStationary && facingTarget && hasLineOfSight &&
+                _time >= bot.NextShotAt)
             {
                 BotFire(botId, targetObject, bot);
                 bot.NextShotAt = _time + 60.0f / MathF.Max(1.0f, botRoundsPerMinute);
@@ -701,25 +767,126 @@ public sealed class MultiplayerSession : ScriptBehaviour
         }
     }
 
-    private int FindNearestOpponent(int peerId, Vector3 position)
+    private int FindBestOpponent(int peerId, BotController bot)
     {
         if (!_playerStates.TryGetValue(peerId, out var source)) return int.MinValue;
         var bestId = int.MinValue;
-        var bestDistance = float.MaxValue;
+        var bestScore = float.MaxValue;
         foreach (var pair in _playerStates)
         {
             if (pair.Key == peerId || pair.Value.Team == source.Team || pair.Value.Health <= 0.0f)
                 continue;
             var candidate = GetParticipantObject(pair.Key);
             if (candidate is null || !candidate.IsValid) continue;
-            var distance = Vector3.DistanceSquared(position, candidate.WorldPosition);
-            if (distance < bestDistance)
+            if (!TryResolveBotNavigationDestination(
+                    bot.GameObject.WorldPosition, candidate.WorldPosition, out _))
+                continue;
+
+            var score = Vector3.Distance(bot.GameObject.WorldPosition, candidate.WorldPosition);
+            if (pair.Key == bot.TargetPeerId)
+                score -= MathF.Max(0.0f, botTargetRetentionBonus);
+            if (HasBotLineOfSight(peerId, pair.Key, bot.GameObject, candidate))
+                score -= MathF.Max(0.0f, botTargetLineOfSightBonus);
+            if (score < bestScore)
             {
-                bestDistance = distance;
+                bestScore = score;
                 bestId = pair.Key;
             }
         }
         return bestId;
+    }
+
+    private bool TryChooseBotTacticalDestination(
+        BotController bot, int targetId, GameObject target, out Vector3 destination)
+    {
+        destination = bot.GameObject.WorldPosition;
+        var samples = Math.Clamp(botTacticalPositionSamples, 4, 32);
+        var radius = MathF.Max(2.0f, botPreferredRange);
+        var angleOffset = bot.StrafeSign < 0.0f ? 180.0f / samples : 0.0f;
+        var bestScore = float.MaxValue;
+        var found = false;
+
+        for (var index = 0; index < samples; index++)
+        {
+            var angle = (angleOffset + index * (360.0f / samples)) * MathF.PI / 180.0f;
+            var desired = target.WorldPosition + new Vector3(
+                MathF.Sin(angle) * radius, 0.0f, MathF.Cos(angle) * radius);
+            if (!TryResolveBotNavigationDestination(
+                    bot.GameObject.WorldPosition, desired, out var candidate))
+                continue;
+
+            var rangeError = MathF.Abs(Vector3.Distance(candidate, target.WorldPosition) - radius);
+            var travelDistance = Vector3.Distance(bot.GameObject.WorldPosition, candidate);
+            var centreDistance = navigationMesh is null
+                ? 0.0f
+                : HorizontalDistance(candidate, navigationMesh.WorldPosition);
+            var score = rangeError * 4.0f + travelDistance * 0.35f +
+                centreDistance * MathF.Max(0.0f, botCentrePositionWeight);
+            if (HasLineOfSightFrom(candidate, targetId, target))
+                score -= 40.0f;
+            if (score >= bestScore) continue;
+            bestScore = score;
+            destination = candidate;
+            found = true;
+        }
+        return found;
+    }
+
+    private bool HasLineOfSightFrom(Vector3 position, int targetId, GameObject target)
+    {
+        var origin = position + Vector3.UnitY * 0.65f;
+        var aimPoint = target.WorldPosition + Vector3.UnitY * 0.65f;
+        var ray = aimPoint - origin;
+        var length = ray.Length();
+        return length < 0.001f ||
+            (Physics.Raycast(origin, ray / length, length + 0.2f, out var hit) &&
+             FindPeerForEntity(hit.Entity) == targetId);
+    }
+
+    private static float HorizontalDistance(Vector3 first, Vector3 second)
+    {
+        var offset = first - second;
+        offset.Y = 0.0f;
+        return offset.Length();
+    }
+
+    private void TurnBotTowards(BotController controller, Vector3 direction, float deltaTime)
+    {
+        if (direction.LengthSquared() < 0.0001f) return;
+        direction = Vector3.Normalize(direction);
+        var desiredYaw = MathF.Atan2(-direction.X, -direction.Z) * 180.0f / MathF.PI;
+        var rotation = controller.GameObject.WorldRotation;
+        var difference = (desiredYaw - rotation.Y + 540.0f) % 360.0f - 180.0f;
+        if (MathF.Abs(MathF.Abs(difference) - 180.0f) < 0.1f)
+            difference = 180.0f * controller.TurnDirection;
+        else if (MathF.Abs(difference) > 0.1f)
+            controller.TurnDirection = MathF.Sign(difference);
+        var blend = 1.0f - MathF.Exp(-MathF.Max(0.0f, botTurnSharpness) * MathF.Max(0.0f, deltaTime));
+        rotation.Y += difference * blend;
+        controller.GameObject.WorldRotation = rotation;
+    }
+
+    private bool HasBotLineOfSight(
+        int botId, int targetId, GameObject bot, GameObject target)
+    {
+        var origin = bot.WorldPosition + Vector3.UnitY * 0.65f;
+        var aimPoint = target.WorldPosition + Vector3.UnitY * 0.65f;
+        var ray = aimPoint - origin;
+        var length = ray.Length();
+        if (length < 0.001f) return true;
+        return Physics.Raycast(origin, ray / length, length + 0.2f, bot, out var hit) &&
+            FindPeerForEntity(hit.Entity) == targetId && targetId != botId;
+    }
+
+    private static bool IsBotFacing(GameObject bot, Vector3 direction, float maximumAngle)
+    {
+        var forward = bot.Forward;
+        forward.Y = 0.0f;
+        direction.Y = 0.0f;
+        if (forward.LengthSquared() < 0.0001f || direction.LengthSquared() < 0.0001f)
+            return false;
+        var minimumDot = MathF.Cos(Math.Clamp(maximumAngle, 0.0f, 180.0f) * MathF.PI / 180.0f);
+        return Vector3.Dot(Vector3.Normalize(forward), Vector3.Normalize(direction)) >= minimumDot;
     }
 
     private GameObject? GetParticipantObject(int peerId)
@@ -745,6 +912,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
         var damage = MathF.Max(0.0f, botDamage);
         victim.Health = MathF.Max(0.0f, victim.Health - damage);
         victim.LastDamagedAt = _time;
+        PublishHitEffect(victimId);
         if (victimId == 0) GameObject.TryInvoke("TakeDamage", damage);
         else if (!_bots.ContainsKey(victimId)) _server?.SendJson(victimId, DamageChannel, new PlayerDamage(damage));
         if (victim.Health <= 0.0f) RegisterKill(botId, victimId);
@@ -760,6 +928,18 @@ public sealed class MultiplayerSession : ScriptBehaviour
     {
         if (_remotePlayers.TryGetValue(shooterPeerId, out var remote))
             remote.GameObject.TryInvoke("PlayExternalShootAnimation");
+    }
+
+    private void PublishHitEffect(int victimPeerId)
+    {
+        PlayRemoteHitEffect(victimPeerId);
+        _server?.BroadcastJson(HitEffectChannel, new HitEffect(victimPeerId));
+    }
+
+    private void PlayRemoteHitEffect(int victimPeerId)
+    {
+        if (_remotePlayers.TryGetValue(victimPeerId, out var remote))
+            remote.GameObject.TryInvoke("PlayExternalHitAnimation");
     }
 
     private void ConfigureAllNameplates()
@@ -797,9 +977,39 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private Vector3 BotSpawnPosition(int peerId)
     {
         var index = Math.Abs(peerId + 1000);
-        var angle = index * 2.3999632f;
-        var radius = 4.0f + index % 3 * 2.0f;
-        return GameObject.WorldPosition + new Vector3(MathF.Cos(angle) * radius, 0.0f, MathF.Sin(angle) * radius);
+        string[] spawnNames =
+        [
+            "Spawn North West",
+            "Spawn North East",
+            "Spawn South East",
+            "Spawn South West"
+        ];
+        var spawn = GameObject.Find(spawnNames[index % spawnNames.Length]);
+        if (spawn is not null && spawn.IsValid)
+            return spawn.WorldPosition;
+
+        Debug.LogWarning("TDM bot spawn markers were not found; using the host spawn position.");
+        return GameObject.WorldPosition;
+    }
+
+    private bool TryResolveBotNavigationDestination(
+        Vector3 currentPosition, Vector3 desiredPosition, out Vector3 destination)
+    {
+        destination = currentPosition;
+        if (navigationMesh is null || !navigationMesh.IsValid ||
+            !Navigation.ProjectPoint(
+                navigationMesh, desiredPosition, out var projected,
+                botNavigationAgentRadius, botNavigationAgentHeight))
+            return false;
+
+        var path = Navigation.FindPath(
+            navigationMesh, currentPosition, projected,
+            botNavigationAgentRadius, botNavigationAgentHeight);
+        if (!path.Complete || path.Points.Count == 0)
+            return false;
+
+        destination = projected;
+        return true;
     }
 
     private void UpdateMatch(float deltaTime)
@@ -817,6 +1027,9 @@ public sealed class MultiplayerSession : ScriptBehaviour
                         bot.SpawnPosition.X, bot.SpawnPosition.Y, bot.SpawnPosition.Z);
                     bot.NextShotAt = _time + 0.5f;
                     bot.NextNavigationAt = _time + 0.5f;
+                    bot.PreviousPosition = bot.SpawnPosition;
+                    bot.IsEngaging = false;
+                    bot.TargetPeerId = int.MinValue;
                 }
             }
             else if (state.Health > 0.0f &&
@@ -861,6 +1074,9 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 bot.SpawnPosition.X, bot.SpawnPosition.Y, bot.SpawnPosition.Z);
             bot.NextShotAt = _time + 0.5f;
             bot.NextNavigationAt = _time + 0.5f;
+            bot.PreviousPosition = bot.SpawnPosition;
+            bot.IsEngaging = false;
+            bot.TargetPeerId = int.MinValue;
         }
         BeginPhase(MatchPhase.Playing, matchDuration);
     }
@@ -984,6 +1200,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private sealed record PeerJoined(int PeerId, string Username);
     private sealed record PlayerDamage(float Amount);
     private sealed record ShotEffect(int ShooterPeerId);
+    private sealed record HitEffect(int VictimPeerId);
 
     private sealed class PlayerMatchState(PlayerTeam team, bool isBot)
     {
@@ -999,9 +1216,14 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private sealed class BotController(GameObject gameObject, Vector3 spawnPosition, uint seed)
     {
         public GameObject GameObject { get; } = gameObject;
+        public RigidbodyComponent? Body { get; } = gameObject.GetComponent<RigidbodyComponent>();
         public Vector3 SpawnPosition { get; } = spawnPosition;
         public float NextShotAt { get; set; }
         public float NextNavigationAt { get; set; }
+        public Vector3 PreviousPosition { get; set; } = spawnPosition;
+        public int TargetPeerId { get; set; } = int.MinValue;
+        public bool IsEngaging { get; set; }
+        public float TurnDirection { get; set; } = 1.0f;
         public float StrafeSign { get; set; } = (seed & 1u) == 0 ? -1.0f : 1.0f;
         public uint RandomState { get; set; } = seed;
     }

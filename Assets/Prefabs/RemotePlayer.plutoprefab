@@ -1,35 +1,81 @@
 SCENE	1
-ENTITY	1	0	1	Remote Player	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	0.800000,1.800000,0.800000
+ENTITY	1	0	1	Remote Player	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 TAGS	1	1	RemotePlayer
 COMPONENT	1	ColliderComponent
 PROPERTY	Shape	6	2	5	Box	Sphere	Capsule	Terrain	Mesh
-PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Center	3	0.000000,-0.250000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
-PROPERTY	Radius	0	0.500000	0
-PROPERTY	Height	0	2.000000	0
+PROPERTY	Radius	0	0.300000	0
+PROPERTY	Height	0	1.500000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	false	0
 END_COMPONENT
-COMPONENT	1	MeshComponent
+COMPONENT	1	ScriptComponent
+PROPERTY	Source	2	CoD.Scripts.EnemySoldierBot	0
+PROPERTY	animationObject	9	2	0
+PROPERTY	gunAudioObject	9	4	0
+PROPERTY	navigationTarget	9	0	0
+PROPERTY	networkNameplate	9	5	0
+END_COMPONENT
+ENTITY	2	1	1	Animated Soldier	0.000000,0.000000,0.000000	0.000000,180.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	2	AnimationComponent
+PROPERTY	SourceAnimation	2	project://Packs/AnimationPack/UAL1_Standard Animations.plutoanim	0
+PROPERTY	AnimationGraph	2	project://AnimGraphs/enemy.plutoanimgraph	0
+PROPERTY	Speed	0	1.000000	0
+PROPERTY	Playing	4	true	0
+PROPERTY	Looping	4	true	0
+PROPERTY	Autoplay	4	true	0
+END_COMPONENT
+ENTITY	3	2	1	Soldier Mesh	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	3	MeshComponent
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
-PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshIndex	1	1	0
 PROPERTY	SubmeshCount	1	1	0
-PROPERTY	ModelAssetId	2	engine://builtin/mesh/cylinder	0
-PROPERTY	ModelObjectId	2	1	0
-PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cylinder	0
+PROPERTY	ModelAssetId	2	8b3d61e6b0bde27e348d075f2c262b01	0
+PROPERTY	ModelObjectId	2	15563061709532230224	0
+PROPERTY	MeshAssetReference	2	project://Imported/UAL1_Standard/UAL1_Standard.plutomesh	0
 PROPERTY	UseGeneratedLods	4	false	0
-PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshPositionOffset	3	0.000000,-1.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MaterialSlotCount	1	1	0
-PROPERTY	MaterialSlots.0.Color	2	0.120000,0.420000,0.950000,1.000000	0
-PROPERTY	MaterialSlots.0.AlbedoPath	2		0
-PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
-PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
-PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
-PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
-PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
-PROPERTY	MaterialSlots.0.Metallic	0	0.050000	0
-PROPERTY	MaterialSlots.0.Roughness	0	0.650000	0
-PROPERTY	MaterialSlots.0.Emission	2	0.000000,0.020000,0.080000	0
+PROPERTY	MaterialSlotCount	1	3	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Imported/UAL1_Standard/M_UAL1_Standard_0.plutomaterial	0
+PROPERTY	MaterialSlots.1.MaterialAsset	2	project://Imported/UAL1_Standard/M_UAL1_Standard_1.plutomaterial	0
+PROPERTY	MaterialSlots.2.MaterialAsset	2	project://Imported/UAL1_Standard/M_UAL1_Standard_2.plutomaterial	0
+END_COMPONENT
+ENTITY	4	1	1	Gun Audio	0.000000,0.750000,-0.650000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	4	SoundEmitterComponent
+PROPERTY	Clip	2	project://Sounds/gun_shot.wav	0
+PROPERTY	PlayOnAwake	4	false	0
+PROPERTY	Looping	4	false	0
+PROPERTY	Spatialized	4	true	0
+PROPERTY	Volume	0	1.000000	0
+PROPERTY	Pitch	0	1.000000	0
+PROPERTY	MinDistance	0	1.000000	0
+PROPERTY	MaxDistance	0	30.000000	0
+PROPERTY	Rolloff	0	0.100000	0
+END_COMPONENT
+ENTITY	5	1	1	Friendly Nameplate	0.000000,1.250000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	5	CanvasComponent
+PROPERTY	Enabled	4	true	0
+PROPERTY	RenderMode	6	3	4	Screen Space	World Screen Space	Screen Space Camera	World Space
+PROPERTY	ScaleMode	6	2	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
+PROPERTY	ScaleFactor	0	1.000000	0
+PROPERTY	ReferenceResolution	7	240.000000,36.000000	0
+PROPERTY	SortingOrder	1	20	0
+PROPERTY	WorldSizeMode	6	0	3	WorldUnits	ConstantScreenSize	DistanceScaled
+PROPERTY	FaceCamera	4	true	0
+PROPERTY	Backend	6	1	2	Legacy Native	RmlUi
+PROPERTY	DocumentPath	2	UI/friendly-nameplate.rml	0
+END_COMPONENT
+COMPONENT	5	RectTransformComponent
+PROPERTY	Enabled	4	true	0
+PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
+PROPERTY	AnchoredPosition	7	0.000000,0.000000	0
+PROPERTY	SizeDelta	7	240.000000,36.000000	0
+PROPERTY	Pivot	7	0.500000,0.500000	0
+PROPERTY	AnchorMin	7	0.500000,0.500000	0
+PROPERTY	AnchorMax	7	0.500000,0.500000	0
+PROPERTY	Opacity	0	1.000000	0
+PROPERTY	RaycastTarget	4	false	0
 END_COMPONENT

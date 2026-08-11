@@ -16,6 +16,9 @@ PROPERTY	target	9	1	0
 PROPERTY	animationObject	9	159	0
 PROPERTY	gunAudioObject	9	157	0
 PROPERTY	navigationTarget	9	162	0
+PROPERTY	navigationMesh	9	707	0
+PROPERTY	navigationAgentRadius	0	0.500000	0
+PROPERTY	navigationAgentHeight	0	2.000000	0
 PROPERTY	networkNameplate	9	6000	0
 PROPERTY	targetTag	2	Player	0
 PROPERTY	targetName	2	Player	0
@@ -26,7 +29,9 @@ PROPERTY	fieldOfView	0	360.000000	0
 PROPERTY	attackRange	0	28.000000	0
 PROPERTY	firingAngle	0	8.000000	0
 PROPERTY	preferredRange	0	14.000000	0
+PROPERTY	centrePositionWeight	0	1.250000	0
 PROPERTY	turnSharpness	0	10.000000	0
+PROPERTY	stationaryFireSpeed	0	0.200000	0
 PROPERTY	eyeHeight	0	1.450000	0
 PROPERTY	targetHeight	0	0.750000	0
 PROPERTY	positionSearchRadiusMin	0	8.000000	0
@@ -49,6 +54,7 @@ PROPERTY	accuracyDegrees	0	2.000000	0
 PROPERTY	movementSpeedParameter	2	MovementSpeed	0
 PROPERTY	hasTargetParameter	2	HasTarget	0
 PROPERTY	shootTriggerParameter	2	Shoot	0
+PROPERTY	hitTriggerParameter	2	Hit	0
 PROPERTY	deadParameter	2	Dead	0
 PROPERTY	deathTriggerParameter	2	Death	0
 PROPERTY	deathCleanupDelay	0	2.000000	0
@@ -106,7 +112,7 @@ PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
 ENTITY	159	156	1	UAL1_Standard	0.000000,0.000000,0.000000	0.000000,180.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	159	AnimationComponent
-PROPERTY	SourceAnimation	2	project://SourceModels/UAL1_Standard/UAL1_Standard Animations.plutoanim	0
+PROPERTY	SourceAnimation	2	project://Packs/AnimationPack/UAL1_Standard Animations.plutoanim	0
 PROPERTY	AnimationGraph	2	project://AnimGraphs/enemy.plutoanimgraph	0
 PROPERTY	CurrentClipIndex	6	48	53	A_TPose	Crouch_Fwd_Loop	Crouch_Idle_Loop	Dance_Loop	Death01	Driving_Loop	Fixing_Kneeling	Hit_Chest	Hit_Head	Idle_Loop	Idle_Talking_Loop	Idle_Torch_Loop	Interact	Jog_Fwd_Loop	Jump_Land	Jump_Loop	Jump_Start	PickUp_Table	Pistol_Aim_Down	Pistol_Aim_Neutral	Pistol_Aim_Up	Pistol_Idle_Loop	Pistol_Reload	Pistol_Shoot	Punch_Cross	Punch_Jab	Push_Loop	Roll	Sitting_Enter	Sitting_Exit	Sitting_Idle_Loop	Sitting_Talking_Loop	Spell_Simple_Enter	Spell_Simple_Exit	Spell_Simple_Idle_Loop	Spell_Simple_Shoot	Sprint_Loop	Swim_Fwd_Loop	Swim_Idle_Loop	Sword_Attack	Sword_Idle	Walk_Formal_Loop	Walk_Loop	UAL1_Standard_Idle_Loop_9	UAL1_Standard_Walk_Loop_42	UAL1_Standard_Pistol_Shoot_23	UAL1_Standard_Pistol_Aim_Neutral_19	UAL1_Standard_Death01_4	UAL1_Standard_Idle_Loop_9	UAL1_Standard_Walk_Loop_42	UAL1_Standard_Pistol_Shoot_23	UAL1_Standard_Pistol_Aim_Neutral_19	UAL1_Standard_Death01_4
 PROPERTY	Time	0	1.637941	0
@@ -314,45 +320,6 @@ TAGS	2537	1	SkeletonAttachment
 COMPONENT	2537	SkeletonAttachmentComponent
 PROPERTY	TargetNodeIndex	1	46	0
 PROPERTY	JointName	2	hand_r	0
-END_COMPONENT
-ENTITY	4612	2537	1	Lightsaber	0.000002,0.123966,0.036996	90.000008,0.000010,-0.000002	0.999992,1.000009,1.000007
-ENTITY	4613	4612	1	Hilt	0.000001,-0.047031,0.000000	-0.000020,0.000003,0.000010	0.108913,0.251066,0.108913
-COMPONENT	4613	MeshComponent
-PROPERTY	Static	4	false	0
-PROPERTY	Visible	4	true	0
-PROPERTY	SubmeshIndex	1	-1	0
-PROPERTY	SubmeshCount	1	1	0
-PROPERTY	ModelAssetId	2		0
-PROPERTY	ModelObjectId	2	0	0
-PROPERTY	MeshAssetReference	2		0
-PROPERTY	UseGeneratedLods	4	false	0
-PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Lightsaber_hilt.plutomaterial	0
-END_COMPONENT
-ENTITY	4614	4612	1	Blade	0.000000,0.407890,0.000000	0.000000,0.000000,0.000000	0.070928,0.956556,0.070928
-COMPONENT	4614	MeshComponent
-PROPERTY	Static	4	false	0
-PROPERTY	Visible	4	true	0
-PROPERTY	SubmeshIndex	1	-1	0
-PROPERTY	SubmeshCount	1	1	0
-PROPERTY	ModelAssetId	2	engine://builtin/mesh/cylinder	0
-PROPERTY	ModelObjectId	2	1	0
-PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cylinder	0
-PROPERTY	UseGeneratedLods	4	false	0
-PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Lightsaber_blade.plutomaterial	0
-END_COMPONENT
-ENTITY	4615	4614	1	Light	0.000000,-0.261700,0.000000	0.000000,0.000000,0.000000	1.000000,0.999999,1.000000
-COMPONENT	4615	LightComponent
-PROPERTY	Color	3	0.300000,2.500000,5.000000	0
-PROPERTY	Intensity	0	10.000000	0
-PROPERTY	Range	0	10.000000	0
-PROPERTY	CastsShadows	4	false	0
-PROPERTY	Direction	3	0.080071,-0.837105,-0.541150	0
-PROPERTY	LightType	6	0	3	Point	Directional	Spot
-PROPERTY	Static	4	false	0
 END_COMPONENT
 ENTITY	161	159	1	Mannequin	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	161	MeshComponent

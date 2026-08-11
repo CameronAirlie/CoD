@@ -15,6 +15,9 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     [SerializedField] private GameObject? animationObject = null;
     [SerializedField] private GameObject? gunAudioObject = null;
     [SerializedField] private GameObject? navigationTarget = null;
+    [SerializedField] private GameObject? navigationMesh = null;
+    [SerializedField] private float navigationAgentRadius = 0.5f;
+    [SerializedField] private float navigationAgentHeight = 2.0f;
     [SerializedField] private GameObject? networkNameplate = null;
     [SerializedField] private string targetTag = "Player";
     [SerializedField] private string targetName = "Player";
@@ -26,7 +29,9 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     [SerializedField] private float attackRange = 28.0f;
     [SerializedField] private float firingAngle = 8.0f;
     [SerializedField] private float preferredRange = 14.0f;
+    [SerializedField] private float centrePositionWeight = 1.25f;
     [SerializedField] private float turnSharpness = 10.0f;
+    [SerializedField] private float stationaryFireSpeed = 0.2f;
     [SerializedField] private float eyeHeight = 1.45f;
     [SerializedField] private float targetHeight = 0.75f;
     [SerializedField] private float positionSearchRadiusMin = 8.0f;
@@ -50,6 +55,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     [SerializedField] private string movementSpeedParameter = "MovementSpeed";
     [SerializedField] private string hasTargetParameter = "HasTarget";
     [SerializedField] private string shootTriggerParameter = "Shoot";
+    [SerializedField] private string hitTriggerParameter = "Hit";
     [SerializedField] private string deadParameter = "Dead";
     [SerializedField] private string deathTriggerParameter = "Death";
     [SerializedField] private float deathCleanupDelay = 2.5f;
@@ -81,14 +87,17 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private bool _isHolding;
     private bool _externalNavigationControl;
     private bool _remoteProxyMode;
+    private bool _externalAiming;
     private RmlDocument? _networkNameplateDocument;
     private string _networkNameplateText = string.Empty;
     private bool _networkNameplateDirty;
+    private float _turnDirection = 1.0f;
 
     public override void OnCreate()
     {
         _currentHealth = MathF.Max(1.0f, health);
         _randomState = EntityId * 747796405u + 2891336453u;
+        navigationMesh ??= GameObject.Find("Navmesh");
         ResolveTarget();
 
         var animationOwner = animationObject ?? GameObject;
@@ -136,7 +145,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
                 _navigationDestination = GameObject.WorldPosition;
             UpdateNavigationTarget();
             SetAnimationFloat(movementSpeedParameter, navigationSpeed);
-            SetAnimationBool(hasTargetParameter, false);
+            SetAnimationBool(hasTargetParameter, !_remoteProxyMode && _externalAiming);
             return;
         }
 
@@ -186,15 +195,18 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         // Keep aiming briefly through single-frame visibility failures. Without
         // this hysteresis the bot snaps between the player and its waypoint as
         // raycasts skim corners or another enemy crosses the shot.
+        var isStationary = navigationSpeed <= MathF.Max(0.01f, stationaryFireSpeed);
         var shouldAimAtTarget = hasLineOfSight ||
             _time <= _lastLineOfSightAt + MathF.Max(0.0f, aimLineOfSightGrace);
-        if (shouldAimAtTarget)
+        if (!isStationary && displacement.LengthSquared() > 0.0001f)
+            TurnTowards(Vector3.Normalize(displacement), deltaTime);
+        else if (shouldAimAtTarget)
             TurnTowards(direction, deltaTime);
         else
             TurnTowardsNavigation(deltaTime);
 
         var canSeeTarget = hasLineOfSight && IsInsideVisionCone(direction);
-        SetAnimationBool(hasTargetParameter, canSeeTarget);
+        SetAnimationBool(hasTargetParameter, isStationary && canSeeTarget);
         if (canSeeTarget && _spottedAt == float.MaxValue)
             _spottedAt = _time;
 
@@ -203,7 +215,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         // speed from its actual motion instead of moving the entity a second time.
         SetAnimationFloat(movementSpeedParameter, navigationSpeed);
 
-        if (canSeeTarget && IsFacingTarget(direction, firingAngle) &&
+        if (isStationary && canSeeTarget && IsFacingTarget(direction, firingAngle) &&
             distance <= attackRange && _time >= _spottedAt + reactionTime)
             UpdateWeapon();
         else
@@ -219,6 +231,8 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         _spottedAt = MathF.Min(_spottedAt, _time);
         if (_currentHealth <= 0.0f)
             Die();
+        else
+            SetAnimationTrigger(hitTriggerParameter);
     }
 
     // Also accepts callers which do not provide a damage value.
@@ -228,6 +242,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     {
         _externalNavigationControl = true;
         _remoteProxyMode = false;
+        _externalAiming = false;
         _dead = false;
         _navigationDestination = new Vector3(x, y, z);
         UpdateNavigationTarget();
@@ -237,6 +252,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     {
         _externalNavigationControl = true;
         _remoteProxyMode = false;
+        _externalAiming = false;
         _dead = false;
         _currentHealth = MathF.Max(1.0f, health);
         GameObject.WorldPosition = new Vector3(x, y, z);
@@ -250,6 +266,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     {
         _externalNavigationControl = true;
         _remoteProxyMode = true;
+        _externalAiming = false;
         _dead = false;
         _navigationDestination = GameObject.WorldPosition;
         UpdateNavigationTarget();
@@ -262,6 +279,21 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         SetAnimationBool(hasTargetParameter, true);
         SetAnimationTrigger(shootTriggerParameter);
         _gunAudio?.PlayOneShot();
+    }
+
+    public void PlayExternalHitAnimation()
+    {
+        if (_externalNavigationControl)
+            SetAnimationTrigger(hitTriggerParameter);
+    }
+
+    public void SetExternalAiming(bool aiming)
+    {
+        if (_externalNavigationControl)
+        {
+            _externalAiming = aiming;
+            SetAnimationBool(hasTargetParameter, aiming);
+        }
     }
 
     public void ConfigureNetworkNameplate(string username, bool friendly)
@@ -346,12 +378,18 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             var radius = Lerp(minimumRadius, maximumRadius, NextRandom01());
             var candidate = playerPosition + RotateY(Vector3.UnitZ, angle) * radius;
             candidate.Y = botPosition.Y;
+            if (!TryResolveNavigablePosition(candidate, out candidate))
+                continue;
 
             var shotDistance = Vector3.Distance(candidate, playerPosition);
             var clearShot = HasLineOfSightFrom(candidate, playerPosition);
             var rangeError = MathF.Abs(shotDistance - preferredRange);
             var travelDistance = Vector3.Distance(botPosition, candidate);
-            var score = (clearShot ? 1000.0f : 0.0f) - rangeError * 4.0f - travelDistance * 0.35f;
+            var centreDistance = navigationMesh is null
+                ? 0.0f
+                : HorizontalDistance(candidate, navigationMesh.WorldPosition);
+            var score = (clearShot ? 1000.0f : 0.0f) - rangeError * 4.0f -
+                travelDistance * 0.35f - centreDistance * MathF.Max(0.0f, centrePositionWeight);
             if (score > bestScore)
             {
                 bestScore = score;
@@ -361,14 +399,33 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
         // If no sampled firing lane is clear, advance toward the last place the
         // player was seen. The next search will fan out from there.
-        if (bestScore < 0.0f)
-            bestPosition = _lastKnownTargetPosition;
+        if (bestScore < 0.0f &&
+            !TryResolveNavigablePosition(_lastKnownTargetPosition, out bestPosition))
+            return;
 
-        bestPosition.Y = botPosition.Y;
         _navigationDestination = bestPosition;
         _isHolding = false;
         _positionMoveDeadline = _time + MathF.Max(1.0f, positionMoveTimeout);
         UpdateNavigationTarget();
+    }
+
+    private bool TryResolveNavigablePosition(Vector3 desiredPosition, out Vector3 position)
+    {
+        position = GameObject.WorldPosition;
+        if (navigationMesh is null || !navigationMesh.IsValid ||
+            !Navigation.ProjectPoint(
+                navigationMesh, desiredPosition, out var projected,
+                navigationAgentRadius, navigationAgentHeight))
+            return false;
+
+        var path = Navigation.FindPath(
+            navigationMesh, GameObject.WorldPosition, projected,
+            navigationAgentRadius, navigationAgentHeight);
+        if (!path.Complete || path.Points.Count == 0)
+            return false;
+
+        position = projected;
+        return true;
     }
 
     private void UpdateNavigationTarget()
@@ -462,6 +519,10 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         var desiredYaw = MathF.Atan2(-direction.X, -direction.Z) * 180.0f / MathF.PI;
         var rotation = Rotation;
         var difference = WrapAngle(desiredYaw - rotation.Y);
+        if (MathF.Abs(MathF.Abs(difference) - 180.0f) < 0.1f)
+            difference = 180.0f * _turnDirection;
+        else if (MathF.Abs(difference) > 0.1f)
+            _turnDirection = MathF.Sign(difference);
         rotation.Y += difference * (1.0f - MathF.Exp(-turnSharpness * deltaTime));
         Rotation = rotation;
     }
@@ -545,6 +606,12 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     }
 
     private static float Lerp(float a, float b, float t) => a + (b - a) * Math.Clamp(t, 0.0f, 1.0f);
+    private static float HorizontalDistance(Vector3 first, Vector3 second)
+    {
+        var offset = first - second;
+        offset.Y = 0.0f;
+        return offset.Length();
+    }
     private static float WrapAngle(float angle) => (angle + 540.0f) % 360.0f - 180.0f;
     private static Vector3 RotateY(Vector3 direction, float degrees)
     {

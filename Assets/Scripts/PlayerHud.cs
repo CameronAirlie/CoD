@@ -170,6 +170,7 @@ public sealed class PlayerHud : ScriptBehaviour
         {
             _hitVisible = false;
             foreach (var arm in _arms) arm.SetClass("hit", false);
+            _crosshair?.SetClass("headshot", false);
         }
     }
 

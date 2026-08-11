@@ -407,7 +407,8 @@ public sealed class PlayerController : ScriptBehaviour
         var origin = camera?.GameObject.WorldPosition ?? GameObject.WorldPosition;
         if (Physics.Raycast(origin, direction, range, GameObject, out var hit))
         {
-            if (!string.IsNullOrWhiteSpace(bulletHoleMaterial))
+            var hitFriendly = _multiplayer?.IsFriendlyNetworkParticipant(hit.Entity) == true;
+            if (!hitFriendly && !string.IsNullOrWhiteSpace(bulletHoleMaterial))
             {
                 Decals.Spawn(
                     hit,
@@ -418,7 +419,8 @@ public sealed class PlayerController : ScriptBehaviour
                     bulletHoleFadeDuration);
             }
 
-            if ((hit.Entity.HasTag(damageableTag) || hit.Entity.HasTag(headTag)) &&
+            if (!hitFriendly &&
+                (hit.Entity.HasTag(damageableTag) || hit.Entity.HasTag(headTag)) &&
                 _multiplayer?.IsNetworkParticipant(hit.Entity) != true)
             {
                 var isHeadshot = hit.Entity.HasTag(headTag);
