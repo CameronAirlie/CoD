@@ -81,6 +81,9 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private bool _isHolding;
     private bool _externalNavigationControl;
     private bool _remoteProxyMode;
+    private RmlDocument? _networkNameplateDocument;
+    private string _networkNameplateText = string.Empty;
+    private bool _networkNameplateDirty;
 
     public override void OnCreate()
     {
@@ -108,6 +111,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     public override void OnUpdate(float deltaTime)
     {
+        RefreshNetworkNameplate();
         _time += MathF.Max(0.0f, deltaTime);
         var position = GameObject.WorldPosition;
         var displacement = position - _previousPosition;
@@ -263,11 +267,27 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     public void ConfigureNetworkNameplate(string username, bool friendly)
     {
         if (networkNameplate is null || !networkNameplate.IsValid) return;
-        var label = networkNameplate.GetComponent<UITextComponent>();
         networkNameplate.Active = friendly;
-        if (label is null) return;
-        label.Text = friendly ? $"[FRIENDLY] {username}" : string.Empty;
-        label.Color = new Vector3(0.22f, 0.68f, 1.0f);
+        _networkNameplateText = friendly ? $"[FRIENDLY] {username}" : string.Empty;
+        _networkNameplateDirty = friendly;
+        if (!friendly) return;
+        _networkNameplateDocument ??=
+            new RmlDocument($"UI/friendly-nameplate.rml#entity:{networkNameplate.EntityId}");
+        RefreshNetworkNameplate();
+    }
+
+    public override void OnDestroy()
+    {
+        _networkNameplateDocument?.Dispose();
+        _networkNameplateDocument = null;
+    }
+
+    private void RefreshNetworkNameplate()
+    {
+        if (!_networkNameplateDirty || _networkNameplateDocument is null) return;
+        var label = _networkNameplateDocument.Element("friendly-name");
+        label.Markup = _networkNameplateText;
+        _networkNameplateDirty = !label.SetClass("ready", true);
     }
 
     private void ResolveTarget()

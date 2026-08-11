@@ -1,15 +1,15 @@
 PLUTOPROJECT	1
 NAME	CoD
 ASSET_DIR	Assets
-STARTUP_SCENE	project://Scenes/Title.plutoscene
+STARTUP_SCENE	project://Prefabs/Enemy.plutoprefab
 SCRIPT_ASSEMBLY	project://Managed/CoD.Scripts.dll
 WINDOW_TITLE	CoD
 WINDOW_SIZE	1280	720
 VSYNC	0
 EDITOR_FONT_SIZE	13
-EDITOR_CAMERA_POSITION	22.0801	11.3692	49.7872
+EDITOR_CAMERA_POSITION	-1.54095	3.5406	-10.2166
 EDITOR_CAMERA_SPEED	6
-EDITOR_CAMERA_ROTATION	-237.837	-23.5999
+EDITOR_CAMERA_ROTATION	-531.232	-5.11984
 EDITOR_CAMERA_LENS	70	0.1	1000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/main.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -101,8 +101,8 @@ ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.pluto
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutoanim	963	Animation
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	2611229	Mesh
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	111616	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	44216	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	112128	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	44452	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	204800	Assembly
 ASSET	project://Managed/PlutoGE.ScriptCore.pdb	73740	Unknown
@@ -116,26 +116,26 @@ ASSET	project://Particles/MuzzleFlash.plutoparticles	864	Particle System
 ASSET	project://PostProcessing/main.plutopostprocess	3624	Post Process Preset
 ASSET	project://Prefabs/AmmoPickup.plutoprefab	1889	Prefab
 ASSET	project://Prefabs/ArmourPickup.plutoprefab	1894	Prefab
-ASSET	project://Prefabs/Enemy.plutoprefab	16876	Prefab
+ASSET	project://Prefabs/Enemy.plutoprefab	18162	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1895	Prefab
 ASSET	project://Prefabs/Lightsaber.plutoprefab	1943	Prefab
 ASSET	project://Prefabs/RemotePlayer.plutoprefab	1451	Prefab
 ASSET	project://Scenes/Main.plutoscene	119182	Scene
-ASSET	project://Scenes/Title.plutoscene	7270	Scene
-ASSET	project://Scripts/EnemySoldierBot.cs	21267	Script
+ASSET	project://Scenes/Title.plutoscene	7275	Scene
+ASSET	project://Scripts/EnemySoldierBot.cs	22505	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4254	Script
 ASSET	project://Scripts/InventoryMenu.cs	6328	Script
 ASSET	project://Scripts/MultiplayerLaunch.cs	696	Script
-ASSET	project://Scripts/MultiplayerSession.cs	40726	Script
+ASSET	project://Scripts/MultiplayerSession.cs	40504	Script
 ASSET	project://Scripts/PauseMenu.cs	271	Script
 ASSET	project://Scripts/PlayerController.cs	24560	Script
 ASSET	project://Scripts/PlayerHealth.cs	6139	Script
-ASSET	project://Scripts/PlayerHud.cs	11509	Script
+ASSET	project://Scripts/PlayerHud.cs	11165	Script
 ASSET	project://Scripts/PlayerInventory.cs	4061	Script
 ASSET	project://Scripts/SupplyPickup.cs	2143	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
 ASSET	project://Scripts/TitleScreen.cs	3209	Script
-ASSET	project://Scripts/UIManager.cs	5672	Script
+ASSET	project://Scripts/UIManager.cs	5669	Script
 ASSET	project://Sounds/engine.wav	760364	Audio
 ASSET	project://Sounds/footsteps.wav	728108	Audio
 ASSET	project://Sounds/gun_shot.wav	59456	Audio
@@ -266,10 +266,12 @@ ASSET	project://Textures/Dark/texture_11.png	9048	Texture
 ASSET	project://Textures/Dark/texture_12.png	9585	Texture
 ASSET	project://Textures/Dark/texture_13.png	9867	Texture
 ASSET	project://Textures/MuzzleFlash/MuzzleFlash.png	90402	Texture
-ASSET	project://UI/hud.rcss	3291	Unknown
-ASSET	project://UI/hud.rml	1884	RML Document
+ASSET	project://UI/friendly-nameplate.rcss	519	Unknown
+ASSET	project://UI/friendly-nameplate.rml	219	RML Document
+ASSET	project://UI/hud.rcss	3102	Unknown
+ASSET	project://UI/hud.rml	1845	RML Document
 ASSET	project://UI/inventory.rcss	1692	Unknown
-ASSET	project://UI/inventory.rml	1507	RML Document
+ASSET	project://UI/inventory.rml	1504	RML Document
 ASSET	project://UI/pause-menu.rcss	1354	Unknown
 ASSET	project://UI/pause-menu.rml	606	RML Document
 ASSET	project://UI/title.rcss	2115	Unknown

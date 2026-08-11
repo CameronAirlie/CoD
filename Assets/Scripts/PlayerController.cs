@@ -419,7 +419,7 @@ public sealed class PlayerController : ScriptBehaviour
             }
 
             if ((hit.Entity.HasTag(damageableTag) || hit.Entity.HasTag(headTag)) &&
-                _multiplayer?.IsNetworkParticipant(hit.Entity.EntityId) != true)
+                _multiplayer?.IsNetworkParticipant(hit.Entity) != true)
             {
                 var isHeadshot = hit.Entity.HasTag(headTag);
                 var dealtDamage = damage * (isHeadshot ? headshotMultiplier : 1.0f);

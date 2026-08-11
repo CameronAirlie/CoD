@@ -43,7 +43,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     public event Action<KillFeedEntry>? KillFeedReceived;
     public MatchSnapshot? CurrentMatch { get; private set; }
 
-    public bool IsNetworkParticipant(uint entityId) => FindPeerForEntity(entityId) != -1;
+    public bool IsNetworkParticipant(GameObject entity) => FindPeerForEntity(entity) != -1;
 
     [SerializedField] private string mode = "Offline";
     [SerializedField] private string serverAddress = "127.0.0.1";
@@ -56,6 +56,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     [SerializedField] private float interpolationSharpness = 14.0f;
     [SerializedField] private GameObject? aimingCamera = null;
     [SerializedField] private float weaponDamage = 30.0f;
+    [SerializedField] private float multiplayerHeadshotMultiplier = 1.5f;
     [SerializedField] private float weaponRange = 180.0f;
     [SerializedField] private float roundsPerMinute = 720.0f;
     [SerializedField] private float warmupDuration = 5.0f;
@@ -484,15 +485,16 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 out var hit))
             return;
 
-        var targetPeerId = FindPeerForEntity(hit.Entity.EntityId);
-        if (targetPeerId < 0 || targetPeerId == shooterPeerId)
+        var targetPeerId = FindPeerForEntity(hit.Entity);
+        if (targetPeerId == -1 || targetPeerId == shooterPeerId)
             return;
 
         if (!_playerStates.TryGetValue(targetPeerId, out var targetState) ||
             targetState.Team == shooterState.Team || targetState.Health <= 0.0f)
             return;
 
-        var damage = MathF.Max(0.0f, weaponDamage);
+        var damage = MathF.Max(0.0f, weaponDamage) *
+            (hit.Entity.HasTag("Head") ? MathF.Max(1.0f, multiplayerHeadshotMultiplier) : 1.0f);
         targetState.Health = MathF.Max(0.0f, targetState.Health - damage);
         targetState.LastDamagedAt = _time;
         if (targetPeerId == 0)
@@ -504,10 +506,15 @@ public sealed class MultiplayerSession : ScriptBehaviour
             RegisterKill(shooterPeerId, targetPeerId);
     }
 
-    private int FindPeerForEntity(uint entityId)
+    private int FindPeerForEntity(GameObject entity)
     {
+        var entityId = entity.EntityId;
         if (GameObject.EntityId == entityId)
             return 0;
+
+        var hitbox = entity.GetComponent<NetworkParticipantHitbox>();
+        if (hitbox is not null)
+            entityId = hitbox.ParticipantEntityId;
 
         foreach (var pair in _remotePlayers)
         {
@@ -728,7 +735,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
         direction = ApplyBotSpread(Vector3.Normalize(direction), botAccuracyDegrees, bot);
         if (!Physics.Raycast(origin, direction, MathF.Max(1.0f, botAttackRange), bot.GameObject, out var hit))
             return;
-        var victimId = FindPeerForEntity(hit.Entity.EntityId);
+        var victimId = FindPeerForEntity(hit.Entity);
         if (victimId == -1 || victimId == botId) return;
         if (!_playerStates.TryGetValue(botId, out var shooter) ||
             !_playerStates.TryGetValue(victimId, out var victim) ||

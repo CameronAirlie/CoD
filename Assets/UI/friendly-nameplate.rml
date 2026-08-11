@@ -1,0 +1,9 @@
+<rml>
+<head>
+    <title>Friendly Player Nameplate</title>
+    <link type="text/rcss" href="friendly-nameplate.rcss"/>
+</head>
+<body>
+    <div id="nameplate"><span id="friendly-name">FRIENDLY</span></div>
+</body>
+</rml>

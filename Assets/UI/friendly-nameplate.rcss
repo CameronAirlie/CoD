@@ -1,0 +1,30 @@
+@font-face {
+    font-family: NameplateFont;
+    src: url("../Fonts/Georama.ttf");
+}
+
+body {
+    width: 240px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    overflow: hidden;
+    pointer-events: none;
+    font-family: NameplateFont;
+}
+
+#nameplate {
+    width: 240px;
+    height: 36px;
+    text-align: center;
+    color: #59bfff;
+    font-size: 18px;
+    line-height: 36px;
+    text-shadow: 1px 1px #06111f;
+}
+
+#friendly-name.ready {
+    color: #59bfff;
+}

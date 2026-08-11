@@ -18,7 +18,7 @@ CoD is a small demo project created with **[PlutoGE](https://github.com/CameronA
 - Replicated match clock, team scores, kill feed, and hold-Tab scoreboard
 - Host-owned TDM bots that fill empty slots and leave automatically as humans join
 - Animated remote soldier characters with replicated locomotion and firing feedback
-- Camera-facing blue world-space nameplates above friendly players and bots
+- Camera-facing blue world-space RmlUi nameplates above friendly players and bots
 - Enemy waves, health and ammunition pickups, and runtime HUD elements
 
 ## Running the project
