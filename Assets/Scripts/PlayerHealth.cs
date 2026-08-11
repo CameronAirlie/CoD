@@ -42,6 +42,16 @@ public sealed class PlayerHealth : ScriptBehaviour
     public int MaximumArmourSlots => maximumArmourSlots;
     public event Action<float, float, int, int>? StatusChanged;
 
+    public void ConfigureMultiplayerMaximumHealth(float value)
+    {
+        maximumHealth = MathF.Max(1.0f, value);
+        _health = maximumHealth;
+        _dead = false;
+        _restartAt = 0.0f;
+        RefreshLabel();
+        PublishStatus();
+    }
+
     public override void OnCreate()
     {
         _health = MathF.Max(1.0f, maximumHealth);

@@ -177,11 +177,11 @@ ASSET	project://Scripts/EnemySoldierBot.cs	26849	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4384	Script
 ASSET	project://Scripts/InventoryMenu.cs	6328	Script
 ASSET	project://Scripts/MultiplayerLaunch.cs	714	Script
-ASSET	project://Scripts/MultiplayerSession.cs	60115	Script
+ASSET	project://Scripts/MultiplayerSession.cs	61001	Script
 ASSET	project://Scripts/NetworkParticipantHitbox.cs	401	Script
 ASSET	project://Scripts/PauseMenu.cs	262	Script
 ASSET	project://Scripts/PlayerController.cs	24701	Script
-ASSET	project://Scripts/PlayerHealth.cs	6139	Script
+ASSET	project://Scripts/PlayerHealth.cs	6394	Script
 ASSET	project://Scripts/PlayerHud.cs	11330	Script
 ASSET	project://Scripts/PlayerInventory.cs	4059	Script
 ASSET	project://Scripts/SupplyPickup.cs	2143	Script

@@ -252,6 +252,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
         _hostStartAttempts++;
         try
         {
+            if (_playerHealth is not null)
+                multiplayerMaximumHealth = MathF.Max(1.0f, _playerHealth.MaximumHealth);
             _localPeerId = 0;
             _peerNames[0] = _username;
             _playerStates[0] = new PlayerMatchState(PlayerTeam.Alpha, false)
@@ -376,7 +378,10 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 _server!.SendJson(
                     message.PeerId,
                     HandshakeChannel,
-                    new ServerWelcome(ProtocolVersion, message.PeerId));
+                    new ServerWelcome(
+                        ProtocolVersion,
+                        message.PeerId,
+                        multiplayerMaximumHealth));
                 foreach (var peer in _peerNames)
                 {
                     _server.SendJson(
@@ -436,6 +441,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 }
 
                 _localPeerId = welcome.PeerId;
+                if (float.IsFinite(welcome.MaximumHealth) && welcome.MaximumHealth > 0.0f)
+                    _playerHealth?.ConfigureMultiplayerMaximumHealth(welcome.MaximumHealth);
                 Debug.Log($"{_username} joined multiplayer as peer {_localPeerId}.");
                 return;
             }
@@ -579,7 +586,13 @@ public sealed class MultiplayerSession : ScriptBehaviour
         targetState.LastDamagedAt = _time;
         PublishHitEffect(targetPeerId);
         if (targetPeerId == 0)
+        {
             GameObject.TryInvoke("TakeDamage", damage);
+            // The host's actual health component is authoritative for the host.
+            // This also accounts for locally configured health and armour.
+            if (_playerHealth is not null)
+                targetState.Health = MathF.Max(0.0f, _playerHealth.CurrentHealth);
+        }
         else if (!_bots.ContainsKey(targetPeerId))
             _server.SendJson(targetPeerId, DamageChannel, new PlayerDamage(damage));
 
@@ -1080,7 +1093,12 @@ public sealed class MultiplayerSession : ScriptBehaviour
         victim.Health = MathF.Max(0.0f, victim.Health - damage);
         victim.LastDamagedAt = _time;
         PublishHitEffect(victimId);
-        if (victimId == 0) GameObject.TryInvoke("TakeDamage", damage);
+        if (victimId == 0)
+        {
+            GameObject.TryInvoke("TakeDamage", damage);
+            if (_playerHealth is not null)
+                victim.Health = MathF.Max(0.0f, _playerHealth.CurrentHealth);
+        }
         else if (!_bots.ContainsKey(victimId)) _server?.SendJson(victimId, DamageChannel, new PlayerDamage(damage));
         if (victim.Health <= 0.0f) RegisterKill(botId, victimId);
     }
@@ -1367,7 +1385,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
     }
 
     private sealed record ClientHello(int ProtocolVersion, string Username);
-    private sealed record ServerWelcome(int ProtocolVersion, int PeerId);
+    private sealed record ServerWelcome(
+        int ProtocolVersion, int PeerId, float MaximumHealth = 100.0f);
     private sealed record PeerLeft(int PeerId);
     private sealed record PeerJoined(int PeerId, string Username);
     private sealed record PlayerDamage(float Amount);
