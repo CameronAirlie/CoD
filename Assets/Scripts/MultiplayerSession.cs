@@ -28,7 +28,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
 {
     private static MultiplayerSession? _activeSession;
 
-    private const int ProtocolVersion = 6;
+    private const int ProtocolVersion = 7;
     private const ushort HandshakeChannel = 1;
     private const ushort TransformChannel = 2;
     private const ushort PeerLeftChannel = 3;
@@ -41,6 +41,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private const ushort HitEffectChannel = 10;
     private const ushort LeaveChannel = 11;
     private const ushort HitConfirmationChannel = 12;
+    private const ushort DeathEffectChannel = 13;
 
     public event Action<MatchSnapshot>? MatchUpdated;
     public event Action<KillFeedEntry>? KillFeedReceived;
@@ -109,6 +110,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     [SerializedField] private float botNavigationAgentHeight = 2.0f;
 
     private readonly Dictionary<int, RemotePlayer> _remotePlayers = new();
+    private readonly Dictionary<int, float> _deadRemotePlayers = new();
     private readonly HashSet<int> _authenticatedPeers = new();
     private readonly Dictionary<int, float> _lastAcceptedShotAt = new();
     private readonly Dictionary<int, string> _peerNames = new();
@@ -241,6 +243,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
         _peerLastSeenAt.Clear();
         _peerNames.Clear();
         _playerStates.Clear();
+        _deadRemotePlayers.Clear();
         _bots.Clear();
         ClearRemotePlayers();
         _localPeerId = -1;
@@ -516,6 +519,12 @@ public sealed class MultiplayerSession : ScriptBehaviour
                         confirmation.Damage,
                         confirmation.IsHeadshot);
             }
+            else if (message.Channel == DeathEffectChannel)
+            {
+                var effect = message.GetJson<DeathEffect>();
+                if (effect is not null)
+                    PlayRemoteDeath(effect.PeerId);
+            }
         }
         catch (Exception exception)
         {
@@ -644,6 +653,13 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
     private void ApplyRemoteTransform(PlayerTransform transform)
     {
+        if (_deadRemotePlayers.TryGetValue(transform.PeerId, out var respawnAt))
+        {
+            if (_time < respawnAt)
+                return;
+            _deadRemotePlayers.Remove(transform.PeerId);
+        }
+
         if (!_remotePlayers.TryGetValue(transform.PeerId, out var remote))
         {
             if (string.IsNullOrWhiteSpace(remotePlayerPrefab))
@@ -1165,6 +1181,14 @@ public sealed class MultiplayerSession : ScriptBehaviour
             remote.GameObject.TryInvoke("PlayExternalHitAnimation");
     }
 
+    private void PlayRemoteDeath(int victimPeerId)
+    {
+        _deadRemotePlayers[victimPeerId] =
+            _time + MathF.Max(0.1f, combatRespawnDelay);
+        if (_remotePlayers.Remove(victimPeerId, out var remote))
+            remote.GameObject.TryInvoke("PlayExternalDeath");
+    }
+
     private void ConfigureAllNameplates()
     {
         foreach (var pair in _remotePlayers)
@@ -1250,15 +1274,14 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 state.Health = MathF.Max(1.0f, multiplayerMaximumHealth);
                 if (_bots.TryGetValue(pair.Key, out var bot))
                 {
-                    bot.GameObject.TryInvoke(
-                        "ResetExternalNavigation",
-                        bot.SpawnPosition.X, bot.SpawnPosition.Y, bot.SpawnPosition.Z);
+                    bot = RespawnBot(pair.Key, bot);
                     bot.NextShotAt = _time + 0.5f;
                     bot.NextNavigationAt = _time + 0.5f;
                     bot.PreviousPosition = bot.SpawnPosition;
                     bot.IsEngaging = false;
                     bot.TargetPeerId = int.MinValue;
                 }
+                _deadRemotePlayers.Remove(pair.Key);
             }
             else if (state.Health > 0.0f &&
                      state.Health < multiplayerMaximumHealth &&
@@ -1330,16 +1353,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
         killer.Kills++;
         victim.Deaths++;
         victim.RespawnAt = _time + MathF.Max(0.1f, combatRespawnDelay);
-        if (_bots.TryGetValue(victimPeerId, out var victimBot))
-        {
-            var hidden = victimBot.GameObject.WorldPosition;
-            hidden.Y -= 100.0f;
-            victimBot.GameObject.WorldPosition = hidden;
-            victimBot.GameObject.TryInvoke(
-                "SetExternalNavigationDestination", hidden.X, hidden.Y, hidden.Z);
-            if (_remotePlayers.TryGetValue(victimPeerId, out var remote))
-                remote.TargetPosition = hidden;
-        }
+        PlayRemoteDeath(victimPeerId);
+        _server?.BroadcastJson(DeathEffectChannel, new DeathEffect(victimPeerId));
         if (killer.Team == PlayerTeam.Alpha) _alphaScore++;
         else _bravoScore++;
 
@@ -1439,9 +1454,30 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private sealed record PlayerDamage(float Amount);
     private sealed record ShotEffect(int ShooterPeerId);
     private sealed record HitEffect(int VictimPeerId);
+    private sealed record DeathEffect(int PeerId);
     private sealed record HitConfirmation(float Damage, bool IsHeadshot)
     {
         public bool IsFinite() => float.IsFinite(Damage) && Damage > 0.0f;
+    }
+
+    private BotController RespawnBot(int peerId, BotController previous)
+    {
+        var instance = Prefab.Instantiate(hostBotPrefab, previous.SpawnPosition, Vector3.Zero);
+        if (instance is null)
+        {
+            Debug.LogWarning($"Could not respawn bot {peerId} from '{hostBotPrefab}'.");
+            return previous;
+        }
+
+        var replacement = new BotController(
+            instance, previous.SpawnPosition, unchecked((uint)peerId * 747796405u));
+        _bots[peerId] = replacement;
+        _remotePlayers[peerId] = new RemotePlayer(instance, previous.SpawnPosition, 0.0f);
+        instance.TryInvoke(
+            "ResetExternalNavigation",
+            previous.SpawnPosition.X, previous.SpawnPosition.Y, previous.SpawnPosition.Z);
+        ConfigureNameplate(peerId, instance);
+        return replacement;
     }
 
     private sealed class PlayerMatchState(PlayerTeam team, bool isBot)

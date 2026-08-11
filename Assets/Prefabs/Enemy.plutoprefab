@@ -13,7 +13,7 @@ END_COMPONENT
 COMPONENT	156	ScriptComponent
 PROPERTY	Source	2	CoD.Scripts.EnemySoldierBot	0
 PROPERTY	target	9	1	0
-PROPERTY	animationObject	9	159	0
+PROPERTY	animationObject	9	156	0
 PROPERTY	gunAudioObject	9	157	0
 PROPERTY	navigationTarget	9	162	0
 PROPERTY	navigationMesh	9	707	0
@@ -55,9 +55,7 @@ PROPERTY	movementSpeedParameter	2	MovementSpeed	0
 PROPERTY	hasTargetParameter	2	HasTarget	0
 PROPERTY	shootTriggerParameter	2	Shoot	0
 PROPERTY	hitTriggerParameter	2	Hit	0
-PROPERTY	deadParameter	2	Dead	0
-PROPERTY	deathTriggerParameter	2	Death	0
-PROPERTY	deathCleanupDelay	0	2.000000	0
+PROPERTY	deathCleanupDelay	0	4.000000	0
 PROPERTY	tacticalRepathMax	0	1.250000	0
 PROPERTY	tacticalRepathMin	0	0.650000	0
 PROPERTY	idleAnimation	2	Idle	0
@@ -111,7 +109,7 @@ PROPERTY	AirAbsorptionStrength	0	1.000000	0
 PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
 ENTITY	159	156	1	UAL1_Standard	0.000000,0.000000,0.000000	0.000000,180.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	159	AnimationComponent
+COMPONENT	156	AnimationComponent
 PROPERTY	SourceAnimation	2	project://Packs/AnimationPack/UAL1_Standard Animations.plutoanim	0
 PROPERTY	AnimationGraph	2	project://AnimGraphs/enemy.plutoanimgraph	0
 PROPERTY	CurrentClipIndex	6	48	53	A_TPose	Crouch_Fwd_Loop	Crouch_Idle_Loop	Dance_Loop	Death01	Driving_Loop	Fixing_Kneeling	Hit_Chest	Hit_Head	Idle_Loop	Idle_Talking_Loop	Idle_Torch_Loop	Interact	Jog_Fwd_Loop	Jump_Land	Jump_Loop	Jump_Start	PickUp_Table	Pistol_Aim_Down	Pistol_Aim_Neutral	Pistol_Aim_Up	Pistol_Idle_Loop	Pistol_Reload	Pistol_Shoot	Punch_Cross	Punch_Jab	Push_Loop	Roll	Sitting_Enter	Sitting_Exit	Sitting_Idle_Loop	Sitting_Talking_Loop	Spell_Simple_Enter	Spell_Simple_Exit	Spell_Simple_Idle_Loop	Spell_Simple_Shoot	Sprint_Loop	Swim_Fwd_Loop	Swim_Idle_Loop	Sword_Attack	Sword_Idle	Walk_Formal_Loop	Walk_Loop	UAL1_Standard_Idle_Loop_9	UAL1_Standard_Walk_Loop_42	UAL1_Standard_Pistol_Shoot_23	UAL1_Standard_Pistol_Aim_Neutral_19	UAL1_Standard_Death01_4	UAL1_Standard_Idle_Loop_9	UAL1_Standard_Walk_Loop_42	UAL1_Standard_Pistol_Shoot_23	UAL1_Standard_Pistol_Aim_Neutral_19	UAL1_Standard_Death01_4
@@ -120,6 +118,8 @@ PROPERTY	Speed	0	1.000000	0
 PROPERTY	Playing	4	true	0
 PROPERTY	Looping	4	true	0
 PROPERTY	Autoplay	4	true	0
+PROPERTY	RagdollEnabled	4	false	0
+PROPERTY	RagdollWeight	0	1.000000	0
 PROPERTY	ClipCount	1	53	0
 PROPERTY	Clips.0.Name	2	A_TPose	0
 PROPERTY	Clips.0.Duration	0	2.500000	0
@@ -280,6 +280,13 @@ PROPERTY	Clips.51.ChannelCount	1	195	0
 PROPERTY	Clips.52.Name	2	UAL1_Standard_Death01_4	0
 PROPERTY	Clips.52.Duration	0	2.400000	0
 PROPERTY	Clips.52.ChannelCount	1	195	0
+END_COMPONENT
+COMPONENT	156	ActiveRagdollComponent
+PROPERTY	PositionStrength	0	35.000000	0
+PROPERTY	RotationStrength	0	18.000000	0
+PROPERTY	Damping	0	8.000000	0
+PROPERTY	MaxForce	0	1200.000000	0
+PROPERTY	MaxTorque	0	80.000000	0
 END_COMPONENT
 ENTITY	160	159	1	Mannequin	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	160	MeshComponent

@@ -57,11 +57,10 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     [SerializedField] private string hasTargetParameter = "HasTarget";
     [SerializedField] private string shootTriggerParameter = "Shoot";
     [SerializedField] private string hitTriggerParameter = "Hit";
-    [SerializedField] private string deadParameter = "Dead";
-    [SerializedField] private string deathTriggerParameter = "Death";
     [SerializedField] private float deathCleanupDelay = 2.5f;
 
     private AnimationComponent? _animation;
+    private ActiveRagdollComponent? _ragdollController;
     private SoundEmitterComponent? _gunAudio;
     private RigidbodyComponent? _body;
     private float _currentHealth;
@@ -84,8 +83,6 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private float _lastAnimationSpeed = float.NaN;
     private bool _lastHasTarget;
     private bool _hasLastHasTarget;
-    private bool _lastDead;
-    private bool _hasLastDead;
     private bool _cachedLineOfSight;
     private bool _isHolding;
     private bool _externalNavigationControl;
@@ -109,6 +106,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         var animationOwner = animationObject ?? GameObject;
         var audioOwner = gunAudioObject ?? GameObject;
         _animation = animationOwner.GetComponent<AnimationComponent>();
+        _ragdollController = animationOwner.GetComponent<ActiveRagdollComponent>();
         _gunAudio = audioOwner.GetComponent<SoundEmitterComponent>();
         _body = GameObject.GetComponent<RigidbodyComponent>();
         _previousPosition = GameObject.WorldPosition;
@@ -123,7 +121,6 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         UpdateNavigationTarget();
         SetAnimationFloat(movementSpeedParameter, 0.0f);
         SetAnimationBool(hasTargetParameter, false);
-        SetAnimationBool(deadParameter, false);
     }
 
     public override void OnUpdate(float deltaTime)
@@ -293,7 +290,6 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         _latePreviousPosition = _previousPosition;
         _navigationDestination = _previousPosition;
         UpdateNavigationTarget();
-        SetAnimationBool(deadParameter, false);
     }
 
     public void SetRemoteProxyMode()
@@ -304,7 +300,6 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         _dead = false;
         _navigationDestination = GameObject.WorldPosition;
         UpdateNavigationTarget();
-        SetAnimationBool(deadParameter, false);
     }
 
     public void PlayExternalShootAnimation()
@@ -319,6 +314,13 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     {
         if (_externalNavigationControl)
             SetAnimationTrigger(hitTriggerParameter);
+    }
+
+    public void PlayExternalDeath()
+    {
+        Debug.Log($"[Ragdoll] PlayExternalDeath entity={EntityId} external={_externalNavigationControl} animation={_animation is not null}");
+        if (_externalNavigationControl)
+            Die();
     }
 
     public void SetExternalAiming(bool aiming)
@@ -582,14 +584,34 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     private void Die()
     {
+        if (_dead)
+            return;
+
         _dead = true;
+        _externalAiming = false;
         _navigationDestination = GameObject.WorldPosition;
         UpdateNavigationTarget();
         _destroyAt = _time + MathF.Max(0.0f, deathCleanupDelay);
+        if (_body is not null)
+        {
+            _body.Velocity = Vector3.Zero;
+            _body.AngularVelocity = Vector3.Zero;
+        }
+        if (_animation is not null)
+        {
+            _animation.RagdollWeight = 1.0f;
+            _animation.RagdollEnabled = true;
+            Debug.Log($"[Ragdoll] enable requested entity={EntityId} nativeEnabled={_animation.RagdollEnabled} weight={_animation.RagdollWeight}");
+            _animation.Pause();
+        }
+        else
+        {
+            Debug.LogError($"[Ragdoll] entity={EntityId} has no AnimationComponent reference");
+        }
+        if (_ragdollController is not null)
+            _ragdollController.Enabled = false;
         SetAnimationFloat(movementSpeedParameter, 0.0f);
         SetAnimationBool(hasTargetParameter, false);
-        SetAnimationBool(deadParameter, true);
-        SetAnimationTrigger(deathTriggerParameter);
     }
 
     private void SetAnimationFloat(string parameter, float value)
@@ -613,13 +635,6 @@ public sealed class EnemySoldierBot : ScriptBehaviour
                 return;
             _hasLastHasTarget = true;
             _lastHasTarget = value;
-        }
-        else if (parameter == deadParameter)
-        {
-            if (_hasLastDead && _lastDead == value)
-                return;
-            _hasLastDead = true;
-            _lastDead = value;
         }
         _animation.SetBool(parameter, value);
     }

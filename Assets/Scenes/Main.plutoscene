@@ -128,7 +128,7 @@ PROPERTY	matchDuration	0	300.000000	0
 PROPERTY	resultsDuration	0	10.000000	0
 PROPERTY	scoreLimit	1	50	0
 PROPERTY	multiplayerMaximumHealth	0	100.000000	0
-PROPERTY	combatRespawnDelay	0	1.500000	0
+PROPERTY	combatRespawnDelay	0	5.000000	0
 PROPERTY	multiplayerRegenerationDelay	0	5.000000	0
 PROPERTY	multiplayerRegenerationPerSecond	0	6.000000	0
 PROPERTY	fillWithBots	4	true	0

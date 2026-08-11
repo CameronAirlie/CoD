@@ -7,9 +7,9 @@ WINDOW_TITLE	CoD
 WINDOW_SIZE	1280	720
 VSYNC	0
 EDITOR_FONT_SIZE	13
-EDITOR_CAMERA_POSITION	-0.912096	0.424536	-0.605933
+EDITOR_CAMERA_POSITION	-1.79829	1.24687	1.84795
 EDITOR_CAMERA_SPEED	6
-EDITOR_CAMERA_ROTATION	-469.313	-1.63982
+EDITOR_CAMERA_ROTATION	-406.315	-8.23981
 EDITOR_CAMERA_LENS	70	0.1	1000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/main.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -102,11 +102,11 @@ ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.pluto
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutoanim	963	Animation
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	2611229	Mesh
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	125952	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	49532	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	131072	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	50956	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
-ASSET	project://Managed/PlutoGE.ScriptCore.dll	206848	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	74312	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.dll	209408	Assembly
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	75272	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	369	Unknown
 ASSET	project://Materials/BulletHole.plutomaterial	473	Material
 ASSET	project://Materials/Ground.plutomaterial	492	Material
@@ -167,17 +167,18 @@ ASSET	project://Particles/MuzzleFlash.plutoparticles	864	Particle System
 ASSET	project://PostProcessing/main.plutopostprocess	3623	Post Process Preset
 ASSET	project://Prefabs/AmmoPickup.plutoprefab	1889	Prefab
 ASSET	project://Prefabs/ArmourPickup.plutoprefab	1894	Prefab
-ASSET	project://Prefabs/Enemy.plutoprefab	16717	Prefab
+ASSET	project://Prefabs/Enemy.plutoprefab	17011	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1895	Prefab
 ASSET	project://Prefabs/Lightsaber.plutoprefab	1943	Prefab
-ASSET	project://Prefabs/RemotePlayer.plutoprefab	14413	Prefab
-ASSET	project://Scenes/Main.plutoscene	119691	Scene
+ASSET	project://Prefabs/RemotePlayer.plutoprefab	14705	Prefab
+ASSET	project://Scenes/Main.plutoscene	120046	Scene
 ASSET	project://Scenes/Title.plutoscene	7275	Scene
-ASSET	project://Scripts/EnemySoldierBot.cs	26849	Script
+ASSET	project://Scenes/ragdoll_test.plutoscene	20911	Scene
+ASSET	project://Scripts/EnemySoldierBot.cs	27535	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4384	Script
 ASSET	project://Scripts/InventoryMenu.cs	6328	Script
 ASSET	project://Scripts/MultiplayerLaunch.cs	714	Script
-ASSET	project://Scripts/MultiplayerSession.cs	63059	Script
+ASSET	project://Scripts/MultiplayerSession.cs	64386	Script
 ASSET	project://Scripts/NetworkParticipantHitbox.cs	401	Script
 ASSET	project://Scripts/PauseMenu.cs	262	Script
 ASSET	project://Scripts/PlayerController.cs	25018	Script

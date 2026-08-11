@@ -1,0 +1,472 @@
+SCENE	1
+ENTITY	10	0	1	UAL1_Standard	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	10	AnimationComponent
+PROPERTY	SourceAnimation	2	project://Imported/UAL1_Standard/UAL1_Standard.plutoanim	0
+PROPERTY	AnimationGraph	2		0
+PROPERTY	CurrentClipIndex	6	0	43	A_TPose	Crouch_Fwd_Loop	Crouch_Idle_Loop	Dance_Loop	Death01	Driving_Loop	Fixing_Kneeling	Hit_Chest	Hit_Head	Idle_Loop	Idle_Talking_Loop	Idle_Torch_Loop	Interact	Jog_Fwd_Loop	Jump_Land	Jump_Loop	Jump_Start	PickUp_Table	Pistol_Aim_Down	Pistol_Aim_Neutral	Pistol_Aim_Up	Pistol_Idle_Loop	Pistol_Reload	Pistol_Shoot	Punch_Cross	Punch_Jab	Push_Loop	Roll	Sitting_Enter	Sitting_Exit	Sitting_Idle_Loop	Sitting_Talking_Loop	Spell_Simple_Enter	Spell_Simple_Exit	Spell_Simple_Idle_Loop	Spell_Simple_Shoot	Sprint_Loop	Swim_Fwd_Loop	Swim_Idle_Loop	Sword_Attack	Sword_Idle	Walk_Formal_Loop	Walk_Loop
+PROPERTY	Time	0	1.600789	0
+PROPERTY	Speed	0	1.000000	0
+PROPERTY	Playing	4	true	0
+PROPERTY	Looping	4	true	0
+PROPERTY	Autoplay	4	true	0
+PROPERTY	RagdollEnabled	4	false	0
+PROPERTY	RagdollWeight	0	1.000000	0
+PROPERTY	ClipCount	1	43	0
+PROPERTY	Clips.0.Name	2	A_TPose	0
+PROPERTY	Clips.0.Duration	0	2.500000	0
+PROPERTY	Clips.0.ChannelCount	1	195	0
+PROPERTY	Clips.1.Name	2	Crouch_Fwd_Loop	0
+PROPERTY	Clips.1.Duration	0	2.000000	0
+PROPERTY	Clips.1.ChannelCount	1	195	0
+PROPERTY	Clips.2.Name	2	Crouch_Idle_Loop	0
+PROPERTY	Clips.2.Duration	0	2.933333	0
+PROPERTY	Clips.2.ChannelCount	1	195	0
+PROPERTY	Clips.3.Name	2	Dance_Loop	0
+PROPERTY	Clips.3.Duration	0	1.000000	0
+PROPERTY	Clips.3.ChannelCount	1	195	0
+PROPERTY	Clips.4.Name	2	Death01	0
+PROPERTY	Clips.4.Duration	0	2.400000	0
+PROPERTY	Clips.4.ChannelCount	1	195	0
+PROPERTY	Clips.5.Name	2	Driving_Loop	0
+PROPERTY	Clips.5.Duration	0	1.666667	0
+PROPERTY	Clips.5.ChannelCount	1	195	0
+PROPERTY	Clips.6.Name	2	Fixing_Kneeling	0
+PROPERTY	Clips.6.Duration	0	5.200000	0
+PROPERTY	Clips.6.ChannelCount	1	195	0
+PROPERTY	Clips.7.Name	2	Hit_Chest	0
+PROPERTY	Clips.7.Duration	0	0.333333	0
+PROPERTY	Clips.7.ChannelCount	1	195	0
+PROPERTY	Clips.8.Name	2	Hit_Head	0
+PROPERTY	Clips.8.Duration	0	0.433333	0
+PROPERTY	Clips.8.ChannelCount	1	195	0
+PROPERTY	Clips.9.Name	2	Idle_Loop	0
+PROPERTY	Clips.9.Duration	0	2.500000	0
+PROPERTY	Clips.9.ChannelCount	1	195	0
+PROPERTY	Clips.10.Name	2	Idle_Talking_Loop	0
+PROPERTY	Clips.10.Duration	0	2.933333	0
+PROPERTY	Clips.10.ChannelCount	1	195	0
+PROPERTY	Clips.11.Name	2	Idle_Torch_Loop	0
+PROPERTY	Clips.11.Duration	0	1.266667	0
+PROPERTY	Clips.11.ChannelCount	1	195	0
+PROPERTY	Clips.12.Name	2	Interact	0
+PROPERTY	Clips.12.Duration	0	2.000000	0
+PROPERTY	Clips.12.ChannelCount	1	195	0
+PROPERTY	Clips.13.Name	2	Jog_Fwd_Loop	0
+PROPERTY	Clips.13.Duration	0	0.933333	0
+PROPERTY	Clips.13.ChannelCount	1	195	0
+PROPERTY	Clips.14.Name	2	Jump_Land	0
+PROPERTY	Clips.14.Duration	0	1.266667	0
+PROPERTY	Clips.14.ChannelCount	1	195	0
+PROPERTY	Clips.15.Name	2	Jump_Loop	0
+PROPERTY	Clips.15.Duration	0	2.500000	0
+PROPERTY	Clips.15.ChannelCount	1	195	0
+PROPERTY	Clips.16.Name	2	Jump_Start	0
+PROPERTY	Clips.16.Duration	0	1.333333	0
+PROPERTY	Clips.16.ChannelCount	1	195	0
+PROPERTY	Clips.17.Name	2	PickUp_Table	0
+PROPERTY	Clips.17.Duration	0	0.833333	0
+PROPERTY	Clips.17.ChannelCount	1	195	0
+PROPERTY	Clips.18.Name	2	Pistol_Aim_Down	0
+PROPERTY	Clips.18.Duration	0	0.166667	0
+PROPERTY	Clips.18.ChannelCount	1	195	0
+PROPERTY	Clips.19.Name	2	Pistol_Aim_Neutral	0
+PROPERTY	Clips.19.Duration	0	0.166667	0
+PROPERTY	Clips.19.ChannelCount	1	195	0
+PROPERTY	Clips.20.Name	2	Pistol_Aim_Up	0
+PROPERTY	Clips.20.Duration	0	0.166667	0
+PROPERTY	Clips.20.ChannelCount	1	195	0
+PROPERTY	Clips.21.Name	2	Pistol_Idle_Loop	0
+PROPERTY	Clips.21.Duration	0	1.666667	0
+PROPERTY	Clips.21.ChannelCount	1	195	0
+PROPERTY	Clips.22.Name	2	Pistol_Reload	0
+PROPERTY	Clips.22.Duration	0	1.666667	0
+PROPERTY	Clips.22.ChannelCount	1	195	0
+PROPERTY	Clips.23.Name	2	Pistol_Shoot	0
+PROPERTY	Clips.23.Duration	0	0.633333	0
+PROPERTY	Clips.23.ChannelCount	1	195	0
+PROPERTY	Clips.24.Name	2	Punch_Cross	0
+PROPERTY	Clips.24.Duration	0	1.000000	0
+PROPERTY	Clips.24.ChannelCount	1	195	0
+PROPERTY	Clips.25.Name	2	Punch_Jab	0
+PROPERTY	Clips.25.Duration	0	0.866667	0
+PROPERTY	Clips.25.ChannelCount	1	195	0
+PROPERTY	Clips.26.Name	2	Push_Loop	0
+PROPERTY	Clips.26.Duration	0	2.666667	0
+PROPERTY	Clips.26.ChannelCount	1	195	0
+PROPERTY	Clips.27.Name	2	Roll	0
+PROPERTY	Clips.27.Duration	0	1.466667	0
+PROPERTY	Clips.27.ChannelCount	1	195	0
+PROPERTY	Clips.28.Name	2	Sitting_Enter	0
+PROPERTY	Clips.28.Duration	0	1.300000	0
+PROPERTY	Clips.28.ChannelCount	1	195	0
+PROPERTY	Clips.29.Name	2	Sitting_Exit	0
+PROPERTY	Clips.29.Duration	0	1.033333	0
+PROPERTY	Clips.29.ChannelCount	1	195	0
+PROPERTY	Clips.30.Name	2	Sitting_Idle_Loop	0
+PROPERTY	Clips.30.Duration	0	1.666667	0
+PROPERTY	Clips.30.ChannelCount	1	195	0
+PROPERTY	Clips.31.Name	2	Sitting_Talking_Loop	0
+PROPERTY	Clips.31.Duration	0	2.933333	0
+PROPERTY	Clips.31.ChannelCount	1	195	0
+PROPERTY	Clips.32.Name	2	Spell_Simple_Enter	0
+PROPERTY	Clips.32.Duration	0	0.533333	0
+PROPERTY	Clips.32.ChannelCount	1	195	0
+PROPERTY	Clips.33.Name	2	Spell_Simple_Exit	0
+PROPERTY	Clips.33.Duration	0	0.433333	0
+PROPERTY	Clips.33.ChannelCount	1	195	0
+PROPERTY	Clips.34.Name	2	Spell_Simple_Idle_Loop	0
+PROPERTY	Clips.34.Duration	0	2.100000	0
+PROPERTY	Clips.34.ChannelCount	1	195	0
+PROPERTY	Clips.35.Name	2	Spell_Simple_Shoot	0
+PROPERTY	Clips.35.Duration	0	0.500000	0
+PROPERTY	Clips.35.ChannelCount	1	195	0
+PROPERTY	Clips.36.Name	2	Sprint_Loop	0
+PROPERTY	Clips.36.Duration	0	0.666667	0
+PROPERTY	Clips.36.ChannelCount	1	195	0
+PROPERTY	Clips.37.Name	2	Swim_Fwd_Loop	0
+PROPERTY	Clips.37.Duration	0	1.333333	0
+PROPERTY	Clips.37.ChannelCount	1	195	0
+PROPERTY	Clips.38.Name	2	Swim_Idle_Loop	0
+PROPERTY	Clips.38.Duration	0	3.333333	0
+PROPERTY	Clips.38.ChannelCount	1	195	0
+PROPERTY	Clips.39.Name	2	Sword_Attack	0
+PROPERTY	Clips.39.Duration	0	1.533333	0
+PROPERTY	Clips.39.ChannelCount	1	195	0
+PROPERTY	Clips.40.Name	2	Sword_Idle	0
+PROPERTY	Clips.40.Duration	0	1.666667	0
+PROPERTY	Clips.40.ChannelCount	1	195	0
+PROPERTY	Clips.41.Name	2	Walk_Formal_Loop	0
+PROPERTY	Clips.41.Duration	0	1.333333	0
+PROPERTY	Clips.41.ChannelCount	1	195	0
+PROPERTY	Clips.42.Name	2	Walk_Loop	0
+PROPERTY	Clips.42.Duration	0	1.333333	0
+PROPERTY	Clips.42.ChannelCount	1	195	0
+PROPERTY	Graph.DefaultStateIndex	1	0	0
+PROPERTY	Graph.CurrentStateIndex	1	0	0
+PROPERTY	Graph.StateTime	0	1.600789	0
+PROPERTY	Graph.StateCount	1	43	0
+PROPERTY	Graph.States.0.Name	2	A_TPose	0
+PROPERTY	Graph.States.0.ClipIndex	1	0	0
+PROPERTY	Graph.States.0.Speed	0	1.000000	0
+PROPERTY	Graph.States.0.Loop	4	true	0
+PROPERTY	Graph.States.0.TransitionCount	1	0	0
+PROPERTY	Graph.States.1.Name	2	Crouch_Fwd_Loop	0
+PROPERTY	Graph.States.1.ClipIndex	1	1	0
+PROPERTY	Graph.States.1.Speed	0	1.000000	0
+PROPERTY	Graph.States.1.Loop	4	true	0
+PROPERTY	Graph.States.1.TransitionCount	1	0	0
+PROPERTY	Graph.States.2.Name	2	Crouch_Idle_Loop	0
+PROPERTY	Graph.States.2.ClipIndex	1	2	0
+PROPERTY	Graph.States.2.Speed	0	1.000000	0
+PROPERTY	Graph.States.2.Loop	4	true	0
+PROPERTY	Graph.States.2.TransitionCount	1	0	0
+PROPERTY	Graph.States.3.Name	2	Dance_Loop	0
+PROPERTY	Graph.States.3.ClipIndex	1	3	0
+PROPERTY	Graph.States.3.Speed	0	1.000000	0
+PROPERTY	Graph.States.3.Loop	4	true	0
+PROPERTY	Graph.States.3.TransitionCount	1	0	0
+PROPERTY	Graph.States.4.Name	2	Death01	0
+PROPERTY	Graph.States.4.ClipIndex	1	4	0
+PROPERTY	Graph.States.4.Speed	0	1.000000	0
+PROPERTY	Graph.States.4.Loop	4	true	0
+PROPERTY	Graph.States.4.TransitionCount	1	0	0
+PROPERTY	Graph.States.5.Name	2	Driving_Loop	0
+PROPERTY	Graph.States.5.ClipIndex	1	5	0
+PROPERTY	Graph.States.5.Speed	0	1.000000	0
+PROPERTY	Graph.States.5.Loop	4	true	0
+PROPERTY	Graph.States.5.TransitionCount	1	0	0
+PROPERTY	Graph.States.6.Name	2	Fixing_Kneeling	0
+PROPERTY	Graph.States.6.ClipIndex	1	6	0
+PROPERTY	Graph.States.6.Speed	0	1.000000	0
+PROPERTY	Graph.States.6.Loop	4	true	0
+PROPERTY	Graph.States.6.TransitionCount	1	0	0
+PROPERTY	Graph.States.7.Name	2	Hit_Chest	0
+PROPERTY	Graph.States.7.ClipIndex	1	7	0
+PROPERTY	Graph.States.7.Speed	0	1.000000	0
+PROPERTY	Graph.States.7.Loop	4	true	0
+PROPERTY	Graph.States.7.TransitionCount	1	0	0
+PROPERTY	Graph.States.8.Name	2	Hit_Head	0
+PROPERTY	Graph.States.8.ClipIndex	1	8	0
+PROPERTY	Graph.States.8.Speed	0	1.000000	0
+PROPERTY	Graph.States.8.Loop	4	true	0
+PROPERTY	Graph.States.8.TransitionCount	1	0	0
+PROPERTY	Graph.States.9.Name	2	Idle_Loop	0
+PROPERTY	Graph.States.9.ClipIndex	1	9	0
+PROPERTY	Graph.States.9.Speed	0	1.000000	0
+PROPERTY	Graph.States.9.Loop	4	true	0
+PROPERTY	Graph.States.9.TransitionCount	1	0	0
+PROPERTY	Graph.States.10.Name	2	Idle_Talking_Loop	0
+PROPERTY	Graph.States.10.ClipIndex	1	10	0
+PROPERTY	Graph.States.10.Speed	0	1.000000	0
+PROPERTY	Graph.States.10.Loop	4	true	0
+PROPERTY	Graph.States.10.TransitionCount	1	0	0
+PROPERTY	Graph.States.11.Name	2	Idle_Torch_Loop	0
+PROPERTY	Graph.States.11.ClipIndex	1	11	0
+PROPERTY	Graph.States.11.Speed	0	1.000000	0
+PROPERTY	Graph.States.11.Loop	4	true	0
+PROPERTY	Graph.States.11.TransitionCount	1	0	0
+PROPERTY	Graph.States.12.Name	2	Interact	0
+PROPERTY	Graph.States.12.ClipIndex	1	12	0
+PROPERTY	Graph.States.12.Speed	0	1.000000	0
+PROPERTY	Graph.States.12.Loop	4	true	0
+PROPERTY	Graph.States.12.TransitionCount	1	0	0
+PROPERTY	Graph.States.13.Name	2	Jog_Fwd_Loop	0
+PROPERTY	Graph.States.13.ClipIndex	1	13	0
+PROPERTY	Graph.States.13.Speed	0	1.000000	0
+PROPERTY	Graph.States.13.Loop	4	true	0
+PROPERTY	Graph.States.13.TransitionCount	1	0	0
+PROPERTY	Graph.States.14.Name	2	Jump_Land	0
+PROPERTY	Graph.States.14.ClipIndex	1	14	0
+PROPERTY	Graph.States.14.Speed	0	1.000000	0
+PROPERTY	Graph.States.14.Loop	4	true	0
+PROPERTY	Graph.States.14.TransitionCount	1	0	0
+PROPERTY	Graph.States.15.Name	2	Jump_Loop	0
+PROPERTY	Graph.States.15.ClipIndex	1	15	0
+PROPERTY	Graph.States.15.Speed	0	1.000000	0
+PROPERTY	Graph.States.15.Loop	4	true	0
+PROPERTY	Graph.States.15.TransitionCount	1	0	0
+PROPERTY	Graph.States.16.Name	2	Jump_Start	0
+PROPERTY	Graph.States.16.ClipIndex	1	16	0
+PROPERTY	Graph.States.16.Speed	0	1.000000	0
+PROPERTY	Graph.States.16.Loop	4	true	0
+PROPERTY	Graph.States.16.TransitionCount	1	0	0
+PROPERTY	Graph.States.17.Name	2	PickUp_Table	0
+PROPERTY	Graph.States.17.ClipIndex	1	17	0
+PROPERTY	Graph.States.17.Speed	0	1.000000	0
+PROPERTY	Graph.States.17.Loop	4	true	0
+PROPERTY	Graph.States.17.TransitionCount	1	0	0
+PROPERTY	Graph.States.18.Name	2	Pistol_Aim_Down	0
+PROPERTY	Graph.States.18.ClipIndex	1	18	0
+PROPERTY	Graph.States.18.Speed	0	1.000000	0
+PROPERTY	Graph.States.18.Loop	4	true	0
+PROPERTY	Graph.States.18.TransitionCount	1	0	0
+PROPERTY	Graph.States.19.Name	2	Pistol_Aim_Neutral	0
+PROPERTY	Graph.States.19.ClipIndex	1	19	0
+PROPERTY	Graph.States.19.Speed	0	1.000000	0
+PROPERTY	Graph.States.19.Loop	4	true	0
+PROPERTY	Graph.States.19.TransitionCount	1	0	0
+PROPERTY	Graph.States.20.Name	2	Pistol_Aim_Up	0
+PROPERTY	Graph.States.20.ClipIndex	1	20	0
+PROPERTY	Graph.States.20.Speed	0	1.000000	0
+PROPERTY	Graph.States.20.Loop	4	true	0
+PROPERTY	Graph.States.20.TransitionCount	1	0	0
+PROPERTY	Graph.States.21.Name	2	Pistol_Idle_Loop	0
+PROPERTY	Graph.States.21.ClipIndex	1	21	0
+PROPERTY	Graph.States.21.Speed	0	1.000000	0
+PROPERTY	Graph.States.21.Loop	4	true	0
+PROPERTY	Graph.States.21.TransitionCount	1	0	0
+PROPERTY	Graph.States.22.Name	2	Pistol_Reload	0
+PROPERTY	Graph.States.22.ClipIndex	1	22	0
+PROPERTY	Graph.States.22.Speed	0	1.000000	0
+PROPERTY	Graph.States.22.Loop	4	true	0
+PROPERTY	Graph.States.22.TransitionCount	1	0	0
+PROPERTY	Graph.States.23.Name	2	Pistol_Shoot	0
+PROPERTY	Graph.States.23.ClipIndex	1	23	0
+PROPERTY	Graph.States.23.Speed	0	1.000000	0
+PROPERTY	Graph.States.23.Loop	4	true	0
+PROPERTY	Graph.States.23.TransitionCount	1	0	0
+PROPERTY	Graph.States.24.Name	2	Punch_Cross	0
+PROPERTY	Graph.States.24.ClipIndex	1	24	0
+PROPERTY	Graph.States.24.Speed	0	1.000000	0
+PROPERTY	Graph.States.24.Loop	4	true	0
+PROPERTY	Graph.States.24.TransitionCount	1	0	0
+PROPERTY	Graph.States.25.Name	2	Punch_Jab	0
+PROPERTY	Graph.States.25.ClipIndex	1	25	0
+PROPERTY	Graph.States.25.Speed	0	1.000000	0
+PROPERTY	Graph.States.25.Loop	4	true	0
+PROPERTY	Graph.States.25.TransitionCount	1	0	0
+PROPERTY	Graph.States.26.Name	2	Push_Loop	0
+PROPERTY	Graph.States.26.ClipIndex	1	26	0
+PROPERTY	Graph.States.26.Speed	0	1.000000	0
+PROPERTY	Graph.States.26.Loop	4	true	0
+PROPERTY	Graph.States.26.TransitionCount	1	0	0
+PROPERTY	Graph.States.27.Name	2	Roll	0
+PROPERTY	Graph.States.27.ClipIndex	1	27	0
+PROPERTY	Graph.States.27.Speed	0	1.000000	0
+PROPERTY	Graph.States.27.Loop	4	true	0
+PROPERTY	Graph.States.27.TransitionCount	1	0	0
+PROPERTY	Graph.States.28.Name	2	Sitting_Enter	0
+PROPERTY	Graph.States.28.ClipIndex	1	28	0
+PROPERTY	Graph.States.28.Speed	0	1.000000	0
+PROPERTY	Graph.States.28.Loop	4	true	0
+PROPERTY	Graph.States.28.TransitionCount	1	0	0
+PROPERTY	Graph.States.29.Name	2	Sitting_Exit	0
+PROPERTY	Graph.States.29.ClipIndex	1	29	0
+PROPERTY	Graph.States.29.Speed	0	1.000000	0
+PROPERTY	Graph.States.29.Loop	4	true	0
+PROPERTY	Graph.States.29.TransitionCount	1	0	0
+PROPERTY	Graph.States.30.Name	2	Sitting_Idle_Loop	0
+PROPERTY	Graph.States.30.ClipIndex	1	30	0
+PROPERTY	Graph.States.30.Speed	0	1.000000	0
+PROPERTY	Graph.States.30.Loop	4	true	0
+PROPERTY	Graph.States.30.TransitionCount	1	0	0
+PROPERTY	Graph.States.31.Name	2	Sitting_Talking_Loop	0
+PROPERTY	Graph.States.31.ClipIndex	1	31	0
+PROPERTY	Graph.States.31.Speed	0	1.000000	0
+PROPERTY	Graph.States.31.Loop	4	true	0
+PROPERTY	Graph.States.31.TransitionCount	1	0	0
+PROPERTY	Graph.States.32.Name	2	Spell_Simple_Enter	0
+PROPERTY	Graph.States.32.ClipIndex	1	32	0
+PROPERTY	Graph.States.32.Speed	0	1.000000	0
+PROPERTY	Graph.States.32.Loop	4	true	0
+PROPERTY	Graph.States.32.TransitionCount	1	0	0
+PROPERTY	Graph.States.33.Name	2	Spell_Simple_Exit	0
+PROPERTY	Graph.States.33.ClipIndex	1	33	0
+PROPERTY	Graph.States.33.Speed	0	1.000000	0
+PROPERTY	Graph.States.33.Loop	4	true	0
+PROPERTY	Graph.States.33.TransitionCount	1	0	0
+PROPERTY	Graph.States.34.Name	2	Spell_Simple_Idle_Loop	0
+PROPERTY	Graph.States.34.ClipIndex	1	34	0
+PROPERTY	Graph.States.34.Speed	0	1.000000	0
+PROPERTY	Graph.States.34.Loop	4	true	0
+PROPERTY	Graph.States.34.TransitionCount	1	0	0
+PROPERTY	Graph.States.35.Name	2	Spell_Simple_Shoot	0
+PROPERTY	Graph.States.35.ClipIndex	1	35	0
+PROPERTY	Graph.States.35.Speed	0	1.000000	0
+PROPERTY	Graph.States.35.Loop	4	true	0
+PROPERTY	Graph.States.35.TransitionCount	1	0	0
+PROPERTY	Graph.States.36.Name	2	Sprint_Loop	0
+PROPERTY	Graph.States.36.ClipIndex	1	36	0
+PROPERTY	Graph.States.36.Speed	0	1.000000	0
+PROPERTY	Graph.States.36.Loop	4	true	0
+PROPERTY	Graph.States.36.TransitionCount	1	0	0
+PROPERTY	Graph.States.37.Name	2	Swim_Fwd_Loop	0
+PROPERTY	Graph.States.37.ClipIndex	1	37	0
+PROPERTY	Graph.States.37.Speed	0	1.000000	0
+PROPERTY	Graph.States.37.Loop	4	true	0
+PROPERTY	Graph.States.37.TransitionCount	1	0	0
+PROPERTY	Graph.States.38.Name	2	Swim_Idle_Loop	0
+PROPERTY	Graph.States.38.ClipIndex	1	38	0
+PROPERTY	Graph.States.38.Speed	0	1.000000	0
+PROPERTY	Graph.States.38.Loop	4	true	0
+PROPERTY	Graph.States.38.TransitionCount	1	0	0
+PROPERTY	Graph.States.39.Name	2	Sword_Attack	0
+PROPERTY	Graph.States.39.ClipIndex	1	39	0
+PROPERTY	Graph.States.39.Speed	0	1.000000	0
+PROPERTY	Graph.States.39.Loop	4	true	0
+PROPERTY	Graph.States.39.TransitionCount	1	0	0
+PROPERTY	Graph.States.40.Name	2	Sword_Idle	0
+PROPERTY	Graph.States.40.ClipIndex	1	40	0
+PROPERTY	Graph.States.40.Speed	0	1.000000	0
+PROPERTY	Graph.States.40.Loop	4	true	0
+PROPERTY	Graph.States.40.TransitionCount	1	0	0
+PROPERTY	Graph.States.41.Name	2	Walk_Formal_Loop	0
+PROPERTY	Graph.States.41.ClipIndex	1	41	0
+PROPERTY	Graph.States.41.Speed	0	1.000000	0
+PROPERTY	Graph.States.41.Loop	4	true	0
+PROPERTY	Graph.States.41.TransitionCount	1	0	0
+PROPERTY	Graph.States.42.Name	2	Walk_Loop	0
+PROPERTY	Graph.States.42.ClipIndex	1	42	0
+PROPERTY	Graph.States.42.Speed	0	1.000000	0
+PROPERTY	Graph.States.42.Loop	4	true	0
+PROPERTY	Graph.States.42.TransitionCount	1	0	0
+PROPERTY	Graph.ParameterCount	1	0	0
+END_COMPONENT
+COMPONENT	10	ActiveRagdollComponent
+PROPERTY	PositionStrength	0	35.000000	0
+PROPERTY	RotationStrength	0	18.000000	0
+PROPERTY	Damping	0	8.000000	0
+PROPERTY	MaxForce	0	1200.000000	0
+PROPERTY	MaxTorque	0	80.000000	0
+END_COMPONENT
+ENTITY	11	10	1	Mannequin	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	11	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	0	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	8b3d61e6b0bde27e348d075f2c262b01	0
+PROPERTY	ModelObjectId	2	15563061709532230224	0
+PROPERTY	MeshAssetReference	2	project://Imported/UAL1_Standard/UAL1_Standard.plutomesh	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+END_COMPONENT
+ENTITY	12	10	1	Mannequin	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	12	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	8b3d61e6b0bde27e348d075f2c262b01	0
+PROPERTY	ModelObjectId	2	15563061709532230224	0
+PROPERTY	MeshAssetReference	2	project://Imported/UAL1_Standard/UAL1_Standard.plutomesh	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+END_COMPONENT
+ENTITY	13	0	1	Sky	0.000000,300.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	13	PhysicalSkyComponent
+PROPERTY	Rayleigh Strength	0	1.000000	0
+PROPERTY	Mie Strength	0	0.650000	0
+PROPERTY	Mie Anisotropy	0	0.800000	0
+PROPERTY	Ozone Strength	0	1.000000	0
+PROPERTY	Sun Intensity	0	12.000000	0
+PROPERTY	Sun Angular Radius	0	0.270000	0
+PROPERTY	Sun Color	3	1.000000,0.980000,0.920000	0
+PROPERTY	Exposure	0	1.000000	0
+PROPERTY	Night Intensity	0	0.035000	0
+PROPERTY	Star Intensity	0	1.000000	0
+PROPERTY	Moon Intensity	0	0.800000	0
+PROPERTY	Moon Angular Radius	0	0.260000	0
+PROPERTY	Moon Color	3	0.550000,0.650000,1.000000	0
+PROPERTY	Ground Color	3	0.012000,0.015000,0.020000	0
+END_COMPONENT
+COMPONENT	13	VolumetricCloudComponent
+PROPERTY	Size	3	1000.000000,300.000000,1000.000000	0
+PROPERTY	Coverage	0	0.550000	0
+PROPERTY	Density	0	1.000000	0
+PROPERTY	Extinction	0	0.035000	0
+PROPERTY	Scattering Albedo	0	0.900000	0
+PROPERTY	Anisotropy	0	0.650000	0
+PROPERTY	Ambient Light	0	0.220000	0
+PROPERTY	Cloud Color	3	1.000000,0.980000,0.950000	0
+PROPERTY	Base Noise Scale	0	0.006000	0
+PROPERTY	Detail Noise Scale	0	0.035000	0
+PROPERTY	Detail Erosion	0	0.320000	0
+PROPERTY	Wind Direction	3	1.000000,0.000000,0.250000	0
+PROPERTY	Wind Speed	0	8.000000	0
+PROPERTY	Render Scale	0	0.500000	0
+PROPERTY	Primary Steps	1	24	0
+PROPERTY	Light Steps	1	3	0
+END_COMPONENT
+ENTITY	14	0	1	Cube	0.000000,-0.626395,0.000000	0.000000,0.000000,0.000000	30.000000,1.000000,30.000000
+COMPONENT	14	ColliderComponent
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	14	MeshComponent
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.Color	2	0.820000,0.840000,0.880000,1.000000	0
+PROPERTY	MaterialSlots.0.AlbedoPath	2		0
+PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
+PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
+PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
+PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
+PROPERTY	MaterialSlots.0.Metallic	0	0.000000	0
+PROPERTY	MaterialSlots.0.Roughness	0	0.550000	0
+PROPERTY	MaterialSlots.0.Emission	2	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
+PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
+PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
+PROPERTY	MaterialSlots.0.AttenuationColor	2	1.000000,1.000000,1.000000	0
+PROPERTY	MaterialSlots.0.AttenuationDistance	0	1.000000	0
+PROPERTY	MaterialSlots.0.FlipNormalY	4	false	0
+PROPERTY	MaterialSlots.0.LightmapPath	2		0
+PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
+END_COMPONENT
