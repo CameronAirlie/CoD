@@ -28,7 +28,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
 {
     private static MultiplayerSession? _activeSession;
 
-    private const int ProtocolVersion = 7;
+    private const int ProtocolVersion = 6;
     private const ushort HandshakeChannel = 1;
     private const ushort TransformChannel = 2;
     private const ushort PeerLeftChannel = 3;
@@ -188,7 +188,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
         if (_server is not null)
             RemoveTimedOutPeers();
-        else if (_client?.IsConnected == true &&
+        else if (_client?.IsConnected == true && _localPeerId >= 0 &&
                  _time - _lastHostMessageAt > MathF.Max(1.0f, disconnectTimeout))
         {
             Debug.LogWarning("Multiplayer host timed out.");
@@ -1420,27 +1420,33 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private sealed record PlayerTransform(
         int PeerId,
         float X, float Y, float Z,
+        float Pitch, float Yaw, float Roll,
         float RotationX, float RotationY, float RotationZ, float RotationW)
     {
         public Vector3 Position => new(X, Y, Z);
-        public Quaternion Rotation => Quaternion.Normalize(new(
-            RotationX, RotationY, RotationZ, RotationW));
+        public bool HasQuaternion =>
+            RotationX * RotationX + RotationY * RotationY +
+            RotationZ * RotationZ + RotationW * RotationW > 0.000001f;
+        public Quaternion Rotation => HasQuaternion
+            ? Quaternion.Normalize(new(RotationX, RotationY, RotationZ, RotationW))
+            : Quaternion.CreateFromAxisAngle(Vector3.UnitY, Yaw * MathF.PI / 180.0f);
 
         public static PlayerTransform From(int peerId, GameObject player)
         {
             var position = player.WorldPosition;
-            var rotation = player.RotationQuaternion;
+            var euler = player.Rotation;
+            var quaternion = player.RotationQuaternion;
             return new PlayerTransform(
                 peerId, position.X, position.Y, position.Z,
-                rotation.X, rotation.Y, rotation.Z, rotation.W);
+                euler.X, euler.Y, euler.Z,
+                quaternion.X, quaternion.Y, quaternion.Z, quaternion.W);
         }
 
         public bool IsFinite() =>
             float.IsFinite(X) && float.IsFinite(Y) && float.IsFinite(Z) &&
+            float.IsFinite(Pitch) && float.IsFinite(Yaw) && float.IsFinite(Roll) &&
             float.IsFinite(RotationX) && float.IsFinite(RotationY) &&
-            float.IsFinite(RotationZ) && float.IsFinite(RotationW) &&
-            RotationX * RotationX + RotationY * RotationY +
-            RotationZ * RotationZ + RotationW * RotationW > 0.000001f;
+            float.IsFinite(RotationZ) && float.IsFinite(RotationW);
     }
 
     private sealed class RemotePlayer(
