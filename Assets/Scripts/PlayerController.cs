@@ -358,6 +358,10 @@ public sealed class PlayerController : ScriptBehaviour
 
         _aiming = Input.IsMouseButtonDown(MouseButton.Right) && !_reloading;
         var wantsCrouch = Input.IsKeyDown(KeyCode.LeftControl) || _sliding;
+        var wantsSprint = _grounded && Input.IsKeyDown(KeyCode.LeftShift) &&
+                          input.Y > 0.1f && !_aiming && !_crouching;
+        if (wantsSprint && _reloading)
+            CancelReload();
         var canSprint = input.Y > 0.1f && !_aiming && !_reloading && !_crouching;
         _sprinting = _grounded && Input.IsKeyDown(KeyCode.LeftShift) && canSprint;
 
@@ -524,14 +528,14 @@ public sealed class PlayerController : ScriptBehaviour
 
     private void BeginReload()
     {
-        if (_reloading || _ammo >= magazineSize || _reserveAmmo <= 0 || _sliding)
+        if (_reloading || _ammo >= magazineSize || _reserveAmmo <= 0 || _sliding || _sprinting)
         {
             return;
         }
         _reloading = true;
         _reloadTime = MathF.Max(0.05f, reloadDuration);
         reloadAudio?.PlayOneShot();
-        weaponAnimator?.SetTrigger("Reload");
+        weaponAnimator?.SetBool("Reload", true);
         UpdateHud();
     }
 
@@ -552,6 +556,7 @@ public sealed class PlayerController : ScriptBehaviour
         _ammo += transferred;
         _reserveAmmo = _inventory?.ReserveAmmo ?? _reserveAmmo - transferred;
         _reloading = false;
+        weaponAnimator?.SetBool("Reload", false);
         UpdateHud();
     }
 
@@ -562,7 +567,9 @@ public sealed class PlayerController : ScriptBehaviour
             return;
         }
         _reloading = false;
-        weaponAnimator?.SetTrigger("CancelReload");
+        // Reload is a Boolean animation layer so clearing it uses the graph's
+        // configured blend-out instead of snapping the animator back to idle.
+        weaponAnimator?.SetBool("Reload", false);
         UpdateHud();
     }
 

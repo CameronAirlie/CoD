@@ -11,7 +11,7 @@ public sealed class PlayerHud : ScriptBehaviour
     [SerializedField] private GameObject? player = null;
     [SerializedField] private string documentPath = "UI/hud.rml";
     [SerializedField] private float hitFlashDuration = 0.12f;
-    [SerializedField] private float damageFlashDuration = 0.35f;
+    [SerializedField] private float damageOverlayMaximumOpacity = 0.85f;
     [SerializedField] private float deathFadeDelay = 0.45f;
     [SerializedField] private float deathFadeDuration = 0.75f;
 
@@ -39,7 +39,6 @@ public sealed class PlayerHud : ScriptBehaviour
     private RmlElement[] _arms = [];
     private UITween _spread = new(7.0f, 0.07f, UIEase.EaseOut);
     private float _hitTime;
-    private float _damageFlashTime;
     private float _deathTime;
     private float _renderedGap = float.NaN;
     private bool _spreadAnimating;
@@ -100,7 +99,6 @@ public sealed class PlayerHud : ScriptBehaviour
         if (_healthController is not null)
         {
             _healthController.StatusChanged += OnHealthChanged;
-            _healthController.DamageTaken += OnDamageTaken;
             _healthController.Died += OnDied;
             _healthController.Respawned += OnRespawned;
         }
@@ -136,7 +134,6 @@ public sealed class PlayerHud : ScriptBehaviour
         if (_healthController is not null)
         {
             _healthController.StatusChanged -= OnHealthChanged;
-            _healthController.DamageTaken -= OnDamageTaken;
             _healthController.Died -= OnDied;
             _healthController.Respawned -= OnRespawned;
         }
@@ -164,12 +161,6 @@ public sealed class PlayerHud : ScriptBehaviour
         {
             _feed.RemoveAt(0);
             RenderKillFeed();
-        }
-        if (_damageFlashTime > 0.0f)
-        {
-            _damageFlashTime = MathF.Max(0.0f, _damageFlashTime - MathF.Max(deltaTime, 0.0f));
-            if (_damageFlashTime <= 0.0f)
-                _damageOverlay?.SetClass("hidden", true);
         }
         if (!_domReady && _document is not null && _controller is not null &&
             _crosshair is not null && _crosshair.SetClass("headshot", false))
@@ -258,19 +249,22 @@ public sealed class PlayerHud : ScriptBehaviour
             _healthValue.Markup = MathF.Ceiling(current).ToString();
         for (var index = 0; index < _armour.Length; index++)
             _armour[index].SetClass("filled", index < armour && index < maximumArmour);
-    }
 
-    private void OnDamageTaken()
-    {
-        _damageFlashTime = MathF.Max(0.0f, damageFlashDuration);
-        _damageOverlay?.SetClass("hidden", false);
+        if (_damageOverlay is not null)
+        {
+            var safeMaximum = MathF.Max(1.0f, maximum);
+            var missingHealth = 1.0f - Math.Clamp(current / safeMaximum, 0.0f, 1.0f);
+            var opacity = missingHealth * Math.Clamp(damageOverlayMaximumOpacity, 0.0f, 1.0f);
+            _damageOverlay.SetStyle(
+                "opacity", opacity.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            _damageOverlay.SetClass("hidden", _dead || opacity <= 0.001f);
+        }
     }
 
     private void OnDied()
     {
         _dead = true;
         _deathTime = 0.0f;
-        _damageFlashTime = 0.0f;
         _damageOverlay?.SetClass("hidden", true);
         _deathRed?.SetClass("hidden", false);
         _deathBlack?.SetClass("hidden", false);
@@ -286,6 +280,9 @@ public sealed class PlayerHud : ScriptBehaviour
         _deathRed?.SetClass("hidden", true);
         _deathBlack?.SetClass("hidden", true);
         _crosshair?.SetClass("hidden", false);
+        if (_healthController is not null)
+            OnHealthChanged(_healthController.CurrentHealth, _healthController.MaximumHealth,
+                _healthController.ArmourSlots, _healthController.MaximumArmourSlots);
     }
 
     private void UpdateDeathEffect(float deltaTime)
