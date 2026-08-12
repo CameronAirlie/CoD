@@ -120,6 +120,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
     [SerializedField] private int botThinkBudgetPerFrame = 1;
     [SerializedField] private float botAttackRange = 22.0f;
     [SerializedField] private float botRoundsPerMinute = 360.0f;
+    [SerializedField] private int botMagazineSize = 30;
+    [SerializedField] private float botReloadDuration = 2.0f;
     [SerializedField] private float botDamage = 18.0f;
     [SerializedField] private float botAccuracyDegrees = 3.0f;
     [SerializedField] private float botStationaryFireSpeed = 0.2f;
@@ -824,7 +826,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 Health = MathF.Max(1.0f, multiplayerMaximumHealth)
             };
             _remotePlayers[peerId] = new RemotePlayer(instance, spawn, 0.0f);
-            _bots[peerId] = new BotController(instance, spawn, unchecked((uint)peerId * 747796405u));
+            _bots[peerId] = new BotController(
+                instance, spawn, unchecked((uint)peerId * 747796405u), botMagazineSize);
             instance.TryInvoke("ResetExternalNavigation", spawn.X, spawn.Y, spawn.Z);
             Debug.Log($"Added {_peerNames[peerId]} to {team}.");
             return true;
@@ -935,10 +938,13 @@ public sealed class MultiplayerSession : ScriptBehaviour
             var hasLineOfSight = bot.CachedLineOfSight;
             var canEngage = hasLineOfSight && distance <= MathF.Max(1.0f, botAttackRange);
 
-            if (!bot.IsEngaging && canEngage)
+            if (canEngage)
             {
                 bot.IsEngaging = true;
                 bot.HasNavigationDestination = false;
+                // Holding position is a combat invariant, not a one-off state
+                // transition. Reissue the destination as the NavAgent settles
+                // so residual path velocity cannot make the bot strafe while aiming.
                 var stop = bot.GameObject.WorldPosition;
                 bot.GameObject.TryInvoke("SetExternalNavigationDestination", stop.X, stop.Y, stop.Z);
                 if (bot.Body is not null)
@@ -991,8 +997,9 @@ public sealed class MultiplayerSession : ScriptBehaviour
             if (isStationary)
                 TurnBotTowards(bot, direction, deltaTime);
             var facingTarget = IsBotFacing(bot.GameObject, direction, botFiringAngle);
+            var isReloading = _time < bot.ReloadCompleteAt;
             bot.GameObject.TryInvoke(
-                "SetExternalAiming", bot.IsEngaging && isStationary && facingTarget);
+                "SetExternalAiming", bot.IsEngaging && !isReloading && isStationary && facingTarget);
 
             if (_remotePlayers.TryGetValue(botId, out var remote))
             {
@@ -1000,11 +1007,31 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 remote.TargetYaw = bot.GameObject.Rotation.Y;
             }
 
-            if (bot.IsEngaging && isStationary && facingTarget && hasLineOfSight &&
+            if (bot.IsEngaging && !isReloading && isStationary && facingTarget && hasLineOfSight &&
                 _time >= bot.NextShotAt)
             {
-                BotFire(botId, targetObject, bot);
-                bot.NextShotAt = _time + 60.0f / MathF.Max(1.0f, botRoundsPerMinute);
+                if (bot.MagazineAmmo <= 0)
+                {
+                    bot.ReloadCompleteAt = _time + MathF.Max(0.1f, botReloadDuration);
+                    bot.GameObject.TryInvoke("SetExternalAiming", false);
+                }
+                else
+                {
+                    BotFire(botId, targetObject, bot);
+                    bot.MagazineAmmo--;
+                    bot.NextShotAt = _time + 60.0f / MathF.Max(1.0f, botRoundsPerMinute);
+                    if (bot.MagazineAmmo <= 0)
+                    {
+                        bot.ReloadCompleteAt = _time + MathF.Max(0.1f, botReloadDuration);
+                        bot.GameObject.TryInvoke("SetExternalAiming", false);
+                    }
+                }
+            }
+            if (bot.ReloadCompleteAt > 0.0f && _time >= bot.ReloadCompleteAt)
+            {
+                bot.MagazineAmmo = Math.Max(1, botMagazineSize);
+                bot.ReloadCompleteAt = 0.0f;
+                bot.NextShotAt = _time;
             }
             if (thought) thinkBudget--;
         }
@@ -1525,7 +1552,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
         }
 
         var replacement = new BotController(
-            instance, previous.SpawnPosition, unchecked((uint)peerId * 747796405u));
+            instance, previous.SpawnPosition, unchecked((uint)peerId * 747796405u), botMagazineSize);
         _bots[peerId] = replacement;
         _remotePlayers[peerId] = new RemotePlayer(instance, previous.SpawnPosition, 0.0f);
         instance.TryInvoke(
@@ -1546,12 +1573,15 @@ public sealed class MultiplayerSession : ScriptBehaviour
         public float LastDamagedAt { get; set; }
     }
 
-    private sealed class BotController(GameObject gameObject, Vector3 spawnPosition, uint seed)
+    private sealed class BotController(
+        GameObject gameObject, Vector3 spawnPosition, uint seed, int magazineSize)
     {
         public GameObject GameObject { get; } = gameObject;
         public RigidbodyComponent? Body { get; } = gameObject.GetComponent<RigidbodyComponent>();
         public Vector3 SpawnPosition { get; } = spawnPosition;
         public float NextShotAt { get; set; }
+        public int MagazineAmmo { get; set; } = Math.Max(1, magazineSize);
+        public float ReloadCompleteAt { get; set; }
         public float NextNavigationAt { get; set; }
         public Vector3 PreviousPosition { get; set; } = spawnPosition;
         public int TargetPeerId { get; set; } = int.MinValue;

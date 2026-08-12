@@ -144,6 +144,8 @@ PROPERTY	botLostSightGrace	0	0.500000	0
 PROPERTY	botThinkBudgetPerFrame	1	1	0
 PROPERTY	botAttackRange	0	22.000000	0
 PROPERTY	botRoundsPerMinute	0	360.000000	0
+PROPERTY	botMagazineSize	1	30	0
+PROPERTY	botReloadDuration	0	2.000000	0
 PROPERTY	botDamage	0	18.000000	0
 PROPERTY	botAccuracyDegrees	0	3.000000	0
 PROPERTY	botStationaryFireSpeed	0	0.200000	0
