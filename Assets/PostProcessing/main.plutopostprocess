@@ -1,4 +1,4 @@
-PostProcessPresetVersion 1 9
+PostProcessPresetVersion 1 10
 Effect "LSAO" 1 11
 Parameter 0 "Radius" "2.800000" 0
 Parameter 0 "Bias" "0.040000" 0
@@ -11,14 +11,29 @@ Parameter 1 "Samples" "6" 0
 Parameter 1 "Blur Radius" "1" 0
 Parameter 3 "Half Resolution" "true" 0
 Parameter 3 "AO Only" "false" 0
+Effect "SSGI" 0 14
+Parameter 0 "Intensity" "1.350000" 0
+Parameter 0 "Ray Distance" "6.250000" 0
+Parameter 0 "Step Size" "1.000000" 0
+Parameter 0 "Thickness" "0.100000" 0
+Parameter 1 "Samples" "8" 0
+Parameter 1 "Steps" "12" 0
+Parameter 1 "Blur Radius" "4" 0
+Parameter 0 "Depth Weight" "20.000000" 0
+Parameter 0 "Normal Weight" "12.000000" 0
+Parameter 0 "Temporal Blend" "0.980000" 0
+Parameter 0 "History Depth Threshold" "0.250000" 0
+Parameter 0 "History Normal Threshold" "0.999000" 0
+Parameter 3 "Half Resolution" "false" 0
+Parameter 3 "Indirect Only" "false" 0
 Effect "VCTGI" 0 18
 Parameter 4 "Resolution" "1" 2 "64" "128"
 Parameter 1 "Cascade Count" "2" 0
 Parameter 0 "Volume Size" "40.000000" 0
 Parameter 0 "Intensity" "3.000000" 0
-Parameter 1 "Cone Count" "6" 0
-Parameter 4 "Trace Quality" "1" 2 "Balanced" "High"
-Parameter 3 "Inject Local Lights" "true" 0
+Parameter 1 "Cone Count" "2" 0
+Parameter 4 "Trace Quality" "0" 2 "Balanced" "High"
+Parameter 3 "Inject Local Lights" "false" 0
 Parameter 1 "Voxelization LOD Bias" "0" 0
 Parameter 1 "Voxelization Command Budget" "8" 0
 Parameter 0 "Cone Aperture" "0.550000" 0
@@ -76,7 +91,7 @@ Parameter 0 "Intensity" "0.100000" 0
 Parameter 0 "Threshold" "2.000000" 0
 Parameter 0 "Scale" "1.000000" 0
 Parameter 0 "Ghost Dispersal" "0.550000" 0
-Effect "TAA" 1 10
+Effect "TAA" 0 10
 Parameter 4 "Quality" "0" 2 "Balanced" "High"
 Parameter 0 "History Weight" "0.900000" 0
 Parameter 0 "Stationary History Weight" "0.940000" 0

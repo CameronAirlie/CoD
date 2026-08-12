@@ -109,6 +109,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     [SerializedField] private bool fillWithBots = true;
     [SerializedField] private int minimumParticipants = 6;
     [SerializedField] private int maximumBots = 5;
+    [SerializedField] private float botSpawnInterval = 0.2f;
     [SerializedField] private float botPreferredRange = 13.0f;
     [SerializedField] private float botNavigationRefreshInterval = 0.75f;
     [SerializedField] private float botNavigationArrivalDistance = 1.25f;
@@ -163,6 +164,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private PlayerHealth? _playerHealth;
     private float _lastHostMessageAt;
     private bool _returnToTitle;
+    private float _nextBotFillAt;
+    private bool _botPrefabReady;
 
     public override void OnCreate()
     {
@@ -174,6 +177,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
         if (_playerController is not null)
             _playerController.WeaponFired += OnLocalWeaponFired;
         navigationMesh ??= GameObject.Find("Navmesh");
+        PreloadNetworkPrefabs();
 
         if (!MultiplayerLaunch.Mode.Equals("Offline", StringComparison.OrdinalIgnoreCase))
         {
@@ -211,6 +215,11 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
         if (_server is not null)
         {
+            if (_time >= _nextBotFillAt)
+            {
+                TryEnsureBotFill();
+                _nextBotFillAt = _time + MathF.Max(0.05f, botSpawnInterval);
+            }
             UpdateMatch(safeDeltaTime);
             UpdateBots(safeDeltaTime);
         }
@@ -244,6 +253,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
         foreach (var remote in _remotePlayers.Values)
             remote.Interpolate(blend);
     }
+
+    public override void OnDestroy() => Shutdown();
 
     /// <summary>Stops sockets before a scene transition or application exit.</summary>
     public void Shutdown()
@@ -311,14 +322,11 @@ public sealed class MultiplayerSession : ScriptBehaviour
             _server.Error += exception => Debug.LogError($"Network server: {exception.Message}");
             _server.Start(CheckedPort());
             BeginPhase(MatchPhase.Warmup, warmupDuration);
-            try
-            {
-                EnsureBotFill();
-            }
-            catch (Exception exception)
-            {
-                Debug.LogError($"TDM bot fill failed without stopping the match: {exception.Message}");
-            }
+            // Scene-owned prefab and navigation resources may finish becoming
+            // available after this component's OnCreate. Try now, then let the
+            // host update retry until the requested participant count is met.
+            TryEnsureBotFill();
+            _nextBotFillAt = _time + MathF.Max(0.05f, botSpawnInterval);
             _hostStartAttempts = 0;
             Debug.Log($"Hosting multiplayer on port {serverPort}.");
         }
@@ -798,9 +806,30 @@ public sealed class MultiplayerSession : ScriptBehaviour
             Math.Max(0, minimumParticipants) - humanCount,
             0,
             Math.Max(0, maximumBots));
-        while (_bots.Count > desired) RemoveOneBot();
-        while (_bots.Count < desired && AddBot()) { }
+        if (_bots.Count == desired)
+            return;
+        if (_bots.Count < desired && !EnsureBotPrefabReady())
+            return;
+        // Prefab construction initializes animation, navigation, physics,
+        // scripts, audio, attachments, and UI synchronously. Add or remove at
+        // most one bot per update so a full roster does not hitch one frame.
+        if (_bots.Count > desired)
+            RemoveOneBot();
+        else
+            AddBot();
         BroadcastMatchState();
+    }
+
+    private void TryEnsureBotFill()
+    {
+        try
+        {
+            EnsureBotFill();
+        }
+        catch (Exception exception)
+        {
+            Debug.LogError($"TDM bot fill failed; the host will retry: {exception.Message}");
+        }
     }
 
     private bool AddBot()
@@ -808,6 +837,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
         try
         {
             if (string.IsNullOrWhiteSpace(hostBotPrefab))
+                return false;
+            if (!EnsureBotPrefabReady())
                 return false;
 
             var peerId = _nextBotId--;
@@ -848,10 +879,16 @@ public sealed class MultiplayerSession : ScriptBehaviour
             peerId = id;
             break;
         }
-        _bots.Remove(peerId);
+        _bots.Remove(peerId, out var removedBot);
         _playerStates.Remove(peerId);
         _peerNames.Remove(peerId);
+        var proxyTracked = _remotePlayers.ContainsKey(peerId);
         RemoveRemotePlayer(peerId);
+        if (!proxyTracked && removedBot is not null && removedBot.GameObject.IsValid)
+        {
+            removedBot.GameObject.Active = false;
+            removedBot.GameObject.Destroy();
+        }
         _server?.BroadcastJson(PeerLeftChannel, new PeerLeft(peerId));
     }
 
@@ -904,6 +941,24 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 }
             }
 
+            // Close visible threats take priority over a previously selected
+            // chase target. This perception override is intentionally outside
+            // the tactical think budget so every bot reacts immediately rather
+            // than orbiting another bot while waiting for a selection slot.
+            if (_time >= bot.NextPerceptionAt)
+            {
+                var visibleThreat = FindClosestVisibleOpponentInRange(botId, bot);
+                if (visibleThreat != int.MinValue && bot.TargetPeerId != visibleThreat)
+                {
+                    bot.TargetPeerId = visibleThreat;
+                    bot.IsEngaging = false;
+                    bot.CachedLineOfSight = true;
+                    bot.LastLineOfSightAt = _time;
+                    bot.NextNavigationAt = 0.0f;
+                    bot.HasNavigationDestination = false;
+                }
+            }
+
             var targetId = bot.TargetPeerId;
             var targetObject = GetParticipantObject(targetId);
             if (targetObject is null || !targetObject.IsValid)
@@ -926,27 +981,35 @@ public sealed class MultiplayerSession : ScriptBehaviour
             travel.Y = 0.0f;
             var movementSpeed = travel.Length();
             var isStationary = movementSpeed <= MathF.Max(0.01f, botStationaryFireSpeed);
-            if (canThink && _time >= bot.NextPerceptionAt)
+            // Perception must not share the tactical path-planning budget.
+            // Dictionary iteration is stable, so an early bot could otherwise
+            // consume the only think slot every frame and leave later bots with
+            // stale visibility while they remain in the aiming pose.
+            if (_time >= bot.NextPerceptionAt)
             {
                 bot.CachedLineOfSight = HasBotLineOfSight(
                     botId, targetId, bot.GameObject, targetObject);
                 if (bot.CachedLineOfSight)
                     bot.LastLineOfSightAt = _time;
                 bot.NextPerceptionAt = _time + MathF.Max(0.05f, botPerceptionInterval);
-                thought = true;
             }
             var hasLineOfSight = bot.CachedLineOfSight;
             var canEngage = hasLineOfSight && distance <= MathF.Max(1.0f, botAttackRange);
 
-            if (canEngage)
+            if (!bot.IsEngaging && canEngage)
             {
                 bot.IsEngaging = true;
                 bot.HasNavigationDestination = false;
-                // Holding position is a combat invariant, not a one-off state
-                // transition. Reissue the destination as the NavAgent settles
-                // so residual path velocity cannot make the bot strafe while aiming.
-                var stop = bot.GameObject.WorldPosition;
-                bot.GameObject.TryInvoke("SetExternalNavigationDestination", stop.X, stop.Y, stop.Z);
+                // The NavAgent follows a target entity. Moving that target onto
+                // the agent does not invalidate its old path because it is
+                // already inside stopping distance. A fixed point just beyond
+                // that distance forces the circling path to be replaced, after
+                // which the bot settles and holds there to fire.
+                var holdDistance = MathF.Max(0.8f, botNavigationArrivalDistance * 0.7f);
+                bot.CombatHoldPosition = bot.GameObject.WorldPosition + direction * holdDistance;
+                var hold = bot.CombatHoldPosition;
+                bot.GameObject.TryInvoke(
+                    "SetExternalNavigationDestination", hold.X, hold.Y, hold.Z);
                 if (bot.Body is not null)
                 {
                     var velocity = bot.Body.Velocity;
@@ -991,15 +1054,25 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 bot.NextNavigationAt = _time + MathF.Max(0.05f, botNavigationRefreshInterval);
                 thought = true;
             }
-            // The native NavAgent owns heading while travelling. Writing a
-            // dynamic rigidbody's rotation from script at the same time can
-            // repeatedly resynchronise its physics transform and cause pulsing.
-            if (isStationary)
+            // Once engaging, the fixed combat hold point owns locomotion and
+            // scripted rotation owns aim. Do not wait for an exact zero-speed
+            // reading: local avoidance can leave tiny corrections indefinitely.
+            if (bot.IsEngaging || isStationary)
                 TurnBotTowards(bot, direction, deltaTime);
             var facingTarget = IsBotFacing(bot.GameObject, direction, botFiringAngle);
+            // Complete the reload before evaluating fire. Previously a bot
+            // reached ReloadCompleteAt with an empty magazine, entered the
+            // firing branch first, and immediately started another reload.
+            if (bot.ReloadCompleteAt > 0.0f && _time >= bot.ReloadCompleteAt)
+            {
+                bot.MagazineAmmo = Math.Max(1, botMagazineSize);
+                bot.ReloadCompleteAt = 0.0f;
+                bot.NextShotAt = _time;
+            }
             var isReloading = _time < bot.ReloadCompleteAt;
             bot.GameObject.TryInvoke(
-                "SetExternalAiming", bot.IsEngaging && !isReloading && isStationary && facingTarget);
+                "SetExternalAiming",
+                bot.IsEngaging && !isReloading && facingTarget && hasLineOfSight);
 
             if (_remotePlayers.TryGetValue(botId, out var remote))
             {
@@ -1007,7 +1080,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 remote.TargetYaw = bot.GameObject.Rotation.Y;
             }
 
-            if (bot.IsEngaging && !isReloading && isStationary && facingTarget && hasLineOfSight &&
+            if (bot.IsEngaging && !isReloading && facingTarget && hasLineOfSight &&
                 _time >= bot.NextShotAt)
             {
                 if (bot.MagazineAmmo <= 0)
@@ -1026,12 +1099,6 @@ public sealed class MultiplayerSession : ScriptBehaviour
                         bot.GameObject.TryInvoke("SetExternalAiming", false);
                     }
                 }
-            }
-            if (bot.ReloadCompleteAt > 0.0f && _time >= bot.ReloadCompleteAt)
-            {
-                bot.MagazineAmmo = Math.Max(1, botMagazineSize);
-                bot.ReloadCompleteAt = 0.0f;
-                bot.NextShotAt = _time;
             }
             if (thought) thinkBudget--;
         }
@@ -1069,6 +1136,52 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 bestScore = score;
                 bestId = pair.Key;
             }
+        }
+        return bestId;
+    }
+
+    private void PreloadNetworkPrefabs()
+    {
+        _botPrefabReady = EnsureBotPrefabReady();
+        if (!string.IsNullOrWhiteSpace(remotePlayerPrefab) &&
+            !Prefab.IsReady(remotePlayerPrefab) &&
+            !Prefab.Preload(remotePlayerPrefab))
+            Debug.LogWarning($"Could not preload network player prefab '{remotePlayerPrefab}'.");
+    }
+
+    private bool EnsureBotPrefabReady()
+    {
+        if (string.IsNullOrWhiteSpace(hostBotPrefab))
+            return false;
+        if (_botPrefabReady && Prefab.IsReady(hostBotPrefab))
+            return true;
+
+        _botPrefabReady = Prefab.IsReady(hostBotPrefab) || Prefab.Preload(hostBotPrefab);
+        if (!_botPrefabReady)
+            Debug.LogWarning($"Bot prefab '{hostBotPrefab}' is not ready; spawn deferred.");
+        return _botPrefabReady;
+    }
+
+    private int FindClosestVisibleOpponentInRange(int botId, BotController bot)
+    {
+        if (!_playerStates.TryGetValue(botId, out var source))
+            return int.MinValue;
+
+        var bestId = int.MinValue;
+        var bestDistance = MathF.Max(1.0f, botAttackRange);
+        foreach (var pair in _playerStates)
+        {
+            if (pair.Key == botId || pair.Value.Team == source.Team || pair.Value.Health <= 0.0f)
+                continue;
+            var candidate = GetParticipantObject(pair.Key);
+            if (candidate is null || !candidate.IsValid)
+                continue;
+            var distance = HorizontalDistance(bot.GameObject.WorldPosition, candidate.WorldPosition);
+            if (distance > bestDistance ||
+                !HasBotLineOfSight(botId, pair.Key, bot.GameObject, candidate))
+                continue;
+            bestDistance = distance;
+            bestId = pair.Key;
         }
         return bestId;
     }
@@ -1544,12 +1657,19 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
     private BotController RespawnBot(int peerId, BotController previous)
     {
-        var instance = Prefab.Instantiate(hostBotPrefab, previous.SpawnPosition, Vector3.Zero);
-        if (instance is null)
+        var instance = previous.GameObject.IsValid
+            ? previous.GameObject
+            : Prefab.Instantiate(hostBotPrefab, previous.SpawnPosition, Vector3.Zero);
+        if (instance is null || !instance.IsValid)
         {
             Debug.LogWarning($"Could not respawn bot {peerId} from '{hostBotPrefab}'.");
             return previous;
         }
+
+        // Reuse the retained corpse instead of reconstructing the heavyweight
+        // enemy prefab (animation graph, meshes, ragdoll, UI and audio) on every
+        // respawn. Invalid instances still take the instantiate fallback above.
+        instance.Active = true;
 
         var replacement = new BotController(
             instance, previous.SpawnPosition, unchecked((uint)peerId * 747796405u), botMagazineSize);
@@ -1594,6 +1714,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
         public Vector3 TargetPositionAtPlan { get; set; } = spawnPosition;
         public float NavigationMoveDeadline { get; set; }
         public bool IsEngaging { get; set; }
+        public Vector3 CombatHoldPosition { get; set; } = spawnPosition;
         public float TurnDirection { get; set; } = 1.0f;
         public float StrafeSign { get; set; } = (seed & 1u) == 0 ? -1.0f : 1.0f;
         public uint RandomState { get; set; } = seed;

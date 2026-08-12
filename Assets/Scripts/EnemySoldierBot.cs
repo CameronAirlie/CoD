@@ -284,12 +284,32 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         _remoteProxyMode = false;
         _externalAiming = false;
         _dead = false;
+        _destroyAt = float.MaxValue;
         _currentHealth = MathF.Max(1.0f, health);
+        if (_body is not null)
+        {
+            _body.Velocity = Vector3.Zero;
+            _body.AngularVelocity = Vector3.Zero;
+        }
+        if (_animation is not null)
+        {
+            _animation.ResetRagdoll();
+            _animation.RagdollEnabled = false;
+            _animation.RagdollWeight = 0.0f;
+            _animation.Time = 0.0f;
+            _animation.Play();
+        }
+        if (_ragdollController is not null)
+            _ragdollController.Enabled = true;
+        _lastAnimationSpeed = float.NaN;
+        _hasLastHasTarget = false;
         GameObject.WorldPosition = new Vector3(x, y, z);
         _previousPosition = GameObject.WorldPosition;
         _latePreviousPosition = _previousPosition;
         _navigationDestination = _previousPosition;
         UpdateNavigationTarget();
+        SetAnimationFloat(movementSpeedParameter, 0.0f);
+        SetAnimationBool(hasTargetParameter, false);
     }
 
     public void SetRemoteProxyMode()
@@ -591,7 +611,11 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         _externalAiming = false;
         _navigationDestination = GameObject.WorldPosition;
         UpdateNavigationTarget();
-        _destroyAt = _time + MathF.Max(0.0f, deathCleanupDelay);
+        // Session-controlled bots are retained as an inexpensive respawn pool.
+        // Standalone bots keep the normal timed corpse cleanup behaviour.
+        _destroyAt = _externalNavigationControl
+            ? float.MaxValue
+            : _time + MathF.Max(0.0f, deathCleanupDelay);
         if (_body is not null)
         {
             _body.Velocity = Vector3.Zero;

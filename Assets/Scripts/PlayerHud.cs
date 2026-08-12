@@ -46,6 +46,8 @@ public sealed class PlayerHud : ScriptBehaviour
     private bool _hitVisible;
     private bool _domReady;
     private bool _dead;
+    private bool _scoreboardVisible;
+    private bool _scoreboardVisibilityInitialized;
     private readonly System.Collections.Generic.List<(string Text, float ExpiresAt)> _feed = [];
     private float _hudTime;
 
@@ -151,7 +153,13 @@ public sealed class PlayerHud : ScriptBehaviour
     {
         _hudTime += MathF.Max(0.0f, deltaTime);
         UpdateDeathEffect(deltaTime);
-        _scoreboard?.SetClass("hidden", !Input.IsKeyDown(KeyCode.Tab));
+        var scoreboardVisible = Input.IsKeyDown(KeyCode.Tab);
+        if (!_scoreboardVisibilityInitialized || scoreboardVisible != _scoreboardVisible)
+        {
+            _scoreboardVisibilityInitialized = true;
+            _scoreboardVisible = scoreboardVisible;
+            _scoreboard?.SetClass("hidden", !scoreboardVisible);
+        }
         if (_feed.Count > 0 && _feed[0].ExpiresAt <= _hudTime)
         {
             _feed.RemoveAt(0);

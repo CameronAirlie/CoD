@@ -33,6 +33,7 @@ public sealed class PlayerHealth : ScriptBehaviour
     private Vector3 _spawnPosition;
     private Vector3 _spawnRotation;
     private RigidbodyComponent? _body;
+    private PlayerController? _controller;
 
     public bool IsDead => _dead;
     public bool IsFullHealth => _health >= maximumHealth;
@@ -66,6 +67,7 @@ public sealed class PlayerHealth : ScriptBehaviour
         _spawnPosition = GameObject.WorldPosition;
         _spawnRotation = GameObject.WorldRotation;
         _body = GameObject.GetComponent<RigidbodyComponent>();
+        _controller = GameObject.GetComponent<PlayerController>();
         _label = healthText?.GetComponent<UITextComponent>();
         _damageImage = damageOverlay?.GetComponent<UIImageComponent>();
         if (_damageImage is not null)
@@ -129,7 +131,7 @@ public sealed class PlayerHealth : ScriptBehaviour
         {
             _dead = true;
             _restartAt = _time + MathF.Max(0.0f, respawnDelay);
-            GameObject.GetComponent<PlayerController>()?.EnterDeathState();
+            _controller?.EnterDeathState();
             Died?.Invoke();
             Debug.Log("Player killed. Respawning...");
         }
@@ -181,7 +183,7 @@ public sealed class PlayerHealth : ScriptBehaviour
             _damageImage.Alpha = 0.0f;
         RefreshLabel();
         PublishStatus();
-        GameObject.GetComponent<PlayerController>()?.ExitDeathState();
+        _controller?.ExitDeathState();
         Respawned?.Invoke();
         Debug.Log("Player respawned.");
     }

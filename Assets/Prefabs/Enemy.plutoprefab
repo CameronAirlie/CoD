@@ -62,13 +62,13 @@ PROPERTY	idleAnimation	2	Idle	0
 PROPERTY	strafeSpeed	0	2.200000	0
 PROPERTY	fireAnimation	2	Shoot	0
 PROPERTY	deathAnimation	2	Death	0
-PROPERTY	moveSpeed	0	4.200000	0
+PROPERTY	moveSpeed	0	4.800000	0
 PROPERTY	retreatRange	0	7.000000	0
 PROPERTY	flankAngle	0	55.000000	0
 PROPERTY	moveAnimation	2	Walk	0
 END_COMPONENT
 COMPONENT	156	NavAgentComponent
-PROPERTY	Speed	0	4.200000	0
+PROPERTY	Speed	0	4.800000	0
 PROPERTY	Acceleration	0	10.000000	0
 PROPERTY	Stopping Distance	0	0.750000	0
 PROPERTY	Repath Interval	0	0.200000	0

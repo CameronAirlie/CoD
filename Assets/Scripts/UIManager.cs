@@ -169,6 +169,7 @@ public sealed class UIManager : ScriptBehaviour
     public void Restart()
     {
         SetPaused(false);
+        ShutdownMultiplayer();
         SceneManager.LoadScene(SceneManager.GetActiveScene().Name);
     }
 
@@ -188,12 +189,19 @@ public sealed class UIManager : ScriptBehaviour
     public void ReturnToMainMenu()
     {
         SetPaused(false);
+        ShutdownMultiplayer();
         SceneManager.LoadScene(MainMenuScene);
     }
 
     public void Quit()
     {
         SetPaused(false);
+        ShutdownMultiplayer();
         Application.Quit();
     }
+
+    private static void ShutdownMultiplayer()
+        => GameObject.Find("Player")
+            ?.GetComponent<CoD.Scripts.MultiplayerSession>()
+            ?.Shutdown();
 }
