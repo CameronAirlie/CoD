@@ -84,6 +84,9 @@ public sealed class PlayerController : ScriptBehaviour
     [SerializedField] private float standingCameraHeight = 1.62f;
     [SerializedField] private float crouchingCameraHeight = 1.12f;
     [SerializedField] private float cameraHeightSharpness = 16.0f;
+    [SerializedField] private float deathCameraFallDuration = 0.65f;
+    [SerializedField] private float deathCameraHeight = 0.12f;
+    [SerializedField] private float deathCameraRoll = 28.0f;
 
     // Movement
     [SerializedField] private float walkSpeed = 5.4f;
@@ -172,6 +175,10 @@ public sealed class PlayerController : ScriptBehaviour
     private GameObject? _interactionTarget;
     private float _interactionProbeCooldown;
     private Vector2 _mouseDelta;
+    private bool _dead;
+    private float _deathCameraTime;
+    private Vector3 _deathCameraStartPosition;
+    private Vector3 _deathCameraStartRotation;
 
     public override void OnCreate()
     {
@@ -216,6 +223,12 @@ public sealed class PlayerController : ScriptBehaviour
             return;
         }
 
+        if (_dead)
+        {
+            UpdateDeathCamera(deltaTime);
+            return;
+        }
+
         _inventory?.TickUse(deltaTime);
 
         var cursorLocked = Input.CursorLocked;
@@ -249,6 +262,63 @@ public sealed class PlayerController : ScriptBehaviour
         UpdateWeapon(deltaTime);
         UpdateInteraction(deltaTime);
         PublishStateChanges();
+    }
+
+    public void EnterDeathState()
+    {
+        if (_dead)
+            return;
+
+        _dead = true;
+        _deathCameraTime = 0.0f;
+        _horizontalVelocity = Vector3.Zero;
+        _verticalVelocity = 0.0f;
+        _slideVelocity = Vector3.Zero;
+        _sprinting = false;
+        _sliding = false;
+        _aiming = false;
+        _crouching = false;
+        CancelReload();
+        if (camera is not null)
+        {
+            _deathCameraStartPosition = camera.GameObject.Position;
+            _deathCameraStartRotation = camera.GameObject.Rotation;
+        }
+        PublishStateChanges();
+    }
+
+    public void ExitDeathState()
+    {
+        _dead = false;
+        _deathCameraTime = 0.0f;
+        _horizontalVelocity = Vector3.Zero;
+        _verticalVelocity = 0.0f;
+        _cameraHeight = standingCameraHeight;
+        if (camera is not null)
+        {
+            var position = camera.GameObject.Position;
+            position.Y = standingCameraHeight;
+            camera.GameObject.Position = position;
+            camera.GameObject.Rotation = new Vector3(_pitch, 0.0f, 0.0f);
+        }
+    }
+
+    private void UpdateDeathCamera(float deltaTime)
+    {
+        if (camera is null)
+            return;
+
+        _deathCameraTime += MathF.Max(0.0f, deltaTime);
+        var duration = MathF.Max(0.01f, deathCameraFallDuration);
+        var t = Math.Clamp(_deathCameraTime / duration, 0.0f, 1.0f);
+        t = t * t * (3.0f - 2.0f * t);
+        var targetPosition = _deathCameraStartPosition;
+        targetPosition.Y = deathCameraHeight;
+        camera.GameObject.Position = Vector3.Lerp(_deathCameraStartPosition, targetPosition, t);
+        camera.GameObject.Rotation = Vector3.Lerp(
+            _deathCameraStartRotation,
+            new Vector3(_deathCameraStartRotation.X + 6.0f, 0.0f, deathCameraRoll),
+            t);
     }
 
     private void UpdateLook(float deltaTime)

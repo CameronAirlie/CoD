@@ -11,6 +11,9 @@ public sealed class PlayerHud : ScriptBehaviour
     [SerializedField] private GameObject? player = null;
     [SerializedField] private string documentPath = "UI/hud.rml";
     [SerializedField] private float hitFlashDuration = 0.12f;
+    [SerializedField] private float damageFlashDuration = 0.35f;
+    [SerializedField] private float deathFadeDelay = 0.45f;
+    [SerializedField] private float deathFadeDuration = 0.75f;
 
     private PlayerController? _controller;
     private PlayerHealth? _healthController;
@@ -21,6 +24,9 @@ public sealed class PlayerHud : ScriptBehaviour
     private RmlElement? _interaction;
     private RmlElement? _health;
     private RmlElement? _healthValue;
+    private RmlElement? _damageOverlay;
+    private RmlElement? _deathRed;
+    private RmlElement? _deathBlack;
     private RmlElement? _crosshair;
     private RmlElement? _matchPhase;
     private RmlElement? _matchClock;
@@ -33,10 +39,13 @@ public sealed class PlayerHud : ScriptBehaviour
     private RmlElement[] _arms = [];
     private UITween _spread = new(7.0f, 0.07f, UIEase.EaseOut);
     private float _hitTime;
+    private float _damageFlashTime;
+    private float _deathTime;
     private float _renderedGap = float.NaN;
     private bool _spreadAnimating;
     private bool _hitVisible;
     private bool _domReady;
+    private bool _dead;
     private readonly System.Collections.Generic.List<(string Text, float ExpiresAt)> _feed = [];
     private float _hudTime;
 
@@ -57,6 +66,9 @@ public sealed class PlayerHud : ScriptBehaviour
         _interaction = _document.Element("interaction");
         _health = _document.Element("health");
         _healthValue = _document.Element("health-value");
+        _damageOverlay = _document.Element("damage-overlay");
+        _deathRed = _document.Element("death-red");
+        _deathBlack = _document.Element("death-black");
         _crosshair = _document.Element("crosshair");
         _matchPhase = _document.Element("match-phase");
         _matchClock = _document.Element("match-clock");
@@ -84,7 +96,12 @@ public sealed class PlayerHud : ScriptBehaviour
         _controller.HitConfirmed += OnHit;
         _controller.InteractionTargetChanged += OnInteractionChanged;
         if (_healthController is not null)
+        {
             _healthController.StatusChanged += OnHealthChanged;
+            _healthController.DamageTaken += OnDamageTaken;
+            _healthController.Died += OnDied;
+            _healthController.Respawned += OnRespawned;
+        }
         if (_multiplayer is not null)
         {
             _multiplayer.MatchUpdated += OnMatchUpdated;
@@ -115,7 +132,12 @@ public sealed class PlayerHud : ScriptBehaviour
             _controller.InteractionTargetChanged -= OnInteractionChanged;
         }
         if (_healthController is not null)
+        {
             _healthController.StatusChanged -= OnHealthChanged;
+            _healthController.DamageTaken -= OnDamageTaken;
+            _healthController.Died -= OnDied;
+            _healthController.Respawned -= OnRespawned;
+        }
         if (_multiplayer is not null)
         {
             _multiplayer.MatchUpdated -= OnMatchUpdated;
@@ -128,11 +150,18 @@ public sealed class PlayerHud : ScriptBehaviour
     public override void OnUpdate(float deltaTime)
     {
         _hudTime += MathF.Max(0.0f, deltaTime);
+        UpdateDeathEffect(deltaTime);
         _scoreboard?.SetClass("hidden", !Input.IsKeyDown(KeyCode.Tab));
         if (_feed.Count > 0 && _feed[0].ExpiresAt <= _hudTime)
         {
             _feed.RemoveAt(0);
             RenderKillFeed();
+        }
+        if (_damageFlashTime > 0.0f)
+        {
+            _damageFlashTime = MathF.Max(0.0f, _damageFlashTime - MathF.Max(deltaTime, 0.0f));
+            if (_damageFlashTime <= 0.0f)
+                _damageOverlay?.SetClass("hidden", true);
         }
         if (!_domReady && _document is not null && _controller is not null &&
             _crosshair is not null && _crosshair.SetClass("headshot", false))
@@ -221,6 +250,47 @@ public sealed class PlayerHud : ScriptBehaviour
             _healthValue.Markup = MathF.Ceiling(current).ToString();
         for (var index = 0; index < _armour.Length; index++)
             _armour[index].SetClass("filled", index < armour && index < maximumArmour);
+    }
+
+    private void OnDamageTaken()
+    {
+        _damageFlashTime = MathF.Max(0.0f, damageFlashDuration);
+        _damageOverlay?.SetClass("hidden", false);
+    }
+
+    private void OnDied()
+    {
+        _dead = true;
+        _deathTime = 0.0f;
+        _damageFlashTime = 0.0f;
+        _damageOverlay?.SetClass("hidden", true);
+        _deathRed?.SetClass("hidden", false);
+        _deathBlack?.SetClass("hidden", false);
+        _deathRed?.SetStyle("opacity", "0.72");
+        _deathBlack?.SetStyle("opacity", "0");
+        _crosshair?.SetClass("hidden", true);
+    }
+
+    private void OnRespawned()
+    {
+        _dead = false;
+        _deathTime = 0.0f;
+        _deathRed?.SetClass("hidden", true);
+        _deathBlack?.SetClass("hidden", true);
+        _crosshair?.SetClass("hidden", false);
+    }
+
+    private void UpdateDeathEffect(float deltaTime)
+    {
+        if (!_dead)
+            return;
+
+        _deathTime += MathF.Max(0.0f, deltaTime);
+        var fadeDuration = MathF.Max(0.01f, deathFadeDuration);
+        var black = Math.Clamp((_deathTime - MathF.Max(0.0f, deathFadeDelay)) / fadeDuration, 0.0f, 1.0f);
+        var red = 0.72f * (1.0f - black);
+        _deathRed?.SetStyle("opacity", red.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        _deathBlack?.SetStyle("opacity", black.ToString(System.Globalization.CultureInfo.InvariantCulture));
     }
 
     private void OnMatchUpdated(MatchSnapshot match)

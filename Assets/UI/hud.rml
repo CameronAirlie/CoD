@@ -5,6 +5,7 @@
 </head>
 <body>
     <div id="hud">
+        <div id="damage-overlay" class="hidden"></div>
         <div id="objective" class="panel">
             <div class="eyebrow">TEAM DEATHMATCH</div>
             <div id="match-phase">WAITING FOR PLAYERS</div>
@@ -43,6 +44,8 @@
                 <div id="armour-2" class="armour-slot"></div>
             </div>
         </div>
+        <div id="death-red" class="hidden"></div>
+        <div id="death-black" class="hidden"></div>
     </div>
 </body>
 </rml>

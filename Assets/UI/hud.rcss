@@ -18,6 +18,32 @@ body {
     height: 100%;
 }
 
+#damage-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    decorator: radial-gradient(ellipse farthest-side at center, transparent 0%, transparent 90%, #d0000055 95%,  #d00000aa 100%);
+}
+
+#damage-overlay.hidden {
+    visibility: hidden;
+}
+
+#death-red,
+#death-black {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+#death-red { background-color: #a80000; }
+#death-black { background-color: #000000; }
+#death-red.hidden, #death-black.hidden { visibility: hidden; }
+
 .panel {
     position: absolute;
     padding: 14px 18px;

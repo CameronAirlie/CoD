@@ -41,6 +41,9 @@ public sealed class PlayerHealth : ScriptBehaviour
     public int ArmourSlots => _armourSlots;
     public int MaximumArmourSlots => maximumArmourSlots;
     public event Action<float, float, int, int>? StatusChanged;
+    public event Action? DamageTaken;
+    public event Action? Died;
+    public event Action? Respawned;
 
     public void ConfigureMultiplayerHealthRules(
         float maximum, float regenerationDelaySeconds, float regenerationRate)
@@ -119,12 +122,15 @@ public sealed class PlayerHealth : ScriptBehaviour
             _damageImage.Alpha = MathF.Max(
                 _damageImage.Alpha,
                 Math.Clamp(damageFlashAlpha, 0.0f, 1.0f));
+        DamageTaken?.Invoke();
         RefreshLabel();
         PublishStatus();
         if (_health <= 0.0f)
         {
             _dead = true;
             _restartAt = _time + MathF.Max(0.0f, respawnDelay);
+            GameObject.GetComponent<PlayerController>()?.EnterDeathState();
+            Died?.Invoke();
             Debug.Log("Player killed. Respawning...");
         }
     }
@@ -175,6 +181,8 @@ public sealed class PlayerHealth : ScriptBehaviour
             _damageImage.Alpha = 0.0f;
         RefreshLabel();
         PublishStatus();
+        GameObject.GetComponent<PlayerController>()?.ExitDeathState();
+        Respawned?.Invoke();
         Debug.Log("Player respawned.");
     }
 
