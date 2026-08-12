@@ -250,8 +250,15 @@ public sealed class MultiplayerSession : ScriptBehaviour
         }
 
         var blend = 1.0f - MathF.Exp(-MathF.Max(0.0f, interpolationSharpness) * safeDeltaTime);
-        foreach (var remote in _remotePlayers.Values)
-            remote.Interpolate(blend);
+        foreach (var pair in _remotePlayers)
+        {
+            // Host bots are authoritative local entities driven by their nav
+            // agents. Interpolating the same object as a remote proxy performs
+            // redundant native transform reads/writes and can oppose movement.
+            if (_server is not null && _bots.ContainsKey(pair.Key))
+                continue;
+            pair.Value.Interpolate(blend);
+        }
     }
 
     public override void OnDestroy() => Shutdown();
@@ -952,10 +959,16 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 {
                     bot.TargetPeerId = visibleThreat;
                     bot.IsEngaging = false;
-                    bot.CachedLineOfSight = true;
-                    bot.LastLineOfSightAt = _time;
                     bot.NextNavigationAt = 0.0f;
                     bot.HasNavigationDestination = false;
+                }
+                // A visible-threat scan already performed line-of-sight tests.
+                // Do not immediately raycast the selected target a second time.
+                if (visibleThreat != int.MinValue)
+                {
+                    bot.CachedLineOfSight = true;
+                    bot.LastLineOfSightAt = _time;
+                    bot.NextPerceptionAt = _time + MathF.Max(0.05f, botPerceptionInterval);
                 }
             }
 
@@ -967,14 +980,16 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 continue;
             }
 
-            var offset = targetObject.WorldPosition - bot.GameObject.WorldPosition;
+            var botPosition = bot.GameObject.WorldPosition;
+            var targetPosition = targetObject.WorldPosition;
+            var offset = targetPosition - botPosition;
             offset.Y = 0.0f;
             var distance = offset.Length();
             if (distance < 0.001f) continue;
             var direction = offset / distance;
-            var measuredTravel = bot.GameObject.WorldPosition - bot.PreviousPosition;
+            var measuredTravel = botPosition - bot.PreviousPosition;
             measuredTravel.Y = 0.0f;
-            bot.PreviousPosition = bot.GameObject.WorldPosition;
+            bot.PreviousPosition = botPosition;
             var travel = bot.Body is not null && !bot.Body.IsKinematic
                 ? bot.Body.Velocity
                 : (deltaTime > 0.0001f ? measuredTravel / deltaTime : Vector3.Zero);
@@ -1006,7 +1021,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 // that distance forces the circling path to be replaced, after
                 // which the bot settles and holds there to fire.
                 var holdDistance = MathF.Max(0.8f, botNavigationArrivalDistance * 0.7f);
-                bot.CombatHoldPosition = bot.GameObject.WorldPosition + direction * holdDistance;
+                bot.CombatHoldPosition = botPosition + direction * holdDistance;
                 var hold = bot.CombatHoldPosition;
                 bot.GameObject.TryInvoke(
                     "SetExternalNavigationDestination", hold.X, hold.Y, hold.Z);
@@ -1026,10 +1041,10 @@ public sealed class MultiplayerSession : ScriptBehaviour
             }
 
             var arrived = bot.HasNavigationDestination &&
-                HorizontalDistance(bot.GameObject.WorldPosition, bot.NavigationDestination) <=
+                HorizontalDistance(botPosition, bot.NavigationDestination) <=
                 MathF.Max(0.1f, botNavigationArrivalDistance);
             var targetMovedSincePlan = bot.HasNavigationDestination &&
-                HorizontalDistance(targetObject.WorldPosition, bot.TargetPositionAtPlan) >=
+                HorizontalDistance(targetPosition, bot.TargetPositionAtPlan) >=
                 MathF.Max(1.0f, botTargetReplanDistance);
             if (arrived)
                 bot.HasNavigationDestination = false;
@@ -1039,19 +1054,21 @@ public sealed class MultiplayerSession : ScriptBehaviour
                  _time >= bot.NavigationMoveDeadline) &&
                 _time >= bot.NextNavigationAt)
             {
-                if (TryChooseBotTacticalDestination(
-                        bot, targetId, targetObject, out var destination))
+                var searchResult = AdvanceBotTacticalDestinationSearch(
+                    bot, targetId, targetObject, out var destination);
+                if (searchResult == TacticalSearchResult.Found)
                 {
                     bot.GameObject.TryInvoke(
                         "SetExternalNavigationDestination",
                         destination.X, destination.Y, destination.Z);
                     bot.NavigationDestination = destination;
-                    bot.TargetPositionAtPlan = targetObject.WorldPosition;
+                    bot.TargetPositionAtPlan = targetPosition;
                     bot.HasNavigationDestination = true;
                     bot.NavigationMoveDeadline = _time +
                         MathF.Max(1.0f, botNavigationMoveTimeout);
                 }
-                bot.NextNavigationAt = _time + MathF.Max(0.05f, botNavigationRefreshInterval);
+                if (searchResult != TacticalSearchResult.Pending)
+                    bot.NextNavigationAt = _time + MathF.Max(0.05f, botNavigationRefreshInterval);
                 thought = true;
             }
             // Once engaging, the fixed combat hold point owns locomotion and
@@ -1076,7 +1093,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
             if (_remotePlayers.TryGetValue(botId, out var remote))
             {
-                remote.TargetPosition = bot.GameObject.WorldPosition;
+                remote.TargetPosition = botPosition;
                 remote.TargetYaw = bot.GameObject.Rotation.Y;
             }
 
@@ -1186,29 +1203,45 @@ public sealed class MultiplayerSession : ScriptBehaviour
         return bestId;
     }
 
-    private bool TryChooseBotTacticalDestination(
+    private TacticalSearchResult AdvanceBotTacticalDestinationSearch(
         BotController bot, int targetId, GameObject target, out Vector3 destination)
     {
         destination = bot.GameObject.WorldPosition;
         var samples = Math.Clamp(botTacticalPositionSamples, 4, 32);
         var radius = MathF.Max(2.0f, botPreferredRange);
-        var angleOffset = bot.StrafeSign < 0.0f ? 180.0f / samples : 0.0f;
-        var bestScore = float.MaxValue;
-        var found = false;
-
-        for (var index = 0; index < samples; index++)
+        var targetPosition = target.WorldPosition;
+        if (!bot.TacticalSearchActive || bot.TacticalSearchTargetId != targetId ||
+            HorizontalDistance(targetPosition, bot.TacticalSearchTargetPosition) >=
+                MathF.Max(1.0f, botTargetReplanDistance))
         {
+            bot.TacticalSearchActive = true;
+            bot.TacticalSearchTargetId = targetId;
+            bot.TacticalSearchTargetPosition = targetPosition;
+            bot.TacticalSearchOrigin = bot.GameObject.WorldPosition;
+            bot.TacticalSampleIndex = 0;
+            bot.TacticalBestScore = float.MaxValue;
+            bot.TacticalFound = false;
+        }
+
+        // Projecting and visibility-testing every candidate in one update was
+        // the source of millisecond host spikes. Evaluate two positions per
+        // think slot and retain the best result across frames.
+        var sampleEnd = Math.Min(samples, bot.TacticalSampleIndex + 2);
+        for (; bot.TacticalSampleIndex < sampleEnd; bot.TacticalSampleIndex++)
+        {
+            var index = bot.TacticalSampleIndex;
+            var angleOffset = bot.StrafeSign < 0.0f ? 180.0f / samples : 0.0f;
             var angle = (angleOffset + index * (360.0f / samples)) * MathF.PI / 180.0f;
-            var desired = target.WorldPosition + new Vector3(
+            var desired = bot.TacticalSearchTargetPosition + new Vector3(
                 MathF.Sin(angle) * radius, 0.0f, MathF.Cos(angle) * radius);
             if (!TryProjectBotNavigationPosition(desired, out var candidate))
                 continue;
 
-            var targetDistance = HorizontalDistance(candidate, target.WorldPosition);
+            var targetDistance = HorizontalDistance(candidate, bot.TacticalSearchTargetPosition);
             if (targetDistance > MathF.Max(radius, botAttackRange))
                 continue;
             var rangeError = MathF.Abs(targetDistance - radius);
-            var travelDistance = Vector3.Distance(bot.GameObject.WorldPosition, candidate);
+            var travelDistance = Vector3.Distance(bot.TacticalSearchOrigin, candidate);
             var centreDistance = navigationMesh is null
                 ? 0.0f
                 : HorizontalDistance(candidate, navigationMesh.WorldPosition);
@@ -1216,13 +1249,22 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 centreDistance * MathF.Max(0.0f, botCentrePositionWeight);
             if (HasLineOfSightFrom(candidate, targetId, target))
                 score -= 40.0f;
-            if (score >= bestScore) continue;
-            bestScore = score;
-            destination = candidate;
-            found = true;
+            if (score >= bot.TacticalBestScore) continue;
+            bot.TacticalBestScore = score;
+            bot.TacticalBestDestination = candidate;
+            bot.TacticalFound = true;
         }
-        return found && TryValidateBotNavigationDestination(
-            bot.GameObject.WorldPosition, destination);
+
+        if (bot.TacticalSampleIndex < samples)
+            return TacticalSearchResult.Pending;
+
+        bot.TacticalSearchActive = false;
+        if (!bot.TacticalFound)
+            return TacticalSearchResult.Failed;
+        destination = bot.TacticalBestDestination;
+        return TryValidateBotNavigationDestination(bot.GameObject.WorldPosition, destination)
+            ? TacticalSearchResult.Found
+            : TacticalSearchResult.Failed;
     }
 
     private bool HasLineOfSightFrom(Vector3 position, int targetId, GameObject target)
@@ -1718,7 +1760,17 @@ public sealed class MultiplayerSession : ScriptBehaviour
         public float TurnDirection { get; set; } = 1.0f;
         public float StrafeSign { get; set; } = (seed & 1u) == 0 ? -1.0f : 1.0f;
         public uint RandomState { get; set; } = seed;
+        public bool TacticalSearchActive { get; set; }
+        public int TacticalSearchTargetId { get; set; } = int.MinValue;
+        public Vector3 TacticalSearchTargetPosition { get; set; }
+        public Vector3 TacticalSearchOrigin { get; set; }
+        public int TacticalSampleIndex { get; set; }
+        public float TacticalBestScore { get; set; } = float.MaxValue;
+        public Vector3 TacticalBestDestination { get; set; }
+        public bool TacticalFound { get; set; }
     }
+
+    private enum TacticalSearchResult { Pending, Found, Failed }
 
     private sealed record ShotRequest(
         float OriginX, float OriginY, float OriginZ,

@@ -150,7 +150,9 @@ public sealed class PlayerController : ScriptBehaviour
     private Vector3 _horizontalVelocity;
     private Vector3 _slideVelocity;
     private Vector3 _weaponVelocity;
+    private Vector3 _weaponPosition;
     private Vector3 _weaponRestRotation;
+    private float _cameraFov;
     private float _cameraHeight;
     private float _slideTime;
     private float _shotCooldown;
@@ -185,6 +187,7 @@ public sealed class PlayerController : ScriptBehaviour
         Input.CursorLocked = true;
         _yaw = Rotation.Y;
         _pitch = camera?.GameObject.Rotation.X ?? 0.0f;
+        _cameraFov = camera?.Fov ?? hipFov;
         _cameraHeight = standingCameraHeight;
         _ammo = Math.Max(1, magazineSize);
         _inventory = GameObject.GetComponent<PlayerInventory>();
@@ -208,7 +211,8 @@ public sealed class PlayerController : ScriptBehaviour
         if (weaponModel is not null)
         {
             _weaponRestRotation = weaponModel.Rotation;
-            weaponModel.Position = hipPosition;
+            _weaponPosition = hipPosition;
+            weaponModel.Position = _weaponPosition;
         }
 
         UpdateHud();
@@ -431,7 +435,8 @@ public sealed class PlayerController : ScriptBehaviour
 
         var desiredFov = _aiming ? adsFov : hipFov;
         if (_sprinting) desiredFov += 5.0f;
-        camera.Fov = Damp(camera.Fov, desiredFov, fovSharpness, deltaTime);
+        _cameraFov = Damp(_cameraFov, desiredFov, fovSharpness, deltaTime);
+        camera.Fov = _cameraFov;
     }
 
     private void UpdateWeapon(float deltaTime)
@@ -460,8 +465,9 @@ public sealed class PlayerController : ScriptBehaviour
         var bob = new Vector3(MathF.Cos(_bobTime) * bobScale, MathF.Abs(MathF.Sin(_bobTime)) * bobScale, 0.0f);
         var sway = _mouseDelta * weaponSway;
         var target = (_aiming ? adsPosition : hipPosition) + bob + new Vector3(sway.X, -sway.Y, 0.0f);
-        weaponModel.Position = SmoothDamp(weaponModel.Position, target, ref _weaponVelocity,
+        _weaponPosition = SmoothDamp(_weaponPosition, target, ref _weaponVelocity,
             1.0f / MathF.Max(weaponPositionSharpness, 0.01f), deltaTime);
+        weaponModel.Position = _weaponPosition;
         weaponModel.Rotation = _weaponRestRotation + new Vector3(-sway.Y * 20.0f, sway.X * 20.0f, -bob.X * 180.0f);
     }
 

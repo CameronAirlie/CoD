@@ -29,6 +29,10 @@ public sealed class PlayerHealth : ScriptBehaviour
     private float _restartAt;
     private float _invulnerableUntil;
     private int _displayedHealth = -1;
+    // Keep transient UI state on the managed side. Reading a component property
+    // crosses the script/native boundary, which made this otherwise idle script
+    // one of the most expensive updates in the frame.
+    private float _damageOverlayAlpha;
     private bool _dead;
     private Vector3 _spawnPosition;
     private Vector3 _spawnRotation;
@@ -73,7 +77,7 @@ public sealed class PlayerHealth : ScriptBehaviour
         if (_damageImage is not null)
         {
             _damageImage.Color = new Vector3(0.8f, 0.0f, 0.0f);
-            _damageImage.Alpha = 0.0f;
+            SetDamageOverlayAlpha(0.0f);
         }
         RefreshLabel();
     }
@@ -82,10 +86,10 @@ public sealed class PlayerHealth : ScriptBehaviour
     {
         var safeDeltaTime = MathF.Max(0.0f, deltaTime);
         _time += safeDeltaTime;
-        if (_damageImage is not null && _damageImage.Alpha > 0.0f)
-            _damageImage.Alpha = MathF.Max(
+        if (_damageImage is not null && _damageOverlayAlpha > 0.0f)
+            SetDamageOverlayAlpha(MathF.Max(
                 0.0f,
-                _damageImage.Alpha - MathF.Max(0.0f, damageFlashFadeSpeed) * safeDeltaTime);
+                _damageOverlayAlpha - MathF.Max(0.0f, damageFlashFadeSpeed) * safeDeltaTime));
 
         if (_dead && respawnOnDeath && _time >= _restartAt)
         {
@@ -121,9 +125,8 @@ public sealed class PlayerHealth : ScriptBehaviour
         }
         _health = MathF.Max(0.0f, _health - remainingDamage);
         if (_damageImage is not null)
-            _damageImage.Alpha = MathF.Max(
-                _damageImage.Alpha,
-                Math.Clamp(damageFlashAlpha, 0.0f, 1.0f));
+            SetDamageOverlayAlpha(MathF.Max(
+                _damageOverlayAlpha, Math.Clamp(damageFlashAlpha, 0.0f, 1.0f)));
         DamageTaken?.Invoke();
         RefreshLabel();
         PublishStatus();
@@ -180,7 +183,7 @@ public sealed class PlayerHealth : ScriptBehaviour
         _lastDamageAt = _time;
         _invulnerableUntil = _time + MathF.Max(0.0f, respawnInvulnerability);
         if (_damageImage is not null)
-            _damageImage.Alpha = 0.0f;
+            SetDamageOverlayAlpha(0.0f);
         RefreshLabel();
         PublishStatus();
         _controller?.ExitDeathState();
@@ -199,6 +202,13 @@ public sealed class PlayerHealth : ScriptBehaviour
 
         _displayedHealth = displayedHealth;
         _label.Text = $"HP {displayedHealth}";
+    }
+
+    private void SetDamageOverlayAlpha(float alpha)
+    {
+        _damageOverlayAlpha = alpha;
+        if (_damageImage is not null)
+            _damageImage.Alpha = alpha;
     }
 
     private void PublishStatus() => StatusChanged?.Invoke(
