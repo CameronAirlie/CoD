@@ -621,19 +621,25 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             _body.Velocity = Vector3.Zero;
             _body.AngularVelocity = Vector3.Zero;
         }
+
+        // Hand physics ownership over before enabling the passive ragdoll. If
+        // the active controller is disabled afterwards, it can complete one
+        // more physics update and re-pose the body, which looks like a second
+        // ragdoll activation shortly after death.
+        if (_ragdollController is not null)
+            _ragdollController.Enabled = false;
+
         if (_animation is not null)
         {
+            _animation.Pause();
             _animation.RagdollWeight = 1.0f;
             _animation.RagdollEnabled = true;
             Debug.Log($"[Ragdoll] enable requested entity={EntityId} nativeEnabled={_animation.RagdollEnabled} weight={_animation.RagdollWeight}");
-            _animation.Pause();
         }
         else
         {
             Debug.LogError($"[Ragdoll] entity={EntityId} has no AnimationComponent reference");
         }
-        if (_ragdollController is not null)
-            _ragdollController.Enabled = false;
         SetAnimationFloat(movementSpeedParameter, 0.0f);
         SetAnimationBool(hasTargetParameter, false);
     }
