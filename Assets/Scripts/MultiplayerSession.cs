@@ -110,6 +110,10 @@ public sealed class MultiplayerSession : ScriptBehaviour
     [SerializedField] private int minimumParticipants = 6;
     [SerializedField] private int maximumBots = 5;
     [SerializedField] private float botSpawnInterval = 0.2f;
+    [SerializedField] private float botFallbackSpawnMinimumDistance = 20.0f;
+    [SerializedField] private float botFallbackSpawnRadius = 80.0f;
+    [SerializedField] private int botFallbackSpawnAttempts = 24;
+    [SerializedField] private float botFallbackSpawnGroundClearance = 8.0f;
     [SerializedField] private float botPreferredRange = 13.0f;
     [SerializedField] private float botNavigationRefreshInterval = 0.75f;
     [SerializedField] private float botNavigationArrivalDistance = 1.25f;
@@ -166,6 +170,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private bool _returnToTitle;
     private float _nextBotFillAt;
     private bool _botPrefabReady;
+    private uint _botSpawnSequence;
 
     public override void OnCreate()
     {
@@ -176,7 +181,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
         _playerController = GameObject.GetComponent<PlayerController>();
         if (_playerController is not null)
             _playerController.WeaponFired += OnLocalWeaponFired;
-        navigationMesh ??= GameObject.Find("Navmesh");
+        if (navigationMesh is null || !navigationMesh.IsValid)
+            navigationMesh = GameObject.Find("Navmesh");
         PreloadNetworkPrefabs();
 
         if (!MultiplayerLaunch.Mode.Equals("Offline", StringComparison.OrdinalIgnoreCase))
@@ -849,7 +855,11 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 return false;
 
             var peerId = _nextBotId--;
-            var spawn = BotSpawnPosition(peerId);
+            if (!TryBotSpawnPosition(peerId, out var spawn))
+            {
+                Debug.LogWarning("Could not find a valid TDM bot spawn on the navmesh; spawn deferred.");
+                return false;
+            }
             var instance = Prefab.Instantiate(hostBotPrefab, spawn, Vector3.Zero);
             if (instance is null)
             {
@@ -1434,8 +1444,9 @@ public sealed class MultiplayerSession : ScriptBehaviour
             Vector3.UnitY * ((Next() * 2.0f - 1.0f) * tangent));
     }
 
-    private Vector3 BotSpawnPosition(int peerId)
+    private bool TryBotSpawnPosition(int peerId, out Vector3 spawnPosition)
     {
+        spawnPosition = default;
         var index = Math.Abs(peerId + 1000);
         string[] spawnNames =
         [
@@ -1446,10 +1457,94 @@ public sealed class MultiplayerSession : ScriptBehaviour
         ];
         var spawn = GameObject.Find(spawnNames[index % spawnNames.Length]);
         if (spawn is not null && spawn.IsValid)
-            return spawn.WorldPosition;
+        {
+            var markerPosition = spawn.WorldPosition;
+            if (TryPlaceBotAboveGround(markerPosition, out spawnPosition))
+                return true;
+        }
 
-        Debug.LogWarning("TDM bot spawn markers were not found; using the host spawn position.");
-        return GameObject.WorldPosition;
+        if (TryRandomBotSpawnPosition(peerId, out var randomSpawn))
+        {
+            spawnPosition = randomSpawn;
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool TryRandomBotSpawnPosition(int peerId, out Vector3 spawn)
+    {
+        spawn = default;
+        if (navigationMesh is null || !navigationMesh.IsValid)
+            return false;
+
+        var origin = GameObject.WorldPosition;
+        var minimumDistance = MathF.Max(0.0f, botFallbackSpawnMinimumDistance);
+        var radius = MathF.Max(minimumDistance, botFallbackSpawnRadius);
+        var attempts = Math.Clamp(botFallbackSpawnAttempts, 1, 128);
+        // Include a monotonically changing sequence so a bot does not receive
+        // the same deterministic sample every time it respawns.
+        var spawnSequence = ++_botSpawnSequence;
+        var randomState = unchecked((uint)peerId * 747796405u +
+                                    spawnSequence * 2891336453u + 1013904223u);
+        float NextRandom()
+        {
+            randomState = randomState * 1664525u + 1013904223u;
+            return (randomState & 0x00ffffffu) / 16777216.0f;
+        }
+
+        for (var attempt = 0; attempt < attempts; attempt++)
+        {
+            var angle = NextRandom() * MathF.PI * 2.0f;
+            // Uniformly distribute samples by area across the permitted ring.
+            var minimumSquared = minimumDistance * minimumDistance;
+            var distance = MathF.Sqrt(minimumSquared +
+                NextRandom() * (radius * radius - minimumSquared));
+            var candidate = origin + new Vector3(
+                MathF.Cos(angle) * distance, 0.0f, MathF.Sin(angle) * distance);
+            if (!Navigation.ProjectPoint(navigationMesh, candidate, out var projected,
+                    botNavigationAgentRadius, botNavigationAgentHeight))
+                continue;
+            if (HorizontalDistance(origin, projected) < minimumDistance)
+                continue;
+
+            var separatedFromBots = true;
+            foreach (var bot in _bots.Values)
+            {
+                if (HorizontalDistance(bot.GameObject.WorldPosition, projected) >= minimumDistance * 0.5f)
+                    continue;
+                separatedFromBots = false;
+                break;
+            }
+            if (!separatedFromBots)
+                continue;
+
+            if (TryPlaceBotAboveGround(projected, out spawn))
+                return true;
+        }
+        return false;
+    }
+
+    private bool TryPlaceBotAboveGround(Vector3 position, out Vector3 spawn)
+    {
+        spawn = default;
+        // A baked navigation point can lag behind edited terrain height. Use
+        // physics for the authoritative surface at the selected walkable X/Z.
+        const float rayHeight = 256.0f;
+        var rayOrigin = new Vector3(position.X, position.Y + rayHeight, position.Z);
+        if (!Physics.Raycast(rayOrigin, -Vector3.UnitY, rayHeight * 2.0f, out var ground) ||
+            ground.Normal.Y <= 0.1f)
+            return false;
+
+        var rootClearance = MathF.Max(0.0f, botNavigationAgentHeight) * 0.5f +
+                            MathF.Max(0.0f, botFallbackSpawnGroundClearance);
+        // Use the greater of the navigation and collision heights. Terrain
+        // edits can temporarily leave either representation stale; spawning
+        // above both and letting kinematic gravity settle the bot is safe in
+        // either direction and prevents an underground initial frame.
+        var surfaceHeight = MathF.Max(position.Y, ground.Point.Y);
+        spawn = new Vector3(position.X, surfaceHeight + rootClearance, position.Z);
+        return true;
     }
 
     private bool TryProjectBotNavigationPosition(
@@ -1699,9 +1794,17 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
     private BotController RespawnBot(int peerId, BotController previous)
     {
+        // Respawns deliberately bypass fixed map markers. Choose a new
+        // separated navmesh position every life, falling back to the normal
+        // marker selection only if random sampling is temporarily unavailable.
+        var respawnPosition = TryRandomBotSpawnPosition(peerId, out var randomPosition)
+            ? randomPosition
+            : (TryBotSpawnPosition(peerId, out var fallbackPosition)
+                ? fallbackPosition
+                : previous.SpawnPosition);
         var instance = previous.GameObject.IsValid
             ? previous.GameObject
-            : Prefab.Instantiate(hostBotPrefab, previous.SpawnPosition, Vector3.Zero);
+            : Prefab.Instantiate(hostBotPrefab, respawnPosition, Vector3.Zero);
         if (instance is null || !instance.IsValid)
         {
             Debug.LogWarning($"Could not respawn bot {peerId} from '{hostBotPrefab}'.");
@@ -1714,12 +1817,12 @@ public sealed class MultiplayerSession : ScriptBehaviour
         instance.Active = true;
 
         var replacement = new BotController(
-            instance, previous.SpawnPosition, unchecked((uint)peerId * 747796405u), botMagazineSize);
+            instance, respawnPosition, unchecked((uint)peerId * 747796405u), botMagazineSize);
         _bots[peerId] = replacement;
-        _remotePlayers[peerId] = new RemotePlayer(instance, previous.SpawnPosition, 0.0f);
+        _remotePlayers[peerId] = new RemotePlayer(instance, respawnPosition, 0.0f);
         instance.TryInvoke(
             "ResetExternalNavigation",
-            previous.SpawnPosition.X, previous.SpawnPosition.Y, previous.SpawnPosition.Z);
+            respawnPosition.X, respawnPosition.Y, respawnPosition.Z);
         ConfigureNameplate(peerId, instance);
         return replacement;
     }

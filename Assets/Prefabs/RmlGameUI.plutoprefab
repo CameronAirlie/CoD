@@ -1,0 +1,61 @@
+SCENE	1
+ENTITY	1784	0	1	RmlGameUI	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+TAGS	1784	1	UIManager
+COMPONENT	1784	CanvasComponent
+PROPERTY	Enabled	4	true	0
+PROPERTY	RenderMode	6	0	4	Screen Space	World Screen Space	Screen Space Camera	World Space
+PROPERTY	ScaleMode	6	1	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
+PROPERTY	ScaleFactor	0	1.500000	0
+PROPERTY	ReferenceResolution	7	1920.000000,1080.000000	0
+PROPERTY	MatchWidthOrHeight	0	0.500000	0
+PROPERTY	ScreenMatchMode	6	0	3	MatchWidthOrHeight	Expand	Shrink
+PROPERTY	SortingOrder	1	0	0
+PROPERTY	WorldSizeMode	6	0	3	WorldUnits	ConstantScreenSize	DistanceScaled
+PROPERTY	FaceCamera	4	true	0
+PROPERTY	Backend	6	0	2	Legacy Native	RmlUi
+PROPERTY	ContentSource	6	0	2	RML Document	Text
+PROPERTY	DocumentPath	2		0
+END_COMPONENT
+COMPONENT	1784	ScriptComponent
+PROPERTY	Source	2	UIManager	0
+PROPERTY	PauseMenu	9	1785	0
+PROPERTY	HUD	9	1883	0
+PROPERTY	Inventory	9	1931	0
+PROPERTY	PauseDocumentPath	2	UI/pause-menu.rml	0
+PROPERTY	HUDDocumentPath	2	UI/hud.rml	0
+PROPERTY	InventoryDocumentPath	2	UI/inventory.rml	0
+PROPERTY	MainMenuScene	2	Title	0
+PROPERTY	mainMenuScene	2	Title	0
+PROPERTY	pauseMenuObject	9	0	0
+PROPERTY	pauseDocumentPath	2	UI/pause-menu.rml	0
+PROPERTY	hudObject	9	0	0
+END_COMPONENT
+ENTITY	1785	1784	1	PauseMenu	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	1785	RmlWidgetComponent
+PROPERTY	Enabled	4	true	0
+PROPERTY	Source	2	project://UI/pause-menu.rml	0
+PROPERTY	Visible	4	false	0
+END_COMPONENT
+COMPONENT	1785	ScriptComponent
+PROPERTY	Source	2	PauseMenu	0
+PROPERTY	uiManagerObject	9	0	0
+PROPERTY	DocumentPath	2	UI/pause-menu.rml	0
+PROPERTY	documentPath	2	UI/pause-menu.rml	0
+END_COMPONENT
+ENTITY	1883	1784	1	HUD	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	1883	RmlWidgetComponent
+PROPERTY	Enabled	4	true	0
+PROPERTY	Source	2	project://UI/hud.rml	0
+PROPERTY	Visible	4	true	0
+END_COMPONENT
+ENTITY	1931	1784	1	Inventory	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	1931	RmlWidgetComponent
+PROPERTY	Enabled	4	true	0
+PROPERTY	Source	2	project://UI/inventory.rml	0
+PROPERTY	Visible	4	false	0
+END_COMPONENT
+COMPONENT	1931	ScriptComponent
+PROPERTY	Source	2	CoD.Scripts.InventoryMenu	0
+PROPERTY	documentPath	2	UI/inventory.rml	0
+PROPERTY	player	9	1	0
+END_COMPONENT

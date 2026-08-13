@@ -1,5 +1,5 @@
 PostProcessPresetVersion 1 11
-Effect "LSAO" 1 11
+Effect "LSAO" 0 11
 Parameter 0 "Radius" "2.800000" 0
 Parameter 0 "Bias" "0.040000" 0
 Parameter 0 "Intensity" "1.150000" 0
@@ -26,7 +26,7 @@ Parameter 0 "History Depth Threshold" "0.250000" 0
 Parameter 0 "History Normal Threshold" "0.999000" 0
 Parameter 3 "Half Resolution" "false" 0
 Parameter 3 "Indirect Only" "false" 0
-Effect "VCTGI" 1 18
+Effect "VCTGI" 0 18
 Parameter 4 "Resolution" "0" 2 "64" "128"
 Parameter 1 "Cascade Count" "2" 0
 Parameter 0 "Volume Size" "40.000000" 0
@@ -45,7 +45,7 @@ Parameter 0 "History Depth Threshold" "0.250000" 0
 Parameter 0 "History Normal Threshold" "0.900000" 0
 Parameter 4 "Debug View" "0" 9 "Final Composite" "Raw Cone Trace" "Temporal Result" "History Validation" "Voxel Radiance" "Voxel Opacity" "Upsample Classification" "Voxel Sample Count" "Cascade Coverage"
 Parameter 3 "Indirect Only" "false" 0
-Effect "VolumetricFog" 1 14
+Effect "VolumetricFog" 0 15
 Parameter 0 "Density" "0.035000" 0
 Parameter 0 "Height Falloff" "0.120000" 0
 Parameter 0 "Height Offset" "-54.000000" 0
@@ -56,6 +56,7 @@ Parameter 0 "Ambient Contribution" "0.300000" 0
 Parameter 0 "Directional Contribution" "6.000000" 0
 Parameter 0 "Max Opacity" "0.920000" 0
 Parameter 1 "Step Count" "64" 0
+Parameter 1 "Shadow Step Stride" "2" 0
 Parameter 3 "Half Resolution" "true" 0
 Parameter 0 "Color R" "1.000000" 0
 Parameter 0 "Color G" "1.000000" 0
@@ -70,7 +71,7 @@ Parameter 1 "Binary Search Steps" "5" 0
 Parameter 0 "Edge Fade" "0.120000" 0
 Parameter 0 "Fresnel Power" "5.000000" 0
 Parameter 0 "Metallic Boost" "0.750000" 0
-Effect "Bloom" 1 5
+Effect "Bloom" 0 5
 Parameter 0 "Intensity" "0.030000" 0
 Parameter 0 "Threshold" "2.000000" 0
 Parameter 0 "Soft Knee" "0.500000" 0

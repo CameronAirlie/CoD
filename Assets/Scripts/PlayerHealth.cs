@@ -33,6 +33,7 @@ public sealed class PlayerHealth : ScriptBehaviour
     // crosses the script/native boundary, which made this otherwise idle script
     // one of the most expensive updates in the frame.
     private float _damageOverlayAlpha;
+    private float _damageOverlayPublishAccumulator;
     private bool _dead;
     private Vector3 _spawnPosition;
     private Vector3 _spawnRotation;
@@ -87,9 +88,17 @@ public sealed class PlayerHealth : ScriptBehaviour
         var safeDeltaTime = MathF.Max(0.0f, deltaTime);
         _time += safeDeltaTime;
         if (_damageImage is not null && _damageOverlayAlpha > 0.0f)
-            SetDamageOverlayAlpha(MathF.Max(
+        {
+            _damageOverlayAlpha = MathF.Max(
                 0.0f,
-                _damageOverlayAlpha - MathF.Max(0.0f, damageFlashFadeSpeed) * safeDeltaTime));
+                _damageOverlayAlpha - MathF.Max(0.0f, damageFlashFadeSpeed) * safeDeltaTime);
+            _damageOverlayPublishAccumulator += safeDeltaTime;
+            // Native UI submission does not benefit from updates above the
+            // display cadence. Cap this legacy overlay at 60 Hz to avoid a
+            // managed/native component lookup on every high-rate game frame.
+            if (_damageOverlayAlpha <= 0.0f || _damageOverlayPublishAccumulator >= 1.0f / 60.0f)
+                PublishDamageOverlayAlpha();
+        }
 
         if (_dead && respawnOnDeath && _time >= _restartAt)
         {
@@ -207,8 +216,14 @@ public sealed class PlayerHealth : ScriptBehaviour
     private void SetDamageOverlayAlpha(float alpha)
     {
         _damageOverlayAlpha = alpha;
+        PublishDamageOverlayAlpha();
+    }
+
+    private void PublishDamageOverlayAlpha()
+    {
+        _damageOverlayPublishAccumulator = 0.0f;
         if (_damageImage is not null)
-            _damageImage.Alpha = alpha;
+            _damageImage.Alpha = _damageOverlayAlpha;
     }
 
     private void PublishStatus() => StatusChanged?.Invoke(

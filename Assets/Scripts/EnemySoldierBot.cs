@@ -99,7 +99,8 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         _externalNavigationControl = remoteProxy;
         _currentHealth = MathF.Max(1.0f, health);
         _randomState = EntityId * 747796405u + 2891336453u;
-        navigationMesh ??= GameObject.Find("Navmesh");
+        if (navigationMesh is null || !navigationMesh.IsValid)
+            navigationMesh = GameObject.Find("Navmesh");
         if (!_remoteProxyMode)
             ResolveTarget();
 
