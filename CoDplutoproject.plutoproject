@@ -7,9 +7,9 @@ WINDOW_TITLE	CoD
 WINDOW_SIZE	1280	720
 VSYNC	0
 EDITOR_FONT_SIZE	13
-EDITOR_CAMERA_POSITION	-33.1388	61.6813	-37.4656
+EDITOR_CAMERA_POSITION	-7.91882	28.627	-56.4674
 EDITOR_CAMERA_SPEED	6
-EDITOR_CAMERA_ROTATION	-1272.13	-33.9199
+EDITOR_CAMERA_ROTATION	-3395.96	-20.2401
 EDITOR_CAMERA_LENS	70	0.1	1000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/main.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -21,8 +21,8 @@ ASSET	engine://builtin/mesh/quad	0	Mesh
 ASSET	engine://builtin/mesh/sphere	0	Mesh
 ASSET	engine://builtin/shadergraph/default-lit	0	Shader Graph
 ASSET	engine://builtin/shadergraph/default-unlit	0	Shader Graph
-ASSET	project://AnimGraphs/enemy.plutoanimgraph	1582	Animation Graph
-ASSET	project://AnimGraphs/player.plutoanimgraph	1088	Animation Graph
+ASSET	project://AnimGraphs/enemy.plutoanimgraph	1548	Animation Graph
+ASSET	project://AnimGraphs/player.plutoanimgraph	1087	Animation Graph
 ASSET	project://Fonts/Georama.ttf	434664	Unknown
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_A_TPose_0.plutoclip	332294	Animation Clip
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Crouch_Fwd_Loop_1.plutoclip	273802	Animation Clip
@@ -101,6 +101,52 @@ ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.pluto
 ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	459	Material
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutoanim	963	Animation
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	2611229	Mesh
+ASSET	project://Imported/grass_green/M_grass_green_0.plutomaterial	627	Material
+ASSET	project://Imported/grass_green/M_grass_green_1.plutomaterial	627	Material
+ASSET	project://Imported/grass_green/M_grass_green_10.plutomaterial	626	Material
+ASSET	project://Imported/grass_green/M_grass_green_11.plutomaterial	682	Material
+ASSET	project://Imported/grass_green/M_grass_green_12.plutomaterial	682	Material
+ASSET	project://Imported/grass_green/M_grass_green_13.plutomaterial	626	Material
+ASSET	project://Imported/grass_green/M_grass_green_14.plutomaterial	428	Material
+ASSET	project://Imported/grass_green/M_grass_green_2.plutomaterial	627	Material
+ASSET	project://Imported/grass_green/M_grass_green_3.plutomaterial	627	Material
+ASSET	project://Imported/grass_green/M_grass_green_4.plutomaterial	627	Material
+ASSET	project://Imported/grass_green/M_grass_green_5.plutomaterial	626	Material
+ASSET	project://Imported/grass_green/M_grass_green_6.plutomaterial	682	Material
+ASSET	project://Imported/grass_green/M_grass_green_7.plutomaterial	626	Material
+ASSET	project://Imported/grass_green/M_grass_green_8.plutomaterial	626	Material
+ASSET	project://Imported/grass_green/M_grass_green_9.plutomaterial	626	Material
+ASSET	project://Imported/grass_green/Textures/Grass_green.007_normal.png	139268	Texture
+ASSET	project://Imported/grass_green/Textures/Grass_green.014_baseColor.png	367821	Texture
+ASSET	project://Imported/grass_green/Textures/Grass_green.014_metallicRoughness.png	87934	Texture
+ASSET	project://Imported/grass_green/grass_green.plutomesh	10141	Mesh
+ASSET	project://Imported/pine_tree/M_pine_tree_0.plutomaterial	475	Material
+ASSET	project://Imported/pine_tree/M_pine_tree_1.plutomaterial	526	Material
+ASSET	project://Imported/pine_tree/M_pine_tree_2.plutomaterial	428	Material
+ASSET	project://Imported/pine_tree/Textures/Leavs_baseColor.png	345552	Texture
+ASSET	project://Imported/pine_tree/Textures/Trank_baseColor.png	416855	Texture
+ASSET	project://Imported/pine_tree/Textures/Trank_normal.png	667828	Texture
+ASSET	project://Imported/pine_tree/pine_tree.plutomesh	533519	Mesh
+ASSET	project://Imported/pine_tree/pine_tree.plutomesh.materials	186	Unknown
+ASSET	project://Imported/scene/M_scene_0.plutomaterial	610	Material
+ASSET	project://Imported/scene/M_scene_1.plutomaterial	610	Material
+ASSET	project://Imported/scene/M_scene_10.plutomaterial	610	Material
+ASSET	project://Imported/scene/M_scene_11.plutomaterial	660	Material
+ASSET	project://Imported/scene/M_scene_12.plutomaterial	660	Material
+ASSET	project://Imported/scene/M_scene_13.plutomaterial	610	Material
+ASSET	project://Imported/scene/M_scene_14.plutomaterial	428	Material
+ASSET	project://Imported/scene/M_scene_2.plutomaterial	610	Material
+ASSET	project://Imported/scene/M_scene_3.plutomaterial	610	Material
+ASSET	project://Imported/scene/M_scene_4.plutomaterial	610	Material
+ASSET	project://Imported/scene/M_scene_5.plutomaterial	610	Material
+ASSET	project://Imported/scene/M_scene_6.plutomaterial	660	Material
+ASSET	project://Imported/scene/M_scene_7.plutomaterial	610	Material
+ASSET	project://Imported/scene/M_scene_8.plutomaterial	610	Material
+ASSET	project://Imported/scene/M_scene_9.plutomaterial	610	Material
+ASSET	project://Imported/scene/Textures/Grass_green.007_normal.png	139268	Texture
+ASSET	project://Imported/scene/Textures/Grass_green.014_baseColor.png	367821	Texture
+ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87934	Texture
+ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
 ASSET	project://Managed/CoD.Scripts.dll	144384	Assembly
 ASSET	project://Managed/CoD.Scripts.pdb	55916	Unknown
@@ -113,6 +159,7 @@ ASSET	project://Materials/Ground.plutomaterial	492	Material
 ASSET	project://Materials/Lightsaber_blade.plutomaterial	447	Material
 ASSET	project://Materials/Lightsaber_hilt.plutomaterial	431	Material
 ASSET	project://Materials/MuzzleFlash.plutomaterial	486	Material
+ASSET	project://Materials/Terrain.plutomaterial	553	Material
 ASSET	project://Packs/AnimationPack/A_TPose.plutoclip	332294	Animation Clip
 ASSET	project://Packs/AnimationPack/Crouch_Fwd_Loop.plutoclip	273802	Animation Clip
 ASSET	project://Packs/AnimationPack/Crouch_Idle_Loop.plutoclip	383003	Animation Clip
@@ -164,35 +211,38 @@ ASSET	project://Packs/AnimationPack/UAL1_Standard_RM.glb	7620504	Model
 ASSET	project://Packs/AnimationPack/Walk_Formal_Loop.plutoclip	195803	Animation Clip
 ASSET	project://Packs/AnimationPack/Walk_Loop.plutoclip	195796	Animation Clip
 ASSET	project://Particles/MuzzleFlash.plutoparticles	864	Particle System
-ASSET	project://PostProcessing/main.plutopostprocess	4300	Post Process Preset
+ASSET	project://PostProcessing/main.plutopostprocess	4301	Post Process Preset
 ASSET	project://Prefabs/AmmoPickup.plutoprefab	1889	Prefab
 ASSET	project://Prefabs/ArmourPickup.plutoprefab	1894	Prefab
-ASSET	project://Prefabs/Enemy.plutoprefab	16986	Prefab
+ASSET	project://Prefabs/Enemy.plutoprefab	16988	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1895	Prefab
 ASSET	project://Prefabs/Lightsaber.plutoprefab	1943	Prefab
-ASSET	project://Prefabs/Player.plutoprefab	53881	Prefab
-ASSET	project://Prefabs/RemotePlayer.plutoprefab	14663	Prefab
+ASSET	project://Prefabs/Player.plutoprefab	53931	Prefab
+ASSET	project://Prefabs/RemotePlayer.plutoprefab	14686	Prefab
 ASSET	project://Prefabs/RmlGameUI.plutoprefab	2461	Prefab
-ASSET	project://Prefabs/Tree.plutoprefab	2905	Prefab
-ASSET	project://Scenes/Main.plutoscene	131060	Scene
+ASSET	project://Prefabs/Tree.plutoprefab	3856	Prefab
+ASSET	project://Prefabs/Tree_Static.plutomesh	93677	Mesh
+ASSET	project://Prefabs/Tree_Static_Material_0.plutomaterial	452	Material
+ASSET	project://Prefabs/Tree_Static_Material_1.plutomaterial	452	Material
+ASSET	project://Scenes/Main.plutoscene	131929	Scene
 ASSET	project://Scenes/Title.plutoscene	7275	Scene
-ASSET	project://Scenes/island.plutoscene	139080	Scene
+ASSET	project://Scenes/island.plutoscene	220197	Scene
 ASSET	project://Scenes/ragdoll_test.plutoscene	20911	Scene
-ASSET	project://Scripts/EnemySoldierBot.cs	28714	Script
-ASSET	project://Scripts/EnemyWaveSpawner.cs	4384	Script
+ASSET	project://Scripts/EnemySoldierBot.cs	28716	Script
+ASSET	project://Scripts/EnemyWaveSpawner.cs	4254	Script
 ASSET	project://Scripts/InventoryMenu.cs	6328	Script
-ASSET	project://Scripts/MultiplayerLaunch.cs	714	Script
-ASSET	project://Scripts/MultiplayerSession.cs	81346	Script
-ASSET	project://Scripts/NetworkParticipantHitbox.cs	401	Script
-ASSET	project://Scripts/PauseMenu.cs	262	Script
-ASSET	project://Scripts/PlayerController.cs	28180	Script
-ASSET	project://Scripts/PlayerHealth.cs	8117	Script
-ASSET	project://Scripts/PlayerHud.cs	14496	Script
-ASSET	project://Scripts/PlayerInventory.cs	4059	Script
+ASSET	project://Scripts/MultiplayerLaunch.cs	696	Script
+ASSET	project://Scripts/MultiplayerSession.cs	81593	Script
+ASSET	project://Scripts/NetworkParticipantHitbox.cs	389	Script
+ASSET	project://Scripts/PauseMenu.cs	271	Script
+ASSET	project://Scripts/PlayerController.cs	28194	Script
+ASSET	project://Scripts/PlayerHealth.cs	8161	Script
+ASSET	project://Scripts/PlayerHud.cs	14295	Script
+ASSET	project://Scripts/PlayerInventory.cs	4061	Script
 ASSET	project://Scripts/SupplyPickup.cs	2143	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
 ASSET	project://Scripts/TitleScreen.cs	3209	Script
-ASSET	project://Scripts/UIManager.cs	6373	Script
+ASSET	project://Scripts/UIManager.cs	6351	Script
 ASSET	project://Sounds/engine.wav	760364	Audio
 ASSET	project://Sounds/footsteps.wav	728108	Audio
 ASSET	project://Sounds/gun_shot.wav	59456	Audio
@@ -308,6 +358,30 @@ ASSET	project://SourceModels/animation_low-poly_val/animation_low-poly_val Anima
 ASSET	project://SourceModels/animation_low-poly_val/animation_low-poly_val.glb	3725080	Model
 ASSET	project://SourceModels/animation_low-poly_val/animation_low-poly_val.plutomesh	2611229	Mesh
 ASSET	project://SourceModels/animation_low-poly_val/animation_low-poly_val_1.plutomesh	2611229	Mesh
+ASSET	project://SourceModels/grass_green/.plutoge-cache/meshes/10687981926226990346.pmesh	11121	Unknown
+ASSET	project://SourceModels/grass_green/.plutoge-cache/meshes/3390543711088051758.pmesh	11187	Unknown
+ASSET	project://SourceModels/grass_green/grass_green.gltf	29601	Model
+ASSET	project://SourceModels/grass_green/license.txt	692	Unknown
+ASSET	project://SourceModels/grass_green/scene.bin	2320	Unknown
+ASSET	project://SourceModels/grass_green/textures/Grass_green.007_normal.png	139268	Texture
+ASSET	project://SourceModels/grass_green/textures/Grass_green.014_baseColor.png	367821	Texture
+ASSET	project://SourceModels/grass_green/textures/Grass_green.014_metallicRoughness.png	87934	Texture
+ASSET	project://SourceModels/pine_tree/.plutoge-cache/meshes/7926698830897143094.pmesh	534247	Unknown
+ASSET	project://SourceModels/pine_tree/.plutoge-cache/meshes/9056569313017772201.pmesh	533809	Unknown
+ASSET	project://SourceModels/pine_tree/Leavs_baseColor.png	345552	Texture
+ASSET	project://SourceModels/pine_tree/M_pine_tree_0.plutomaterial	475	Material
+ASSET	project://SourceModels/pine_tree/M_pine_tree_1.plutomaterial	526	Material
+ASSET	project://SourceModels/pine_tree/M_pine_tree_2.plutomaterial	428	Material
+ASSET	project://SourceModels/pine_tree/Trank_baseColor.png	416855	Texture
+ASSET	project://SourceModels/pine_tree/Trank_normal.png	667828	Texture
+ASSET	project://SourceModels/pine_tree/imgui.ini	1805	Unknown
+ASSET	project://SourceModels/pine_tree/license.txt	664	Unknown
+ASSET	project://SourceModels/pine_tree/pine_tree.gltf	7042	Model
+ASSET	project://SourceModels/pine_tree/pine_tree.plutomesh	533519	Mesh
+ASSET	project://SourceModels/pine_tree/scene.bin	189516	Unknown
+ASSET	project://SourceModels/pine_tree/textures/Leavs_baseColor.png	345552	Texture
+ASSET	project://SourceModels/pine_tree/textures/Trank_baseColor.png	416855	Texture
+ASSET	project://SourceModels/pine_tree/textures/Trank_normal.png	667828	Texture
 ASSET	project://Textures/BulletHole/BulletHole.png	7891	Texture
 ASSET	project://Textures/Dark/texture_01.png	2774	Texture
 ASSET	project://Textures/Dark/texture_02.png	1338	Texture
@@ -323,13 +397,20 @@ ASSET	project://Textures/Dark/texture_11.png	9048	Texture
 ASSET	project://Textures/Dark/texture_12.png	9585	Texture
 ASSET	project://Textures/Dark/texture_13.png	9867	Texture
 ASSET	project://Textures/MuzzleFlash/MuzzleFlash.png	90402	Texture
-ASSET	project://UI/friendly-nameplate.rcss	549	Unknown
-ASSET	project://UI/friendly-nameplate.rml	228	RML Document
+ASSET	project://UI/friendly-nameplate.rcss	519	Unknown
+ASSET	project://UI/friendly-nameplate.rml	219	RML Document
 ASSET	project://UI/hud.rcss	3689	Unknown
-ASSET	project://UI/hud.rml	2024	RML Document
+ASSET	project://UI/hud.rml	1997	RML Document
 ASSET	project://UI/inventory.rcss	1692	Unknown
-ASSET	project://UI/inventory.rml	1505	RML Document
+ASSET	project://UI/inventory.rml	1504	RML Document
 ASSET	project://UI/pause-menu.rcss	1354	Unknown
-ASSET	project://UI/pause-menu.rml	665	RML Document
+ASSET	project://UI/pause-menu.rml	669	RML Document
 ASSET	project://UI/title.rcss	2115	Unknown
 ASSET	project://UI/title.rml	1032	RML Document
+ASSET	project://whispy-grass-meadow-unity/imgui.ini	2519	Unknown
+ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_albedo.png	8385185	Texture
+ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_ao.png	7004516	Texture
+ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_height.png	4112027	Texture
+ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_metallic.psd	2732299	Unknown
+ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_normal-ogl.png	12312674	Texture
+ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_preview.jpg	628869	Texture

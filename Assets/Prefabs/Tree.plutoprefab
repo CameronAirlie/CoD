@@ -1,5 +1,5 @@
 SCENE	1
-ENTITY	8461	0	1	Tree	0.000000,20.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	8461	0	1	Tree	0.000000,19.416162,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 ENTITY	8460	8461	1	Leaves	0.000000,2.749043,0.000000	0.000000,0.000000,0.000000	2.780000,2.780000,2.780000
 COMPONENT	8460	ColliderComponent
 PROPERTY	Shape	6	1	5	Box	Sphere	Capsule	Terrain	Mesh
@@ -55,11 +55,28 @@ PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
 PROPERTY	SubmeshCount	1	1	0
-PROPERTY	ModelAssetId	2		0
-PROPERTY	ModelObjectId	2	0	0
-PROPERTY	MeshAssetReference	2		0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MaterialSlots.0.MaterialAsset	2	engine://builtin/material/default-shaded	0
+PROPERTY	MaterialSlots.0.Color	2	0.820000,0.840000,0.880000,1.000000	0
+PROPERTY	MaterialSlots.0.AlbedoPath	2		0
+PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
+PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
+PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
+PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
+PROPERTY	MaterialSlots.0.Metallic	0	0.000000	0
+PROPERTY	MaterialSlots.0.Roughness	0	0.550000	0
+PROPERTY	MaterialSlots.0.Emission	2	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
+PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
+PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
+PROPERTY	MaterialSlots.0.AttenuationColor	2	1.000000,1.000000,1.000000	0
+PROPERTY	MaterialSlots.0.AttenuationDistance	0	1.000000	0
+PROPERTY	MaterialSlots.0.FlipNormalY	4	false	0
+PROPERTY	MaterialSlots.0.LightmapPath	2		0
+PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT

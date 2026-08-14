@@ -1,0 +1,24 @@
+PLUTOMODEL	1
+SOURCE	project://SourceModels/scene/scene.gltf
+SOURCE_ID	e06503e4995519e444ff523bf896a57a
+SOURCE_HASH	17348962896780271890
+IMPORTER_VERSION	2
+OBJECT	13239916158446412703	Mesh	scene	project://Imported/scene/scene.plutomesh
+OBJECT	8431588294008290871	Texture	Grass_green.014_baseColor	project://Imported/scene/Textures/Grass_green.014_baseColor.png
+OBJECT	3855759069031086002	Texture	Grass_green.014_metallicRoughness	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png
+OBJECT	8845513577548008842	Texture	Grass_green.007_normal	project://Imported/scene/Textures/Grass_green.007_normal.png
+OBJECT	15893873717248590948	Material	M_scene_0	project://Imported/scene/M_scene_0.plutomaterial
+OBJECT	15893874816760219159	Material	M_scene_1	project://Imported/scene/M_scene_1.plutomaterial
+OBJECT	15893875916271847370	Material	M_scene_2	project://Imported/scene/M_scene_2.plutomaterial
+OBJECT	15893877015783475581	Material	M_scene_3	project://Imported/scene/M_scene_3.plutomaterial
+OBJECT	15893869319202078104	Material	M_scene_4	project://Imported/scene/M_scene_4.plutomaterial
+OBJECT	15893870418713706315	Material	M_scene_5	project://Imported/scene/M_scene_5.plutomaterial
+OBJECT	15893871518225334526	Material	M_scene_6	project://Imported/scene/M_scene_6.plutomaterial
+OBJECT	15893872617736962737	Material	M_scene_7	project://Imported/scene/M_scene_7.plutomaterial
+OBJECT	15893864921155565260	Material	M_scene_8	project://Imported/scene/M_scene_8.plutomaterial
+OBJECT	15893866020667193471	Material	M_scene_9	project://Imported/scene/M_scene_9.plutomaterial
+OBJECT	5891909387471647813	Material	M_scene_10	project://Imported/scene/M_scene_10.plutomaterial
+OBJECT	5891908287960019602	Material	M_scene_11	project://Imported/scene/M_scene_11.plutomaterial
+OBJECT	5891907188448391391	Material	M_scene_12	project://Imported/scene/M_scene_12.plutomaterial
+OBJECT	5891906088936763180	Material	M_scene_13	project://Imported/scene/M_scene_13.plutomaterial
+OBJECT	5891904989425134969	Material	M_scene_14	project://Imported/scene/M_scene_14.plutomaterial

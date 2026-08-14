@@ -1,0 +1,11 @@
+Model Information:
+* title:	Grass_green
+* source:	https://sketchfab.com/3d-models/grass-green-e937a37439f347ee8ee8897a17a28746
+* author:	nikitadyachik05 (https://sketchfab.com/nikitadyachik05)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Grass_green" (https://sketchfab.com/3d-models/grass-green-e937a37439f347ee8ee8897a17a28746) by nikitadyachik05 (https://sketchfab.com/nikitadyachik05) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

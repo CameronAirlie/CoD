@@ -1,0 +1,24 @@
+PLUTOMODEL	1
+SOURCE	project://SourceModels/grass_green/grass_green.gltf
+SOURCE_ID	8f9d228395c118181cfabf4be45591d4
+SOURCE_HASH	17348962896780271890
+IMPORTER_VERSION	2
+OBJECT	13606251787724026517	Mesh	grass_green	project://Imported/grass_green/grass_green.plutomesh
+OBJECT	8431588294008290871	Texture	Grass_green.014_baseColor	project://Imported/grass_green/Textures/Grass_green.014_baseColor.png
+OBJECT	3855759069031086002	Texture	Grass_green.014_metallicRoughness	project://Imported/grass_green/Textures/Grass_green.014_metallicRoughness.png
+OBJECT	8845513577548008842	Texture	Grass_green.007_normal	project://Imported/grass_green/Textures/Grass_green.007_normal.png
+OBJECT	6754419678913079142	Material	M_grass_green_0	project://Imported/grass_green/M_grass_green_0.plutomaterial
+OBJECT	6754420778424707353	Material	M_grass_green_1	project://Imported/grass_green/M_grass_green_1.plutomaterial
+OBJECT	6754417479889822720	Material	M_grass_green_2	project://Imported/grass_green/M_grass_green_2.plutomaterial
+OBJECT	6754418579401450931	Material	M_grass_green_3	project://Imported/grass_green/M_grass_green_3.plutomaterial
+OBJECT	6754424076959591986	Material	M_grass_green_4	project://Imported/grass_green/M_grass_green_4.plutomaterial
+OBJECT	6754425176471220197	Material	M_grass_green_5	project://Imported/grass_green/M_grass_green_5.plutomaterial
+OBJECT	6754421877936335564	Material	M_grass_green_6	project://Imported/grass_green/M_grass_green_6.plutomaterial
+OBJECT	6754422977447963775	Material	M_grass_green_7	project://Imported/grass_green/M_grass_green_7.plutomaterial
+OBJECT	6754428475006104830	Material	M_grass_green_8	project://Imported/grass_green/M_grass_green_8.plutomaterial
+OBJECT	6754429574517733041	Material	M_grass_green_9	project://Imported/grass_green/M_grass_green_9.plutomaterial
+OBJECT	14772005253014253739	Material	M_grass_green_10	project://Imported/grass_green/M_grass_green_10.plutomaterial
+OBJECT	14772004153502625528	Material	M_grass_green_11	project://Imported/grass_green/M_grass_green_11.plutomaterial
+OBJECT	14772007452037510161	Material	M_grass_green_12	project://Imported/grass_green/M_grass_green_12.plutomaterial
+OBJECT	14772006352525881950	Material	M_grass_green_13	project://Imported/grass_green/M_grass_green_13.plutomaterial
+OBJECT	14772009651060766583	Material	M_grass_green_14	project://Imported/grass_green/M_grass_green_14.plutomaterial

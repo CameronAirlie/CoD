@@ -1,5 +1,5 @@
 PostProcessPresetVersion 1 11
-Effect "LSAO" 0 11
+Effect "LSAO" 1 11
 Parameter 0 "Radius" "2.800000" 0
 Parameter 0 "Bias" "0.040000" 0
 Parameter 0 "Intensity" "1.150000" 0
@@ -26,7 +26,7 @@ Parameter 0 "History Depth Threshold" "0.250000" 0
 Parameter 0 "History Normal Threshold" "0.999000" 0
 Parameter 3 "Half Resolution" "false" 0
 Parameter 3 "Indirect Only" "false" 0
-Effect "VCTGI" 0 18
+Effect "VCTGI" 1 18
 Parameter 4 "Resolution" "0" 2 "64" "128"
 Parameter 1 "Cascade Count" "2" 0
 Parameter 0 "Volume Size" "40.000000" 0
@@ -61,7 +61,7 @@ Parameter 3 "Half Resolution" "true" 0
 Parameter 0 "Color R" "1.000000" 0
 Parameter 0 "Color G" "1.000000" 0
 Parameter 0 "Color B" "1.000000" 0
-Effect "SSR" 0 9
+Effect "SSR" 1 9
 Parameter 0 "Intensity" "0.800000" 0
 Parameter 0 "Max Ray Distance" "30.000000" 0
 Parameter 0 "Thickness" "0.350000" 0
@@ -71,8 +71,8 @@ Parameter 1 "Binary Search Steps" "5" 0
 Parameter 0 "Edge Fade" "0.120000" 0
 Parameter 0 "Fresnel Power" "5.000000" 0
 Parameter 0 "Metallic Boost" "0.750000" 0
-Effect "Bloom" 0 5
-Parameter 0 "Intensity" "0.030000" 0
+Effect "Bloom" 1 5
+Parameter 0 "Intensity" "0.050000" 0
 Parameter 0 "Threshold" "2.000000" 0
 Parameter 0 "Soft Knee" "0.500000" 0
 Parameter 0 "Radius" "0.850000" 0
@@ -92,16 +92,16 @@ Parameter 0 "Intensity" "0.100000" 0
 Parameter 0 "Threshold" "2.000000" 0
 Parameter 0 "Scale" "1.000000" 0
 Parameter 0 "Ghost Dispersal" "0.550000" 0
+Effect "FXAA" 0 1
+Parameter 4 "Quality" "0" 2 "2x" "4x"
 Effect "TAA" 0 10
 Parameter 4 "Quality" "0" 2 "Balanced" "High"
-Parameter 0 "History Weight" "0.990000" 0
-Parameter 0 "Stationary History Weight" "0.990000" 0
-Parameter 0 "Motion History Weight" "0.990000" 0
-Parameter 0 "Sharpening" "0.000000" 0
-Parameter 0 "Depth Rejection Threshold" "0.040000" 0
+Parameter 0 "History Weight" "0.900000" 0
+Parameter 0 "Stationary History Weight" "0.940000" 0
+Parameter 0 "Motion History Weight" "0.550000" 0
+Parameter 0 "Sharpening" "1.000000" 0
+Parameter 0 "Depth Rejection Threshold" "0.003500" 0
 Parameter 0 "Normal Rejection Threshold" "0.820000" 0
-Parameter 0 "Velocity Rejection Scale" "0.000000" 0
-Parameter 0 "Jitter Strength" "1.000000" 0
+Parameter 0 "Velocity Rejection Scale" "80.000000" 0
+Parameter 0 "Jitter Strength" "0.200000" 0
 Parameter 3 "Jitter Enabled" "true" 0
-Effect "FXAA" 1 1
-Parameter 4 "Quality" "1" 2 "2x" "4x"
