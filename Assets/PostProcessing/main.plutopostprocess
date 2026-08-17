@@ -94,7 +94,7 @@ Parameter 0 "Scale" "1.000000" 0
 Parameter 0 "Ghost Dispersal" "0.550000" 0
 Effect "FXAA" 0 1
 Parameter 4 "Quality" "0" 2 "2x" "4x"
-Effect "TAA" 0 10
+Effect "TAA" 1 10
 Parameter 4 "Quality" "0" 2 "Balanced" "High"
 Parameter 0 "History Weight" "0.900000" 0
 Parameter 0 "Stationary History Weight" "0.940000" 0

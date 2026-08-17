@@ -7,9 +7,9 @@ WINDOW_TITLE	CoD
 WINDOW_SIZE	1280	720
 VSYNC	0
 EDITOR_FONT_SIZE	13
-EDITOR_CAMERA_POSITION	-7.91882	28.627	-56.4674
+EDITOR_CAMERA_POSITION	-73.4046	24.7948	-117.6
 EDITOR_CAMERA_SPEED	6
-EDITOR_CAMERA_ROTATION	-3395.96	-20.2401
+EDITOR_CAMERA_ROTATION	234.001	-19.92
 EDITOR_CAMERA_LENS	70	0.1	1000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/main.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -120,6 +120,27 @@ ASSET	project://Imported/grass_green/Textures/Grass_green.007_normal.png	139268	
 ASSET	project://Imported/grass_green/Textures/Grass_green.014_baseColor.png	367821	Texture
 ASSET	project://Imported/grass_green/Textures/Grass_green.014_metallicRoughness.png	87934	Texture
 ASSET	project://Imported/grass_green/grass_green.plutomesh	10141	Mesh
+ASSET	project://Imported/grass_green/grass_green.plutomesh.materials	995	Unknown
+ASSET	project://Imported/grass_patch/M_grass_patch_0.plutomaterial	690	Material
+ASSET	project://Imported/grass_patch/M_grass_patch_1.plutomaterial	746	Material
+ASSET	project://Imported/grass_patch/M_grass_patch_2.plutomaterial	490	Material
+ASSET	project://Imported/grass_patch/Textures/Grass_green.007_normal.png	139268	Texture
+ASSET	project://Imported/grass_patch/Textures/Grass_green.014_baseColor.png	367821	Texture
+ASSET	project://Imported/grass_patch/Textures/Grass_green.014_metallicRoughness.png	87934	Texture
+ASSET	project://Imported/grass_patch/grass_patch.plutomesh	9320	Mesh
+ASSET	project://Imported/grass_patch/grass_patch.plutomesh.materials	198	Unknown
+ASSET	project://Imported/grassv2/M_grassv2_0.plutomaterial	612	Material
+ASSET	project://Imported/grassv2/M_grassv2_1.plutomaterial	506	Material
+ASSET	project://Imported/grassv2/Textures/T_0.tga	2097170	Texture
+ASSET	project://Imported/grassv2/Textures/T_1.tga	2097170	Texture
+ASSET	project://Imported/grassv2/grassv2.plutomesh	8422	Mesh
+ASSET	project://Imported/grassv2/grassv2.plutomesh.materials	116	Unknown
+ASSET	project://Imported/grassv3/M_grassv3_0.plutomaterial	612	Material
+ASSET	project://Imported/grassv3/M_grassv3_1.plutomaterial	506	Material
+ASSET	project://Imported/grassv3/Textures/T_0.tga	2097170	Texture
+ASSET	project://Imported/grassv3/Textures/T_1.tga	2097170	Texture
+ASSET	project://Imported/grassv3/grassv3.plutomesh	7366	Mesh
+ASSET	project://Imported/grassv3/grassv3.plutomesh.materials	116	Unknown
 ASSET	project://Imported/pine_tree/M_pine_tree_0.plutomaterial	475	Material
 ASSET	project://Imported/pine_tree/M_pine_tree_1.plutomaterial	526	Material
 ASSET	project://Imported/pine_tree/M_pine_tree_2.plutomaterial	428	Material
@@ -159,7 +180,8 @@ ASSET	project://Materials/Ground.plutomaterial	492	Material
 ASSET	project://Materials/Lightsaber_blade.plutomaterial	447	Material
 ASSET	project://Materials/Lightsaber_hilt.plutomaterial	431	Material
 ASSET	project://Materials/MuzzleFlash.plutomaterial	486	Material
-ASSET	project://Materials/Terrain.plutomaterial	553	Material
+ASSET	project://Materials/SSS.plutomaterial	509	Material
+ASSET	project://Materials/Terrain.plutomaterial	643	Material
 ASSET	project://Packs/AnimationPack/A_TPose.plutoclip	332294	Animation Clip
 ASSET	project://Packs/AnimationPack/Crouch_Fwd_Loop.plutoclip	273802	Animation Clip
 ASSET	project://Packs/AnimationPack/Crouch_Idle_Loop.plutoclip	383003	Animation Clip
@@ -226,7 +248,7 @@ ASSET	project://Prefabs/Tree_Static_Material_0.plutomaterial	452	Material
 ASSET	project://Prefabs/Tree_Static_Material_1.plutomaterial	452	Material
 ASSET	project://Scenes/Main.plutoscene	131929	Scene
 ASSET	project://Scenes/Title.plutoscene	7275	Scene
-ASSET	project://Scenes/island.plutoscene	220197	Scene
+ASSET	project://Scenes/island.plutoscene	8665732	Scene
 ASSET	project://Scenes/ragdoll_test.plutoscene	20911	Scene
 ASSET	project://Scripts/EnemySoldierBot.cs	28716	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4254	Script
@@ -360,16 +382,63 @@ ASSET	project://SourceModels/animation_low-poly_val/animation_low-poly_val.pluto
 ASSET	project://SourceModels/animation_low-poly_val/animation_low-poly_val_1.plutomesh	2611229	Mesh
 ASSET	project://SourceModels/grass_green/.plutoge-cache/meshes/10687981926226990346.pmesh	11121	Unknown
 ASSET	project://SourceModels/grass_green/.plutoge-cache/meshes/3390543711088051758.pmesh	11187	Unknown
+ASSET	project://SourceModels/grass_green/Grass_green.007_normal.png	139268	Texture
+ASSET	project://SourceModels/grass_green/Grass_green.014_baseColor.png	367821	Texture
+ASSET	project://SourceModels/grass_green/Grass_green.014_metallicRoughness.png	87934	Texture
+ASSET	project://SourceModels/grass_green/M_grass_green_0.plutomaterial	701	Material
+ASSET	project://SourceModels/grass_green/M_grass_green_1.plutomaterial	708	Material
+ASSET	project://SourceModels/grass_green/M_grass_green_10.plutomaterial	626	Material
+ASSET	project://SourceModels/grass_green/M_grass_green_11.plutomaterial	682	Material
+ASSET	project://SourceModels/grass_green/M_grass_green_12.plutomaterial	682	Material
+ASSET	project://SourceModels/grass_green/M_grass_green_13.plutomaterial	626	Material
+ASSET	project://SourceModels/grass_green/M_grass_green_14.plutomaterial	428	Material
+ASSET	project://SourceModels/grass_green/M_grass_green_2.plutomaterial	627	Material
+ASSET	project://SourceModels/grass_green/M_grass_green_3.plutomaterial	627	Material
+ASSET	project://SourceModels/grass_green/M_grass_green_4.plutomaterial	627	Material
+ASSET	project://SourceModels/grass_green/M_grass_green_5.plutomaterial	626	Material
+ASSET	project://SourceModels/grass_green/M_grass_green_6.plutomaterial	682	Material
+ASSET	project://SourceModels/grass_green/M_grass_green_7.plutomaterial	626	Material
+ASSET	project://SourceModels/grass_green/M_grass_green_8.plutomaterial	626	Material
+ASSET	project://SourceModels/grass_green/M_grass_green_9.plutomaterial	626	Material
 ASSET	project://SourceModels/grass_green/grass_green.gltf	29601	Model
+ASSET	project://SourceModels/grass_green/grass_green.plutomesh	10141	Mesh
 ASSET	project://SourceModels/grass_green/license.txt	692	Unknown
 ASSET	project://SourceModels/grass_green/scene.bin	2320	Unknown
 ASSET	project://SourceModels/grass_green/textures/Grass_green.007_normal.png	139268	Texture
 ASSET	project://SourceModels/grass_green/textures/Grass_green.014_baseColor.png	367821	Texture
 ASSET	project://SourceModels/grass_green/textures/Grass_green.014_metallicRoughness.png	87934	Texture
+ASSET	project://SourceModels/grass_patch/.plutoge-cache/meshes/6177953143008598914.pmesh	10155	Unknown
+ASSET	project://SourceModels/grass_patch/Grass_green.007_normal.png	139268	Texture
+ASSET	project://SourceModels/grass_patch/Grass_green.014_baseColor.png	367821	Texture
+ASSET	project://SourceModels/grass_patch/Grass_green.014_metallicRoughness.png	87934	Texture
+ASSET	project://SourceModels/grass_patch/M_grass_patch_0.plutomaterial	645	Material
+ASSET	project://SourceModels/grass_patch/M_grass_patch_1.plutomaterial	701	Material
+ASSET	project://SourceModels/grass_patch/M_grass_patch_2.plutomaterial	490	Material
+ASSET	project://SourceModels/grass_patch/grass_patch.gltf	29601	Model
+ASSET	project://SourceModels/grass_patch/grass_patch.plutomesh	9320	Mesh
+ASSET	project://SourceModels/grass_patch/license.txt	692	Unknown
+ASSET	project://SourceModels/grass_patch/scene.bin	2320	Unknown
+ASSET	project://SourceModels/grass_patch/textures/Grass_green.007_normal.png	139268	Texture
+ASSET	project://SourceModels/grass_patch/textures/Grass_green.014_baseColor.png	367821	Texture
+ASSET	project://SourceModels/grass_patch/textures/Grass_green.014_metallicRoughness.png	87934	Texture
+ASSET	project://SourceModels/grassv2/.plutoge-cache/meshes/12678878572082358918.pmesh	4203098	Unknown
+ASSET	project://SourceModels/grassv2/M_grassv2_0.plutomaterial	612	Material
+ASSET	project://SourceModels/grassv2/M_grassv2_1.plutomaterial	506	Material
+ASSET	project://SourceModels/grassv2/Texture 0.tga	2097170	Texture
+ASSET	project://SourceModels/grassv2/Texture 1.tga	2097170	Texture
+ASSET	project://SourceModels/grassv2/grassv2.glb	539024	Model
+ASSET	project://SourceModels/grassv2/grassv2.plutomesh	8422	Mesh
+ASSET	project://SourceModels/grassv3/.plutoge-cache/meshes/15943417353145639038.pmesh	4202042	Unknown
+ASSET	project://SourceModels/grassv3/M_grassv3_0.plutomaterial	628	Material
+ASSET	project://SourceModels/grassv3/M_grassv3_1.plutomaterial	506	Material
+ASSET	project://SourceModels/grassv3/Texture 0.tga	2097170	Texture
+ASSET	project://SourceModels/grassv3/Texture 1.tga	2097170	Texture
+ASSET	project://SourceModels/grassv3/grassv3.glb	538640	Model
+ASSET	project://SourceModels/grassv3/grassv3.plutomesh	7366	Mesh
 ASSET	project://SourceModels/pine_tree/.plutoge-cache/meshes/7926698830897143094.pmesh	534247	Unknown
 ASSET	project://SourceModels/pine_tree/.plutoge-cache/meshes/9056569313017772201.pmesh	533809	Unknown
 ASSET	project://SourceModels/pine_tree/Leavs_baseColor.png	345552	Texture
-ASSET	project://SourceModels/pine_tree/M_pine_tree_0.plutomaterial	475	Material
+ASSET	project://SourceModels/pine_tree/M_pine_tree_0.plutomaterial	568	Material
 ASSET	project://SourceModels/pine_tree/M_pine_tree_1.plutomaterial	526	Material
 ASSET	project://SourceModels/pine_tree/M_pine_tree_2.plutomaterial	428	Material
 ASSET	project://SourceModels/pine_tree/Trank_baseColor.png	416855	Texture

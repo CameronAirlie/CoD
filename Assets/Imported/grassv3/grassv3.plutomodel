@@ -1,0 +1,10 @@
+PLUTOMODEL	1
+SOURCE	project://SourceModels/grassv3/grassv3.glb
+SOURCE_ID	6ff11a580d4059096551d757135eecb3
+SOURCE_HASH	815676690848033795
+IMPORTER_VERSION	2
+OBJECT	4497833410384444778	Mesh	grassv3	project://Imported/grassv3/grassv3.plutomesh
+OBJECT	7738734903182153866	Texture	Texture 0	project://Imported/grassv3/Textures/T_0.tga
+OBJECT	7738736002693782077	Texture	Texture 1	project://Imported/grassv3/Textures/T_1.tga
+OBJECT	15378027037387299465	Material	M_grassv3_0	project://Imported/grassv3/M_grassv3_0.plutomaterial
+OBJECT	15378025937875671254	Material	M_grassv3_1	project://Imported/grassv3/M_grassv3_1.plutomaterial
