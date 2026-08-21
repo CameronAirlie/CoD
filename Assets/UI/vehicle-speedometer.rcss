@@ -1,0 +1,32 @@
+@font-face { font-family: InstrumentFont; src: url("../Fonts/Georama.ttf"); }
+body { width: 100%; height: 100%; margin: 0; color: #ffffff; font-family: InstrumentFont; pointer-events: none; }
+#vehicle-instruments { position: absolute; right: 38px; bottom: 30px; width: 330px; height: 330px; }
+.dial { position: absolute; left: 20px; top: 20px; width: 286px; height: 286px; border-radius: 150px; border: 3px #d9e4ec; background-color: #071019dc; }
+.inner-ring { position: absolute; left: 17px; top: 17px; width: 246px; height: 246px; border-radius: 130px; border: 1px #71808c99; }
+.tick { position: absolute; left: 137px; top: 7px; width: 4px; height: 272px; transform-origin: 2px 136px; background-color: transparent; }
+.tick-line { width: 4px; height: 17px; background-color: #eaf6ff; }
+.tick span { position: absolute; top: 22px; left: -7px; width: 18px; text-align: center; font-size: 14px; color: #aab8c3; }
+.tick.hot .tick-line { background-color: #ff3d2e; }
+.tick.hot span { color: #ff6b5e; }
+.t0 { transform: rotate(-130deg); } .t1 { transform: rotate(-97.5deg); }
+.t2 { transform: rotate(-65deg); } .t3 { transform: rotate(-32.5deg); }
+.t4 { transform: rotate(0deg); } .t5 { transform: rotate(32.5deg); }
+.t6 { transform: rotate(65deg); } .t7 { transform: rotate(97.5deg); }
+.t8 { transform: rotate(130deg); }
+.needle { position: absolute; left: 140px; top: 139px; width: 3px; height: 3px; transform-origin: 1px 1px; }
+.needle div { position: absolute; left: -1px; bottom: 0; width: 3px; height: 108px; background-color: #f4f8fb; }
+.rpm-needle div { width: 2px; height: 120px; background-color: #ff493b; }
+.speed-needle div { height: 95px; background-color: #81d8ff; }
+.hub { position: absolute; left: 131px; top: 130px; width: 20px; height: 20px; border-radius: 12px; background-color: #f2f6f8; border: 3px #26343f; }
+.readout { position: absolute; left: 76px; top: 157px; width: 130px; text-align: center; }
+.gear-caption { color: #7e8e9a; font-size: 9px; letter-spacing: 2px; }
+#vehicle-gear { font-size: 34px; line-height: 34px; color: #ffffff; }
+#vehicle-speed { margin-top: 5px; font-size: 42px; line-height: 42px; font-weight: bold; letter-spacing: 2px; }
+#speed-unit { color: #80d8ff; font-size: 11px; letter-spacing: 3px; }
+.rpm-row { margin-top: 5px; color: #aab7c1; font-size: 11px; }
+#engine-rpm.redline { color: #ff493b; }
+.rev-track { position: absolute; left: 51px; bottom: 8px; width: 230px; height: 8px; background-color: #27333c; border: 1px #7d8c97; }
+#rev-arc-fill { width: 0%; height: 100%; background-color: #38bdf8; }
+.rpm-caption { position: absolute; bottom: -9px; left: 115px; width: 100px; text-align: center; color: #82919c; font-size: 9px; letter-spacing: 1px; }
+#shift-light { position: absolute; left: 126px; top: 3px; width: 78px; height: 7px; background-color: #351411; border: 1px #7b2b24; }
+#shift-light.active { background-color: #ff3125; border-color: #ffffff; }

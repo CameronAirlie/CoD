@@ -1,16 +1,16 @@
 PLUTOPROJECT	1
 NAME	CoD
 ASSET_DIR	Assets
-STARTUP_SCENE	project://Scenes/island.plutoscene
+STARTUP_SCENE	project://Scenes/car_scene.plutoscene
 SCRIPT_ASSEMBLY	project://Managed/CoD.Scripts.dll
 WINDOW_TITLE	CoD
 WINDOW_SIZE	1280	720
 VSYNC	1
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	-96.8199	17.3174	-72.4025
+EDITOR_CAMERA_POSITION	30.2018	2.61089	4.6725
 EDITOR_CAMERA_SPEED	6
-EDITOR_CAMERA_ROTATION	-2553.86	-12.7202
+EDITOR_CAMERA_ROTATION	-2425.71	6.3598
 EDITOR_CAMERA_LENS	70	0.1	1000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/main.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -206,11 +206,11 @@ ASSET	project://Imported/scene/Textures/Grass_green.014_baseColor.png	367821	Tex
 ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87934	Texture
 ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	144384	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	55956	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	146944	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	56788	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	212480	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	76128	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	76216	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	369	Unknown
 ASSET	project://Materials/BulletHole.plutomaterial	473	Material
 ASSET	project://Materials/Ground.plutomaterial	492	Material
@@ -276,7 +276,7 @@ ASSET	project://Particles/smoke.plutoparticles	1517	Particle System
 ASSET	project://PostProcessing/main.plutopostprocess	4519	Post Process Preset
 ASSET	project://Prefabs/AmmoPickup.plutoprefab	1889	Prefab
 ASSET	project://Prefabs/ArmourPickup.plutoprefab	1894	Prefab
-ASSET	project://Prefabs/Car.plutoprefab	34356	Prefab
+ASSET	project://Prefabs/Car.plutoprefab	35981	Prefab
 ASSET	project://Prefabs/Enemy.plutoprefab	16988	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1895	Prefab
 ASSET	project://Prefabs/Lightsaber.plutoprefab	1943	Prefab
@@ -289,7 +289,7 @@ ASSET	project://Prefabs/Tree_Static_Material_0.plutomaterial	452	Material
 ASSET	project://Prefabs/Tree_Static_Material_1.plutomaterial	452	Material
 ASSET	project://Scenes/Main.plutoscene	131929	Scene
 ASSET	project://Scenes/Title.plutoscene	7275	Scene
-ASSET	project://Scenes/car_scene.plutoscene	108898	Scene
+ASSET	project://Scenes/car_scene.plutoscene	113508	Scene
 ASSET	project://Scenes/island.plutoscene	8662573	Scene
 ASSET	project://Scenes/ragdoll_test.plutoscene	20911	Scene
 ASSET	project://Scripts/EnemySoldierBot.cs	28716	Script
@@ -307,6 +307,7 @@ ASSET	project://Scripts/SupplyPickup.cs	2143	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
 ASSET	project://Scripts/TitleScreen.cs	3209	Script
 ASSET	project://Scripts/UIManager.cs	6351	Script
+ASSET	project://Scripts/VehicleSpeedometer.cs	4147	Script
 ASSET	project://Sounds/engine.wav	760364	Audio
 ASSET	project://Sounds/footsteps.wav	728108	Audio
 ASSET	project://Sounds/gun_shot.wav	59456	Audio
@@ -424,7 +425,7 @@ ASSET	project://SourceModels/animation_low-poly_val/animation_low-poly_val.pluto
 ASSET	project://SourceModels/animation_low-poly_val/animation_low-poly_val_1.plutomesh	2611229	Mesh
 ASSET	project://SourceModels/audi_rs5/.plutoge-cache/meshes/4995873181365222494.pmesh	451312288	Unknown
 ASSET	project://SourceModels/audi_rs5/M_audi_rs5_0.plutomaterial	642	Material
-ASSET	project://SourceModels/audi_rs5/M_audi_rs5_1.plutomaterial	512	Material
+ASSET	project://SourceModels/audi_rs5/M_audi_rs5_1.plutomaterial	526	Material
 ASSET	project://SourceModels/audi_rs5/M_audi_rs5_10.plutomaterial	506	Material
 ASSET	project://SourceModels/audi_rs5/M_audi_rs5_2.plutomaterial	540	Material
 ASSET	project://SourceModels/audi_rs5/M_audi_rs5_3.plutomaterial	534	Material
@@ -558,6 +559,8 @@ ASSET	project://UI/pause-menu.rcss	1354	Unknown
 ASSET	project://UI/pause-menu.rml	669	RML Document
 ASSET	project://UI/title.rcss	2115	Unknown
 ASSET	project://UI/title.rml	1032	RML Document
+ASSET	project://UI/vehicle-speedometer.rcss	2908	Unknown
+ASSET	project://UI/vehicle-speedometer.rml	1667	RML Document
 ASSET	project://whispy-grass-meadow-unity/imgui.ini	2519	Unknown
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_albedo.png	8385185	Texture
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_ao.png	7004516	Texture

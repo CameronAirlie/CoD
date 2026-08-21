@@ -1,0 +1,31 @@
+<rml>
+<head>
+    <title>Vehicle instruments</title>
+    <link type="text/rcss" href="vehicle-speedometer.rcss"/>
+</head>
+<body>
+    <div id="vehicle-instruments">
+        <div id="shift-light"></div>
+        <div class="dial">
+            <div class="inner-ring"></div>
+            <div class="tick t0"><div class="tick-line"></div><span>0</span></div><div class="tick t1"><div class="tick-line"></div><span>1</span></div>
+            <div class="tick t2"><div class="tick-line"></div><span>2</span></div><div class="tick t3"><div class="tick-line"></div><span>3</span></div>
+            <div class="tick t4"><div class="tick-line"></div><span>4</span></div><div class="tick t5"><div class="tick-line"></div><span>5</span></div>
+            <div class="tick t6"><div class="tick-line"></div><span>6</span></div><div class="tick t7 hot"><div class="tick-line"></div><span>7</span></div>
+            <div class="tick t8 hot"><div class="tick-line"></div><span>8</span></div>
+            <div id="speed-needle" class="needle speed-needle"><div></div></div>
+            <div id="rpm-needle" class="needle rpm-needle"><div></div></div>
+            <div class="hub"></div>
+            <div class="readout">
+                <div class="gear-caption">GEAR</div>
+                <div id="vehicle-gear">1</div>
+                <div id="vehicle-speed">000</div>
+                <div id="speed-unit">MPH</div>
+                <div class="rpm-row"><span id="engine-rpm">900</span><span> RPM</span></div>
+            </div>
+        </div>
+        <div class="rev-track"><div id="rev-arc-fill"></div></div>
+        <div class="rpm-caption">x1000 RPM</div>
+    </div>
+</body>
+</rml>

@@ -1,11 +1,11 @@
-Color=1,0,0,1
+Color=0,0.612399,0.644518,1
 SurfaceType=Standard
 AlphaMode=Opaque
 AlphaCutoff=0.5
 CastsShadow=true
 TwoSided=false
 UvScale=1,1
-Metallic=0.22
+Metallic=0.57
 Roughness=0.04
 Emission=0,0,0
 Subsurface=0
