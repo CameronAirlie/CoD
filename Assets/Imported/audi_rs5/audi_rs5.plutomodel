@@ -1,0 +1,34 @@
+PLUTOMODEL	1
+SOURCE	project://SourceModels/audi_rs5/audi_rs5.glb
+SOURCE_ID	e716b4e01e85fb1cda74ae637c3e9ca4
+SOURCE_HASH	9753292719659373344
+IMPORTER_VERSION	2
+OBJECT	4769860108020660933	Mesh	audi_rs5	project://Imported/audi_rs5/audi_rs5.plutomesh
+OBJECT	7738734903182153866	Texture	Texture 0	project://Imported/audi_rs5/Textures/T_0.tga
+OBJECT	7738736002693782077	Texture	Texture 1	project://Imported/audi_rs5/Textures/T_1.tga
+OBJECT	7738732704158897444	Texture	Texture 2	project://Imported/audi_rs5/Textures/T_2.tga
+OBJECT	7738733803670525655	Texture	Texture 3	project://Imported/audi_rs5/Textures/T_3.tga
+OBJECT	7738730505135641022	Texture	Texture 4	project://Imported/audi_rs5/Textures/T_4.tga
+OBJECT	7738731604647269233	Texture	Texture 5	project://Imported/audi_rs5/Textures/T_5.tga
+OBJECT	7738728306112384600	Texture	Texture 6	project://Imported/audi_rs5/Textures/T_6.tga
+OBJECT	7738729405624012811	Texture	Texture 7	project://Imported/audi_rs5/Textures/T_7.tga
+OBJECT	7738726107089128178	Texture	Texture 8	project://Imported/audi_rs5/Textures/T_8.tga
+OBJECT	7738727206600756389	Texture	Texture 9	project://Imported/audi_rs5/Textures/T_9.tga
+OBJECT	10689382664065287191	Texture	Texture 10	project://Imported/audi_rs5/Textures/T_10.tga
+OBJECT	10689381564553658980	Texture	Texture 11	project://Imported/audi_rs5/Textures/T_11.tga
+OBJECT	10689384863088543613	Texture	Texture 12	project://Imported/audi_rs5/Textures/T_12.tga
+OBJECT	10689383763576915402	Texture	Texture 13	project://Imported/audi_rs5/Textures/T_13.tga
+OBJECT	10689378266018774347	Texture	Texture 14	project://Imported/audi_rs5/Textures/T_14.tga
+OBJECT	10689377166507146136	Texture	Texture 15	project://Imported/audi_rs5/Textures/T_15.tga
+OBJECT	10689380465042030769	Texture	Texture 16	project://Imported/audi_rs5/Textures/T_16.tga
+OBJECT	996263230628671950	Material	M_audi_rs5_0	project://Imported/audi_rs5/M_audi_rs5_0.plutomaterial
+OBJECT	996264330140300161	Material	M_audi_rs5_1	project://Imported/audi_rs5/M_audi_rs5_1.plutomaterial
+OBJECT	996261031605415528	Material	M_audi_rs5_2	project://Imported/audi_rs5/M_audi_rs5_2.plutomaterial
+OBJECT	996262131117043739	Material	M_audi_rs5_3	project://Imported/audi_rs5/M_audi_rs5_3.plutomaterial
+OBJECT	996267628675184794	Material	M_audi_rs5_4	project://Imported/audi_rs5/M_audi_rs5_4.plutomaterial
+OBJECT	996268728186813005	Material	M_audi_rs5_5	project://Imported/audi_rs5/M_audi_rs5_5.plutomaterial
+OBJECT	996265429651928372	Material	M_audi_rs5_6	project://Imported/audi_rs5/M_audi_rs5_6.plutomaterial
+OBJECT	996266529163556583	Material	M_audi_rs5_7	project://Imported/audi_rs5/M_audi_rs5_7.plutomaterial
+OBJECT	996254434535646262	Material	M_audi_rs5_8	project://Imported/audi_rs5/M_audi_rs5_8.plutomaterial
+OBJECT	996255534047274473	Material	M_audi_rs5_9	project://Imported/audi_rs5/M_audi_rs5_9.plutomaterial
+OBJECT	16572380736006804931	Material	M_audi_rs5_10	project://Imported/audi_rs5/M_audi_rs5_10.plutomaterial
