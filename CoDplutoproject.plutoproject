@@ -207,10 +207,10 @@ ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87
 ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
 ASSET	project://Managed/CoD.Scripts.dll	146944	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	56788	Unknown
+ASSET	project://Managed/CoD.Scripts.pdb	56748	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
-ASSET	project://Managed/PlutoGE.ScriptCore.dll	212480	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	76216	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.dll	214016	Assembly
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	76836	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	369	Unknown
 ASSET	project://Materials/BulletHole.plutomaterial	473	Material
 ASSET	project://Materials/Ground.plutomaterial	492	Material
