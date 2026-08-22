@@ -89,7 +89,7 @@ Parameter 0 "Intensity" "0.100000" 0
 Parameter 0 "Threshold" "2.000000" 0
 Parameter 0 "Scale" "1.000000" 0
 Parameter 0 "Ghost Dispersal" "0.550000" 0
-Effect "FXAA" 1 1
+Effect "FXAA" 0 1
 Parameter 4 "Quality" "1" 2 "2x" "4x"
 Effect "TAA" 1 10
 Parameter 4 "Quality" "0" 2 "Balanced" "High"
@@ -100,7 +100,7 @@ Parameter 0 "Sharpening" "1.000000" 0
 Parameter 0 "Depth Rejection Threshold" "0.003500" 0
 Parameter 0 "Normal Rejection Threshold" "0.820000" 0
 Parameter 0 "Velocity Rejection Scale" "80.000000" 0
-Parameter 0 "Jitter Strength" "0.200000" 0
+Parameter 0 "Jitter Strength" "1.000000" 0
 Parameter 3 "Jitter Enabled" "true" 0
 Effect "SceneComposite" 1 2
 Parameter 3 "Enable SSGI" "false" 0
