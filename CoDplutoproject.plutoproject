@@ -4,13 +4,13 @@ ASSET_DIR	Assets
 STARTUP_SCENE	project://Scenes/car_scene.plutoscene
 SCRIPT_ASSEMBLY	project://Managed/CoD.Scripts.dll
 WINDOW_TITLE	CoD
-WINDOW_SIZE	1280	720
-VSYNC	1
+WINDOW_SIZE	1920	1080
+VSYNC	0
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	30.2018	2.61089	4.6725
+EDITOR_CAMERA_POSITION	-144.241	8.0023	381.921
 EDITOR_CAMERA_SPEED	6
-EDITOR_CAMERA_ROTATION	-2425.71	6.3598
+EDITOR_CAMERA_ROTATION	-2531.36	-21.0003
 EDITOR_CAMERA_LENS	70	0.1	1000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/main.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -205,12 +205,13 @@ ASSET	project://Imported/scene/Textures/Grass_green.007_normal.png	139268	Textur
 ASSET	project://Imported/scene/Textures/Grass_green.014_baseColor.png	367821	Texture
 ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87934	Texture
 ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
+ASSET	project://Input/car.plutoinput	1886	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	146944	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	56748	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	139264	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	47088	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
-ASSET	project://Managed/PlutoGE.ScriptCore.dll	214016	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	76836	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.dll	214528	Assembly
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	76972	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	369	Unknown
 ASSET	project://Materials/BulletHole.plutomaterial	473	Material
 ASSET	project://Materials/Ground.plutomaterial	492	Material
@@ -276,7 +277,7 @@ ASSET	project://Particles/smoke.plutoparticles	1517	Particle System
 ASSET	project://PostProcessing/main.plutopostprocess	4519	Post Process Preset
 ASSET	project://Prefabs/AmmoPickup.plutoprefab	1889	Prefab
 ASSET	project://Prefabs/ArmourPickup.plutoprefab	1894	Prefab
-ASSET	project://Prefabs/Car.plutoprefab	34669	Prefab
+ASSET	project://Prefabs/Car.plutoprefab	33482	Prefab
 ASSET	project://Prefabs/Enemy.plutoprefab	16986	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1895	Prefab
 ASSET	project://Prefabs/Lightsaber.plutoprefab	1943	Prefab
@@ -289,7 +290,7 @@ ASSET	project://Prefabs/Tree_Static_Material_0.plutomaterial	452	Material
 ASSET	project://Prefabs/Tree_Static_Material_1.plutomaterial	452	Material
 ASSET	project://Scenes/Main.plutoscene	131929	Scene
 ASSET	project://Scenes/Title.plutoscene	7275	Scene
-ASSET	project://Scenes/car_scene.plutoscene	113538	Scene
+ASSET	project://Scenes/car_scene.plutoscene	109180	Scene
 ASSET	project://Scenes/island.plutoscene	8662573	Scene
 ASSET	project://Scenes/ragdoll_test.plutoscene	20911	Scene
 ASSET	project://Scripts/EnemySoldierBot.cs	28714	Script
@@ -307,7 +308,7 @@ ASSET	project://Scripts/SupplyPickup.cs	2143	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
 ASSET	project://Scripts/TitleScreen.cs	3209	Script
 ASSET	project://Scripts/UIManager.cs	6373	Script
-ASSET	project://Scripts/VehicleSpeedometer.cs	4245	Script
+ASSET	project://Scripts/VehicleSpeedometer.cs	5296	Script
 ASSET	project://Sounds/engine.wav	760364	Audio
 ASSET	project://Sounds/footsteps.wav	728108	Audio
 ASSET	project://Sounds/gun_shot.wav	59456	Audio
@@ -425,7 +426,7 @@ ASSET	project://SourceModels/animation_low-poly_val/animation_low-poly_val.pluto
 ASSET	project://SourceModels/animation_low-poly_val/animation_low-poly_val_1.plutomesh	2611229	Mesh
 ASSET	project://SourceModels/audi_rs5/.plutoge-cache/meshes/4995873181365222494.pmesh	451312288	Unknown
 ASSET	project://SourceModels/audi_rs5/M_audi_rs5_0.plutomaterial	642	Material
-ASSET	project://SourceModels/audi_rs5/M_audi_rs5_1.plutomaterial	526	Material
+ASSET	project://SourceModels/audi_rs5/M_audi_rs5_1.plutomaterial	533	Material
 ASSET	project://SourceModels/audi_rs5/M_audi_rs5_10.plutomaterial	506	Material
 ASSET	project://SourceModels/audi_rs5/M_audi_rs5_2.plutomaterial	540	Material
 ASSET	project://SourceModels/audi_rs5/M_audi_rs5_3.plutomaterial	534	Material

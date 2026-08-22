@@ -12,6 +12,7 @@ public sealed class VehicleSpeedometer : ScriptBehaviour
     [SerializedField] private bool useMph = true;
     [SerializedField] private float maximumDisplaySpeed = 200.0f;
     [SerializedField] private float needleResponse = 12.0f;
+    [SerializedField] private float uiUpdateRate = 30.0f;
 
     private RmlDocument? _document;
     private RmlElement? _speed;
@@ -27,6 +28,9 @@ public sealed class VehicleSpeedometer : ScriptBehaviour
     private int _lastSpeed = -1;
     private int _lastRpm = -1;
     private int _lastGear = int.MinValue;
+    private bool? _lastUseMph;
+    private bool? _lastNearRedline;
+    private float _uiUpdateTimer;
     private bool _domReady;
 
     public override void OnCreate()
@@ -62,7 +66,21 @@ public sealed class VehicleSpeedometer : ScriptBehaviour
 
         // Rml documents become live after their first context update; retry until styling succeeds.
         if (!_domReady)
+        {
             _domReady = _speedNeedle?.SetStyle("transform", "rotate(-130deg)") == true;
+            if (!_domReady)
+                return;
+        }
+
+        // Crossing into RmlUi and invalidating styles/layout is considerably more expensive than
+        // sampling telemetry. Keep the smoothing above at simulation rate, but publish the HUD at
+        // a stable visual rate. Thirty updates per second is fluid for dashboard instruments and
+        // halves this work at 60 FPS (with a larger saving at uncapped editor frame rates).
+        _uiUpdateTimer += MathF.Max(0.0f, deltaTime);
+        var updateInterval = 1.0f / Math.Clamp(uiUpdateRate, 1.0f, 120.0f);
+        if (_uiUpdateTimer < updateInterval)
+            return;
+        _uiUpdateTimer %= updateInterval;
 
         var speedValue = Math.Max(0, (int)MathF.Round(_displaySpeed));
         var rpmValue = Math.Max(0, (int)MathF.Round(telemetry.EngineRpm / 100.0f) * 100);
@@ -82,7 +100,11 @@ public sealed class VehicleSpeedometer : ScriptBehaviour
             if (_gear is not null) _gear.Markup = telemetry.Gear < 0 ? "R" : telemetry.Gear == 0 ? "N" : telemetry.Gear.ToString(CultureInfo.InvariantCulture);
         }
 
-        if (_unit is not null) _unit.Markup = useMph ? "MPH" : "KM/H";
+        if (useMph != _lastUseMph)
+        {
+            _lastUseMph = useMph;
+            if (_unit is not null) _unit.Markup = useMph ? "MPH" : "KM/H";
+        }
         var speed01 = Math.Clamp(_displaySpeed / MathF.Max(1.0f, maximumDisplaySpeed), 0.0f, 1.0f);
         var speedAngle = -130.0f + speed01 * 260.0f;
         var rpmAngle = -130.0f + _displayRpm01 * 260.0f;
@@ -90,8 +112,12 @@ public sealed class VehicleSpeedometer : ScriptBehaviour
         _rpmNeedle?.SetStyle("transform", $"rotate({F(rpmAngle)}deg)");
         _revArc?.SetStyle("width", $"{F(_displayRpm01 * 100.0f)}%");
         var nearRedline = _displayRpm01 >= 0.88f;
-        _shiftLight?.SetClass("active", nearRedline);
-        _rpm?.SetClass("redline", nearRedline);
+        if (nearRedline != _lastNearRedline)
+        {
+            _lastNearRedline = nearRedline;
+            _shiftLight?.SetClass("active", nearRedline);
+            _rpm?.SetClass("redline", nearRedline);
+        }
     }
 
     private static string F(float value) => value.ToString("0.##", CultureInfo.InvariantCulture);

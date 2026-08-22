@@ -1,0 +1,50 @@
+{
+  "Actions": [
+    {
+      "Name": "Throttle",
+      "Bindings": [
+        { "Kind": "GamepadAxis", "Key": "Space", "Button": "A", "Axis": "RightTrigger", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 },
+        { "Kind": "Key", "Key": "W", "Button": "A", "Axis": "LeftX", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 }
+      ]
+    },
+    {
+      "Name": "Brake",
+      "Bindings": [
+        { "Kind": "GamepadAxis", "Key": "Space", "Button": "A", "Axis": "LeftTrigger", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 },
+        { "Kind": "Key", "Key": "S", "Button": "A", "Axis": "LeftX", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 }
+      ]
+    },
+    {
+      "Name": "Steer",
+      "Bindings": [
+        { "Kind": "GamepadAxis", "Key": "Space", "Button": "A", "Axis": "LeftX", "Gamepad": 0, "Scale": -1, "DeadZone": 0.15 }
+      ]
+    },
+    {
+      "Name": "Recover",
+      "Bindings": [
+        { "Kind": "Key", "Key": "R", "Button": "A", "Axis": "LeftX", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 },
+        { "Kind": "GamepadButton", "Key": "Space", "Button": "RightBumper", "Axis": "LeftX", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 }
+      ]
+    },
+    {
+      "Name": "Handbrake",
+      "Bindings": [
+        { "Kind": "Key", "Key": "Space", "Button": "A", "Axis": "LeftX", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 },
+        { "Kind": "GamepadButton", "Key": "Space", "Button": "A", "Axis": "LeftX", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 }
+      ]
+    },
+    {
+      "Name": "CameraOrbitHorizontal",
+      "Bindings": [
+        { "Kind": "GamepadAxis", "Key": "Space", "Button": "A", "Axis": "RightX", "Gamepad": 0, "Scale": -1, "DeadZone": 0.15 }
+      ]
+    },
+    {
+      "Name": "CameraOrbitVertical",
+      "Bindings": [
+        { "Kind": "GamepadAxis", "Key": "Space", "Button": "A", "Axis": "RightY", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 }
+      ]
+    }
+  ]
+}
