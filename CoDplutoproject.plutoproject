@@ -8,9 +8,9 @@ WINDOW_SIZE	1920	1080
 VSYNC	0
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	21.8192	1.6274	18.5438
+EDITOR_CAMERA_POSITION	-187.507	30.5034	137.441
 EDITOR_CAMERA_SPEED	6
-EDITOR_CAMERA_ROTATION	-2680.92	-9.48011
+EDITOR_CAMERA_ROTATION	-2586.12	16.5599
 EDITOR_CAMERA_LENS	70	0.1	1000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/main.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -274,7 +274,7 @@ ASSET	project://Packs/AnimationPack/Walk_Formal_Loop.plutoclip	195803	Animation 
 ASSET	project://Packs/AnimationPack/Walk_Loop.plutoclip	195796	Animation Clip
 ASSET	project://Particles/MuzzleFlash.plutoparticles	864	Particle System
 ASSET	project://Particles/smoke.plutoparticles	1517	Particle System
-ASSET	project://PostProcessing/main.plutopostprocess	6068	Post Process Preset
+ASSET	project://PostProcessing/main.plutopostprocess	5275	Post Process Preset
 ASSET	project://Prefabs/AmmoPickup.plutoprefab	1889	Prefab
 ASSET	project://Prefabs/ArmourPickup.plutoprefab	1894	Prefab
 ASSET	project://Prefabs/Car.plutoprefab	33482	Prefab
