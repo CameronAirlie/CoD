@@ -17,7 +17,9 @@
     {
       "Name": "Steer",
       "Bindings": [
-        { "Kind": "GamepadAxis", "Key": "Space", "Button": "A", "Axis": "LeftX", "Gamepad": 0, "Scale": -1, "DeadZone": 0.15 }
+        { "Kind": "GamepadAxis", "Key": "Space", "Button": "A", "Axis": "LeftX", "Gamepad": 0, "Scale": -1, "DeadZone": 0.15 },
+        { "Kind": "Key", "Key": "A", "Button": "A", "Axis": "LeftX", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 },
+        { "Kind": "Key", "Key": "D", "Button": "A", "Axis": "LeftX", "Gamepad": 0, "Scale": -1, "DeadZone": 0.15 }
       ]
     },
     {
