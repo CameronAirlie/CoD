@@ -1050,22 +1050,40 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 bot.HasNavigationDestination = false;
             }
 
+            var navigationDistance = bot.HasNavigationDestination
+                ? HorizontalDistance(botPosition, bot.NavigationDestination)
+                : float.MaxValue;
             var arrived = bot.HasNavigationDestination &&
-                HorizontalDistance(botPosition, bot.NavigationDestination) <=
-                MathF.Max(0.1f, botNavigationArrivalDistance);
+                navigationDistance <= MathF.Max(0.1f, botNavigationArrivalDistance);
+            // Start the incremental tactical search before the current path is
+            // exhausted. With several bots sharing the think budget, waiting
+            // until arrival produced a conspicuous move-stop-move cadence.
+            var nearingDestination = bot.HasNavigationDestination &&
+                navigationDistance <= MathF.Max(
+                    MathF.Max(0.1f, botNavigationArrivalDistance),
+                    MathF.Max(2.0f, botPreferredRange * 0.35f));
             var targetMovedSincePlan = bot.HasNavigationDestination &&
                 HorizontalDistance(targetPosition, bot.TargetPositionAtPlan) >=
                 MathF.Max(1.0f, botTargetReplanDistance);
-            if (arrived)
-                bot.HasNavigationDestination = false;
 
             if (canThink && !bot.IsEngaging &&
-                (!bot.HasNavigationDestination || targetMovedSincePlan ||
+                (!bot.HasNavigationDestination || nearingDestination || targetMovedSincePlan ||
                  _time >= bot.NavigationMoveDeadline) &&
                 _time >= bot.NextNavigationAt)
             {
                 var searchResult = AdvanceBotTacticalDestinationSearch(
                     bot, targetId, targetObject, out var destination);
+                // A tactical ring can be unavailable in narrow or partially
+                // baked areas. Fall back to the nearest navigable point toward
+                // the opponent so an unseen target does not leave the bot idle
+                // until line-of-sight happens to be established.
+                if (searchResult == TacticalSearchResult.Failed &&
+                    TryProjectBotNavigationPosition(targetPosition, out var chaseDestination) &&
+                    TryValidateBotNavigationDestination(botPosition, chaseDestination))
+                {
+                    destination = chaseDestination;
+                    searchResult = TacticalSearchResult.Found;
+                }
                 if (searchResult == TacticalSearchResult.Found)
                 {
                     bot.GameObject.TryInvoke(
@@ -1079,6 +1097,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 }
                 if (searchResult != TacticalSearchResult.Pending)
                     bot.NextNavigationAt = _time + MathF.Max(0.05f, botNavigationRefreshInterval);
+                if (searchResult == TacticalSearchResult.Failed && arrived)
+                    bot.HasNavigationDestination = false;
                 thought = true;
             }
             // Once engaging, the fixed combat hold point owns locomotion and
@@ -1252,6 +1272,9 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 continue;
             var rangeError = MathF.Abs(targetDistance - radius);
             var travelDistance = Vector3.Distance(bot.TacticalSearchOrigin, candidate);
+            if (travelDistance <= MathF.Max(
+                    2.0f, MathF.Max(0.1f, botNavigationArrivalDistance) * 2.0f))
+                continue;
             var centreDistance = navigationMesh is null
                 ? 0.0f
                 : HorizontalDistance(candidate, navigationMesh.WorldPosition);

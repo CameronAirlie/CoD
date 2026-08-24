@@ -1,7 +1,7 @@
 SCENE	1
-ENTITY	156	0	1	Enemy	0.000000,2.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	156	0	1	Enemy	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 TAGS	156	1	Enemy
-COMPONENT	156	ColliderComponent
+COMPONENT	156	ColliderComponent	1
 PROPERTY	Shape	6	2	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,-0.250000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -10,8 +10,9 @@ PROPERTY	Height	0	1.500000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	156	ScriptComponent
+COMPONENT	156	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.EnemySoldierBot	0
+PROPERTY	remoteProxy	4	false	0
 PROPERTY	target	9	1	0
 PROPERTY	animationObject	9	156	0
 PROPERTY	gunAudioObject	9	157	0
@@ -56,8 +57,8 @@ PROPERTY	hasTargetParameter	2	HasTarget	0
 PROPERTY	shootTriggerParameter	2	Shoot	0
 PROPERTY	hitTriggerParameter	2	Hit	0
 PROPERTY	deathCleanupDelay	0	4.000000	0
-PROPERTY	tacticalRepathMax	0	1.250000	0
 PROPERTY	tacticalRepathMin	0	0.650000	0
+PROPERTY	tacticalRepathMax	0	1.250000	0
 PROPERTY	idleAnimation	2	Idle	0
 PROPERTY	strafeSpeed	0	2.200000	0
 PROPERTY	fireAnimation	2	Shoot	0
@@ -67,22 +68,7 @@ PROPERTY	retreatRange	0	7.000000	0
 PROPERTY	flankAngle	0	55.000000	0
 PROPERTY	moveAnimation	2	Walk	0
 END_COMPONENT
-COMPONENT	156	NavAgentComponent
-PROPERTY	Speed	0	4.800000	0
-PROPERTY	Acceleration	0	10.000000	0
-PROPERTY	Stopping Distance	0	0.750000	0
-PROPERTY	Repath Interval	0	0.200000	0
-PROPERTY	Avoidance Distance	0	1.500000	0
-PROPERTY	Turn Speed	0	360.000000	0
-PROPERTY	Agent Radius	0	0.500000	0
-PROPERTY	Agent Height	0	2.000000	0
-PROPERTY	Rotate To Velocity	4	true	0
-PROPERTY	Navigate On Start	4	true	0
-PROPERTY	Destination	3	0.000000,0.000000,0.000000	0
-PROPERTY	Target Entity	9	162	0
-PROPERTY	Navigation Mesh	9	707	0
-END_COMPONENT
-COMPONENT	156	RigidbodyComponent
+COMPONENT	156	RigidbodyComponent	1
 PROPERTY	Mass	0	1.000000	0
 PROPERTY	Linear Drag	0	0.000000	0
 PROPERTY	Angular Drag	0	0.050000	0
@@ -90,38 +76,23 @@ PROPERTY	Friction	0	1.800000	0
 PROPERTY	Use Gravity	4	true	0
 PROPERTY	Is Kinematic	4	true	0
 PROPERTY	Freeze Rotation	4	true	0
+PROPERTY	Center Of Mass	3	0.000000,0.000000,0.000000	0
 PROPERTY	Velocity	3	0.000000,0.000000,0.000000	0
 PROPERTY	Angular Velocity	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	157	156	1	Audio	0.000000,0.000000,-0.671811	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	157	SoundEmitterComponent
-PROPERTY	Clip	2	project://Sounds/gun_shot.wav	0
-PROPERTY	PlayOnAwake	4	false	0
-PROPERTY	Looping	4	false	0
-PROPERTY	Spatialized	4	true	0
-PROPERTY	Volume	0	1.000000	0
-PROPERTY	Pitch	0	1.000000	0
-PROPERTY	MinDistance	0	1.000000	0
-PROPERTY	MaxDistance	0	30.000000	0
-PROPERTY	Rolloff	0	0.100000	0
-PROPERTY	OcclusionStrength	0	1.000000	0
-PROPERTY	AirAbsorptionStrength	0	1.000000	0
-PROPERTY	LowPassStrength	0	0.000000	0
-END_COMPONENT
-ENTITY	159	156	1	UAL1_Standard	0.000000,0.000000,0.000000	0.000000,180.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	156	AnimationComponent
+COMPONENT	156	AnimationComponent	1
 PROPERTY	SourceAnimation	2	project://Packs/AnimationPack/UAL1_Standard Animations.plutoanim	0
 PROPERTY	AnimationGraph	2	project://AnimGraphs/enemy.plutoanimgraph	0
-PROPERTY	PoseUpdateRate	0	30.000000	0
-PROPERTY	CurrentClipIndex	6	48	53	A_TPose	Crouch_Fwd_Loop	Crouch_Idle_Loop	Dance_Loop	Death01	Driving_Loop	Fixing_Kneeling	Hit_Chest	Hit_Head	Idle_Loop	Idle_Talking_Loop	Idle_Torch_Loop	Interact	Jog_Fwd_Loop	Jump_Land	Jump_Loop	Jump_Start	PickUp_Table	Pistol_Aim_Down	Pistol_Aim_Neutral	Pistol_Aim_Up	Pistol_Idle_Loop	Pistol_Reload	Pistol_Shoot	Punch_Cross	Punch_Jab	Push_Loop	Roll	Sitting_Enter	Sitting_Exit	Sitting_Idle_Loop	Sitting_Talking_Loop	Spell_Simple_Enter	Spell_Simple_Exit	Spell_Simple_Idle_Loop	Spell_Simple_Shoot	Sprint_Loop	Swim_Fwd_Loop	Swim_Idle_Loop	Sword_Attack	Sword_Idle	Walk_Formal_Loop	Walk_Loop	UAL1_Standard_Idle_Loop_9	UAL1_Standard_Walk_Loop_42	UAL1_Standard_Pistol_Shoot_23	UAL1_Standard_Pistol_Aim_Neutral_19	UAL1_Standard_Death01_4	UAL1_Standard_Idle_Loop_9	UAL1_Standard_Walk_Loop_42	UAL1_Standard_Pistol_Shoot_23	UAL1_Standard_Pistol_Aim_Neutral_19	UAL1_Standard_Death01_4
-PROPERTY	Time	0	1.637941	0
+PROPERTY	CurrentClipIndex	6	50	57	A_TPose	Crouch_Fwd_Loop	Crouch_Idle_Loop	Dance_Loop	Death01	Driving_Loop	Fixing_Kneeling	Hit_Chest	Hit_Head	Idle_Loop	Idle_Talking_Loop	Idle_Torch_Loop	Interact	Jog_Fwd_Loop	Jump_Land	Jump_Loop	Jump_Start	PickUp_Table	Pistol_Aim_Down	Pistol_Aim_Neutral	Pistol_Aim_Up	Pistol_Idle_Loop	Pistol_Reload	Pistol_Shoot	Punch_Cross	Punch_Jab	Push_Loop	Roll	Sitting_Enter	Sitting_Exit	Sitting_Idle_Loop	Sitting_Talking_Loop	Spell_Simple_Enter	Spell_Simple_Exit	Spell_Simple_Idle_Loop	Spell_Simple_Shoot	Sprint_Loop	Swim_Fwd_Loop	Swim_Idle_Loop	Sword_Attack	Sword_Idle	Walk_Formal_Loop	Walk_Loop	Pistol_Idle_Loop	Jog_Fwd_Loop	Sprint_Loop	Pistol_Shoot	Pistol_Aim_Neutral	Hit_Chest	Death01	Pistol_Idle_Loop	Jog_Fwd_Loop	Sprint_Loop	Pistol_Shoot	Pistol_Aim_Neutral	Hit_Chest	Death01
+PROPERTY	Time	0	0.000000	0
 PROPERTY	Speed	0	1.000000	0
 PROPERTY	Playing	4	true	0
 PROPERTY	Looping	4	true	0
 PROPERTY	Autoplay	4	true	0
+PROPERTY	PoseUpdateRate	0	30.000000	0
 PROPERTY	RagdollEnabled	4	false	0
 PROPERTY	RagdollWeight	0	1.000000	0
-PROPERTY	ClipCount	1	53	0
+PROPERTY	ClipCount	1	57	0
 PROPERTY	Clips.0.Name	2	A_TPose	0
 PROPERTY	Clips.0.Duration	0	2.500000	0
 PROPERTY	Clips.0.ChannelCount	1	195	0
@@ -251,46 +222,89 @@ PROPERTY	Clips.41.ChannelCount	1	195	0
 PROPERTY	Clips.42.Name	2	Walk_Loop	0
 PROPERTY	Clips.42.Duration	0	1.333333	0
 PROPERTY	Clips.42.ChannelCount	1	195	0
-PROPERTY	Clips.43.Name	2	UAL1_Standard_Idle_Loop_9	0
-PROPERTY	Clips.43.Duration	0	2.500000	0
+PROPERTY	Clips.43.Name	2	Pistol_Idle_Loop	0
+PROPERTY	Clips.43.Duration	0	1.666667	0
 PROPERTY	Clips.43.ChannelCount	1	195	0
-PROPERTY	Clips.44.Name	2	UAL1_Standard_Walk_Loop_42	0
-PROPERTY	Clips.44.Duration	0	1.333333	0
+PROPERTY	Clips.44.Name	2	Jog_Fwd_Loop	0
+PROPERTY	Clips.44.Duration	0	0.933333	0
 PROPERTY	Clips.44.ChannelCount	1	195	0
-PROPERTY	Clips.45.Name	2	UAL1_Standard_Pistol_Shoot_23	0
-PROPERTY	Clips.45.Duration	0	0.633333	0
+PROPERTY	Clips.45.Name	2	Sprint_Loop	0
+PROPERTY	Clips.45.Duration	0	0.666667	0
 PROPERTY	Clips.45.ChannelCount	1	195	0
-PROPERTY	Clips.46.Name	2	UAL1_Standard_Pistol_Aim_Neutral_19	0
-PROPERTY	Clips.46.Duration	0	0.166667	0
+PROPERTY	Clips.46.Name	2	Pistol_Shoot	0
+PROPERTY	Clips.46.Duration	0	0.633333	0
 PROPERTY	Clips.46.ChannelCount	1	195	0
-PROPERTY	Clips.47.Name	2	UAL1_Standard_Death01_4	0
-PROPERTY	Clips.47.Duration	0	2.400000	0
+PROPERTY	Clips.47.Name	2	Pistol_Aim_Neutral	0
+PROPERTY	Clips.47.Duration	0	0.166667	0
 PROPERTY	Clips.47.ChannelCount	1	195	0
-PROPERTY	Clips.48.Name	2	UAL1_Standard_Idle_Loop_9	0
-PROPERTY	Clips.48.Duration	0	2.500000	0
+PROPERTY	Clips.48.Name	2	Hit_Chest	0
+PROPERTY	Clips.48.Duration	0	0.333333	0
 PROPERTY	Clips.48.ChannelCount	1	195	0
-PROPERTY	Clips.49.Name	2	UAL1_Standard_Walk_Loop_42	0
-PROPERTY	Clips.49.Duration	0	1.333333	0
+PROPERTY	Clips.49.Name	2	Death01	0
+PROPERTY	Clips.49.Duration	0	2.400000	0
 PROPERTY	Clips.49.ChannelCount	1	195	0
-PROPERTY	Clips.50.Name	2	UAL1_Standard_Pistol_Shoot_23	0
-PROPERTY	Clips.50.Duration	0	0.633333	0
+PROPERTY	Clips.50.Name	2	Pistol_Idle_Loop	0
+PROPERTY	Clips.50.Duration	0	1.666667	0
 PROPERTY	Clips.50.ChannelCount	1	195	0
-PROPERTY	Clips.51.Name	2	UAL1_Standard_Pistol_Aim_Neutral_19	0
-PROPERTY	Clips.51.Duration	0	0.166667	0
+PROPERTY	Clips.51.Name	2	Jog_Fwd_Loop	0
+PROPERTY	Clips.51.Duration	0	0.933333	0
 PROPERTY	Clips.51.ChannelCount	1	195	0
-PROPERTY	Clips.52.Name	2	UAL1_Standard_Death01_4	0
-PROPERTY	Clips.52.Duration	0	2.400000	0
+PROPERTY	Clips.52.Name	2	Sprint_Loop	0
+PROPERTY	Clips.52.Duration	0	0.666667	0
 PROPERTY	Clips.52.ChannelCount	1	195	0
+PROPERTY	Clips.53.Name	2	Pistol_Shoot	0
+PROPERTY	Clips.53.Duration	0	0.633333	0
+PROPERTY	Clips.53.ChannelCount	1	195	0
+PROPERTY	Clips.54.Name	2	Pistol_Aim_Neutral	0
+PROPERTY	Clips.54.Duration	0	0.166667	0
+PROPERTY	Clips.54.ChannelCount	1	195	0
+PROPERTY	Clips.55.Name	2	Hit_Chest	0
+PROPERTY	Clips.55.Duration	0	0.333333	0
+PROPERTY	Clips.55.ChannelCount	1	195	0
+PROPERTY	Clips.56.Name	2	Death01	0
+PROPERTY	Clips.56.Duration	0	2.400000	0
+PROPERTY	Clips.56.ChannelCount	1	195	0
 END_COMPONENT
-COMPONENT	156	ActiveRagdollComponent
+COMPONENT	156	NavAgentComponent	1
+PROPERTY	Speed	0	4.800000	0
+PROPERTY	Acceleration	0	10.000000	0
+PROPERTY	Stopping Distance	0	0.750000	0
+PROPERTY	Repath Interval	0	0.200000	0
+PROPERTY	Avoidance Distance	0	1.500000	0
+PROPERTY	Turn Speed	0	360.000000	0
+PROPERTY	Agent Radius	0	0.500000	0
+PROPERTY	Agent Height	0	2.000000	0
+PROPERTY	Rotate To Velocity	4	true	0
+PROPERTY	Navigate On Start	4	true	0
+PROPERTY	Destination	3	0.000000,0.000000,0.000000	0
+PROPERTY	Target Entity	9	162	0
+PROPERTY	Navigation Mesh	9	707	0
+END_COMPONENT
+COMPONENT	156	ActiveRagdollComponent	1
 PROPERTY	PositionStrength	0	35.000000	0
 PROPERTY	RotationStrength	0	18.000000	0
 PROPERTY	Damping	0	8.000000	0
 PROPERTY	MaxForce	0	1200.000000	0
 PROPERTY	MaxTorque	0	80.000000	0
 END_COMPONENT
+ENTITY	157	156	1	Audio	0.000000,0.000000,-0.671811	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	157	SoundEmitterComponent	1
+PROPERTY	Clip	2	project://Sounds/gun_shot.wav	0
+PROPERTY	PlayOnAwake	4	false	0
+PROPERTY	Looping	4	false	0
+PROPERTY	Spatialized	4	true	0
+PROPERTY	Volume	0	1.000000	0
+PROPERTY	Pitch	0	1.000000	0
+PROPERTY	MinDistance	0	1.000000	0
+PROPERTY	MaxDistance	0	30.000000	0
+PROPERTY	Rolloff	0	0.100000	0
+PROPERTY	OcclusionStrength	0	1.000000	0
+PROPERTY	AirAbsorptionStrength	0	1.000000	0
+PROPERTY	LowPassStrength	0	0.000000	0
+END_COMPONENT
+ENTITY	159	156	1	UAL1_Standard	0.000000,0.000000,0.000000	0.000000,180.000000,0.000000	1.000000,1.000000,1.000000
 ENTITY	160	159	1	Mannequin	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	160	MeshComponent
+COMPONENT	160	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	0	0
@@ -302,15 +316,15 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,-1.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	2509	160	1	Joint 6 - Head	-0.022724,0.521253,0.005071	12.404973,-1.963749,3.334854	1.000000,1.000000,1.000000
+ENTITY	2509	160	1	Joint 6 - Head	-0.021321,0.521621,0.014549	22.304100,0.141954,10.108565	1.000000,1.000000,1.000000
 TAGS	2509	1	SkeletonAttachment
-COMPONENT	2509	SkeletonAttachmentComponent
+COMPONENT	2509	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	0	0
 PROPERTY	JointName	2	Head	0
 END_COMPONENT
 ENTITY	2568	2509	1	HeadCollider	-0.000167,0.131896,-0.000004	-0.000003,-0.000010,-0.000009	0.230001,0.154475,0.230002
 TAGS	2568	1	Head
-COMPONENT	2568	ColliderComponent
+COMPONENT	2568	ColliderComponent	1
 PROPERTY	Shape	6	2	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -319,18 +333,18 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	2568	ScriptComponent
+COMPONENT	2568	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.NetworkParticipantHitbox	0
 PROPERTY	participant	9	156	0
 END_COMPONENT
-ENTITY	2537	160	1	Joint 34 - hand_r	-0.290562,-0.094421,-0.162979	-32.595554,3.838058,171.564285	1.000000,1.000000,1.000000
+ENTITY	2537	160	1	Joint 34 - hand_r	-0.188609,0.398682,0.398868	-100.640251,-2.679434,-178.754105	1.000000,1.000000,1.000000
 TAGS	2537	1	SkeletonAttachment
-COMPONENT	2537	SkeletonAttachmentComponent
+COMPONENT	2537	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	46	0
 PROPERTY	JointName	2	hand_r	0
 END_COMPONENT
 ENTITY	161	159	1	Mannequin	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	161	MeshComponent
+COMPONENT	161	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	1	0
@@ -344,7 +358,7 @@ PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
 ENTITY	162	156	1	Tactical Destination	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 ENTITY	6000	156	1	Friendly Nameplate	0.000000,1.250000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	6000	CanvasComponent
+COMPONENT	6000	CanvasComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	RenderMode	6	3	4	Screen Space	World Screen Space	Screen Space Camera	World Space
 PROPERTY	ScaleMode	6	2	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
@@ -356,9 +370,10 @@ PROPERTY	SortingOrder	1	20	0
 PROPERTY	WorldSizeMode	6	0	3	WorldUnits	ConstantScreenSize	DistanceScaled
 PROPERTY	FaceCamera	4	true	0
 PROPERTY	Backend	6	1	2	Legacy Native	RmlUi
+PROPERTY	ContentSource	6	0	2	RML Document	Text
 PROPERTY	DocumentPath	2	UI/friendly-nameplate.rml	0
 END_COMPONENT
-COMPONENT	6000	RectTransformComponent
+COMPONENT	6000	RectTransformComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
 PROPERTY	AnchoredPosition	7	0.000000,0.000000	0

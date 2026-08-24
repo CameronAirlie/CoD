@@ -175,9 +175,15 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         var detectionRangeSquared = detectionRange * detectionRange;
         if (distanceSquared > detectionRangeSquared || distanceSquared < 0.000001f)
         {
+            // Keep the idle patrol state progressing even while the target is
+            // outside perception. Previously this early return skipped arrival
+            // and timeout handling, so the first destination became permanent
+            // and bots appeared to wake up only when an enemy came into range.
+            UpdatePositioning(position);
+            UpdateNavigationTarget();
             TurnTowardsNavigation(deltaTime);
             _spottedAt = float.MaxValue;
-            SetAnimationFloat(movementSpeedParameter, 0.0f);
+            SetAnimationFloat(movementSpeedParameter, navigationSpeed);
             SetAnimationBool(hasTargetParameter, false);
             return;
         }
