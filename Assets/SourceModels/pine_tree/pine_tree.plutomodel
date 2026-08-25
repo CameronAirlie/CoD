@@ -1,0 +1,12 @@
+PLUTOMODEL	1
+SOURCE	project://SourceModels/pine_tree/pine_tree.gltf
+SOURCE_ID	1c6e4c36fcbb00d54339cff6577405cc
+SOURCE_HASH	17235658081821703044
+IMPORTER_VERSION	2
+OBJECT	15562845786109524936	Mesh	pine_tree	project://SourceModels/pine_tree/pine_tree.plutomesh
+OBJECT	9956591123238364003	Texture	Leavs_baseColor	project://SourceModels/pine_tree/textures/Leavs_baseColor.png
+OBJECT	7582598577741425208	Texture	Trank_baseColor	project://SourceModels/pine_tree/textures/Trank_baseColor.png
+OBJECT	13513081228865935939	Texture	Trank_normal	project://SourceModels/pine_tree/textures/Trank_normal.png
+OBJECT	15798012392037265355	Material	M_pine_tree_0	project://SourceModels/pine_tree/M_pine_tree_0.plutomaterial
+OBJECT	15798011292525637144	Material	M_pine_tree_1	project://SourceModels/pine_tree/M_pine_tree_1.plutomaterial
+OBJECT	15798014591060521777	Material	M_pine_tree_2	project://SourceModels/pine_tree/M_pine_tree_2.plutomaterial

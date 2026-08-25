@@ -8,10 +8,10 @@ WINDOW_SIZE	1920	1080
 VSYNC	0
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	558.036	44.6394	358.921
+EDITOR_CAMERA_POSITION	1558.3	41.1198	1971.93
 EDITOR_CAMERA_SPEED	6
-EDITOR_CAMERA_ROTATION	-4644.42	-2.96003
-EDITOR_CAMERA_LENS	70	0.1	1000
+EDITOR_CAMERA_ROTATION	-4456.84	-15.0801
+EDITOR_CAMERA_LENS	70	0.1	10000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/main.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
 ASSET	engine://builtin/material/default-shaded	0	Material
@@ -178,14 +178,6 @@ ASSET	project://Imported/grassv4/Textures/T_0.tga	2097170	Texture
 ASSET	project://Imported/grassv4/Textures/T_1.tga	2097170	Texture
 ASSET	project://Imported/grassv4/grassv4.plutomesh	7102	Mesh
 ASSET	project://Imported/grassv4/grassv4.plutomesh.materials	116	Unknown
-ASSET	project://Imported/pine_tree/M_pine_tree_0.plutomaterial	475	Material
-ASSET	project://Imported/pine_tree/M_pine_tree_1.plutomaterial	526	Material
-ASSET	project://Imported/pine_tree/M_pine_tree_2.plutomaterial	428	Material
-ASSET	project://Imported/pine_tree/Textures/Leavs_baseColor.png	345552	Texture
-ASSET	project://Imported/pine_tree/Textures/Trank_baseColor.png	416855	Texture
-ASSET	project://Imported/pine_tree/Textures/Trank_normal.png	667828	Texture
-ASSET	project://Imported/pine_tree/pine_tree.plutomesh	533519	Mesh
-ASSET	project://Imported/pine_tree/pine_tree.plutomesh.materials	186	Unknown
 ASSET	project://Imported/scene/M_scene_0.plutomaterial	610	Material
 ASSET	project://Imported/scene/M_scene_1.plutomaterial	610	Material
 ASSET	project://Imported/scene/M_scene_10.plutomaterial	610	Material
@@ -205,7 +197,7 @@ ASSET	project://Imported/scene/Textures/Grass_green.007_normal.png	139268	Textur
 ASSET	project://Imported/scene/Textures/Grass_green.014_baseColor.png	367821	Texture
 ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87934	Texture
 ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
-ASSET	project://Input/car.plutoinput	2982	Input Mapping
+ASSET	project://Input/car.plutoinput	2987	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
 ASSET	project://Managed/CoD.Scripts.dll	139264	Assembly
 ASSET	project://Managed/CoD.Scripts.pdb	47224	Unknown
@@ -292,7 +284,7 @@ ASSET	project://Prefabs/Tree_Static_Material_0.plutomaterial	452	Material
 ASSET	project://Prefabs/Tree_Static_Material_1.plutomaterial	452	Material
 ASSET	project://Scenes/Main.plutoscene	131929	Scene
 ASSET	project://Scenes/Title.plutoscene	7275	Scene
-ASSET	project://Scenes/car_scene.plutoscene	2934063	Scene
+ASSET	project://Scenes/car_scene.plutoscene	2954630	Scene
 ASSET	project://Scenes/island.plutoscene	8768106	Scene
 ASSET	project://Scenes/ragdoll_test.plutoscene	20911	Scene
 ASSET	project://Scripts/EnemySoldierBot.cs	29130	Script
@@ -521,16 +513,13 @@ ASSET	project://SourceModels/grassv4/grassv4.glb	538732	Model
 ASSET	project://SourceModels/grassv4/grassv4.plutomesh	7102	Mesh
 ASSET	project://SourceModels/pine_tree/.plutoge-cache/meshes/7926698830897143094.pmesh	534663	Unknown
 ASSET	project://SourceModels/pine_tree/.plutoge-cache/meshes/9056569313017772201.pmesh	533809	Unknown
-ASSET	project://SourceModels/pine_tree/Leavs_baseColor.png	345552	Texture
-ASSET	project://SourceModels/pine_tree/M_pine_tree_0.plutomaterial	589	Material
-ASSET	project://SourceModels/pine_tree/M_pine_tree_1.plutomaterial	526	Material
-ASSET	project://SourceModels/pine_tree/M_pine_tree_2.plutomaterial	428	Material
-ASSET	project://SourceModels/pine_tree/Trank_baseColor.png	416855	Texture
-ASSET	project://SourceModels/pine_tree/Trank_normal.png	667828	Texture
+ASSET	project://SourceModels/pine_tree/M_pine_tree_0.plutomaterial	557	Material
+ASSET	project://SourceModels/pine_tree/M_pine_tree_1.plutomaterial	612	Material
+ASSET	project://SourceModels/pine_tree/M_pine_tree_2.plutomaterial	506	Material
 ASSET	project://SourceModels/pine_tree/imgui.ini	1805	Unknown
 ASSET	project://SourceModels/pine_tree/license.txt	664	Unknown
 ASSET	project://SourceModels/pine_tree/pine_tree.gltf	7042	Model
-ASSET	project://SourceModels/pine_tree/pine_tree.plutomesh	533519	Mesh
+ASSET	project://SourceModels/pine_tree/pine_tree.plutomesh	533531	Mesh
 ASSET	project://SourceModels/pine_tree/scene.bin	189516	Unknown
 ASSET	project://SourceModels/pine_tree/textures/Leavs_baseColor.png	345552	Texture
 ASSET	project://SourceModels/pine_tree/textures/Trank_baseColor.png	416855	Texture

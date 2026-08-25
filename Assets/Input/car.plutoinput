@@ -40,14 +40,14 @@
       "Name": "CameraOrbitHorizontal",
       "Bindings": [
         { "Kind": "GamepadAxis", "Key": "Space", "Button": "A", "Axis": "RightX", "MouseButton": "Left", "MouseAxis": "X", "Gamepad": 0, "Scale": -1, "DeadZone": 0.15 },
-        { "Kind": "MouseAxis", "Key": "Space", "Button": "A", "Axis": "LeftX", "MouseButton": "Left", "MouseAxis": "X", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 }
+        { "Kind": "MouseAxis", "Key": "Space", "Button": "A", "Axis": "LeftX", "MouseButton": "Left", "MouseAxis": "X", "Gamepad": 0, "Scale": -0.1, "DeadZone": 0.15 }
       ]
     },
     {
       "Name": "CameraOrbitVertical",
       "Bindings": [
         { "Kind": "GamepadAxis", "Key": "Space", "Button": "A", "Axis": "RightY", "MouseButton": "Left", "MouseAxis": "X", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 },
-        { "Kind": "MouseAxis", "Key": "Space", "Button": "A", "Axis": "LeftX", "MouseButton": "Left", "MouseAxis": "Y", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 }
+        { "Kind": "MouseAxis", "Key": "Space", "Button": "A", "Axis": "LeftX", "MouseButton": "Left", "MouseAxis": "Y", "Gamepad": 0, "Scale": 0.1, "DeadZone": 0.15 }
       ]
     }
   ]
