@@ -13,6 +13,7 @@ public sealed class VehicleSpeedometer : ScriptBehaviour
     [SerializedField] private float maximumDisplaySpeed = 200.0f;
     [SerializedField] private float needleResponse = 12.0f;
     [SerializedField] private float uiUpdateRate = 30.0f;
+    [SerializedField] private float textUpdateRate = 15.0f;
 
     private RmlDocument? _document;
     private RmlElement? _speed;
@@ -31,6 +32,10 @@ public sealed class VehicleSpeedometer : ScriptBehaviour
     private bool? _lastUseMph;
     private bool? _lastNearRedline;
     private float _uiUpdateTimer;
+    private float _textUpdateTimer;
+    private int _lastSpeedNeedleStep = int.MinValue;
+    private int _lastRpmNeedleStep = int.MinValue;
+    private int _lastRevArcStep = int.MinValue;
     private bool _domReady;
 
     public override void OnCreate()
@@ -72,51 +77,78 @@ public sealed class VehicleSpeedometer : ScriptBehaviour
                 return;
         }
 
-        // Crossing into RmlUi and invalidating styles/layout is considerably more expensive than
-        // sampling telemetry. Keep the smoothing above at simulation rate, but publish the HUD at
-        // a stable visual rate. Thirty updates per second is fluid for dashboard instruments and
-        // halves this work at 60 FPS (with a larger saving at uncapped editor frame rates).
-        _uiUpdateTimer += MathF.Max(0.0f, deltaTime);
+        // Keep simulation-rate smoothing, but cross the managed/native boundary
+        // only at the cadence each visual actually needs. Numeric readouts can
+        // update less often than the analogue motion without appearing stale.
+        var elapsed = MathF.Max(0.0f, deltaTime);
+        _uiUpdateTimer += elapsed;
+        _textUpdateTimer += elapsed;
         var updateInterval = 1.0f / Math.Clamp(uiUpdateRate, 1.0f, 120.0f);
-        if (_uiUpdateTimer < updateInterval)
-            return;
-        _uiUpdateTimer %= updateInterval;
-
-        var speedValue = Math.Max(0, (int)MathF.Round(_displaySpeed));
-        var rpmValue = Math.Max(0, (int)MathF.Round(telemetry.EngineRpm / 100.0f) * 100);
-        if (speedValue != _lastSpeed)
+        if (_uiUpdateTimer >= updateInterval)
         {
-            _lastSpeed = speedValue;
-            if (_speed is not null) _speed.Markup = speedValue.ToString("000", CultureInfo.InvariantCulture);
-        }
-        if (rpmValue != _lastRpm)
-        {
-            _lastRpm = rpmValue;
-            if (_rpm is not null) _rpm.Markup = rpmValue.ToString("N0", CultureInfo.InvariantCulture);
-        }
-        if (telemetry.Gear != _lastGear)
-        {
-            _lastGear = telemetry.Gear;
-            if (_gear is not null) _gear.Markup = telemetry.Gear < 0 ? "R" : telemetry.Gear == 0 ? "N" : telemetry.Gear.ToString(CultureInfo.InvariantCulture);
+            _uiUpdateTimer %= updateInterval;
+            PublishAnalogueVisuals();
         }
 
-        if (useMph != _lastUseMph)
+        var textInterval = 1.0f / Math.Clamp(textUpdateRate, 1.0f, 60.0f);
+        if (_textUpdateTimer >= textInterval)
         {
-            _lastUseMph = useMph;
-            if (_unit is not null) _unit.Markup = useMph ? "MPH" : "KM/H";
+            _textUpdateTimer %= textInterval;
+            var speedValue = Math.Max(0, (int)MathF.Round(_displaySpeed));
+            var rpmValue = Math.Max(0, (int)MathF.Round(telemetry.EngineRpm / 100.0f) * 100);
+            if (speedValue != _lastSpeed)
+            {
+                _lastSpeed = speedValue;
+                if (_speed is not null) _speed.Markup = speedValue.ToString("000", CultureInfo.InvariantCulture);
+            }
+            if (rpmValue != _lastRpm)
+            {
+                _lastRpm = rpmValue;
+                if (_rpm is not null) _rpm.Markup = rpmValue.ToString("N0", CultureInfo.InvariantCulture);
+            }
+            if (telemetry.Gear != _lastGear)
+            {
+                _lastGear = telemetry.Gear;
+                if (_gear is not null) _gear.Markup = telemetry.Gear < 0 ? "R" : telemetry.Gear == 0 ? "N" : telemetry.Gear.ToString(CultureInfo.InvariantCulture);
+            }
+
+            if (useMph != _lastUseMph)
+            {
+                _lastUseMph = useMph;
+                if (_unit is not null) _unit.Markup = useMph ? "MPH" : "KM/H";
+            }
         }
-        var speed01 = Math.Clamp(_displaySpeed / MathF.Max(1.0f, maximumDisplaySpeed), 0.0f, 1.0f);
-        var speedAngle = -130.0f + speed01 * 260.0f;
-        var rpmAngle = -130.0f + _displayRpm01 * 260.0f;
-        _speedNeedle?.SetStyle("transform", $"rotate({F(speedAngle)}deg)");
-        _rpmNeedle?.SetStyle("transform", $"rotate({F(rpmAngle)}deg)");
-        _revArc?.SetStyle("width", $"{F(_displayRpm01 * 100.0f)}%");
+
         var nearRedline = _displayRpm01 >= 0.88f;
         if (nearRedline != _lastNearRedline)
         {
             _lastNearRedline = nearRedline;
             _shiftLight?.SetClass("active", nearRedline);
             _rpm?.SetClass("redline", nearRedline);
+        }
+    }
+
+    private void PublishAnalogueVisuals()
+    {
+        var speed01 = Math.Clamp(_displaySpeed / MathF.Max(1.0f, maximumDisplaySpeed), 0.0f, 1.0f);
+        var speedNeedleStep = (int)MathF.Round((-130.0f + speed01 * 260.0f) * 10.0f);
+        var rpmNeedleStep = (int)MathF.Round((-130.0f + _displayRpm01 * 260.0f) * 10.0f);
+        var revArcStep = (int)MathF.Round(_displayRpm01 * 200.0f);
+
+        if (speedNeedleStep != _lastSpeedNeedleStep)
+        {
+            _lastSpeedNeedleStep = speedNeedleStep;
+            _speedNeedle?.SetStyle("transform", $"rotate({F(speedNeedleStep * 0.1f)}deg)");
+        }
+        if (rpmNeedleStep != _lastRpmNeedleStep)
+        {
+            _lastRpmNeedleStep = rpmNeedleStep;
+            _rpmNeedle?.SetStyle("transform", $"rotate({F(rpmNeedleStep * 0.1f)}deg)");
+        }
+        if (revArcStep != _lastRevArcStep)
+        {
+            _lastRevArcStep = revArcStep;
+            _revArc?.SetStyle("transform", $"scaleX({F(revArcStep * 0.005f)})");
         }
     }
 
