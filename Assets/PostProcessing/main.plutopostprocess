@@ -104,8 +104,8 @@ Parameter 0 "Jitter Strength" "0.800000" 0
 Parameter 3 "Jitter Enabled" "true" 0
 Effect "ColorGrading" 1 18
 Parameter 4 "Preset" "0" 9 "Custom" "Neutral" "Filmic" "Cinematic" "Teal & Orange" "Vintage" "Bleach Bypass" "Noir" "Dreamy"
-Parameter 0 "Brightness" "0.000000" 0
-Parameter 0 "Contrast" "1.000000" 0
+Parameter 0 "Brightness" "0.050000" 0
+Parameter 0 "Contrast" "1.220000" 0
 Parameter 0 "Saturation" "1.100000" 0
 Parameter 0 "Temperature" "0.040000" 0
 Parameter 0 "Tint" "0.015000" 0
@@ -116,11 +116,11 @@ Parameter 0 "Gain" "1.050000" 0
 Parameter 0 "Fade" "0.005000" 0
 Parameter 0 "Vignette" "0.240000" 0
 Parameter 0 "Film Grain" "0.100000" 0
-Parameter 5 "Shadow Color" "0.154816,0.534483,0.432365,1.0" 0
-Parameter 0 "Shadow Color Strength" "0.100000" 0
-Parameter 5 "Highlight Color" "0.555172,0.185057,0.000000,1.0" 0
-Parameter 0 "Highlight Color Strength" "0.100000" 0
-Parameter 0 "Split Balance" "0.300000" 0
+Parameter 5 "Shadow Color" "0.000000,0.550000,0.430000,1.0" 0
+Parameter 0 "Shadow Color Strength" "0.200000" 0
+Parameter 5 "Highlight Color" "1.000000,0.380000,0.070000,1.0" 0
+Parameter 0 "Highlight Color Strength" "0.200000" 0
+Parameter 0 "Split Balance" "0.480000" 0
 Effect "SceneComposite" 1 2
 Parameter 3 "Enable SSGI" "false" 0
 Parameter 4 "Indirect Debug View" "0" 5 "None" "LPV Only" "SSGI Only" "Combined Indirect" "RSM Only"
