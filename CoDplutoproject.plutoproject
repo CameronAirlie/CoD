@@ -8,9 +8,9 @@ WINDOW_SIZE	1920	1080
 VSYNC	0
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	1558.3	41.1198	1971.93
+EDITOR_CAMERA_POSITION	1565.24	24.7136	1973.74
 EDITOR_CAMERA_SPEED	6
-EDITOR_CAMERA_ROTATION	-4456.84	-15.0801
+EDITOR_CAMERA_ROTATION	-4446.52	40.8399
 EDITOR_CAMERA_LENS	70	0.1	10000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/main.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -513,7 +513,7 @@ ASSET	project://SourceModels/grassv4/grassv4.glb	538732	Model
 ASSET	project://SourceModels/grassv4/grassv4.plutomesh	7102	Mesh
 ASSET	project://SourceModels/pine_tree/.plutoge-cache/meshes/7926698830897143094.pmesh	534663	Unknown
 ASSET	project://SourceModels/pine_tree/.plutoge-cache/meshes/9056569313017772201.pmesh	533809	Unknown
-ASSET	project://SourceModels/pine_tree/M_pine_tree_0.plutomaterial	557	Material
+ASSET	project://SourceModels/pine_tree/M_pine_tree_0.plutomaterial	573	Material
 ASSET	project://SourceModels/pine_tree/M_pine_tree_1.plutomaterial	612	Material
 ASSET	project://SourceModels/pine_tree/M_pine_tree_2.plutomaterial	506	Material
 ASSET	project://SourceModels/pine_tree/imgui.ini	1805	Unknown
