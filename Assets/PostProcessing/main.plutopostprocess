@@ -40,23 +40,23 @@ Parameter 0 "History Depth Threshold" "0.250000" 0
 Parameter 0 "History Normal Threshold" "0.900000" 0
 Parameter 4 "Debug View" "0" 9 "Final Composite" "Raw Cone Trace" "Temporal Result" "History Validation" "Voxel Radiance" "Voxel Opacity" "Upsample Classification" "Voxel Sample Count" "Cascade Coverage"
 Parameter 3 "Indirect Only" "false" 0
-Effect "VolumetricFog" 0 15
-Parameter 0 "Density" "0.035000" 0
-Parameter 0 "Height Falloff" "0.120000" 0
-Parameter 0 "Height Offset" "-53.000000" 0
-Parameter 0 "Max Distance" "80.000000" 0
+Effect "VolumetricFog" 1 15
+Parameter 0 "Density" "0.015000" 0
+Parameter 0 "Height Falloff" "0.050000" 0
+Parameter 0 "Height Offset" "-14.000000" 0
+Parameter 0 "Max Distance" "5000.000000" 0
 Parameter 0 "Scattering" "0.650000" 0
 Parameter 0 "Anisotropy" "0.200000" 0
-Parameter 0 "Ambient Contribution" "0.300000" 0
-Parameter 0 "Directional Contribution" "6.000000" 0
+Parameter 0 "Ambient Contribution" "0.000000" 0
+Parameter 0 "Directional Contribution" "1.000000" 0
 Parameter 0 "Max Opacity" "0.920000" 0
-Parameter 1 "Step Count" "64" 0
-Parameter 1 "Shadow Step Stride" "2" 0
+Parameter 1 "Step Count" "32" 0
+Parameter 1 "Shadow Step Stride" "1" 0
 Parameter 3 "Half Resolution" "true" 0
 Parameter 0 "Color R" "1.000000" 0
 Parameter 0 "Color G" "1.000000" 0
 Parameter 0 "Color B" "1.000000" 0
-Effect "Bloom" 1 5
+Effect "Bloom" 0 5
 Parameter 0 "Intensity" "0.100000" 0
 Parameter 0 "Threshold" "1.000000" 0
 Parameter 0 "Soft Knee" "0.500000" 0
