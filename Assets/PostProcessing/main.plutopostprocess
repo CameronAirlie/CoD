@@ -28,7 +28,7 @@ Parameter 0 "Volume Size" "40.000000" 0
 Parameter 0 "Intensity" "8.000000" 0
 Parameter 1 "Cone Count" "2" 0
 Parameter 4 "Trace Quality" "0" 2 "Balanced" "High"
-Parameter 3 "Inject Local Lights" "true" 0
+Parameter 3 "Inject Local Lights" "false" 0
 Parameter 1 "Voxelization LOD Bias" "0" 0
 Parameter 1 "Voxelization Command Budget" "8" 0
 Parameter 0 "Cone Aperture" "1.200000" 0
@@ -52,11 +52,11 @@ Parameter 0 "Directional Contribution" "1.000000" 0
 Parameter 0 "Max Opacity" "0.920000" 0
 Parameter 1 "Step Count" "32" 0
 Parameter 1 "Shadow Step Stride" "1" 0
-Parameter 3 "Half Resolution" "true" 0
+Parameter 3 "Half Resolution" "false" 0
 Parameter 0 "Color R" "1.000000" 0
 Parameter 0 "Color G" "1.000000" 0
 Parameter 0 "Color B" "1.000000" 0
-Effect "Bloom" 0 5
+Effect "Bloom" 1 5
 Parameter 0 "Intensity" "0.100000" 0
 Parameter 0 "Threshold" "1.000000" 0
 Parameter 0 "Soft Knee" "0.500000" 0
@@ -102,25 +102,25 @@ Parameter 0 "Normal Rejection Threshold" "0.820000" 0
 Parameter 0 "Velocity Rejection Scale" "80.000000" 0
 Parameter 0 "Jitter Strength" "0.800000" 0
 Parameter 3 "Jitter Enabled" "true" 0
-Effect "ColorGrading" 1 18
-Parameter 4 "Preset" "0" 9 "Custom" "Neutral" "Filmic" "Cinematic" "Teal & Orange" "Vintage" "Bleach Bypass" "Noir" "Dreamy"
-Parameter 0 "Brightness" "0.050000" 0
-Parameter 0 "Contrast" "1.220000" 0
-Parameter 0 "Saturation" "1.100000" 0
-Parameter 0 "Temperature" "0.040000" 0
-Parameter 0 "Tint" "0.015000" 0
-Parameter 0 "Vibrance" "0.180000" 0
-Parameter 0 "Lift" "-0.018000" 0
-Parameter 0 "Gamma" "0.960000" 0
-Parameter 0 "Gain" "1.050000" 0
-Parameter 0 "Fade" "0.005000" 0
-Parameter 0 "Vignette" "0.240000" 0
-Parameter 0 "Film Grain" "0.100000" 0
-Parameter 5 "Shadow Color" "0.000000,0.550000,0.430000,1.0" 0
-Parameter 0 "Shadow Color Strength" "0.200000" 0
-Parameter 5 "Highlight Color" "1.000000,0.380000,0.070000,1.0" 0
-Parameter 0 "Highlight Color Strength" "0.200000" 0
-Parameter 0 "Split Balance" "0.480000" 0
+Effect "ColorGrading" 0 18
+Parameter 4 "Preset" "1" 9 "Custom" "Neutral" "Filmic" "Cinematic" "Teal & Orange" "Vintage" "Bleach Bypass" "Noir" "Dreamy"
+Parameter 0 "Brightness" "0.000000" 0
+Parameter 0 "Contrast" "1.000000" 0
+Parameter 0 "Saturation" "1.000000" 0
+Parameter 0 "Temperature" "0.000000" 0
+Parameter 0 "Tint" "0.000000" 0
+Parameter 0 "Vibrance" "0.000000" 0
+Parameter 0 "Lift" "0.000000" 0
+Parameter 0 "Gamma" "1.000000" 0
+Parameter 0 "Gain" "1.000000" 0
+Parameter 0 "Fade" "0.000000" 0
+Parameter 0 "Vignette" "0.000000" 0
+Parameter 0 "Film Grain" "0.000000" 0
+Parameter 5 "Shadow Color" "0.166588,0.305848,0.428571,1.0" 0
+Parameter 0 "Shadow Color Strength" "0.000000" 0
+Parameter 5 "Highlight Color" "0.009669,0.654211,0.970100,1.0" 0
+Parameter 0 "Highlight Color Strength" "0.000000" 0
+Parameter 0 "Split Balance" "0.500000" 0
 Effect "SceneComposite" 1 2
 Parameter 3 "Enable SSGI" "false" 0
 Parameter 4 "Indirect Debug View" "0" 5 "None" "LPV Only" "SSGI Only" "Combined Indirect" "RSM Only"
