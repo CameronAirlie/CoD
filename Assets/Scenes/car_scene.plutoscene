@@ -1339,7 +1339,7 @@ PROPERTY	Density	1	3	0
 PROPERTY	MinScale	0	0.100000	0
 PROPERTY	MaxScale	0	0.100000	0
 PROPERTY	MaxDrawDistance	0	500.000000	0
-PROPERTY	MaxShadowDistance	0	142.000000	0
+PROPERTY	MaxShadowDistance	0	300.000000	0
 PROPERTY	MinRenderLod	1	0	0
 PROPERTY	MinShadowLod	1	3	0
 PROPERTY	CastShadows	4	true	0
@@ -1426,7 +1426,7 @@ PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Ground.plutomaterial	0
 END_COMPONENT
 COMPONENT	20094	SplineComponent	1
-PROPERTY	Width	0	25.000000	0
+PROPERTY	Width	0	50.000000	0
 PROPERTY	Thickness	0	0.250000	0
 PROPERTY	SamplesPerSegment	1	12	0
 PROPERTY	CollisionSamplesPerSegment	1	4	0

@@ -2,7 +2,7 @@ SCENE	1
 ENTITY	1	0	1	Player	-17.730000,2.898000,50.000000	180.000000,-10.971788,-180.000000	1.000000,1.000000,1.000000
 PREFAB	1	project://Prefabs/Player.plutoprefab	1	1	1	Transform.Position
 TAGS	1	1	Player
-COMPONENT	1	ColliderComponent
+COMPONENT	1	ColliderComponent	1
 PROPERTY	Shape	6	2	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -11,7 +11,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	1	ScriptComponent
+COMPONENT	1	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.PlayerInventory	0
 PROPERTY	startingReserveAmmo	1	90	0
 PROPERTY	startingHealthKits	1	2	0
@@ -20,16 +20,16 @@ PROPERTY	healthKitHealingPercent	0	0.300000	0
 PROPERTY	healthKitUseTime	0	1.000000	0
 PROPERTY	armourUseTime	0	0.500000	0
 END_COMPONENT
-COMPONENT	1	ScriptComponent
+COMPONENT	1	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.PlayerController	0
-PROPERTY	camera	9	12873	0
-PROPERTY	weaponModel	9	12874	0
-PROPERTY	weaponAnimator	9	12874	0
-PROPERTY	muzzleFlash	9	12985	0
-PROPERTY	shotAudio	9	12874	0
+PROPERTY	camera	9	20227	0
+PROPERTY	weaponModel	9	20228	0
+PROPERTY	weaponAnimator	9	20228	0
+PROPERTY	muzzleFlash	9	20339	0
+PROPERTY	shotAudio	9	20228	0
 PROPERTY	reloadAudio	9	0	0
 PROPERTY	emptyAudio	9	0	0
-PROPERTY	hitmarkerAudio	9	13001	0
+PROPERTY	hitmarkerAudio	9	20355	0
 PROPERTY	ammoText	9	43	0
 PROPERTY	promptText	9	1554	0
 PROPERTY	mouseSensitivity	0	0.100000	0
@@ -96,7 +96,7 @@ PROPERTY	shootDistance	0	100.000000	0
 PROPERTY	moveSpeed	0	6.000000	0
 PROPERTY	sprintMultiplier	0	1.500000	0
 END_COMPONENT
-COMPONENT	1	ScriptComponent
+COMPONENT	1	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.PlayerHealth	0
 PROPERTY	maximumHealth	0	100.000000	0
 PROPERTY	maximumArmourSlots	1	3	0
@@ -111,7 +111,7 @@ PROPERTY	respawnOnDeath	4	true	0
 PROPERTY	respawnDelay	0	1.500000	0
 PROPERTY	respawnInvulnerability	0	1.000000	0
 END_COMPONENT
-COMPONENT	1	ScriptComponent
+COMPONENT	1	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.MultiplayerSession	0
 PROPERTY	mode	2	Host	0
 PROPERTY	serverAddress	2	0.0.0.0	0
@@ -168,7 +168,7 @@ PROPERTY	navigationMesh	9	7243	0
 PROPERTY	botNavigationAgentRadius	0	0.500000	0
 PROPERTY	botNavigationAgentHeight	0	2.000000	0
 END_COMPONENT
-COMPONENT	1	ScriptComponent
+COMPONENT	1	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.PlayerHud	0
 PROPERTY	player	9	1	0
 PROPERTY	documentPath	2	UI/hud.rml	0
@@ -178,7 +178,7 @@ PROPERTY	deathFadeDelay	0	0.450000	0
 PROPERTY	deathFadeDuration	0	0.750000	0
 PROPERTY	damageFlashDuration	0	0.350000	0
 END_COMPONENT
-COMPONENT	1	RigidbodyComponent
+COMPONENT	1	RigidbodyComponent	1
 PROPERTY	Mass	0	1.000000	0
 PROPERTY	Linear Drag	0	0.000000	0
 PROPERTY	Angular Drag	0	0.050000	0
@@ -186,28 +186,29 @@ PROPERTY	Friction	0	1.800000	0
 PROPERTY	Use Gravity	4	false	0
 PROPERTY	Is Kinematic	4	true	0
 PROPERTY	Freeze Rotation	4	true	0
+PROPERTY	Center Of Mass	3	0.000000,0.000000,0.000000	0
 PROPERTY	Velocity	3	0.000000,0.000000,0.000000	0
 PROPERTY	Angular Velocity	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	12873	1	1	Camera	0.000000,0.500000,0.000000	1.823974,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12873	project://Prefabs/Player.plutoprefab	2	0	0
-COMPONENT	12873	CameraComponent
+ENTITY	20227	1	1	Camera	0.000000,0.500000,0.000000	1.823974,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20227	project://Prefabs/Player.plutoprefab	2	0	0
+COMPONENT	20227	CameraComponent	1
 PROPERTY	FOV	0	80.000000	0
 PROPERTY	NearPlane	0	0.100000	0
 PROPERTY	FarPlane	0	500.000000	0
 PROPERTY	MainCamera	4	true	0
 PROPERTY	PostProcessPresetAsset	2	project://PostProcessing/main.plutopostprocess	0
 END_COMPONENT
-COMPONENT	12873	SoundListenerComponent
+COMPONENT	20227	SoundListenerComponent	1
 PROPERTY	Primary	4	true	0
 PROPERTY	MasterVolume	0	1.000000	0
 PROPERTY	OcclusionStrength	0	1.000000	0
 PROPERTY	AirAbsorptionStrength	0	1.000000	0
 PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
-ENTITY	12874	12873	1	animation_low-poly_val	0.070000,-0.130000,0.020000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12874	project://Prefabs/Player.plutoprefab	25	0	0
-COMPONENT	12874	SoundEmitterComponent
+ENTITY	20228	20227	1	animation_low-poly_val	0.070000,-0.130000,0.020000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20228	project://Prefabs/Player.plutoprefab	25	0	0
+COMPONENT	20228	SoundEmitterComponent	1
 PROPERTY	Clip	2	project://Sounds/gun_shot.wav	0
 PROPERTY	PlayOnAwake	4	false	0
 PROPERTY	Looping	4	false	0
@@ -221,65 +222,26 @@ PROPERTY	OcclusionStrength	0	1.000000	0
 PROPERTY	AirAbsorptionStrength	0	1.000000	0
 PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
-COMPONENT	12874	AnimationComponent
+COMPONENT	20228	AnimationComponent	1
 PROPERTY	SourceAnimation	2	project://SourceModels/animation_low-poly_val/animation_low-poly_val Animations.plutoanim	0
 PROPERTY	AnimationGraph	2	project://AnimGraphs/player.plutoanimgraph	0
-PROPERTY	CurrentClipIndex	6	11	14	LVA4_Armature|wpn_val_draw	LVA4_Armature|wpn_val_hide	LVA4_Armature|wpn_val_idle	LVA4_Armature|wpn_val_reload	LVA4_Armature|wpn_val_reload_full	LVA4_Armature|wpn_val_shoot	LVA4_Armature|wpn_val_sprint	LVA4_Armature|wpn_val_walk	animation_low-poly_val_LVA4_Armature_wpn_val_idle_2	animation_low-poly_val_LVA4_Armature_wpn_val_shoot_5	animation_low-poly_val_LVA4_Armature_wpn_val_reload_3	animation_low-poly_val_LVA4_Armature_wpn_val_idle_2	animation_low-poly_val_LVA4_Armature_wpn_val_shoot_5	animation_low-poly_val_LVA4_Armature_wpn_val_reload_3
-PROPERTY	Time	0	2.425722	0
+PROPERTY	CurrentClipIndex	6	0	1	LVA4_Armature|wpn_val_reload
+PROPERTY	Time	0	1.733333	0
 PROPERTY	Speed	0	1.000000	0
-PROPERTY	Playing	4	true	0
-PROPERTY	Looping	4	true	0
+PROPERTY	Playing	4	false	0
+PROPERTY	Looping	4	false	0
 PROPERTY	Autoplay	4	true	0
 PROPERTY	PoseUpdateRate	0	0.000000	0
 PROPERTY	RagdollEnabled	4	false	0
 PROPERTY	RagdollWeight	0	1.000000	0
-PROPERTY	ClipCount	1	14	0
-PROPERTY	Clips.0.Name	2	LVA4_Armature|wpn_val_draw	0
-PROPERTY	Clips.0.Duration	0	0.500000	0
-PROPERTY	Clips.0.ChannelCount	1	194	0
-PROPERTY	Clips.1.Name	2	LVA4_Armature|wpn_val_hide	0
-PROPERTY	Clips.1.Duration	0	0.500000	0
-PROPERTY	Clips.1.ChannelCount	1	194	0
-PROPERTY	Clips.2.Name	2	LVA4_Armature|wpn_val_idle	0
-PROPERTY	Clips.2.Duration	0	8.333333	0
-PROPERTY	Clips.2.ChannelCount	1	82	0
-PROPERTY	Clips.3.Name	2	LVA4_Armature|wpn_val_reload	0
-PROPERTY	Clips.3.Duration	0	2.500000	0
-PROPERTY	Clips.3.ChannelCount	1	78	0
-PROPERTY	Clips.4.Name	2	LVA4_Armature|wpn_val_reload_full	0
-PROPERTY	Clips.4.Duration	0	3.333333	0
-PROPERTY	Clips.4.ChannelCount	1	81	0
-PROPERTY	Clips.5.Name	2	LVA4_Armature|wpn_val_shoot	0
-PROPERTY	Clips.5.Duration	0	0.500000	0
-PROPERTY	Clips.5.ChannelCount	1	194	0
-PROPERTY	Clips.6.Name	2	LVA4_Armature|wpn_val_sprint	0
-PROPERTY	Clips.6.Duration	0	1.000000	0
-PROPERTY	Clips.6.ChannelCount	1	80	0
-PROPERTY	Clips.7.Name	2	LVA4_Armature|wpn_val_walk	0
-PROPERTY	Clips.7.Duration	0	1.000000	0
-PROPERTY	Clips.7.ChannelCount	1	75	0
-PROPERTY	Clips.8.Name	2	animation_low-poly_val_LVA4_Armature_wpn_val_idle_2	0
-PROPERTY	Clips.8.Duration	0	8.333333	0
-PROPERTY	Clips.8.ChannelCount	1	82	0
-PROPERTY	Clips.9.Name	2	animation_low-poly_val_LVA4_Armature_wpn_val_shoot_5	0
-PROPERTY	Clips.9.Duration	0	0.500000	0
-PROPERTY	Clips.9.ChannelCount	1	194	0
-PROPERTY	Clips.10.Name	2	animation_low-poly_val_LVA4_Armature_wpn_val_reload_3	0
-PROPERTY	Clips.10.Duration	0	2.500000	0
-PROPERTY	Clips.10.ChannelCount	1	78	0
-PROPERTY	Clips.11.Name	2	animation_low-poly_val_LVA4_Armature_wpn_val_idle_2	0
-PROPERTY	Clips.11.Duration	0	8.333333	0
-PROPERTY	Clips.11.ChannelCount	1	82	0
-PROPERTY	Clips.12.Name	2	animation_low-poly_val_LVA4_Armature_wpn_val_shoot_5	0
-PROPERTY	Clips.12.Duration	0	0.500000	0
-PROPERTY	Clips.12.ChannelCount	1	194	0
-PROPERTY	Clips.13.Name	2	animation_low-poly_val_LVA4_Armature_wpn_val_reload_3	0
-PROPERTY	Clips.13.Duration	0	2.500000	0
-PROPERTY	Clips.13.ChannelCount	1	78	0
+PROPERTY	ClipCount	1	1	0
+PROPERTY	Clips.0.Name	2	LVA4_Armature|wpn_val_reload	0
+PROPERTY	Clips.0.Duration	0	2.500000	0
+PROPERTY	Clips.0.ChannelCount	1	78	0
 END_COMPONENT
-ENTITY	12875	12874	1	Object_10	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12875	project://Prefabs/Player.plutoprefab	26	0	0
-COMPONENT	12875	MeshComponent
+ENTITY	20229	20228	1	Object_10	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20229	project://Prefabs/Player.plutoprefab	26	0	0
+COMPONENT	20229	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	0	0
@@ -291,777 +253,777 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	12876	12875	1	Joint 0 - _rootJoint	0.000000,-0.000001,0.000000	-90.000008,0.000000,-0.000000	1.000000,1.000000,1.000000
-PREFAB	12876	project://Prefabs/Player.plutoprefab	45	0	0
-TAGS	12876	1	SkeletonAttachment
-COMPONENT	12876	SkeletonAttachmentComponent
+ENTITY	20230	20229	1	Joint 0 - _rootJoint	0.000000,-0.000001,0.000000	-90.000008,0.000000,-0.000000	1.000000,1.000000,1.000000
+PREFAB	20230	project://Prefabs/Player.plutoprefab	45	0	0
+TAGS	20230	1	SkeletonAttachment
+COMPONENT	20230	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	8	0
 PROPERTY	JointName	2	_rootJoint	0
 END_COMPONENT
-ENTITY	12877	12876	1	Joint 1 - root_01	0.000000,0.000000,-0.521231	90.000008,0.000000,-0.000000	1.000000,1.000000,1.000000
-PREFAB	12877	project://Prefabs/Player.plutoprefab	46	0	0
-TAGS	12877	1	SkeletonAttachment
-COMPONENT	12877	SkeletonAttachmentComponent
+ENTITY	20231	20230	1	Joint 1 - root_01	0.000000,0.000000,-0.521231	90.000008,0.000000,-0.000000	1.000000,1.000000,1.000000
+PREFAB	20231	project://Prefabs/Player.plutoprefab	46	0	0
+TAGS	20231	1	SkeletonAttachment
+COMPONENT	20231	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	15	0
 PROPERTY	JointName	2	root_01	0
 END_COMPONENT
-ENTITY	12878	12877	1	Joint 2 - camera_02	0.000000,0.609276,0.000000	-90.000008,0.000000,-0.000000	1.000000,1.000000,1.000000
-PREFAB	12878	project://Prefabs/Player.plutoprefab	47	0	0
-TAGS	12878	1	SkeletonAttachment
-COMPONENT	12878	SkeletonAttachmentComponent
+ENTITY	20232	20231	1	Joint 2 - camera_02	0.000000,0.609276,0.000000	-90.000008,0.000000,-0.000000	1.000000,1.000000,1.000000
+PREFAB	20232	project://Prefabs/Player.plutoprefab	47	0	0
+TAGS	20232	1	SkeletonAttachment
+COMPONENT	20232	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	16	0
 PROPERTY	JointName	2	camera_02	0
 END_COMPONENT
-ENTITY	12879	12878	1	Joint 3 - camera_end_075	0.000000,0.142412,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12879	project://Prefabs/Player.plutoprefab	48	0	0
-TAGS	12879	1	SkeletonAttachment
-COMPONENT	12879	SkeletonAttachmentComponent
+ENTITY	20233	20232	1	Joint 3 - camera_end_075	0.000000,0.142412,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20233	project://Prefabs/Player.plutoprefab	48	0	0
+TAGS	20233	1	SkeletonAttachment
+COMPONENT	20233	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	17	0
 PROPERTY	JointName	2	camera_end_075	0
 END_COMPONENT
-ENTITY	12880	12877	1	Joint 4 - clothing_03	0.500000,0.521231,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12880	project://Prefabs/Player.plutoprefab	49	0	0
-TAGS	12880	1	SkeletonAttachment
-COMPONENT	12880	SkeletonAttachmentComponent
+ENTITY	20234	20231	1	Joint 4 - clothing_03	0.500000,0.521231,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20234	project://Prefabs/Player.plutoprefab	49	0	0
+TAGS	20234	1	SkeletonAttachment
+COMPONENT	20234	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	18	0
 PROPERTY	JointName	2	clothing_03	0
 END_COMPONENT
-ENTITY	12881	12880	1	Joint 5 - clothing_end_076	0.000000,0.042412,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12881	project://Prefabs/Player.plutoprefab	50	0	0
-TAGS	12881	1	SkeletonAttachment
-COMPONENT	12881	SkeletonAttachmentComponent
+ENTITY	20235	20234	1	Joint 5 - clothing_end_076	0.000000,0.042412,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20235	project://Prefabs/Player.plutoprefab	50	0	0
+TAGS	20235	1	SkeletonAttachment
+COMPONENT	20235	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	19	0
 PROPERTY	JointName	2	clothing_end_076	0
 END_COMPONENT
-ENTITY	12882	12877	1	Joint 6 - pole.R_04	0.382415,-0.087649,-0.063778	-89.999992,0.000000,-0.000000	1.000000,1.000000,1.000000
-PREFAB	12882	project://Prefabs/Player.plutoprefab	51	0	0
-TAGS	12882	1	SkeletonAttachment
-COMPONENT	12882	SkeletonAttachmentComponent
+ENTITY	20236	20231	1	Joint 6 - pole.R_04	0.382415,-0.087649,-0.063778	-89.999992,0.000000,-0.000000	1.000000,1.000000,1.000000
+PREFAB	20236	project://Prefabs/Player.plutoprefab	51	0	0
+TAGS	20236	1	SkeletonAttachment
+COMPONENT	20236	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	20	0
 PROPERTY	JointName	2	pole.R_04	0
 END_COMPONENT
-ENTITY	12883	12882	1	Joint 7 - pole_line.R_05	0.000000,0.000000,0.000000	97.878555,2.064720,22.905720	0.940801,1.126335,0.940801
-PREFAB	12883	project://Prefabs/Player.plutoprefab	52	0	0
-TAGS	12883	1	SkeletonAttachment
-COMPONENT	12883	SkeletonAttachmentComponent
+ENTITY	20237	20236	1	Joint 7 - pole_line.R_05	0.000000,0.000000,0.000000	96.053383,1.629625,22.419455	0.880870,1.288799,0.880871
+PREFAB	20237	project://Prefabs/Player.plutoprefab	52	0	0
+TAGS	20237	1	SkeletonAttachment
+COMPONENT	20237	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	21	0
 PROPERTY	JointName	2	pole_line.R_05	0
 END_COMPONENT
-ENTITY	12884	12883	1	Joint 8 - pole_line.R_end_077	-0.000000,0.391025,-0.000000	-0.000000,-0.000000,-0.000003	1.000000,1.000000,1.000000
-PREFAB	12884	project://Prefabs/Player.plutoprefab	53	0	0
-TAGS	12884	1	SkeletonAttachment
-COMPONENT	12884	SkeletonAttachmentComponent
+ENTITY	20238	20237	1	Joint 8 - pole_line.R_end_077	-0.000000,0.391025,-0.000000	-0.000000,-0.000000,-0.000003	1.000000,1.000000,1.000000
+PREFAB	20238	project://Prefabs/Player.plutoprefab	53	0	0
+TAGS	20238	1	SkeletonAttachment
+COMPONENT	20238	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	22	0
 PROPERTY	JointName	2	pole_line.R_end_077	0
 END_COMPONENT
-ENTITY	12885	12877	1	Joint 9 - pole.L_06	-0.449833,-0.085845,-0.163142	-89.999985,0.000000,-0.000000	1.000000,1.000000,1.000000
-PREFAB	12885	project://Prefabs/Player.plutoprefab	54	0	0
-TAGS	12885	1	SkeletonAttachment
-COMPONENT	12885	SkeletonAttachmentComponent
+ENTITY	20239	20231	1	Joint 9 - pole.L_06	-0.510754,-0.046764,-0.163142	-89.999985,0.000000,-0.000000	1.000000,1.000000,1.000000
+PREFAB	20239	project://Prefabs/Player.plutoprefab	54	0	0
+TAGS	20239	1	SkeletonAttachment
+COMPONENT	20239	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	23	0
 PROPERTY	JointName	2	pole.L_06	0
 END_COMPONENT
-ENTITY	12886	12885	1	Joint 10 - pole_line.L_07	0.000000,0.000000,0.000000	80.684128,2.482344,-31.277639	0.885911,1.273102,0.885911
-PREFAB	12886	project://Prefabs/Player.plutoprefab	55	0	0
-TAGS	12886	1	SkeletonAttachment
-COMPONENT	12886	SkeletonAttachmentComponent
+ENTITY	20240	20239	1	Joint 10 - pole_line.L_07	0.000000,0.000000,0.000000	85.239304,1.260680,-32.298286	0.920102,1.181212,0.920102
+PREFAB	20240	project://Prefabs/Player.plutoprefab	55	0	0
+TAGS	20240	1	SkeletonAttachment
+COMPONENT	20240	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	24	0
 PROPERTY	JointName	2	pole_line.L_07	0
 END_COMPONENT
-ENTITY	12887	12886	1	Joint 11 - pole_line.L_end_078	0.000000,0.391025,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12887	project://Prefabs/Player.plutoprefab	56	0	0
-TAGS	12887	1	SkeletonAttachment
-COMPONENT	12887	SkeletonAttachmentComponent
+ENTITY	20241	20240	1	Joint 11 - pole_line.L_end_078	0.000000,0.391025,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20241	project://Prefabs/Player.plutoprefab	56	0	0
+TAGS	20241	1	SkeletonAttachment
+COMPONENT	20241	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	25	0
 PROPERTY	JointName	2	pole_line.L_end_078	0
 END_COMPONENT
-ENTITY	12888	12877	1	Joint 12 - torso_08	0.000000,0.304446,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12888	project://Prefabs/Player.plutoprefab	57	0	0
-TAGS	12888	1	SkeletonAttachment
-COMPONENT	12888	SkeletonAttachmentComponent
+ENTITY	20242	20231	1	Joint 12 - torso_08	0.000000,0.304446,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20242	project://Prefabs/Player.plutoprefab	57	0	0
+TAGS	20242	1	SkeletonAttachment
+COMPONENT	20242	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	26	0
 PROPERTY	JointName	2	torso_08	0
 END_COMPONENT
-ENTITY	12889	12888	1	Joint 13 - clavicle.R_09	0.018450,0.184875,0.221510	-90.000000,0.000000,-90.000000	1.000000,1.000000,1.000000
-PREFAB	12889	project://Prefabs/Player.plutoprefab	58	0	0
-TAGS	12889	1	SkeletonAttachment
-COMPONENT	12889	SkeletonAttachmentComponent
+ENTITY	20243	20242	1	Joint 13 - clavicle.R_09	0.018450,0.216500,0.221510	-90.000000,0.000000,-90.000000	1.000000,1.000000,1.000000
+PREFAB	20243	project://Prefabs/Player.plutoprefab	58	0	0
+TAGS	20243	1	SkeletonAttachment
+COMPONENT	20243	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	27	0
 PROPERTY	JointName	2	clavicle.R_09	0
 END_COMPONENT
-ENTITY	12890	12889	1	Joint 14 - upperarm.R_00	-0.000000,0.139584,0.000000	55.884487,-27.663570,112.333397	1.000000,0.999999,1.000000
-PREFAB	12890	project://Prefabs/Player.plutoprefab	59	0	0
-TAGS	12890	1	SkeletonAttachment
-COMPONENT	12890	SkeletonAttachmentComponent
+ENTITY	20244	20243	1	Joint 14 - upperarm.R_00	-0.000000,0.139584,0.000000	51.262810,-19.804285,108.968658	1.000000,0.999999,1.000000
+PREFAB	20244	project://Prefabs/Player.plutoprefab	59	0	0
+TAGS	20244	1	SkeletonAttachment
+COMPONENT	20244	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	28	0
 PROPERTY	JointName	2	upperarm.R_00	0
 END_COMPONENT
-ENTITY	12891	12890	1	Joint 15 - forearm.R_010	0.000000,0.266141,0.000000	82.602921,11.783810,-8.663773	1.000000,1.000000,1.000000
-PREFAB	12891	project://Prefabs/Player.plutoprefab	60	0	0
-TAGS	12891	1	SkeletonAttachment
-COMPONENT	12891	SkeletonAttachmentComponent
+ENTITY	20245	20244	1	Joint 15 - forearm.R_010	0.000000,0.266141,0.000000	47.665871,14.582771,-0.450996	1.000000,1.000000,1.000000
+PREFAB	20245	project://Prefabs/Player.plutoprefab	60	0	0
+TAGS	20245	1	SkeletonAttachment
+COMPONENT	20245	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	29	0
 PROPERTY	JointName	2	forearm.R_010	0
 END_COMPONENT
-ENTITY	12892	12891	1	Joint 16 - hand.R_011	0.000000,0.253111,0.000000	-24.451822,25.098362,-43.505268	1.000000,1.000000,0.999999
-PREFAB	12892	project://Prefabs/Player.plutoprefab	61	0	0
-TAGS	12892	1	SkeletonAttachment
-COMPONENT	12892	SkeletonAttachmentComponent
+ENTITY	20246	20245	1	Joint 16 - hand.R_011	0.000000,0.253111,0.000000	73.129509,62.345577,-88.659180	1.000000,1.000000,0.999999
+PREFAB	20246	project://Prefabs/Player.plutoprefab	61	0	0
+TAGS	20246	1	SkeletonAttachment
+COMPONENT	20246	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	30	0
 PROPERTY	JointName	2	hand.R_011	0
 END_COMPONENT
-ENTITY	12893	12892	1	Joint 17 - index_meta.R_012	0.007873,0.014205,0.015839	12.083671,2.046046,-2.915387	1.000000,1.000000,1.000000
-PREFAB	12893	project://Prefabs/Player.plutoprefab	62	0	0
-TAGS	12893	1	SkeletonAttachment
-COMPONENT	12893	SkeletonAttachmentComponent
+ENTITY	20247	20246	1	Joint 17 - index_meta.R_012	0.007873,0.014205,0.015839	12.083671,2.046046,-2.915387	1.000000,1.000000,1.000000
+PREFAB	20247	project://Prefabs/Player.plutoprefab	62	0	0
+TAGS	20247	1	SkeletonAttachment
+COMPONENT	20247	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	31	0
 PROPERTY	JointName	2	index_meta.R_012	0
 END_COMPONENT
-ENTITY	12894	12893	1	Joint 18 - index1.R_013	-0.000000,0.064923,0.000000	-10.836030,-2.023372,27.577473	1.000000,1.000000,1.000000
-PREFAB	12894	project://Prefabs/Player.plutoprefab	63	0	0
-TAGS	12894	1	SkeletonAttachment
-COMPONENT	12894	SkeletonAttachmentComponent
+ENTITY	20248	20247	1	Joint 18 - index1.R_013	-0.000000,0.064923,0.000000	-10.836029,-2.023376,27.577475	1.000000,1.000000,1.000000
+PREFAB	20248	project://Prefabs/Player.plutoprefab	63	0	0
+TAGS	20248	1	SkeletonAttachment
+COMPONENT	20248	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	32	0
 PROPERTY	JointName	2	index1.R_013	0
 END_COMPONENT
-ENTITY	12895	12894	1	Joint 19 - index2.R_014	-0.000000,0.039963,0.000000	-0.525736,-8.838622,23.624826	1.000000,1.000000,1.000000
-PREFAB	12895	project://Prefabs/Player.plutoprefab	64	0	0
-TAGS	12895	1	SkeletonAttachment
-COMPONENT	12895	SkeletonAttachmentComponent
+ENTITY	20249	20248	1	Joint 19 - index2.R_014	-0.000000,0.039963,0.000000	-0.525735,-8.838619,23.624830	1.000000,1.000000,1.000000
+PREFAB	20249	project://Prefabs/Player.plutoprefab	64	0	0
+TAGS	20249	1	SkeletonAttachment
+COMPONENT	20249	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	33	0
 PROPERTY	JointName	2	index2.R_014	0
 END_COMPONENT
-ENTITY	12896	12895	1	Joint 20 - index3.R_015	0.000000,0.021757,-0.000000	-1.638224,4.286129,31.351057	1.000000,1.000000,1.000000
-PREFAB	12896	project://Prefabs/Player.plutoprefab	65	0	0
-TAGS	12896	1	SkeletonAttachment
-COMPONENT	12896	SkeletonAttachmentComponent
+ENTITY	20250	20249	1	Joint 20 - index3.R_015	0.000000,0.021757,-0.000000	-1.638224,4.286129,31.351067	1.000000,1.000000,1.000000
+PREFAB	20250	project://Prefabs/Player.plutoprefab	65	0	0
+TAGS	20250	1	SkeletonAttachment
+COMPONENT	20250	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	34	0
 PROPERTY	JointName	2	index3.R_015	0
 END_COMPONENT
-ENTITY	12897	12896	1	Joint 21 - index3.R_end_079	-0.000000,0.019031,0.000000	-0.000000,0.000000,-0.000002	1.000000,1.000000,1.000000
-PREFAB	12897	project://Prefabs/Player.plutoprefab	66	0	0
-TAGS	12897	1	SkeletonAttachment
-COMPONENT	12897	SkeletonAttachmentComponent
+ENTITY	20251	20250	1	Joint 21 - index3.R_end_079	-0.000000,0.019031,0.000000	-0.000002,0.000001,0.000001	1.000000,1.000000,1.000000
+PREFAB	20251	project://Prefabs/Player.plutoprefab	66	0	0
+TAGS	20251	1	SkeletonAttachment
+COMPONENT	20251	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	35	0
 PROPERTY	JointName	2	index3.R_end_079	0
 END_COMPONENT
-ENTITY	12898	12892	1	Joint 22 - middle_meta.R_016	0.008401,0.016001,0.005284	1.278066,0.298855,-3.171963	1.000000,1.000000,1.000000
-PREFAB	12898	project://Prefabs/Player.plutoprefab	67	0	0
-TAGS	12898	1	SkeletonAttachment
-COMPONENT	12898	SkeletonAttachmentComponent
+ENTITY	20252	20246	1	Joint 22 - middle_meta.R_016	0.008401,0.016001,0.005284	1.278066,0.298855,-3.171963	1.000000,1.000000,1.000000
+PREFAB	20252	project://Prefabs/Player.plutoprefab	67	0	0
+TAGS	20252	1	SkeletonAttachment
+COMPONENT	20252	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	36	0
 PROPERTY	JointName	2	middle_meta.R_016	0
 END_COMPONENT
-ENTITY	12899	12898	1	Joint 23 - middle1.R_017	-0.000000,0.064664,0.000000	-5.871178,-2.171917,44.621449	1.000000,1.000000,1.000000
-PREFAB	12899	project://Prefabs/Player.plutoprefab	68	0	0
-TAGS	12899	1	SkeletonAttachment
-COMPONENT	12899	SkeletonAttachmentComponent
+ENTITY	20253	20252	1	Joint 23 - middle1.R_017	-0.000000,0.064664,0.000000	-5.871175,-2.171918,44.621449	1.000000,1.000000,1.000000
+PREFAB	20253	project://Prefabs/Player.plutoprefab	68	0	0
+TAGS	20253	1	SkeletonAttachment
+COMPONENT	20253	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	37	0
 PROPERTY	JointName	2	middle1.R_017	0
 END_COMPONENT
-ENTITY	12900	12899	1	Joint 24 - middle2.R_018	0.000000,0.042808,-0.000000	2.267191,5.520781,68.573586	1.000000,1.000000,1.000000
-PREFAB	12900	project://Prefabs/Player.plutoprefab	69	0	0
-TAGS	12900	1	SkeletonAttachment
-COMPONENT	12900	SkeletonAttachmentComponent
+ENTITY	20254	20253	1	Joint 24 - middle2.R_018	0.000000,0.042808,-0.000000	2.267192,5.520783,68.573578	1.000000,1.000000,1.000000
+PREFAB	20254	project://Prefabs/Player.plutoprefab	69	0	0
+TAGS	20254	1	SkeletonAttachment
+COMPONENT	20254	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	38	0
 PROPERTY	JointName	2	middle2.R_018	0
 END_COMPONENT
-ENTITY	12901	12900	1	Joint 25 - middle3.R_019	-0.000000,0.026755,0.000000	-1.277130,-1.611484,81.379990	1.000000,1.000000,1.000000
-PREFAB	12901	project://Prefabs/Player.plutoprefab	70	0	0
-TAGS	12901	1	SkeletonAttachment
-COMPONENT	12901	SkeletonAttachmentComponent
+ENTITY	20255	20254	1	Joint 25 - middle3.R_019	-0.000000,0.026755,0.000000	-1.277130,-1.611483,81.379990	1.000000,1.000000,1.000000
+PREFAB	20255	project://Prefabs/Player.plutoprefab	70	0	0
+TAGS	20255	1	SkeletonAttachment
+COMPONENT	20255	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	39	0
 PROPERTY	JointName	2	middle3.R_019	0
 END_COMPONENT
-ENTITY	12902	12901	1	Joint 26 - middle3.R_end_080	-0.000000,0.020265,-0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12902	project://Prefabs/Player.plutoprefab	71	0	0
-TAGS	12902	1	SkeletonAttachment
-COMPONENT	12902	SkeletonAttachmentComponent
+ENTITY	20256	20255	1	Joint 26 - middle3.R_end_080	-0.000000,0.020265,-0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20256	project://Prefabs/Player.plutoprefab	71	0	0
+TAGS	20256	1	SkeletonAttachment
+COMPONENT	20256	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	40	0
 PROPERTY	JointName	2	middle3.R_end_080	0
 END_COMPONENT
-ENTITY	12903	12892	1	Joint 27 - ring_meta.R_020	0.010362,0.016893,-0.004443	-9.710556,-1.913692,0.645355	1.000000,1.000000,1.000000
-PREFAB	12903	project://Prefabs/Player.plutoprefab	72	0	0
-TAGS	12903	1	SkeletonAttachment
-COMPONENT	12903	SkeletonAttachmentComponent
+ENTITY	20257	20246	1	Joint 27 - ring_meta.R_020	0.010362,0.016893,-0.004443	-9.710556,-1.913692,0.645355	1.000000,1.000000,1.000000
+PREFAB	20257	project://Prefabs/Player.plutoprefab	72	0	0
+TAGS	20257	1	SkeletonAttachment
+COMPONENT	20257	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	41	0
 PROPERTY	JointName	2	ring_meta.R_020	0
 END_COMPONENT
-ENTITY	12904	12903	1	Joint 28 - ring1.R_021	-0.000000,0.061860,0.000000	6.625529,-1.260213,38.121563	1.000000,1.000000,1.000000
-PREFAB	12904	project://Prefabs/Player.plutoprefab	73	0	0
-TAGS	12904	1	SkeletonAttachment
-COMPONENT	12904	SkeletonAttachmentComponent
+ENTITY	20258	20257	1	Joint 28 - ring1.R_021	-0.000000,0.061860,0.000000	6.625531,-1.260214,38.121571	1.000000,1.000000,1.000000
+PREFAB	20258	project://Prefabs/Player.plutoprefab	73	0	0
+TAGS	20258	1	SkeletonAttachment
+COMPONENT	20258	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	42	0
 PROPERTY	JointName	2	ring1.R_021	0
 END_COMPONENT
-ENTITY	12905	12904	1	Joint 29 - ring2.R_022	-0.000000,0.041303,-0.000000	3.164106,13.603845,88.681259	1.000000,1.000000,1.000000
-PREFAB	12905	project://Prefabs/Player.plutoprefab	74	0	0
-TAGS	12905	1	SkeletonAttachment
-COMPONENT	12905	SkeletonAttachmentComponent
+ENTITY	20259	20258	1	Joint 29 - ring2.R_022	-0.000000,0.041303,-0.000000	3.164100,13.603845,88.681259	1.000000,1.000000,1.000000
+PREFAB	20259	project://Prefabs/Player.plutoprefab	74	0	0
+TAGS	20259	1	SkeletonAttachment
+COMPONENT	20259	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	43	0
 PROPERTY	JointName	2	ring2.R_022	0
 END_COMPONENT
-ENTITY	12906	12905	1	Joint 30 - ring3.R_023	0.000000,0.024670,0.000000	-4.008266,-1.497856,62.545334	1.000000,1.000000,1.000000
-PREFAB	12906	project://Prefabs/Player.plutoprefab	75	0	0
-TAGS	12906	1	SkeletonAttachment
-COMPONENT	12906	SkeletonAttachmentComponent
+ENTITY	20260	20259	1	Joint 30 - ring3.R_023	0.000000,0.024670,0.000000	-4.008259,-1.497856,62.545334	1.000000,1.000000,1.000000
+PREFAB	20260	project://Prefabs/Player.plutoprefab	75	0	0
+TAGS	20260	1	SkeletonAttachment
+COMPONENT	20260	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	44	0
 PROPERTY	JointName	2	ring3.R_023	0
 END_COMPONENT
-ENTITY	12907	12906	1	Joint 31 - ring3.R_end_081	-0.000000,0.017899,0.000000	-0.000000,0.000001,-0.000001	1.000000,1.000000,1.000000
-PREFAB	12907	project://Prefabs/Player.plutoprefab	76	0	0
-TAGS	12907	1	SkeletonAttachment
-COMPONENT	12907	SkeletonAttachmentComponent
+ENTITY	20261	20260	1	Joint 31 - ring3.R_end_081	-0.000000,0.017899,0.000000	-0.000000,0.000001,-0.000001	1.000000,1.000000,1.000000
+PREFAB	20261	project://Prefabs/Player.plutoprefab	76	0	0
+TAGS	20261	1	SkeletonAttachment
+COMPONENT	20261	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	45	0
 PROPERTY	JointName	2	ring3.R_end_081	0
 END_COMPONENT
-ENTITY	12908	12892	1	Joint 32 - pinky_meta.R_024	0.007290,0.016764,-0.015178	-17.482613,-4.977864,8.529954	1.000000,1.000000,1.000000
-PREFAB	12908	project://Prefabs/Player.plutoprefab	77	0	0
-TAGS	12908	1	SkeletonAttachment
-COMPONENT	12908	SkeletonAttachmentComponent
+ENTITY	20262	20246	1	Joint 32 - pinky_meta.R_024	0.007290,0.016764,-0.015178	-17.482613,-4.977864,8.529954	1.000000,1.000000,1.000000
+PREFAB	20262	project://Prefabs/Player.plutoprefab	77	0	0
+TAGS	20262	1	SkeletonAttachment
+COMPONENT	20262	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	46	0
 PROPERTY	JointName	2	pinky_meta.R_024	0
 END_COMPONENT
-ENTITY	12909	12908	1	Joint 33 - pinky1.R_025	0.000000,0.059495,0.000000	21.194727,3.652474,27.654863	1.000000,1.000000,1.000000
-PREFAB	12909	project://Prefabs/Player.plutoprefab	78	0	0
-TAGS	12909	1	SkeletonAttachment
-COMPONENT	12909	SkeletonAttachmentComponent
+ENTITY	20263	20262	1	Joint 33 - pinky1.R_025	0.000000,0.059495,0.000000	21.194727,3.652478,27.654858	1.000000,1.000000,1.000000
+PREFAB	20263	project://Prefabs/Player.plutoprefab	78	0	0
+TAGS	20263	1	SkeletonAttachment
+COMPONENT	20263	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	47	0
 PROPERTY	JointName	2	pinky1.R_025	0
 END_COMPONENT
-ENTITY	12910	12909	1	Joint 34 - pinky2.R_026	0.000000,0.029433,-0.000000	5.980606,6.825537,99.222313	1.000000,1.000000,1.000000
-PREFAB	12910	project://Prefabs/Player.plutoprefab	79	0	0
-TAGS	12910	1	SkeletonAttachment
-COMPONENT	12910	SkeletonAttachmentComponent
+ENTITY	20264	20263	1	Joint 34 - pinky2.R_026	0.000000,0.029433,-0.000000	5.980603,6.825540,99.222313	1.000000,1.000000,1.000000
+PREFAB	20264	project://Prefabs/Player.plutoprefab	79	0	0
+TAGS	20264	1	SkeletonAttachment
+COMPONENT	20264	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	48	0
 PROPERTY	JointName	2	pinky2.R_026	0
 END_COMPONENT
-ENTITY	12911	12910	1	Joint 35 - pinky3.R_027	-0.000000,0.016174,0.000000	-4.038010,4.863379,70.623940	1.000000,1.000000,1.000000
-PREFAB	12911	project://Prefabs/Player.plutoprefab	80	0	0
-TAGS	12911	1	SkeletonAttachment
-COMPONENT	12911	SkeletonAttachmentComponent
+ENTITY	20265	20264	1	Joint 35 - pinky3.R_027	-0.000000,0.016174,0.000000	-4.038010,4.863381,70.623932	1.000000,1.000000,1.000000
+PREFAB	20265	project://Prefabs/Player.plutoprefab	80	0	0
+TAGS	20265	1	SkeletonAttachment
+COMPONENT	20265	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	49	0
 PROPERTY	JointName	2	pinky3.R_027	0
 END_COMPONENT
-ENTITY	12912	12911	1	Joint 36 - pinky3.R_end_082	-0.000000,0.015355,0.000000	-0.000001,-0.000001,-0.000003	1.000000,1.000000,1.000000
-PREFAB	12912	project://Prefabs/Player.plutoprefab	81	0	0
-TAGS	12912	1	SkeletonAttachment
-COMPONENT	12912	SkeletonAttachmentComponent
+ENTITY	20266	20265	1	Joint 36 - pinky3.R_end_082	-0.000000,0.015355,0.000000	-0.000001,-0.000001,-0.000003	1.000000,1.000000,1.000000
+PREFAB	20266	project://Prefabs/Player.plutoprefab	81	0	0
+TAGS	20266	1	SkeletonAttachment
+COMPONENT	20266	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	50	0
 PROPERTY	JointName	2	pinky3.R_end_082	0
 END_COMPONENT
-ENTITY	12913	12892	1	Joint 37 - thumb_meta.R_028	-0.007712,0.017708,0.008396	90.751770,-55.756073,62.698925	1.000000,1.000000,1.000000
-PREFAB	12913	project://Prefabs/Player.plutoprefab	82	0	0
-TAGS	12913	1	SkeletonAttachment
-COMPONENT	12913	SkeletonAttachmentComponent
+ENTITY	20267	20246	1	Joint 37 - thumb_meta.R_028	-0.007712,0.017708,0.008396	90.751770,-55.756065,62.698925	1.000000,1.000000,1.000000
+PREFAB	20267	project://Prefabs/Player.plutoprefab	82	0	0
+TAGS	20267	1	SkeletonAttachment
+COMPONENT	20267	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	51	0
 PROPERTY	JointName	2	thumb_meta.R_028	0
 END_COMPONENT
-ENTITY	12914	12913	1	Joint 38 - thumb1.R_029	-0.000000,0.053501,0.000000	-12.954632,-9.177448,21.577066	1.000000,1.000000,1.000000
-PREFAB	12914	project://Prefabs/Player.plutoprefab	83	0	0
-TAGS	12914	1	SkeletonAttachment
-COMPONENT	12914	SkeletonAttachmentComponent
+ENTITY	20268	20267	1	Joint 38 - thumb1.R_029	-0.000000,0.053501,0.000000	-12.954636,-9.177449,21.577065	1.000000,1.000000,1.000000
+PREFAB	20268	project://Prefabs/Player.plutoprefab	83	0	0
+TAGS	20268	1	SkeletonAttachment
+COMPONENT	20268	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	52	0
 PROPERTY	JointName	2	thumb1.R_029	0
 END_COMPONENT
-ENTITY	12915	12914	1	Joint 39 - thumb2.R_030	-0.000000,0.022673,-0.000000	-7.169499,-0.925944,18.321148	1.000000,1.000000,1.000000
-PREFAB	12915	project://Prefabs/Player.plutoprefab	84	0	0
-TAGS	12915	1	SkeletonAttachment
-COMPONENT	12915	SkeletonAttachmentComponent
+ENTITY	20269	20268	1	Joint 39 - thumb2.R_030	-0.000000,0.022673,-0.000000	-7.169499,-0.925944,18.321148	1.000000,1.000000,1.000000
+PREFAB	20269	project://Prefabs/Player.plutoprefab	84	0	0
+TAGS	20269	1	SkeletonAttachment
+COMPONENT	20269	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	53	0
 PROPERTY	JointName	2	thumb2.R_030	0
 END_COMPONENT
-ENTITY	12916	12915	1	Joint 40 - thumb2.R_end_083	0.000000,0.024424,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12916	project://Prefabs/Player.plutoprefab	85	0	0
-TAGS	12916	1	SkeletonAttachment
-COMPONENT	12916	SkeletonAttachmentComponent
+ENTITY	20270	20269	1	Joint 40 - thumb2.R_end_083	0.000000,0.024424,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20270	project://Prefabs/Player.plutoprefab	85	0	0
+TAGS	20270	1	SkeletonAttachment
+COMPONENT	20270	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	54	0
 PROPERTY	JointName	2	thumb2.R_end_083	0
 END_COMPONENT
-ENTITY	12917	12891	1	Joint 41 - twist1.R_031	-0.000846,0.021565,-0.006067	1.592384,4.395537,-0.246337	1.000000,1.000000,1.000000
-PREFAB	12917	project://Prefabs/Player.plutoprefab	86	0	0
-TAGS	12917	1	SkeletonAttachment
-COMPONENT	12917	SkeletonAttachmentComponent
+ENTITY	20271	20245	1	Joint 41 - twist1.R_031	-0.000846,0.021565,-0.006067	1.686537,25.113520,-0.271097	1.000000,1.000000,1.000000
+PREFAB	20271	project://Prefabs/Player.plutoprefab	86	0	0
+TAGS	20271	1	SkeletonAttachment
+COMPONENT	20271	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	55	0
 PROPERTY	JointName	2	twist1.R_031	0
 END_COMPONENT
-ENTITY	12918	12917	1	Joint 42 - twist1.R_end_084	-0.000000,0.075376,0.000000	-0.000000,0.000002,-0.000003	1.000000,1.000000,1.000000
-PREFAB	12918	project://Prefabs/Player.plutoprefab	87	0	0
-TAGS	12918	1	SkeletonAttachment
-COMPONENT	12918	SkeletonAttachmentComponent
+ENTITY	20272	20271	1	Joint 42 - twist1.R_end_084	-0.000000,0.075376,0.000000	0.000001,0.000000,0.000005	1.000000,1.000000,1.000000
+PREFAB	20272	project://Prefabs/Player.plutoprefab	87	0	0
+TAGS	20272	1	SkeletonAttachment
+COMPONENT	20272	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	56	0
 PROPERTY	JointName	2	twist1.R_end_084	0
 END_COMPONENT
-ENTITY	12919	12891	1	Joint 43 - twist3.R_032	-0.000201,0.172259,-0.001933	1.623973,11.721699,-0.250961	1.000000,1.000000,1.000000
-PREFAB	12919	project://Prefabs/Player.plutoprefab	88	0	0
-TAGS	12919	1	SkeletonAttachment
-COMPONENT	12919	SkeletonAttachmentComponent
+ENTITY	20273	20245	1	Joint 43 - twist3.R_032	-0.000201,0.172259,-0.001933	2.163440,67.478294,-0.640777	1.000000,1.000000,1.000000
+PREFAB	20273	project://Prefabs/Player.plutoprefab	88	0	0
+TAGS	20273	1	SkeletonAttachment
+COMPONENT	20273	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	57	0
 PROPERTY	JointName	2	twist3.R_032	0
 END_COMPONENT
-ENTITY	12920	12919	1	Joint 44 - twist3.R_end_085	-0.000000,0.075376,0.000000	-0.000003,0.000000,0.000003	1.000000,1.000000,1.000000
-PREFAB	12920	project://Prefabs/Player.plutoprefab	89	0	0
-TAGS	12920	1	SkeletonAttachment
-COMPONENT	12920	SkeletonAttachmentComponent
+ENTITY	20274	20273	1	Joint 44 - twist3.R_end_085	-0.000000,0.075376,0.000000	0.000002,0.000000,-0.000000	1.000000,1.000000,1.000000
+PREFAB	20274	project://Prefabs/Player.plutoprefab	89	0	0
+TAGS	20274	1	SkeletonAttachment
+COMPONENT	20274	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	58	0
 PROPERTY	JointName	2	twist3.R_end_085	0
 END_COMPONENT
-ENTITY	12921	12891	1	Joint 45 - twist2.R_033	-0.000524,0.096912,-0.004000	1.611036,8.645976,-0.248272	1.000000,1.000000,1.000000
-PREFAB	12921	project://Prefabs/Player.plutoprefab	90	0	0
-TAGS	12921	1	SkeletonAttachment
-COMPONENT	12921	SkeletonAttachmentComponent
+ENTITY	20275	20245	1	Joint 45 - twist2.R_033	-0.000524,0.096912,-0.004000	1.867062,50.294304,-0.384210	1.000000,1.000000,1.000000
+PREFAB	20275	project://Prefabs/Player.plutoprefab	90	0	0
+TAGS	20275	1	SkeletonAttachment
+COMPONENT	20275	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	59	0
 PROPERTY	JointName	2	twist2.R_033	0
 END_COMPONENT
-ENTITY	12922	12921	1	Joint 46 - twist2.R_end_086	-0.000000,0.075376,0.000000	0.000003,-0.000002,0.000003	1.000000,1.000000,1.000000
-PREFAB	12922	project://Prefabs/Player.plutoprefab	91	0	0
-TAGS	12922	1	SkeletonAttachment
-COMPONENT	12922	SkeletonAttachmentComponent
+ENTITY	20276	20275	1	Joint 46 - twist2.R_end_086	-0.000000,0.075376,0.000000	0.000002,0.000000,0.000002	1.000000,1.000000,1.000000
+PREFAB	20276	project://Prefabs/Player.plutoprefab	91	0	0
+TAGS	20276	1	SkeletonAttachment
+COMPONENT	20276	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	60	0
 PROPERTY	JointName	2	twist2.R_end_086	0
 END_COMPONENT
-ENTITY	12923	12891	1	Joint 47 - elbow.R_034	0.001761,-0.018520,-0.026645	-134.056229,-36.814159,-8.103304	1.000000,1.000000,1.000000
-PREFAB	12923	project://Prefabs/Player.plutoprefab	92	0	0
-TAGS	12923	1	SkeletonAttachment
-COMPONENT	12923	SkeletonAttachmentComponent
+ENTITY	20277	20245	1	Joint 47 - elbow.R_034	0.001761,-0.018520,-0.026645	-134.056229,-36.814159,-8.103310	1.000000,1.000000,1.000000
+PREFAB	20277	project://Prefabs/Player.plutoprefab	92	0	0
+TAGS	20277	1	SkeletonAttachment
+COMPONENT	20277	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	61	0
 PROPERTY	JointName	2	elbow.R_034	0
 END_COMPONENT
-ENTITY	12924	12923	1	Joint 48 - elbow.R_end_087	-0.000000,0.039612,-0.000000	-0.000002,0.000002,-0.000001	1.000000,1.000000,1.000000
-PREFAB	12924	project://Prefabs/Player.plutoprefab	93	0	0
-TAGS	12924	1	SkeletonAttachment
-COMPONENT	12924	SkeletonAttachmentComponent
+ENTITY	20278	20277	1	Joint 48 - elbow.R_end_087	-0.000000,0.039612,-0.000000	-0.000002,0.000002,-0.000001	1.000000,1.000000,1.000000
+PREFAB	20278	project://Prefabs/Player.plutoprefab	93	0	0
+TAGS	20278	1	SkeletonAttachment
+COMPONENT	20278	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	62	0
 PROPERTY	JointName	2	elbow.R_end_087	0
 END_COMPONENT
-ENTITY	12925	12891	1	Joint 49 - armweartwist.R_035	-0.000201,0.172259,-0.001933	1.592364,4.395535,-0.246359	1.000000,1.000000,1.000000
-PREFAB	12925	project://Prefabs/Player.plutoprefab	94	0	0
-TAGS	12925	1	SkeletonAttachment
-COMPONENT	12925	SkeletonAttachmentComponent
+ENTITY	20279	20245	1	Joint 49 - armweartwist.R_035	-0.000201,0.172259,-0.001933	1.686530,25.113504,-0.271121	1.000000,1.000000,1.000000
+PREFAB	20279	project://Prefabs/Player.plutoprefab	94	0	0
+TAGS	20279	1	SkeletonAttachment
+COMPONENT	20279	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	63	0
 PROPERTY	JointName	2	armweartwist.R_035	0
 END_COMPONENT
-ENTITY	12926	12925	1	Joint 50 - armweartwist.R_end_088	0.000000,0.037688,0.000000	-0.000002,0.000000,-0.000002	1.000000,1.000000,1.000000
-PREFAB	12926	project://Prefabs/Player.plutoprefab	95	0	0
-TAGS	12926	1	SkeletonAttachment
-COMPONENT	12926	SkeletonAttachmentComponent
+ENTITY	20280	20279	1	Joint 50 - armweartwist.R_end_088	0.000000,0.037688,0.000000	-0.000002,0.000000,-0.000002	1.000000,1.000000,1.000000
+PREFAB	20280	project://Prefabs/Player.plutoprefab	95	0	0
+TAGS	20280	1	SkeletonAttachment
+COMPONENT	20280	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	64	0
 PROPERTY	JointName	2	armweartwist.R_end_088	0
 END_COMPONENT
-ENTITY	12927	12891	1	Joint 51 - cuff.R_036	0.000122,0.247606,0.000134	-2.977786,3.369098,2.575722	1.000000,1.000000,1.000000
-PREFAB	12927	project://Prefabs/Player.plutoprefab	96	0	0
-TAGS	12927	1	SkeletonAttachment
-COMPONENT	12927	SkeletonAttachmentComponent
+ENTITY	20281	20245	1	Joint 51 - cuff.R_036	0.000122,0.247606,0.000134	-3.967026,23.953972,2.815116	1.000000,1.000000,1.000000
+PREFAB	20281	project://Prefabs/Player.plutoprefab	96	0	0
+TAGS	20281	1	SkeletonAttachment
+COMPONENT	20281	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	65	0
 PROPERTY	JointName	2	cuff.R_036	0
 END_COMPONENT
-ENTITY	12928	12927	1	Joint 52 - cuff.R_end_089	-0.000000,0.028339,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12928	project://Prefabs/Player.plutoprefab	97	0	0
-TAGS	12928	1	SkeletonAttachment
-COMPONENT	12928	SkeletonAttachmentComponent
+ENTITY	20282	20281	1	Joint 52 - cuff.R_end_089	-0.000000,0.028339,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20282	project://Prefabs/Player.plutoprefab	97	0	0
+TAGS	20282	1	SkeletonAttachment
+COMPONENT	20282	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	66	0
 PROPERTY	JointName	2	cuff.R_end_089	0
 END_COMPONENT
-ENTITY	12929	12891	1	Joint 53 - blouse.R_037	0.000000,0.000000,0.000000	-0.000002,12.361336,0.000002	1.000000,1.000000,1.000000
-PREFAB	12929	project://Prefabs/Player.plutoprefab	98	0	0
-TAGS	12929	1	SkeletonAttachment
-COMPONENT	12929	SkeletonAttachmentComponent
+ENTITY	20283	20245	1	Joint 53 - blouse.R_037	0.000000,0.000000,0.000000	-0.000004,30.603130,0.000006	1.000000,1.000000,1.000000
+PREFAB	20283	project://Prefabs/Player.plutoprefab	98	0	0
+TAGS	20283	1	SkeletonAttachment
+COMPONENT	20283	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	67	0
 PROPERTY	JointName	2	blouse.R_037	0
 END_COMPONENT
-ENTITY	12930	12929	1	Joint 54 - blouse.R_end_090	0.000000,0.253111,0.000000	-0.000000,-0.000003,0.000002	1.000000,1.000000,1.000000
-PREFAB	12930	project://Prefabs/Player.plutoprefab	99	0	0
-TAGS	12930	1	SkeletonAttachment
-COMPONENT	12930	SkeletonAttachmentComponent
+ENTITY	20284	20283	1	Joint 54 - blouse.R_end_090	0.000000,0.253111,0.000000	-0.000000,-0.000003,0.000002	1.000000,1.000000,1.000000
+PREFAB	20284	project://Prefabs/Player.plutoprefab	99	0	0
+TAGS	20284	1	SkeletonAttachment
+COMPONENT	20284	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	68	0
 PROPERTY	JointName	2	blouse.R_end_090	0
 END_COMPONENT
-ENTITY	12931	12888	1	Joint 55 - clavicle.L_038	-0.018450,0.184875,-0.001815	-90.000000,0.000000,90.000000	1.000000,1.000000,1.000000
-PREFAB	12931	project://Prefabs/Player.plutoprefab	100	0	0
-TAGS	12931	1	SkeletonAttachment
-COMPONENT	12931	SkeletonAttachmentComponent
+ENTITY	20285	20242	1	Joint 55 - clavicle.L_038	-0.018450,0.216500,-0.001815	-90.000000,0.000000,90.000000	1.000000,1.000000,1.000000
+PREFAB	20285	project://Prefabs/Player.plutoprefab	100	0	0
+TAGS	20285	1	SkeletonAttachment
+COMPONENT	20285	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	69	0
 PROPERTY	JointName	2	clavicle.L_038	0
 END_COMPONENT
-ENTITY	12932	12931	1	Joint 56 - upperarm.L_039	-0.000000,0.139584,0.000000	56.416248,21.033978,-111.557419	1.000000,0.999999,1.000000
-PREFAB	12932	project://Prefabs/Player.plutoprefab	101	0	0
-TAGS	12932	1	SkeletonAttachment
-COMPONENT	12932	SkeletonAttachmentComponent
+ENTITY	20286	20285	1	Joint 56 - upperarm.L_039	-0.000000,0.139584,0.000000	63.232082,35.901390,-111.691986	1.000000,0.999999,1.000000
+PREFAB	20286	project://Prefabs/Player.plutoprefab	101	0	0
+TAGS	20286	1	SkeletonAttachment
+COMPONENT	20286	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	70	0
 PROPERTY	JointName	2	upperarm.L_039	0
 END_COMPONENT
-ENTITY	12933	12932	1	Joint 57 - forearm.L_040	-0.000000,0.266141,0.000000	85.558449,-11.327165,9.255943	1.000000,1.000000,1.000000
-PREFAB	12933	project://Prefabs/Player.plutoprefab	102	0	0
-TAGS	12933	1	SkeletonAttachment
-COMPONENT	12933	SkeletonAttachmentComponent
+ENTITY	20287	20286	1	Joint 57 - forearm.L_040	-0.000000,0.266141,0.000000	75.960091,-12.692471,7.254098	1.000000,1.000000,1.000000
+PREFAB	20287	project://Prefabs/Player.plutoprefab	102	0	0
+TAGS	20287	1	SkeletonAttachment
+COMPONENT	20287	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	71	0
 PROPERTY	JointName	2	forearm.L_040	0
 END_COMPONENT
-ENTITY	12934	12933	1	Joint 58 - hand.L_041	0.000000,0.253111,0.000000	-16.950708,-57.383003,20.672695	1.000000,1.000000,0.999999
-PREFAB	12934	project://Prefabs/Player.plutoprefab	103	0	0
-TAGS	12934	1	SkeletonAttachment
-COMPONENT	12934	SkeletonAttachmentComponent
+ENTITY	20288	20287	1	Joint 58 - hand.L_041	0.000000,0.253111,0.000000	-67.696533,-56.566296,-61.825191	1.000000,1.000000,0.999999
+PREFAB	20288	project://Prefabs/Player.plutoprefab	103	0	0
+TAGS	20288	1	SkeletonAttachment
+COMPONENT	20288	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	72	0
 PROPERTY	JointName	2	hand.L_041	0
 END_COMPONENT
-ENTITY	12935	12934	1	Joint 59 - index_meta.L_042	-0.007873,0.014205,0.015839	11.180982,-8.943951,0.125411	1.000000,1.000000,1.000000
-PREFAB	12935	project://Prefabs/Player.plutoprefab	104	0	0
-TAGS	12935	1	SkeletonAttachment
-COMPONENT	12935	SkeletonAttachmentComponent
+ENTITY	20289	20288	1	Joint 59 - index_meta.L_042	-0.007873,0.014205,0.015839	11.180984,-8.943955,0.125416	1.000000,1.000000,1.000000
+PREFAB	20289	project://Prefabs/Player.plutoprefab	104	0	0
+TAGS	20289	1	SkeletonAttachment
+COMPONENT	20289	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	73	0
 PROPERTY	JointName	2	index_meta.L_042	0
 END_COMPONENT
-ENTITY	12936	12935	1	Joint 60 - index1.L_043	0.004865,0.067199,-0.001626	-39.365925,24.215252,-22.775761	1.000000,1.000000,1.000000
-PREFAB	12936	project://Prefabs/Player.plutoprefab	105	0	0
-TAGS	12936	1	SkeletonAttachment
-COMPONENT	12936	SkeletonAttachmentComponent
+ENTITY	20290	20289	1	Joint 60 - index1.L_043	0.004865,0.067199,-0.001626	-39.429443,24.254288,-33.959267	1.000000,1.000000,1.000000
+PREFAB	20290	project://Prefabs/Player.plutoprefab	105	0	0
+TAGS	20290	1	SkeletonAttachment
+COMPONENT	20290	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	74	0
 PROPERTY	JointName	2	index1.L_043	0
 END_COMPONENT
-ENTITY	12937	12936	1	Joint 61 - index2.L_044	0.000000,0.039963,0.000000	-0.525738,8.838617,-53.601337	1.000000,1.000000,1.000000
-PREFAB	12937	project://Prefabs/Player.plutoprefab	106	0	0
-TAGS	12937	1	SkeletonAttachment
-COMPONENT	12937	SkeletonAttachmentComponent
+ENTITY	20291	20290	1	Joint 61 - index2.L_044	0.000000,0.039963,0.000000	-0.525739,8.838618,-53.601341	1.000000,1.000000,1.000000
+PREFAB	20291	project://Prefabs/Player.plutoprefab	106	0	0
+TAGS	20291	1	SkeletonAttachment
+COMPONENT	20291	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	75	0
 PROPERTY	JointName	2	index2.L_044	0
 END_COMPONENT
-ENTITY	12938	12937	1	Joint 62 - index3.L_045	-0.000000,0.021757,-0.000000	-1.638224,-4.286130,-21.137226	1.000000,1.000000,1.000000
-PREFAB	12938	project://Prefabs/Player.plutoprefab	107	0	0
-TAGS	12938	1	SkeletonAttachment
-COMPONENT	12938	SkeletonAttachmentComponent
+ENTITY	20292	20291	1	Joint 62 - index3.L_045	-0.000000,0.021757,-0.000000	-1.638225,-4.286132,-21.137228	1.000000,1.000000,1.000000
+PREFAB	20292	project://Prefabs/Player.plutoprefab	107	0	0
+TAGS	20292	1	SkeletonAttachment
+COMPONENT	20292	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	76	0
 PROPERTY	JointName	2	index3.L_045	0
 END_COMPONENT
-ENTITY	12939	12938	1	Joint 63 - index3.L_end_091	0.000000,0.019032,-0.000000	-0.000001,0.000000,-0.000000	1.000000,1.000000,1.000000
-PREFAB	12939	project://Prefabs/Player.plutoprefab	108	0	0
-TAGS	12939	1	SkeletonAttachment
-COMPONENT	12939	SkeletonAttachmentComponent
+ENTITY	20293	20292	1	Joint 63 - index3.L_end_091	0.000000,0.019032,-0.000000	-0.000001,0.000002,0.000005	1.000000,1.000000,1.000000
+PREFAB	20293	project://Prefabs/Player.plutoprefab	108	0	0
+TAGS	20293	1	SkeletonAttachment
+COMPONENT	20293	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	77	0
 PROPERTY	JointName	2	index3.L_end_091	0
 END_COMPONENT
-ENTITY	12940	12934	1	Joint 64 - middle_meta.L_046	-0.008401,0.016001,0.005284	1.278057,-0.298863,3.171976	1.000000,1.000000,1.000000
-PREFAB	12940	project://Prefabs/Player.plutoprefab	109	0	0
-TAGS	12940	1	SkeletonAttachment
-COMPONENT	12940	SkeletonAttachmentComponent
+ENTITY	20294	20288	1	Joint 64 - middle_meta.L_046	-0.008401,0.016001,0.005284	1.278053,-0.298853,3.171974	1.000000,1.000000,1.000000
+PREFAB	20294	project://Prefabs/Player.plutoprefab	109	0	0
+TAGS	20294	1	SkeletonAttachment
+COMPONENT	20294	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	78	0
 PROPERTY	JointName	2	middle_meta.L_046	0
 END_COMPONENT
-ENTITY	12941	12940	1	Joint 65 - middle1.L_047	0.001643,0.065308,0.000363	-26.304686,18.694855,-51.681168	1.000000,1.000000,1.000000
-PREFAB	12941	project://Prefabs/Player.plutoprefab	110	0	0
-TAGS	12941	1	SkeletonAttachment
-COMPONENT	12941	SkeletonAttachmentComponent
+ENTITY	20295	20294	1	Joint 65 - middle1.L_047	0.001643,0.065308,0.000363	-26.304682,18.694860,-51.681171	1.000000,1.000000,1.000000
+PREFAB	20295	project://Prefabs/Player.plutoprefab	110	0	0
+TAGS	20295	1	SkeletonAttachment
+COMPONENT	20295	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	79	0
 PROPERTY	JointName	2	middle1.L_047	0
 END_COMPONENT
-ENTITY	12942	12941	1	Joint 66 - middle2.L_048	-0.000000,0.042808,-0.000000	2.267188,-5.520781,-57.555969	1.000000,1.000000,1.000000
-PREFAB	12942	project://Prefabs/Player.plutoprefab	111	0	0
-TAGS	12942	1	SkeletonAttachment
-COMPONENT	12942	SkeletonAttachmentComponent
+ENTITY	20296	20295	1	Joint 66 - middle2.L_048	-0.000000,0.042808,-0.000000	2.267189,-5.520777,-57.555969	1.000000,1.000000,1.000000
+PREFAB	20296	project://Prefabs/Player.plutoprefab	111	0	0
+TAGS	20296	1	SkeletonAttachment
+COMPONENT	20296	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	80	0
 PROPERTY	JointName	2	middle2.L_048	0
 END_COMPONENT
-ENTITY	12943	12942	1	Joint 67 - middle3.L_049	0.000000,0.026755,0.000000	-1.277132,1.611490,-21.928907	1.000000,1.000000,1.000000
-PREFAB	12943	project://Prefabs/Player.plutoprefab	112	0	0
-TAGS	12943	1	SkeletonAttachment
-COMPONENT	12943	SkeletonAttachmentComponent
+ENTITY	20297	20296	1	Joint 67 - middle3.L_049	0.000000,0.026755,0.000000	-1.277135,1.611485,-21.928907	1.000000,1.000000,1.000000
+PREFAB	20297	project://Prefabs/Player.plutoprefab	112	0	0
+TAGS	20297	1	SkeletonAttachment
+COMPONENT	20297	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	81	0
 PROPERTY	JointName	2	middle3.L_049	0
 END_COMPONENT
-ENTITY	12944	12943	1	Joint 68 - middle3.L_end_092	0.000000,0.020265,0.000000	0.000003,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12944	project://Prefabs/Player.plutoprefab	113	0	0
-TAGS	12944	1	SkeletonAttachment
-COMPONENT	12944	SkeletonAttachmentComponent
+ENTITY	20298	20297	1	Joint 68 - middle3.L_end_092	0.000000,0.020265,0.000000	-0.000002,-0.000000,0.000002	1.000000,1.000000,1.000000
+PREFAB	20298	project://Prefabs/Player.plutoprefab	113	0	0
+TAGS	20298	1	SkeletonAttachment
+COMPONENT	20298	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	82	0
 PROPERTY	JointName	2	middle3.L_end_092	0
 END_COMPONENT
-ENTITY	12945	12934	1	Joint 69 - ring_meta.L_050	-0.010362,0.016893,-0.004443	-9.710557,1.913689,-0.645353	1.000000,1.000000,1.000000
-PREFAB	12945	project://Prefabs/Player.plutoprefab	114	0	0
-TAGS	12945	1	SkeletonAttachment
-COMPONENT	12945	SkeletonAttachmentComponent
+ENTITY	20299	20288	1	Joint 69 - ring_meta.L_050	-0.010362,0.016893,-0.004443	-9.710557,1.913691,-0.645352	1.000000,1.000000,1.000000
+PREFAB	20299	project://Prefabs/Player.plutoprefab	114	0	0
+TAGS	20299	1	SkeletonAttachment
+COMPONENT	20299	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	83	0
 PROPERTY	JointName	2	ring_meta.L_050	0
 END_COMPONENT
-ENTITY	12946	12945	1	Joint 70 - ring1.L_051	-0.000723,0.065665,-0.001211	-13.093154,16.737745,-60.739296	1.000000,1.000000,1.000000
-PREFAB	12946	project://Prefabs/Player.plutoprefab	115	0	0
-TAGS	12946	1	SkeletonAttachment
-COMPONENT	12946	SkeletonAttachmentComponent
+ENTITY	20300	20299	1	Joint 70 - ring1.L_051	-0.000723,0.065665,-0.001211	-13.093159,16.737753,-60.739296	1.000000,1.000000,1.000000
+PREFAB	20300	project://Prefabs/Player.plutoprefab	115	0	0
+TAGS	20300	1	SkeletonAttachment
+COMPONENT	20300	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	84	0
 PROPERTY	JointName	2	ring1.L_051	0
 END_COMPONENT
-ENTITY	12947	12946	1	Joint 71 - ring2.L_052	0.000000,0.041303,0.000000	3.164105,-13.603848,-72.752403	1.000000,1.000000,1.000000
-PREFAB	12947	project://Prefabs/Player.plutoprefab	116	0	0
-TAGS	12947	1	SkeletonAttachment
-COMPONENT	12947	SkeletonAttachmentComponent
+ENTITY	20301	20300	1	Joint 71 - ring2.L_052	0.000000,0.041303,0.000000	3.164103,-13.603848,-72.752396	1.000000,1.000000,1.000000
+PREFAB	20301	project://Prefabs/Player.plutoprefab	116	0	0
+TAGS	20301	1	SkeletonAttachment
+COMPONENT	20301	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	85	0
 PROPERTY	JointName	2	ring2.L_052	0
 END_COMPONENT
-ENTITY	12948	12947	1	Joint 72 - ring3.L_053	-0.000000,0.024670,-0.000000	-4.008266,1.497856,-26.281221	1.000000,1.000000,1.000000
-PREFAB	12948	project://Prefabs/Player.plutoprefab	117	0	0
-TAGS	12948	1	SkeletonAttachment
-COMPONENT	12948	SkeletonAttachmentComponent
+ENTITY	20302	20301	1	Joint 72 - ring3.L_053	-0.000000,0.024670,-0.000000	-4.008257,1.497857,-26.281227	1.000000,1.000000,1.000000
+PREFAB	20302	project://Prefabs/Player.plutoprefab	117	0	0
+TAGS	20302	1	SkeletonAttachment
+COMPONENT	20302	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	86	0
 PROPERTY	JointName	2	ring3.L_053	0
 END_COMPONENT
-ENTITY	12949	12948	1	Joint 73 - ring3.L_end_093	0.000000,0.017899,0.000000	-0.000002,-0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12949	project://Prefabs/Player.plutoprefab	118	0	0
-TAGS	12949	1	SkeletonAttachment
-COMPONENT	12949	SkeletonAttachmentComponent
+ENTITY	20303	20302	1	Joint 73 - ring3.L_end_093	0.000000,0.017899,0.000000	-0.000002,0.000003,-0.000003	1.000000,1.000000,1.000000
+PREFAB	20303	project://Prefabs/Player.plutoprefab	118	0	0
+TAGS	20303	1	SkeletonAttachment
+COMPONENT	20303	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	87	0
 PROPERTY	JointName	2	ring3.L_end_093	0
 END_COMPONENT
-ENTITY	12950	12934	1	Joint 74 - pinky_meta.L_054	-0.007290,0.016764,-0.015178	-17.482609,4.977864,-8.529955	1.000000,1.000000,1.000000
-PREFAB	12950	project://Prefabs/Player.plutoprefab	119	0	0
-TAGS	12950	1	SkeletonAttachment
-COMPONENT	12950	SkeletonAttachmentComponent
+ENTITY	20304	20288	1	Joint 74 - pinky_meta.L_054	-0.007290,0.016764,-0.015178	-17.482607,4.977861,-8.529956	1.000000,1.000000,1.000000
+PREFAB	20304	project://Prefabs/Player.plutoprefab	119	0	0
+TAGS	20304	1	SkeletonAttachment
+COMPONENT	20304	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	88	0
 PROPERTY	JointName	2	pinky_meta.L_054	0
 END_COMPONENT
-ENTITY	12951	12950	1	Joint 75 - pinky1.L_055	-0.004798,0.051769,-0.000792	-12.130980,9.994704,-50.015419	1.000000,1.000000,1.000000
-PREFAB	12951	project://Prefabs/Player.plutoprefab	120	0	0
-TAGS	12951	1	SkeletonAttachment
-COMPONENT	12951	SkeletonAttachmentComponent
+ENTITY	20305	20304	1	Joint 75 - pinky1.L_055	-0.004798,0.051769,-0.000792	-12.130981,9.994708,-50.015415	1.000000,1.000000,1.000000
+PREFAB	20305	project://Prefabs/Player.plutoprefab	120	0	0
+TAGS	20305	1	SkeletonAttachment
+COMPONENT	20305	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	89	0
 PROPERTY	JointName	2	pinky1.L_055	0
 END_COMPONENT
-ENTITY	12952	12951	1	Joint 76 - pinky2.L_056	-0.000000,0.029433,-0.000000	5.980605,-6.825541,-72.367607	1.000000,1.000000,1.000000
-PREFAB	12952	project://Prefabs/Player.plutoprefab	121	0	0
-TAGS	12952	1	SkeletonAttachment
-COMPONENT	12952	SkeletonAttachmentComponent
+ENTITY	20306	20305	1	Joint 76 - pinky2.L_056	-0.000000,0.029433,-0.000000	5.980599,-6.825539,-72.367615	1.000000,1.000000,1.000000
+PREFAB	20306	project://Prefabs/Player.plutoprefab	121	0	0
+TAGS	20306	1	SkeletonAttachment
+COMPONENT	20306	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	90	0
 PROPERTY	JointName	2	pinky2.L_056	0
 END_COMPONENT
-ENTITY	12953	12952	1	Joint 77 - pinky3.L_057	0.000000,0.016174,0.000000	-4.038005,-4.863376,-27.179682	1.000000,1.000000,1.000000
-PREFAB	12953	project://Prefabs/Player.plutoprefab	122	0	0
-TAGS	12953	1	SkeletonAttachment
-COMPONENT	12953	SkeletonAttachmentComponent
+ENTITY	20307	20306	1	Joint 77 - pinky3.L_057	0.000000,0.016174,0.000000	-4.038006,-4.863381,-27.179680	1.000000,1.000000,1.000000
+PREFAB	20307	project://Prefabs/Player.plutoprefab	122	0	0
+TAGS	20307	1	SkeletonAttachment
+COMPONENT	20307	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	91	0
 PROPERTY	JointName	2	pinky3.L_057	0
 END_COMPONENT
-ENTITY	12954	12953	1	Joint 78 - pinky3.L_end_094	0.000000,0.015355,-0.000000	0.000002,0.000002,0.000000	1.000000,1.000000,1.000000
-PREFAB	12954	project://Prefabs/Player.plutoprefab	123	0	0
-TAGS	12954	1	SkeletonAttachment
-COMPONENT	12954	SkeletonAttachmentComponent
+ENTITY	20308	20307	1	Joint 78 - pinky3.L_end_094	0.000000,0.015355,-0.000000	0.000002,-0.000001,0.000002	1.000000,1.000000,1.000000
+PREFAB	20308	project://Prefabs/Player.plutoprefab	123	0	0
+TAGS	20308	1	SkeletonAttachment
+COMPONENT	20308	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	92	0
 PROPERTY	JointName	2	pinky3.L_end_094	0
 END_COMPONENT
-ENTITY	12955	12934	1	Joint 79 - thumb_meta.L_058	0.007712,0.017708,0.008396	142.551163,66.878395,-93.967773	1.000000,1.000000,1.000000
-PREFAB	12955	project://Prefabs/Player.plutoprefab	124	0	0
-TAGS	12955	1	SkeletonAttachment
-COMPONENT	12955	SkeletonAttachmentComponent
+ENTITY	20309	20288	1	Joint 79 - thumb_meta.L_058	0.007712,0.017708,0.008396	58.347233,33.807789,-32.752701	1.000000,1.000000,1.000000
+PREFAB	20309	project://Prefabs/Player.plutoprefab	124	0	0
+TAGS	20309	1	SkeletonAttachment
+COMPONENT	20309	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	93	0
 PROPERTY	JointName	2	thumb_meta.L_058	0
 END_COMPONENT
-ENTITY	12956	12955	1	Joint 80 - thumb1.L_059	-0.000000,0.053501,0.000000	-10.265539,7.313897,-36.881523	1.000000,1.000000,1.000000
-PREFAB	12956	project://Prefabs/Player.plutoprefab	125	0	0
-TAGS	12956	1	SkeletonAttachment
-COMPONENT	12956	SkeletonAttachmentComponent
+ENTITY	20310	20309	1	Joint 80 - thumb1.L_059	-0.000000,0.053501,0.000000	-20.644749,-4.066461,-9.522389	1.000000,1.000000,1.000000
+PREFAB	20310	project://Prefabs/Player.plutoprefab	125	0	0
+TAGS	20310	1	SkeletonAttachment
+COMPONENT	20310	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	94	0
 PROPERTY	JointName	2	thumb1.L_059	0
 END_COMPONENT
-ENTITY	12957	12956	1	Joint 81 - thumb2.L_060	0.000000,0.022673,0.000000	-4.409657,2.222740,2.907303	1.000000,1.000000,1.000000
-PREFAB	12957	project://Prefabs/Player.plutoprefab	126	0	0
-TAGS	12957	1	SkeletonAttachment
-COMPONENT	12957	SkeletonAttachmentComponent
+ENTITY	20311	20310	1	Joint 81 - thumb2.L_060	0.000000,0.022673,0.000000	-10.543105,7.446534,7.111145	1.000000,1.000000,1.000000
+PREFAB	20311	project://Prefabs/Player.plutoprefab	126	0	0
+TAGS	20311	1	SkeletonAttachment
+COMPONENT	20311	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	95	0
 PROPERTY	JointName	2	thumb2.L_060	0
 END_COMPONENT
-ENTITY	12958	12957	1	Joint 82 - thumb2.L_end_095	-0.000000,0.024424,-0.000000	0.000003,-0.000000,0.000002	1.000000,1.000000,1.000000
-PREFAB	12958	project://Prefabs/Player.plutoprefab	127	0	0
-TAGS	12958	1	SkeletonAttachment
-COMPONENT	12958	SkeletonAttachmentComponent
+ENTITY	20312	20311	1	Joint 82 - thumb2.L_end_095	-0.000000,0.024424,-0.000000	-0.000003,0.000000,0.000002	1.000000,1.000000,1.000000
+PREFAB	20312	project://Prefabs/Player.plutoprefab	127	0	0
+TAGS	20312	1	SkeletonAttachment
+COMPONENT	20312	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	96	0
 PROPERTY	JointName	2	thumb2.L_end_095	0
 END_COMPONENT
-ENTITY	12959	12933	1	Joint 83 - twist1.L_061	0.000846,0.021565,-0.006067	1.645883,-16.306337,0.256491	1.000000,1.000000,1.000000
-PREFAB	12959	project://Prefabs/Player.plutoprefab	128	0	0
-TAGS	12959	1	SkeletonAttachment
-COMPONENT	12959	SkeletonAttachmentComponent
+ENTITY	20313	20287	1	Joint 83 - twist1.L_061	0.000846,0.021565,-0.006067	1.672411,-22.420671,0.265413	1.000000,1.000000,1.000000
+PREFAB	20313	project://Prefabs/Player.plutoprefab	128	0	0
+TAGS	20313	1	SkeletonAttachment
+COMPONENT	20313	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	97	0
 PROPERTY	JointName	2	twist1.L_061	0
 END_COMPONENT
-ENTITY	12960	12959	1	Joint 84 - twist1.L_end_096	0.000000,0.075376,0.000000	-0.000002,0.000002,-0.000002	1.000000,1.000000,1.000000
-PREFAB	12960	project://Prefabs/Player.plutoprefab	129	0	0
-TAGS	12960	1	SkeletonAttachment
-COMPONENT	12960	SkeletonAttachmentComponent
+ENTITY	20314	20313	1	Joint 84 - twist1.L_end_096	0.000000,0.075376,0.000000	-0.000000,-0.000000,0.000005	1.000000,1.000000,1.000000
+PREFAB	20314	project://Prefabs/Player.plutoprefab	129	0	0
+TAGS	20314	1	SkeletonAttachment
+COMPONENT	20314	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	98	0
 PROPERTY	JointName	2	twist1.L_end_096	0
 END_COMPONENT
-ENTITY	12961	12933	1	Joint 85 - twist3.L_062	0.000201,0.172259,-0.001933	1.807291,-43.830776,0.340501	1.000001,1.000000,0.999999
-PREFAB	12961	project://Prefabs/Player.plutoprefab	130	0	0
-TAGS	12961	1	SkeletonAttachment
-COMPONENT	12961	SkeletonAttachmentComponent
+ENTITY	20315	20287	1	Joint 85 - twist3.L_062	0.000201,0.172259,-0.001933	1.998655,-60.121532,0.491577	1.000001,1.000000,0.999999
+PREFAB	20315	project://Prefabs/Player.plutoprefab	130	0	0
+TAGS	20315	1	SkeletonAttachment
+COMPONENT	20315	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	99	0
 PROPERTY	JointName	2	twist3.L_062	0
 END_COMPONENT
-ENTITY	12962	12961	1	Joint 86 - twist3.L_end_097	0.000000,0.075376,0.000000	0.000004,-0.000001,0.000000	1.000000,1.000000,1.000000
-PREFAB	12962	project://Prefabs/Player.plutoprefab	131	0	0
-TAGS	12962	1	SkeletonAttachment
-COMPONENT	12962	SkeletonAttachmentComponent
+ENTITY	20316	20315	1	Joint 86 - twist3.L_end_097	0.000000,0.075376,0.000000	0.000001,0.000001,-0.000002	1.000000,1.000000,1.000000
+PREFAB	20316	project://Prefabs/Player.plutoprefab	131	0	0
+TAGS	20316	1	SkeletonAttachment
+COMPONENT	20316	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	100	0
 PROPERTY	JointName	2	twist3.L_end_097	0
 END_COMPONENT
-ENTITY	12963	12933	1	Joint 87 - twist2.L_063	0.000523,0.096912,-0.004000	1.731253,-32.611481,0.292910	1.000001,1.000000,0.999999
-PREFAB	12963	project://Prefabs/Player.plutoprefab	132	0	0
-TAGS	12963	1	SkeletonAttachment
-COMPONENT	12963	SkeletonAttachmentComponent
+ENTITY	20317	20287	1	Joint 87 - twist2.L_063	0.000523,0.096912,-0.004000	1.815298,-44.845051,0.345789	1.000001,1.000000,0.999999
+PREFAB	20317	project://Prefabs/Player.plutoprefab	132	0	0
+TAGS	20317	1	SkeletonAttachment
+COMPONENT	20317	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	101	0
 PROPERTY	JointName	2	twist2.L_063	0
 END_COMPONENT
-ENTITY	12964	12963	1	Joint 88 - twist2.L_end_098	0.000000,0.075376,0.000000	0.000002,0.000000,0.000002	1.000000,1.000000,1.000000
-PREFAB	12964	project://Prefabs/Player.plutoprefab	133	0	0
-TAGS	12964	1	SkeletonAttachment
-COMPONENT	12964	SkeletonAttachmentComponent
+ENTITY	20318	20317	1	Joint 88 - twist2.L_end_098	0.000000,0.075376,0.000000	0.000002,-0.000003,-0.000005	1.000000,1.000000,1.000000
+PREFAB	20318	project://Prefabs/Player.plutoprefab	133	0	0
+TAGS	20318	1	SkeletonAttachment
+COMPONENT	20318	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	102	0
 PROPERTY	JointName	2	twist2.L_end_098	0
 END_COMPONENT
-ENTITY	12965	12933	1	Joint 89 - elbow.L_064	-0.001761,-0.018520,-0.026645	-134.056274,36.814178,8.103331	1.000000,1.000000,1.000000
-PREFAB	12965	project://Prefabs/Player.plutoprefab	134	0	0
-TAGS	12965	1	SkeletonAttachment
-COMPONENT	12965	SkeletonAttachmentComponent
+ENTITY	20319	20287	1	Joint 89 - elbow.L_064	-0.001761,-0.018520,-0.026645	-134.056259,36.814175,8.103326	1.000000,1.000000,1.000000
+PREFAB	20319	project://Prefabs/Player.plutoprefab	134	0	0
+TAGS	20319	1	SkeletonAttachment
+COMPONENT	20319	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	103	0
 PROPERTY	JointName	2	elbow.L_064	0
 END_COMPONENT
-ENTITY	12966	12965	1	Joint 90 - elbow.L_end_099	0.000000,0.039612,0.000000	-0.000002,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12966	project://Prefabs/Player.plutoprefab	135	0	0
-TAGS	12966	1	SkeletonAttachment
-COMPONENT	12966	SkeletonAttachmentComponent
+ENTITY	20320	20319	1	Joint 90 - elbow.L_end_099	0.000000,0.039612,0.000000	-0.000002,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20320	project://Prefabs/Player.plutoprefab	135	0	0
+TAGS	20320	1	SkeletonAttachment
+COMPONENT	20320	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	104	0
 PROPERTY	JointName	2	elbow.L_end_099	0
 END_COMPONENT
-ENTITY	12967	12933	1	Joint 91 - armweartwist.L_065	0.000201,0.172259,-0.001933	1.645865,-16.306330,0.256515	1.000000,1.000000,1.000000
-PREFAB	12967	project://Prefabs/Player.plutoprefab	136	0	0
-TAGS	12967	1	SkeletonAttachment
-COMPONENT	12967	SkeletonAttachmentComponent
+ENTITY	20321	20287	1	Joint 91 - armweartwist.L_065	0.000201,0.172259,-0.001933	1.672396,-22.420660,0.265431	1.000000,1.000000,1.000000
+PREFAB	20321	project://Prefabs/Player.plutoprefab	136	0	0
+TAGS	20321	1	SkeletonAttachment
+COMPONENT	20321	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	105	0
 PROPERTY	JointName	2	armweartwist.L_065	0
 END_COMPONENT
-ENTITY	12968	12967	1	Joint 92 - armweartwist.L_end_0100	0.000000,0.037688,0.000000	0.000003,0.000002,-0.000000	1.000000,1.000000,1.000000
-PREFAB	12968	project://Prefabs/Player.plutoprefab	137	0	0
-TAGS	12968	1	SkeletonAttachment
-COMPONENT	12968	SkeletonAttachmentComponent
+ENTITY	20322	20321	1	Joint 92 - armweartwist.L_end_0100	0.000000,0.037688,0.000000	0.000003,0.000002,-0.000000	1.000000,1.000000,1.000000
+PREFAB	20322	project://Prefabs/Player.plutoprefab	137	0	0
+TAGS	20322	1	SkeletonAttachment
+COMPONENT	20322	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	106	0
 PROPERTY	JointName	2	armweartwist.L_end_0100	0
 END_COMPONENT
-ENTITY	12969	12933	1	Joint 93 - cuff.L_066	-0.000122,0.247606,0.000134	-3.525808,-15.212195,-2.665952	1.000000,1.000000,1.000000
-PREFAB	12969	project://Prefabs/Player.plutoprefab	138	0	0
-TAGS	12969	1	SkeletonAttachment
-COMPONENT	12969	SkeletonAttachmentComponent
+ENTITY	20323	20287	1	Joint 93 - cuff.L_066	-0.000122,0.247606,0.000134	-3.825510,-21.282360,-2.760691	1.000000,1.000000,1.000000
+PREFAB	20323	project://Prefabs/Player.plutoprefab	138	0	0
+TAGS	20323	1	SkeletonAttachment
+COMPONENT	20323	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	107	0
 PROPERTY	JointName	2	cuff.L_066	0
 END_COMPONENT
-ENTITY	12970	12969	1	Joint 94 - cuff.L_end_0101	0.000000,0.028339,0.000000	-0.000000,0.000002,-0.000002	1.000000,1.000000,1.000000
-PREFAB	12970	project://Prefabs/Player.plutoprefab	139	0	0
-TAGS	12970	1	SkeletonAttachment
-COMPONENT	12970	SkeletonAttachmentComponent
+ENTITY	20324	20323	1	Joint 94 - cuff.L_end_0101	0.000000,0.028339,0.000000	-0.000002,0.000002,-0.000002	1.000000,1.000000,1.000000
+PREFAB	20324	project://Prefabs/Player.plutoprefab	139	0	0
+TAGS	20324	1	SkeletonAttachment
+COMPONENT	20324	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	108	0
 PROPERTY	JointName	2	cuff.L_end_0101	0
 END_COMPONENT
-ENTITY	12971	12933	1	Joint 95 - blouse.L_067	0.000000,0.000000,0.000000	-0.000007,-15.471008,-0.000010	1.000000,1.000000,0.999999
-PREFAB	12971	project://Prefabs/Player.plutoprefab	140	0	0
-TAGS	12971	1	SkeletonAttachment
-COMPONENT	12971	SkeletonAttachmentComponent
+ENTITY	20325	20287	1	Joint 95 - blouse.L_067	0.000000,0.000000,0.000000	-0.000012,-31.043631,-0.000013	1.000000,1.000000,0.999999
+PREFAB	20325	project://Prefabs/Player.plutoprefab	140	0	0
+TAGS	20325	1	SkeletonAttachment
+COMPONENT	20325	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	109	0
 PROPERTY	JointName	2	blouse.L_067	0
 END_COMPONENT
-ENTITY	12972	12971	1	Joint 96 - blouse.L_end_0102	0.000000,0.253111,-0.000000	-0.000000,-0.000002,0.000002	1.000000,1.000000,1.000000
-PREFAB	12972	project://Prefabs/Player.plutoprefab	141	0	0
-TAGS	12972	1	SkeletonAttachment
-COMPONENT	12972	SkeletonAttachmentComponent
+ENTITY	20326	20325	1	Joint 96 - blouse.L_end_0102	0.000000,0.253111,-0.000000	-0.000000,-0.000002,0.000002	1.000000,1.000000,1.000000
+PREFAB	20326	project://Prefabs/Player.plutoprefab	141	0	0
+TAGS	20326	1	SkeletonAttachment
+COMPONENT	20326	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	110	0
 PROPERTY	JointName	2	blouse.L_end_0102	0
 END_COMPONENT
-ENTITY	12973	12877	1	Joint 97 - handIK.R_068	0.045211,0.467588,-0.156517	-81.536583,2.100943,-13.264071	1.000000,1.000000,1.000000
-PREFAB	12973	project://Prefabs/Player.plutoprefab	142	0	0
-TAGS	12973	1	SkeletonAttachment
-COMPONENT	12973	SkeletonAttachmentComponent
+ENTITY	20327	20231	1	Joint 97 - handIK.R_068	0.042629,0.433297,-0.231127	-81.211975,61.732765,-2.007156	1.000000,1.000000,1.000000
+PREFAB	20327	project://Prefabs/Player.plutoprefab	142	0	0
+TAGS	20327	1	SkeletonAttachment
+COMPONENT	20327	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	111	0
 PROPERTY	JointName	2	handIK.R_068	0
 END_COMPONENT
-ENTITY	12974	12973	1	Joint 98 - handIK.R_end_0103	0.000000,0.051172,0.000000	-0.000000,0.000000,-0.000001	1.000000,1.000000,1.000000
-PREFAB	12974	project://Prefabs/Player.plutoprefab	143	0	0
-TAGS	12974	1	SkeletonAttachment
-COMPONENT	12974	SkeletonAttachmentComponent
+ENTITY	20328	20327	1	Joint 98 - handIK.R_end_0103	0.000000,0.051172,0.000000	-0.000000,0.000000,-0.000001	1.000000,1.000000,1.000000
+PREFAB	20328	project://Prefabs/Player.plutoprefab	143	0	0
+TAGS	20328	1	SkeletonAttachment
+COMPONENT	20328	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	112	0
 PROPERTY	JointName	2	handIK.R_end_0103	0
 END_COMPONENT
-ENTITY	12975	12877	1	Joint 99 - handIK.L_069	-0.011982,0.503037,-0.359563	-93.473343,-31.746201,-26.880745	1.000000,1.000000,1.000000
-PREFAB	12975	project://Prefabs/Player.plutoprefab	144	0	0
-TAGS	12975	1	SkeletonAttachment
-COMPONENT	12975	SkeletonAttachmentComponent
+ENTITY	20329	20231	1	Joint 99 - handIK.L_069	-0.109087,0.440031,-0.404301	-126.820648,-17.865356,-55.001373	1.000000,1.000000,1.000000
+PREFAB	20329	project://Prefabs/Player.plutoprefab	144	0	0
+TAGS	20329	1	SkeletonAttachment
+COMPONENT	20329	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	113	0
 PROPERTY	JointName	2	handIK.L_069	0
 END_COMPONENT
-ENTITY	12976	12975	1	Joint 100 - handIK.L_end_0104	0.000000,0.051172,-0.000000	-0.000001,0.000000,-0.000002	1.000000,1.000000,1.000000
-PREFAB	12976	project://Prefabs/Player.plutoprefab	145	0	0
-TAGS	12976	1	SkeletonAttachment
-COMPONENT	12976	SkeletonAttachmentComponent
+ENTITY	20330	20329	1	Joint 100 - handIK.L_end_0104	0.000000,0.051172,-0.000000	-0.000001,0.000000,-0.000002	1.000000,1.000000,1.000000
+PREFAB	20330	project://Prefabs/Player.plutoprefab	145	0	0
+TAGS	20330	1	SkeletonAttachment
+COMPONENT	20330	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	114	0
 PROPERTY	JointName	2	handIK.L_end_0104	0
 END_COMPONENT
-ENTITY	12977	12877	1	Joint 101 - lookat_070	0.000000,0.609276,-4.359898	-90.000008,0.000000,-0.000000	1.000000,1.000000,1.000000
-PREFAB	12977	project://Prefabs/Player.plutoprefab	146	0	0
-TAGS	12977	1	SkeletonAttachment
-COMPONENT	12977	SkeletonAttachmentComponent
+ENTITY	20331	20231	1	Joint 101 - lookat_070	0.000000,0.609276,-4.359898	-90.000008,0.000000,-0.000000	1.000000,1.000000,1.000000
+PREFAB	20331	project://Prefabs/Player.plutoprefab	146	0	0
+TAGS	20331	1	SkeletonAttachment
+COMPONENT	20331	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	115	0
 PROPERTY	JointName	2	lookat_070	0
 END_COMPONENT
-ENTITY	12978	12977	1	Joint 102 - lookat_end_0105	0.000000,0.142412,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12978	project://Prefabs/Player.plutoprefab	147	0	0
-TAGS	12978	1	SkeletonAttachment
-COMPONENT	12978	SkeletonAttachmentComponent
+ENTITY	20332	20331	1	Joint 102 - lookat_end_0105	0.000000,0.142412,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20332	project://Prefabs/Player.plutoprefab	147	0	0
+TAGS	20332	1	SkeletonAttachment
+COMPONENT	20332	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	116	0
 PROPERTY	JointName	2	lookat_end_0105	0
 END_COMPONENT
-ENTITY	12979	12877	1	Joint 103 - wpn_body_071	0.052113,0.457437,-0.231024	-10.635086,0.206053,5.931983	1.000000,1.000000,1.000000
-PREFAB	12979	project://Prefabs/Player.plutoprefab	148	0	0
-TAGS	12979	1	SkeletonAttachment
-COMPONENT	12979	SkeletonAttachmentComponent
+ENTITY	20333	20231	1	Joint 103 - wpn_body_071	0.021266,0.441602,-0.303269	8.783360,21.868853,-51.868595	1.000000,1.000000,1.000000
+PREFAB	20333	project://Prefabs/Player.plutoprefab	148	0	0
+TAGS	20333	1	SkeletonAttachment
+COMPONENT	20333	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	117	0
 PROPERTY	JointName	2	wpn_body_071	0
 END_COMPONENT
-ENTITY	12980	12979	1	Joint 104 - mag_072	-0.000000,0.061632,-0.107483	-145.645447,0.000001,0.000000	1.000000,1.000000,1.000001
-PREFAB	12980	project://Prefabs/Player.plutoprefab	149	0	0
-TAGS	12980	1	SkeletonAttachment
-COMPONENT	12980	SkeletonAttachmentComponent
+ENTITY	20334	20333	1	Joint 104 - mag_072	-0.000000,0.061632,-0.107483	-145.645432,0.000003,-0.000001	1.000000,1.000000,1.000001
+PREFAB	20334	project://Prefabs/Player.plutoprefab	149	0	0
+TAGS	20334	1	SkeletonAttachment
+COMPONENT	20334	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	118	0
 PROPERTY	JointName	2	mag_072	0
 END_COMPONENT
-ENTITY	12981	12980	1	Joint 105 - ammo_073	0.000000,0.003718,0.000000	-0.000009,-0.000001,-0.000000	1.000000,1.000000,1.000000
-PREFAB	12981	project://Prefabs/Player.plutoprefab	150	0	0
-TAGS	12981	1	SkeletonAttachment
-COMPONENT	12981	SkeletonAttachmentComponent
+ENTITY	20335	20334	1	Joint 105 - ammo_073	0.000000,0.003718,0.000000	-0.000012,0.000000,-0.000001	1.000000,1.000000,1.000000
+PREFAB	20335	project://Prefabs/Player.plutoprefab	150	0	0
+TAGS	20335	1	SkeletonAttachment
+COMPONENT	20335	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	119	0
 PROPERTY	JointName	2	ammo_073	0
 END_COMPONENT
-ENTITY	12982	12981	1	Joint 106 - ammo_end_0106	0.000000,0.034976,0.000000	-0.000000,-0.000001,0.000001	1.000000,1.000000,1.000000
-PREFAB	12982	project://Prefabs/Player.plutoprefab	151	0	0
-TAGS	12982	1	SkeletonAttachment
-COMPONENT	12982	SkeletonAttachmentComponent
+ENTITY	20336	20335	1	Joint 106 - ammo_end_0106	0.000000,0.034976,0.000000	-0.000000,-0.000001,0.000001	1.000000,1.000000,1.000000
+PREFAB	20336	project://Prefabs/Player.plutoprefab	151	0	0
+TAGS	20336	1	SkeletonAttachment
+COMPONENT	20336	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	120	0
 PROPERTY	JointName	2	ammo_end_0106	0
 END_COMPONENT
-ENTITY	12983	12979	1	Joint 107 - slide_074	-0.000000,0.114876,-0.074538	-74.039337,-0.000000,-0.000000	1.000000,1.000000,1.000000
-PREFAB	12983	project://Prefabs/Player.plutoprefab	152	0	0
-TAGS	12983	1	SkeletonAttachment
-COMPONENT	12983	SkeletonAttachmentComponent
+ENTITY	20337	20333	1	Joint 107 - slide_074	-0.000000,0.114876,-0.074538	-74.039337,0.000002,0.000000	1.000000,1.000000,1.000000
+PREFAB	20337	project://Prefabs/Player.plutoprefab	152	0	0
+TAGS	20337	1	SkeletonAttachment
+COMPONENT	20337	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	121	0
 PROPERTY	JointName	2	slide_074	0
 END_COMPONENT
-ENTITY	12984	12983	1	Joint 108 - slide_end_0107	0.000000,0.033350,-0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12984	project://Prefabs/Player.plutoprefab	153	0	0
-TAGS	12984	1	SkeletonAttachment
-COMPONENT	12984	SkeletonAttachmentComponent
+ENTITY	20338	20337	1	Joint 108 - slide_end_0107	0.000000,0.033350,-0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20338	project://Prefabs/Player.plutoprefab	153	0	0
+TAGS	20338	1	SkeletonAttachment
+COMPONENT	20338	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	122	0
 PROPERTY	JointName	2	slide_end_0107	0
 END_COMPONENT
-ENTITY	12985	12984	1	MuzzleFlash	0.004359,0.365765,-0.009707	-0.000001,-0.000006,-0.000000	1.000006,1.000007,1.000005
-PREFAB	12985	project://Prefabs/Player.plutoprefab	44	0	0
-COMPONENT	12985	ParticleSystemComponent
+ENTITY	20339	20338	1	MuzzleFlash	0.004359,0.365765,-0.009707	-0.000001,-0.000006,-0.000000	1.000006,1.000007,1.000005
+PREFAB	20339	project://Prefabs/Player.plutoprefab	44	0	0
+COMPONENT	20339	ParticleSystemComponent	1
 PROPERTY	ParticleSystemAsset	2	project://Particles/MuzzleFlash.plutoparticles	0
 END_COMPONENT
-ENTITY	12986	12874	1	Object_11	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12986	project://Prefabs/Player.plutoprefab	27	0	0
-COMPONENT	12986	MeshComponent
+ENTITY	20340	20228	1	Object_11	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20340	project://Prefabs/Player.plutoprefab	27	0	0
+COMPONENT	20340	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	1	0
@@ -1073,9 +1035,9 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	12987	12874	1	Object_13	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12987	project://Prefabs/Player.plutoprefab	28	0	0
-COMPONENT	12987	MeshComponent
+ENTITY	20341	20228	1	Object_13	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20341	project://Prefabs/Player.plutoprefab	28	0	0
+COMPONENT	20341	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	2	0
@@ -1087,9 +1049,9 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	12988	12874	1	Object_14	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12988	project://Prefabs/Player.plutoprefab	29	0	0
-COMPONENT	12988	MeshComponent
+ENTITY	20342	20228	1	Object_14	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20342	project://Prefabs/Player.plutoprefab	29	0	0
+COMPONENT	20342	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	3	0
@@ -1101,9 +1063,9 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	12989	12874	1	Object_126	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12989	project://Prefabs/Player.plutoprefab	30	0	0
-COMPONENT	12989	MeshComponent
+ENTITY	20343	20228	1	Object_126	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20343	project://Prefabs/Player.plutoprefab	30	0	0
+COMPONENT	20343	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	4	0
@@ -1115,9 +1077,9 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	12990	12874	1	Object_128	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12990	project://Prefabs/Player.plutoprefab	31	0	0
-COMPONENT	12990	MeshComponent
+ENTITY	20344	20228	1	Object_128	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20344	project://Prefabs/Player.plutoprefab	31	0	0
+COMPONENT	20344	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	5	0
@@ -1129,9 +1091,9 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	12991	12874	1	Object_129	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12991	project://Prefabs/Player.plutoprefab	32	0	0
-COMPONENT	12991	MeshComponent
+ENTITY	20345	20228	1	Object_129	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20345	project://Prefabs/Player.plutoprefab	32	0	0
+COMPONENT	20345	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	6	0
@@ -1143,9 +1105,9 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	12992	12874	1	Object_130	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12992	project://Prefabs/Player.plutoprefab	33	0	0
-COMPONENT	12992	MeshComponent
+ENTITY	20346	20228	1	Object_130	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20346	project://Prefabs/Player.plutoprefab	33	0	0
+COMPONENT	20346	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	7	0
@@ -1157,9 +1119,9 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	12993	12874	1	Object_131	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12993	project://Prefabs/Player.plutoprefab	34	0	0
-COMPONENT	12993	MeshComponent
+ENTITY	20347	20228	1	Object_131	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20347	project://Prefabs/Player.plutoprefab	34	0	0
+COMPONENT	20347	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	8	0
@@ -1171,9 +1133,9 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	12994	12874	1	Object_132	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12994	project://Prefabs/Player.plutoprefab	35	0	0
-COMPONENT	12994	MeshComponent
+ENTITY	20348	20228	1	Object_132	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20348	project://Prefabs/Player.plutoprefab	35	0	0
+COMPONENT	20348	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	9	0
@@ -1185,9 +1147,9 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	12995	12874	1	Object_133	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12995	project://Prefabs/Player.plutoprefab	36	0	0
-COMPONENT	12995	MeshComponent
+ENTITY	20349	20228	1	Object_133	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20349	project://Prefabs/Player.plutoprefab	36	0	0
+COMPONENT	20349	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	10	0
@@ -1199,9 +1161,9 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	12996	12874	1	Object_134	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12996	project://Prefabs/Player.plutoprefab	37	0	0
-COMPONENT	12996	MeshComponent
+ENTITY	20350	20228	1	Object_134	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20350	project://Prefabs/Player.plutoprefab	37	0	0
+COMPONENT	20350	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	11	0
@@ -1213,9 +1175,9 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	12997	12874	1	Object_135	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12997	project://Prefabs/Player.plutoprefab	38	0	0
-COMPONENT	12997	MeshComponent
+ENTITY	20351	20228	1	Object_135	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20351	project://Prefabs/Player.plutoprefab	38	0	0
+COMPONENT	20351	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	12	0
@@ -1227,9 +1189,9 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	12998	12874	1	Object_136	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12998	project://Prefabs/Player.plutoprefab	39	0	0
-COMPONENT	12998	MeshComponent
+ENTITY	20352	20228	1	Object_136	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20352	project://Prefabs/Player.plutoprefab	39	0	0
+COMPONENT	20352	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	13	0
@@ -1241,9 +1203,9 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	12999	12874	1	Object_137	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	12999	project://Prefabs/Player.plutoprefab	40	0	0
-COMPONENT	12999	MeshComponent
+ENTITY	20353	20228	1	Object_137	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20353	project://Prefabs/Player.plutoprefab	40	0	0
+COMPONENT	20353	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	14	0
@@ -1255,9 +1217,9 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	13000	12874	1	Object_138	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	13000	project://Prefabs/Player.plutoprefab	41	0	0
-COMPONENT	13000	MeshComponent
+ENTITY	20354	20228	1	Object_138	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20354	project://Prefabs/Player.plutoprefab	41	0	0
+COMPONENT	20354	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	15	0
@@ -1269,9 +1231,9 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	13001	1	1	HitMarkerAudio	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	13001	project://Prefabs/Player.plutoprefab	1195	0	0
-COMPONENT	13001	SoundEmitterComponent
+ENTITY	20355	1	1	HitMarkerAudio	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20355	project://Prefabs/Player.plutoprefab	1195	0	0
+COMPONENT	20355	SoundEmitterComponent	1
 PROPERTY	Clip	2	project://Sounds/hitmarker.wav	0
 PROPERTY	PlayOnAwake	4	false	0
 PROPERTY	Looping	4	false	0
@@ -1286,7 +1248,7 @@ PROPERTY	AirAbsorptionStrength	0	1.000000	0
 PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
 ENTITY	4	0	1	Floor	0.000000,-0.305114,0.000000	0.000000,0.000000,0.000000	50.000000,1.000000,50.000000
-COMPONENT	4	ColliderComponent
+COMPONENT	4	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -1295,7 +1257,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	4	MeshComponent
+COMPONENT	4	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -1310,7 +1272,7 @@ PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Ground.plutomateria
 PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Ground.plutomaterial	0
 END_COMPONENT
 ENTITY	5	0	1	Sky	0.000000,300.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	5	PhysicalSkyComponent
+COMPONENT	5	PhysicalSkyComponent	1
 PROPERTY	Rayleigh Strength	0	1.000000	0
 PROPERTY	Mie Strength	0	0.650000	0
 PROPERTY	Mie Anisotropy	0	0.800000	0
@@ -1326,7 +1288,7 @@ PROPERTY	Moon Angular Radius	0	0.260000	0
 PROPERTY	Moon Color	3	0.550000,0.650000,1.000000	0
 PROPERTY	Ground Color	3	0.012000,0.015000,0.020000	0
 END_COMPONENT
-COMPONENT	5	VolumetricCloudComponent
+COMPONENT	5	VolumetricCloudComponent	1
 PROPERTY	Size	3	1000.000000,300.000000,1000.000000	0
 PROPERTY	Coverage	0	0.550000	0
 PROPERTY	Density	0	1.000000	0
@@ -1340,23 +1302,24 @@ PROPERTY	Detail Noise Scale	0	0.035000	0
 PROPERTY	Detail Erosion	0	0.320000	0
 PROPERTY	Wind Direction	3	1.000000,0.000000,0.250000	0
 PROPERTY	Wind Speed	0	8.000000	0
-PROPERTY	Render Scale	0	0.500000	0
+PROPERTY	Render Scale	0	0.400000	0
 PROPERTY	Primary Steps	1	24	0
 PROPERTY	Light Steps	1	3	0
 END_COMPONENT
 ENTITY	6	0	1	Directional Light	0.000000,0.000000,0.000000	-399.500000,60.945396,0.000000	1.000000,1.000000,1.000000
-COMPONENT	6	LightComponent
+COMPONENT	6	LightComponent	1
 PROPERTY	Color	3	1.000000,0.900000,0.800000	0
 PROPERTY	Intensity	0	20.000000	0
 PROPERTY	Range	0	10.000000	0
 PROPERTY	CastsShadows	4	true	0
-PROPERTY	Direction	3	-0.674521,-0.636078,-0.374734	0
+PROPERTY	Direction	3	-0.874157,-0.308907,-0.374734	0
 PROPERTY	LightType	6	1	3	Point	Directional	Spot
 PROPERTY	Static	4	true	0
 PROPERTY	Shadow Cascade Count	1	4	0
 PROPERTY	Shadow Resolution	1	2048	0
 PROPERTY	Shadow Cascade Resolution Falloff	0	0.750000	0
 PROPERTY	Shadow Distance (0 = Camera Far)	0	80.000000	0
+PROPERTY	Shadow Caster Distance (0 = Shadow Distance)	0	0.000000	0
 PROPERTY	Near Shadow Distance (0 = Auto)	0	8.000000	0
 PROPERTY	Shadow Split Lambda	0	0.900000	0
 PROPERTY	Shadow Cascade Blend Distance	0	1.000000	0
@@ -1371,7 +1334,7 @@ PROPERTY	Shadow Filter Normal Threshold	0	0.500000	0
 PROPERTY	Shadow Filter Normal Softness	0	0.001000	0
 END_COMPONENT
 ENTITY	704	0	1	Cube	-9.153456,0.000000,-8.391237	0.000000,0.000000,0.000000	5.439000,5.439000,5.439000
-COMPONENT	704	ColliderComponent
+COMPONENT	704	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -1380,7 +1343,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	704	MeshComponent
+COMPONENT	704	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -1395,7 +1358,7 @@ PROPERTY	MaterialSlots.0.MaterialAsset	2	engine://builtin/material/default-shade
 PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Ground.plutomaterial	0
 END_COMPONENT
 ENTITY	705	0	1	Cube Copy	2.400922,0.000000,-16.948172	0.000000,0.000000,0.000000	5.439000,1.066042,5.439000
-COMPONENT	705	ColliderComponent
+COMPONENT	705	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -1404,7 +1367,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	705	MeshComponent
+COMPONENT	705	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -1421,10 +1384,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.000000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.550000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -1436,7 +1403,7 @@ PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.0000
 PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Ground.plutomaterial	0
 END_COMPONENT
 ENTITY	706	0	1	Cube Copy Copy	8.521360,0.000000,-6.617557	0.000000,0.000000,0.000000	0.553552,10.338842,16.462599
-COMPONENT	706	ColliderComponent
+COMPONENT	706	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -1445,7 +1412,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	706	MeshComponent
+COMPONENT	706	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -1462,10 +1429,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.000000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.550000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -1477,7 +1448,7 @@ PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.0000
 PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Ground.plutomaterial	0
 END_COMPONENT
 ENTITY	707	0	1	Navmesh	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	707	NavigationMeshComponent
+COMPONENT	707	NavigationMeshComponent	1
 PROPERTY	Bounds Minimum	3	-50.000000,-10.000000,-50.000000	0
 PROPERTY	Bounds Maximum	3	100.000000,20.000000,100.000000	0
 PROPERTY	Cell Size	0	1.000000	0
@@ -1486,7 +1457,7 @@ PROPERTY	Maximum Step Height	0	0.500000	0
 PROPERTY	Baked	4	true	0
 END_COMPONENT
 ENTITY	1127	0	0	Enemy Wave Spawner	0.000000,1.501546,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	1127	ScriptComponent
+COMPONENT	1127	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.EnemyWaveSpawner	0
 PROPERTY	enemyPrefab	2	project://Prefabs/Enemy.plutoprefab	0
 PROPERTY	enemyTag	2	Enemy	0
@@ -1506,7 +1477,7 @@ ENTITY	1129	1127	1	Spawn North East	18.000000,1.000000,-18.000000	0.000000,-135.
 ENTITY	1130	1127	1	Spawn South East	18.000000,1.000000,18.000000	0.000000,-45.000000,0.000000	1.000000,1.000000,1.000000
 ENTITY	1131	1127	1	Spawn South West	-18.000000,1.000000,18.000000	0.000000,45.000000,0.000000	1.000000,1.000000,1.000000
 ENTITY	1132	0	1	Arena North Wall	0.000000,1.500000,-24.000000	0.000000,0.000000,0.000000	48.000000,3.000000,1.000000
-COMPONENT	1132	ColliderComponent
+COMPONENT	1132	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -1515,7 +1486,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	1132	MeshComponent
+COMPONENT	1132	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -1532,10 +1503,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.000000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.550000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -1546,7 +1521,7 @@ PROPERTY	MaterialSlots.0.LightmapPath	2		0
 PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT
 ENTITY	1133	0	1	Arena South Wall	0.000000,1.500000,75.113792	0.000000,0.000000,0.000000	48.000000,3.000000,1.000000
-COMPONENT	1133	ColliderComponent
+COMPONENT	1133	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -1555,7 +1530,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	1133	MeshComponent
+COMPONENT	1133	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -1572,10 +1547,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.000000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.550000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -1586,7 +1565,7 @@ PROPERTY	MaterialSlots.0.LightmapPath	2		0
 PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT
 ENTITY	1134	0	1	Arena West Wall	-24.000000,1.500000,25.508139	0.000000,0.000000,0.000000	1.000000,3.000000,98.805786
-COMPONENT	1134	ColliderComponent
+COMPONENT	1134	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -1595,7 +1574,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	1134	MeshComponent
+COMPONENT	1134	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -1612,10 +1591,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.000000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.550000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -1626,7 +1609,7 @@ PROPERTY	MaterialSlots.0.LightmapPath	2		0
 PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT
 ENTITY	1135	0	1	Arena East Wall	24.000000,1.500000,25.720543	0.000000,0.000000,0.000000	1.000000,3.000000,100.077461
-COMPONENT	1135	ColliderComponent
+COMPONENT	1135	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -1635,7 +1618,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	1135	MeshComponent
+COMPONENT	1135	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -1652,10 +1635,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.000000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.550000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -1666,7 +1653,7 @@ PROPERTY	MaterialSlots.0.LightmapPath	2		0
 PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT
 ENTITY	1136	0	1	Cover North West	-9.000000,1.250000,-8.000000	0.000000,20.000000,0.000000	5.000000,2.500000,2.000000
-COMPONENT	1136	ColliderComponent
+COMPONENT	1136	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -1675,7 +1662,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	1136	MeshComponent
+COMPONENT	1136	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -1690,7 +1677,7 @@ PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Ground.plutomateria
 END_COMPONENT
 ENTITY	1137	0	1	Cover North East	9.000000,1.250000,-9.000000	0.000000,-25.000000,0.000000	4.000000,2.500000,2.500000
 ENTITY	1138	0	1	Cover South East	8.000000,1.250000,9.000000	0.000000,30.000000,0.000000	5.000000,2.500000,2.000000
-COMPONENT	1138	ColliderComponent
+COMPONENT	1138	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -1699,7 +1686,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	1138	MeshComponent
+COMPONENT	1138	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -1713,7 +1700,7 @@ PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Ground.plutomaterial	0
 END_COMPONENT
 ENTITY	1139	0	1	Cover South West	-8.000000,1.250000,8.000000	0.000000,-20.000000,0.000000	4.000000,2.500000,2.500000
-COMPONENT	1139	ColliderComponent
+COMPONENT	1139	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -1722,7 +1709,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	1139	MeshComponent
+COMPONENT	1139	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -1736,7 +1723,7 @@ PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Ground.plutomaterial	0
 END_COMPONENT
 ENTITY	1196	0	0	UI	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	1196	CanvasComponent
+COMPONENT	1196	CanvasComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	RenderMode	6	0	4	Screen Space	World Screen Space	Screen Space Camera	World Space
 PROPERTY	ScaleMode	6	1	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
@@ -1752,7 +1739,7 @@ PROPERTY	ContentSource	6	0	2	RML Document	Text
 PROPERTY	DocumentPath	2		0
 END_COMPONENT
 ENTITY	268	1196	1	Crosshair	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	268	RectTransformComponent
+COMPONENT	268	RectTransformComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
 PROPERTY	AnchoredPosition	7	0.000000,0.000000	0
@@ -1779,7 +1766,7 @@ PROPERTY	ExpandChildHeight	4	false	0
 PROPERTY	HorizontalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 PROPERTY	VerticalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 END_COMPONENT
-COMPONENT	268	UIImageComponent
+COMPONENT	268	UIImageComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	Color	5	1.000000,1.000000,1.000000,0.776471	0
 PROPERTY	TexturePath	2		0
@@ -1792,7 +1779,7 @@ PROPERTY	CornerRadius	0	0.000000	0
 PROPERTY	StartAngle	0	0.000000	0
 END_COMPONENT
 ENTITY	1126	1196	1	Damage Overlay	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	1126	RectTransformComponent
+COMPONENT	1126	RectTransformComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	AnchorPreset	6	9	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
 PROPERTY	AnchoredPosition	7	0.000000,0.000000	0
@@ -1819,7 +1806,7 @@ PROPERTY	ExpandChildHeight	4	false	0
 PROPERTY	HorizontalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 PROPERTY	VerticalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 END_COMPONENT
-COMPONENT	1126	UIImageComponent
+COMPONENT	1126	UIImageComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	Color	5	0.800000,0.000000,0.000000,0.228047	0
 PROPERTY	TexturePath	2		0
@@ -1832,7 +1819,7 @@ PROPERTY	CornerRadius	0	0.000000	0
 PROPERTY	StartAngle	0	0.000000	0
 END_COMPONENT
 ENTITY	1530	1196	1	CrossHairLines	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	1530	RectTransformComponent
+COMPONENT	1530	RectTransformComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
 PROPERTY	AnchoredPosition	7	0.000000,0.000000	0
@@ -1859,7 +1846,7 @@ PROPERTY	ExpandChildHeight	4	false	0
 PROPERTY	HorizontalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 PROPERTY	VerticalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 END_COMPONENT
-COMPONENT	1530	UIImageComponent
+COMPONENT	1530	UIImageComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	Color	5	1.000000,1.000000,1.000000,1.000000	0
 PROPERTY	TexturePath	2		0
@@ -1872,7 +1859,7 @@ PROPERTY	CornerRadius	0	0.000000	0
 PROPERTY	StartAngle	0	0.000000	0
 END_COMPONENT
 ENTITY	1553	1196	1	Grid	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	1553	RectTransformComponent
+COMPONENT	1553	RectTransformComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
 PROPERTY	AnchoredPosition	7	-616.000000,-296.000000	0
@@ -1900,7 +1887,7 @@ PROPERTY	HorizontalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 PROPERTY	VerticalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 END_COMPONENT
 ENTITY	155	1553	1	Health	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	155	RectTransformComponent
+COMPONENT	155	RectTransformComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	AnchorPreset	6	6	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
 PROPERTY	AnchoredPosition	7	-800.000000,-416.000000	0
@@ -1927,7 +1914,7 @@ PROPERTY	ExpandChildHeight	4	false	0
 PROPERTY	HorizontalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 PROPERTY	VerticalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 END_COMPONENT
-COMPONENT	155	UIImageComponent
+COMPONENT	155	UIImageComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	Color	5	0.000000,0.000000,0.000000,0.627451	0
 PROPERTY	TexturePath	2		0
@@ -1939,7 +1926,7 @@ PROPERTY	Thickness	0	2.000000	0
 PROPERTY	CornerRadius	0	0.000000	0
 PROPERTY	StartAngle	0	0.000000	0
 END_COMPONENT
-COMPONENT	155	UITextComponent
+COMPONENT	155	UITextComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	Text	2	HP 100	0
 PROPERTY	Color	5	1.000000,1.000000,1.000000,1.000000	0
@@ -1953,7 +1940,7 @@ PROPERTY	OutlineColor	5	0.000000,0.000000,0.000000,0.800000	0
 PROPERTY	OutlineWidth	0	0.000000	0
 END_COMPONENT
 ENTITY	43	1553	1	AmmoCounter	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	43	RectTransformComponent
+COMPONENT	43	RectTransformComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	AnchorPreset	6	8	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
 PROPERTY	AnchoredPosition	7	832.000000,-480.000000	0
@@ -1980,7 +1967,7 @@ PROPERTY	ExpandChildHeight	4	false	0
 PROPERTY	HorizontalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 PROPERTY	VerticalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 END_COMPONENT
-COMPONENT	43	UIImageComponent
+COMPONENT	43	UIImageComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	Color	5	0.000000,0.000000,0.000000,0.627451	0
 PROPERTY	TexturePath	2		0
@@ -1992,7 +1979,7 @@ PROPERTY	Thickness	0	2.000000	0
 PROPERTY	CornerRadius	0	0.000000	0
 PROPERTY	StartAngle	0	0.000000	0
 END_COMPONENT
-COMPONENT	43	UITextComponent
+COMPONENT	43	UITextComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	Text	2	27 / 0	0
 PROPERTY	Color	5	1.000000,1.000000,1.000000,1.000000	0
@@ -2006,7 +1993,7 @@ PROPERTY	OutlineColor	5	0.000000,0.000000,0.000000,0.800000	0
 PROPERTY	OutlineWidth	0	0.000000	0
 END_COMPONENT
 ENTITY	1554	1196	1	PromptText	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	1554	RectTransformComponent
+COMPONENT	1554	RectTransformComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
 PROPERTY	AnchoredPosition	7	0.000000,-120.000000	0
@@ -2033,7 +2020,7 @@ PROPERTY	ExpandChildHeight	4	false	0
 PROPERTY	HorizontalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 PROPERTY	VerticalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 END_COMPONENT
-COMPONENT	1554	UITextComponent
+COMPONENT	1554	UITextComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	Text	2		0
 PROPERTY	Color	5	1.000000,1.000000,1.000000,1.000000	0
@@ -2047,7 +2034,7 @@ PROPERTY	OutlineColor	5	0.000000,0.000000,0.000000,0.800000	0
 PROPERTY	OutlineWidth	0	0.000000	0
 END_COMPONENT
 ENTITY	1555	0	1	SupplySpawner	0.000000,1.013513,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	1555	ScriptComponent
+COMPONENT	1555	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.SupplySpawner	0
 PROPERTY	healthPrefab	2	project://Prefabs/HealthPickup.plutoprefab	0
 PROPERTY	ammoPrefab	2	project://Prefabs/AmmoPickup.plutoprefab	0
@@ -2072,7 +2059,7 @@ ENTITY	1783	1555	1	pointG	4.755370,-0.000001,-8.158449	0.000000,0.000000,0.00000
 ENTITY	1784	0	1	RmlGameUI	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 PREFAB	1784	project://Prefabs/RmlGameUI.plutoprefab	1784	1	0
 TAGS	1784	1	UIManager
-COMPONENT	1784	CanvasComponent
+COMPONENT	1784	CanvasComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	RenderMode	6	0	4	Screen Space	World Screen Space	Screen Space Camera	World Space
 PROPERTY	ScaleMode	6	1	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
@@ -2087,11 +2074,11 @@ PROPERTY	Backend	6	0	2	Legacy Native	RmlUi
 PROPERTY	ContentSource	6	0	2	RML Document	Text
 PROPERTY	DocumentPath	2		0
 END_COMPONENT
-COMPONENT	1784	ScriptComponent
+COMPONENT	1784	ScriptComponent	1
 PROPERTY	Source	2	UIManager	0
-PROPERTY	PauseMenu	9	13002	0
-PROPERTY	HUD	9	13003	0
-PROPERTY	Inventory	9	13004	0
+PROPERTY	PauseMenu	9	20356	0
+PROPERTY	HUD	9	20357	0
+PROPERTY	Inventory	9	20358	0
 PROPERTY	PauseDocumentPath	2	UI/pause-menu.rml	0
 PROPERTY	HUDDocumentPath	2	UI/hud.rml	0
 PROPERTY	InventoryDocumentPath	2	UI/inventory.rml	0
@@ -2101,34 +2088,34 @@ PROPERTY	pauseMenuObject	9	0	0
 PROPERTY	pauseDocumentPath	2	UI/pause-menu.rml	0
 PROPERTY	hudObject	9	0	0
 END_COMPONENT
-ENTITY	13002	1784	1	PauseMenu	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	13002	project://Prefabs/RmlGameUI.plutoprefab	1785	0	0
-COMPONENT	13002	RmlWidgetComponent
+ENTITY	20356	1784	1	PauseMenu	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20356	project://Prefabs/RmlGameUI.plutoprefab	1785	0	0
+COMPONENT	20356	RmlWidgetComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	Source	2	project://UI/pause-menu.rml	0
 PROPERTY	Visible	4	false	0
 END_COMPONENT
-COMPONENT	13002	ScriptComponent
+COMPONENT	20356	ScriptComponent	1
 PROPERTY	Source	2	PauseMenu	0
 PROPERTY	uiManagerObject	9	0	0
 PROPERTY	DocumentPath	2	UI/pause-menu.rml	0
 PROPERTY	documentPath	2	UI/pause-menu.rml	0
 END_COMPONENT
-ENTITY	13003	1784	1	HUD	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	13003	project://Prefabs/RmlGameUI.plutoprefab	1883	0	0
-COMPONENT	13003	RmlWidgetComponent
+ENTITY	20357	1784	1	HUD	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20357	project://Prefabs/RmlGameUI.plutoprefab	1883	0	0
+COMPONENT	20357	RmlWidgetComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	Source	2	project://UI/hud.rml	0
 PROPERTY	Visible	4	true	0
 END_COMPONENT
-ENTITY	13004	1784	1	Inventory	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-PREFAB	13004	project://Prefabs/RmlGameUI.plutoprefab	1931	0	0
-COMPONENT	13004	RmlWidgetComponent
+ENTITY	20358	1784	1	Inventory	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+PREFAB	20358	project://Prefabs/RmlGameUI.plutoprefab	1931	0	0
+COMPONENT	20358	RmlWidgetComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	Source	2	project://UI/inventory.rml	0
 PROPERTY	Visible	4	false	0
 END_COMPONENT
-COMPONENT	13004	ScriptComponent
+COMPONENT	20358	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.InventoryMenu	0
 PROPERTY	documentPath	2	UI/inventory.rml	0
 PROPERTY	player	9	1	0
@@ -2136,7 +2123,7 @@ END_COMPONENT
 ENTITY	3445	0	1	Health Supply	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	0.750000,0.750000,0.750000
 PREFAB	3445	project://Prefabs/HealthPickup.plutoprefab	1	1	0
 TAGS	3445	2	Interactable	HealthPickup
-COMPONENT	3445	ColliderComponent
+COMPONENT	3445	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -2145,7 +2132,7 @@ PROPERTY	Height	0	1.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	false	0
 END_COMPONENT
-COMPONENT	3445	MeshComponent
+COMPONENT	3445	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -2162,10 +2149,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.050000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.350000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.030000,0.400000,0.080000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -2175,7 +2166,7 @@ PROPERTY	MaterialSlots.0.FlipNormalY	4	false	0
 PROPERTY	MaterialSlots.0.LightmapPath	2		0
 PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT
-COMPONENT	3445	ScriptComponent
+COMPONENT	3445	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.SupplyPickup	0
 PROPERTY	ammoAmount	1	0	0
 PROPERTY	healthAmount	0	35.000000	0
@@ -2189,7 +2180,7 @@ END_COMPONENT
 ENTITY	3537	0	1	Armour Supply	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	0.900000,0.550000,0.650000
 PREFAB	3537	project://Prefabs/ArmourPickup.plutoprefab	1	1	0
 TAGS	3537	2	Interactable	ArmourPickup
-COMPONENT	3537	ColliderComponent
+COMPONENT	3537	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -2198,7 +2189,7 @@ PROPERTY	Height	0	1.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	false	0
 END_COMPONENT
-COMPONENT	3537	MeshComponent
+COMPONENT	3537	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -2215,10 +2206,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.200000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.300000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.020000,0.280000,0.650000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -2228,7 +2223,7 @@ PROPERTY	MaterialSlots.0.FlipNormalY	4	false	0
 PROPERTY	MaterialSlots.0.LightmapPath	2		0
 PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT
-COMPONENT	3537	ScriptComponent
+COMPONENT	3537	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.SupplyPickup	0
 PROPERTY	ammoAmount	1	0	0
 PROPERTY	healthAmount	0	0.000000	0
@@ -2242,7 +2237,7 @@ END_COMPONENT
 ENTITY	3767	0	1	Health Supply	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	0.750000,0.750000,0.750000
 PREFAB	3767	project://Prefabs/HealthPickup.plutoprefab	1	1	0
 TAGS	3767	2	Interactable	HealthPickup
-COMPONENT	3767	ColliderComponent
+COMPONENT	3767	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -2251,7 +2246,7 @@ PROPERTY	Height	0	1.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	false	0
 END_COMPONENT
-COMPONENT	3767	MeshComponent
+COMPONENT	3767	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -2268,10 +2263,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.050000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.350000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.030000,0.400000,0.080000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -2281,7 +2280,7 @@ PROPERTY	MaterialSlots.0.FlipNormalY	4	false	0
 PROPERTY	MaterialSlots.0.LightmapPath	2		0
 PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT
-COMPONENT	3767	ScriptComponent
+COMPONENT	3767	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.SupplyPickup	0
 PROPERTY	ammoAmount	1	0	0
 PROPERTY	healthAmount	0	35.000000	0
@@ -2295,7 +2294,7 @@ END_COMPONENT
 ENTITY	4056	0	1	Ammo Supply	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	0.900000,0.550000,0.650000
 PREFAB	4056	project://Prefabs/AmmoPickup.plutoprefab	1	1	0
 TAGS	4056	2	Interactable	AmmoPickup
-COMPONENT	4056	ColliderComponent
+COMPONENT	4056	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -2304,7 +2303,7 @@ PROPERTY	Height	0	1.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	false	0
 END_COMPONENT
-COMPONENT	4056	MeshComponent
+COMPONENT	4056	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -2321,10 +2320,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.200000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.300000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.450000,0.180000,0.020000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -2334,7 +2337,7 @@ PROPERTY	MaterialSlots.0.FlipNormalY	4	false	0
 PROPERTY	MaterialSlots.0.LightmapPath	2		0
 PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT
-COMPONENT	4056	ScriptComponent
+COMPONENT	4056	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.SupplyPickup	0
 PROPERTY	ammoAmount	1	45	0
 PROPERTY	healthAmount	0	0.000000	0
@@ -2348,7 +2351,7 @@ END_COMPONENT
 ENTITY	4087	0	1	Health Supply	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	0.750000,0.750000,0.750000
 PREFAB	4087	project://Prefabs/HealthPickup.plutoprefab	1	1	0
 TAGS	4087	2	Interactable	HealthPickup
-COMPONENT	4087	ColliderComponent
+COMPONENT	4087	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -2357,7 +2360,7 @@ PROPERTY	Height	0	1.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	false	0
 END_COMPONENT
-COMPONENT	4087	MeshComponent
+COMPONENT	4087	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -2374,10 +2377,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.050000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.350000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.030000,0.400000,0.080000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -2387,7 +2394,7 @@ PROPERTY	MaterialSlots.0.FlipNormalY	4	false	0
 PROPERTY	MaterialSlots.0.LightmapPath	2		0
 PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT
-COMPONENT	4087	ScriptComponent
+COMPONENT	4087	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.SupplyPickup	0
 PROPERTY	ammoAmount	1	0	0
 PROPERTY	healthAmount	0	35.000000	0
@@ -2401,7 +2408,7 @@ END_COMPONENT
 ENTITY	4105	0	1	Armour Supply	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	0.900000,0.550000,0.650000
 PREFAB	4105	project://Prefabs/ArmourPickup.plutoprefab	1	1	0
 TAGS	4105	2	Interactable	ArmourPickup
-COMPONENT	4105	ColliderComponent
+COMPONENT	4105	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -2410,7 +2417,7 @@ PROPERTY	Height	0	1.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	false	0
 END_COMPONENT
-COMPONENT	4105	MeshComponent
+COMPONENT	4105	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -2427,10 +2434,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.200000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.300000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.020000,0.280000,0.650000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -2440,7 +2451,7 @@ PROPERTY	MaterialSlots.0.FlipNormalY	4	false	0
 PROPERTY	MaterialSlots.0.LightmapPath	2		0
 PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT
-COMPONENT	4105	ScriptComponent
+COMPONENT	4105	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.SupplyPickup	0
 PROPERTY	ammoAmount	1	0	0
 PROPERTY	healthAmount	0	0.000000	0
@@ -2454,7 +2465,7 @@ END_COMPONENT
 ENTITY	4111	0	1	Ammo Supply	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	0.900000,0.550000,0.650000
 PREFAB	4111	project://Prefabs/AmmoPickup.plutoprefab	1	1	0
 TAGS	4111	2	Interactable	AmmoPickup
-COMPONENT	4111	ColliderComponent
+COMPONENT	4111	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -2463,7 +2474,7 @@ PROPERTY	Height	0	1.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	false	0
 END_COMPONENT
-COMPONENT	4111	MeshComponent
+COMPONENT	4111	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -2480,10 +2491,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.200000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.300000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.450000,0.180000,0.020000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -2493,7 +2508,7 @@ PROPERTY	MaterialSlots.0.FlipNormalY	4	false	0
 PROPERTY	MaterialSlots.0.LightmapPath	2		0
 PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT
-COMPONENT	4111	ScriptComponent
+COMPONENT	4111	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.SupplyPickup	0
 PROPERTY	ammoAmount	1	45	0
 PROPERTY	healthAmount	0	0.000000	0
@@ -2505,7 +2520,7 @@ PROPERTY	respawnPrefab	2	project://Prefabs/AmmoPickup.plutoprefab	0
 PROPERTY	rotationSpeed	0	45.000000	0
 END_COMPONENT
 ENTITY	4757	0	1	Floor Copy	0.000000,-0.305114,50.000000	0.000000,0.000000,0.000000	50.000000,1.000000,50.000000
-COMPONENT	4757	ColliderComponent
+COMPONENT	4757	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -2514,7 +2529,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	4757	MeshComponent
+COMPONENT	4757	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -2529,7 +2544,7 @@ PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Ground.plutomateria
 PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Ground.plutomaterial	0
 END_COMPONENT
 ENTITY	4759	0	1	Cube	3.731576,3.112931,64.942719	0.000000,0.000000,0.000000	8.940001,8.940001,8.940001
-COMPONENT	4759	MeshComponent
+COMPONENT	4759	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -2543,7 +2558,7 @@ PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MaterialSlots.0.MaterialAsset	2	engine://builtin/material/default-shaded	0
 END_COMPONENT
 ENTITY	4760	0	1	Cube Copy	3.603992,3.112931,52.183468	0.000000,0.000000,0.000000	8.940001,26.172447,8.940001
-COMPONENT	4760	ColliderComponent
+COMPONENT	4760	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -2552,7 +2567,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	4760	MeshComponent
+COMPONENT	4760	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -2569,10 +2584,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.000000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.550000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -2583,7 +2602,7 @@ PROPERTY	MaterialSlots.0.LightmapPath	2		0
 PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT
 ENTITY	4761	0	1	Cube Copy Copy	3.781363,3.112931,38.937016	0.000000,0.000000,0.000000	8.940001,13.427378,8.940001
-COMPONENT	4761	ColliderComponent
+COMPONENT	4761	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -2592,7 +2611,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	4761	MeshComponent
+COMPONENT	4761	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -2609,10 +2628,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.000000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.550000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -2623,7 +2646,7 @@ PROPERTY	MaterialSlots.0.LightmapPath	2		0
 PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT
 ENTITY	4762	0	1	Cube Copy Copy Copy	15.765807,3.112931,34.499928	0.000000,0.000000,0.000000	8.940001,19.129967,8.940001
-COMPONENT	4762	ColliderComponent
+COMPONENT	4762	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -2632,7 +2655,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	4762	MeshComponent
+COMPONENT	4762	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -2649,10 +2672,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.000000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.550000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -2663,7 +2690,7 @@ PROPERTY	MaterialSlots.0.LightmapPath	2		0
 PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT
 ENTITY	4763	0	1	Cube Copy Copy Copy Copy	15.361040,3.112929,46.883286	0.000000,0.000000,0.000000	8.940001,13.559104,8.940001
-COMPONENT	4763	ColliderComponent
+COMPONENT	4763	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -2672,7 +2699,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	4763	MeshComponent
+COMPONENT	4763	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -2689,10 +2716,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.000000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.550000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -2703,7 +2734,7 @@ PROPERTY	MaterialSlots.0.LightmapPath	2		0
 PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT
 ENTITY	4764	0	1	Cube Copy Copy Copy Copy Copy	15.542187,3.112929,59.282776	0.000000,0.000000,0.000000	8.940001,34.672985,8.940001
-COMPONENT	4764	ColliderComponent
+COMPONENT	4764	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -2712,7 +2743,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	4764	MeshComponent
+COMPONENT	4764	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -2729,10 +2760,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.000000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.550000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0
@@ -2743,7 +2778,7 @@ PROPERTY	MaterialSlots.0.LightmapPath	2		0
 PROPERTY	MaterialSlots.0.LightmapUvTransform	2	1.000000,1.000000,0.000000,0.000000	0
 END_COMPONENT
 ENTITY	4765	0	1	Cube Copy Copy Copy	4.031363,3.112931,25.195631	0.000000,0.000000,0.000000	8.940001,13.427378,8.940001
-COMPONENT	4765	ColliderComponent
+COMPONENT	4765	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -2752,7 +2787,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	4765	MeshComponent
+COMPONENT	4765	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -2769,10 +2804,14 @@ PROPERTY	MaterialSlots.0.SurfaceType	2	Standard	0
 PROPERTY	MaterialSlots.0.AlphaMode	2	Opaque	0
 PROPERTY	MaterialSlots.0.AlphaCutoff	0	0.500000	0
 PROPERTY	MaterialSlots.0.CastsShadow	4	true	0
+PROPERTY	MaterialSlots.0.TwoSided	4	false	0
 PROPERTY	MaterialSlots.0.UvScale	2	1.000000,1.000000	0
 PROPERTY	MaterialSlots.0.Metallic	0	0.000000	0
 PROPERTY	MaterialSlots.0.Roughness	0	0.550000	0
 PROPERTY	MaterialSlots.0.Emission	2	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.Subsurface	0	0.000000	0
+PROPERTY	MaterialSlots.0.SubsurfaceColor	2	1.000000,0.350000,0.200000	0
+PROPERTY	MaterialSlots.0.SubsurfaceRadius	0	1.000000	0
 PROPERTY	MaterialSlots.0.Transmission	0	0.000000	0
 PROPERTY	MaterialSlots.0.Ior	0	1.450000	0
 PROPERTY	MaterialSlots.0.Thickness	0	0.010000	0

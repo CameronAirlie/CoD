@@ -51,8 +51,8 @@ Parameter 0 "Ambient Contribution" "0.000000" 0
 Parameter 0 "Directional Contribution" "1.000000" 0
 Parameter 0 "Max Opacity" "0.920000" 0
 Parameter 1 "Step Count" "32" 0
-Parameter 1 "Shadow Step Stride" "1" 0
-Parameter 3 "Half Resolution" "false" 0
+Parameter 1 "Shadow Step Stride" "2" 0
+Parameter 3 "Half Resolution" "true" 0
 Parameter 0 "Color R" "1.000000" 0
 Parameter 0 "Color G" "1.000000" 0
 Parameter 0 "Color B" "1.000000" 0

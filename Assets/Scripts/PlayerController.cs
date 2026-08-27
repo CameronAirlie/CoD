@@ -110,7 +110,6 @@ public sealed class PlayerController : ScriptBehaviour
     [SerializedField] private int magazineSize = 30;
     [SerializedField] private int startingReserveAmmo = 120;
     [SerializedField] private float roundsPerMinute = 720.0f;
-    [SerializedField] private float reloadDuration = 1.75f;
     [SerializedField] private float damage = 30.0f;
     [SerializedField] private float headshotMultiplier = 1.5f;
     [SerializedField] private float range = 180.0f;
@@ -156,7 +155,6 @@ public sealed class PlayerController : ScriptBehaviour
     private float _cameraHeight;
     private float _slideTime;
     private float _shotCooldown;
-    private float _reloadTime;
     private float _bobTime;
     private float _recoilPitchOffset;
     private float _recoilYawOffset;
@@ -171,6 +169,9 @@ public sealed class PlayerController : ScriptBehaviour
     private bool _aiming;
     private bool _sprinting;
     private bool _reloading;
+    // Remains true after ReloadFinish commits the ammunition because the
+    // visual reload may still have several frames left to play.
+    private bool _reloadAnimationActive;
     private FpsAmmoState _publishedAmmoState;
     private FpsMovementState _publishedMovementState;
     private uint _interactionTargetId;
@@ -259,7 +260,6 @@ public sealed class PlayerController : ScriptBehaviour
 
         _shotCooldown = MathF.Max(0.0f, _shotCooldown - deltaTime);
         _mouseDelta = Input.MouseDelta;
-        UpdateReload(deltaTime);
         UpdateLook(deltaTime);
         UpdateMovement(deltaTime);
         UpdateCamera(deltaTime);
@@ -364,7 +364,7 @@ public sealed class PlayerController : ScriptBehaviour
         var wantsCrouch = Input.IsKeyDown(KeyCode.LeftControl) || _sliding;
         var wantsSprint = _grounded && Input.IsKeyDown(KeyCode.LeftShift) &&
                           input.Y > 0.1f && !_aiming && !_crouching;
-        if (wantsSprint && _reloading)
+        if (wantsSprint && _reloadAnimationActive)
             CancelReload();
         var canSprint = input.Y > 0.1f && !_aiming && !_reloading && !_crouching;
         _sprinting = _grounded && Input.IsKeyDown(KeyCode.LeftShift) && canSprint;
@@ -477,6 +477,10 @@ public sealed class PlayerController : ScriptBehaviour
         {
             return;
         }
+        if (_reloadAnimationActive)
+        {
+            CancelReload();
+        }
         if (_ammo <= 0)
         {
             _shotCooldown = 0.18f;
@@ -539,20 +543,15 @@ public sealed class PlayerController : ScriptBehaviour
             return;
         }
         _reloading = true;
-        _reloadTime = MathF.Max(0.05f, reloadDuration);
+        _reloadAnimationActive = true;
         reloadAudio?.PlayOneShot();
         weaponAnimator?.SetBool("Reload", true);
         UpdateHud();
     }
 
-    private void UpdateReload(float deltaTime)
+    public override void OnAnimationEvent(AnimationEvent animationEvent)
     {
-        if (!_reloading)
-        {
-            return;
-        }
-        _reloadTime -= deltaTime;
-        if (_reloadTime > 0.0f)
+        if (!_reloading || !string.Equals(animationEvent.Name, "ReloadFinish", StringComparison.Ordinal))
         {
             return;
         }
@@ -562,17 +561,20 @@ public sealed class PlayerController : ScriptBehaviour
         _ammo += transferred;
         _reserveAmmo = _inventory?.ReserveAmmo ?? _reserveAmmo - transferred;
         _reloading = false;
-        weaponAnimator?.SetBool("Reload", false);
+        // ReloadFinish commits the gameplay state, but the animation layer is
+        // allowed to play through its remaining frames. The animator re-arms
+        // this one-shot Boolean when the non-looping layer reaches its end.
         UpdateHud();
     }
 
     private void CancelReload()
     {
-        if (!_reloading)
+        if (!_reloading && !_reloadAnimationActive)
         {
             return;
         }
         _reloading = false;
+        _reloadAnimationActive = false;
         // Reload is a Boolean animation layer so clearing it uses the graph's
         // configured blend-out instead of snapping the animator back to idle.
         weaponAnimator?.SetBool("Reload", false);

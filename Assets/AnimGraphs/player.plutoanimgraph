@@ -18,4 +18,4 @@ BoneMaskEntry=2|3|1|1
 BoneMaskEntry=2|6|1|1
 BoneMaskEntry=2|10|1|1
 Layer=1|Fire|project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_shoot_5.plutoclip|animation_low-poly_val_LVA4_Armature_wpn_val_shoot_5|0|0|0|1||Fire|1|0.08|0.12|0|1|1|
-Layer=2|Reload|project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_reload_3.plutoclip|animation_low-poly_val_LVA4_Armature_wpn_val_reload_3|0|0|0|1||Reload|1|0.08|0.12|0|1|1|
+Layer=2|Reload|project://SourceModels/animation_low-poly_val/LVA4_Armature_wpn_val_reload.plutoclip|animation_low-poly_val_LVA4_Armature_wpn_val_reload_3|0|0|0|1||Reload|1|0.08|0.12|0|1|1|
