@@ -49,6 +49,20 @@
         { "Kind": "GamepadAxis", "Key": "Space", "Button": "A", "Axis": "RightY", "MouseButton": "Left", "MouseAxis": "X", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 },
         { "Kind": "MouseAxis", "Key": "Space", "Button": "A", "Axis": "LeftX", "MouseButton": "Left", "MouseAxis": "Y", "Gamepad": 0, "Scale": 0.1, "DeadZone": 0.15 }
       ]
+    },
+    {
+      "Name": "ShiftUp",
+      "Bindings": [
+        { "Kind": "Key", "Key": "V", "Button": "A", "Axis": "LeftX", "MouseButton": "Left", "MouseAxis": "X", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 },
+        { "Kind": "GamepadButton", "Key": "Space", "Button": "B", "Axis": "LeftX", "MouseButton": "Left", "MouseAxis": "X", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 }
+      ]
+    },
+    {
+      "Name": "ShiftDown",
+      "Bindings": [
+        { "Kind": "Key", "Key": "C", "Button": "A", "Axis": "LeftX", "MouseButton": "Left", "MouseAxis": "X", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 },
+        { "Kind": "GamepadButton", "Key": "Space", "Button": "X", "Axis": "LeftX", "MouseButton": "Left", "MouseAxis": "X", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 }
+      ]
     }
   ]
 }
