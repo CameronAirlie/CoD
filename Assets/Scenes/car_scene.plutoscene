@@ -137,8 +137,8 @@ PROPERTY	upshiftSlipThreshold	0	0.150000	0
 PROPERTY	reboundDamperStrength	0	6200.000000	0
 PROPERTY	downforce	0	10.000000	0
 PROPERTY	driftAssist	0	0.000000	0
-PROPERTY	bumpStopStrength	0	65000.000000	0
 PROPERTY	damperVelocityResponse	0	12.000000	0
+PROPERTY	bumpStopStrength	0	65000.000000	0
 PROPERTY	uprightAssist	0	7.500000	0
 PROPERTY	yawAssist	0	0.000000	0
 END_COMPONENT
@@ -1293,7 +1293,7 @@ PROPERTY	FOV	0	70.000000	0
 PROPERTY	NearPlane	0	0.100000	0
 PROPERTY	FarPlane	0	1000.000000	0
 PROPERTY	MainCamera	4	true	0
-PROPERTY	PostProcessPresetAsset	2	project://PostProcessing/main.plutopostprocess	0
+PROPERTY	PostProcessPresetAsset	2	project://PostProcessing/performance.plutopostprocess	0
 END_COMPONENT
 COMPONENT	20087	SoundListenerComponent	1
 PROPERTY	Primary	4	true	0
