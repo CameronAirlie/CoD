@@ -96,11 +96,11 @@ Parameter 4 "Quality" "0" 2 "Balanced" "High"
 Parameter 0 "History Weight" "0.900000" 0
 Parameter 0 "Stationary History Weight" "0.940000" 0
 Parameter 0 "Motion History Weight" "0.550000" 0
-Parameter 0 "Sharpening" "1.000000" 0
+Parameter 0 "Sharpening" "0.000000" 0
 Parameter 0 "Depth Rejection Threshold" "0.003500" 0
 Parameter 0 "Normal Rejection Threshold" "0.820000" 0
 Parameter 0 "Velocity Rejection Scale" "80.000000" 0
-Parameter 0 "Jitter Strength" "0.800000" 0
+Parameter 0 "Jitter Strength" "1.000000" 0
 Parameter 3 "Jitter Enabled" "true" 0
 Effect "ColorGrading" 0 18
 Parameter 4 "Preset" "1" 9 "Custom" "Neutral" "Filmic" "Cinematic" "Teal & Orange" "Vintage" "Bleach Bypass" "Noir" "Dreamy"
