@@ -1,5 +1,6 @@
 SCRIPTABLE	PlutoGE.ScriptCore.Examples.RaycastVehicleSettings
 FIELD	Mass	3	1250.000000
+FIELD	ChassisAngularDrag	3	0.100000
 FIELD	WheelRadius	3	0.750000
 FIELD	DrivenWheelInertia	3	1.500000
 FIELD	SuspensionTravel	3	0.050000
@@ -16,12 +17,21 @@ FIELD	FrontGrip	3	7.000000
 FIELD	RearGrip	3	7.000000
 FIELD	GripLimit	3	3.000000
 FIELD	DriveGrip	3	1.000000
+FIELD	PeakLateralSlipAngle	3	12.000000
+FIELD	FullLateralSlipAngle	3	30.000000
+FIELD	SlidingTyreLateralGrip	3	0.500000
+FIELD	FrontLateralSlipTolerance	3	1.500000
+FIELD	LateralGripLossRate	3	12.000000
+FIELD	LateralGripRecoveryRate	3	1.500000
+FIELD	FrontLateralGripRecoveryRate	3	12.000000
+FIELD	RegripLateralSlipAngle	3	7.000000
+FIELD	FrontRegripLateralSlipAngle	3	18.000000
 FIELD	PeakLongitudinalSlip	3	0.120000
 FIELD	FullLongitudinalSlip	3	1.000000
-FIELD	SpinningTyreLongitudinalGrip	3	0.550000
+FIELD	SpinningTyreLongitudinalGrip	3	0.700000
 FIELD	SpinningTyreLateralGrip	3	0.150000
 FIELD	BrakeGrip	3	1.000000
-FIELD	HandbrakeGrip	3	0.450000
+FIELD	HandbrakeGrip	3	0.500000
 FIELD	AirDensity	3	1.225000
 FIELD	DownforceCoefficient	3	0.400000
 FIELD	DownforceArea	3	2.200000
@@ -45,4 +55,4 @@ FIELD	PeakTorqueRpm	3	4800.000000
 FIELD	ShiftDuration	3	0.500000
 FIELD	MaxSteerAngle	3	45.000000
 FIELD	SteerSharpness	3	8.000000
-FIELD	HighSpeedSteerFade	3	0.600000
+FIELD	HighSpeedSteerFade	3	0.350000
