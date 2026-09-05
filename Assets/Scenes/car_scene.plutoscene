@@ -86,6 +86,7 @@ PROPERTY	rearLeftWheelVisual	9	20044	0
 PROPERTY	rearRightWheelVisual	9	20058	0
 PROPERTY	centerOfMass	9	20086	0
 PROPERTY	mass	0	1250.000000	0
+PROPERTY	chassisAngularDrag	0	0.150000	0
 PROPERTY	wheelRadius	0	0.700000	0
 PROPERTY	drivenWheelInertia	0	1.500000	0
 PROPERTY	suspensionTravel	0	0.100000	0
@@ -104,6 +105,16 @@ PROPERTY	frontGrip	0	4.000000	0
 PROPERTY	rearGrip	0	4.000000	0
 PROPERTY	gripLimit	0	1.600000	0
 PROPERTY	driveGrip	0	1.000000	0
+PROPERTY	peakLateralSlipAngle	0	12.000000	0
+PROPERTY	fullLateralSlipAngle	0	30.000000	0
+PROPERTY	slidingTyreLateralGrip	0	0.500000	0
+PROPERTY	frontSlidingTyreLateralGrip	0	0.650000	0
+PROPERTY	frontLateralSlipTolerance	0	1.500000	0
+PROPERTY	lateralGripLossRate	0	12.000000	0
+PROPERTY	lateralGripRecoveryRate	0	5.000000	0
+PROPERTY	frontLateralGripRecoveryRate	0	12.000000	0
+PROPERTY	regripLateralSlipAngle	0	14.000000	0
+PROPERTY	frontRegripLateralSlipAngle	0	18.000000	0
 PROPERTY	peakLongitudinalSlip	0	0.120000	0
 PROPERTY	fullLongitudinalSlip	0	1.000000	0
 PROPERTY	spinningTyreLongitudinalGrip	0	0.550000	0
@@ -145,8 +156,8 @@ PROPERTY	lockCursorOnCreate	4	true	0
 PROPERTY	inputMappingAsset	2	project://Input/car.plutoinput	0
 PROPERTY	groundTag	2	ground	0
 PROPERTY	suspensionDiagnostics	4	true	0
-PROPERTY	downforce	0	10.000000	0
 PROPERTY	uprightAssist	0	7.500000	0
+PROPERTY	downforce	0	10.000000	0
 PROPERTY	stabilityAssist	0	0.000000	0
 PROPERTY	yawAssist	0	0.000000	0
 PROPERTY	reboundDamperStrength	0	6200.000000	0

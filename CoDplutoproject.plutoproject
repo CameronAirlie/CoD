@@ -5,7 +5,7 @@ STARTUP_SCENE	project://Scenes/car_scene.plutoscene
 SCRIPT_ASSEMBLY	project://Managed/CoD.Scripts.dll
 WINDOW_TITLE	CoD
 WINDOW_SIZE	1920	1080
-VSYNC	1
+VSYNC	0
 GRAPHICS_API	Vulkan
 RUNTIME_UPSCALER	DLSS
 RUNTIME_UPSCALER_QUALITY	Quality
@@ -13,9 +13,9 @@ RUNTIME_RENDER_SCALE	0.9
 RUNTIME_UPSCALE_SHARPNESS	0.5
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	672.778	62.9338	535.296
+EDITOR_CAMERA_POSITION	579.903	50.8569	573.196
 EDITOR_CAMERA_SPEED	6
-EDITOR_CAMERA_ROTATION	-1336.81	-20.5205
+EDITOR_CAMERA_ROTATION	-1200.62	3.11956
 EDITOR_CAMERA_LENS	70	0.1	10000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/performance.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -29,9 +29,9 @@ ASSET	engine://builtin/shadergraph/default-lit	0	Shader Graph
 ASSET	engine://builtin/shadergraph/default-unlit	0	Shader Graph
 ASSET	project://AnimGraphs/enemy.plutoanimgraph	1582	Animation Graph
 ASSET	project://AnimGraphs/player.plutoanimgraph	1061	Animation Graph
-ASSET	project://Data/4x4.plutoscriptable	1627	Scriptable Object
-ASSET	project://Data/AudiS5.plutoscriptable	1661	Scriptable Object
-ASSET	project://Data/Racecar.plutoscriptable	1625	Scriptable Object
+ASSET	project://Data/4x4.plutoscriptable	2074	Scriptable Object
+ASSET	project://Data/AudiS5.plutoscriptable	2122	Scriptable Object
+ASSET	project://Data/Racecar.plutoscriptable	2071	Scriptable Object
 ASSET	project://Fonts/Georama.ttf	434664	Unknown
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_A_TPose_0.plutoclip	332294	Animation Clip
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Crouch_Fwd_Loop_1.plutoclip	273802	Animation Clip
@@ -207,11 +207,11 @@ ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87
 ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Input/car.plutoinput	3771	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	147968	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	57352	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	139776	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	47392	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
-ASSET	project://Managed/PlutoGE.ScriptCore.dll	229376	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	81480	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.dll	231424	Assembly
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	82160	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	369	Unknown
 ASSET	project://Materials/BulletHole.plutomaterial	473	Material
 ASSET	project://Materials/Ground.plutomaterial	492	Material
@@ -293,7 +293,7 @@ ASSET	project://Prefabs/Tree_Static_Material_0.plutomaterial	452	Material
 ASSET	project://Prefabs/Tree_Static_Material_1.plutomaterial	452	Material
 ASSET	project://Scenes/Main.plutoscene	134346	Scene
 ASSET	project://Scenes/Title.plutoscene	7275	Scene
-ASSET	project://Scenes/car_scene.plutoscene	2985163	Scene
+ASSET	project://Scenes/car_scene.plutoscene	2985684	Scene
 ASSET	project://Scenes/island.plutoscene	8536273	Scene
 ASSET	project://Scenes/ragdoll_test.plutoscene	20911	Scene
 ASSET	project://Scripts/EnemySoldierBot.cs	29113	Script
