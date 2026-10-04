@@ -4,7 +4,8 @@ TAGS	1	2	Interactable	HealthPickup
 COMPONENT	1	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.SupplyPickup	0
 PROPERTY	ammoAmount	1	0	0
-PROPERTY	healthAmount	0	35.000000	0
+PROPERTY	healthAmount	0	0.000000	0
+PROPERTY	healthKitAmount	1	1	0
 PROPERTY	armourPlateAmount	1	0	0
 PROPERTY	ammoMethod	2	AddAmmo	0
 PROPERTY	healthMethod	2	Heal	0

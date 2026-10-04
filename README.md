@@ -189,3 +189,27 @@ PlutoGE is my custom game engine and is under active development. This repositor
 ## Status
 
 This is a demo and work in progress. Features, assets, and project formats may change as PlutoGE evolves.
+
+## Combat and objective feedback
+
+Bots engage visible threats while travelling to a Hardpoint, with four-second firing holds and short repositioning windows. Wounded retreats last 2.5 seconds with an eight-second cooldown; reloads still take priority. Quaternion aiming avoids heading reversals when turning through 90 degrees.
+
+Taking a hit triggers a red screen-edge flash, including hits absorbed by armour. The flash fades over 0.4 seconds; low health retains a lighter warning. Objective UI distinguishes neutral, friendly, enemy and contested zones, explains the next action, identifies when you are inside, and shows the rotation countdown and score target.
+
+
+
+## Defusal / Foundry
+
+Open `Assets/Scenes/Foundry.plutoscene` and Play, or select **DEFUSAL / FOUNDRY** on the Title scene before hosting/joining. Both peers must select the same mode. Main remains the existing Hardpoint scene. Rebuild/export the project to include the new scene and scripts in a packaged game; old exports are not updated automatically.
+
+Foundry is an original courtyard/industrial blockout: A is west, B is east, mid connects the approaches, and the northern passage supports defender rotations. Colored ground outlines and projected labels identify the plant zones. The layout uses existing engine meshes, player/weapon assets, materials and navigation; it contains no Counter-Strike assets.
+
+- First to **7 round wins**, with attack/defend roles swapping after round 6. An 8-second preparation phase lets players choose existing loadouts with **1 / 2 / 3**. Round scores and kills persist until the series finishes.
+- Attackers have **90 seconds** to plant at A or B. The carrier stops inside the marked site and holds **E for 3 seconds**. A dead carrier drops the bomb; an attacker recovers it by walking within 2.5m.
+- Planting starts a **35-second fuse**. Defenders hold **E for 5 seconds** beside the device. Releasing E, moving, taking damage or losing unobstructed reach interrupts the action. The HUD displays progress and the remaining fuse.
+- One life per round; no automatic health regeneration. Existing inventory healing/armour still work. After elimination, the death camera and objective HUD remain until the next round. Joining during a live round waits until the next spawn. No free spectator camera, purchase economy or weapon-buy menu is implemented.
+- Eliminating all defenders wins for attackers. Eliminating attackers wins for defenders before planting; after planting the bomb must still be defused. Defenders win on round timeout. Bomb deadlines take priority over an exactly simultaneous action completion.
+
+Architecture: `DefusalRules` owns deterministic, engine-independent bomb rules. `MultiplayerSession.Defusal` supplies authoritative actors/input, round lifecycle and bot objectives. `MatchContracts` replicates immutable snapshots, while `GameModeHud` and `DefusalMarker` only present that state. Networking protocol 10 rejects mismatched versions/modes. The existing transform replication remains suitable for trusted sessions, not competitive anti-cheat.
+
+Tests: `dotnet run --project Tests/CoD.GameplayTests.csproj -c Release` covers planting, interruption, recovery, permissions, elimination, timers, defusing, deadline ties, timestep equivalence, halftime and snapshot serialization, alongside the existing gameplay regressions.

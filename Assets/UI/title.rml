@@ -17,6 +17,7 @@
           <label for="address">Host IP</label>
           <input tabindex="1" id="address" type="text" value="127.0.0.1" maxlength="15" />
         </div>
+        <div id="modes"><button id="mode-hardpoint" class="action selected">HARDPOINT / ARENA</button><button id="mode-defusal" class="action">DEFUSAL / FOUNDRY</button></div>
         <div id="actions">
           <button tabindex="2" id="host" class="action host">HOST GAME</button>
           <button tabindex="3" id="join" class="action join">JOIN GAME</button>

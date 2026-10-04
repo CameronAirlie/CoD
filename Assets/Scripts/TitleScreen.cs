@@ -15,6 +15,8 @@ public sealed class TitleScreen : ScriptBehaviour
     private RmlElement? _addressInput;
     private RmlElement? _statusLabel;
     private bool _loading;
+    private bool _defusalSelected;
+    [SerializedField] private string defusalScene = "Foundry";
 
     public override void OnCreate()
     {
@@ -38,6 +40,8 @@ public sealed class TitleScreen : ScriptBehaviour
         _addressInput.On("input", SyncFields);
         _usernameInput.On("change", SyncFields);
         _addressInput.On("change", SyncFields);
+        _document.OnClick("mode-hardpoint", () => SelectMode(false));
+        _document.OnClick("mode-defusal", () => SelectMode(true));
         _document.OnClick("host", () => Launch("Host"));
         _document.OnClick("join", () => Launch("Client"));
         SetStatus("Enter a username, then host or join a game.");
@@ -82,12 +86,20 @@ public sealed class TitleScreen : ScriptBehaviour
         }
 
         MultiplayerLaunch.Configure(launchMode, cleanName, serverAddress);
-        _loading = SceneManager.LoadScene(gameScene);
+        _loading = SceneManager.LoadScene(_defusalSelected ? defusalScene : gameScene);
         SetStatus(_loading
             ? launchMode == "Host" ? "Starting host..." : "Joining game..."
             : "Could not load the game scene.");
     }
 
+    private void SelectMode(bool defusal)
+    {
+        if (_loading) return;
+        _defusalSelected = defusal;
+        _document?.Element("mode-hardpoint").SetClass("selected", !defusal);
+        _document?.Element("mode-defusal").SetClass("selected", defusal);
+        SetStatus(defusal ? "FOUNDRY: Two bomb sites. One life. First to 7 rounds. Select the same mode as your host." : "ARENA: Capture and hold the rotating hardpoint.");
+    }
     private void SetStatus(string message)
     {
         if (_statusLabel is not null)

@@ -17,7 +17,7 @@ public readonly record struct FpsHitEvent(
     GameObject Target,
     Vector3 Point,
     float Damage,
-    bool IsHeadshot);
+    bool IsHeadshot, bool IsKill = false, bool HitArmour = false);
 
 public readonly record struct FpsWeaponShot(Vector3 Origin, Vector3 Direction);
 
@@ -52,15 +52,43 @@ public sealed class PlayerController : ScriptBehaviour
     public bool IsCrouching => _crouching;
     public bool IsSliding => _sliding;
 
-    public void ConfirmNetworkHit(float dealtDamage, bool isHeadshot)
+    public void ConfirmNetworkHit(float dealtDamage, bool isHeadshot, bool isKill = false, bool hitArmour = false)
     {
         if (!float.IsFinite(dealtDamage) || dealtDamage <= 0.0f)
             return;
         hitmarkerAudio?.PlayOneShot();
         HitConfirmed?.Invoke(new FpsHitEvent(
-            GameObject, Vector3.Zero, dealtDamage, isHeadshot));
+            GameObject, Vector3.Zero, dealtDamage, isHeadshot, isKill, hitArmour));
     }
 
+    private float _damageCameraImpulse;
+    private float _reloadTimeRemaining;
+    [SerializedField] private float reloadDuration = 2.2f;
+    public void AddCameraImpulse(float amount)
+    {
+        if (float.IsFinite(amount)) _damageCameraImpulse = Math.Clamp(_damageCameraImpulse + amount, 0, 3);
+    }
+    public void SetRoundFacing(float yaw)
+    {
+        if (!float.IsFinite(yaw)) return;
+        _yaw = yaw; _pitch = 0;
+        _recoilYawOffset = 0;
+        Rotation = new Vector3(0, yaw, 0);
+        if (camera is not null) camera.GameObject.Rotation = Vector3.Zero;
+    }
+    public void ResetWeaponForRound()
+    {
+        CancelReload(); _inventory?.CancelUse();
+        _ammo = Math.Max(1, magazineSize); _reserveAmmo = _inventory?.ReserveAmmo ?? Math.Max(0, startingReserveAmmo);
+        _shotCooldown = _damageCameraImpulse = 0;
+        UpdateHud(); PublishStateChanges();
+    }
+    private void OnInventoryChanged()
+    {
+        _reserveAmmo = _inventory?.ReserveAmmo ?? _reserveAmmo;
+        UpdateHud(); PublishStateChanges();
+    }
+    public override void OnDestroy() { if (_inventory is not null) _inventory.Changed -= OnInventoryChanged; }
     // Scene references
     [SerializedField] private CameraComponent? camera = null;
     [SerializedField] private GameObject? weaponModel = null;
@@ -192,6 +220,7 @@ public sealed class PlayerController : ScriptBehaviour
         _cameraHeight = standingCameraHeight;
         _ammo = Math.Max(1, magazineSize);
         _inventory = GameObject.GetComponent<PlayerInventory>();
+        if (_inventory is not null) _inventory.Changed += OnInventoryChanged;
         _multiplayer = GameObject.GetComponent<MultiplayerSession>();
         _reserveAmmo = _inventory?.ReserveAmmo ?? Math.Max(0, startingReserveAmmo);
 
@@ -234,6 +263,8 @@ public sealed class PlayerController : ScriptBehaviour
             return;
         }
 
+        _damageCameraImpulse = MathF.Max(0, _damageCameraImpulse - deltaTime * 8);
+        if (_reloading) { _reloadTimeRemaining -= deltaTime; if (_reloadTimeRemaining <= 0) FinishReload(); }
         _inventory?.TickUse(deltaTime);
 
         var cursorLocked = Input.CursorLocked;
@@ -261,7 +292,9 @@ public sealed class PlayerController : ScriptBehaviour
         _shotCooldown = MathF.Max(0.0f, _shotCooldown - deltaTime);
         _mouseDelta = Input.MouseDelta;
         UpdateLook(deltaTime);
-        UpdateMovement(deltaTime);
+        if (_multiplayer?.IsPreparingRound == true || _multiplayer?.IsUsingObjective == true)
+        { _horizontalVelocity = Vector3.Zero; _sprinting = false; }
+        else UpdateMovement(deltaTime);
         UpdateCamera(deltaTime);
         UpdateWeapon(deltaTime);
         UpdateInteraction(deltaTime);
@@ -431,7 +464,7 @@ public sealed class PlayerController : ScriptBehaviour
         var localPosition = camera.GameObject.Position;
         localPosition.Y = _cameraHeight;
         camera.GameObject.Position = localPosition;
-        camera.GameObject.Rotation = new Vector3(_pitch + _recoilPitchOffset, 0.0f, 0.0f);
+        camera.GameObject.Rotation = new Vector3(_pitch + _recoilPitchOffset - _damageCameraImpulse, 0.0f, _damageCameraImpulse * .3f);
 
         var desiredFov = _aiming ? adsFov : hipFov;
         if (_sprinting) desiredFov += 5.0f;
@@ -473,7 +506,8 @@ public sealed class PlayerController : ScriptBehaviour
 
     private void TryFire()
     {
-        if (_reloading || _shotCooldown > 0.0f)
+        if (_reloading || _shotCooldown > 0.0f || _inventory?.IsUsing == true || _multiplayer?.IsUsingObjective == true ||
+            (_multiplayer?.CurrentMatch is { Phase: not MatchPhase.Playing }))
         {
             return;
         }
@@ -543,6 +577,7 @@ public sealed class PlayerController : ScriptBehaviour
             return;
         }
         _reloading = true;
+        _reloadTimeRemaining = MathF.Max(.1f, reloadDuration);
         _reloadAnimationActive = true;
         reloadAudio?.PlayOneShot();
         weaponAnimator?.SetBool("Reload", true);
@@ -556,6 +591,12 @@ public sealed class PlayerController : ScriptBehaviour
             return;
         }
 
+        FinishReload();
+    }
+
+    private void FinishReload()
+    {
+        if (!_reloading) return;
         var needed = Math.Max(0, magazineSize - _ammo);
         var transferred = _inventory?.TakeAmmo(needed) ?? Math.Min(needed, _reserveAmmo);
         _ammo += transferred;

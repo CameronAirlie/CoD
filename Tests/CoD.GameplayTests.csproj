@@ -1,11 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Exe</OutputType><EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup><Compile Include="Program.cs" /><Compile Include="../Assets/Scripts/DefusalRules.cs" Link="DefusalRules.cs" /><Compile Include="../Assets/Scripts/DamageFeedbackState.cs" Link="DamageFeedbackState.cs" /><Compile Include="../Assets/Scripts/ObjectiveStatus.cs" Link="ObjectiveStatus.cs" /><Compile Include="../Assets/Scripts/CombatTargeting.cs" Link="CombatTargeting.cs" />
+    <Compile Include="../Assets/Scripts/MatchContracts.cs" Link="MatchContracts.cs" />
+    <Compile Include="../Assets/Scripts/HardpointRules.cs" Link="HardpointRules.cs" />
+    <Compile Include="../Assets/Scripts/BotObjectiveTactics.cs" Link="BotObjectiveTactics.cs" />
+    <Compile Include="../Assets/Scripts/InventoryRules.cs" Link="InventoryRules.cs" />
+    <Compile Include="../Assets/Scripts/CombatFeedbackMath.cs" Link="CombatFeedbackMath.cs" />
+
     <Compile Include="../Assets/Scripts/FairBotPlanner.cs" Link="FairBotPlanner.cs" />
     <Compile Include="../Assets/Scripts/BotSpawnResolver.cs" Link="BotSpawnResolver.cs" />
     <Compile Include="../Assets/Scripts/BotCombatMovement.cs" Link="BotCombatMovement.cs" />

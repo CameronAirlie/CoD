@@ -1,0 +1,14 @@
+Color=.19,.29,.32,1
+SurfaceType=Standard
+AlphaMode=Opaque
+CastsShadow=true
+TwoSided=false
+Metallic=.45
+Roughness=.95
+ShaderGraph=engine://builtin/shadergraph/default-lit
+AlbedoTexture=project://Textures/Foundry/MetalAlbedo.png
+UvScale=4,3
+NormalTexture=project://Textures/Foundry/MetalNormal.png
+RoughnessTexture=project://Textures/Foundry/MetalRoughness.png
+RoughnessTextureChannel=0
+FlipNormalY=false

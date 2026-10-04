@@ -88,6 +88,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private bool _externalNavigationControl;
     private bool _remoteProxyMode;
     private bool _externalAiming;
+    private bool _externalCombatPaused;
     private RmlDocument? _networkNameplateDocument;
     private string _networkNameplateText = string.Empty;
     private bool _networkNameplateDirty;
@@ -160,7 +161,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         // collision-safe movement, and local avoidance.
         if (_externalNavigationControl)
         {
-            if (_remoteProxyMode)
+            if (_remoteProxyMode || _externalCombatPaused)
                 _navigationDestination = GameObject.WorldPosition;
             UpdateNavigationTarget();
             SetAnimationFloat(movementSpeedParameter, navigationSpeed);
@@ -284,12 +285,31 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     // Also accepts callers which do not provide a damage value.
     public void TakeDamage() => TakeDamage(25.0f);
 
+    public void SetExternalCombatPaused(bool paused)
+    {
+        _externalCombatPaused = paused;
+        if (!paused || _dead) return;
+        _externalAiming = false;
+        _navigationDestination = GameObject.WorldPosition;
+        UpdateNavigationTarget();
+        if (_body is not null) _body.Velocity = Vector3.Zero;
+        SetAnimationBool(hasTargetParameter, false);
+    }
+    public void PlayExternalDeathWithImpulse(float x, float y, float z)
+    {
+        PlayExternalDeath();
+        var direction = new Vector3(x, y, z);
+        if (_animation is not null && direction.LengthSquared() > .001f &&
+            float.IsFinite(x) && float.IsFinite(y) && float.IsFinite(z))
+            _animation.AddRagdollImpulse(Vector3.Normalize(direction) * 24 + Vector3.UnitY * 3);
+    }
     public void SetExternalNavigationDestination(float x, float y, float z)
     {
         _externalNavigationControl = true;
         _remoteProxyMode = false;
         _externalAiming = false;
         _dead = false;
+        _externalCombatPaused = false;
         _navigationDestination = new Vector3(x, y, z);
         UpdateNavigationTarget();
     }

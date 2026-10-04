@@ -114,3 +114,7 @@ input:focus { color: #ffffff; }
     font-size: 18px;
     text-align: center;
 }
+
+#modes { margin-top: 16px; }
+#modes button { width: 48%; font-size: 13px; }
+#modes .selected { background-color: #326588; border-color: #71c5ed; }

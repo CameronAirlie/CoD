@@ -49,6 +49,20 @@ public sealed class PlayerHud : ScriptBehaviour
     private bool _scoreboardVisibilityInitialized;
     private readonly System.Collections.Generic.List<(string Text, float ExpiresAt)> _feed = [];
     private float _hudTime;
+    private readonly DamageFeedbackState _damageFeedback = new();
+    private float _healthFraction = 1;
+    private float _renderedDamageOpacity = -1;
+
+    private void OnDamageTaken() { _damageFeedback.Hit(); RenderDamageOverlay(); }
+    private void RenderDamageOverlay()
+    {
+        if (_damageOverlay is null) return;
+        var opacity = _dead ? 0 : _damageFeedback.Opacity(_healthFraction, damageOverlayMaximumOpacity);
+        if (MathF.Abs(opacity - _renderedDamageOpacity) < .005f && (opacity > 0 || _renderedDamageOpacity == 0)) return;
+        if (!_damageOverlay.SetClass("hidden", opacity <= .001f)) return;
+        _damageOverlay.SetStyle("opacity", opacity.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        _renderedDamageOpacity = opacity;
+    }
 
     public override void OnCreate()
     {
@@ -99,6 +113,7 @@ public sealed class PlayerHud : ScriptBehaviour
         if (_healthController is not null)
         {
             _healthController.StatusChanged += OnHealthChanged;
+            _healthController.DamageTaken += OnDamageTaken;
             _healthController.Died += OnDied;
             _healthController.Respawned += OnRespawned;
         }
@@ -134,6 +149,7 @@ public sealed class PlayerHud : ScriptBehaviour
         if (_healthController is not null)
         {
             _healthController.StatusChanged -= OnHealthChanged;
+            _healthController.DamageTaken -= OnDamageTaken;
             _healthController.Died -= OnDied;
             _healthController.Respawned -= OnRespawned;
         }
@@ -150,6 +166,8 @@ public sealed class PlayerHud : ScriptBehaviour
     {
         _hudTime += MathF.Max(0.0f, deltaTime);
         UpdateDeathEffect(deltaTime);
+        _damageFeedback.Update(deltaTime);
+        RenderDamageOverlay();
         var scoreboardVisible = Input.IsKeyDown(KeyCode.Tab);
         if (!_scoreboardVisibilityInitialized || scoreboardVisible != _scoreboardVisible)
         {
@@ -199,6 +217,8 @@ public sealed class PlayerHud : ScriptBehaviour
             _hitVisible = false;
             foreach (var arm in _arms) arm.SetClass("hit", false);
             _crosshair?.SetClass("headshot", false);
+            _crosshair?.SetClass("elimination", false);
+            _crosshair?.SetClass("armour-hit", false);
         }
     }
 
@@ -221,19 +241,21 @@ public sealed class PlayerHud : ScriptBehaviour
 
     private void OnHit(FpsHitEvent hit)
     {
-        _hitTime = MathF.Max(0.01f, hitFlashDuration);
+        _hitTime = hit.IsKill ? .3f : hit.IsHeadshot ? .18f : MathF.Max(0.01f, hitFlashDuration);
         if (!_hitVisible)
         {
             _hitVisible = true;
             foreach (var arm in _arms) arm.SetClass("hit", true);
         }
         _crosshair?.SetClass("headshot", hit.IsHeadshot);
+        _crosshair?.SetClass("elimination", hit.IsKill);
+        _crosshair?.SetClass("armour-hit", hit.HitArmour);
     }
 
     private void OnInteractionChanged(GameObject? target)
     {
         if (_interaction is not null)
-            _interaction.Markup = target is null ? string.Empty : $"[E] {target.Name}";
+            _interaction.Markup = target is null ? string.Empty : $"[E] {EscapeMarkup(target.Name)}";
     }
 
     private void OnHealthChanged(float current, float maximum, int armour, int maximumArmour)
@@ -250,15 +272,8 @@ public sealed class PlayerHud : ScriptBehaviour
         for (var index = 0; index < _armour.Length; index++)
             _armour[index].SetClass("filled", index < armour && index < maximumArmour);
 
-        if (_damageOverlay is not null)
-        {
-            var safeMaximum = MathF.Max(1.0f, maximum);
-            var missingHealth = 1.0f - Math.Clamp(current / safeMaximum, 0.0f, 1.0f);
-            var opacity = missingHealth * Math.Clamp(damageOverlayMaximumOpacity, 0.0f, 1.0f);
-            _damageOverlay.SetStyle(
-                "opacity", opacity.ToString(System.Globalization.CultureInfo.InvariantCulture));
-            _damageOverlay.SetClass("hidden", _dead || opacity <= 0.001f);
-        }
+        _healthFraction = current / MathF.Max(1, maximum);
+        RenderDamageOverlay();
     }
 
     private void OnDied()
@@ -276,6 +291,8 @@ public sealed class PlayerHud : ScriptBehaviour
     private void OnRespawned()
     {
         _dead = false;
+        _damageFeedback.Reset();
+        _renderedDamageOpacity = -1;
         _deathTime = 0.0f;
         _deathRed?.SetClass("hidden", true);
         _deathBlack?.SetClass("hidden", true);
@@ -293,7 +310,8 @@ public sealed class PlayerHud : ScriptBehaviour
         _deathTime += MathF.Max(0.0f, deltaTime);
         var fadeDuration = MathF.Max(0.01f, deathFadeDuration);
         var black = Math.Clamp((_deathTime - MathF.Max(0.0f, deathFadeDelay)) / fadeDuration, 0.0f, 1.0f);
-        var red = 0.72f * (1.0f - black);
+        if (_multiplayer?.RulesMode == MatchMode.Defusal) black = 0;
+        var red = _multiplayer?.RulesMode == MatchMode.Defusal ? .12f : 0.72f * (1.0f - black);
         _deathRed?.SetStyle("opacity", red.ToString(System.Globalization.CultureInfo.InvariantCulture));
         _deathBlack?.SetStyle("opacity", black.ToString(System.Globalization.CultureInfo.InvariantCulture));
     }
@@ -308,8 +326,9 @@ public sealed class PlayerHud : ScriptBehaviour
         {
             _matchPhase.Markup = match.Phase switch
             {
-                MatchPhase.Warmup => "MATCH STARTING",
-                MatchPhase.Playing => DescribeMatch(match),
+                MatchPhase.Warmup => match.Mode == MatchMode.Defusal ? "PREPARATION" : "MATCH STARTING",
+                MatchPhase.Playing => match.Mode == MatchMode.Defusal ? $"ROUND {match.Defusal?.Round}" : DescribeMatch(match),
+                MatchPhase.Results when match.Mode == MatchMode.Defusal => $"{match.Defusal?.Winner?.ToString().ToUpperInvariant()} WINS ROUND",
                 MatchPhase.Results => match.AlphaScore == match.BravoScore ? "DRAW" :
                     match.AlphaScore > match.BravoScore ? "ALPHA WINS" : "BRAVO WINS",
                 _ => "WAITING FOR PLAYERS"
@@ -322,7 +341,7 @@ public sealed class PlayerHud : ScriptBehaviour
         {
             var teamClass = playerState.Team == PlayerTeam.Alpha ? "alpha-team" : "bravo-team";
             var localClass = playerState.PeerId == match.LocalPeerId ? " local" : string.Empty;
-            rows.Append($"<div class=\"score-row {teamClass}{localClass}\"><span class=\"player-name\">{EscapeMarkup(playerState.Username)}</span><span class=\"stat\">{playerState.Kills}</span><span class=\"stat\">{playerState.Deaths}</span></div>");
+            rows.Append($"<div class=\"score-row {teamClass}{localClass}\"><span class=\"player-name\">{EscapeMarkup(playerState.Username)}</span><span class=\"stat\">{playerState.Kills}</span><span class=\"stat\">{playerState.Deaths}</span><span class=\"stat\">{(match.Mode == MatchMode.Defusal ? playerState.Alive ? "IN" : "OUT" : ((int)playerState.ObjectiveSeconds).ToString())}</span></div>");
         }
         _scoreboardRows.Markup = rows.ToString();
     }

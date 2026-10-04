@@ -7,28 +7,15 @@ using PlutoGE.ScriptCore.Networking;
 
 namespace CoD.Scripts;
 
-public enum MatchPhase { Waiting, Warmup, Playing, Results }
-public enum PlayerTeam { Alpha, Bravo }
-
-public sealed record MatchPlayer(
-    int PeerId, string Username, PlayerTeam Team, int Kills, int Deaths, bool IsBot);
-
-public sealed record MatchSnapshot(
-    MatchPhase Phase, float SecondsRemaining, int ScoreLimit,
-    int AlphaScore, int BravoScore, int LocalPeerId, MatchPlayer[] Players);
-
-public sealed record KillFeedEntry(
-    string Killer, string Victim, PlayerTeam KillerTeam);
-
 /// <summary>
 /// Owns a multiplayer session and replicates player transforms. Attach one
 /// instance to the local Player and select Offline, Host, or Client.
 /// </summary>
-public sealed class MultiplayerSession : ScriptBehaviour
+public sealed partial class MultiplayerSession : ScriptBehaviour
 {
     private static MultiplayerSession? _activeSession;
 
-    private const int ProtocolVersion = 8;
+    private const int ProtocolVersion = 10;
     private const ushort HandshakeChannel = 1;
     private const ushort TransformChannel = 2;
     private const ushort PeerLeftChannel = 3;
@@ -127,8 +114,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
     [SerializedField] private int botBurstSize = 5;
     [SerializedField] private float botBurstPause = 0.55f;
     [SerializedField] private float botStuckTimeout = 2.0f;
-    [SerializedField] private float botCombatHoldDuration = 2.5f;
-    [SerializedField] private float botRepositionDuration = 1.25f;
+    [SerializedField] private float botCombatHoldDuration = 4.0f;
+    [SerializedField] private float botRepositionDuration = .65f;
     [SerializedField] private float botAttackRange = 22.0f;
     [SerializedField] private float botRoundsPerMinute = 360.0f;
     [SerializedField] private int botMagazineSize = 30;
@@ -185,6 +172,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
             _activeSession.Shutdown();
         _activeSession = this;
         _playerHealth = GameObject.GetComponent<PlayerHealth>();
+        if (IsDefusal) { _playerHealth?.SetRoundRespawn(false); multiplayerRegenerationPerSecond = 0; }
+        if (_playerHealth is not null) _playerHealth.Respawned += OnLocalRespawn;
         _playerController = GameObject.GetComponent<PlayerController>();
         if (_playerController is not null)
             _playerController.WeaponFired += OnLocalWeaponFired;
@@ -217,6 +206,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
         var safeDeltaTime = MathF.Max(0.0f, deltaTime);
         _time += safeDeltaTime;
+        UpdateLoadoutSelection();
+        UpdateBombInput();
 
         if (_server is null &&
             mode.Equals("Host", StringComparison.OrdinalIgnoreCase) &&
@@ -228,7 +219,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
         if (_server is not null)
         {
-            if (_time >= _nextBotFillAt)
+            if (_time >= _nextBotFillAt && (!IsDefusal || _matchPhase != MatchPhase.Playing))
             {
                 TryEnsureBotFill();
                 _nextBotFillAt = _time + MathF.Max(0.05f, botSpawnInterval);
@@ -274,7 +265,11 @@ public sealed class MultiplayerSession : ScriptBehaviour
         }
     }
 
-    public override void OnDestroy() => Shutdown();
+    public override void OnDestroy()
+    {
+        if (_playerHealth is not null) _playerHealth.Respawned -= OnLocalRespawn;
+        Shutdown();
+    }
 
     /// <summary>Stops sockets before a scene transition or application exit.</summary>
     public void Shutdown()
@@ -386,7 +381,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
         {
             _lastHostMessageAt = _time;
             Debug.Log($"Connected to {serverAddress}:{serverPort}.");
-            _client.SendJson(HandshakeChannel, new ClientHello(ProtocolVersion, _username));
+            _client.SendJson(HandshakeChannel, new ClientHello(ProtocolVersion, _username, RulesMode));
         };
         _client.Disconnected += () =>
         {
@@ -431,20 +426,20 @@ public sealed class MultiplayerSession : ScriptBehaviour
             if (message.Channel == HandshakeChannel)
             {
                 var hello = message.GetJson<ClientHello>();
-                if (hello is null || hello.ProtocolVersion != ProtocolVersion)
+                if (hello is null || hello.ProtocolVersion != ProtocolVersion || hello.Mode != RulesMode)
                 {
                     Debug.LogWarning($"Peer {message.PeerId} uses an incompatible protocol.");
                     return;
                 }
 
                 var username = SanitizeUsername(hello.Username, message.PeerId);
-                RemoveOneBot();
+                if (!IsDefusal || _matchPhase != MatchPhase.Playing) RemoveOneBot();
                 _authenticatedPeers.Add(message.PeerId);
                 _peerLastSeenAt[message.PeerId] = _time;
                 _peerNames[message.PeerId] = username;
                 _playerStates[message.PeerId] = new PlayerMatchState(ChooseTeam(), false)
                 {
-                    Health = MathF.Max(1.0f, multiplayerMaximumHealth)
+                    Health = IsDefusal && _matchPhase == MatchPhase.Playing ? 0 : MathF.Max(1.0f, multiplayerMaximumHealth)
                 };
                 _server!.SendJson(
                     message.PeerId,
@@ -468,6 +463,13 @@ public sealed class MultiplayerSession : ScriptBehaviour
                     message.PeerId);
                 BroadcastMatchState();
                 Debug.Log($"{username} joined the game as peer {message.PeerId}.");
+                return;
+            }
+
+            if (message.Channel == BombInputChannel && IsDefusal && _authenticatedPeers.Contains(message.PeerId))
+            {
+                var input = message.GetJson<BombInput>();
+                _bombHeldUntil[message.PeerId] = input?.Held == true && _matchPhase == MatchPhase.Playing ? _time + .25f : 0;
                 return;
             }
 
@@ -546,7 +548,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
             {
                 var damage = message.GetJson<PlayerDamage>();
                 if (damage is not null && damage.Amount > 0.0f && float.IsFinite(damage.Amount))
-                    GameObject.TryInvoke("TakeDamage", damage.Amount);
+                    _playerHealth?.TakeDamageFrom(damage.Amount, damage.SourceX, damage.SourceY, damage.SourceZ);
             }
             else if (message.Channel == PeerJoinedChannel)
             {
@@ -582,16 +584,13 @@ public sealed class MultiplayerSession : ScriptBehaviour
             {
                 var confirmation = message.GetJson<HitConfirmation>();
                 if (confirmation is not null && confirmation.IsFinite())
-                    GameObject.TryInvoke(
-                        "ConfirmNetworkHit",
-                        confirmation.Damage,
-                        confirmation.IsHeadshot);
+                    _playerController?.ConfirmNetworkHit(confirmation.Damage, confirmation.IsHeadshot, confirmation.IsKill, confirmation.HitArmour);
             }
             else if (message.Channel == DeathEffectChannel)
             {
                 var effect = message.GetJson<DeathEffect>();
                 if (effect is not null)
-                    PlayRemoteDeath(effect.PeerId);
+                    PlayRemoteDeath(effect.PeerId, effect.X, effect.Y, effect.Z);
             }
         }
         catch (Exception exception)
@@ -635,6 +634,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
             shooterState.Health <= 0.0f)
             return;
 
+        if (IsDefusal && _defusal?.Snapshot().Operator == shooterPeerId) return;
         var minimumInterval = 60.0f / MathF.Max(1.0f, roundsPerMinute);
         if (_lastAcceptedShotAt.TryGetValue(shooterPeerId, out var lastShotAt) &&
             _time < lastShotAt + minimumInterval * 0.9f)
@@ -674,21 +674,23 @@ public sealed class MultiplayerSession : ScriptBehaviour
         var isHeadshot = hit.Entity.HasTag("Head");
         var damage = MathF.Max(0.0f, weaponDamage) *
             (isHeadshot ? MathF.Max(1.0f, multiplayerHeadshotMultiplier) : 1.0f);
+        _lastHostArmourHit = targetPeerId == 0 && _playerHealth?.ArmourSlots > 0;
         targetState.Health = MathF.Max(0.0f, targetState.Health - damage);
         targetState.LastDamagedAt = _time;
+        targetState.LastHitDirection = hit.Point - origin;
         PublishHitEffect(targetPeerId);
         if (targetPeerId == 0)
         {
-            GameObject.TryInvoke("TakeDamage", damage);
+            _playerHealth?.TakeDamageFrom(damage, origin.X, origin.Y, origin.Z);
             // The host's actual health component is authoritative for the host.
             // This also accounts for locally configured health and armour.
             if (_playerHealth is not null)
                 targetState.Health = MathF.Max(0.0f, _playerHealth.CurrentHealth);
         }
         else if (!_bots.ContainsKey(targetPeerId))
-            _server.SendJson(targetPeerId, DamageChannel, new PlayerDamage(damage));
+            _server.SendJson(targetPeerId, DamageChannel, new PlayerDamage(damage, origin.X, origin.Y, origin.Z));
 
-        ConfirmShooterHit(shooterPeerId, damage, isHeadshot);
+        ConfirmShooterHit(shooterPeerId, damage, isHeadshot, targetState.Health <= 0, targetPeerId == 0 && _lastHostArmourHit);
 
         if (targetState.Health <= 0.0f)
             RegisterKill(shooterPeerId, targetPeerId);
@@ -815,6 +817,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
     private void EnsureBotFill()
     {
+        if (IsDefusal && _matchPhase == MatchPhase.Playing) return;
         if (_server is null || !fillWithBots)
         {
             while (_bots.Count > 0) RemoveOneBot();
@@ -925,7 +928,11 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
     private void UpdateBots(float deltaTime)
     {
-        if (_matchPhase != MatchPhase.Playing) return;
+        if (_matchPhase != MatchPhase.Playing)
+        {
+            foreach (var bot in _bots.Values) bot.GameObject.TryInvoke("SetExternalCombatPaused", true);
+            return;
+        }
         _botPlanner.BeginFrame(_bots.Keys, botThinkBudgetPerFrame,
             id => _playerStates.TryGetValue(id, out var state) && state.Health > 0.0f);
         foreach (var pair in _bots)
@@ -934,6 +941,13 @@ public sealed class MultiplayerSession : ScriptBehaviour
             var bot = pair.Value;
             if (!_playerStates.TryGetValue(botId, out var botState) || botState.Health <= 0.0f)
                 continue;
+
+                        if (bot.ReloadCompleteAt > 0.0f && _time >= bot.ReloadCompleteAt)
+            {
+                bot.MagazineAmmo = Math.Max(1, botMagazineSize);
+                bot.ReloadCompleteAt = 0.0f;
+                bot.NextShotAt = _time;
+            }
 
             var canThink = _botPlanner.CanPlan(botId);
             var currentTargetValid = IsValidBotTarget(botId, bot.TargetPeerId);
@@ -982,6 +996,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 }
                 // A visible-threat scan already performed line-of-sight tests.
                 // Do not immediately raycast the selected target a second time.
+                bot.CachedLineOfSight = visibleThreat != int.MinValue;
+                bot.NextPerceptionAt = _time + MathF.Max(0.05f, botPerceptionInterval);
                 if (visibleThreat != int.MinValue)
                 {
                     bot.CachedLineOfSight = true;
@@ -990,6 +1006,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 }
             }
 
+            if (IsDefusal && TryDefusalBotMovement(botId, bot, botState, canThink)) continue;
+            if (TryObjectiveMovement(botId, bot, botState, canThink)) continue;
             var targetId = bot.TargetPeerId;
             var targetObject = GetParticipantObject(targetId);
             if (targetObject is null || !targetObject.IsValid)
@@ -1042,7 +1060,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 // that distance forces the circling path to be replaced, after
                 // which the bot settles and holds there to fire.
                 var holdDistance = MathF.Max(0.8f, botNavigationArrivalDistance * 0.7f);
-                bot.CombatHoldPosition = botPosition + direction * holdDistance;
+                bot.CombatHoldPosition = ObjectiveCombatPosition(botId, bot, botPosition + direction * holdDistance);
                 var hold = bot.CombatHoldPosition;
                 bot.GameObject.TryInvoke(
                     "SetExternalNavigationDestination", hold.X, hold.Y, hold.Z);
@@ -1065,7 +1083,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 // A short lateral step starts repositioning immediately; the
                 // budgeted search can refine it while the native agent moves.
                 var side = new Vector3(-direction.Z, 0.0f, direction.X) * bot.StrafeSign;
-                var desired = botPosition + side * 4.0f;
+                var desired = ObjectiveCombatPosition(botId, bot, botPosition + side * 2.0f);
                 var destination = TryProjectBotNavigationPosition(desired, out var projected)
                     ? projected : desired;
                 SetBotDestination(bot, destination, targetPosition);
@@ -1118,7 +1136,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
                     SetBotDestination(bot, chase, targetPosition);
                 }
                 var searchResult = AdvanceBotTacticalDestinationSearch(
-                    bot, targetId, targetObject, out var destination);
+                    botId, bot, targetId, targetObject, out var destination);
                 if (searchResult == TacticalSearchResult.Found)
                     SetBotDestination(bot, destination, targetPosition);
                 if (searchResult != TacticalSearchResult.Pending)
@@ -1135,12 +1153,6 @@ public sealed class MultiplayerSession : ScriptBehaviour
             // Complete the reload before evaluating fire. Previously a bot
             // reached ReloadCompleteAt with an empty magazine, entered the
             // firing branch first, and immediately started another reload.
-            if (bot.ReloadCompleteAt > 0.0f && _time >= bot.ReloadCompleteAt)
-            {
-                bot.MagazineAmmo = Math.Max(1, botMagazineSize);
-                bot.ReloadCompleteAt = 0.0f;
-                bot.NextShotAt = _time;
-            }
             var isReloading = _time < bot.ReloadCompleteAt;
             bot.GameObject.TryInvoke(
                 "SetExternalAiming",
@@ -1276,7 +1288,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     }
 
     private TacticalSearchResult AdvanceBotTacticalDestinationSearch(
-        BotController bot, int targetId, GameObject target, out Vector3 destination)
+        int botId, BotController bot, int targetId, GameObject target, out Vector3 destination)
     {
         destination = bot.GameObject.WorldPosition;
         var samples = Math.Clamp(botTacticalPositionSamples, 4, 32);
@@ -1307,6 +1319,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
             var angle = (angleOffset + index * (360.0f / samples)) * MathF.PI / 180.0f;
             var desired = bot.TacticalSearchTargetPosition + new Vector3(
                 MathF.Sin(angle) * radius, 0.0f, MathF.Cos(angle) * radius);
+            desired = ObjectiveCombatPosition(botId, bot, desired);
             if (!TryProjectBotNavigationPosition(desired, out var candidate))
                 continue;
 
@@ -1352,7 +1365,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private bool HasLineOfSightFrom(Vector3 position, int targetId, GameObject target)
     {
         var origin = position + Vector3.UnitY * 0.65f;
-        var aimPoint = target.WorldPosition + Vector3.UnitY * 0.65f;
+        var aimPoint = ParticipantAimPoint(target);
         var ray = aimPoint - origin;
         var length = ray.Length();
         return length < 0.001f ||
@@ -1372,15 +1385,24 @@ public sealed class MultiplayerSession : ScriptBehaviour
         if (direction.LengthSquared() < 0.0001f) return;
         direction = Vector3.Normalize(direction);
         var desiredYaw = MathF.Atan2(-direction.X, -direction.Z) * 180.0f / MathF.PI;
-        var rotation = controller.GameObject.Rotation;
-        var difference = (desiredYaw - rotation.Y + 540.0f) % 360.0f - 180.0f;
-        if (MathF.Abs(MathF.Abs(difference) - 180.0f) < 0.1f)
-            difference = 180.0f * controller.TurnDirection;
-        else if (MathF.Abs(difference) > 0.1f)
-            controller.TurnDirection = MathF.Sign(difference);
         var blend = 1.0f - MathF.Exp(-MathF.Max(0.0f, botTurnSharpness) * MathF.Max(0.0f, deltaTime));
-        rotation.Y += difference * blend;
-        controller.GameObject.Rotation = rotation;
+        // Euler Y folds at +/-90 degrees. Quaternion interpolation can turn
+        // through every heading without repeatedly reversing before alignment.
+        var desired = Quaternion.CreateFromAxisAngle(Vector3.UnitY, desiredYaw * MathF.PI / 180);
+        controller.GameObject.RotationQuaternion = Quaternion.Slerp(controller.GameObject.RotationQuaternion, desired, blend);
+    }
+
+    private static Vector3 ParticipantAimPoint(GameObject participant)
+    {
+        var collider = participant.GetComponent<ColliderComponent>();
+        return CombatTargeting.AimPoint(participant.WorldPosition, collider?.Center ?? Vector3.Zero, collider?.Height ?? 1.5f);
+    }
+    private Vector3 ObjectiveCombatPosition(int botId, BotController bot, Vector3 desired)
+    {
+        if (_hardpoint is null || !_playerStates.TryGetValue(botId, out var state) ||
+            BotObjectiveTactics.Role(botId) == BotRole.Flanker ||
+            (!_hardpoint.Contains(bot.GameObject.WorldPosition) && _hardpoint.Owner != state.Team)) return desired;
+        return CombatTargeting.CapturePosition(desired, _hardpoint.Snapshot());
     }
 
     private bool HasBotLineOfSight(
@@ -1413,10 +1435,10 @@ public sealed class MultiplayerSession : ScriptBehaviour
     {
         PublishShotEffect(botId);
         var origin = bot.GameObject.WorldPosition + Vector3.UnitY * 0.65f;
-        var aimPoint = intendedTarget.WorldPosition + Vector3.UnitY * 0.65f;
+        var aimPoint = ParticipantAimPoint(intendedTarget);
         var direction = aimPoint - origin;
         if (direction.LengthSquared() < 0.001f) return;
-        direction = ApplyBotSpread(Vector3.Normalize(direction), botAccuracyDegrees, bot);
+        direction = ApplyBotSpread(Vector3.Normalize(direction), botAccuracyDegrees / BotPressure, bot);
         if (!Physics.Raycast(origin, direction, MathF.Max(1.0f, botAttackRange), bot.GameObject, out var hit))
             return;
         var victimId = FindPeerForEntity(hit.Entity);
@@ -1429,14 +1451,15 @@ public sealed class MultiplayerSession : ScriptBehaviour
         var damage = MathF.Max(0.0f, botDamage);
         victim.Health = MathF.Max(0.0f, victim.Health - damage);
         victim.LastDamagedAt = _time;
+        victim.LastHitDirection = hit.Point - origin;
         PublishHitEffect(victimId);
         if (victimId == 0)
         {
-            GameObject.TryInvoke("TakeDamage", damage);
+            _playerHealth?.TakeDamageFrom(damage, origin.X, origin.Y, origin.Z);
             if (_playerHealth is not null)
                 victim.Health = MathF.Max(0.0f, _playerHealth.CurrentHealth);
         }
-        else if (!_bots.ContainsKey(victimId)) _server?.SendJson(victimId, DamageChannel, new PlayerDamage(damage));
+        else if (!_bots.ContainsKey(victimId)) _server?.SendJson(victimId, DamageChannel, new PlayerDamage(damage, origin.X, origin.Y, origin.Z));
         if (victim.Health <= 0.0f) RegisterKill(botId, victimId);
     }
 
@@ -1458,18 +1481,19 @@ public sealed class MultiplayerSession : ScriptBehaviour
         _server?.BroadcastJson(HitEffectChannel, new HitEffect(victimPeerId));
     }
 
-    private void ConfirmShooterHit(int shooterPeerId, float damage, bool isHeadshot)
+    private bool _lastHostArmourHit;
+    private void ConfirmShooterHit(int shooterPeerId, float damage, bool isHeadshot, bool isKill, bool hitArmour)
     {
         if (shooterPeerId == 0)
         {
-            GameObject.TryInvoke("ConfirmNetworkHit", damage, isHeadshot);
+            _playerController?.ConfirmNetworkHit(damage, isHeadshot, isKill, hitArmour);
             return;
         }
         if (!_bots.ContainsKey(shooterPeerId))
             _server?.SendJson(
                 shooterPeerId,
                 HitConfirmationChannel,
-                new HitConfirmation(damage, isHeadshot));
+                new HitConfirmation(damage, isHeadshot, isKill, hitArmour));
     }
 
     private void PlayRemoteHitEffect(int victimPeerId)
@@ -1478,12 +1502,12 @@ public sealed class MultiplayerSession : ScriptBehaviour
             remote.GameObject.TryInvoke("PlayExternalHitAnimation");
     }
 
-    private void PlayRemoteDeath(int victimPeerId)
+    private void PlayRemoteDeath(int victimPeerId, float x = 0, float y = 0, float z = 0)
     {
         _deadRemotePlayers[victimPeerId] =
-            _time + MathF.Max(0.1f, combatRespawnDelay);
+            IsDefusal ? float.PositiveInfinity : _time + MathF.Max(0.1f, combatRespawnDelay);
         if (_remotePlayers.Remove(victimPeerId, out var remote))
-            remote.GameObject.TryInvoke("PlayExternalDeath");
+            remote.GameObject.TryInvoke("PlayExternalDeathWithImpulse", x, y, z);
     }
 
     private void ConfigureAllNameplates()
@@ -1518,6 +1542,11 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
     private bool TryBotSpawnPosition(int peerId, out Vector3 spawnPosition)
     {
+        if (IsDefusal)
+        {
+            spawnPosition = DefusalSpawn(_playerStates.TryGetValue(peerId, out var state) ? state.Team : ChooseTeam(), peerId);
+            return true;
+        }
         spawnPosition = default;
         var index = Math.Abs(peerId + 1000);
         string[] spawnNames =
@@ -1654,6 +1683,12 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
     private void UpdateMatch(float deltaTime)
     {
+        if (IsDefusal)
+        {
+            if (_playerHealth is not null && _playerStates.TryGetValue(0, out var localState)) localState.Health = MathF.Max(0, _playerHealth.CurrentHealth);
+            TickDefusal(deltaTime);
+            return;
+        }
         foreach (var pair in _playerStates)
         {
             var state = pair.Value;
@@ -1684,6 +1719,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
         if (_playerHealth is not null && _playerStates.TryGetValue(0, out var hostState))
             hostState.Health = MathF.Max(0.0f, _playerHealth.CurrentHealth);
 
+        UpdateObjective(MathF.Min(deltaTime, MathF.Max(0, _phaseEndsAt - _time + deltaTime)));
+
         if (_time >= _phaseEndsAt)
         {
             if (_matchPhase is MatchPhase.Waiting or MatchPhase.Warmup)
@@ -1709,6 +1746,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
         {
             state.Kills = 0;
             state.Deaths = 0;
+            state.ObjectiveSeconds = 0;
             state.Health = MathF.Max(1.0f, multiplayerMaximumHealth);
         }
         // Recreate controller state and restore proxy tracking even when a bot
@@ -1721,12 +1759,15 @@ public sealed class MultiplayerSession : ScriptBehaviour
             ClearBotTarget(bot);
             _deadRemotePlayers.Remove(peerId);
         }
+        BeginObjectiveRound();
         BeginPhase(MatchPhase.Playing, matchDuration);
     }
 
     private void BeginPhase(MatchPhase phase, float duration)
     {
         _matchPhase = phase;
+        Debug.Log($"Match phase: {phase}; score {_alphaScore}-{_bravoScore}.");
+        foreach (var bot in _bots.Values) bot.GameObject.TryInvoke("SetExternalCombatPaused", phase != MatchPhase.Playing);
         _phaseEndsAt = _time + MathF.Max(0.1f, duration);
         BroadcastMatchState();
     }
@@ -1739,11 +1780,15 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
         killer.Kills++;
         victim.Deaths++;
-        victim.RespawnAt = _time + MathF.Max(0.1f, combatRespawnDelay);
-        PlayRemoteDeath(victimPeerId);
-        _server?.BroadcastJson(DeathEffectChannel, new DeathEffect(victimPeerId));
-        if (killer.Team == PlayerTeam.Alpha) _alphaScore++;
-        else _bravoScore++;
+        victim.RespawnAt = IsDefusal ? float.PositiveInfinity : _time + MathF.Max(0.1f, combatRespawnDelay);
+        var impulse = victim.LastHitDirection;
+        PlayRemoteDeath(victimPeerId, impulse.X, impulse.Y, impulse.Z);
+        _server?.BroadcastJson(DeathEffectChannel, new DeathEffect(victimPeerId, impulse.X, impulse.Y, impulse.Z));
+        if (RulesMode == MatchMode.TeamDeathmatch)
+        {
+            if (killer.Team == PlayerTeam.Alpha) _alphaScore++;
+            else _bravoScore++;
+        }
 
         var entry = new KillFeedEntry(
             _peerNames.GetValueOrDefault(killerPeerId, $"Player{killerPeerId}"),
@@ -1753,7 +1798,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
         KillFeedReceived?.Invoke(entry);
         BroadcastMatchState();
 
-        if (_alphaScore >= Math.Max(1, scoreLimit) || _bravoScore >= Math.Max(1, scoreLimit))
+        if (!IsDefusal && (_alphaScore >= Math.Max(1, scoreLimit) || _bravoScore >= Math.Max(1, scoreLimit)))
             BeginPhase(MatchPhase.Results, resultsDuration);
     }
 
@@ -1771,6 +1816,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
 
     private void SwitchTeam(int peerId)
     {
+        if (IsDefusal) return;
         if (!_playerStates.TryGetValue(peerId, out var state) || state.IsBot)
             return;
 
@@ -1809,7 +1855,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
                 state.Team,
                 state.Kills,
                 state.Deaths,
-                state.IsBot);
+                state.IsBot, state.ObjectiveSeconds, state.Health > 0);
         }
 
         Array.Sort(players, static (left, right) =>
@@ -1821,12 +1867,12 @@ public sealed class MultiplayerSession : ScriptBehaviour
         });
         var snapshot = new MatchSnapshot(
             _matchPhase,
-            MathF.Max(0.0f, _phaseEndsAt - _time),
+            IsDefusal && _matchPhase == MatchPhase.Playing ? _defusal?.Remaining ?? 0 : MathF.Max(0.0f, _phaseEndsAt - _time),
             Math.Max(1, scoreLimit),
             _alphaScore,
             _bravoScore,
             _localPeerId,
-            players);
+            players, RulesMode, _hardpoint?.Snapshot(), _defusal?.Snapshot(_alphaScore >= scoreLimit || _bravoScore >= scoreLimit));
         PublishMatch(snapshot);
         _server?.BroadcastJson(MatchStateChannel, snapshot);
     }
@@ -1834,6 +1880,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
     private void PublishMatch(MatchSnapshot snapshot)
     {
         CurrentMatch = snapshot;
+        UpdateLocalRound(snapshot);
         _knownPlayers.Clear();
         foreach (var player in snapshot.Players)
             _knownPlayers[player.PeerId] = player;
@@ -1856,7 +1903,7 @@ public sealed class MultiplayerSession : ScriptBehaviour
         return clean.Length <= 20 ? clean : clean[..20];
     }
 
-    private sealed record ClientHello(int ProtocolVersion, string Username);
+    private sealed record ClientHello(int ProtocolVersion, string Username, MatchMode Mode);
     private sealed record ServerWelcome(
         int ProtocolVersion,
         int PeerId,
@@ -1865,12 +1912,12 @@ public sealed class MultiplayerSession : ScriptBehaviour
         float RegenerationPerSecond = 6.0f);
     private sealed record PeerLeft(int PeerId);
     private sealed record PeerJoined(int PeerId, string Username);
-    private sealed record PlayerDamage(float Amount);
+    private sealed record PlayerDamage(float Amount, float SourceX = 0, float SourceY = 0, float SourceZ = 0);
     private sealed record ShotEffect(int ShooterPeerId);
     private sealed record HitEffect(int VictimPeerId);
-    private sealed record DeathEffect(int PeerId);
+    private sealed record DeathEffect(int PeerId, float X = 0, float Y = 0, float Z = 0);
     private sealed record TeamSwitchRequest;
-    private sealed record HitConfirmation(float Damage, bool IsHeadshot)
+    private sealed record HitConfirmation(float Damage, bool IsHeadshot, bool IsKill, bool HitArmour)
     {
         public bool IsFinite() => float.IsFinite(Damage) && Damage > 0.0f;
     }
@@ -1914,6 +1961,8 @@ public sealed class MultiplayerSession : ScriptBehaviour
         public int Kills { get; set; }
         public int Deaths { get; set; }
         public float Health { get; set; } = 100.0f;
+        public float ObjectiveSeconds { get; set; }
+        public Vector3 LastHitDirection { get; set; }
         public float RespawnAt { get; set; }
         public float LastDamagedAt { get; set; }
     }

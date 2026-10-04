@@ -7,6 +7,7 @@ namespace CoD.Scripts;
 public sealed class SupplyPickup : ScriptBehaviour
 {
     [SerializedField] private int ammoAmount = 0;
+    [SerializedField] private int healthKitAmount = 0;
     [SerializedField] private float healthAmount = 0.0f;
     [SerializedField] private int armourPlateAmount = 0;
     [SerializedField] private string ammoMethod = "AddAmmo";
@@ -32,7 +33,14 @@ public sealed class SupplyPickup : ScriptBehaviour
         if (_consumed || interactor is null || !interactor.IsValid)
             return;
 
+        var inventory = interactor.GetComponent<PlayerInventory>();
+        var health = interactor.GetComponent<PlayerHealth>();
+        var oldAmmo = inventory?.ReserveAmmo ?? 0;
+        var oldKits = inventory?.HealthKits ?? 0;
+        var oldPlates = inventory?.ArmourPlates ?? 0;
+        var oldHealth = health?.CurrentHealth ?? 0;
         var granted = false;
+        if (healthKitAmount > 0 && inventory is not null) inventory.AddHealthKit(healthKitAmount);
         if (ammoAmount > 0 && !string.IsNullOrWhiteSpace(ammoMethod))
             granted |= interactor.TryInvoke(ammoMethod, ammoAmount);
         if (healthAmount > 0.0f && !string.IsNullOrWhiteSpace(healthMethod))
@@ -40,9 +48,12 @@ public sealed class SupplyPickup : ScriptBehaviour
         if (armourPlateAmount > 0 && !string.IsNullOrWhiteSpace(armourMethod))
             granted |= interactor.TryInvoke(armourMethod, armourPlateAmount);
 
+        if (inventory is not null || health is not null)
+            granted = oldAmmo != (inventory?.ReserveAmmo ?? 0) || oldKits != (inventory?.HealthKits ?? 0) ||
+                oldPlates != (inventory?.ArmourPlates ?? 0) || oldHealth != (health?.CurrentHealth ?? 0);
         if (!granted)
         {
-            Debug.LogWarning($"{GameObject.Name} could not find a compatible supply receiver.");
+            Debug.Log("Supplies full; use or spend supplies before collecting more.");
             return;
         }
 

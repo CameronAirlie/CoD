@@ -5,6 +5,8 @@ using PlutoGE.ScriptCore;
 namespace CoD.Scripts;
 
 /// <summary>Receives damage from enemy bots and optionally drives a health label.</summary>
+public readonly record struct PlayerDamageEvent(float Amount, Vector3 Source, bool HasSource, float ArmourAbsorbed);
+
 public sealed class PlayerHealth : ScriptBehaviour
 {
     [SerializedField] private float maximumHealth = 100.0f;
@@ -48,6 +50,14 @@ public sealed class PlayerHealth : ScriptBehaviour
     public int MaximumArmourSlots => maximumArmourSlots;
     public event Action<float, float, int, int>? StatusChanged;
     public event Action? DamageTaken;
+    public event Action<PlayerDamageEvent>? DamageReceived;
+    public void ResetForRound() => Respawn();
+    public void SetRoundRespawn(bool enabled) => respawnOnDeath = enabled;
+    public void EliminateForRound()
+    {
+        _invulnerableUntil = 0; _armourSlots = 0;
+        ApplyDamage(_health + 1, Vector3.Zero, false);
+    }
     public event Action? Died;
     public event Action? Respawned;
 
@@ -119,9 +129,12 @@ public sealed class PlayerHealth : ScriptBehaviour
         }
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount) => ApplyDamage(amount, Vector3.Zero, false);
+    public void TakeDamageFrom(float amount, float x, float y, float z) =>
+        ApplyDamage(amount, new Vector3(x, y, z), float.IsFinite(x) && float.IsFinite(y) && float.IsFinite(z));
+    private void ApplyDamage(float amount, Vector3 source, bool hasSource)
     {
-        if (_dead || _time < _invulnerableUntil || amount <= 0.0f)
+        if (_dead || _time < _invulnerableUntil || !float.IsFinite(amount) || amount <= 0.0f)
             return;
 
         _lastDamageAt = _time;
@@ -137,6 +150,7 @@ public sealed class PlayerHealth : ScriptBehaviour
             SetDamageOverlayAlpha(MathF.Max(
                 _damageOverlayAlpha, Math.Clamp(damageFlashAlpha, 0.0f, 1.0f)));
         DamageTaken?.Invoke();
+        DamageReceived?.Invoke(new(amount, source, hasSource, amount - remainingDamage));
         RefreshLabel();
         PublishStatus();
         if (_health <= 0.0f)
@@ -145,7 +159,7 @@ public sealed class PlayerHealth : ScriptBehaviour
             _restartAt = _time + MathF.Max(0.0f, respawnDelay);
             _controller?.EnterDeathState();
             Died?.Invoke();
-            Debug.Log("Player killed. Respawning...");
+            Debug.Log(respawnOnDeath ? "Player killed. Respawning..." : "Player eliminated until the next round.");
         }
     }
 
@@ -158,13 +172,7 @@ public sealed class PlayerHealth : ScriptBehaviour
         PublishStatus();
     }
 
-    public void EquipArmourSlot()
-    {
-        if (_dead || ArmourSlots <= 0)
-            return;
-        _armourSlots--;
-        PublishStatus();
-    }
+    public void EquipArmourSlot() => PublishStatus();
 
     public bool AddArmourSlot()
     {

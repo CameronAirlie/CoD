@@ -1,0 +1,14 @@
+Color=.36,.24,.12,1
+SurfaceType=Standard
+AlphaMode=Opaque
+CastsShadow=true
+TwoSided=false
+Metallic=0
+Roughness=1
+ShaderGraph=engine://builtin/shadergraph/default-lit
+AlbedoTexture=project://Textures/Foundry/WoodAlbedo.png
+UvScale=1,1
+NormalTexture=project://Textures/Foundry/WoodNormal.png
+RoughnessTexture=project://Textures/Foundry/WoodRoughness.png
+RoughnessTextureChannel=0
+FlipNormalY=false

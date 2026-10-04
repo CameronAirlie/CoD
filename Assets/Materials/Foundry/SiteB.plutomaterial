@@ -1,0 +1,14 @@
+Color=.13,.55,.62,1
+SurfaceType=Standard
+AlphaMode=Opaque
+CastsShadow=true
+TwoSided=false
+Metallic=0
+Roughness=1
+ShaderGraph=engine://builtin/shadergraph/default-lit
+AlbedoTexture=project://Textures/Foundry/MasonryAlbedo.png
+UvScale=4,1
+NormalTexture=project://Textures/Foundry/MasonryNormal.png
+RoughnessTexture=project://Textures/Foundry/MasonryRoughness.png
+RoughnessTextureChannel=0
+FlipNormalY=false

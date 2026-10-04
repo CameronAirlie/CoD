@@ -10,7 +10,7 @@ public sealed class InventoryMenu : ScriptBehaviour
     [SerializedField] private string documentPath = "UI/inventory.rml";
     [SerializedField] private GameObject? player = null;
 
-    private const int SlotCount = 20;
+    private const int SlotCount = 8;
     private readonly InventoryItem?[] _slots = new InventoryItem?[SlotCount];
     private RmlDocument? _document;
     private RmlWidgetComponent? _widget;
@@ -22,7 +22,7 @@ public sealed class InventoryMenu : ScriptBehaviour
     {
         _slots[0] = new InventoryItem("RIFLE AMMO", "5.56", ItemKind.Ammo, 0);
         _slots[1] = new InventoryItem("MED KIT", "+50 HP", ItemKind.HealthKit, 0);
-        _slots[2] = new InventoryItem("FRAG GRENADE", "LETHAL", ItemKind.Static, 3);
+        // Only show supplies backed by gameplay quantities.
         _slots[5] = new InventoryItem("ARMOUR PLATE", "DEFENCE", ItemKind.Armour, 0);
         _inventory = player?.GetComponent<PlayerInventory>();
         if (_inventory is null)
@@ -88,6 +88,7 @@ public sealed class InventoryMenu : ScriptBehaviour
     private void RenderAll()
     {
         SyncDynamicItems();
+        if (_document is not null) _document.Element("inventory-capacity").Markup = $"{_inventory?.SlotsUsed ?? 0}/{InventoryRules.Capacity} CAPACITY";
         for (var index = 0; index < SlotCount; index++)
             RenderSlot(index);
     }

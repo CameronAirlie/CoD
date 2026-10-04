@@ -1,5 +1,5 @@
 SCENE	1
-ENTITY	1	0	1	Player	-17.052040,2.898000,53.496986	-180.000000,-10.971788,180.000000	1.000000,1.000000,1.000000
+ENTITY	1	0	1	Player	-16.000000,1.500000,16.000000	0.000000,135.000000,0.000000	1.000000,1.000000,1.000000
 PREFAB	1	project://Prefabs/Player.plutoprefab	1	1	2	Transform.Position	Transform.Rotation
 TAGS	1	1	Player
 COMPONENT	1	ColliderComponent	1
@@ -114,6 +114,10 @@ PROPERTY	respawnInvulnerability	0	1.000000	0
 END_COMPONENT
 COMPONENT	1	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.MultiplayerSession	0
+PROPERTY	gameMode	2	Hardpoint	0
+PROPERTY	hardpointDuration	0	45.000000	0
+PROPERTY	hardpointRadius	0	5.000000	0
+PROPERTY	hardpointSiteNames	2	Hardpoint Courtyard|Hardpoint West|Hardpoint East	0
 PROPERTY	mode	2	Host	0
 PROPERTY	serverAddress	2	0.0.0.0	0
 PROPERTY	serverPort	1	7777	0
@@ -130,11 +134,11 @@ PROPERTY	roundsPerMinute	0	720.000000	0
 PROPERTY	warmupDuration	0	5.000000	0
 PROPERTY	matchDuration	0	300.000000	0
 PROPERTY	resultsDuration	0	10.000000	0
-PROPERTY	scoreLimit	1	50	0
+PROPERTY	scoreLimit	1	150	0
 PROPERTY	multiplayerMaximumHealth	0	100.000000	0
 PROPERTY	combatRespawnDelay	0	5.000000	0
-PROPERTY	multiplayerRegenerationDelay	0	3.000000	0
-PROPERTY	multiplayerRegenerationPerSecond	0	10.000000	0
+PROPERTY	multiplayerRegenerationDelay	0	5.000000	0
+PROPERTY	multiplayerRegenerationPerSecond	0	3.000000	0
 PROPERTY	fillWithBots	4	true	0
 PROPERTY	minimumParticipants	1	6	0
 PROPERTY	maximumBots	1	5	0
@@ -156,14 +160,14 @@ PROPERTY	botReactionTime	0	0.350000	0
 PROPERTY	botBurstSize	1	5	0
 PROPERTY	botBurstPause	0	0.550000	0
 PROPERTY	botStuckTimeout	0	2.000000	0
-PROPERTY	botCombatHoldDuration	0	2.500000	0
-PROPERTY	botRepositionDuration	0	1.250000	0
+PROPERTY	botCombatHoldDuration	0	4.000000	0
+PROPERTY	botRepositionDuration	0	0.650000	0
 PROPERTY	botAttackRange	0	16.000000	0
 PROPERTY	botRoundsPerMinute	0	360.000000	0
 PROPERTY	botMagazineSize	1	30	0
 PROPERTY	botReloadDuration	0	2.000000	0
-PROPERTY	botDamage	0	12.000000	0
-PROPERTY	botAccuracyDegrees	0	6.000000	0
+PROPERTY	botDamage	0	14.000000	0
+PROPERTY	botAccuracyDegrees	0	4.500000	0
 PROPERTY	botStationaryFireSpeed	0	0.200000	0
 PROPERTY	botTurnSharpness	0	10.000000	0
 PROPERTY	botFiringAngle	0	8.000000	0
@@ -3130,4 +3134,178 @@ PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/RenderMaterial.plutomaterial	0
+END_COMPONENT
+
+ENTITY	50000	1	1	Combat Cues	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	50000	SoundEmitterComponent	1
+PROPERTY	Clip	2	project://Sounds/feedback/objective.wav	0
+PROPERTY	PlayOnAwake	4	false	0
+PROPERTY	Looping	4	false	0
+PROPERTY	Spatialized	4	false	0
+PROPERTY	Volume	0	0.500000	0
+PROPERTY	Pitch	0	1.000000	0
+PROPERTY	MinDistance	0	1.000000	0
+PROPERTY	MaxDistance	0	30.000000	0
+PROPERTY	Rolloff	0	1.000000	0
+PROPERTY	OcclusionStrength	0	1.000000	0
+PROPERTY	AirAbsorptionStrength	0	1.000000	0
+PROPERTY	LowPassStrength	0	0.000000	0
+END_COMPONENT
+COMPONENT	1	ScriptComponent	1
+PROPERTY	Source	2	CoD.Scripts.CombatFeedback	0
+PROPERTY	cueAudio	9	50000	0
+END_COMPONENT
+COMPONENT	1	ScriptComponent	1
+PROPERTY	Source	2	CoD.Scripts.RoundProgression	0
+END_COMPONENT
+COMPONENT	1	ScriptComponent	1
+PROPERTY	Source	2	CoD.Scripts.GameModeHud	0
+PROPERTY	player	9	1	0
+END_COMPONENT
+ENTITY	50100	0	1	Hardpoint Courtyard	0.000000,0.200000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	50101	50100	1	Hardpoint Marker	0.000000,2.800000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	50101	CanvasComponent	1
+PROPERTY	Enabled	4	true	0
+PROPERTY	RenderMode	6	1	4	Screen Space	World Screen Space	Screen Space Camera	World Space
+PROPERTY	ScaleMode	6	0	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
+PROPERTY	ScaleFactor	0	1.000000	0
+PROPERTY	ReferenceResolution	7	340.000000,44.000000	0
+PROPERTY	MatchWidthOrHeight	0	0.500000	0
+PROPERTY	ScreenMatchMode	6	0	3	MatchWidthOrHeight	Expand	Shrink
+PROPERTY	SortingOrder	1	20	0
+PROPERTY	WorldSizeMode	6	1	3	WorldUnits	ConstantScreenSize	DistanceScaled
+PROPERTY	FaceCamera	4	true	0
+PROPERTY	Backend	6	1	2	Legacy Native	RmlUi
+PROPERTY	ContentSource	6	0	2	RML Document	Text
+PROPERTY	DocumentPath	2	UI/hardpoint-marker.rml	0
+END_COMPONENT
+COMPONENT	50101	RectTransformComponent	1
+PROPERTY	Enabled	4	true	0
+PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
+PROPERTY	AnchoredPosition	7	0.000000,0.000000	0
+PROPERTY	SizeDelta	7	340.000000,44.000000	0
+PROPERTY	Pivot	7	0.500000,0.500000	0
+PROPERTY	AnchorMin	7	0.500000,0.500000	0
+PROPERTY	AnchorMax	7	0.500000,0.500000	0
+PROPERTY	Margin	5	0.000000,0.000000,0.000000,0.000000	0
+PROPERTY	MinimumSize	7	0.000000,0.000000	0
+PROPERTY	MaximumSize	7	10000.000000,10000.000000	0
+PROPERTY	Rotation	0	0.000000	0
+PROPERTY	LocalScale	7	1.000000,1.000000	0
+PROPERTY	Opacity	0	1.000000	0
+PROPERTY	ClipChildren	4	false	0
+PROPERTY	RaycastTarget	4	false	0
+PROPERTY	LayoutMode	6	0	4	None	Horizontal	Vertical	Grid
+PROPERTY	LayoutPadding	5	0.000000,0.000000,0.000000,0.000000	0
+PROPERTY	LayoutSpacing	7	0.000000,0.000000	0
+PROPERTY	GridColumns	1	1	0
+PROPERTY	ControlChildWidth	4	false	0
+PROPERTY	ControlChildHeight	4	false	0
+PROPERTY	ExpandChildWidth	4	false	0
+PROPERTY	ExpandChildHeight	4	false	0
+PROPERTY	HorizontalContentSize	6	0	3	Unconstrained	Minimum	Preferred
+PROPERTY	VerticalContentSize	6	0	3	Unconstrained	Minimum	Preferred
+END_COMPONENT
+COMPONENT	50101	ScriptComponent	1
+PROPERTY	Source	2	CoD.Scripts.HardpointMarker	0
+PROPERTY	player	9	1	0
+PROPERTY	siteIndex	1	0	0
+END_COMPONENT
+ENTITY	50102	0	1	Hardpoint West	-12.000000,0.200000,10.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	50103	50102	1	Hardpoint Marker	0.000000,2.800000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	50103	CanvasComponent	1
+PROPERTY	Enabled	4	true	0
+PROPERTY	RenderMode	6	1	4	Screen Space	World Screen Space	Screen Space Camera	World Space
+PROPERTY	ScaleMode	6	0	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
+PROPERTY	ScaleFactor	0	1.000000	0
+PROPERTY	ReferenceResolution	7	340.000000,44.000000	0
+PROPERTY	MatchWidthOrHeight	0	0.500000	0
+PROPERTY	ScreenMatchMode	6	0	3	MatchWidthOrHeight	Expand	Shrink
+PROPERTY	SortingOrder	1	20	0
+PROPERTY	WorldSizeMode	6	1	3	WorldUnits	ConstantScreenSize	DistanceScaled
+PROPERTY	FaceCamera	4	true	0
+PROPERTY	Backend	6	1	2	Legacy Native	RmlUi
+PROPERTY	ContentSource	6	0	2	RML Document	Text
+PROPERTY	DocumentPath	2	UI/hardpoint-marker.rml	0
+END_COMPONENT
+COMPONENT	50103	RectTransformComponent	1
+PROPERTY	Enabled	4	true	0
+PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
+PROPERTY	AnchoredPosition	7	0.000000,0.000000	0
+PROPERTY	SizeDelta	7	340.000000,44.000000	0
+PROPERTY	Pivot	7	0.500000,0.500000	0
+PROPERTY	AnchorMin	7	0.500000,0.500000	0
+PROPERTY	AnchorMax	7	0.500000,0.500000	0
+PROPERTY	Margin	5	0.000000,0.000000,0.000000,0.000000	0
+PROPERTY	MinimumSize	7	0.000000,0.000000	0
+PROPERTY	MaximumSize	7	10000.000000,10000.000000	0
+PROPERTY	Rotation	0	0.000000	0
+PROPERTY	LocalScale	7	1.000000,1.000000	0
+PROPERTY	Opacity	0	1.000000	0
+PROPERTY	ClipChildren	4	false	0
+PROPERTY	RaycastTarget	4	false	0
+PROPERTY	LayoutMode	6	0	4	None	Horizontal	Vertical	Grid
+PROPERTY	LayoutPadding	5	0.000000,0.000000,0.000000,0.000000	0
+PROPERTY	LayoutSpacing	7	0.000000,0.000000	0
+PROPERTY	GridColumns	1	1	0
+PROPERTY	ControlChildWidth	4	false	0
+PROPERTY	ControlChildHeight	4	false	0
+PROPERTY	ExpandChildWidth	4	false	0
+PROPERTY	ExpandChildHeight	4	false	0
+PROPERTY	HorizontalContentSize	6	0	3	Unconstrained	Minimum	Preferred
+PROPERTY	VerticalContentSize	6	0	3	Unconstrained	Minimum	Preferred
+END_COMPONENT
+COMPONENT	50103	ScriptComponent	1
+PROPERTY	Source	2	CoD.Scripts.HardpointMarker	0
+PROPERTY	player	9	1	0
+PROPERTY	siteIndex	1	1	0
+END_COMPONENT
+ENTITY	50104	0	1	Hardpoint East	12.000000,0.200000,-10.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	50105	50104	1	Hardpoint Marker	0.000000,2.800000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	50105	CanvasComponent	1
+PROPERTY	Enabled	4	true	0
+PROPERTY	RenderMode	6	1	4	Screen Space	World Screen Space	Screen Space Camera	World Space
+PROPERTY	ScaleMode	6	0	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
+PROPERTY	ScaleFactor	0	1.000000	0
+PROPERTY	ReferenceResolution	7	340.000000,44.000000	0
+PROPERTY	MatchWidthOrHeight	0	0.500000	0
+PROPERTY	ScreenMatchMode	6	0	3	MatchWidthOrHeight	Expand	Shrink
+PROPERTY	SortingOrder	1	20	0
+PROPERTY	WorldSizeMode	6	1	3	WorldUnits	ConstantScreenSize	DistanceScaled
+PROPERTY	FaceCamera	4	true	0
+PROPERTY	Backend	6	1	2	Legacy Native	RmlUi
+PROPERTY	ContentSource	6	0	2	RML Document	Text
+PROPERTY	DocumentPath	2	UI/hardpoint-marker.rml	0
+END_COMPONENT
+COMPONENT	50105	RectTransformComponent	1
+PROPERTY	Enabled	4	true	0
+PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
+PROPERTY	AnchoredPosition	7	0.000000,0.000000	0
+PROPERTY	SizeDelta	7	340.000000,44.000000	0
+PROPERTY	Pivot	7	0.500000,0.500000	0
+PROPERTY	AnchorMin	7	0.500000,0.500000	0
+PROPERTY	AnchorMax	7	0.500000,0.500000	0
+PROPERTY	Margin	5	0.000000,0.000000,0.000000,0.000000	0
+PROPERTY	MinimumSize	7	0.000000,0.000000	0
+PROPERTY	MaximumSize	7	10000.000000,10000.000000	0
+PROPERTY	Rotation	0	0.000000	0
+PROPERTY	LocalScale	7	1.000000,1.000000	0
+PROPERTY	Opacity	0	1.000000	0
+PROPERTY	ClipChildren	4	false	0
+PROPERTY	RaycastTarget	4	false	0
+PROPERTY	LayoutMode	6	0	4	None	Horizontal	Vertical	Grid
+PROPERTY	LayoutPadding	5	0.000000,0.000000,0.000000,0.000000	0
+PROPERTY	LayoutSpacing	7	0.000000,0.000000	0
+PROPERTY	GridColumns	1	1	0
+PROPERTY	ControlChildWidth	4	false	0
+PROPERTY	ControlChildHeight	4	false	0
+PROPERTY	ExpandChildWidth	4	false	0
+PROPERTY	ExpandChildHeight	4	false	0
+PROPERTY	HorizontalContentSize	6	0	3	Unconstrained	Minimum	Preferred
+PROPERTY	VerticalContentSize	6	0	3	Unconstrained	Minimum	Preferred
+END_COMPONENT
+COMPONENT	50105	ScriptComponent	1
+PROPERTY	Source	2	CoD.Scripts.HardpointMarker	0
+PROPERTY	player	9	1	0
+PROPERTY	siteIndex	1	2	0
 END_COMPONENT

@@ -7,8 +7,12 @@
     <div id="hud">
         <div id="damage-overlay" class="hidden"></div>
         <div id="objective" class="panel">
-            <div class="eyebrow">TEAM DEATHMATCH</div>
+            <div id="match-mode" class="eyebrow">HARDPOINT</div>
             <div id="match-phase">WAITING FOR PLAYERS</div>
+            <div id="objective-status"></div>
+            <div id="objective-detail"></div>
+            <div id="objective-instruction"></div>
+            <div id="objective-rotation"></div>
         </div>
 
         <div id="match-strip" class="panel">
@@ -17,11 +21,12 @@
             <span id="bravo-score" class="bravo">0</span>
         </div>
 
+        <div id="score-goal"></div>
         <div id="kill-feed"></div>
 
         <div id="scoreboard" class="hidden panel">
-            <div class="scoreboard-title">TEAM DEATHMATCH</div>
-            <div class="scoreboard-heading"><span>PLAYER</span><span>K</span><span>D</span></div>
+            <div id="scoreboard-mode" class="scoreboard-title">HARDPOINT</div>
+            <div class="scoreboard-heading"><span>PLAYER</span><span>K</span><span>D</span><span id="scoreboard-objective-heading">OBJ</span></div>
             <div id="scoreboard-rows"></div>
         </div>
 
@@ -33,11 +38,19 @@
             <div class="dot"></div>
         </div>
         <div id="interaction"></div>
+        <div id="combat-cue"></div>
+        <div id="loadout-choice" class="loadout"></div>
+        <div id="round-progress"></div>
+        <div id="incoming-front" class="incoming hidden"></div>
+        <div id="incoming-right" class="incoming hidden"></div>
+        <div id="incoming-back" class="incoming hidden"></div>
+        <div id="incoming-left" class="incoming hidden"></div>
 
         <div id="weapon" class="panel">
             <div class="ammo"><span id="ammo">30</span><span id="reserve" class="reserve"> / 120</span></div>
             <div id="survival-labels"><span>HEALTH <span id="health-value">100</span></span><span>ARMOUR</span></div>
             <progress id="health" value="100" max="100"></progress>
+            <div id="supply-counts"></div><div id="supply-use"></div>
             <div id="armour">
                 <div id="armour-0" class="armour-slot"></div>
                 <div id="armour-1" class="armour-slot"></div>

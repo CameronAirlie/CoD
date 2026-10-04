@@ -24,7 +24,10 @@ body {
     right: 0;
     top: 0;
     bottom: 0;
-    decorator: radial-gradient(ellipse farthest-side at center, transparent 0%, transparent 90%, #d0000055 95%,  #d00000aa 100%);
+    background-color: #b000001c;
+    border: 22px solid #ef293ccc;
+    box-sizing: border-box;
+    pointer-events: none;
 }
 
 #damage-overlay.hidden {
@@ -181,3 +184,31 @@ body {
     width: 2px;
     height: 2px;
 }
+
+#objective-detail { margin-top: 8px; font-size: 13px; line-height: 20px; }
+#combat-cue { position: absolute; top: 58%; left: 30%; right: 30%; text-align: center; font-size: 18px; color: #ffd479; }
+#loadout-choice { position: absolute; top: 30%; left: 32px; font-size: 15px; line-height: 26px; }
+#round-progress { position: absolute; bottom: 32px; left: 32px; color: #80d8ff; font-size: 15px; }
+#supply-counts, #supply-use { margin-top: 7px; font-size: 10px; color: #a8b3c2; }
+#weapon { width: 330px; }
+.player-name { width: 65%; }
+#crosshair.armour-hit .arm { background-color: #59bfff; }
+#crosshair.elimination .arm { background-color: #ffdf7f; }
+.incoming { position: absolute; background-color: #ff423b; }
+.incoming.hidden { visibility: hidden; }
+#incoming-front { top: 42%; left: 47%; width: 6%; height: 5px; }
+#incoming-back { top: 58%; left: 47%; width: 6%; height: 5px; }
+#incoming-left { top: 47%; left: 45%; width: 5px; height: 6%; }
+#incoming-right { top: 47%; left: 55%; width: 5px; height: 6%; }
+
+#objective { width: 365px; border-left-width: 4px; }
+#objective-status { margin-top: 10px; font-size: 20px; color: #ffdf7f; }
+#objective-instruction { margin-top: 7px; font-size: 14px; line-height: 20px; }
+#objective-rotation { margin-top: 9px; font-size: 16px; color: #ffffff; }
+#objective.friendly { border-left-color: #59bfff; }
+#objective.friendly #objective-status { color: #59bfff; }
+#objective.enemy { border-left-color: #ff675f; }
+#objective.enemy #objective-status { color: #ff675f; }
+#objective.contested { border-left-color: #ffbf47; }
+#objective.contested #objective-status { color: #ffbf47; }
+#score-goal { position: absolute; top: 83px; left: 35%; right: 35%; text-align: center; font-size: 13px; color: #dce8f5; }

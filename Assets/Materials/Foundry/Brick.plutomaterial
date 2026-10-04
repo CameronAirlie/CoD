@@ -1,0 +1,14 @@
+Color=.78,.76,.70,1
+SurfaceType=Standard
+AlphaMode=Opaque
+CastsShadow=true
+TwoSided=false
+Metallic=0
+Roughness=1
+UvScale=4,0.5
+ShaderGraph=engine://builtin/shadergraph/default-lit
+AlbedoTexture=project://Textures/Foundry/BrickAlbedo.png
+NormalTexture=project://Textures/Foundry/BrickNormal.png
+RoughnessTexture=project://Textures/Foundry/BrickRoughness.png
+RoughnessTextureChannel=0
+FlipNormalY=false

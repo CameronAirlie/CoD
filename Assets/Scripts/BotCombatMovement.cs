@@ -7,6 +7,18 @@ internal sealed class BotCombatMovement
 {
     private float _holdEndsAt = float.PositiveInfinity;
     private float _repositionEndsAt;
+    private float _retreatEndsAt;
+    private float _nextRetreatAt;
+
+    public bool WantsRetreat(float time, float healthFraction, bool reloading)
+    {
+        if (healthFraction <= .3f && time >= _nextRetreatAt)
+        {
+            _retreatEndsAt = time + 2.5f;
+            _nextRetreatAt = time + 8;
+        }
+        return reloading || time < _retreatEndsAt;
+    }
 
     public bool CanHold(float time) => time >= _repositionEndsAt;
     public bool HoldExpired(float time) => time >= _holdEndsAt;
@@ -21,5 +33,6 @@ internal sealed class BotCombatMovement
     {
         _holdEndsAt = float.PositiveInfinity;
         _repositionEndsAt = 0.0f;
+        _retreatEndsAt = _nextRetreatAt = 0;
     }
 }
