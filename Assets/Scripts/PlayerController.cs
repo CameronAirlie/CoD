@@ -51,6 +51,10 @@ public sealed class PlayerController : ScriptBehaviour
     public bool IsSprinting => _sprinting;
     public bool IsCrouching => _crouching;
     public bool IsSliding => _sliding;
+    /// <summary>Current shot cone half-angle in degrees, including movement penalties.</summary>
+    public float SpreadDegrees => _spreadDegrees;
+    /// <summary>Current vertical camera field of view in degrees.</summary>
+    public float CameraFov => _cameraFov;
 
     public void ConfirmNetworkHit(float dealtDamage, bool isHeadshot, bool isKill = false, bool hitArmour = false)
     {
@@ -143,7 +147,13 @@ public sealed class PlayerController : ScriptBehaviour
     [SerializedField] private float range = 180.0f;
     [SerializedField] private float hipSpreadDegrees = 1.25f;
     [SerializedField] private float adsSpreadDegrees = 0.18f;
+    // Added at walk speed; scales with actual horizontal speed.
     [SerializedField] private float movementSpreadDegrees = 0.8f;
+    [SerializedField] private float airborneSpreadDegrees = 2.5f;
+    [SerializedField] private float adsMovementSpreadMultiplier = 0.35f;
+    [SerializedField] private float crouchSpreadMultiplier = 0.75f;
+    [SerializedField] private float spreadIncreaseSharpness = 14.0f;
+    [SerializedField] private float spreadRecoverySharpness = 7.0f;
     [SerializedField] private float recoilPitch = 0.75f;
     [SerializedField] private float recoilYaw = 0.32f;
     [SerializedField] private float recoilRecovery = 9.0f;
@@ -180,6 +190,7 @@ public sealed class PlayerController : ScriptBehaviour
     private Vector3 _weaponPosition;
     private Vector3 _weaponRestRotation;
     private float _cameraFov;
+    private float _spreadDegrees;
     private float _cameraHeight;
     private float _slideTime;
     private float _shotCooldown;
@@ -217,6 +228,7 @@ public sealed class PlayerController : ScriptBehaviour
         _yaw = Rotation.Y;
         _pitch = camera?.GameObject.Rotation.X ?? 0.0f;
         _cameraFov = camera?.Fov ?? hipFov;
+        _spreadDegrees = hipSpreadDegrees;
         _cameraHeight = standingCameraHeight;
         _ammo = Math.Max(1, magazineSize);
         _inventory = GameObject.GetComponent<PlayerInventory>();
@@ -474,6 +486,7 @@ public sealed class PlayerController : ScriptBehaviour
 
     private void UpdateWeapon(float deltaTime)
     {
+        UpdateSpread(deltaTime);
         if (Input.IsKeyPressed(KeyCode.R))
         {
             BeginReload();
@@ -504,6 +517,24 @@ public sealed class PlayerController : ScriptBehaviour
         weaponModel.Rotation = _weaponRestRotation + new Vector3(-sway.Y * 20.0f, sway.X * 20.0f, -bob.X * 180.0f);
     }
 
+    private float TargetSpreadDegrees()
+    {
+        var spread = _aiming ? adsSpreadDegrees : hipSpreadDegrees;
+        var speedFactor = Math.Clamp(_horizontalVelocity.Length() / MathF.Max(walkSpeed, 0.01f), 0.0f, 1.5f);
+        spread += movementSpreadDegrees * speedFactor * (_aiming ? adsMovementSpreadMultiplier : 1.0f);
+        if (!_grounded) spread += airborneSpreadDegrees * (_aiming ? adsMovementSpreadMultiplier : 1.0f);
+        else if (_crouching) spread *= crouchSpreadMultiplier;
+        return spread;
+    }
+
+    private void UpdateSpread(float deltaTime)
+    {
+        // Bloom opens quickly when moving and settles more slowly once stationary.
+        var target = TargetSpreadDegrees();
+        var sharpness = target > _spreadDegrees ? spreadIncreaseSharpness : spreadRecoverySharpness;
+        _spreadDegrees = Damp(_spreadDegrees, target, sharpness, deltaTime);
+    }
+
     private void TryFire()
     {
         if (_reloading || _shotCooldown > 0.0f || _inventory?.IsUsing == true || _multiplayer?.IsUsingObjective == true ||
@@ -528,9 +559,7 @@ public sealed class PlayerController : ScriptBehaviour
         shotAudio?.PlayOneShot(1.0f, 0.97f + NextFloat() * 0.06f);
         muzzleFlash?.Emit(1);
         weaponAnimator?.SetTrigger("Fire");
-        var movingSpread = _horizontalVelocity.LengthSquared() > 0.5f ? movementSpreadDegrees : 0.0f;
-        var spread = (_aiming ? adsSpreadDegrees : hipSpreadDegrees) + movingSpread;
-        var direction = ApplySpread(camera?.GameObject.Forward ?? GameObject.Forward, spread);
+        var direction = ApplySpread(camera?.GameObject.Forward ?? GameObject.Forward, _spreadDegrees);
         var origin = camera?.GameObject.WorldPosition ?? GameObject.WorldPosition;
         WeaponFired?.Invoke(new FpsWeaponShot(origin, direction));
         if (Physics.Raycast(origin, direction, range, GameObject, out var hit))

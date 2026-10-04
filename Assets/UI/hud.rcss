@@ -165,20 +165,26 @@ body {
     top: 0;
 }
 
+/* PlayerHud sets top/left to the spread cone in vh; margins add the 9px arm
+   length, the 2px centre and a 2px minimum gap so the cross never closes. */
 .top {
-    top: -16px;
+    top: 0;
+    margin-top: -11px;
 }
 
 .right {
-    left: 9px;
+    left: 0;
+    margin-left: 4px;
 }
 
 .bottom {
-    top: 9px;
+    top: 0;
+    margin-top: 4px;
 }
 
 .left {
-    left: -16px;
+    left: 0;
+    margin-left: -11px;
 }
 
 .dot {

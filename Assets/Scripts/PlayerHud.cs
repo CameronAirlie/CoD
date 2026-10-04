@@ -1,3 +1,4 @@
+using System.Globalization;
 using PlutoGE.ScriptCore;
 
 namespace CoD.Scripts;
@@ -37,11 +38,9 @@ public sealed class PlayerHud : ScriptBehaviour
     private RmlElement? _killFeed;
     private RmlElement[] _armour = [];
     private RmlElement[] _arms = [];
-    private UITween _spread = new(7.0f, 0.07f, UIEase.EaseOut);
     private float _hitTime;
     private float _deathTime;
     private float _renderedGap = float.NaN;
-    private bool _spreadAnimating;
     private bool _hitVisible;
     private bool _domReady;
     private bool _dead;
@@ -195,20 +194,22 @@ public sealed class PlayerHud : ScriptBehaviour
             if (_multiplayer?.CurrentMatch is not null)
                 OnMatchUpdated(_multiplayer.CurrentMatch);
         }
-        if (_arms.Length != 4) return;
-        if (_spreadAnimating)
+        if (_arms.Length != 4 || !_domReady || _controller is null) return;
+        // Place each arm's inner edge where the shot cone meets the screen. With a
+        // vertical FOV, the cone edge sits tan(spread)/tan(fov/2) of the half-height
+        // from centre; 50vh is that half-height. Margins in hud.rcss add arm length.
+        var halfFov = Math.Clamp(_controller.CameraFov, 1.0f, 170.0f) * 0.5f * MathF.PI / 180.0f;
+        var spread = Math.Clamp(_controller.SpreadDegrees, 0.0f, 45.0f) * MathF.PI / 180.0f;
+        var gap = 50.0f * MathF.Tan(spread) / MathF.Tan(halfFov);
+        if (float.IsNaN(_renderedGap) || MathF.Abs(gap - _renderedGap) >= 0.005f)
         {
-            var gap = _spread.Update(deltaTime);
-            if (float.IsNaN(_renderedGap) || MathF.Abs(gap - _renderedGap) >= 0.01f)
-            {
-                _renderedGap = gap;
-                // Arms are 9px long around a 2px centre, positioned by their top/left edge.
-                _arms[0].SetStyle("top", -gap - 9.0f);
-                _arms[1].SetStyle("left", gap + 2.0f);
-                _arms[2].SetStyle("top", gap + 2.0f);
-                _arms[3].SetStyle("left", -gap - 9.0f);
-            }
-            _spreadAnimating = MathF.Abs(gap - _spread.Target) >= 0.01f;
+            _renderedGap = gap;
+            var outward = (-gap).ToString("0.###", CultureInfo.InvariantCulture) + "vh";
+            var inward = gap.ToString("0.###", CultureInfo.InvariantCulture) + "vh";
+            _arms[0].SetStyle("top", outward);
+            _arms[1].SetStyle("left", inward);
+            _arms[2].SetStyle("top", inward);
+            _arms[3].SetStyle("left", outward);
         }
 
         if (_hitTime <= 0.0f) return;
@@ -231,12 +232,6 @@ public sealed class PlayerHud : ScriptBehaviour
 
     private void OnMovementChanged(FpsMovementState state)
     {
-        var gap = state.IsSprinting || state.IsSliding ? 18.0f
-            : state.IsAiming ? 3.0f
-            : state.IsCrouching ? 5.0f
-            : state.IsGrounded ? 7.0f : 14.0f;
-        _spread.SetTarget(gap);
-        _spreadAnimating = true;
         _crosshair?.SetClass("hidden", state.IsSprinting);
     }
 
