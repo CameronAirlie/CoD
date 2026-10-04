@@ -202,10 +202,11 @@ public sealed class PlayerHud : ScriptBehaviour
             if (float.IsNaN(_renderedGap) || MathF.Abs(gap - _renderedGap) >= 0.01f)
             {
                 _renderedGap = gap;
-                _arms[0].SetStyle("top", -gap);
-                _arms[1].SetStyle("left", gap);
-                _arms[2].SetStyle("top", gap);
-                _arms[3].SetStyle("left", -gap);
+                // Arms are 9px long around a 2px centre, positioned by their top/left edge.
+                _arms[0].SetStyle("top", -gap - 9.0f);
+                _arms[1].SetStyle("left", gap + 2.0f);
+                _arms[2].SetStyle("top", gap + 2.0f);
+                _arms[3].SetStyle("left", -gap - 9.0f);
             }
             _spreadAnimating = MathF.Abs(gap - _spread.Target) >= 0.01f;
         }

@@ -120,6 +120,8 @@ body {
     top: 50%;
     width: 2px;
     height: 2px;
+    margin-left: -1px;
+    margin-top: -1px;
 }
 
 #crosshair.hidden {
@@ -153,8 +155,7 @@ body {
 .bottom {
     width: 2px;
     height: 9px;
-    left:
-        2px;
+    left: 0;
 }
 
 .left,
@@ -165,19 +166,19 @@ body {
 }
 
 .top {
-    top: -18px;
+    top: -16px;
 }
 
 .right {
-    left: 10px;
+    left: 9px;
 }
 
 .bottom {
-    top: 10px;
+    top: 9px;
 }
 
 .left {
-    left: -18px;
+    left: -16px;
 }
 
 .dot {
