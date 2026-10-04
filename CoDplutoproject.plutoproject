@@ -208,8 +208,8 @@ ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87
 ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Input/car.plutoinput	3771	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	223232	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	79096	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	223744	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	79412	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	276480	Assembly
 ASSET	project://Managed/PlutoGE.ScriptCore.pdb	96720	Unknown
@@ -305,7 +305,7 @@ ASSET	project://Prefabs/Tree.plutoprefab	3864	Prefab
 ASSET	project://Prefabs/Tree_Static.plutomesh	93677	Mesh
 ASSET	project://Prefabs/Tree_Static_Material_0.plutomaterial	452	Material
 ASSET	project://Prefabs/Tree_Static_Material_1.plutomaterial	452	Material
-ASSET	project://Scenes/Foundry.plutoscene	129845	Scene
+ASSET	project://Scenes/Foundry.plutoscene	130086	Scene
 ASSET	project://Scenes/Main.plutoscene	159264	Scene
 ASSET	project://Scenes/Title.plutoscene	7283	Scene
 ASSET	project://Scenes/car_scene.plutoscene	2993166	Scene
@@ -336,9 +336,9 @@ ASSET	project://Scripts/MultiplayerSession.cs	91134	Script
 ASSET	project://Scripts/NetworkParticipantHitbox.cs	401	Script
 ASSET	project://Scripts/ObjectiveStatus.cs	1062	Script
 ASSET	project://Scripts/PauseMenu.cs	262	Script
-ASSET	project://Scripts/PlayerController.cs	30698	Script
+ASSET	project://Scripts/PlayerController.cs	31422	Script
 ASSET	project://Scripts/PlayerHealth.cs	9006	Script
-ASSET	project://Scripts/PlayerHud.cs	16561	Script
+ASSET	project://Scripts/PlayerHud.cs	16769	Script
 ASSET	project://Scripts/PlayerInventory.cs	5423	Script
 ASSET	project://Scripts/RoundProgression.cs	2194	Script
 ASSET	project://Scripts/SupplyPickup.cs	2907	Script
@@ -627,7 +627,7 @@ ASSET	project://UI/friendly-nameplate.rcss	602	Unknown
 ASSET	project://UI/friendly-nameplate.rml	228	RML Document
 ASSET	project://UI/hardpoint-marker.rcss	448	Unknown
 ASSET	project://UI/hardpoint-marker.rml	161	RML Document
-ASSET	project://UI/hud.rcss	5450	Unknown
+ASSET	project://UI/hud.rcss	5723	Unknown
 ASSET	project://UI/hud.rml	2795	RML Document
 ASSET	project://UI/inventory.rcss	1692	Unknown
 ASSET	project://UI/inventory.rml	1048	RML Document
