@@ -2,3 +2,4 @@ obj/
 .vscode/
 Build/
 .plutoge-cache/
+BuildFixed/

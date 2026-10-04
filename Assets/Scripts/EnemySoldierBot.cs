@@ -91,10 +91,18 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private RmlDocument? _networkNameplateDocument;
     private string _networkNameplateText = string.Empty;
     private bool _networkNameplateDirty;
+    private bool _networkNameplateFriendly;
+    private bool _networkNameplateConfigured;
+    private bool _networkNameplateVisible;
+    private GameObject? _nameplateObserver;
+    private float _nextNameplateVisibilityAt;
+    [SerializedField] private float nameplateMaximumDistance = 60.0f;
     private float _turnDirection = 1.0f;
 
     public override void OnCreate()
     {
+        if (networkNameplate is not null && networkNameplate.IsValid)
+            networkNameplate.Active = false;
         _remoteProxyMode = remoteProxy;
         _externalNavigationControl = remoteProxy;
         _currentHealth = MathF.Max(1.0f, health);
@@ -126,8 +134,9 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     public override void OnUpdate(float deltaTime)
     {
-        RefreshNetworkNameplate();
         _time += MathF.Max(0.0f, deltaTime);
+        UpdateNameplateVisibility();
+        RefreshNetworkNameplate();
         var position = GameObject.WorldPosition;
         var displacement = position - _previousPosition;
         displacement.Y = 0.0f;
@@ -362,10 +371,19 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     public void ConfigureNetworkNameplate(string username, bool friendly)
     {
         if (networkNameplate is null || !networkNameplate.IsValid) return;
-        networkNameplate.Active = friendly;
-        _networkNameplateText = friendly ? $"[FRIENDLY] {username}" : string.Empty;
-        _networkNameplateDirty = friendly;
-        if (!friendly) return;
+        _networkNameplateFriendly = friendly;
+        _networkNameplateConfigured = !string.IsNullOrWhiteSpace(username);
+        if (!_networkNameplateConfigured || _dead)
+        {
+            SetNameplateVisible(false);
+            return;
+        }
+        var text = TeamNameplate.Format(username, friendly);
+        if (_networkNameplateText != text)
+        {
+            _networkNameplateText = text;
+            _networkNameplateDirty = true;
+        }
         _networkNameplateDocument ??=
             new RmlDocument($"UI/friendly-nameplate.rml#entity:{networkNameplate.EntityId}");
         RefreshNetworkNameplate();
@@ -377,12 +395,46 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         _networkNameplateDocument = null;
     }
 
+    private void SetNameplateVisible(bool visible)
+    {
+        if (networkNameplate is null || !networkNameplate.IsValid) return;
+        if (_networkNameplateVisible == visible && networkNameplate.Active == visible) return;
+        _networkNameplateVisible = visible;
+        networkNameplate.Active = visible;
+        // Inactive canvases unload their document. Reapply text and team color
+        // when it is recreated after occlusion, distance culling, or respawn.
+        if (visible) _networkNameplateDirty = true;
+    }
+
+    private void UpdateNameplateVisibility()
+    {
+        if (!_networkNameplateConfigured || _dead)
+        {
+            SetNameplateVisible(false);
+            return;
+        }
+        if (_time < _nextNameplateVisibilityAt) return;
+        _nextNameplateVisibilityAt = _time + 0.1f;
+        _nameplateObserver ??= GameObject.FindWithTag("Player") ?? GameObject.Find("Player");
+        if (_nameplateObserver is null) { SetNameplateVisible(false); return; }
+        var origin = _nameplateObserver.WorldPosition + Vector3.UnitY * 0.65f;
+        var ray = GameObject.WorldPosition + Vector3.UnitY * 0.2f - origin;
+        var length = ray.Length();
+        var inRange = length <= MathF.Max(1.0f, nameplateMaximumDistance);
+        var visible = inRange && (length <= 0.5f ||
+            !Physics.Raycast(origin, ray / length, MathF.Max(0.0f, length - 0.5f),
+                _nameplateObserver, out var hit) || hit.Entity.EntityId == EntityId);
+        SetNameplateVisible(visible);
+    }
+
     private void RefreshNetworkNameplate()
     {
         if (!_networkNameplateDirty || _networkNameplateDocument is null) return;
         var label = _networkNameplateDocument.Element("friendly-name");
         label.Markup = _networkNameplateText;
-        _networkNameplateDirty = !label.SetClass("ready", true);
+        var friendlyApplied = label.SetClass("friendly", _networkNameplateFriendly);
+        var enemyApplied = label.SetClass("enemy", !_networkNameplateFriendly);
+        _networkNameplateDirty = !friendlyApplied || !enemyApplied;
     }
 
     private void ResolveTarget()
@@ -611,6 +663,8 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     private void Die()
     {
+        if (networkNameplate is not null && networkNameplate.IsValid)
+            networkNameplate.Active = false;
         if (_dead)
             return;
 

@@ -1,6 +1,6 @@
 SCENE	1
 ENTITY	10	0	1	UAL1_Standard	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	10	AnimationComponent
+COMPONENT	10	AnimationComponent	1
 PROPERTY	SourceAnimation	2	project://Imported/UAL1_Standard/UAL1_Standard.plutoanim	0
 PROPERTY	AnimationGraph	2		0
 PROPERTY	CurrentClipIndex	6	0	43	A_TPose	Crouch_Fwd_Loop	Crouch_Idle_Loop	Dance_Loop	Death01	Driving_Loop	Fixing_Kneeling	Hit_Chest	Hit_Head	Idle_Loop	Idle_Talking_Loop	Idle_Torch_Loop	Interact	Jog_Fwd_Loop	Jump_Land	Jump_Loop	Jump_Start	PickUp_Table	Pistol_Aim_Down	Pistol_Aim_Neutral	Pistol_Aim_Up	Pistol_Idle_Loop	Pistol_Reload	Pistol_Shoot	Punch_Cross	Punch_Jab	Push_Loop	Roll	Sitting_Enter	Sitting_Exit	Sitting_Idle_Loop	Sitting_Talking_Loop	Spell_Simple_Enter	Spell_Simple_Exit	Spell_Simple_Idle_Loop	Spell_Simple_Shoot	Sprint_Loop	Swim_Fwd_Loop	Swim_Idle_Loop	Sword_Attack	Sword_Idle	Walk_Formal_Loop	Walk_Loop
@@ -362,7 +362,7 @@ PROPERTY	Graph.States.42.Loop	4	true	0
 PROPERTY	Graph.States.42.TransitionCount	1	0	0
 PROPERTY	Graph.ParameterCount	1	0	0
 END_COMPONENT
-COMPONENT	10	ActiveRagdollComponent
+COMPONENT	10	ActiveRagdollComponent	1
 PROPERTY	PositionStrength	0	35.000000	0
 PROPERTY	RotationStrength	0	18.000000	0
 PROPERTY	Damping	0	8.000000	0
@@ -370,7 +370,7 @@ PROPERTY	MaxForce	0	1200.000000	0
 PROPERTY	MaxTorque	0	80.000000	0
 END_COMPONENT
 ENTITY	11	10	1	Mannequin	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	11	MeshComponent
+COMPONENT	11	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	0	0
@@ -383,7 +383,7 @@ PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
 ENTITY	12	10	1	Mannequin	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	12	MeshComponent
+COMPONENT	12	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	1	0
@@ -396,7 +396,7 @@ PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
 ENTITY	13	0	1	Sky	0.000000,300.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	13	PhysicalSkyComponent
+COMPONENT	13	PhysicalSkyComponent	1
 PROPERTY	Rayleigh Strength	0	1.000000	0
 PROPERTY	Mie Strength	0	0.650000	0
 PROPERTY	Mie Anisotropy	0	0.800000	0
@@ -412,7 +412,7 @@ PROPERTY	Moon Angular Radius	0	0.260000	0
 PROPERTY	Moon Color	3	0.550000,0.650000,1.000000	0
 PROPERTY	Ground Color	3	0.012000,0.015000,0.020000	0
 END_COMPONENT
-COMPONENT	13	VolumetricCloudComponent
+COMPONENT	13	VolumetricCloudComponent	1
 PROPERTY	Size	3	1000.000000,300.000000,1000.000000	0
 PROPERTY	Coverage	0	0.550000	0
 PROPERTY	Density	0	1.000000	0
@@ -431,7 +431,7 @@ PROPERTY	Primary Steps	1	24	0
 PROPERTY	Light Steps	1	3	0
 END_COMPONENT
 ENTITY	14	0	1	Cube	0.000000,-0.626395,0.000000	0.000000,0.000000,0.000000	30.000000,1.000000,30.000000
-COMPONENT	14	ColliderComponent
+COMPONENT	14	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -440,7 +440,7 @@ PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
-COMPONENT	14	MeshComponent
+COMPONENT	14	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0

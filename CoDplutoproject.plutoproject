@@ -1,21 +1,22 @@
 PLUTOPROJECT	1
 NAME	CoD
 ASSET_DIR	Assets
-STARTUP_SCENE	project://Scenes/car_scene.plutoscene
+STARTUP_SCENE	project://Scenes/Main.plutoscene
 SCRIPT_ASSEMBLY	project://Managed/CoD.Scripts.dll
+LOADING_ACCENT	0.65	0.68	0.72
 WINDOW_TITLE	CoD
 WINDOW_SIZE	1920	1080
-VSYNC	0
+VSYNC	1
 GRAPHICS_API	Vulkan
-RUNTIME_UPSCALER	DLSS
+RUNTIME_UPSCALER	None
 RUNTIME_UPSCALER_QUALITY	Quality
 RUNTIME_RENDER_SCALE	0.9
 RUNTIME_UPSCALE_SHARPNESS	0.5
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	405.368	131.319	688.615
+EDITOR_CAMERA_POSITION	-16.9509	3.35126	53.7838
 EDITOR_CAMERA_SPEED	6
-EDITOR_CAMERA_ROTATION	-1500.86	-11.4004
+EDITOR_CAMERA_ROTATION	-2383.04	-6.92
 EDITOR_CAMERA_LENS	70	0.1	10000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/performance.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -30,7 +31,7 @@ ASSET	engine://builtin/shadergraph/default-unlit	0	Shader Graph
 ASSET	project://AnimGraphs/enemy.plutoanimgraph	1582	Animation Graph
 ASSET	project://AnimGraphs/player.plutoanimgraph	1061	Animation Graph
 ASSET	project://Data/4x4.plutoscriptable	2074	Scriptable Object
-ASSET	project://Data/AudiS5.plutoscriptable	2128	Scriptable Object
+ASSET	project://Data/AudiS5.plutoscriptable	2127	Scriptable Object
 ASSET	project://Data/Racecar.plutoscriptable	2071	Scriptable Object
 ASSET	project://Fonts/Georama.ttf	434664	Unknown
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_A_TPose_0.plutoclip	332294	Animation Clip
@@ -91,7 +92,7 @@ ASSET	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA
 ASSET	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_sprint_6.plutoclip	71370	Animation Clip
 ASSET	project://Imported/animation_low-poly_val/Clips/animation_low-poly_val_LVA4_Armature_wpn_val_walk_7.plutoclip	68097	Animation Clip
 ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	430	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	449	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	670	Material
 ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	455	Material
 ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	459	Material
 ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	456	Material
@@ -103,11 +104,11 @@ ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_17.plut
 ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_2.plutomaterial	452	Material
 ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_3.plutomaterial	452	Material
 ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_4.plutomaterial	456	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	455	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_5.plutomaterial	667	Material
 ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_6.plutomaterial	459	Material
 ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_7.plutomaterial	455	Material
 ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_8.plutomaterial	459	Material
-ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	459	Material
+ASSET	project://Imported/animation_low-poly_val/M_animation_low-poly_val_9.plutomaterial	660	Material
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutoanim	963	Animation
 ASSET	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	2611229	Mesh
 ASSET	project://Imported/audi_rs5/M_audi_rs5_0.plutomaterial	642	Material
@@ -207,22 +208,23 @@ ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87
 ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Input/car.plutoinput	3771	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	147968	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	57308	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	154112	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	59992	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
-ASSET	project://Managed/PlutoGE.ScriptCore.dll	241664	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	85236	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.dll	276480	Assembly
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	96720	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	369	Unknown
 ASSET	project://Materials/BulletHole.plutomaterial	473	Material
-ASSET	project://Materials/Ground.plutomaterial	492	Material
+ASSET	project://Materials/Ground.plutomaterial	691	Material
 ASSET	project://Materials/GroundPlane.plutomaterial	550	Material
 ASSET	project://Materials/Lightsaber_blade.plutomaterial	447	Material
 ASSET	project://Materials/Lightsaber_hilt.plutomaterial	431	Material
 ASSET	project://Materials/MuzzleFlash.plutomaterial	486	Material
 ASSET	project://Materials/NepalTerrain.plutomaterial	584	Material
+ASSET	project://Materials/RenderMaterial.plutomaterial	687	Material
 ASSET	project://Materials/SSS.plutomaterial	509	Material
 ASSET	project://Materials/Terrain.plutomaterial	643	Material
-ASSET	project://Materials/TerrainEssex.plutomaterial	565	Material
+ASSET	project://Materials/TerrainEssex.plutomaterial	695	Material
 ASSET	project://Materials/smoke.plutomaterial	560	Material
 ASSET	project://Packs/AnimationPack/A_TPose.plutoclip	332294	Animation Clip
 ASSET	project://Packs/AnimationPack/Crouch_Fwd_Loop.plutoclip	273802	Animation Clip
@@ -276,39 +278,43 @@ ASSET	project://Packs/AnimationPack/Walk_Formal_Loop.plutoclip	195803	Animation 
 ASSET	project://Packs/AnimationPack/Walk_Loop.plutoclip	195796	Animation Clip
 ASSET	project://Particles/MuzzleFlash.plutoparticles	864	Particle System
 ASSET	project://Particles/smoke.plutoparticles	1517	Particle System
-ASSET	project://PostProcessing/main.plutopostprocess	5278	Post Process Preset
-ASSET	project://PostProcessing/performance.plutopostprocess	5438	Post Process Preset
-ASSET	project://Prefabs/AmmoPickup.plutoprefab	1889	Prefab
-ASSET	project://Prefabs/ArmourPickup.plutoprefab	1894	Prefab
-ASSET	project://Prefabs/Car.plutoprefab	33482	Prefab
+ASSET	project://PostProcessing/main.plutopostprocess	6045	Post Process Preset
+ASSET	project://PostProcessing/performance.plutopostprocess	5573	Post Process Preset
+ASSET	project://Prefabs/AmmoPickup.plutoprefab	1895	Prefab
+ASSET	project://Prefabs/ArmourPickup.plutoprefab	1900	Prefab
+ASSET	project://Prefabs/Car.plutoprefab	33578	Prefab
 ASSET	project://Prefabs/Enemy.plutoprefab	17387	Prefab
-ASSET	project://Prefabs/HealthPickup.plutoprefab	1895	Prefab
-ASSET	project://Prefabs/Lightsaber.plutoprefab	1943	Prefab
-ASSET	project://Prefabs/Player.plutoprefab	53931	Prefab
-ASSET	project://Prefabs/RemotePlayer.plutoprefab	14686	Prefab
-ASSET	project://Prefabs/RmlGameUI.plutoprefab	2461	Prefab
-ASSET	project://Prefabs/Tree.plutoprefab	3856	Prefab
+ASSET	project://Prefabs/HealthPickup.plutoprefab	1901	Prefab
+ASSET	project://Prefabs/Lightsaber.plutoprefab	1949	Prefab
+ASSET	project://Prefabs/Player.plutoprefab	54207	Prefab
+ASSET	project://Prefabs/RemotePlayer.plutoprefab	14704	Prefab
+ASSET	project://Prefabs/RmlGameUI.plutoprefab	2475	Prefab
+ASSET	project://Prefabs/Tree.plutoprefab	3864	Prefab
 ASSET	project://Prefabs/Tree_Static.plutomesh	93677	Mesh
 ASSET	project://Prefabs/Tree_Static_Material_0.plutomaterial	452	Material
 ASSET	project://Prefabs/Tree_Static_Material_1.plutomaterial	452	Material
-ASSET	project://Scenes/Main.plutoscene	137708	Scene
-ASSET	project://Scenes/Title.plutoscene	7275	Scene
-ASSET	project://Scenes/car_scene.plutoscene	2986250	Scene
+ASSET	project://Scenes/Main.plutoscene	151057	Scene
+ASSET	project://Scenes/Title.plutoscene	7283	Scene
+ASSET	project://Scenes/car_scene.plutoscene	2993166	Scene
 ASSET	project://Scenes/island.plutoscene	8536273	Scene
-ASSET	project://Scenes/ragdoll_test.plutoscene	20911	Scene
-ASSET	project://Scripts/EnemySoldierBot.cs	29113	Script
+ASSET	project://Scenes/ragdoll_test.plutoscene	20927	Scene
+ASSET	project://Scripts/BotCombatMovement.cs	834	Script
+ASSET	project://Scripts/BotSpawnResolver.cs	1211	Script
+ASSET	project://Scripts/EnemySoldierBot.cs	31698	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4384	Script
+ASSET	project://Scripts/FairBotPlanner.cs	1015	Script
 ASSET	project://Scripts/InventoryMenu.cs	6328	Script
 ASSET	project://Scripts/MultiplayerLaunch.cs	714	Script
-ASSET	project://Scripts/MultiplayerSession.cs	82872	Script
+ASSET	project://Scripts/MultiplayerSession.cs	87031	Script
 ASSET	project://Scripts/NetworkParticipantHitbox.cs	401	Script
 ASSET	project://Scripts/PauseMenu.cs	262	Script
 ASSET	project://Scripts/PlayerController.cs	28583	Script
 ASSET	project://Scripts/PlayerHealth.cs	8117	Script
-ASSET	project://Scripts/PlayerHud.cs	14496	Script
+ASSET	project://Scripts/PlayerHud.cs	15091	Script
 ASSET	project://Scripts/PlayerInventory.cs	4059	Script
 ASSET	project://Scripts/SupplyPickup.cs	2143	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
+ASSET	project://Scripts/TeamNameplate.cs	351	Script
 ASSET	project://Scripts/TitleScreen.cs	3209	Script
 ASSET	project://Scripts/UIManager.cs	6373	Script
 ASSET	project://Scripts/VehicleSpeedometer.cs	6437	Script
@@ -388,15 +394,15 @@ ASSET	project://SourceModels/animation_low-poly_val/LVA4_Armature_wpn_val_walk.p
 ASSET	project://SourceModels/animation_low-poly_val/LVA4_Armature_wpn_val_walk_1.plutoclip	68097	Animation Clip
 ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_0.plutomaterial	430	Material
 ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_0_1.plutomaterial	430	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	449	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_1.plutomaterial	667	Material
 ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_10.plutomaterial	455	Material
 ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_10_1.plutomaterial	455	Material
 ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_11.plutomaterial	459	Material
 ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_11_1.plutomaterial	459	Material
 ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_12.plutomaterial	456	Material
 ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_12_1.plutomaterial	456	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	457	Material
-ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_13_1.plutomaterial	457	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_13.plutomaterial	669	Material
+ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_13_1.plutomaterial	668	Material
 ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_14.plutomaterial	456	Material
 ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_14_1.plutomaterial	456	Material
 ASSET	project://SourceModels/animation_low-poly_val/M_animation_low-poly_val_15.plutomaterial	456	Material
@@ -534,6 +540,11 @@ ASSET	project://SourceModels/pine_tree/scene.bin	189516	Unknown
 ASSET	project://SourceModels/pine_tree/textures/Leavs_baseColor.png	345552	Texture
 ASSET	project://SourceModels/pine_tree/textures/Trank_baseColor.png	416855	Texture
 ASSET	project://SourceModels/pine_tree/textures/Trank_normal.png	667828	Texture
+ASSET	project://SourceModels/scene/scene.bin	2320	Unknown
+ASSET	project://SourceModels/scene/scene.gltf	31169	Model
+ASSET	project://SourceModels/scene/textures/Grass_green.007_normal.png	139268	Texture
+ASSET	project://SourceModels/scene/textures/Grass_green.014_baseColor.png	367821	Texture
+ASSET	project://SourceModels/scene/textures/Grass_green.014_metallicRoughness.png	87934	Texture
 ASSET	project://Textures/BulletHole/BulletHole.png	7891	Texture
 ASSET	project://Textures/Cloud01-flipbooks/Cloud01_8x8.exr	8405323	Texture
 ASSET	project://Textures/Cloud01-flipbooks/Cloud01_8x8.tga	4194322	Texture
@@ -557,7 +568,8 @@ ASSET	project://Textures/Heightmaps/Essex/ongar_albedo_topo.png	190051	Texture
 ASSET	project://Textures/Heightmaps/Nepal/27_871_87_262_13_505_505_16bit.png	510693	Texture
 ASSET	project://Textures/Heightmaps/Nepal/27_871_87_262_13_505_505_albedo_topo.png	446489	Texture
 ASSET	project://Textures/MuzzleFlash/MuzzleFlash.png	90402	Texture
-ASSET	project://UI/friendly-nameplate.rcss	549	Unknown
+ASSET	project://Textures/RenderTexture.plutorendertexture	45	Texture
+ASSET	project://UI/friendly-nameplate.rcss	602	Unknown
 ASSET	project://UI/friendly-nameplate.rml	228	RML Document
 ASSET	project://UI/hud.rcss	3689	Unknown
 ASSET	project://UI/hud.rml	2024	RML Document

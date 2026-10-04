@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../Assets/Scripts/FairBotPlanner.cs" Link="FairBotPlanner.cs" />
+    <Compile Include="../Assets/Scripts/BotSpawnResolver.cs" Link="BotSpawnResolver.cs" />
+    <Compile Include="../Assets/Scripts/BotCombatMovement.cs" Link="BotCombatMovement.cs" />
+    <Compile Include="../Assets/Scripts/TeamNameplate.cs" Link="TeamNameplate.cs" />
+    <None Include="../Assets/Prefabs/Enemy.plutoprefab" Link="Prefabs/Enemy.plutoprefab" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../Assets/Prefabs/RemotePlayer.plutoprefab" Link="Prefabs/RemotePlayer.plutoprefab" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

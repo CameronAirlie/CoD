@@ -309,7 +309,7 @@ public sealed class PlayerHud : ScriptBehaviour
             _matchPhase.Markup = match.Phase switch
             {
                 MatchPhase.Warmup => "MATCH STARTING",
-                MatchPhase.Playing => $"FIRST TO {match.ScoreLimit}",
+                MatchPhase.Playing => DescribeMatch(match),
                 MatchPhase.Results => match.AlphaScore == match.BravoScore ? "DRAW" :
                     match.AlphaScore > match.BravoScore ? "ALPHA WINS" : "BRAVO WINS",
                 _ => "WAITING FOR PLAYERS"
@@ -325,6 +325,16 @@ public sealed class PlayerHud : ScriptBehaviour
             rows.Append($"<div class=\"score-row {teamClass}{localClass}\"><span class=\"player-name\">{EscapeMarkup(playerState.Username)}</span><span class=\"stat\">{playerState.Kills}</span><span class=\"stat\">{playerState.Deaths}</span></div>");
         }
         _scoreboardRows.Markup = rows.ToString();
+    }
+
+    private static string DescribeMatch(MatchSnapshot match)
+    {
+        var local = Array.Find(match.Players, player => player.PeerId == match.LocalPeerId);
+        if (local is null) return $"FIRST TO {match.ScoreLimit}";
+        var own = local.Team == PlayerTeam.Alpha ? match.AlphaScore : match.BravoScore;
+        var enemy = local.Team == PlayerTeam.Alpha ? match.BravoScore : match.AlphaScore;
+        var status = own == enemy ? "TIED" : own > enemy ? "WINNING" : "LOSING";
+        return $"{local.Team.ToString().ToUpperInvariant()} | {status} | FIRST TO {match.ScoreLimit}";
     }
 
     private void OnKillFeed(KillFeedEntry entry)

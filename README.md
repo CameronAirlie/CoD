@@ -18,7 +18,7 @@ CoD is a small demo project created with **[PlutoGE](https://github.com/CameronA
 - Replicated match clock, team scores, kill feed, and hold-Tab scoreboard
 - Host-owned TDM bots that fill empty slots and leave automatically as humans join
 - Animated remote soldier characters with replicated locomotion and firing feedback
-- Camera-facing blue world-space RmlUi nameplates above friendly players and bots
+- Camera-facing world-space RmlUi names: blue friendlies, red enemies, with readable screen sizing
 - Enemy waves, health and ammunition pickups, and runtime HUD elements
 
 ## Running the project
@@ -109,6 +109,78 @@ PvP state are networked; the enemy wave simulation and supply pickups remain
 local gameplay systems. Internet play requires the host to expose or forward
 the configured TCP port. No relay, NAT traversal, authentication service, or
 encryption layer is currently included.
+
+## Bot gameplay improvements
+
+TDM planning uses a reusable round-robin scheduler so sustained planning work
+from an early bot cannot starve the rest of the roster. Perception and firing
+remain independent of the planning budget. With five living bots and a budget
+of one, each bot gets a planning slot within five updates.
+
+Bots retry navigation after two seconds without meaningful horizontal progress,
+sample different tactical angles, and avoid stacking destinations on the same
+firing lane. Pursuit starts during the tactical search, with path following and
+partial routes handled by the native navigation agent. Visible enemies no longer
+keep bots in permanent firing holds: after roughly 2.5�3.25 seconds they get a
+1.25-second reposition window and a short lateral destination. They wait briefly
+before engaging, fire five-round bursts with pauses, and retain magazine reloads. Round starts clear stale targeting,
+navigation searches, and reload state and refill magazines.
+
+Spawns rotate through the arena markers, prefer navmesh projection, and
+fall back to grounded authored markers when projection is unavailable. They
+reject occupied points (three units from teammates, ten from opponents).
+Random navmesh sampling remains a fallback when markers are unavailable.
+The HUD now identifies your team and whether it is winning, losing, or tied.
+
+The new `MultiplayerSession` tuning fields are `botReactionTime`, `botBurstSize`,
+`botBurstPause`, `botStuckTimeout`, `botCombatHoldDuration`, and
+`botRepositionDuration`. They use script defaults unless overridden
+in the editor; the existing scene's difficulty and participant settings remain.
+
+### Implementation plan and validation
+
+1. Repair bounded bot planning with fair scheduling.
+2. Recover stalled navigation and distribute tactical firing positions.
+3. Add readable combat timing, safe arena spawns, and reliable round resets.
+4. Clarify the player's team and match status in the HUD.
+5. Build the script assembly and run scheduling regression tests.
+
+Run the engine-independent regression checks with:
+
+```powershell
+dotnet run --project Tests/CoD.GameplayTests.csproj -c Release
+```
+
+Editor playtest: host a game, confirm all five bots move and engage through
+several target changes, then observe a full magazine/reload cycle, multiple
+respawns, and a second round. Join another instance to check replicated shots,
+team scores, friendly fire, and bot replacement. Navigation and visual behavior
+need this live check; the console tests verify scheduling fairness and budget
+bounds without the native engine.
+
+## Team identification and arena surfaces
+
+Network participants use world-anchored projected nameplates with constant
+screen sizing (supported by Vulkan and OpenGL): blue `FRIENDLY` names and red `ENEMY` names. Team changes update
+both color and label; dead participants hide their nameplates. Visibility rays
+hide tags behind obstacles, and tags are limited to 60 units by default. Names are escaped
+before inserting them into RmlUi. Arena walls use roughness 0.85 for a matte finish.
+
+The engine SSR shader varies its GGX sampling pattern across pixels and uses
+surface-aware filtering on rough receivers to avoid coherent repeated reflections.
+This shader change requires the rebuilt engine RHI shader artifacts.
+
+## Weapon effects in packaged builds
+
+Bullet holes use the engine's projected decal pass on Vulkan and OpenGL.
+The pass clips to the hit surface, rejects opposing normals, respects texture
+alpha, and fades independently of the alpha cutoff. Screen bounds limit drawing
+to each projector. Packed particle and material readers handle CRLF line endings.
+Standalone exports ship their shader package in a sibling `Shaders` directory.
+
+The refreshed build is `BuildFixed/CoD.exe`. Keep its `Shaders`, content pack,
+DLLs, and `DotnetRuntime` directory together when distributing it. Restart the
+rebuilt editor before testing or exporting further changes.
 
 ## About PlutoGE
 

@@ -1,6 +1,6 @@
 SCENE	1
 ENTITY	1	0	1	Title Screen	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	1	CanvasComponent
+COMPONENT	1	CanvasComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	RenderMode	6	0	4	Screen Space	World Screen Space	Screen Space Camera	World Space
 PROPERTY	ScaleMode	6	1	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
@@ -14,20 +14,20 @@ PROPERTY	FaceCamera	4	true	0
 PROPERTY	Backend	6	1	2	Legacy Native	RmlUi
 PROPERTY	DocumentPath	2		0
 END_COMPONENT
-COMPONENT	1	ScriptComponent
+COMPONENT	1	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.TitleScreen	0
 PROPERTY	documentPath	2	UI/title.rml	0
 PROPERTY	gameScene	2	Main	0
 PROPERTY	username	2	Player	0
 PROPERTY	serverAddress	2	127.0.0.1	0
 END_COMPONENT
-COMPONENT	1	RmlWidgetComponent
+COMPONENT	1	RmlWidgetComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	Source	2	project://UI/title.rml	0
 PROPERTY	Visible	4	true	0
 END_COMPONENT
 ENTITY	9	0	1	Camera	0.000000,2.000000,5.000000	-15.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	9	CameraComponent
+COMPONENT	9	CameraComponent	1
 PROPERTY	FOV	0	60.000000	0
 PROPERTY	NearPlane	0	0.100000	0
 PROPERTY	FarPlane	0	100.000000	0

@@ -1,7 +1,7 @@
 SCENE	1
 ENTITY	1	0	1	Armour Supply	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	0.900000,0.550000,0.650000
 TAGS	1	2	Interactable	ArmourPickup
-COMPONENT	1	ScriptComponent
+COMPONENT	1	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.SupplyPickup	0
 PROPERTY	ammoAmount	1	0	0
 PROPERTY	healthAmount	0	0.000000	0
@@ -12,7 +12,7 @@ PROPERTY	armourMethod	2	AddArmourPlate	0
 PROPERTY	respawnPrefab	2	project://Prefabs/ArmourPickup.plutoprefab	0
 PROPERTY	rotationSpeed	0	45.000000	0
 END_COMPONENT
-COMPONENT	1	ColliderComponent
+COMPONENT	1	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
 PROPERTY	Center	3	0.000000,0.000000,0.000000	0
 PROPERTY	Size	3	1.000000,1.000000,1.000000	0
@@ -21,7 +21,7 @@ PROPERTY	Height	0	1.000000	0
 PROPERTY	Is Trigger	4	false	0
 PROPERTY	Blocks Audio	4	false	0
 END_COMPONENT
-COMPONENT	1	MeshComponent
+COMPONENT	1	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
