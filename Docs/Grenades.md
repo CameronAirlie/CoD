@@ -30,7 +30,7 @@ grenades damage entities tagged Enemy through their existing TakeDamage method.
 - Launches use server-side participant positions, which currently inherit the
   game's existing client-authored player transform replication.
 
-Networking uses **protocol 12**; rebuild both peers. Channels 16–19 are reserved
+Networking uses **protocol 13**; rebuild both peers. Channels 16–19 are reserved
 for grenade throws, projectile frames, explosions and inventory respectively.
 Already thrown grenades continue after the thrower's death, but expire without
 damage when play ends. Disconnecting removes that player's active grenades.

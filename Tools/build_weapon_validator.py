@@ -11,6 +11,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 root = Path(__file__).resolve().parent.parent
+source = Path(sys.argv[3]).resolve() if len(sys.argv) > 3 else root / 'Tools/verify_weapon_assets.cpp'
 build = Path(sys.argv[1]).resolve()
 vcvars = Path(sys.argv[2]).resolve()
 out = root / 'Tools/Native'
@@ -21,11 +22,14 @@ tree = ET.parse(project)
 group = next(group for group in tree.findall('m:ItemDefinitionGroup', namespace)
              if 'RelWithDebInfo|x64' in group.get('Condition', ''))
 includes = group.find('m:ClCompile/m:AdditionalIncludeDirectories', namespace).text.split(';')
+source_root = next(line.split('=', 1)[1] for line in (build / 'CMakeCache.txt').read_text().splitlines()
+                   if line.startswith('CMAKE_HOME_DIRECTORY:INTERNAL='))
+includes.append(str(Path(source_root) / 'engine/render/src'))
 libraries = group.find('m:Link/m:AdditionalDependencies', namespace).text.split(';')
 arguments = ['/nologo', '/std:c++20', '/EHsc', '/MD', '/O2', '/DNDEBUG', '/DGLM_ENABLE_EXPERIMENTAL',
              f'/Fo"{out / "verify.obj"}"', f'/Fe"{out / "verify.exe"}"']
 arguments += [f'/I"{path}"' for path in includes if not path.startswith('%')]
-arguments += [f'"{root / "Tools/verify_weapon_assets.cpp"}"', '/link']
+arguments += [f'"{source}"', '/link']
 arguments += [f'"{(project.parent / path).resolve()}"' if '\\' in path or '/' in path else path
               for path in libraries if not path.startswith('%')]
 response = out / 'verify.rsp'

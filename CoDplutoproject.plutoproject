@@ -1030,3 +1030,18 @@ ASSET	project://Sounds/Gameplay/Player/Footsteps/Concrete/footstep_concrete_ufx_
 ASSET	project://Sounds/Gameplay/Misc/inventory_close_ufx_1.wav	658328	Audio
 ASSET	project://Sounds/Gameplay/Misc/inventory_open_ufx_1.wav	658328	Audio
 ASSET	project://Sounds/Gameplay/Misc/new_objective_ufx_1.wav	156716	Audio
+ASSET	project://Bots/Soldier/M16_HandSpace.plutomesh	0	Mesh
+ASSET	project://Bots/Soldier/Rifle_Aim.plutoclip	0	Animation Clip
+ASSET	project://Bots/Soldier/Rifle_Fire.plutoclip	0	Animation Clip
+ASSET	project://Bots/Soldier/Rifle_Hit.plutoclip	0	Animation Clip
+ASSET	project://Bots/Soldier/Rifle_Idle.plutoclip	0	Animation Clip
+ASSET	project://Bots/Soldier/Rifle_Jog.plutoclip	0	Animation Clip
+ASSET	project://Bots/Soldier/Rifle_Reload.plutoclip	0	Animation Clip
+ASSET	project://Bots/Soldier/Rifle_Sprint.plutoclip	0	Animation Clip
+ASSET	project://Bots/Soldier/Rifle_Walk.plutoclip	0	Animation Clip
+ASSET	project://Bots/Soldier/Soldier.plutoanim	0	Animation
+ASSET	project://Bots/Soldier/Soldier.plutoanimgraph	0	Animation Graph
+ASSET	project://Bots/Soldier/Soldier.plutomesh	0	Mesh
+ASSET	project://SourceModels/Solider/Rigged/Soldier_Bot_Animations.blend	0	Model
+ASSET	project://Bots/Soldier/Soldier_Game.plutomesh	0	Mesh
+ASSET	project://SourceModels/Solider/Rigged/Soldier_Bot_Game.blend	0	Model
