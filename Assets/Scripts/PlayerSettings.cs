@@ -13,10 +13,12 @@ public sealed record PlayerPreferences
     public float Feedback { get; init; } = 1;
     public float Sensitivity { get; init; } = 1;
     public float Scale { get; init; } = 1;
+    public float FieldOfView { get; init; } = 90;
     public PlayerPreferences Validate() => this with {
         Quality = Enum.IsDefined(Quality) ? Quality : GraphicsPreset.High,
         Master = Bound(Master, 0, 1), Effects = Bound(Effects, 0, 1), Feedback = Bound(Feedback, 0, 1),
-        Sensitivity = Bound(Sensitivity, .1f, 3), Scale = Bound(Scale, .75f, 1.25f) };
+        Sensitivity = Bound(Sensitivity, .1f, 3), Scale = Bound(Scale, .75f, 1.25f),
+        FieldOfView = float.IsFinite(FieldOfView) ? Math.Clamp(FieldOfView, 80, 110) : 90 };
     private static float Bound(float x, float min, float max) => float.IsFinite(x) ? Math.Clamp(x, min, max) : 1;
 }
 

@@ -213,11 +213,11 @@ ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87
 ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Input/car.plutoinput	3771	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	289280	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	98016	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	288768	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	97984	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
-ASSET	project://Managed/PlutoGE.ScriptCore.dll	283136	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	98168	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.dll	283648	Assembly
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	98460	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	369	Unknown
 ASSET	project://Materials/BulletHole.plutomaterial	473	Material
 ASSET	project://Materials/Foundry/Brick.plutomaterial	415	Material
@@ -342,7 +342,7 @@ ASSET	project://Scripts/EnemySoldierBot.cs	32886	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4384	Script
 ASSET	project://Scripts/FairBotPlanner.cs	1015	Script
 ASSET	project://Scripts/FirstPersonHands.cs	2576	Script
-ASSET	project://Scripts/GameGraphicsSettings.cs	4008	Script
+ASSET	project://Scripts/GameGraphicsSettings.cs	4262	Script
 ASSET	project://Scripts/GameModeHud.cs	9511	Script
 ASSET	project://Scripts/GrenadeRules.cs	3543	Script
 ASSET	project://Scripts/HandMotion.cs	1914	Script
@@ -359,11 +359,11 @@ ASSET	project://Scripts/MultiplayerSession.cs	93660	Script
 ASSET	project://Scripts/NetworkParticipantHitbox.cs	401	Script
 ASSET	project://Scripts/ObjectiveStatus.cs	1062	Script
 ASSET	project://Scripts/PauseMenu.cs	262	Script
-ASSET	project://Scripts/PlayerController.cs	39634	Script
+ASSET	project://Scripts/PlayerController.cs	39704	Script
 ASSET	project://Scripts/PlayerHealth.cs	9006	Script
 ASSET	project://Scripts/PlayerHud.cs	19494	Script
 ASSET	project://Scripts/PlayerInventory.cs	5423	Script
-ASSET	project://Scripts/PlayerSettings.cs	4066	Script
+ASSET	project://Scripts/PlayerSettings.cs	4209	Script
 ASSET	project://Scripts/RoundProgression.cs	2194	Script
 ASSET	project://Scripts/SupplyPickup.cs	2907	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
@@ -698,14 +698,14 @@ ASSET	project://UI/inventory.rcss.in	2839	Unknown
 ASSET	project://UI/inventory.rml	2263	RML Document
 ASSET	project://UI/pause-menu.rcss	796	Unknown
 ASSET	project://UI/pause-menu.rcss.in	809	Unknown
-ASSET	project://UI/pause-menu.rml	5798	RML Document
+ASSET	project://UI/pause-menu.rml	6265	RML Document
 ASSET	project://UI/settings.rcss	3406	Unknown
 ASSET	project://UI/theme.rcss	3731	Unknown
 ASSET	project://UI/theme.rcss.in	3724	Unknown
 ASSET	project://UI/theme.tokens.json	278	Unknown
 ASSET	project://UI/title.rcss	3132	Unknown
 ASSET	project://UI/title.rcss.in	3167	Unknown
-ASSET	project://UI/title.rml	7471	RML Document
+ASSET	project://UI/title.rml	7938	RML Document
 ASSET	project://UI/vehicle-speedometer.rcss	2990	Unknown
 ASSET	project://UI/vehicle-speedometer.rml	1698	RML Document
 ASSET	project://Weapons/Materials/Accent.plutomaterial	167	Material

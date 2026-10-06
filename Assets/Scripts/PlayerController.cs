@@ -204,7 +204,6 @@ public sealed class PlayerController : ScriptBehaviour
     [SerializedField] private float adsSensitivityMultiplier = 0.72f;
     [SerializedField] private float minimumPitch = -88.0f;
     [SerializedField] private float maximumPitch = 88.0f;
-    [SerializedField] private float hipFov = 78.0f;
     [SerializedField] private float adsFov = 60.0f;
     [SerializedField] private float fovSharpness = 14.0f;
     [SerializedField] private float standingCameraHeight = 1.62f;
@@ -327,7 +326,8 @@ public sealed class PlayerController : ScriptBehaviour
         Input.CursorLocked = true;
         _yaw = Rotation.Y;
         _pitch = camera?.GameObject.Rotation.X ?? 0.0f;
-        _cameraFov = camera?.Fov ?? hipFov;
+        _cameraFov = CoD.Scripts.PlayerSettings.Current.FieldOfView;
+        if (camera is not null) camera.Fov = _cameraFov;
         _spreadDegrees = hipSpreadDegrees;
         _cameraHeight = standingCameraHeight;
         _ammo = Math.Max(1, magazineSize);
@@ -595,7 +595,7 @@ public sealed class PlayerController : ScriptBehaviour
         camera.GameObject.Position = localPosition;
         camera.GameObject.Rotation = new Vector3(_pitch + _recoilPitchOffset - _damageCameraImpulse, 0.0f, _damageCameraImpulse * .3f);
 
-        var desiredFov = _aiming ? adsFov : hipFov;
+        var desiredFov = _aiming ? adsFov : CoD.Scripts.PlayerSettings.Current.FieldOfView;
         if (_sprinting) desiredFov += 5.0f;
         _cameraFov = Damp(_cameraFov, desiredFov, fovSharpness, deltaTime);
         camera.Fov = _cameraFov;

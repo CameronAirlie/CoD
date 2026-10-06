@@ -26,13 +26,15 @@ public static class GameGraphicsSettings
             doc.Element("setting-quality").Markup = v.Quality.ToString().ToUpperInvariant();
             doc.Element("setting-vsync").Markup = v.VSync ? "ON" : "OFF";
             doc.Element("setting-fullscreen").Markup = v.Fullscreen ? "ON" : "OFF";
-            foreach (var pair in new[] { ("master", v.Master), ("effects", v.Effects), ("feedback", v.Feedback), ("mouse", v.Sensitivity), ("scale", v.Scale) })
+            foreach (var pair in new[] { ("master", v.Master), ("effects", v.Effects), ("feedback", v.Feedback), ("mouse", v.Sensitivity), ("scale", v.Scale), ("fov", v.FieldOfView) })
             {
                 doc.Element("setting-" + pair.Item1)["value"] = pair.Item2.ToString("0.00", CultureInfo.InvariantCulture);
                 doc.Element("setting-" + pair.Item1 + "-value").Markup =
                     pair.Item1 is "master" or "effects" or "feedback"
                         ? (pair.Item2 * 100).ToString("0", CultureInfo.InvariantCulture) + "%"
-                        : pair.Item2.ToString("0.00", CultureInfo.InvariantCulture) + "x";
+                        : pair.Item1 == "fov"
+                            ? pair.Item2.ToString("0", CultureInfo.InvariantCulture) + "&#176;"
+                            : pair.Item2.ToString("0.00", CultureInfo.InvariantCulture) + "x";
             }
         }
         void Change(PlayerPreferences next)
@@ -57,6 +59,7 @@ public static class GameGraphicsSettings
         Slider("effects", v => v.Effects, (v, x) => v with { Effects = x });
         Slider("feedback", v => v.Feedback, (v, x) => v with { Feedback = x });
         Slider("mouse", v => v.Sensitivity, (v, x) => v with { Sensitivity = x });
+        Slider("fov", v => v.FieldOfView, (v, x) => v with { FieldOfView = x });
         Slider("scale", v => v.Scale, (v, x) => v with { Scale = x });
         doc.OnClick("settings-reset", () => Change(new()));
         Refresh(); Select("display");
