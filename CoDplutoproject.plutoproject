@@ -342,7 +342,7 @@ ASSET	project://Scripts/EnemySoldierBot.cs	32886	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4384	Script
 ASSET	project://Scripts/FairBotPlanner.cs	1015	Script
 ASSET	project://Scripts/FirstPersonHands.cs	2576	Script
-ASSET	project://Scripts/GameGraphicsSettings.cs	4130	Script
+ASSET	project://Scripts/GameGraphicsSettings.cs	4008	Script
 ASSET	project://Scripts/GameModeHud.cs	9511	Script
 ASSET	project://Scripts/GrenadeRules.cs	3543	Script
 ASSET	project://Scripts/HandMotion.cs	1914	Script
@@ -363,14 +363,14 @@ ASSET	project://Scripts/PlayerController.cs	39634	Script
 ASSET	project://Scripts/PlayerHealth.cs	9006	Script
 ASSET	project://Scripts/PlayerHud.cs	19494	Script
 ASSET	project://Scripts/PlayerInventory.cs	5423	Script
-ASSET	project://Scripts/PlayerSettings.cs	4100	Script
+ASSET	project://Scripts/PlayerSettings.cs	4066	Script
 ASSET	project://Scripts/RoundProgression.cs	2194	Script
 ASSET	project://Scripts/SupplyPickup.cs	2907	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
 ASSET	project://Scripts/TacticalUi.cs	1047	Script
 ASSET	project://Scripts/TeamNameplate.cs	293	Script
 ASSET	project://Scripts/TitleScreen.cs	4655	Script
-ASSET	project://Scripts/UIManager.cs	6774	Script
+ASSET	project://Scripts/UIManager.cs	6549	Script
 ASSET	project://Scripts/VehicleSpeedometer.cs	6437	Script
 ASSET	project://Scripts/WeaponCatalog.cs	3396	Script
 ASSET	project://Scripts/WeaponHandBinding.cs	3867	Script
@@ -690,8 +690,8 @@ ASSET	project://UI/friendly-nameplate.rml	220	RML Document
 ASSET	project://UI/hardpoint-marker.rcss	792	Unknown
 ASSET	project://UI/hardpoint-marker.rcss.in	818	Unknown
 ASSET	project://UI/hardpoint-marker.rml	205	RML Document
-ASSET	project://UI/hud.rcss	7366	Unknown
-ASSET	project://UI/hud.rcss.in	7524	Unknown
+ASSET	project://UI/hud.rcss	7403	Unknown
+ASSET	project://UI/hud.rcss.in	7561	Unknown
 ASSET	project://UI/hud.rml	3324	RML Document
 ASSET	project://UI/inventory.rcss	2777	Unknown
 ASSET	project://UI/inventory.rcss.in	2839	Unknown
@@ -700,8 +700,8 @@ ASSET	project://UI/pause-menu.rcss	796	Unknown
 ASSET	project://UI/pause-menu.rcss.in	809	Unknown
 ASSET	project://UI/pause-menu.rml	5798	RML Document
 ASSET	project://UI/settings.rcss	3406	Unknown
-ASSET	project://UI/theme.rcss	2912	Unknown
-ASSET	project://UI/theme.rcss.in	2905	Unknown
+ASSET	project://UI/theme.rcss	3731	Unknown
+ASSET	project://UI/theme.rcss.in	3724	Unknown
 ASSET	project://UI/theme.tokens.json	278	Unknown
 ASSET	project://UI/title.rcss	3132	Unknown
 ASSET	project://UI/title.rcss.in	3167	Unknown

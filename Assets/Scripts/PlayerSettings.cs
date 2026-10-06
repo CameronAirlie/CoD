@@ -33,6 +33,7 @@ public static class PlayerSettings
         GraphicsSettings.TryApplyPreset(Current.Quality);
         GraphicsSettings.TrySetVSync(Current.VSync);
         Application.Fullscreen = Current.Fullscreen;
+        if (UISettings.IsSupported) UISettings.TrySetInterfaceScale(Current.Scale);
     }
     public static string Apply(PlayerPreferences value)
     {
@@ -41,8 +42,10 @@ public static class PlayerSettings
         bool vsync = GraphicsSettings.TrySetVSync(value.VSync);
         Application.Fullscreen = value.Fullscreen;
         bool fullscreen = Application.Fullscreen == value.Fullscreen;
+        bool interfaceScale = UISettings.IsSupported && UISettings.TrySetInterfaceScale(value.Scale);
         Current = value with { Quality = quality ? value.Quality : Current.Quality,
-            VSync = vsync ? value.VSync : Current.VSync, Fullscreen = fullscreen ? value.Fullscreen : Current.Fullscreen };
+            VSync = vsync ? value.VSync : Current.VSync, Fullscreen = fullscreen ? value.Fullscreen : Current.Fullscreen,
+            Scale = interfaceScale ? value.Scale : Current.Scale };
         try
         {
             Directory.CreateDirectory(Folder);
@@ -51,33 +54,8 @@ public static class PlayerSettings
         }
         catch (Exception e) when (e is IOException or UnauthorizedAccessException)
         { Debug.LogWarning(e.Message); return "Applied, but preferences could not be saved."; }
-        return quality && vsync && fullscreen ? "Settings saved." : "Saved; some display controls are unavailable in this host.";
+        return quality && vsync && fullscreen && interfaceScale ? "Settings saved." : "Saved; some display controls are unavailable in this host.";
     }
-    public static void ScaleDocument(RmlDocument document, string root, string origin = "50% 50%")
-    {
-        document.Element(root).SetStyle("transform-origin", origin);
-        document.Element(root).SetStyle("transform", "scale(" + Current.Scale.ToString(System.Globalization.CultureInfo.InvariantCulture) + ")");
-    }
-    /// <summary>Scale HUD widgets around their anchors, preserving viewport-space effects and aiming geometry.</summary>
-    public static void ScaleHud(RmlDocument document)
-    {
-        // The screen-space root must never shrink: damage and death layers fill the viewport.
-        document.Element("hud").SetStyle("transform", "none");
-        foreach (var widget in new[] {
-            ("objective", "0% 0%"), ("kill-feed", "100% 0%"),
-            ("vitals", "0% 100%"), ("weapon", "100% 100%"),
-            ("compass", "50% 0%"), ("match-strip", "50% 0%"),
-            ("score-goal", "50% 0%"), ("scoreboard", "50% 50%"),
-            ("interaction", "50% 100%"), ("combat-cue", "50% 50%"),
-            ("loadout-choice", "0% 50%"), ("round-progress", "0% 100%") })
-            ScaleDocument(document, widget.Item1, widget.Item2);
-        // Preserve spacing in the top-centre stack as its widgets grow.
-        document.Element("match-strip").SetStyle("top", 80 * Current.Scale);
-        document.Element("score-goal").SetStyle("top", 120 * Current.Scale);
-        // Crosshair spread and directional cues already use projected viewport coordinates.
-        // Scaling them would change their relationship to weapon spread and incoming direction.
-    }
-
     private static PlayerPreferences Load()
     {
         try

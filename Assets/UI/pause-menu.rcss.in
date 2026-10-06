@@ -1,10 +1,10 @@
 /* Generated stylesheet source; shared tokens are defined in theme.tokens.json. */
 #backdrop { width: 100%; height: 100%; display: flex; align-items: center; background-color: ${background}d9; }
-#menu { margin-left: 8%; width: 400px; padding: 32px; border-top: 2px ${accent}; }
-#menu .ui-heading { margin-top: 6px; font-size: 56px; line-height: 60px; }
-.pause-description { color: ${secondary}; font-size: 12px; margin: 12px 0 24px; }
-#menu button { display: block; width: 100%; margin-bottom: 8px; text-align: left; }
+#menu { margin-left: 8%; width: 400dp; padding: 32dp; border-top: 2dp ${accent}; }
+#menu .ui-heading { margin-top: 6dp; font-size: 56dp; line-height: 60dp; }
+.pause-description { color: ${secondary}; font-size: 12dp; margin: 12dp 0 24dp; }
+#menu button { display: block; width: 100%; margin-bottom: 8dp; text-align: left; }
 .pause-arrow { float: right; }
-#menu .ui-rule { margin: 16px 0; }
-.hint { margin-top: 24px; }
-@media (max-height: 650px) { #menu { padding: 20px; } #menu .ui-heading { font-size: 40px; line-height: 44px; } .pause-description { margin-bottom: 12px; } .hint { margin-top: 12px; } }
+#menu .ui-rule { margin: 16dp 0; }
+.hint { margin-top: 24dp; }
+@media (max-height: 650px) { #menu { padding: 20dp; } #menu .ui-heading { font-size: 40dp; line-height: 44dp; } .pause-description { margin-bottom: 12dp; } .hint { margin-top: 12dp; } }

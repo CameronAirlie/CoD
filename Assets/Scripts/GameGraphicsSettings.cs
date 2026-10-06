@@ -34,8 +34,6 @@ public static class GameGraphicsSettings
                         ? (pair.Item2 * 100).ToString("0", CultureInfo.InvariantCulture) + "%"
                         : pair.Item2.ToString("0.00", CultureInfo.InvariantCulture) + "x";
             }
-            PlayerSettings.ScaleDocument(doc, "settings-panel");
-            PlayerSettings.ScaleDocument(doc, "menu", "0% 50%");
         }
         void Change(PlayerPreferences next)
         { doc.Element("settings-status").Markup = PlayerSettings.Apply(next); Refresh(); }

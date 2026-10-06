@@ -298,7 +298,7 @@ PROPERTY	Enabled	4	true	0
 PROPERTY	RenderMode	6	1	4	Screen Space	World Screen Space	Screen Space Camera	World Space
 PROPERTY	ScaleMode	6	0	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
 PROPERTY	ScaleFactor	0	1.000000	0
-PROPERTY	ReferenceResolution	7	240.000000,36.000000	0
+PROPERTY	ReferenceResolution	7	120.000000,18.000000	0
 PROPERTY	MatchWidthOrHeight	0	0.500000	0
 PROPERTY	ScreenMatchMode	6	0	3	MatchWidthOrHeight	Expand	Shrink
 PROPERTY	SortingOrder	1	20	0
@@ -311,7 +311,7 @@ COMPONENT	5	RectTransformComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
 PROPERTY	AnchoredPosition	7	0.000000,0.000000	0
-PROPERTY	SizeDelta	7	240.000000,36.000000	0
+PROPERTY	SizeDelta	7	120.000000,18.000000	0
 PROPERTY	Pivot	7	0.500000,0.500000	0
 PROPERTY	AnchorMin	7	0.500000,0.500000	0
 PROPERTY	AnchorMax	7	0.500000,0.500000	0

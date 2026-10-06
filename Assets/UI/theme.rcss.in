@@ -1,33 +1,45 @@
 /* Shared components. Edit theme.tokens.json / this template, then run Tools/build_ui_theme.py. */
-/* @font-face { font-family: TacticalBody; src: url("../Fonts/Inter.ttf"); } */
-/* @font-face { font-family: TacticalDisplay; src: url("../Fonts/Rajdhani-Regular.ttf"); } */
-/* @font-face { font-family: TacticalHeading; src: url("../Fonts/Rajdhani-Bold.ttf"); } */
-body { width: 100%; height: 100%; margin: 0; color: $text; font-family: TacticalBody; font-size: 14px; }
+@font-face { font-family: TacticalBody; src: url("../Fonts/Inter.ttf"); }
+@font-face { font-family: TacticalDisplay; src: url("../Fonts/Rajdhani-Regular.ttf"); }
+@font-face { font-family: TacticalHeading; src: url("../Fonts/Rajdhani-Bold.ttf"); }
+body { width: 100%; height: 100%; margin: 0; color: $text; font-family: TacticalBody; font-size: 14dp; }
 div { display: block; }
 button, input { font-family: TacticalDisplay; tab-index: auto; }
-.ui-panel { box-sizing: border-box; padding: 24px; background-color: #111417f2; border: 1px $border; }
-.ui-heading { font-family: TacticalHeading; font-size: 40px; line-height: 44px; }
-.ui-eyebrow { font-family: TacticalDisplay; color: $muted; font-size: 12px; letter-spacing: 2px; }
-.ui-meta { font-family: TacticalDisplay; color: $muted; font-size: 12px; letter-spacing: 1px; }
-.ui-rule { height: 1px; background-color: $border; }
-.ui-button { box-sizing: border-box; height: 46px; padding: 0 16px; line-height: 44px; border: 1px $border; background-color: $panel; color: $text; font-family: TacticalHeading; font-size: 18px; text-align: center; }
+.ui-panel { box-sizing: border-box; padding: 24dp; background-color: #111417f2; border: 1dp $border; }
+.ui-heading { font-family: TacticalHeading; font-size: 40dp; line-height: 44dp; }
+.ui-eyebrow { font-family: TacticalDisplay; color: $muted; font-size: 12dp; letter-spacing: 2dp; }
+.ui-meta { font-family: TacticalDisplay; color: $muted; font-size: 12dp; letter-spacing: 1dp; }
+.ui-rule { height: 1dp; background-color: $border; }
+.ui-button { box-sizing: border-box; height: 46dp; padding: 0 16dp; line-height: 44dp; border: 1dp $border; background-color: $panel; color: $text; font-family: TacticalHeading; font-size: 18dp; text-align: center; }
 .ui-button:hover, .ui-button:focus { border-color: $accent; background-color: #25241c; }
 .ui-button:active { background-color: $accent; color: $background; }
 .ui-button.primary { background-color: $accent; border-color: $accent; color: $background; }
 .ui-button.primary:hover, .ui-button.primary:focus { background-color: #ffca58; border-color: #ffca58; }
 .ui-button.primary:active { background-color: #e39708; }
 .ui-button:disabled { color: $muted; background-color: $elevated; border-color: $border; }
-.ui-tab { box-sizing: border-box; padding: 10px 12px; border: 1px $border; background-color: $panel; color: $muted; font-family: TacticalDisplay; font-size: 16px; text-align: left; }
+.ui-tab { box-sizing: border-box; padding: 10dp 12dp; border: 1dp $border; background-color: $panel; color: $muted; font-family: TacticalDisplay; font-size: 16dp; text-align: left; }
 .ui-tab:hover, .ui-tab:focus { color: $text; border-color: $accent; }
-.ui-tab.selected { color: $text; background-color: #ffb31a0d; border-bottom: 2px $accent; }
-.ui-key { display: inline-block; min-width: 22px; height: 22px; line-height: 22px; padding: 0 4px; margin-right: 8px; border: 1px $text; color: $text; font-family: TacticalHeading; text-align: center; }
-.ui-icon { width: 24px; height: 24px; }
-.ui-field { box-sizing: border-box; height: 46px; padding: 8px 12px; background-color: $background; border: 1px $border; color: $text; font-family: TacticalBody; font-size: 15px; caret-color: $accent;  }
+.ui-tab.selected { color: $text; background-color: #ffb31a0d; border-bottom: 2dp $accent; }
+.ui-key { display: inline-block; min-width: 22dp; height: 22dp; line-height: 22dp; padding: 0 4dp; margin-right: 8dp; border: 1dp $text; color: $text; font-family: TacticalHeading; text-align: center; }
+.ui-icon { width: 24dp; height: 24dp; }
+.ui-field { box-sizing: border-box; height: 46dp; padding: 8dp 12dp; background-color: $background; border: 1dp $border; color: $text; font-family: TacticalBody; font-size: 15dp; caret-color: $accent;  }
 .ui-field:hover, .ui-field:focus { border-color: $accent; }
-.ui-stat { font-family: TacticalHeading; font-size: 36px; line-height: 38px; }
+.ui-stat { font-family: TacticalHeading; font-size: 36dp; line-height: 38dp; }
 .friendly { color: $friendly; }
 .enemy { color: $enemy; }
 .accent { color: $accent; }
 progress { background-color: $border; border: 0; }
 progress fill { background-color: $text; }
 .ui-progress fill { background-color: $accent; }
+
+/* Generated RmlUi scrollbars need explicit thickness; otherwise overflow can consume the content width. */
+scrollbarvertical { width: 8dp; }
+scrollbarhorizontal { height: 8dp; }
+scrollbarvertical slidertrack { width: 8dp; background-color: #1B1C20; }
+scrollbarhorizontal slidertrack { height: 8dp; background-color: #1B1C20; }
+scrollbarvertical sliderbar { width: 8dp; min-height: 24dp; background-color: #626B74; }
+scrollbarhorizontal sliderbar { height: 8dp; min-width: 24dp; background-color: #626B74; }
+scrollbarvertical sliderbar:hover, scrollbarhorizontal sliderbar:hover { background-color: #FFB31A; }
+scrollbarvertical sliderarrowdec, scrollbarvertical sliderarrowinc { height: 0; }
+scrollbarhorizontal sliderarrowdec, scrollbarhorizontal sliderarrowinc { width: 0; }
+scrollbarcorner { background-color: #1B1C20; }

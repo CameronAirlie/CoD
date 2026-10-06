@@ -137,8 +137,6 @@ public sealed class UIManager : ScriptBehaviour
         else
             _hudDocument?.Show();
 
-        if (_hudDocument != null) CoD.Scripts.PlayerSettings.ScaleHud(_hudDocument);
-        if (_inventoryWidget != null) CoD.Scripts.PlayerSettings.ScaleDocument(_inventoryWidget.Document, "inventory-panel");
         Input.CursorLocked = gameplayVisible;
     }
 
