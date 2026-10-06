@@ -59,7 +59,7 @@ def export_weighted_mesh(path, objects, rig, references, source):
     mappings = [(i,lookup[n]) for i,n in enumerate(HUMANOID) if n in lookup]
     out.pod('Q',len(mappings))
     for humanoid,joint in mappings:
-        out.pod('B',humanoid); out.string(bones[joint].name); out.pod('i3fBf',joint,0.,0.,0.,int(humanoid==0),1.)
+        out.pod('B',humanoid); out.string(''); out.pod('i3fBf',joint,0.,0.,0.,int(humanoid==0),1.)
     out.pod('Q',len(bones))
     for i,b in enumerate(bones):
         parent = lookup[b.parent.name] if b.parent else -1

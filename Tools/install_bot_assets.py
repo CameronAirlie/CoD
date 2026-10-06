@@ -14,17 +14,8 @@ def entity(id,parent,name,position='0,0,0'):
 def mesh(id,reference,offset='0,0,0'):
     return component(id,'MeshComponent',[('Static',4,'false'),('Visible',4,'true'),('SubmeshIndex',1,-1),('MeshAssetReference',2,reference),('MeshPositionOffset',3,offset)])
 
-graph='AnimationGraphVersion=4\nDefaultStateId=1\n'
-for i,(name,type_,default) in enumerate([('MovementSpeed','Float',0),('HasTarget','Bool',0),('Shoot','Trigger',0),('Hit','Trigger',0),('Reload','Trigger',0),('SupportHandIK','Float',1)],1):
-    graph+=f'Parameter={i}|{name}|{type_}|{default}|0|0\n'
-for i,name in enumerate(['Idle','Walk','Jog','Sprint'],1):
-    graph+=f'State={i}|Rifle {name}|Rifle_{name}|{i-1}|{i*180}|100|1|1|{BASE}Rifle_{name}.plutoclip\n'
-for i,(a,b,op,value) in enumerate([(1,2,'Greater',.05),(2,1,'Less',.05),(2,3,'Greater',2.4),(3,2,'Less',2.4),(3,4,'Greater',5.8),(4,3,'Less',5.8)],1):
-    graph+=f'Transition={i}|{a}|{b}|0.14|0|0.9\nCondition={i}|MovementSpeed|{op}|{value}\n'
-graph+='BoneMask=1|Rifle Upper Body|0\nBoneMaskEntry=1|1|1|1\n'
-for i,(clip,activation,loop) in enumerate([('Aim','HasTarget',1),('Fire','Shoot',0),('Hit','Hit',0),('Reload','Reload',0)],1):
-    graph+=f'Layer={i}|Rifle {clip}|{BASE}Rifle_{clip}.plutoclip|Rifle_{clip}|0|1|0|1||{activation}|1|0.04|0.10|{loop}|1|1|\n'
-(ASSETS/'Bots/Soldier/Soldier.plutoanimgraph').write_text(graph,encoding='utf8')
+from build_bot_animation_graph import build_graph
+(ASSETS/'Bots/Soldier/Soldier.plutoanimgraph').write_text(build_graph(),encoding='utf8')
 
 for filename,root,model,body,extra,socket,target,hint,gun in [('Enemy',156,159,160,161,2537,7001,7002,7003),('RemotePlayer',1,2,3,6107,7000,7001,7002,7003)]:
     path=ASSETS/f'Prefabs/{filename}.plutoprefab'

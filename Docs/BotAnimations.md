@@ -148,3 +148,39 @@ rendering tests pass, including independent actors, motion history, shadows,
 large meshes and shared render-texture cameras. Restart the editor before a new
 game capture; captures now include GPU skinning dispatch and palette-byte counts.
 See the engine's `docs/GPU_SKINNING.md` for architecture and validation details.
+
+## Universal Animation Library locomotion
+
+The shared Soldier graph now uses the existing in-place UAL `Idle_Loop`,
+`Walk_Loop`, `Jog_Fwd_Loop` and `Sprint_Loop` clips from
+`Assets/SourceModels/UAL1_Standard`. The engine retargets their humanoid channels
+to the soldier skeleton. Navigation still moves the actor, using the existing
+MovementSpeed thresholds. Both Enemy and RemotePlayer reference this graph.
+
+An always-active looping Rifle Hold override layer uses the existing Rifle_Idle
+pose. The upper-body mask leaves hips and legs at zero weight, blends Spine at
+0.25, Chest at 0.75, and UpperChest and its descendants at 1. Aim, fire, hit and
+reload layers follow the hold layer in priority order and use the same mask.
+The existing M16 socket, support-hand IK and reload IK release remain in use.
+Rifle-specific actions remain the authored first-pass clips; this change
+replaces locomotion and adds persistent weapon holding, not new rifle mocap.
+
+Run `python Tools/build_bot_animation_graph.py` to regenerate only the graph.
+`install_bot_assets.py` uses the same builder, so reinstalling bot assets keeps
+the UAL setup. The native validator now exercises UAL state transitions and
+masked action playback against the soldier skeleton.
+
+Validation for the UAL change: the native validator passes all four UAL
+states, return to idle, and masked action playback with finite soldier palettes.
+Both live Vulkan prefab probes report PASS for firing/reload, rifle attachment
+and support-hand IK. The previously documented shutdown hang recurs after
+benchmark completion. Visual movement quality still needs review in play.
+
+UAL retarget correction: soldier mesh humanoid slots must have empty
+`sourceBoneName` overrides. The exporter previously filled them with soldier
+bone names, which opted out of automatic UAL name matching and left legs static.
+Both soldier meshes are corrected; `export_bot_assets.py` now writes automatic
+source mappings while retaining explicit target joint indices.
+`Tools/repair_bot_retarget_mappings.py` repairs existing v5 soldier assets.
+The validator now requires changing upper-leg matrices during walk/jog/sprint;
+it reproduced the missing-leg-animation failure before repair and passes after.
