@@ -126,3 +126,25 @@ The skinning checks include independent actors, animated motion/history,
 material edits on a reused skinning frame, texture-camera reordering and removal.
 The upload check verifies CPU-source lifetime, partial destination offsets,
 staging-block rollover and more submissions than in-flight slots.
+
+## GPU skinning (2026-10-06)
+
+The engine now uses compute skinning automatically on Vulkan/OpenGL when the
+GpuSkinning shader artifact is present, retaining the CPU fallback. Animation
+and IK still produce bone matrices on the CPU; vertex deformation and previous-
+pose positions run on the GPU. Shared cameras reuse the completed output. No
+soldier asset, animation or gameplay component changes are required.
+
+Nine soldiers now upload about 71 KiB of bone palettes per changed pose instead
+of about 40 MiB of vertex streams. The same-run Vulkan renderer benchmark in
+`Tools/benchmark_bot_gpu_skinning.cpp` measured active CPU time of 10.19 ms for
+CPU skinning versus 0.43 ms for GPU skinning, with 0.68 ms of GPU skinning work.
+This uses 256x256 lit geometry, shadows off, 12 warm-up and 40 measured frames;
+it is not a whole-game FPS measurement. All samples rendered successfully, but
+the benchmark stalled during final device/asset cleanup and was terminated.
+
+Editor/runtime and shader packages were rebuilt. Vulkan/OpenGL GPU readback and
+rendering tests pass, including independent actors, motion history, shadows,
+large meshes and shared render-texture cameras. Restart the editor before a new
+game capture; captures now include GPU skinning dispatch and palette-byte counts.
+See the engine's `docs/GPU_SKINNING.md` for architecture and validation details.
