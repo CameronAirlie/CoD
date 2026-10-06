@@ -27,9 +27,18 @@ public sealed partial class MultiplayerSession
     private static void PreloadGrenadePrefabs()
     {
         foreach (var name in new[] { "Frag", "Flash", "Sparks", "Smoke" })
-            if (!Prefab.Preload($"project://Prefabs/Grenades/{name}.plutoprefab"))
+            if (!Prefab.Preload(GrenadeEffectPrefab(name)))
                 Debug.LogWarning($"Could not preload grenade prefab: {name}.");
     }
+
+    private static string GrenadeEffectPrefab(string name) => name switch
+    {
+        "Frag" => "project://Prefabs/Grenades/Frag.plutoprefab",
+        "Flash" => "project://Prefabs/Grenades/Flash.plutoprefab",
+        "Sparks" => "project://Prefabs/Grenades/Sparks.plutoprefab",
+        "Smoke" => "project://Prefabs/Grenades/Smoke.plutoprefab",
+        _ => throw new ArgumentOutOfRangeException(nameof(name), name, "Unknown grenade effect.")
+    };
 
     private void UpdateGrenades(float deltaTime)
     {
@@ -227,7 +236,7 @@ public sealed partial class MultiplayerSession
     {
         foreach (var (name, count) in new[] { ("Flash", 24), ("Sparks", 70), ("Smoke", 35) })
         {
-            var effect = Prefab.Instantiate($"project://Prefabs/Grenades/{name}.plutoprefab", position);
+            var effect = Prefab.Instantiate(GrenadeEffectPrefab(name), position);
             if (effect is null) continue;
             effect.GetComponent<ParticleSystemComponent>()?.EmitAt(position, count);
             _grenadeEffects.Add((effect, _time + 3));
