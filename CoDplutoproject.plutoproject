@@ -213,7 +213,7 @@ ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87
 ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Input/car.plutoinput	3771	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	288768	Assembly
+ASSET	project://Managed/CoD.Scripts.dll	281088	Assembly
 ASSET	project://Managed/CoD.Scripts.pdb	97984	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	283648	Assembly
@@ -322,7 +322,7 @@ ASSET	project://Prefabs/Tree_Static_Material_1.plutomaterial	452	Material
 ASSET	project://Prefabs/Weapons/ar.plutoprefab	1696	Prefab
 ASSET	project://Prefabs/Weapons/lmg.plutoprefab	1701	Prefab
 ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1716	Prefab
-ASSET	project://Scenes/Foundry.plutoscene	146542	Scene
+ASSET	project://Scenes/Foundry.plutoscene	146577	Scene
 ASSET	project://Scenes/Main.plutoscene	177412	Scene
 ASSET	project://Scenes/Title.plutoscene	8873	Scene
 ASSET	project://Scenes/car_scene.plutoscene	2993166	Scene
@@ -355,7 +355,7 @@ ASSET	project://Scripts/MultiplayerLaunch.cs	714	Script
 ASSET	project://Scripts/MultiplayerSession.Defusal.cs	11967	Script
 ASSET	project://Scripts/MultiplayerSession.Grenades.cs	13159	Script
 ASSET	project://Scripts/MultiplayerSession.Objectives.cs	6586	Script
-ASSET	project://Scripts/MultiplayerSession.cs	93660	Script
+ASSET	project://Scripts/MultiplayerSession.cs	93925	Script
 ASSET	project://Scripts/NetworkParticipantHitbox.cs	401	Script
 ASSET	project://Scripts/ObjectiveStatus.cs	1062	Script
 ASSET	project://Scripts/PauseMenu.cs	262	Script

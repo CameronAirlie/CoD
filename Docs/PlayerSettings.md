@@ -1,5 +1,7 @@
 # Player settings
 
+Borderless fullscreen applies to the standalone game. The native script bridge ignores fullscreen changes during play-in-editor, keeping the editor window mode independent of saved game preferences.
+
 Open SETTINGS from the title or pause menu. Five tabs organize preferences: Display (VSync, borderless fullscreen, and field of view), Graphics (quality), Audio (volumes), Interface (scale), and Controls (mouse sensitivity). Changes apply immediately; BACK closes the page and RESTORE DEFAULTS resets all preferences.
 
 PlayerPreferences is a versioned, validated model. PlayerSettings owns persistence and application; GameGraphicsSettings binds document-scoped controls. Preferences are stored in LocalApplicationData/PlutoCombat/settings.json with temporary-file replacement. Existing graphics.json preferences migrate on first load. Unsupported display changes keep the previous preference and display a status message. Scene hosts reapply graphics quality on scene creation.

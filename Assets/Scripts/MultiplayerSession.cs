@@ -96,6 +96,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     [SerializedField] private bool fillWithBots = true;
     [SerializedField] private int minimumParticipants = 6;
     [SerializedField] private int maximumBots = 5;
+    // Zero keeps the general-purpose server's default connection capacity.
+    [SerializedField] private int maximumParticipants = 0;
     [SerializedField] private float botSpawnInterval = 0.2f;
     [SerializedField] private float botFallbackSpawnMinimumDistance = 20.0f;
     [SerializedField] private float botFallbackSpawnRadius = 80.0f;
@@ -334,7 +336,10 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             {
                 Health = MathF.Max(1.0f, multiplayerMaximumHealth)
             };
-            _server = new NetworkServer();
+            _server = new NetworkServer
+            {
+                MaxClients = maximumParticipants > 1 ? Math.Clamp(maximumParticipants - 1, 1, 4096) : 128
+            };
             _server.ClientConnected += peerId =>
                 Debug.Log($"Network peer {peerId} connected; awaiting handshake.");
             _server.ClientDisconnected += OnServerPeerDisconnected;

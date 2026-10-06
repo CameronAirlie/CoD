@@ -143,8 +143,9 @@ PROPERTY	combatRespawnDelay	0	5.000000	0
 PROPERTY	multiplayerRegenerationDelay	0	5.000000	0
 PROPERTY	multiplayerRegenerationPerSecond	0	0.000000	0
 PROPERTY	fillWithBots	4	true	0
-PROPERTY	minimumParticipants	1	6	0
-PROPERTY	maximumBots	1	5	0
+PROPERTY	minimumParticipants	1	10	0
+PROPERTY	maximumBots	1	9	0
+PROPERTY	maximumParticipants	1	10	0
 PROPERTY	botSpawnInterval	0	0.200000	0
 PROPERTY	botFallbackSpawnMinimumDistance	0	20.000000	0
 PROPERTY	botFallbackSpawnRadius	0	80.000000	0

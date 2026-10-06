@@ -226,6 +226,8 @@ Taking a hit triggers a red screen-edge flash, including hits absorbed by armour
 
 ## Defusal / Foundry
 
+Foundry runs 5v5: ten participants, with the host counting as one player. Up to nine bots fill empty slots, and the server accepts up to nine remote clients. Teams are balanced as players and bots join.
+
 Open `Assets/Scenes/Foundry.plutoscene` and Play, or select **DEFUSAL / FOUNDRY** on the Title scene before hosting/joining. Both peers must select the same mode. Main remains the existing Hardpoint scene. Rebuild/export the project to include the new scene and scripts in a packaged game; old exports are not updated automatically.
 
 Foundry is an original courtyard/industrial blockout: A is west, B is east, mid connects the approaches, and the northern passage supports defender rotations. Colored ground outlines and projected labels identify the plant zones. The layout uses existing engine meshes, player/weapon assets, materials and navigation; it contains no Counter-Strike assets.
