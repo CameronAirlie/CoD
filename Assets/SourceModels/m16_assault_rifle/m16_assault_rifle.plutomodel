@@ -1,0 +1,11 @@
+PLUTOMODEL	1
+SOURCE	project://SourceModels/m16_assault_rifle/m16_assault_rifle.glb
+SOURCE_ID	58be0d1d0ac3b386553f3be3051569a6
+SOURCE_HASH	16282677540504560552
+IMPORTER_VERSION	2
+OBJECT	5869395682276060338	Mesh	m16_assault_rifle	project://SourceModels/m16_assault_rifle/m16_assault_rifle.plutomesh
+OBJECT	7738734903182153866	Texture	Texture 0	project://SourceModels/m16_assault_rifle/Textures/T_0.tga
+OBJECT	7738736002693782077	Texture	Texture 1	project://SourceModels/m16_assault_rifle/Textures/T_1.tga
+OBJECT	7738732704158897444	Texture	Texture 2	project://SourceModels/m16_assault_rifle/Textures/T_2.tga
+OBJECT	9848232474058939009	Material	M_m16_assault_rifle_0	project://SourceModels/m16_assault_rifle/M_m16_assault_rifle_0.plutomaterial
+OBJECT	9848231374547310798	Material	M_m16_assault_rifle_1	project://SourceModels/m16_assault_rifle/M_m16_assault_rifle_1.plutomaterial

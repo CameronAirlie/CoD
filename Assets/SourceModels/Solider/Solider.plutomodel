@@ -1,0 +1,98 @@
+PLUTOMODEL	1
+SOURCE	project://SourceModels/Solider/Solider.glb
+SOURCE_ID	d9ad108ce2d9b5ffb76dd4bb5f93cd39
+SOURCE_HASH	4038894510934209279
+IMPORTER_VERSION	2
+OBJECT	2684038340210824247	Mesh	Solider	project://SourceModels/Solider/Solider.plutomesh
+OBJECT	7738734903182153866	Texture	Texture 0	project://SourceModels/Solider/Textures/T_0.tga
+OBJECT	7738736002693782077	Texture	Texture 1	project://SourceModels/Solider/Textures/T_1.tga
+OBJECT	7738732704158897444	Texture	Texture 2	project://SourceModels/Solider/Textures/T_2.tga
+OBJECT	7738733803670525655	Texture	Texture 3	project://SourceModels/Solider/Textures/T_3.tga
+OBJECT	7738730505135641022	Texture	Texture 4	project://SourceModels/Solider/Textures/T_4.tga
+OBJECT	7738731604647269233	Texture	Texture 5	project://SourceModels/Solider/Textures/T_5.tga
+OBJECT	7738728306112384600	Texture	Texture 6	project://SourceModels/Solider/Textures/T_6.tga
+OBJECT	7738729405624012811	Texture	Texture 7	project://SourceModels/Solider/Textures/T_7.tga
+OBJECT	7738726107089128178	Texture	Texture 8	project://SourceModels/Solider/Textures/T_8.tga
+OBJECT	7738727206600756389	Texture	Texture 9	project://SourceModels/Solider/Textures/T_9.tga
+OBJECT	10689382664065287191	Texture	Texture 10	project://SourceModels/Solider/Textures/T_10.tga
+OBJECT	10689381564553658980	Texture	Texture 11	project://SourceModels/Solider/Textures/T_11.tga
+OBJECT	10689384863088543613	Texture	Texture 12	project://SourceModels/Solider/Textures/T_12.tga
+OBJECT	10689383763576915402	Texture	Texture 13	project://SourceModels/Solider/Textures/T_13.tga
+OBJECT	10689378266018774347	Texture	Texture 14	project://SourceModels/Solider/Textures/T_14.tga
+OBJECT	10689377166507146136	Texture	Texture 15	project://SourceModels/Solider/Textures/T_15.tga
+OBJECT	10689380465042030769	Texture	Texture 16	project://SourceModels/Solider/Textures/T_16.tga
+OBJECT	10689379365530402558	Texture	Texture 17	project://SourceModels/Solider/Textures/T_17.tga
+OBJECT	10689373867972261503	Texture	Texture 18	project://SourceModels/Solider/Textures/T_18.tga
+OBJECT	10689372768460633292	Texture	Texture 19	project://SourceModels/Solider/Textures/T_19.tga
+OBJECT	10686548123088326908	Texture	Texture 20	project://SourceModels/Solider/Textures/T_20.tga
+OBJECT	10686549222599955119	Texture	Texture 21	project://SourceModels/Solider/Textures/T_21.tga
+OBJECT	10686550322111583330	Texture	Texture 22	project://SourceModels/Solider/Textures/T_22.tga
+OBJECT	10686551421623211541	Texture	Texture 23	project://SourceModels/Solider/Textures/T_23.tga
+OBJECT	10686543725041814064	Texture	Texture 24	project://SourceModels/Solider/Textures/T_24.tga
+OBJECT	10686544824553442275	Texture	Texture 25	project://SourceModels/Solider/Textures/T_25.tga
+OBJECT	10686545924065070486	Texture	Texture 26	project://SourceModels/Solider/Textures/T_26.tga
+OBJECT	10686547023576698697	Texture	Texture 27	project://SourceModels/Solider/Textures/T_27.tga
+OBJECT	10686556919181352596	Texture	Texture 28	project://SourceModels/Solider/Textures/T_28.tga
+OBJECT	10686558018692980807	Texture	Texture 29	project://SourceModels/Solider/Textures/T_29.tga
+OBJECT	10687539882576784005	Texture	Texture 30	project://SourceModels/Solider/Textures/T_30.tga
+OBJECT	10687538783065155794	Texture	Texture 31	project://SourceModels/Solider/Textures/T_31.tga
+OBJECT	10687537683553527583	Texture	Texture 32	project://SourceModels/Solider/Textures/T_32.tga
+OBJECT	10687536584041899372	Texture	Texture 33	project://SourceModels/Solider/Textures/T_33.tga
+OBJECT	10687535484530271161	Texture	Texture 34	project://SourceModels/Solider/Textures/T_34.tga
+OBJECT	10687534385018642950	Texture	Texture 35	project://SourceModels/Solider/Textures/T_35.tga
+OBJECT	10687533285507014739	Texture	Texture 36	project://SourceModels/Solider/Textures/T_36.tga
+OBJECT	10687532185995386528	Texture	Texture 37	project://SourceModels/Solider/Textures/T_37.tga
+OBJECT	10687548678669809693	Texture	Texture 38	project://SourceModels/Solider/Textures/T_38.tga
+OBJECT	10687547579158181482	Texture	Texture 39	project://SourceModels/Solider/Textures/T_39.tga
+OBJECT	10684599788483515466	Texture	Texture 40	project://SourceModels/Solider/Textures/T_40.tga
+OBJECT	10684600887995143677	Texture	Texture 41	project://SourceModels/Solider/Textures/T_41.tga
+OBJECT	10684597589460259044	Texture	Texture 42	project://SourceModels/Solider/Textures/T_42.tga
+OBJECT	10684598688971887255	Texture	Texture 43	project://SourceModels/Solider/Textures/T_43.tga
+OBJECT	10684595390437002622	Texture	Texture 44	project://SourceModels/Solider/Textures/T_44.tga
+OBJECT	3684775688018503380	Material	M_Solider_0	project://SourceModels/Solider/M_Solider_0.plutomaterial
+OBJECT	3684776787530131591	Material	M_Solider_1	project://SourceModels/Solider/M_Solider_1.plutomaterial
+OBJECT	3684777887041759802	Material	M_Solider_2	project://SourceModels/Solider/M_Solider_2.plutomaterial
+OBJECT	3684778986553388013	Material	M_Solider_3	project://SourceModels/Solider/M_Solider_3.plutomaterial
+OBJECT	3684771289971990536	Material	M_Solider_4	project://SourceModels/Solider/M_Solider_4.plutomaterial
+OBJECT	3684772389483618747	Material	M_Solider_5	project://SourceModels/Solider/M_Solider_5.plutomaterial
+OBJECT	3684773488995246958	Material	M_Solider_6	project://SourceModels/Solider/M_Solider_6.plutomaterial
+OBJECT	3684774588506875169	Material	M_Solider_7	project://SourceModels/Solider/M_Solider_7.plutomaterial
+OBJECT	3684766891925477692	Material	M_Solider_8	project://SourceModels/Solider/M_Solider_8.plutomaterial
+OBJECT	3684767991437105903	Material	M_Solider_9	project://SourceModels/Solider/M_Solider_9.plutomaterial
+OBJECT	4255610256853348085	Material	M_Solider_10	project://SourceModels/Solider/M_Solider_10.plutomaterial
+OBJECT	4255609157341719874	Material	M_Solider_11	project://SourceModels/Solider/M_Solider_11.plutomaterial
+OBJECT	4255608057830091663	Material	M_Solider_12	project://SourceModels/Solider/M_Solider_12.plutomaterial
+OBJECT	4255606958318463452	Material	M_Solider_13	project://SourceModels/Solider/M_Solider_13.plutomaterial
+OBJECT	4255605858806835241	Material	M_Solider_14	project://SourceModels/Solider/M_Solider_14.plutomaterial
+OBJECT	4255604759295207030	Material	M_Solider_15	project://SourceModels/Solider/M_Solider_15.plutomaterial
+OBJECT	4255603659783578819	Material	M_Solider_16	project://SourceModels/Solider/M_Solider_16.plutomaterial
+OBJECT	4255602560271950608	Material	M_Solider_17	project://SourceModels/Solider/M_Solider_17.plutomaterial
+OBJECT	4255619052946373773	Material	M_Solider_18	project://SourceModels/Solider/M_Solider_18.plutomaterial
+OBJECT	4255617953434745562	Material	M_Solider_19	project://SourceModels/Solider/M_Solider_19.plutomaterial
+OBJECT	4256461278853394174	Material	M_Solider_20	project://SourceModels/Solider/M_Solider_20.plutomaterial
+OBJECT	4256462378365022385	Material	M_Solider_21	project://SourceModels/Solider/M_Solider_21.plutomaterial
+OBJECT	4256459079830137752	Material	M_Solider_22	project://SourceModels/Solider/M_Solider_22.plutomaterial
+OBJECT	4256460179341765963	Material	M_Solider_23	project://SourceModels/Solider/M_Solider_23.plutomaterial
+OBJECT	4256465676899907018	Material	M_Solider_24	project://SourceModels/Solider/M_Solider_24.plutomaterial
+OBJECT	4256466776411535229	Material	M_Solider_25	project://SourceModels/Solider/M_Solider_25.plutomaterial
+OBJECT	4256463477876650596	Material	M_Solider_26	project://SourceModels/Solider/M_Solider_26.plutomaterial
+OBJECT	4256464577388278807	Material	M_Solider_27	project://SourceModels/Solider/M_Solider_27.plutomaterial
+OBJECT	4256452482760368486	Material	M_Solider_28	project://SourceModels/Solider/M_Solider_28.plutomaterial
+OBJECT	4256453582271996697	Material	M_Solider_29	project://SourceModels/Solider/M_Solider_29.plutomaterial
+OBJECT	4257453038341851271	Material	M_Solider_30	project://SourceModels/Solider/M_Solider_30.plutomaterial
+OBJECT	4257451938830223060	Material	M_Solider_31	project://SourceModels/Solider/M_Solider_31.plutomaterial
+OBJECT	4257455237365107693	Material	M_Solider_32	project://SourceModels/Solider/M_Solider_32.plutomaterial
+OBJECT	4257454137853479482	Material	M_Solider_33	project://SourceModels/Solider/M_Solider_33.plutomaterial
+OBJECT	4257448640295338427	Material	M_Solider_34	project://SourceModels/Solider/M_Solider_34.plutomaterial
+OBJECT	4257447540783710216	Material	M_Solider_35	project://SourceModels/Solider/M_Solider_35.plutomaterial
+OBJECT	4257450839318594849	Material	M_Solider_36	project://SourceModels/Solider/M_Solider_36.plutomaterial
+OBJECT	4257449739806966638	Material	M_Solider_37	project://SourceModels/Solider/M_Solider_37.plutomaterial
+OBJECT	4257444242248825583	Material	M_Solider_38	project://SourceModels/Solider/M_Solider_38.plutomaterial
+OBJECT	4257443142737197372	Material	M_Solider_39	project://SourceModels/Solider/M_Solider_39.plutomaterial
+OBJECT	4250827381271576360	Material	M_Solider_40	project://SourceModels/Solider/M_Solider_40.plutomaterial
+OBJECT	4250828480783204571	Material	M_Solider_41	project://SourceModels/Solider/M_Solider_41.plutomaterial
+OBJECT	4250829580294832782	Material	M_Solider_42	project://SourceModels/Solider/M_Solider_42.plutomaterial
+OBJECT	4250830679806460993	Material	M_Solider_43	project://SourceModels/Solider/M_Solider_43.plutomaterial
+OBJECT	4250831779318089204	Material	M_Solider_44	project://SourceModels/Solider/M_Solider_44.plutomaterial
+OBJECT	4250832878829717415	Material	M_Solider_45	project://SourceModels/Solider/M_Solider_45.plutomaterial
+OBJECT	4250833978341345626	Material	M_Solider_46	project://SourceModels/Solider/M_Solider_46.plutomaterial
