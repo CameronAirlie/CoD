@@ -69,7 +69,7 @@ public sealed class PlayerController : ScriptBehaviour
     {
         if (!float.IsFinite(dealtDamage) || dealtDamage <= 0.0f)
             return;
-        hitmarkerAudio?.PlayOneShot();
+        hitmarkerAudio?.PlayOneShot(CoD.Scripts.PlayerSettings.FeedbackGain, 1);
         HitConfirmed?.Invoke(new FpsHitEvent(
             GameObject, Vector3.Zero, dealtDamage, isHeadshot, isKill, hitArmour));
     }
@@ -487,7 +487,7 @@ public sealed class PlayerController : ScriptBehaviour
     {
         _recoilPitchOffset = Damp(_recoilPitchOffset, 0.0f, recoilRecovery, deltaTime);
         _recoilYawOffset = Damp(_recoilYawOffset, 0.0f, recoilRecovery, deltaTime);
-        var sensitivity = mouseSensitivity * (_aiming ? adsSensitivityMultiplier : 1.0f);
+        var sensitivity = mouseSensitivity * CoD.Scripts.PlayerSettings.Current.Sensitivity * (_aiming ? adsSensitivityMultiplier : 1.0f);
         var mouse = _mouseDelta;
         _yaw -= mouse.X * sensitivity;
         _pitch = Math.Clamp(_pitch - mouse.Y * sensitivity, minimumPitch, maximumPitch);
@@ -679,7 +679,7 @@ public sealed class PlayerController : ScriptBehaviour
         if (_ammo <= 0)
         {
             _shotCooldown = 0.18f;
-            emptyAudio?.PlayOneShot();
+            emptyAudio?.PlayOneShot(CoD.Scripts.PlayerSettings.EffectsGain, 1);
             BeginReload();
             return;
         }
@@ -688,7 +688,7 @@ public sealed class PlayerController : ScriptBehaviour
         _shotCooldown = 60.0f / MathF.Max(1.0f, roundsPerMinute);
         var shotPitch = (_weapons?.Equipped.ShotPitch ?? 1) * (0.97f + NextFloat() * 0.06f);
         if (_weapons is not null) _hands.Equipped?.PlayShot(shotPitch);
-        else { shotAudio?.PlayOneShot(1, shotPitch); muzzleFlash?.Emit(1); }
+        else { shotAudio?.PlayOneShot(CoD.Scripts.PlayerSettings.EffectsGain, shotPitch); muzzleFlash?.Emit(1); }
         if (_hands.Equipped is not null) _hands.Fire();
         else weaponAnimator?.SetTrigger("Fire");
         var direction = ApplySpread(camera?.GameObject.Forward ?? GameObject.Forward, _spreadDegrees);
@@ -720,7 +720,7 @@ public sealed class PlayerController : ScriptBehaviour
                 }
                 else
                 {
-                    hitmarkerAudio?.PlayOneShot();
+                    hitmarkerAudio?.PlayOneShot(CoD.Scripts.PlayerSettings.FeedbackGain, 1);
                     HitConfirmed?.Invoke(new FpsHitEvent(hit.Entity, hit.Point, dealtDamage, isHeadshot));
                 }
             }
@@ -740,7 +740,7 @@ public sealed class PlayerController : ScriptBehaviour
         _reloading = true;
         _reloadTimeRemaining = MathF.Max(.1f, reloadDuration);
         _reloadAnimationActive = true;
-        reloadAudio?.PlayOneShot();
+        reloadAudio?.PlayOneShot(CoD.Scripts.PlayerSettings.EffectsGain, 1);
         if (_hands.Equipped is not null) _hands.SetReload(true);
         else weaponAnimator?.SetBool("Reload", true);
         UpdateHud();

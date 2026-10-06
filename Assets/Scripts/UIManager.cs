@@ -123,7 +123,10 @@ public sealed class UIManager : ScriptBehaviour
         if (_isPaused)
             _pauseDocument?.Show();
         else
+        {
+            _pauseDocument?.Element("settings-overlay").SetStyle("display", "none");
             _pauseDocument?.Hide();
+        }
 
         SetWidgetVisible(_inventoryWidget, _isInventoryOpen);
 
@@ -134,6 +137,8 @@ public sealed class UIManager : ScriptBehaviour
         else
             _hudDocument?.Show();
 
+        if (_hudDocument != null) CoD.Scripts.PlayerSettings.ScaleHud(_hudDocument);
+        if (_inventoryWidget != null) CoD.Scripts.PlayerSettings.ScaleDocument(_inventoryWidget.Document, "inventory-panel");
         Input.CursorLocked = gameplayVisible;
     }
 

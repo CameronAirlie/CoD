@@ -1,0 +1,9 @@
+# Player settings
+
+Open SETTINGS from the title or pause menu. Five tabs organize preferences: Display (VSync and borderless fullscreen), Graphics (quality), Audio (volumes), Interface (scale), and Controls (mouse sensitivity). Changes apply immediately; BACK closes the page and RESTORE DEFAULTS resets all preferences.
+
+PlayerPreferences is a versioned, validated model. PlayerSettings owns persistence and application; GameGraphicsSettings binds document-scoped controls. Preferences are stored in LocalApplicationData/PlutoCombat/settings.json with temporary-file replacement. Existing graphics.json preferences migrate on first load. Unsupported display changes keep the previous preference and display a status message. Scene hosts reapply graphics quality on scene creation.
+
+Sound offers master, weapons/effects, and combat feedback gains on existing game cues. New cues should use EffectsGain or FeedbackGain; continuous emitters need their own authored-volume binding. Mouse sensitivity multiplies the controller's authored value and preserves the ADS multiplier. Scale applies to title/pause menus, settings and inventory panels, and individual HUD widgets. ScaleHud preserves the full viewport root and scales corner widgets about their corner anchors. Damage/death overlays, projected crosshair spread, and directional cues retain viewport coordinates. New HUD widgets must choose their transform origin explicitly; never scale the full HUD root.
+
+Add preferences to PlayerPreferences and its validation, apply them in PlayerSettings, and add tab markup and bindings to the presenter. Keep title and pause settings markup synchronized. Run dotnet run --project Tests/Settings/Settings.Tests.csproj after building CoD.Scripts.csproj. In-game layout and native display behavior require a running engine.

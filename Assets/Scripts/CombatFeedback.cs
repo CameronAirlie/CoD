@@ -83,7 +83,7 @@ public sealed class CombatFeedback : ScriptBehaviour
     {
         LastCue = text; CueTime = 1.5f; Cue?.Invoke(text);
         if (cueAudio is null || (_cueCooldown > 0 && text == _lastCue)) return;
-        cueAudio.Clip = clip; cueAudio.PlayOneShot(Math.Clamp(soundVolume, 0, 1), 1);
+        cueAudio.Clip = clip; cueAudio.PlayOneShot(Math.Clamp(soundVolume, 0, 1) * PlayerSettings.FeedbackGain, 1);
         _lastCue = text; _cueCooldown = .25f;
     }
 }
