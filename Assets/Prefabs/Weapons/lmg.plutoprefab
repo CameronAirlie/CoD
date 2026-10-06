@@ -44,7 +44,7 @@ COMPONENT	2	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	1	0
 PROPERTY	JointName	2	Weapon	0
 END_COMPONENT
-ENTITY	3	2	1	Muzzle Flash	0,0.014,-0.995	0,0,0	1,1,1
+ENTITY	3	2	1	Muzzle Flash	0,-0.995,-0.014	0,0,0	1,1,1
 TAGS	3	1	Weapon
 COMPONENT	3	ParticleSystemComponent	1
 PROPERTY	ParticleSystemAsset	2	project://Particles/MuzzleFlash.plutoparticles	0

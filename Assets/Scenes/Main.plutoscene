@@ -3177,7 +3177,7 @@ PROPERTY	Enabled	4	true	0
 PROPERTY	RenderMode	6	1	4	Screen Space	World Screen Space	Screen Space Camera	World Space
 PROPERTY	ScaleMode	6	0	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
 PROPERTY	ScaleFactor	0	1.000000	0
-PROPERTY	ReferenceResolution	7	340.000000,44.000000	0
+PROPERTY	ReferenceResolution	7	240.000000,30.000000	0
 PROPERTY	MatchWidthOrHeight	0	0.500000	0
 PROPERTY	ScreenMatchMode	6	0	3	MatchWidthOrHeight	Expand	Shrink
 PROPERTY	SortingOrder	1	20	0
@@ -3191,7 +3191,7 @@ COMPONENT	50101	RectTransformComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
 PROPERTY	AnchoredPosition	7	0.000000,0.000000	0
-PROPERTY	SizeDelta	7	340.000000,44.000000	0
+PROPERTY	SizeDelta	7	240.000000,30.000000	0
 PROPERTY	Pivot	7	0.500000,0.500000	0
 PROPERTY	AnchorMin	7	0.500000,0.500000	0
 PROPERTY	AnchorMax	7	0.500000,0.500000	0
@@ -3226,7 +3226,7 @@ PROPERTY	Enabled	4	true	0
 PROPERTY	RenderMode	6	1	4	Screen Space	World Screen Space	Screen Space Camera	World Space
 PROPERTY	ScaleMode	6	0	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
 PROPERTY	ScaleFactor	0	1.000000	0
-PROPERTY	ReferenceResolution	7	340.000000,44.000000	0
+PROPERTY	ReferenceResolution	7	240.000000,30.000000	0
 PROPERTY	MatchWidthOrHeight	0	0.500000	0
 PROPERTY	ScreenMatchMode	6	0	3	MatchWidthOrHeight	Expand	Shrink
 PROPERTY	SortingOrder	1	20	0
@@ -3240,7 +3240,7 @@ COMPONENT	50103	RectTransformComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
 PROPERTY	AnchoredPosition	7	0.000000,0.000000	0
-PROPERTY	SizeDelta	7	340.000000,44.000000	0
+PROPERTY	SizeDelta	7	240.000000,30.000000	0
 PROPERTY	Pivot	7	0.500000,0.500000	0
 PROPERTY	AnchorMin	7	0.500000,0.500000	0
 PROPERTY	AnchorMax	7	0.500000,0.500000	0
@@ -3275,7 +3275,7 @@ PROPERTY	Enabled	4	true	0
 PROPERTY	RenderMode	6	1	4	Screen Space	World Screen Space	Screen Space Camera	World Space
 PROPERTY	ScaleMode	6	0	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
 PROPERTY	ScaleFactor	0	1.000000	0
-PROPERTY	ReferenceResolution	7	340.000000,44.000000	0
+PROPERTY	ReferenceResolution	7	240.000000,30.000000	0
 PROPERTY	MatchWidthOrHeight	0	0.500000	0
 PROPERTY	ScreenMatchMode	6	0	3	MatchWidthOrHeight	Expand	Shrink
 PROPERTY	SortingOrder	1	20	0
@@ -3289,7 +3289,7 @@ COMPONENT	50105	RectTransformComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
 PROPERTY	AnchoredPosition	7	0.000000,0.000000	0
-PROPERTY	SizeDelta	7	340.000000,44.000000	0
+PROPERTY	SizeDelta	7	240.000000,30.000000	0
 PROPERTY	Pivot	7	0.500000,0.500000	0
 PROPERTY	AnchorMin	7	0.500000,0.500000	0
 PROPERTY	AnchorMax	7	0.500000,0.500000	0
@@ -3363,7 +3363,7 @@ COMPONENT	50206	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	1	0
 PROPERTY	JointName	2	Weapon	0
 END_COMPONENT
-ENTITY	50207	50206	1	Muzzle Flash	0,0.014,-0.865	0,0,0	1,1,1
+ENTITY	50207	50206	1	Muzzle Flash	0,-0.865,-0.014	0,0,0	1,1,1
 TAGS	50207	1	Weapon
 COMPONENT	50207	ParticleSystemComponent	1
 PROPERTY	ParticleSystemAsset	2	project://Particles/MuzzleFlash.plutoparticles	0
@@ -3413,7 +3413,7 @@ COMPONENT	50216	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	1	0
 PROPERTY	JointName	2	Weapon	0
 END_COMPONENT
-ENTITY	50217	50216	1	Muzzle Flash	0,0.005,-0.505	0,0,0	1,1,1
+ENTITY	50217	50216	1	Muzzle Flash	0,-0.505,-0.005	0,0,0	1,1,1
 TAGS	50217	1	Weapon
 COMPONENT	50217	ParticleSystemComponent	1
 PROPERTY	ParticleSystemAsset	2	project://Particles/MuzzleFlash.plutoparticles	0
@@ -3463,7 +3463,7 @@ COMPONENT	50226	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	1	0
 PROPERTY	JointName	2	Weapon	0
 END_COMPONENT
-ENTITY	50227	50226	1	Muzzle Flash	0,0.014,-0.995	0,0,0	1,1,1
+ENTITY	50227	50226	1	Muzzle Flash	0,-0.995,-0.014	0,0,0	1,1,1
 TAGS	50227	1	Weapon
 COMPONENT	50227	ParticleSystemComponent	1
 PROPERTY	ParticleSystemAsset	2	project://Particles/MuzzleFlash.plutoparticles	0

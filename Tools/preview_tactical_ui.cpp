@@ -107,7 +107,7 @@ int main(int argc,char** argv) try {
         auto set=[&](const char* id,const char* markup) { auto e=document->GetElementById(id);if(e) e->SetInnerRML(markup); };
         if(auto marker=document->GetElementById("marker")) {
             marker->SetClass("hidden",false);
-            marker->SetInnerRML("<img class=\"marker-icon\" src=\"UI/Icons/objective.tga\"/>A / COURTYARD / 42m");
+            marker->SetInnerRML("<span class=\"marker-icon\">A</span>COURTYARD / 42m");
         }
         if(screen=="inventory") {
             const char* stats[]={"28 DMG / 180m / 660 RPM / 30 RND","34 DMG / 90m / 360 RPM / 12 RND","23 DMG / 200m / 780 RPM / 60 RND"};

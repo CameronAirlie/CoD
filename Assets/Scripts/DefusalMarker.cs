@@ -37,14 +37,14 @@ public sealed class DefusalMarker : ScriptBehaviour
             var local = Array.Find(match!.Players, p => p.PeerId == match.LocalPeerId);
             var attacker = local?.Team == bomb.Attackers;
             var action = bomb.Bomb == BombState.Planted ? (attacker ? "DEFEND" : "HOLD E TO DEFUSE") : (attacker ? "RECOVER" : "GUARD");
-            label.Markup = $"<img class=\"marker-icon\" src=\"UI/Icons/objective.tga\"/>BOMB / {action} / {range}m";
+            label.Markup = $"<span class=\"marker-icon\">!</span>BOMB / {action} / {range}m";
             label.SetClass("contested", bomb.Bomb == BombState.Planted);
             return;
         }
         if (!label.SetClass("hidden", match?.Mode != MatchMode.Defusal)) return;
         var planted = match?.Defusal is { Bomb: BombState.Planted } plantedBomb && plantedBomb.Site == siteIndex;
         var distance = player is null ? 0 : (int)(player.WorldPosition - GameObject.WorldPosition).Length();
-        label.Markup = $"<img class=\"marker-icon\" src=\"UI/Icons/objective.tga\"/>{(siteIndex == 0 ? "A / COURTYARD" : "B / FOUNDRY")} | {distance}m{(planted ? " | BOMB" : "")}";
+        label.Markup = $"<span class=\"marker-icon\">{(siteIndex == 0 ? "A" : "B")}</span>{(siteIndex == 0 ? "COURTYARD" : "FOUNDRY")} | {distance}m{(planted ? " | BOMB" : "")}";
         label.SetClass("contested", planted);
     }
 }

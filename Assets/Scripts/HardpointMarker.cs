@@ -32,7 +32,7 @@ public sealed class HardpointMarker : ScriptBehaviour
         var local = Array.Find(match!.Players, p => p.PeerId == match.LocalPeerId);
         var action = objective.Contested ? "CONTESTED" : objective.Owner is null ? "CAPTURE" : objective.Owner == local?.Team ? "DEFEND" : "ATTACK";
         var text = $"{action}: {objective.Name.ToUpperInvariant()} | {distance}m | {(int)MathF.Ceiling(objective.SecondsRemaining)}s";
-        if (_lastText != text) { _label.Markup = "<img class=\"marker-icon\" src=\"UI/Icons/objective.tga\"/>" + text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;"); _lastText = text; }
+        if (_lastText != text) { _label.Markup = "<span class=\"marker-icon\">H</span>" + text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;"); _lastText = text; }
         _label.SetClass("friendly", objective.Owner is not null && objective.Owner == local?.Team);
         _label.SetClass("enemy", objective.Owner is not null && objective.Owner != local?.Team);
         _label.SetClass("contested", objective.Contested);

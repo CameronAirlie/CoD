@@ -1375,7 +1375,7 @@ COMPONENT	61103	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	1	0
 PROPERTY	JointName	2	Weapon	0
 END_COMPONENT
-ENTITY	61104	61103	1	Muzzle Flash	0.000000,0.014000,-0.865000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	61104	61103	1	Muzzle Flash	0.000000,-0.865000,-0.014	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 TAGS	61104	1	Weapon
 COMPONENT	61104	ParticleSystemComponent	1
 PROPERTY	ParticleSystemAsset	2	project://Particles/MuzzleFlash.plutoparticles	0
@@ -1496,7 +1496,7 @@ COMPONENT	61113	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	1	0
 PROPERTY	JointName	2	Weapon	0
 END_COMPONENT
-ENTITY	61114	61113	1	Muzzle Flash	0.000000,0.005000,-0.505000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	61114	61113	1	Muzzle Flash	0.000000,-0.505000,-0.005	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 TAGS	61114	1	Weapon
 COMPONENT	61114	ParticleSystemComponent	1
 PROPERTY	ParticleSystemAsset	2	project://Particles/MuzzleFlash.plutoparticles	0
@@ -1617,7 +1617,7 @@ COMPONENT	61123	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	1	0
 PROPERTY	JointName	2	Weapon	0
 END_COMPONENT
-ENTITY	61124	61123	1	Muzzle Flash	0.000000,0.014000,-0.995000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	61124	61123	1	Muzzle Flash	0.000000,-0.995000,-0.014	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 TAGS	61124	1	Weapon
 COMPONENT	61124	ParticleSystemComponent	1
 PROPERTY	ParticleSystemAsset	2	project://Particles/MuzzleFlash.plutoparticles	0
@@ -2861,7 +2861,7 @@ PROPERTY	Enabled	4	true	0
 PROPERTY	RenderMode	6	1	4	Screen Space	World Screen Space	Screen Space Camera	World Space
 PROPERTY	ScaleMode	6	0	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
 PROPERTY	ScaleFactor	0	1.000000	0
-PROPERTY	ReferenceResolution	7	340.000000,44.000000	0
+PROPERTY	ReferenceResolution	7	240.000000,30.000000	0
 PROPERTY	MatchWidthOrHeight	0	0.500000	0
 PROPERTY	ScreenMatchMode	6	0	3	MatchWidthOrHeight	Expand	Shrink
 PROPERTY	SortingOrder	1	20	0
@@ -2880,7 +2880,7 @@ COMPONENT	60056	RectTransformComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
 PROPERTY	AnchoredPosition	7	0.000000,0.000000	0
-PROPERTY	SizeDelta	7	340.000000,44.000000	0
+PROPERTY	SizeDelta	7	240.000000,30.000000	0
 PROPERTY	Pivot	7	0.500000,0.500000	0
 PROPERTY	AnchorMin	7	0.500000,0.500000	0
 PROPERTY	AnchorMax	7	0.500000,0.500000	0
@@ -2974,7 +2974,7 @@ PROPERTY	Enabled	4	true	0
 PROPERTY	RenderMode	6	1	4	Screen Space	World Screen Space	Screen Space Camera	World Space
 PROPERTY	ScaleMode	6	0	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
 PROPERTY	ScaleFactor	0	1.000000	0
-PROPERTY	ReferenceResolution	7	340.000000,44.000000	0
+PROPERTY	ReferenceResolution	7	240.000000,30.000000	0
 PROPERTY	MatchWidthOrHeight	0	0.500000	0
 PROPERTY	ScreenMatchMode	6	0	3	MatchWidthOrHeight	Expand	Shrink
 PROPERTY	SortingOrder	1	20	0
@@ -2993,7 +2993,7 @@ COMPONENT	60062	RectTransformComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
 PROPERTY	AnchoredPosition	7	0.000000,0.000000	0
-PROPERTY	SizeDelta	7	340.000000,44.000000	0
+PROPERTY	SizeDelta	7	240.000000,30.000000	0
 PROPERTY	Pivot	7	0.500000,0.500000	0
 PROPERTY	AnchorMin	7	0.500000,0.500000	0
 PROPERTY	AnchorMax	7	0.500000,0.500000	0
@@ -3086,7 +3086,7 @@ PROPERTY	Enabled	4	true	0
 PROPERTY	RenderMode	6	1	4	Screen Space	World Screen Space	Screen Space Camera	World Space
 PROPERTY	ScaleMode	6	0	3	ConstantPixels	ScaleWithScreenSize	ConstantPhysicalSize
 PROPERTY	ScaleFactor	0	1.000000	0
-PROPERTY	ReferenceResolution	7	340.000000,44.000000	0
+PROPERTY	ReferenceResolution	7	240.000000,30.000000	0
 PROPERTY	MatchWidthOrHeight	0	0.500000	0
 PROPERTY	ScreenMatchMode	6	0	3	MatchWidthOrHeight	Expand	Shrink
 PROPERTY	SortingOrder	1	20	0
@@ -3105,7 +3105,7 @@ COMPONENT	61001	RectTransformComponent	1
 PROPERTY	Enabled	4	true	0
 PROPERTY	AnchorPreset	6	4	10	TopLeft	TopCenter	TopRight	MiddleLeft	MiddleCenter	MiddleRight	BottomLeft	BottomCenter	BottomRight	Stretch
 PROPERTY	AnchoredPosition	7	0.000000,0.000000	0
-PROPERTY	SizeDelta	7	340.000000,44.000000	0
+PROPERTY	SizeDelta	7	240.000000,30.000000	0
 PROPERTY	Pivot	7	0.500000,0.500000	0
 PROPERTY	AnchorMin	7	0.500000,0.500000	0
 PROPERTY	AnchorMax	7	0.500000,0.500000	0

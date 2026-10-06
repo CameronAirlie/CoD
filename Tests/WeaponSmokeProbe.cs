@@ -27,6 +27,11 @@ public sealed class WeaponSmokeProbe : ScriptBehaviour
         var emitter = typeof(WeaponHandBinding).GetField("muzzleFlash", BindingFlags.NonPublic | BindingFlags.Instance)!
             .GetValue(binding) as ParticleSystemComponent;
         Check(emitter is not null && emitter.ParticleCount > 0, "Equipped weapon did not emit its muzzle flash.");
+        var offset = emitter!.GameObject.WorldPosition - rig.WorldPosition;
+        // The smoke camera has an identity rotation. A mesh-space offset
+        // mistakenly stored in bone space puts the emitter above the weapon.
+        Check(MathF.Abs(offset.Y) < .2f && offset.Z < -.35f,
+            $"Muzzle flash is outside the barrel region: {offset}.");
     }
 
     private void Invoke(string name) => typeof(PlayerController).GetMethod(name, BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(_player, null);

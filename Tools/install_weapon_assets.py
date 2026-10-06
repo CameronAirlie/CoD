@@ -32,7 +32,9 @@ def component(entity, name, properties):
 def rig(kind, entity, parent, owner):
     label = {'ar': 'AR-24 Assault Rifle', 'pistol': 'P-12 Pistol', 'lmg': 'MG-60 Machine Gun'}[kind]
     aim_y = '-0.074' if kind == 'pistol' else '-0.105'
-    muzzle = '0,0.005,-0.505' if kind == 'pistol' else '0,0.014,-0.995' if kind == 'lmg' else '0,0.014,-0.865'
+    # Socket offsets use Weapon bone coordinates: its bind pose maps Y to
+    # mesh Z and Z to negative mesh Y.
+    muzzle = '0,-0.505,-0.005' if kind == 'pistol' else '0,-0.995,-0.014' if kind == 'lmg' else '0,-0.865,-0.014'
     text = f'ENTITY\t{entity}\t{parent}\t1\t{label}\t0.18,-0.15,-0.16\t0,0,0\t1,1,1\nTAGS\t{entity}\t1\tWeapon\n'
     text += component(entity, 'ScriptComponent', [('Source', 2, 'CoD.Scripts.WeaponHandBinding'), ('weaponId', 2, kind),
         ('owner', 9, owner), ('animator', 9, entity), ('muzzleFlash', 9, entity + 2), ('shotAudio', 9, entity),

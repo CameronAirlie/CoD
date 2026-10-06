@@ -214,7 +214,7 @@ ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Input/car.plutoinput	3839	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
 ASSET	project://Managed/CoD.Scripts.dll	266240	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	78916	Unknown
+ASSET	project://Managed/CoD.Scripts.pdb	78912	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	282624	Assembly
 ASSET	project://Managed/PlutoGE.ScriptCore.pdb	98212	Unknown
@@ -319,11 +319,11 @@ ASSET	project://Prefabs/Tree.plutoprefab	3864	Prefab
 ASSET	project://Prefabs/Tree_Static.plutomesh	93677	Mesh
 ASSET	project://Prefabs/Tree_Static_Material_0.plutomaterial	452	Material
 ASSET	project://Prefabs/Tree_Static_Material_1.plutomaterial	452	Material
-ASSET	project://Prefabs/Weapons/ar.plutoprefab	1695	Prefab
-ASSET	project://Prefabs/Weapons/lmg.plutoprefab	1700	Prefab
-ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1715	Prefab
-ASSET	project://Scenes/Foundry.plutoscene	146517	Scene
-ASSET	project://Scenes/Main.plutoscene	164852	Scene
+ASSET	project://Prefabs/Weapons/ar.plutoprefab	1696	Prefab
+ASSET	project://Prefabs/Weapons/lmg.plutoprefab	1701	Prefab
+ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1716	Prefab
+ASSET	project://Scenes/Foundry.plutoscene	146511	Scene
+ASSET	project://Scenes/Main.plutoscene	164855	Scene
 ASSET	project://Scenes/Title.plutoscene	7283	Scene
 ASSET	project://Scenes/car_scene.plutoscene	2993166	Scene
 ASSET	project://Scenes/island.plutoscene	8536273	Scene
@@ -336,7 +336,7 @@ ASSET	project://Scripts/CombatFeedbackMath.cs	590	Script
 ASSET	project://Scripts/CombatTargeting.cs	944	Script
 ASSET	project://Scripts/DamageFeedbackState.cs	605	Script
 ASSET	project://Scripts/DefusalBotTactics.cs	2335	Script
-ASSET	project://Scripts/DefusalMarker.cs	2815	Script
+ASSET	project://Scripts/DefusalMarker.cs	2790	Script
 ASSET	project://Scripts/DefusalRules.cs	6338	Script
 ASSET	project://Scripts/EnemySoldierBot.cs	32610	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4254	Script
@@ -346,7 +346,7 @@ ASSET	project://Scripts/GameGraphicsSettings.cs	2513	Script
 ASSET	project://Scripts/GameModeHud.cs	9510	Script
 ASSET	project://Scripts/GrenadeRules.cs	3543	Script
 ASSET	project://Scripts/HandMotion.cs	1876	Script
-ASSET	project://Scripts/HardpointMarker.cs	2244	Script
+ASSET	project://Scripts/HardpointMarker.cs	2223	Script
 ASSET	project://Scripts/HardpointRules.cs	3562	Script
 ASSET	project://Scripts/InventoryMenu.cs	7696	Script
 ASSET	project://Scripts/InventoryRules.cs	1089	Script
@@ -682,14 +682,14 @@ ASSET	project://UI/Weapons/lmg.png	158604	Texture
 ASSET	project://UI/Weapons/lmg.tga	983579	Texture
 ASSET	project://UI/Weapons/pistol.png	123405	Texture
 ASSET	project://UI/Weapons/pistol.tga	983579	Texture
-ASSET	project://UI/defusal-marker.rcss	582	Unknown
-ASSET	project://UI/defusal-marker.rcss.in	598	Unknown
+ASSET	project://UI/defusal-marker.rcss	663	Unknown
+ASSET	project://UI/defusal-marker.rcss.in	679	Unknown
 ASSET	project://UI/defusal-marker.rml	202	RML Document
 ASSET	project://UI/friendly-nameplate.rcss	494	Unknown
 ASSET	project://UI/friendly-nameplate.rcss.in	509	Unknown
 ASSET	project://UI/friendly-nameplate.rml	219	RML Document
-ASSET	project://UI/hardpoint-marker.rcss	711	Unknown
-ASSET	project://UI/hardpoint-marker.rcss.in	737	Unknown
+ASSET	project://UI/hardpoint-marker.rcss	792	Unknown
+ASSET	project://UI/hardpoint-marker.rcss.in	818	Unknown
 ASSET	project://UI/hardpoint-marker.rml	204	RML Document
 ASSET	project://UI/hud.rcss	7366	Unknown
 ASSET	project://UI/hud.rcss.in	7524	Unknown
