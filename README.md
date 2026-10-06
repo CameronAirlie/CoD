@@ -4,6 +4,10 @@ CoD is a small demo project created with **[PlutoGE](https://github.com/CameronA
 
 ## What the demo includes
 
+Gameplay audio uses PCM WAV copies of the SFX Library under `Assets/Sounds/Gameplay` because the engine's pinned decoder reads WAV. `GameplaySounds.cs` maps the three weapons and gameplay cues; effects use the saved Effects gain, while objective notifications use Feedback gain. Rifle reload effects also serve the machine gun because the pack has no dedicated machine-gun reload recordings. Footsteps and solid bullet impacts currently use concrete, with separate body impacts.
+
+Reload clips dispatch `ReloadMagOut`, `ReloadMagIn`, `ReloadRack`, and `ReloadFinish` at authored keyframes. The sound events run only while the active weapon is reloading; switching weapons, sprinting, or death cancels them. `Tools/create_weapons.py` preserves these events when regenerating weapons. To rebuild the PCM derivatives, install `soundfile` into `Build/audio_tools` and run `python Tools/install_gameplay_audio.py`; original pack audio and baked animation channels are preserved.
+
 - A ready-to-run main scene
 - An animated 3D character
 - An animation graph with idle, walking, sprinting, shooting, reloading, drawing, and hiding animations

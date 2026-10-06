@@ -108,10 +108,15 @@ public sealed class PlayerController : ScriptBehaviour
     }
     public override void OnDestroy()
     {
+        _gameplayAudio?.Dispose();
         if (_inventory is not null) _inventory.Changed -= OnInventoryChanged;
         _hands.Dispose();
     }
     private readonly FirstPersonHands _hands = new();
+    private GameplayAudio? _gameplayAudio;
+    private float _footstepDistance;
+    public void PlayGameplayCue(string clip, float volume = .65f) => _gameplayAudio?.Play(clip, volume);
+    public void PlayGameplayCueAt(string clip, Vector3 position, float volume = .7f) => _gameplayAudio?.PlayAt(clip, position, volume);
     private WeaponLoadout? _weapons;
     private readonly WeaponHandBinding?[] _weaponBindings = new WeaponHandBinding?[WeaponCatalog.SlotCount];
 
@@ -145,6 +150,7 @@ public sealed class PlayerController : ScriptBehaviour
         CancelReload();
         _weapons.Select(slot);
         ApplyEquippedWeapon();
+        PlayGameplayCue("Misc/item_equip_ufx_1.ogg", .4f);
         _shotCooldown = MathF.Max(_shotCooldown, _weapons.Equipped.DrawSeconds);
         _weaponDrawRemaining = _weapons.Equipped.DrawSeconds;
         _aiming = false;
@@ -359,6 +365,7 @@ public sealed class PlayerController : ScriptBehaviour
             if (binding is not null) _hands.Equip(binding);
         }
         _hands.AnimationEventRaised += HandleHandAnimationEvent;
+        _gameplayAudio = new GameplayAudio();
         GameObject?[] rigs = [assaultRifleRig, pistolRig, machineGunRig];
         for (var slot = 0; slot < rigs.Length; slot++)
         {
@@ -418,6 +425,16 @@ public sealed class PlayerController : ScriptBehaviour
         if (_multiplayer?.IsPreparingRound == true || _multiplayer?.IsUsingObjective == true)
         { _horizontalVelocity = Vector3.Zero; _sprinting = false; }
         else UpdateMovement(deltaTime);
+        if (_grounded && !_sliding && _horizontalVelocity.LengthSquared() > .5f)
+        {
+            _footstepDistance += _horizontalVelocity.Length() * deltaTime;
+            if (_footstepDistance >= (_crouching ? 1.7f : 2.2f))
+            {
+                _footstepDistance = 0;
+                PlayGameplayCue("Player/Footsteps/Concrete/footstep_concrete_ufx_" + Random.Shared.Next(1, 5) + ".ogg", _crouching ? .18f : .35f);
+            }
+        }
+        else _footstepDistance = 0;
         UpdateCamera(deltaTime);
         UpdateWeapon(deltaTime);
         UpdateInteraction(deltaTime);
@@ -679,7 +696,9 @@ public sealed class PlayerController : ScriptBehaviour
         if (_ammo <= 0)
         {
             _shotCooldown = 0.18f;
-            emptyAudio?.PlayOneShot(CoD.Scripts.PlayerSettings.EffectsGain, 1);
+            var emptyClip = GameplaySounds.Empty(_weapons?.Equipped.Id);
+            if (emptyAudio is not null) GameplaySounds.Play(emptyAudio, emptyClip);
+            else PlayGameplayCue(emptyClip[GameplaySounds.Root.Length..]);
             BeginReload();
             return;
         }
@@ -688,7 +707,7 @@ public sealed class PlayerController : ScriptBehaviour
         _shotCooldown = 60.0f / MathF.Max(1.0f, roundsPerMinute);
         var shotPitch = (_weapons?.Equipped.ShotPitch ?? 1) * (0.97f + NextFloat() * 0.06f);
         if (_weapons is not null) _hands.Equipped?.PlayShot(shotPitch);
-        else { shotAudio?.PlayOneShot(CoD.Scripts.PlayerSettings.EffectsGain, shotPitch); muzzleFlash?.Emit(1); }
+        else { GameplaySounds.Play(shotAudio, GameplaySounds.Shot(null), 1, shotPitch); muzzleFlash?.Emit(1); }
         if (_hands.Equipped is not null) _hands.Fire();
         else weaponAnimator?.SetTrigger("Fire");
         var direction = ApplySpread(camera?.GameObject.Forward ?? GameObject.Forward, _spreadDegrees);
@@ -696,6 +715,11 @@ public sealed class PlayerController : ScriptBehaviour
         WeaponFired?.Invoke(new FpsWeaponShot(origin, direction, _weapons?.Equipped.Id ?? "val"));
         if (Physics.Raycast(origin, direction, range, GameObject, out var hit))
         {
+            if (_multiplayer?.IsFriendlyNetworkParticipant(hit.Entity) != true)
+            {
+                var body = hit.Entity.HasTag(damageableTag) || hit.Entity.HasTag(headTag) || _multiplayer?.IsNetworkParticipant(hit.Entity) == true;
+                PlayGameplayCueAt(body ? "Impact & Break/Body/impact_body_ufx_1.ogg" : "Impact & Break/Concrete/impact_concrete_ufx_1.ogg", hit.Point, .45f);
+            }
             var hitFriendly = _multiplayer?.IsFriendlyNetworkParticipant(hit.Entity) == true;
             if (!hitFriendly && !string.IsNullOrWhiteSpace(bulletHoleMaterial))
             {
@@ -740,7 +764,6 @@ public sealed class PlayerController : ScriptBehaviour
         _reloading = true;
         _reloadTimeRemaining = MathF.Max(.1f, reloadDuration);
         _reloadAnimationActive = true;
-        reloadAudio?.PlayOneShot(CoD.Scripts.PlayerSettings.EffectsGain, 1);
         if (_hands.Equipped is not null) _hands.SetReload(true);
         else weaponAnimator?.SetBool("Reload", true);
         UpdateHud();
@@ -754,6 +777,12 @@ public sealed class PlayerController : ScriptBehaviour
 
     private void HandleHandAnimationEvent(AnimationEvent animationEvent)
     {
+        if (_reloading && GameplaySounds.Reload(_weapons?.Equipped.Id ?? _hands.Equipped?.WeaponId, animationEvent.Name) is { } clip)
+        {
+            if (reloadAudio is not null) GameplaySounds.Play(reloadAudio, clip, .65f);
+            else PlayGameplayCue(clip[GameplaySounds.Root.Length..]);
+            return;
+        }
         if (!_reloading || !string.Equals(animationEvent.Name,
                 _hands.Equipped?.ReloadCommitEvent ?? "ReloadFinish", StringComparison.Ordinal))
         {

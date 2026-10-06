@@ -50,6 +50,7 @@ public sealed partial class MultiplayerSession
             var aim = _playerController.GrenadeAim;
             var request = GrenadeThrow.From(aim.Direction);
             _nextLocalThrowAt = _time + GrenadeRules.ThrowCooldown;
+            _playerController.PlayGameplayCue("Melee/Throw/throw_heavy_ufx_1.ogg", .45f);
             if (_server is not null || GrenadesOffline) AcceptGrenade(0, request);
             else if (_localPeerId >= 0) _client?.SendJson(GrenadeThrowChannel, request);
         }
@@ -234,6 +235,7 @@ public sealed partial class MultiplayerSession
     }
     private void PlayGrenadeExplosion(Vector3 position)
     {
+        _playerController?.PlayGameplayCueAt("Explosions/grenade_ufx_1.ogg", position, 1);
         foreach (var (name, count) in new[] { ("Flash", 24), ("Sparks", 70), ("Smoke", 35) })
         {
             var effect = Prefab.Instantiate(GrenadeEffectPrefab(name), position);

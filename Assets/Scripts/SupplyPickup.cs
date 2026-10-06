@@ -58,6 +58,7 @@ public sealed class SupplyPickup : ScriptBehaviour
         }
 
         _consumed = true;
+        interactor.GetComponent<PlayerController>()?.PlayGameplayCue("Misc/item_pickup_ufx_1.ogg");
         var spawner = GameObject.Find("SupplySpawner");
         if (spawner is not null && !string.IsNullOrWhiteSpace(respawnPrefab))
             spawner.TryInvoke("PickupConsumed", respawnPrefab, GameObject.WorldPosition, GameObject.WorldRotation);

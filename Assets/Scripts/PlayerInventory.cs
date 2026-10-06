@@ -60,12 +60,14 @@ public sealed class PlayerInventory : ScriptBehaviour
             _health is not null && !_health.IsDead && !_health.IsFullHealth)
         {
             HealthKits--;
+            GameObject.GetComponent<PlayerController>()?.PlayGameplayCue("Misc/medkit_use_ufx_1.ogg");
             _health.Heal(_health.MaximumHealth * Math.Clamp(healthKitHealingPercent, 0.0f, 1.0f));
         }
         else if (_activeUse == UseAction.ArmourPlate && ArmourPlates > 0 &&
             _health?.AddArmourSlot() == true)
         {
             ArmourPlates--;
+            GameObject.GetComponent<PlayerController>()?.PlayGameplayCue("Misc/item_equip_ufx_1.ogg");
             Debug.Log($"Armour equipped: {_health.ArmourSlots}/{_health.MaximumArmourSlots} slots.");
             // AddArmourSlot already equips protection; do not remove it again.
         }

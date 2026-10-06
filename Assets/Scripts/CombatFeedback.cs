@@ -83,6 +83,8 @@ public sealed class CombatFeedback : ScriptBehaviour
     {
         LastCue = text; CueTime = 1.5f; Cue?.Invoke(text);
         if (cueAudio is null || (_cueCooldown > 0 && text == _lastCue)) return;
+        if (clip == "project://Sounds/feedback/objective.wav")
+            clip = GameplaySounds.RuntimeClip(GameplaySounds.Root + "Misc/new_objective_ufx_1.ogg");
         cueAudio.Clip = clip; cueAudio.PlayOneShot(Math.Clamp(soundVolume, 0, 1) * PlayerSettings.FeedbackGain, 1);
         _lastCue = text; _cueCooldown = .25f;
     }

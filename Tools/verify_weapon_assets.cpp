@@ -29,7 +29,9 @@ int main(int argc, char **argv) try
                     channel.nodeIndex < 0 || channel.nodeIndex >= 6 || channel.targetName.empty())
                     throw std::runtime_error("Unbound animation channel");
         }
-        if (clips[3].events.size() != 1 || clips[3].events.front().name != "ReloadFinish")
+        if (clips[3].events.size() != 4 || clips[3].events[0].name != "ReloadMagOut" ||
+            clips[3].events[1].name != "ReloadMagIn" || clips[3].events[2].name != "ReloadRack" ||
+            clips[3].events[3].name != "ReloadFinish")
             throw std::runtime_error("Missing reload commit event");
         bool graphLoaded = false;
         const auto graph = assets.LoadAnimationGraphAsset(base + id + ".plutoanimgraph", &graphLoaded);

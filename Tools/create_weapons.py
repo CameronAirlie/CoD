@@ -280,7 +280,7 @@ for kind, reload_seconds, fire_seconds, draw_seconds in [('ar', 2.1, .09, .45), 
     for name, duration in durations.items():
         actions[name] = animate(kind, name, duration)
         clip = OUT / kind / (name + '.plutoclip')
-        export_clip(clip, RIG, actions[name], duration, [(duration * .86, 'ReloadFinish')] if name == 'Reload' else [])
+        export_clip(clip, RIG, actions[name], duration, [(duration * phase, event) for phase, event in [(.18, 'ReloadMagOut'), (.74, 'ReloadMagIn'), (.80, 'ReloadRack'), (.86, 'ReloadFinish')]] if name == 'Reload' else [])
         meta(clip)
     mesh_path = OUT / kind / (kind + '.plutomesh')
     manifest[kind] = export_mesh(mesh_path, RIG, MATERIAL_REFS, f'project://SourceModels/Weapons/{kind}.glb')

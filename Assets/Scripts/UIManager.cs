@@ -114,6 +114,8 @@ public sealed class UIManager : ScriptBehaviour
         // Keep UI/input updates running normally while the inventory is open.
         // Player input is already disabled by the unlocked cursor.
         _isInventoryOpen = isOpen;
+        GameObject.Find("Player")?.GetComponent<CoD.Scripts.PlayerController>()?.PlayGameplayCue(
+            isOpen ? "Misc/inventory_open_ufx_1.wav" : "Misc/inventory_close_ufx_1.wav", .45f);
         ApplyPresentation();
     }
 

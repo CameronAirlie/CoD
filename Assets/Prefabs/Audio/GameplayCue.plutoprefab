@@ -1,0 +1,9 @@
+SCENE	1
+ENTITY	1	0	1	Gameplay Audio	0,0,0	0,0,0	1,1,1
+COMPONENT	1	SoundEmitterComponent	1
+PROPERTY	PlayOnAwake	4	false	0
+PROPERTY	Looping	4	false	0
+PROPERTY	Spatialized	4	false	0
+PROPERTY	Volume	0	1	0
+PROPERTY	Pitch	0	1	0
+END_COMPONENT

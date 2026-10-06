@@ -37,7 +37,7 @@ public sealed class WeaponHandBinding : ScriptBehaviour
     public override void OnCreate() => owner?.GetComponent<PlayerController>()?.RegisterWeaponBinding(this);
     public void PlayShot(float pitch)
     {
-        shotAudio?.PlayOneShot(CoD.Scripts.PlayerSettings.EffectsGain, pitch);
+        GameplaySounds.Play(shotAudio ??= GameObject.GetComponent<SoundEmitterComponent>(), GameplaySounds.Shot(weaponId), 1, .97f + Random.Shared.NextSingle() * .06f);
         muzzleFlash?.Emit(1);
     }
 

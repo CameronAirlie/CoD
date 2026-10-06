@@ -146,6 +146,7 @@ public sealed class PlayerHealth : ScriptBehaviour
             remainingDamage = MathF.Max(0.0f, remainingDamage - protectionPerSlot);
         }
         _health = MathF.Max(0.0f, _health - remainingDamage);
+        _controller?.PlayGameplayCue("Impact & Break/Body/impact_body_ufx_" + Random.Shared.Next(1, 3) + ".ogg", .75f);
         if (_damageImage is not null)
             SetDamageOverlayAlpha(MathF.Max(
                 _damageOverlayAlpha, Math.Clamp(damageFlashAlpha, 0.0f, 1.0f)));

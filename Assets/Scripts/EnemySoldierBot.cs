@@ -363,7 +363,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         if (!_externalNavigationControl) return;
         SetAnimationBool(hasTargetParameter, true);
         SetAnimationTrigger(shootTriggerParameter);
-        _gunAudio?.PlayOneShot(CoD.Scripts.PlayerSettings.EffectsGain, 1);
+        GameplaySounds.Play(_gunAudio, GameplaySounds.Shot(null));
     }
 
     public void PlayExternalHitAnimation()
@@ -647,7 +647,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             hit.Entity.TryInvoke(targetDamageMethod, damagePerShot);
         }
 
-        _gunAudio?.PlayOneShot(CoD.Scripts.PlayerSettings.EffectsGain, 1);
+        GameplaySounds.Play(_gunAudio, GameplaySounds.Shot(null));
         SetAnimationTrigger(shootTriggerParameter);
     }
 
