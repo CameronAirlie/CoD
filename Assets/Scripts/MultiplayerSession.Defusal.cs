@@ -8,6 +8,11 @@ public sealed partial class MultiplayerSession
     private const ushort BombInputChannel = 15;
     private DefusalRules? _defusal;
     private int _defusalRound;
+    private readonly DefusalBotTactics _defusalTactics = new();
+    [SerializedField] private string defusalAttackRouteNames = "Defusal Attack West|Defusal Attack Mid|Defusal Attack East";
+    [SerializedField] private string defusalDefendRouteNames = "Defusal Defend West|Defusal Defend Mid|Defusal Defend East";
+    private string[] _defusalAttackRoutes = [];
+    private string[] _defusalDefendRoutes = [];
     private readonly Dictionary<int, float> _bombHeldUntil = new();
     private float _nextBombInputAt;
     private readonly Dictionary<int, Vector3> _lastBombPositions = new();
@@ -31,6 +36,9 @@ public sealed partial class MultiplayerSession
         _defusalRound++;
         _defusal = null;
         var attackers = DefusalRules.AttackersForRound(_defusalRound);
+        _defusalTactics.BeginRound(_bots.Keys.Select(id => (id, _playerStates[id].Team == attackers)), Random.Shared.Next());
+        _defusalAttackRoutes = defusalAttackRouteNames.Split('|', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        _defusalDefendRoutes = defusalDefendRouteNames.Split('|', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
         ClearGrenades();
         foreach (var owner in _playerStates.Keys) ResetGrenadeSupply(owner);
         foreach (var state in _playerStates.Values) { state.Health = multiplayerMaximumHealth; state.RespawnAt = float.PositiveInfinity; state.LastDamagedAt = _time; }
@@ -65,7 +73,7 @@ public sealed partial class MultiplayerSession
                 _lastBombPositions[pair.Key] = actor.WorldPosition;
                 held &= _time - pair.Value.LastDamagedAt > .2f;
                 // Use requires standing still and an unobstructed reach to the bomb/site.
-                var goal = _defusal.Bomb == BombState.Planted ? _defusal.Position : SitePosition(_defusalRound % 2);
+                var goal = _defusal.Bomb == BombState.Planted ? _defusal.Position : SitePosition(_defusalTactics.AttackSite);
                 if (_defusal.Bomb == BombState.Carried && _defusal.Carrier == pair.Key)
                     goal = Vector3.DistanceSquared(actor.WorldPosition, SitePosition(0)) < Vector3.DistanceSquared(actor.WorldPosition, SitePosition(1)) ? SitePosition(0) : SitePosition(1);
                 var direction = goal + Vector3.UnitY * .6f - (actor.WorldPosition + Vector3.UnitY * .3f);
@@ -126,8 +134,9 @@ public sealed partial class MultiplayerSession
         var carrier = bomb.Carrier == id;
         var target = GetParticipantObject(bot.TargetPeerId);
         var threat = target is not null && bot.CachedLineOfSight && HorizontalDistance(bot.GameObject.WorldPosition, target.WorldPosition) <= botAttackRange;
-        var goal = bomb.Bomb == BombState.Planted || bomb.Bomb == BombState.Dropped ? bomb.Position : SitePosition(state.Team == bomb.Attackers ? _defusalRound % 2 : (Math.Abs(id) / 2) % 2);
-        if (bomb.Bomb == BombState.Carried && bomb.Carrier is { } holder && !carrier && state.Team == bomb.Attackers)
+        var plan = _defusalTactics.PlanFor(id);
+        var goal = bomb.Bomb == BombState.Planted || bomb.Bomb == BombState.Dropped ? bomb.Position : SitePosition(plan.Site);
+        if (bot.DefusalApproach.Complete && bomb.Bomb == BombState.Carried && bomb.Carrier is { } holder && !carrier && state.Team == bomb.Attackers)
         {
             var leader = GetParticipantObject(holder);
             if (leader is not null) goal = leader.WorldPosition;
@@ -139,10 +148,28 @@ public sealed partial class MultiplayerSession
         if (usingBomb) { bot.GameObject.TryInvoke("SetExternalCombatPaused", true); return true; }
         bot.GameObject.TryInvoke("SetExternalCombatPaused", false);
         if (!carrier && bomb.Bomb != BombState.Dropped && !(bomb.Bomb == BombState.Planted && state.Team != bomb.Attackers))
-            goal += new Vector3(MathF.Cos(id * 2.4f), 0, MathF.Sin(id * 2.4f)) * 3;
+            goal += DefusalBotTactics.CoverOffset(plan.ApproachAngle);
         if (canThink && _time >= bot.NextNavigationAt)
         {
-            SetBotDestination(bot, goal, goal);
+            if (!bot.DefusalWaypointValidated)
+            {
+                bot.DefusalWaypointValidated = true;
+                var routes = state.Team == bomb.Attackers ? _defusalAttackRoutes : _defusalDefendRoutes;
+                for (int offset = 0; offset < routes.Length; offset++)
+                {
+                    var marker = GameObject.Find(routes[(plan.Lane + offset) % routes.Length]);
+                    if (marker is null || !TryProjectBotNavigationPosition(marker.WorldPosition, out var projected)) continue;
+                    var path = Navigation.FindPath(navigationMesh!, bot.GameObject.WorldPosition, projected,
+                        botNavigationAgentRadius, botNavigationAgentHeight);
+                    if (!path.Complete || path.Points.Count == 0) continue;
+                    bot.DefusalWaypoint = projected;
+                    break;
+                }
+            }
+            var desired = bot.DefusalApproach.Destination(bot.GameObject.WorldPosition, goal,
+                bot.DefusalWaypoint, _time, bomb.Bomb is BombState.Planted or BombState.Dropped);
+            if (TryProjectBotNavigationPosition(desired, out var destination)) desired = destination;
+            SetBotDestination(bot, desired, goal);
             bot.NextNavigationAt = _time + .5f;
         }
         return true;

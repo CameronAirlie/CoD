@@ -181,6 +181,8 @@ PROPERTY	botTargetLineOfSightBonus	0	6.000000	0
 PROPERTY	navigationMesh	9	0	0
 PROPERTY	botNavigationAgentRadius	0	0.500000	0
 PROPERTY	botNavigationAgentHeight	0	2.000000	0
+PROPERTY	defusalAttackRouteNames	2	Defusal Attack West|Defusal Attack Mid|Defusal Attack East	0
+PROPERTY	defusalDefendRouteNames	2	Defusal Defend West|Defusal Defend Mid|Defusal Defend East	0
 PROPERTY	gameMode	2	Defusal	0
 PROPERTY	hardpointDuration	0	45.000000	0
 PROPERTY	hardpointRadius	0	5.000000	0
@@ -1276,7 +1278,7 @@ COMPONENT	61102	AnimationComponent	1
 PROPERTY	SourceAnimation	2	project://Weapons/ar/ar.plutoanim	0
 PROPERTY	AnimationGraph	2	project://Weapons/ar/ar.plutoanimgraph	0
 PROPERTY	CurrentClipIndex	6	10	15	ar_Idle	ar_Draw	ar_Fire	ar_Reload	ar_Sprint	ar_Idle	ar_Sprint	ar_Draw	ar_Fire	ar_Reload	ar_Idle	ar_Sprint	ar_Draw	ar_Fire	ar_Reload
-PROPERTY	Time	0	0.033462	0
+PROPERTY	Time	0	0.846207	0
 PROPERTY	Speed	0	1.000000	0
 PROPERTY	Playing	4	true	0
 PROPERTY	Looping	4	true	0
@@ -1368,7 +1370,7 @@ PROPERTY	OcclusionStrength	0	1.000000	0
 PROPERTY	AirAbsorptionStrength	0	1.000000	0
 PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
-ENTITY	61103	61102	1	Weapon Socket	-0.000000,0.000157,0.000002	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	61103	61102	1	Weapon Socket	-0.000000,0.000696,0.000002	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	61103	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	1	0
 PROPERTY	JointName	2	Weapon	0
@@ -1397,7 +1399,7 @@ COMPONENT	61112	AnimationComponent	1
 PROPERTY	SourceAnimation	2	project://Weapons/pistol/pistol.plutoanim	0
 PROPERTY	AnimationGraph	2	project://Weapons/pistol/pistol.plutoanimgraph	0
 PROPERTY	CurrentClipIndex	6	10	15	pistol_Idle	pistol_Draw	pistol_Fire	pistol_Reload	pistol_Sprint	pistol_Idle	pistol_Sprint	pistol_Draw	pistol_Fire	pistol_Reload	pistol_Idle	pistol_Sprint	pistol_Draw	pistol_Fire	pistol_Reload
-PROPERTY	Time	0	0.033462	0
+PROPERTY	Time	0	0.846207	0
 PROPERTY	Speed	0	1.000000	0
 PROPERTY	Playing	4	true	0
 PROPERTY	Looping	4	true	0
@@ -1489,7 +1491,7 @@ PROPERTY	OcclusionStrength	0	1.000000	0
 PROPERTY	AirAbsorptionStrength	0	1.000000	0
 PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
-ENTITY	61113	61112	1	Weapon Socket	-0.000000,0.000157,0.000002	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	61113	61112	1	Weapon Socket	-0.000000,0.000696,0.000002	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	61113	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	1	0
 PROPERTY	JointName	2	Weapon	0
@@ -1518,7 +1520,7 @@ COMPONENT	61122	AnimationComponent	1
 PROPERTY	SourceAnimation	2	project://Weapons/lmg/lmg.plutoanim	0
 PROPERTY	AnimationGraph	2	project://Weapons/lmg/lmg.plutoanimgraph	0
 PROPERTY	CurrentClipIndex	6	10	15	lmg_Idle	lmg_Draw	lmg_Fire	lmg_Reload	lmg_Sprint	lmg_Idle	lmg_Sprint	lmg_Draw	lmg_Fire	lmg_Reload	lmg_Idle	lmg_Sprint	lmg_Draw	lmg_Fire	lmg_Reload
-PROPERTY	Time	0	0.033462	0
+PROPERTY	Time	0	0.846207	0
 PROPERTY	Speed	0	1.000000	0
 PROPERTY	Playing	4	true	0
 PROPERTY	Looping	4	true	0
@@ -1610,7 +1612,7 @@ PROPERTY	OcclusionStrength	0	1.000000	0
 PROPERTY	AirAbsorptionStrength	0	1.000000	0
 PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
-ENTITY	61123	61122	1	Weapon Socket	-0.000000,0.000157,0.000002	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	61123	61122	1	Weapon Socket	-0.000000,0.000696,0.000002	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	61123	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	1	0
 PROPERTY	JointName	2	Weapon	0
@@ -1659,7 +1661,7 @@ PROPERTY	Ozone Strength	0	1.000000	0
 PROPERTY	Sun Intensity	0	10.000000	0
 PROPERTY	Sun Angular Radius	0	0.270000	0
 PROPERTY	Sun Color	3	1.000000,0.980000,0.920000	0
-PROPERTY	Exposure	0	1.000000	0
+PROPERTY	Exposure	0	3.000000	0
 PROPERTY	Night Intensity	0	0.050000	0
 PROPERTY	Star Intensity	0	6.000000	0
 PROPERTY	Moon Intensity	0	2.800000	0
@@ -1667,12 +1669,12 @@ PROPERTY	Moon Angular Radius	0	0.260000	0
 PROPERTY	Moon Color	3	0.550000,0.650000,1.000000	0
 PROPERTY	Ground Color	3	0.012000,0.015000,0.020000	0
 END_COMPONENT
-ENTITY	6	0	1	Directional Light	0.000000,0.000000,0.000000	-420.000000,-58.455002,0.000000	1.000000,1.000000,1.000000
+ENTITY	6	0	1	Directional Light	0.000000,0.000000,0.000000	-421.000000,-40.255001,0.000000	1.000000,1.000000,1.000000
 COMPONENT	6	LightComponent	1
 PROPERTY	Color	3	1.000000,0.900000,0.800000	0
 PROPERTY	Intensity	0	8.000000	0
 PROPERTY	CastsShadows	4	true	0
-PROPERTY	Direction	3	0.852230,-0.453077,-0.261584	0
+PROPERTY	Direction	3	0.646191,-0.667489,-0.369995	0
 PROPERTY	LightType	6	1	3	Point	Directional	Spot
 PROPERTY	Static	4	true	0
 PROPERTY	Shadow Method	6	1	2	Cascaded Shadow Maps (Legacy)	Virtual Shadow Maps (Default)
@@ -1752,8 +1754,8 @@ END_COMPONENT
 COMPONENT	22400	ScriptComponent	1
 PROPERTY	Source	2	PauseMenu	0
 PROPERTY	uiManagerObject	9	0	0
-PROPERTY	DocumentPath	2	UI/pause-menu.rml	0
 PROPERTY	documentPath	2	UI/pause-menu.rml	0
+PROPERTY	DocumentPath	2	UI/pause-menu.rml	0
 END_COMPONENT
 ENTITY	22401	1784	1	HUD	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	22401	RmlWidgetComponent	1
@@ -3142,3 +3144,9 @@ PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/SiteA.plutomaterial	0
 PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/SiteA.plutomaterial	0
 END_COMPONENT
+ENTITY	62001	0	1	Defusal Attack West	-20.000000,0.100000,3.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	62002	0	1	Defusal Attack Mid	0.000000,0.100000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	62003	0	1	Defusal Attack East	20.000000,0.100000,3.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	62004	0	1	Defusal Defend West	-20.000000,0.100000,-21.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	62005	0	1	Defusal Defend Mid	0.000000,0.100000,-18.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	62006	0	1	Defusal Defend East	20.000000,0.100000,-21.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000

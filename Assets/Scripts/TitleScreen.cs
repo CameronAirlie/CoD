@@ -31,6 +31,7 @@ public sealed class TitleScreen : ScriptBehaviour
         if (string.IsNullOrWhiteSpace(widget.Source))
             widget.Source = documentPath;
         _document = widget.Document;
+        GameGraphicsSettings.Bind(_document);
         _usernameInput = _document.Element("username");
         _addressInput = _document.Element("address");
         _statusLabel = _document.Element("status");

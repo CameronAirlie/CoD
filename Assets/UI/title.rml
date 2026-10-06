@@ -10,6 +10,6 @@
 <div id="actions"><button tabindex="4" id="host" class="ui-button primary">HOST GAME <span class="action-arrow">&gt;</span></button><button tabindex="5" id="join" class="ui-button">JOIN GAME</button></div>
 <div id="status">Enter a username, then host or join a game.</div><div id="instructions" class="ui-meta">TAB NAVIGATE / ENTER SELECT</div></div>
 <div id="mission-panel" class="ui-panel"><div class="ui-eyebrow">MISSION BRIEF / <span id="mission-location">ARENA</span></div><div id="mission-title" class="ui-heading">HOLD THE LINE</div><div id="mission-description">Capture the rotating hardpoint. Deny the enemy. Every second counts.</div>
-<div class="mission-facts"><div><span class="ui-eyebrow">OBJECTIVE</span><div id="mission-rule">CAPTURE / HOLD</div></div><div><span class="ui-eyebrow">RESPAWN</span><div id="mission-life">ENABLED</div></div></div><div class="ui-rule"></div><div class="ui-meta mission-note">BOTH PLAYERS MUST SELECT THE SAME MISSION</div></div>
+<div class="mission-facts"><div><span class="ui-eyebrow">OBJECTIVE</span><div id="mission-rule">CAPTURE / HOLD</div></div><div><span class="ui-eyebrow">RESPAWN</span><div id="mission-life">ENABLED</div></div></div><div class="ui-rule"></div><div class="ui-meta mission-note">BOTH PLAYERS MUST SELECT THE SAME MISSION</div><button id="graphics-preset" class="ui-button">GRAPHICS: HIGH</button></div>
 <div id="title-footer"><span class="ui-meta">TACTICAL OPERATIONS / PLUTO COMBAT</span><span class="ui-eyebrow">GOOD INFORMATION WINS <span class="accent">//</span></span></div>
 </div></body></rml>

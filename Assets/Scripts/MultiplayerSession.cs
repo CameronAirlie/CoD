@@ -2013,6 +2013,9 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         public int BurstLimit { get; set; } = 5;
         public float RangeMultiplier { get; } = 0.8f + ((seed >> 8) & 255u) / 255.0f * 0.4f;
         public float ObjectiveApproachAngle { get; } = seed % 360u * MathF.PI / 180.0f;
+        public DefusalApproachProgress DefusalApproach { get; } = new();
+        public bool DefusalWaypointValidated { get; set; }
+        public Vector3? DefusalWaypoint { get; set; }
         public Vector3 ProgressPosition { get; set; } = spawnPosition;
         public float LastProgressAt { get; set; }
         public float ReloadCompleteAt { get; set; }

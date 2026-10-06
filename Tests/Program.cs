@@ -4,6 +4,7 @@ HandSystemTests.Run();
 WeaponLoadoutTests.Run();
 GrenadeTests.Run();
 TacticalUiTests.Run();
+DefusalBotTacticsTests.Run();
 
 static void Require(bool condition, string message)
 {

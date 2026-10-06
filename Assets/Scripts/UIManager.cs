@@ -38,6 +38,7 @@ public sealed class UIManager : ScriptBehaviour
         if (!string.IsNullOrWhiteSpace(PauseDocumentPath))
         {
             _pauseDocument = new RmlDocument(PauseDocumentPath);
+            CoD.Scripts.GameGraphicsSettings.Bind(_pauseDocument);
             _pauseDocument.OnClick("resume", Resume);
             _pauseDocument.OnClick("switch-team", SwitchTeam);
             _pauseDocument.OnClick("restart", Restart);

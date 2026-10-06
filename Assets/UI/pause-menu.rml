@@ -1,4 +1,5 @@
 <rml><head><title>Pause / Operations</title><link type="text/rcss" href="theme.rcss"/><link type="text/rcss" href="pause-menu.rcss"/></head>
 <body><div id="backdrop"><div id="menu" class="ui-panel"><div class="ui-eyebrow accent">TACTICAL OPERATIONS</div><div class="ui-heading">PAUSED</div><div class="pause-description">Return to the fight when ready.</div>
+<button id="graphics-preset" class="ui-button">GRAPHICS: HIGH</button>
 <button id="resume" class="ui-button primary">RESUME <span class="pause-arrow">&gt;</span></button><button id="switch-team" class="ui-button">SWITCH TEAM</button><button id="restart" class="ui-button">RESTART CHECKPOINT</button><div class="ui-rule"></div><button id="main-menu" class="ui-button">RETURN TO MAIN MENU</button><button id="quit" class="ui-button">QUIT GAME</button><div class="hint ui-meta"><span class="ui-key">ESC</span> RETURN TO GAME</div>
 </div></div></body></rml>

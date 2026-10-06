@@ -17,3 +17,23 @@ Tune serialized MultiplayerSession fields in scenes as well as C# defaults:
 saved component properties override script initializers. Gameplay tests check
 capture bounds, varied approaches, movement windows and planner fairness.
 Match balance and navigation feel should also be assessed in live play.
+
+## Defusal routes
+
+The host creates a fresh round plan: attackers share a randomly selected site,
+while shuffled defenders split coverage between both sites. Each bot selects a
+West, Mid or East lane different from its previous round and receives a new
+cover angle. Plans remain stable throughout the round.
+
+Foundry supplies separate attack and defence lane markers. The serialized
+`defusalAttackRouteNames` and `defusalDefendRouteNames` fields list marker names
+separated by `|`; custom maps can place their own markers. The adapter validates
+projection and a complete navmesh path once per life, trying another lane if
+necessary. After reaching the waypoint, bots advance to their objective. An
+18-second timeout bounds blocked approaches; missing routes fall back to direct
+objective movement. Nearby threats retain combat priority, and dropped or
+planted bombs bypass the approach route immediately.
+
+Run the gameplay tests for round-plan and route-progression checks. For native
+Foundry validation, run `python Tools/run_defusal_routing_smoke.py <runtime-dir>`;
+it checks all six lane paths and actual bot destinations over eight round resets.

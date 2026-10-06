@@ -28,3 +28,5 @@
 #title-footer { position: absolute; bottom: 24px; left: 5%; right: 5%; padding-top: 16px; border-top: 1px #2A3036; display: flex; justify-content: space-between; }
 @media (max-height: 650px) { #menu { top: 90px; } #game-title { font-size: 38px; line-height: 40px; } .menu-description { margin-top: 4px; font-size: 12px; } #modes { margin-top: 12px; } #modes button { height: 34px; padding: 6px 12px; margin-bottom: 4px; } .connection { margin-top: 12px; padding: 12px; } .field-row { margin-top: 8px; } .field-row input { height: 34px; } #actions { margin-top: 12px; } #actions button { height: 40px; line-height: 38px; } #status { margin-top: 8px; font-size: 11px; min-height: 24px; } #instructions { display: none; } #mission-panel { bottom: 100px; } }
 @media (max-width: 1000px) { #mission-panel { width: 270px; } #menu { width: 360px; } #actions button { width: 174px; } .field-row input { width: 210px; } }
+
+#graphics-preset { display: block; width: 100%; margin-top: 12px; height: 34px; line-height: 32px; padding: 0 12px; }
