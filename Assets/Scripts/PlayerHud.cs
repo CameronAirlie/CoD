@@ -24,6 +24,10 @@ public sealed class PlayerHud : ScriptBehaviour
     private RmlElement? _reserve;
     private RmlElement? _weaponName;
     private RmlElement? _weaponSlots;
+    private RmlElement? _weaponState;
+    private RmlElement? _compassTicks;
+    private RmlElement? _compassHeading;
+    private int _renderedHeading = -1;
     private RmlElement? _grenades;
     private int _renderedGrenades = -1;
     private RmlElement? _interaction;
@@ -83,6 +87,9 @@ public sealed class PlayerHud : ScriptBehaviour
         _reserve = _document.Element("reserve");
         _weaponName = _document.Element("weapon-name");
         _weaponSlots = _document.Element("weapon-slots");
+        _weaponState = _document.Element("weapon-state");
+        _compassTicks = _document.Element("compass-ticks");
+        _compassHeading = _document.Element("compass-heading");
         _grenades = _document.Element("grenades");
         _interaction = _document.Element("interaction");
         _health = _document.Element("health");
@@ -174,6 +181,16 @@ public sealed class PlayerHud : ScriptBehaviour
     public override void OnUpdate(float deltaTime)
     {
         _hudTime += MathF.Max(0.0f, deltaTime);
+        if (_domReady && player is not null)
+        {
+            var heading = TacticalUi.Heading(player.Forward);
+            if (heading != _renderedHeading)
+            {
+                if (_compassHeading is not null) _compassHeading.Markup = heading.ToString("000");
+                if (_compassTicks is not null) _compassTicks.Markup = TacticalUi.CompassTicks(heading);
+                _renderedHeading = heading;
+            }
+        }
         UpdateDeathEffect(deltaTime);
         _damageFeedback.Update(deltaTime);
         RenderDamageOverlay();
@@ -255,7 +272,16 @@ public sealed class PlayerHud : ScriptBehaviour
 
     private void OnAmmoChanged(FpsAmmoState state)
     {
-        if (_ammo is not null) _ammo.Markup = state.IsReloading ? "RELOAD" : state.Magazine.ToString();
+        if (_ammo is not null)
+        {
+            _ammo.Markup = state.Magazine.ToString();
+            _ammo.SetClass("low-ammo", state.Magazine <= Math.Max(1, state.MagazineSize / 5));
+        }
+        if (_weaponState is not null)
+        {
+            _weaponState.Markup = state.IsReloading ? "RELOADING" : _controller?.EquippedWeapon?.Automatic == false ? "SEMI / READY" : "AUTO / READY";
+            _weaponState.SetClass("reloading", state.IsReloading);
+        }
         if (_reserve is not null) _reserve.Markup = $" / {state.Reserve}";
     }
 
@@ -280,7 +306,7 @@ public sealed class PlayerHud : ScriptBehaviour
     private void OnInteractionChanged(GameObject? target)
     {
         if (_interaction is not null)
-            _interaction.Markup = target is null ? string.Empty : $"[E] {EscapeMarkup(target.Name)}";
+            _interaction.Markup = target is null ? string.Empty : $"<span class=\"ui-key\">E</span>{EscapeMarkup(target.Name)}";
     }
 
     private void OnHealthChanged(float current, float maximum, int armour, int maximumArmour)

@@ -1,23 +1,13 @@
-<rml>
-    <head>
-        <title>Inventory</title>
-        <link type="text/rcss" href="inventory.rcss" />
-    </head>
-    <body>
-        <div id="inventory-backdrop">
-            <div id="inventory-panel">
-                <div id="header">
-                    <div><div class="eyebrow">LOADOUT</div><div class="title">INVENTORY</div></div>
-                    <div id="inventory-capacity" class="capacity">0/8 CAPACITY</div>
-                </div>
-                <div id="inventory-grid">
-                    <div id="slot-0" class="slot"></div><div id="slot-1" class="slot"></div><div id="slot-2" class="slot"></div><div id="slot-3" class="slot"></div><div id="slot-4" class="slot"></div>
-                    <div id="slot-5" class="slot"></div><div id="slot-6" class="slot"></div><div id="slot-7" class="slot"></div>
-
-
-                </div>
-                <div id="footer"><span>H MED KIT (1s) / G ARMOUR (0.5s)</span><span class="close-hint">I / ESC CLOSE</span></div>
-            </div>
-        </div>
-    </body>
-</rml>
+<rml><head><title>Loadout / Inventory</title><link type="text/rcss" href="theme.rcss"/><link type="text/rcss" href="inventory.rcss"/></head>
+<body><div id="inventory-backdrop"><div id="inventory-panel" class="ui-panel">
+<div id="header"><div><div class="ui-eyebrow accent">02 / EQUIPMENT</div><div class="title ui-heading">LOADOUT</div></div><div class="ui-meta">FIELD INVENTORY / <span class="ui-key">I</span> CLOSE</div></div>
+<div class="section-label"><span class="ui-eyebrow">WEAPON SYSTEMS</span><span class="ui-meta">SELECT TO EQUIP</span></div>
+<div id="weapon-grid">
+<button id="weapon-0" class="weapon-card selected"><div class="card-top"><span class="ui-meta">01 / ASSAULT RIFLE</span><span class="equipped-tag">EQUIPPED</span></div><img src="UI/Weapons/ar.tga" class="weapon-portrait"/><div class="weapon-card-name">AR-24</div><div id="weapon-stats-0" class="weapon-stats"></div></button>
+<button id="weapon-1" class="weapon-card"><div class="card-top"><span class="ui-meta">02 / HANDGUN</span><span class="equipped-tag">EQUIPPED</span></div><img src="UI/Weapons/pistol.tga" class="weapon-portrait"/><div class="weapon-card-name">P-12</div><div id="weapon-stats-1" class="weapon-stats"></div></button>
+<button id="weapon-2" class="weapon-card"><div class="card-top"><span class="ui-meta">03 / MACHINE GUN</span><span class="equipped-tag">EQUIPPED</span></div><img src="UI/Weapons/lmg.tga" class="weapon-portrait"/><div class="weapon-card-name">MG-60</div><div id="weapon-stats-2" class="weapon-stats"></div></button>
+</div>
+<div class="section-label"><span class="ui-eyebrow">SUPPLIES / DRAG TO REORDER</span><span id="inventory-capacity" class="capacity ui-meta">0/8 CAPACITY</span></div>
+<div id="inventory-grid"><div id="slot-0" class="slot"></div><div id="slot-1" class="slot"></div><div id="slot-2" class="slot"></div><div id="slot-3" class="slot"></div><div id="slot-4" class="slot"></div><div id="slot-5" class="slot"></div><div id="slot-6" class="slot"></div><div id="slot-7" class="slot"></div></div>
+<div id="footer"><span class="ui-meta"><span class="ui-key">H</span> MED KIT <span class="ui-key">G</span> ARMOUR / DOUBLE CLICK TO USE</span><span class="close-hint ui-meta">I / ESC CLOSE</span></div>
+</div></div></body></rml>

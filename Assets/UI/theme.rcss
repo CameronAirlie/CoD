@@ -1,0 +1,33 @@
+/* Shared components. Edit theme.tokens.json / this template, then run Tools/build_ui_theme.py. */
+/* @font-face { font-family: TacticalBody; src: url("../Fonts/Inter.ttf"); } */
+/* @font-face { font-family: TacticalDisplay; src: url("../Fonts/Rajdhani-Regular.ttf"); } */
+/* @font-face { font-family: TacticalHeading; src: url("../Fonts/Rajdhani-Bold.ttf"); } */
+body { width: 100%; height: 100%; margin: 0; color: #F2F4F5; font-family: TacticalBody; font-size: 14px; }
+div { display: block; }
+button, input { font-family: TacticalDisplay; tab-index: auto; }
+.ui-panel { box-sizing: border-box; padding: 24px; background-color: #111417f2; border: 1px #2A3036; }
+.ui-heading { font-family: TacticalHeading; font-size: 40px; line-height: 44px; }
+.ui-eyebrow { font-family: TacticalDisplay; color: #626B74; font-size: 12px; letter-spacing: 2px; }
+.ui-meta { font-family: TacticalDisplay; color: #626B74; font-size: 12px; letter-spacing: 1px; }
+.ui-rule { height: 1px; background-color: #2A3036; }
+.ui-button { box-sizing: border-box; height: 46px; padding: 0 16px; line-height: 44px; border: 1px #2A3036; background-color: #111417; color: #F2F4F5; font-family: TacticalHeading; font-size: 18px; text-align: center; }
+.ui-button:hover, .ui-button:focus { border-color: #FFB31A; background-color: #25241c; }
+.ui-button:active { background-color: #FFB31A; color: #090B0D; }
+.ui-button.primary { background-color: #FFB31A; border-color: #FFB31A; color: #090B0D; }
+.ui-button.primary:hover, .ui-button.primary:focus { background-color: #ffca58; border-color: #ffca58; }
+.ui-button.primary:active { background-color: #e39708; }
+.ui-button:disabled { color: #626B74; background-color: #1B1C20; border-color: #2A3036; }
+.ui-tab { box-sizing: border-box; padding: 10px 12px; border: 1px #2A3036; background-color: #111417; color: #626B74; font-family: TacticalDisplay; font-size: 16px; text-align: left; }
+.ui-tab:hover, .ui-tab:focus { color: #F2F4F5; border-color: #FFB31A; }
+.ui-tab.selected { color: #F2F4F5; background-color: #ffb31a0d; border-bottom: 2px #FFB31A; }
+.ui-key { display: inline-block; min-width: 22px; height: 22px; line-height: 22px; padding: 0 4px; margin-right: 8px; border: 1px #F2F4F5; color: #F2F4F5; font-family: TacticalHeading; text-align: center; }
+.ui-icon { width: 24px; height: 24px; }
+.ui-field { box-sizing: border-box; height: 46px; padding: 8px 12px; background-color: #090B0D; border: 1px #2A3036; color: #F2F4F5; font-family: TacticalBody; font-size: 15px; caret-color: #FFB31A;  }
+.ui-field:hover, .ui-field:focus { border-color: #FFB31A; }
+.ui-stat { font-family: TacticalHeading; font-size: 36px; line-height: 38px; }
+.friendly { color: #4DA8FF; }
+.enemy { color: #F05252; }
+.accent { color: #FFB31A; }
+progress { background-color: #2A3036; border: 0; }
+progress fill { background-color: #F2F4F5; }
+.ui-progress fill { background-color: #FFB31A; }

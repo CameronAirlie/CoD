@@ -1,34 +1,5 @@
-@font-face {
-    font-family: NameplateFont;
-    src: url("../Fonts/Georama.ttf");
-}
-
-body {
-    width: 240px;
-    height: 36px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    overflow: hidden;
-    pointer-events: none;
-    font-family: NameplateFont;
-}
-
-#nameplate {
-    width: 240px;
-    height: 36px;
-    text-align: center;
-    color: #59bfff;
-    font-size: 16px;
-    line-height: 36px;
-    text-shadow: 1px 1px #06111f;
-}
-
-#friendly-name.friendly {
-    color: #59bfff;
-}
-
-#friendly-name.enemy {
-    color: #ff675f;
-}
+/* Generated stylesheet source; shared tokens are defined in theme.tokens.json. */
+body { width: 240px; height: 36px; display: flex; justify-content: center; align-items: center; overflow: hidden; pointer-events: none; font-family: TacticalDisplay; }
+#nameplate { width: 240px; height: 36px; text-align: center; color: #4DA8FF; font-size: 16px; line-height: 36px; font-effect: shadow(1px 1px #090B0D); }
+#friendly-name.friendly { color: #4DA8FF; }
+#friendly-name.enemy { color: #F05252; }

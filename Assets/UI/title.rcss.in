@@ -1,0 +1,30 @@
+/* Generated stylesheet source; shared tokens are defined in theme.tokens.json. */
+/* Screen composition; component appearance is owned by theme.rcss. */
+#menu-artwork { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+#title-screen { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: ${background}55; }
+#masthead { position: absolute; top: 32px; left: 5%; right: 5%; height: 44px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px ${border}; }
+.brand { font-family: TacticalHeading; font-size: 26px; letter-spacing: 3px; }
+#menu { position: absolute; left: 5%; top: 15%; width: 400px; }
+#game-title { font-size: 60px; line-height: 66px; margin-top: 4px; }
+.menu-description { margin-top: 8px; color: ${secondary}; font-size: 13px; }
+#modes { margin-top: 24px; }
+#modes button { display: block; width: 100%; height: 44px; margin-bottom: 8px; }
+.mode-number { margin-right: 16px; color: ${muted}; font-size: 12px; }
+.mode-map { float: right; color: ${muted}; font-size: 12px; }
+.connection { margin-top: 24px; padding: 16px; }
+.field-row { display: flex; align-items: center; margin-top: 12px; }
+.field-row label { width: 112px; font-family: TacticalDisplay; font-size: 12px; color: ${secondary}; }
+.field-row input { width: 250px; height: 40px; }
+#actions { display: flex; gap: 12px; margin-top: 16px; }
+#actions button { width: 194px; }
+.action-arrow { float: right; font-size: 22px; }
+#status { min-height: 36px; margin-top: 14px; font-size: 12px; line-height: 18px; color: ${secondary}; }
+#instructions { margin-top: 8px; }
+#mission-panel { position: absolute; right: 5%; bottom: 16%; width: 330px; background-color: ${panel}cc; border-top: 2px ${accent}; }
+#mission-title { margin-top: 12px; font-size: 32px; line-height: 36px; }
+#mission-description { margin-top: 12px; color: ${secondary}; line-height: 22px; font-size: 13px; }
+.mission-facts { display: flex; justify-content: space-between; margin: 24px 0; font-family: TacticalDisplay; font-size: 18px; }
+.mission-note { margin-top: 12px; font-size: 10px; }
+#title-footer { position: absolute; bottom: 24px; left: 5%; right: 5%; padding-top: 16px; border-top: 1px ${border}; display: flex; justify-content: space-between; }
+@media (max-height: 650px) { #menu { top: 90px; } #game-title { font-size: 38px; line-height: 40px; } .menu-description { margin-top: 4px; font-size: 12px; } #modes { margin-top: 12px; } #modes button { height: 34px; padding: 6px 12px; margin-bottom: 4px; } .connection { margin-top: 12px; padding: 12px; } .field-row { margin-top: 8px; } .field-row input { height: 34px; } #actions { margin-top: 12px; } #actions button { height: 40px; line-height: 38px; } #status { margin-top: 8px; font-size: 11px; min-height: 24px; } #instructions { display: none; } #mission-panel { bottom: 100px; } }
+@media (max-width: 1000px) { #mission-panel { width: 270px; } #menu { width: 360px; } #actions button { width: 174px; } .field-row input { width: 210px; } }

@@ -1,0 +1,8 @@
+/* Generated stylesheet source; shared tokens are defined in theme.tokens.json. */
+body { width: 340px; height: 44px; pointer-events: none; font-family: TacticalDisplay; }
+#marker { box-sizing: border-box; width: 340px; height: 44px; line-height: 42px; text-align: center; color: ${accent}; background-color: ${background}99; border: 1px ${border}; border-left: 2px ${accent}; font-size: 14px; }
+.marker-icon { width: 20px; height: 20px; margin-right: 8px; vertical-align: middle; }
+#marker.hidden { visibility: hidden; }
+#marker.friendly { color: ${friendly}; border-left-color: ${friendly}; }
+#marker.enemy { color: ${enemy}; border-left-color: ${enemy}; }
+#marker.contested { color: ${accent}; border-left-color: ${accent}; }

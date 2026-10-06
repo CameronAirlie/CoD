@@ -98,6 +98,14 @@ public sealed class TitleScreen : ScriptBehaviour
         _defusalSelected = defusal;
         _document?.Element("mode-hardpoint").SetClass("selected", !defusal);
         _document?.Element("mode-defusal").SetClass("selected", defusal);
+        if (_document is not null)
+        {
+            _document.Element("mission-location").Markup = defusal ? "FOUNDRY" : "ARENA";
+            _document.Element("mission-title").Markup = defusal ? "ONE LIFE. TWO SITES." : "HOLD THE LINE";
+            _document.Element("mission-description").Markup = defusal ? "Plant or defuse the bomb. Protect your squad. First to seven rounds wins." : "Capture the rotating hardpoint. Deny the enemy. Every second counts.";
+            _document.Element("mission-rule").Markup = defusal ? "PLANT / DEFUSE" : "CAPTURE / HOLD";
+            _document.Element("mission-life").Markup = defusal ? "ONE LIFE" : "ENABLED";
+        }
         SetStatus(defusal ? "FOUNDRY: Two bomb sites. One life. First to 7 rounds. Select the same mode as your host." : "ARENA: Capture and hold the rotating hardpoint.");
     }
     private void SetStatus(string message)

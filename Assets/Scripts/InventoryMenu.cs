@@ -17,6 +17,7 @@ public sealed class InventoryMenu : ScriptBehaviour
     private int _draggedSlot = -1;
     private readonly HashSet<int> _dragSources = [];
     private PlayerInventory? _inventory;
+    private PlayerController? _controller;
 
     public override void OnCreate()
     {
@@ -40,6 +41,14 @@ public sealed class InventoryMenu : ScriptBehaviour
         if (string.IsNullOrWhiteSpace(_widget.Source))
             _widget.Source = documentPath;
         _document = _widget.Document;
+        _controller = player?.GetComponent<PlayerController>();
+        if (_controller is not null) _controller.WeaponChanged += RenderWeapons;
+        for (var index = 0; index < WeaponCatalog.SlotCount; index++)
+        {
+            var slot = index;
+            _document.OnClick($"weapon-{slot}", () => _controller?.SelectWeaponSlot(slot));
+        }
+        RenderWeapons();
 
         // Drop targets need one RML event each so RmlUi performs the hit test.
         // Source subscriptions are added only for occupied slots, keeping the
@@ -55,6 +64,7 @@ public sealed class InventoryMenu : ScriptBehaviour
 
     public override void OnDestroy()
     {
+        if (_controller is not null) _controller.WeaponChanged -= RenderWeapons;
         if (_inventory is not null)
             _inventory.Changed -= RenderAll;
         // The RmlWidgetComponent owns this document handle.
@@ -91,6 +101,17 @@ public sealed class InventoryMenu : ScriptBehaviour
         if (_document is not null) _document.Element("inventory-capacity").Markup = $"{_inventory?.SlotsUsed ?? 0}/{InventoryRules.Capacity} CAPACITY";
         for (var index = 0; index < SlotCount; index++)
             RenderSlot(index);
+    }
+
+    private void RenderWeapons()
+    {
+        if (_document is null) return;
+        for (var index = 0; index < WeaponCatalog.SlotCount; index++)
+        {
+            var weapon = WeaponCatalog.At(index);
+            _document.Element($"weapon-{index}").SetClass("selected", _controller?.EquippedWeaponSlot == index);
+            _document.Element($"weapon-stats-{index}").Markup = $"{weapon.Damage:0} DMG / {weapon.Range:0}m / {weapon.RoundsPerMinute:0} RPM / {weapon.MagazineSize} RND";
+        }
     }
 
     private void SyncDynamicItems()
@@ -140,7 +161,7 @@ public sealed class InventoryMenu : ScriptBehaviour
             element.On("dblclick", () => UseSlot(source));
         }
         element.Markup = _slots[index] is { } item
-            ? $"<div class=\"item-type\">{item.Type}</div><div class=\"item-name\">{item.Name}</div><div class=\"item-count\">x{Count(item)}</div>"
+            ? $"<img class=\"item-icon\" src=\"UI/Icons/{ItemIcon(item.Kind)}.tga\"/><div class=\"item-type\">{item.Type}</div><div class=\"item-name\">{item.Name}</div><div class=\"item-count\">x{Count(item)}</div>"
             : "<div class=\"empty-label\">EMPTY</div>";
     }
 
@@ -161,6 +182,8 @@ public sealed class InventoryMenu : ScriptBehaviour
     }
 
     private static string SlotId(int index) => $"slot-{index}";
+    private static string ItemIcon(ItemKind kind) => kind switch
+    { ItemKind.HealthKit => "health", ItemKind.Armour => "armour", _ => "ammo" };
 
     private enum ItemKind { Static, Ammo, HealthKit, Armour }
     private sealed record InventoryItem(string Name, string Type, ItemKind Kind, int StaticCount);

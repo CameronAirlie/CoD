@@ -1,224 +1,70 @@
-@font-face {
-    font-family: GameUIFont;
-    src: url("../Fonts/Georama.ttf");
-}
-
-body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    color: #f3f7ff;
-    font-family: GameUIFont;
-    pointer-events: none;
-    focus: none;
-}
-
-#hud {
-    width: 100%;
-    height: 100%;
-}
-
-#damage-overlay {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background-color: #b000001c;
-    border: 22px solid #ef293ccc;
-    box-sizing: border-box;
-    pointer-events: none;
-}
-
-#damage-overlay.hidden {
-    visibility: hidden;
-}
-
-#death-red,
-#death-black {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-}
-
-#death-red { background-color: #a80000; }
-#death-black { background-color: #000000; }
-#death-red.hidden, #death-black.hidden { visibility: hidden; }
-
-.panel {
-    position: absolute;
-    padding: 14px 18px;
-    background-color: #101720d9;
-    border: 1px #80d8ff66;
-}
-
-#objective {
-    top: 32px;
-    left: 32px;
-}
-
-.eyebrow {
-    color: #80d8ff;
-    font-size: 12px;
-    letter-spacing: 2px;
-}
-
-#objective-title {
-    margin-top: 6px;
-    font-size: 18px;
-}
-
-#match-phase { margin-top: 5px; font-size: 16px; }
-#match-strip { top: 24px; left: 42%; right: 42%; display: flex; justify-content: space-between; text-align: center; font-size: 20px; }
-.alpha { color: #59bfff; }
-.bravo { color: #ff675f; }
-#kill-feed { position: absolute; top: 115px; right: 32px; width: 360px; text-align: right; font-size: 14px; }
-.feed-entry { margin-bottom: 8px; padding: 5px 4px; background-color: #101720b8; }
-#scoreboard { top: 17%; left: 22%; right: 22%; min-height: 300px; }
+/* Generated stylesheet source; shared tokens are defined in theme.tokens.json. */
+body { pointer-events: none; focus: none; }
+#hud { width: 100%; height: 100%; }
+.panel { position: absolute; box-sizing: border-box; padding: 12px 16px; background-color: #111417b8; border: 1px #2A3036; }
+.eyebrow { color: #A6A0B4; font-family: TacticalDisplay; font-size: 11px; letter-spacing: 2px; }
+#objective { top: 32px; left: 32px; width: 288px; border-left: 2px #FFB31A; }
+#match-phase { margin-top: 4px; color: #A6A0B4; font-family: TacticalDisplay; font-size: 12px; }
+#objective-status { margin-top: 10px; font-family: TacticalHeading; font-size: 20px; line-height: 23px; color: #FFB31A; }
+#objective-detail { margin-top: 8px; font-size: 11px; line-height: 17px; color: #A6A0B4; }
+#objective-instruction { margin-top: 7px; font-size: 11px; line-height: 17px; }
+#objective-rotation { margin-top: 9px; font-family: TacticalDisplay; font-size: 14px; }
+#objective.friendly { border-left-color: #4DA8FF; } #objective.friendly #objective-status { color: #4DA8FF; }
+#objective.enemy { border-left-color: #F05252; } #objective.enemy #objective-status { color: #F05252; }
+#objective.contested { border-left-color: #FFB31A; } #objective.contested #objective-status { color: #FFB31A; }
+#compass { position: absolute; top: 24px; left: 50%; margin-left: -160px; width: 320px; text-align: center; font-family: TacticalDisplay; font-effect: shadow(1px 1px #090B0D); }
+#compass-ticks { display: flex; justify-content: space-between; height: 24px; font-size: 12px; border-bottom: 1px #A6A0B455; }
+.compass-tick { width: 44px; text-align: center; padding-bottom: 5px; }
+.compass-pointer { width: 2px; height: 8px; background-color: #FFB31A; margin: -5px auto 2px; }
+#compass-heading { font-size: 18px; }
+#match-strip { top: 80px; left: 50%; margin-left: -104px; width: 208px; display: flex; justify-content: space-between; align-items: center; padding: 4px 16px; font-family: TacticalHeading; font-size: 24px; background-color: #090B0D88; }
+#match-clock { color: #A6A0B4; font-family: TacticalDisplay; font-size: 16px; }
+.alpha { color: #4DA8FF; } .bravo { color: #F05252; }
+#score-goal { position: absolute; top: 120px; left: 35%; right: 35%; text-align: center; font-family: TacticalDisplay; font-size: 11px; color: #A6A0B4; }
+#kill-feed { position: absolute; top: 32px; right: 32px; width: 280px; text-align: right; font-family: TacticalDisplay; font-size: 13px; }
+.feed-entry { margin-bottom: 5px; padding: 5px 8px; background-color: #090B0D77; }
+#scoreboard { top: 22%; left: 22%; right: 22%; min-height: 260px; background-color: #111417f2; border-top: 2px #FFB31A; }
 #scoreboard.hidden { visibility: hidden; }
-.scoreboard-title { font-size: 24px; margin-bottom: 14px; }
+.scoreboard-title { font-family: TacticalHeading; font-size: 28px; margin-bottom: 14px; }
 .scoreboard-heading, .score-row { display: flex; justify-content: space-between; padding: 7px 10px; }
-.scoreboard-heading { color: #a8b3c2; border-bottom: 1px solid #526273; }
-.score-row.alpha-team { background-color: #168bc438; }
-.score-row.bravo-team { background-color: #c43b3638; }
-.score-row.local { border-left: 3px solid #ffffff; }
-.player-name { width: 75%; }
-.stat { width: 10%; text-align: right; }
-
-#weapon {
-    right: 32px;
-    bottom: 32px;
-    width: 260px;
-}
-
-.ammo {
-    text-align: right;
-    font-size: 36px;
-}
-
-.reserve {
-    color: #a8b3c2;
-    font-size: 18px;
-}
-
-#health {
-    width: 100%;
-    height: 8px;
-    margin-top: 10px;
-}
-
-#survival-labels { display: flex; justify-content: space-between; margin-top: 8px; color: #a8b3c2; font-size: 10px; letter-spacing: 1px; }
-#armour { display: flex; gap: 5px; margin-top: 7px; }
-.armour-slot { width: 80px; height: 7px; background-color: #172432; border: 1px solid #33495f; }
-.armour-slot.filled { background-color: #58c8ff; border-color: #9de2ff; }
-
-#crosshair {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 2px;
-    height: 2px;
-    margin-left: -1px;
-    margin-top: -1px;
-}
-
-#crosshair.hidden {
-    visibility: hidden;
-}
-
-#crosshair.headshot .arm {
-    background-color: #ffb020;
-}
-
-.arm.hit {
-    background-color: #ff3048;
-}
-
-#interaction {
-    position: absolute;
-    left: 40%;
-    right: 40%;
-    bottom: 18%;
-    text-align: center;
-    font-size: 16px;
-}
-
-.arm,
-.dot {
-    position: absolute;
-    background-color: #ffffff;
-}
-
-.top,
-.bottom {
-    width: 2px;
-    height: 9px;
-    left: 0;
-}
-
-.left,
-.right {
-    width: 9px;
-    height: 2px;
-    top: 0;
-}
-
-/* PlayerHud sets top/left to the spread cone in vh; margins add the 9px arm
-   length, the 2px centre and a 2px minimum gap so the cross never closes. */
-.top {
-    top: 0;
-    margin-top: -11px;
-}
-
-.right {
-    left: 0;
-    margin-left: 4px;
-}
-
-.bottom {
-    top: 0;
-    margin-top: 4px;
-}
-
-.left {
-    left: 0;
-    margin-left: -11px;
-}
-
-.dot {
-    width: 2px;
-    height: 2px;
-}
-
-#objective-detail { margin-top: 8px; font-size: 13px; line-height: 20px; }
-#combat-cue { position: absolute; top: 58%; left: 30%; right: 30%; text-align: center; font-size: 18px; color: #ffd479; }
-#loadout-choice { position: absolute; top: 30%; left: 32px; font-size: 15px; line-height: 26px; }
-#round-progress { position: absolute; bottom: 32px; left: 32px; color: #80d8ff; font-size: 15px; }
-#supply-counts, #supply-use { margin-top: 7px; font-size: 10px; color: #a8b3c2; }
-#weapon { width: 330px; }
-#weapon-name { font-size: 14px; color: #ffdf7f; margin-bottom: 5px; }
-#weapon-slots { font-size: 10px; color: #a8b3c2; line-height: 16px; margin-bottom: 6px; }
-#grenades { font-size: 11px; color: #dfca91; line-height: 16px; margin-bottom: 4px; }
-.player-name { width: 65%; }
-#crosshair.armour-hit .arm { background-color: #59bfff; }
-#crosshair.elimination .arm { background-color: #ffdf7f; }
-.incoming { position: absolute; background-color: #ff423b; }
-.incoming.hidden { visibility: hidden; }
-#incoming-front { top: 42%; left: 47%; width: 6%; height: 5px; }
-#incoming-back { top: 58%; left: 47%; width: 6%; height: 5px; }
-#incoming-left { top: 47%; left: 45%; width: 5px; height: 6%; }
-#incoming-right { top: 47%; left: 55%; width: 5px; height: 6%; }
-
-#objective { width: 365px; border-left-width: 4px; }
-#objective-status { margin-top: 10px; font-size: 20px; color: #ffdf7f; }
-#objective-instruction { margin-top: 7px; font-size: 14px; line-height: 20px; }
-#objective-rotation { margin-top: 9px; font-size: 16px; color: #ffffff; }
-#objective.friendly { border-left-color: #59bfff; }
-#objective.friendly #objective-status { color: #59bfff; }
-#objective.enemy { border-left-color: #ff675f; }
-#objective.enemy #objective-status { color: #ff675f; }
-#objective.contested { border-left-color: #ffbf47; }
-#objective.contested #objective-status { color: #ffbf47; }
-#score-goal { position: absolute; top: 83px; left: 35%; right: 35%; text-align: center; font-size: 13px; color: #dce8f5; }
+.scoreboard-heading { color: #626B74; font-family: TacticalDisplay; font-size: 12px; border-bottom: 1px #2A3036; }
+.score-row.alpha-team { background-color: #4DA8FF15; } .score-row.bravo-team { background-color: #F0525215; }
+.score-row.local { border-left: 2px #FFB31A; }
+.player-name { width: 65%; } .stat { width: 10%; text-align: right; }
+#weapon { right: 32px; bottom: 32px; width: 250px; padding: 0; background-color: transparent; border: 0; text-align: right; font-effect: shadow(1px 1px #090B0D); }
+#weapon-name { font-family: TacticalHeading; font-size: 17px; margin-bottom: 4px; }
+#weapon-slots { font-family: TacticalDisplay; font-size: 10px; line-height: 14px; color: #A6A0B4; margin-bottom: 8px; }
+#grenades { font-family: TacticalDisplay; font-size: 12px; color: #A6A0B4; margin-bottom: 4px; }
+.ammo { font-family: TacticalHeading; font-size: 52px; line-height: 56px; }
+.reserve { font-family: TacticalDisplay; font-size: 20px; color: #A6A0B4; }
+#ammo.low-ammo { color: #FFB31A; }
+#weapon-state { padding-top: 6px; border-top: 1px #A6A0B455; }
+#weapon-state.reloading { color: #FFB31A; }
+#vitals { position: absolute; left: 32px; bottom: 32px; width: 250px; font-effect: shadow(1px 1px #090B0D); }
+#survival-labels { display: flex; justify-content: space-between; align-items: center; font-family: TacticalDisplay; font-size: 11px; color: #A6A0B4; }
+#health-value { font-family: TacticalHeading; font-size: 36px; color: #F2F4F5; margin-left: 8px; }
+#health { width: 100%; height: 5px; margin-top: 6px; background-color: #2A3036; }
+#health fill { background-color: #F2F4F5; }
+#armour { display: flex; gap: 4px; margin-top: 8px; }
+.armour-slot { width: 78px; height: 4px; background-color: #2A3036; border: 1px #626B7466; }
+.armour-slot.filled { background-color: #F2F4F5; border-color: #F2F4F5; }
+#supply-counts, #supply-use { font-family: TacticalDisplay; font-size: 10px; color: #A6A0B4; margin-top: 7px; line-height: 14px; }
+#crosshair { position: absolute; left: 50%; top: 50%; width: 2px; height: 2px; margin-left: -1px; margin-top: -1px; }
+#crosshair.hidden { visibility: hidden; }
+.arm, .dot { position: absolute; background-color: #F2F4F5; }
+.top, .bottom { width: 2px; height: 9px; left: 0; } .left, .right { width: 9px; height: 2px; top: 0; }
+/* Spread is projected by PlayerHud in vh. Retain its 9px arm/2px centre geometry. */
+.top { top: 0; margin-top: -11px; } .right { left: 0; margin-left: 4px; } .bottom { top: 0; margin-top: 4px; } .left { left: 0; margin-left: -11px; }
+.dot { width: 2px; height: 2px; }
+.arm.hit { background-color: #F05252; } #crosshair.headshot .arm, #crosshair.elimination .arm { background-color: #FFB31A; } #crosshair.armour-hit .arm { background-color: #4DA8FF; }
+#interaction { position: absolute; left: 30%; right: 30%; bottom: 22%; text-align: center; font-family: TacticalDisplay; font-size: 16px; }
+#combat-cue { position: absolute; top: 58%; left: 30%; right: 30%; text-align: center; font-family: TacticalHeading; font-size: 22px; color: #FFB31A; }
+#loadout-choice { position: absolute; top: 38%; left: 32px; max-width: 360px; font-family: TacticalDisplay; font-size: 13px; line-height: 22px; }
+#round-progress { position: absolute; bottom: 12px; left: 32px; font-family: TacticalDisplay; font-size: 10px; color: #626B74; }
+.incoming { position: absolute; background-color: #FF4545; } .incoming.hidden { visibility: hidden; }
+#incoming-front { top: 42%; left: 47%; width: 6%; height: 3px; } #incoming-back { top: 58%; left: 47%; width: 6%; height: 3px; } #incoming-left { top: 47%; left: 45%; width: 3px; height: 6%; } #incoming-right { top: 47%; left: 55%; width: 3px; height: 6%; }
+#damage-overlay, #death-red, #death-black { position: absolute; left: 0; right: 0; top: 0; bottom: 0; pointer-events: none; }
+#damage-overlay { background-color: #b0000014; border: 18px #FF4545cc; box-sizing: border-box; }
+#death-red { background-color: #a80000; } #death-black { background-color: #000000; }
+#damage-overlay.hidden, #death-red.hidden, #death-black.hidden { visibility: hidden; }
+@media (max-width: 1100px) { #objective { width: 240px; left: 24px; padding: 10px 12px; } #kill-feed { width: 220px; right: 24px; } #compass { width: 240px; margin-left: -120px; } #vitals { left: 24px; width: 210px; } #weapon { right: 24px; width: 210px; } .armour-slot { width: 64px; } #loadout-choice { top: 42%; max-width: 260px; font-size: 11px; line-height: 18px; } }

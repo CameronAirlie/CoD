@@ -1,1 +1,1 @@
-<rml><head><title>Hardpoint</title><link type="text/rcss" href="hardpoint-marker.rcss"/></head><body><div id="marker" class="hidden">HARDPOINT</div></body></rml>
+<rml><head><title>Hardpoint</title><link type="text/rcss" href="theme.rcss"/><link type="text/rcss" href="hardpoint-marker.rcss"/></head><body><div id="marker" class="hidden">HARDPOINT</div></body></rml>

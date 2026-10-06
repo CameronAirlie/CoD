@@ -1,0 +1,6 @@
+{
+  "background": "#090B0D", "panel": "#111417", "elevated": "#1B1C20",
+  "border": "#2A3036", "text": "#F2F4F5", "secondary": "#A6A0B4", "muted": "#626B74",
+  "accent": "#FFB31A", "friendly": "#4DA8FF", "enemy": "#F05252",
+  "success": "#3CC784", "critical": "#FF4545"
+}

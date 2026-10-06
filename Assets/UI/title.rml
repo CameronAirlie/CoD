@@ -1,30 +1,15 @@
-<rml>
-
-  <head>
-    <title>Pluto Combat</title>
-    <link type="text/rcss" href="title.rcss" />
-  </head>
-
-  <body>
-    <div id="title-screen">
-      <div id="menu">
-        <div id="game-title">PLUTO COMBAT</div>
-        <div class="field-row">
-          <label for="username">Username</label>
-          <input tabindex="0" id="username" type="text" value="Player" maxlength="20" />
-        </div>
-        <div class="field-row">
-          <label for="address">Host IP</label>
-          <input tabindex="1" id="address" type="text" value="127.0.0.1" maxlength="15" />
-        </div>
-        <div id="modes"><button id="mode-hardpoint" class="action selected">HARDPOINT / ARENA</button><button id="mode-defusal" class="action">DEFUSAL / FOUNDRY</button></div>
-        <div id="actions">
-          <button tabindex="2" id="host" class="action host">HOST GAME</button>
-          <button tabindex="3" id="join" class="action join">JOIN GAME</button>
-        </div>
-        <div id="status">Enter a username, then host or join a game.</div>
-        <div id="instructions">Click a field to edit it. Tab moves through fields and buttons.</div>
-      </div>
-    </div>
-  </body>
-</rml>
+<rml><head><title>Pluto Combat / Deployment</title><link type="text/rcss" href="theme.rcss"/><link type="text/rcss" href="title.rcss"/></head>
+<body><img id="menu-artwork" src="UI/Artwork/menu-background.tga"/><div id="title-screen">
+<div id="masthead"><span class="brand">PLUTO <span class="accent">//</span> COMBAT</span><span class="ui-eyebrow">MULTIPLAYER OPERATIONS</span></div>
+<div id="menu"><div class="ui-eyebrow accent">01 / OPERATIONS</div><div id="game-title" class="ui-heading">MULTIPLAYER</div>
+<div class="menu-description">Choose your mission. Prepare for deployment.</div>
+<div id="modes"><button tabindex="0" id="mode-hardpoint" class="ui-tab selected"><span class="mode-number">01</span> HARDPOINT <span class="mode-map">ARENA</span></button><button tabindex="1" id="mode-defusal" class="ui-tab"><span class="mode-number">02</span> DEFUSAL <span class="mode-map">FOUNDRY</span></button></div>
+<div class="connection ui-panel"><div class="ui-eyebrow">OPERATOR / CONNECTION</div>
+<div class="field-row"><label for="username">CALLSIGN</label><input tabindex="2" id="username" class="ui-field" type="text" value="Player" maxlength="20"/></div>
+<div class="field-row"><label for="address">HOST ADDRESS</label><input tabindex="3" id="address" class="ui-field" type="text" value="127.0.0.1" maxlength="15"/></div></div>
+<div id="actions"><button tabindex="4" id="host" class="ui-button primary">HOST GAME <span class="action-arrow">&gt;</span></button><button tabindex="5" id="join" class="ui-button">JOIN GAME</button></div>
+<div id="status">Enter a username, then host or join a game.</div><div id="instructions" class="ui-meta">TAB NAVIGATE / ENTER SELECT</div></div>
+<div id="mission-panel" class="ui-panel"><div class="ui-eyebrow">MISSION BRIEF / <span id="mission-location">ARENA</span></div><div id="mission-title" class="ui-heading">HOLD THE LINE</div><div id="mission-description">Capture the rotating hardpoint. Deny the enemy. Every second counts.</div>
+<div class="mission-facts"><div><span class="ui-eyebrow">OBJECTIVE</span><div id="mission-rule">CAPTURE / HOLD</div></div><div><span class="ui-eyebrow">RESPAWN</span><div id="mission-life">ENABLED</div></div></div><div class="ui-rule"></div><div class="ui-meta mission-note">BOTH PLAYERS MUST SELECT THE SAME MISSION</div></div>
+<div id="title-footer"><span class="ui-meta">TACTICAL OPERATIONS / PLUTO COMBAT</span><span class="ui-eyebrow">GOOD INFORMATION WINS <span class="accent">//</span></span></div>
+</div></body></rml>

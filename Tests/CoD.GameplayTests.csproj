@@ -9,6 +9,8 @@
     <Compile Include="../Assets/Scripts/MatchContracts.cs" Link="MatchContracts.cs" />
     <Compile Include="WeaponLoadoutTests.cs" />
     <Compile Include="GrenadeTests.cs" />
+    <Compile Include="TacticalUiTests.cs" />
+    <Compile Include="../Assets/Scripts/TacticalUi.cs" Link="TacticalUi.cs" />
     <Compile Include="../Assets/Scripts/GrenadeRules.cs" Link="GrenadeRules.cs" />
     <Compile Include="../Assets/Scripts/WeaponCatalog.cs" Link="WeaponCatalog.cs" />
     <Compile Include="../Assets/Scripts/HardpointRules.cs" Link="HardpointRules.cs" />

@@ -1,5 +1,8 @@
-@font-face { font-family: ObjectiveFont; src: url("../Fonts/Georama.ttf"); }
-body { width: 340px; height: 44px; margin: 0; pointer-events: none; font-family: ObjectiveFont; }
-#marker { width: 338px; height: 42px; line-height: 42px; text-align: center; color: #ffdf7f; background-color: #101720cc; border: 1px solid #ffdf7f; font-size: 16px; }
+/* Generated stylesheet source; shared tokens are defined in theme.tokens.json. */
+body { width: 340px; height: 44px; pointer-events: none; font-family: TacticalDisplay; }
+#marker { box-sizing: border-box; width: 340px; height: 44px; line-height: 42px; text-align: center; color: #FFB31A; background-color: #090B0D99; border: 1px #2A3036; border-left: 2px #FFB31A; font-size: 14px; }
+.marker-icon { width: 20px; height: 20px; margin-right: 8px; vertical-align: middle; }
 #marker.hidden { visibility: hidden; }
-#marker.contested { color: #ff675f; border-color: #ff675f; }
+#marker.friendly { color: #4DA8FF; border-left-color: #4DA8FF; }
+#marker.enemy { color: #F05252; border-left-color: #F05252; }
+#marker.contested { color: #FFB31A; border-left-color: #FFB31A; }

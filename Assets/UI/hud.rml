@@ -1,11 +1,13 @@
 <rml>
 <head>
     <title>PlutoGE RmlUi HUD</title>
+    <link type="text/rcss" href="theme.rcss"/>
     <link type="text/rcss" href="hud.rcss"/>
 </head>
 <body>
     <div id="hud">
         <div id="damage-overlay" class="hidden"></div>
+        <div id="compass"><div id="compass-ticks">330 &#160; NW &#160; N &#160; NE &#160; 030</div><div class="compass-pointer"></div><div id="compass-heading">000</div></div>
         <div id="objective" class="panel">
             <div id="match-mode" class="eyebrow">HARDPOINT</div>
             <div id="match-phase">WAITING FOR PLAYERS</div>
@@ -51,6 +53,9 @@
             <div id="weapon-slots">1 AR / 2 PISTOL / 3 MG / Q CYCLE</div>
             <div id="grenades">F FRAG / 2 LEFT</div>
             <div class="ammo"><span id="ammo">30</span><span id="reserve" class="reserve"> / 120</span></div>
+            <div id="weapon-state" class="ui-meta">AUTO / READY</div>
+        </div>
+        <div id="vitals">
             <div id="survival-labels"><span>HEALTH <span id="health-value">100</span></span><span>ARMOUR</span></div>
             <progress id="health" value="100" max="100"></progress>
             <div id="supply-counts"></div><div id="supply-use"></div>

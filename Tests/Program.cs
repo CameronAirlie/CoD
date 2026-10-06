@@ -3,6 +3,7 @@ using CoD.Scripts;
 HandSystemTests.Run();
 WeaponLoadoutTests.Run();
 GrenadeTests.Run();
+TacticalUiTests.Run();
 
 static void Require(bool condition, string message)
 {

@@ -1,0 +1,70 @@
+/* Generated stylesheet source; shared tokens are defined in theme.tokens.json. */
+body { pointer-events: none; focus: none; }
+#hud { width: 100%; height: 100%; }
+.panel { position: absolute; box-sizing: border-box; padding: 12px 16px; background-color: ${panel}b8; border: 1px ${border}; }
+.eyebrow { color: ${secondary}; font-family: TacticalDisplay; font-size: 11px; letter-spacing: 2px; }
+#objective { top: 32px; left: 32px; width: 288px; border-left: 2px ${accent}; }
+#match-phase { margin-top: 4px; color: ${secondary}; font-family: TacticalDisplay; font-size: 12px; }
+#objective-status { margin-top: 10px; font-family: TacticalHeading; font-size: 20px; line-height: 23px; color: ${accent}; }
+#objective-detail { margin-top: 8px; font-size: 11px; line-height: 17px; color: ${secondary}; }
+#objective-instruction { margin-top: 7px; font-size: 11px; line-height: 17px; }
+#objective-rotation { margin-top: 9px; font-family: TacticalDisplay; font-size: 14px; }
+#objective.friendly { border-left-color: ${friendly}; } #objective.friendly #objective-status { color: ${friendly}; }
+#objective.enemy { border-left-color: ${enemy}; } #objective.enemy #objective-status { color: ${enemy}; }
+#objective.contested { border-left-color: ${accent}; } #objective.contested #objective-status { color: ${accent}; }
+#compass { position: absolute; top: 24px; left: 50%; margin-left: -160px; width: 320px; text-align: center; font-family: TacticalDisplay; font-effect: shadow(1px 1px ${background}); }
+#compass-ticks { display: flex; justify-content: space-between; height: 24px; font-size: 12px; border-bottom: 1px ${secondary}55; }
+.compass-tick { width: 44px; text-align: center; padding-bottom: 5px; }
+.compass-pointer { width: 2px; height: 8px; background-color: ${accent}; margin: -5px auto 2px; }
+#compass-heading { font-size: 18px; }
+#match-strip { top: 80px; left: 50%; margin-left: -104px; width: 208px; display: flex; justify-content: space-between; align-items: center; padding: 4px 16px; font-family: TacticalHeading; font-size: 24px; background-color: ${background}88; }
+#match-clock { color: ${secondary}; font-family: TacticalDisplay; font-size: 16px; }
+.alpha { color: ${friendly}; } .bravo { color: ${enemy}; }
+#score-goal { position: absolute; top: 120px; left: 35%; right: 35%; text-align: center; font-family: TacticalDisplay; font-size: 11px; color: ${secondary}; }
+#kill-feed { position: absolute; top: 32px; right: 32px; width: 280px; text-align: right; font-family: TacticalDisplay; font-size: 13px; }
+.feed-entry { margin-bottom: 5px; padding: 5px 8px; background-color: ${background}77; }
+#scoreboard { top: 22%; left: 22%; right: 22%; min-height: 260px; background-color: ${panel}f2; border-top: 2px ${accent}; }
+#scoreboard.hidden { visibility: hidden; }
+.scoreboard-title { font-family: TacticalHeading; font-size: 28px; margin-bottom: 14px; }
+.scoreboard-heading, .score-row { display: flex; justify-content: space-between; padding: 7px 10px; }
+.scoreboard-heading { color: ${muted}; font-family: TacticalDisplay; font-size: 12px; border-bottom: 1px ${border}; }
+.score-row.alpha-team { background-color: ${friendly}15; } .score-row.bravo-team { background-color: ${enemy}15; }
+.score-row.local { border-left: 2px ${accent}; }
+.player-name { width: 65%; } .stat { width: 10%; text-align: right; }
+#weapon { right: 32px; bottom: 32px; width: 250px; padding: 0; background-color: transparent; border: 0; text-align: right; font-effect: shadow(1px 1px ${background}); }
+#weapon-name { font-family: TacticalHeading; font-size: 17px; margin-bottom: 4px; }
+#weapon-slots { font-family: TacticalDisplay; font-size: 10px; line-height: 14px; color: ${secondary}; margin-bottom: 8px; }
+#grenades { font-family: TacticalDisplay; font-size: 12px; color: ${secondary}; margin-bottom: 4px; }
+.ammo { font-family: TacticalHeading; font-size: 52px; line-height: 56px; }
+.reserve { font-family: TacticalDisplay; font-size: 20px; color: ${secondary}; }
+#ammo.low-ammo { color: ${accent}; }
+#weapon-state { padding-top: 6px; border-top: 1px ${secondary}55; }
+#weapon-state.reloading { color: ${accent}; }
+#vitals { position: absolute; left: 32px; bottom: 32px; width: 250px; font-effect: shadow(1px 1px ${background}); }
+#survival-labels { display: flex; justify-content: space-between; align-items: center; font-family: TacticalDisplay; font-size: 11px; color: ${secondary}; }
+#health-value { font-family: TacticalHeading; font-size: 36px; color: ${text}; margin-left: 8px; }
+#health { width: 100%; height: 5px; margin-top: 6px; background-color: ${border}; }
+#health fill { background-color: ${text}; }
+#armour { display: flex; gap: 4px; margin-top: 8px; }
+.armour-slot { width: 78px; height: 4px; background-color: ${border}; border: 1px ${muted}66; }
+.armour-slot.filled { background-color: ${text}; border-color: ${text}; }
+#supply-counts, #supply-use { font-family: TacticalDisplay; font-size: 10px; color: ${secondary}; margin-top: 7px; line-height: 14px; }
+#crosshair { position: absolute; left: 50%; top: 50%; width: 2px; height: 2px; margin-left: -1px; margin-top: -1px; }
+#crosshair.hidden { visibility: hidden; }
+.arm, .dot { position: absolute; background-color: ${text}; }
+.top, .bottom { width: 2px; height: 9px; left: 0; } .left, .right { width: 9px; height: 2px; top: 0; }
+/* Spread is projected by PlayerHud in vh. Retain its 9px arm/2px centre geometry. */
+.top { top: 0; margin-top: -11px; } .right { left: 0; margin-left: 4px; } .bottom { top: 0; margin-top: 4px; } .left { left: 0; margin-left: -11px; }
+.dot { width: 2px; height: 2px; }
+.arm.hit { background-color: ${enemy}; } #crosshair.headshot .arm, #crosshair.elimination .arm { background-color: ${accent}; } #crosshair.armour-hit .arm { background-color: ${friendly}; }
+#interaction { position: absolute; left: 30%; right: 30%; bottom: 22%; text-align: center; font-family: TacticalDisplay; font-size: 16px; }
+#combat-cue { position: absolute; top: 58%; left: 30%; right: 30%; text-align: center; font-family: TacticalHeading; font-size: 22px; color: ${accent}; }
+#loadout-choice { position: absolute; top: 38%; left: 32px; max-width: 360px; font-family: TacticalDisplay; font-size: 13px; line-height: 22px; }
+#round-progress { position: absolute; bottom: 12px; left: 32px; font-family: TacticalDisplay; font-size: 10px; color: ${muted}; }
+.incoming { position: absolute; background-color: ${critical}; } .incoming.hidden { visibility: hidden; }
+#incoming-front { top: 42%; left: 47%; width: 6%; height: 3px; } #incoming-back { top: 58%; left: 47%; width: 6%; height: 3px; } #incoming-left { top: 47%; left: 45%; width: 3px; height: 6%; } #incoming-right { top: 47%; left: 55%; width: 3px; height: 6%; }
+#damage-overlay, #death-red, #death-black { position: absolute; left: 0; right: 0; top: 0; bottom: 0; pointer-events: none; }
+#damage-overlay { background-color: #b0000014; border: 18px ${critical}cc; box-sizing: border-box; }
+#death-red { background-color: #a80000; } #death-black { background-color: #000000; }
+#damage-overlay.hidden, #death-red.hidden, #death-black.hidden { visibility: hidden; }
+@media (max-width: 1100px) { #objective { width: 240px; left: 24px; padding: 10px 12px; } #kill-feed { width: 220px; right: 24px; } #compass { width: 240px; margin-left: -120px; } #vitals { left: 24px; width: 210px; } #weapon { right: 24px; width: 210px; } .armour-slot { width: 64px; } #loadout-choice { top: 42%; max-width: 260px; font-size: 11px; line-height: 18px; } }

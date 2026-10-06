@@ -67,6 +67,11 @@ distance falloff and cover checks. See [grenade architecture and validation](Doc
 
 ## Managed scripts
 
+The tactical interface uses shared design tokens, reusable RmlUi components,
+Rajdhani/Inter typography and original menu artwork. Weapon cards equip actual
+loadout items; the HUD separates health and ammunition and includes a live compass.
+See [UI architecture, asset workflow and native previews](Docs/TacticalUI.md).
+
 The project is configured for C# scripting with .NET 8. Source files placed under `Assets/Scripts/` are compiled into the project's managed assembly.
 
 > The project files currently reference a local PlutoGE source checkout. Update the `PlutoGE.ScriptCore` project path in the `.csproj` files if your engine is stored elsewhere.
