@@ -1235,7 +1235,7 @@ PROPERTY	FarPlane	0	100.000000	0
 PROPERTY	MainCamera	4	false	0
 PROPERTY	RenderType	6	1	2	Base	Overlay
 PROPERTY	OverlayOrder	1	0	0
-PROPERTY	RenderTags	2	Weapon	0
+PROPERTY	RenderTags	2	Weapon, Sky	0
 PROPERTY	IgnoredTags	2		0
 PROPERTY	TargetTexture	2		0
 PROPERTY	TransparentBackground	4	true	0
@@ -1278,7 +1278,7 @@ COMPONENT	61102	AnimationComponent	1
 PROPERTY	SourceAnimation	2	project://Weapons/ar/ar.plutoanim	0
 PROPERTY	AnimationGraph	2	project://Weapons/ar/ar.plutoanimgraph	0
 PROPERTY	CurrentClipIndex	6	10	15	ar_Idle	ar_Draw	ar_Fire	ar_Reload	ar_Sprint	ar_Idle	ar_Sprint	ar_Draw	ar_Fire	ar_Reload	ar_Idle	ar_Sprint	ar_Draw	ar_Fire	ar_Reload
-PROPERTY	Time	0	0.846207	0
+PROPERTY	Time	0	1.120409	0
 PROPERTY	Speed	0	1.000000	0
 PROPERTY	Playing	4	true	0
 PROPERTY	Looping	4	true	0
@@ -1370,12 +1370,12 @@ PROPERTY	OcclusionStrength	0	1.000000	0
 PROPERTY	AirAbsorptionStrength	0	1.000000	0
 PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
-ENTITY	61103	61102	1	Weapon Socket	-0.000000,0.000696,0.000002	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	61103	61102	1	Weapon Socket	-0.000000,-0.000553,0.000000	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	61103	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	1	0
 PROPERTY	JointName	2	Weapon	0
 END_COMPONENT
-ENTITY	61104	61103	1	Muzzle Flash	0.000000,-0.865000,-0.014	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	61104	61103	1	Muzzle Flash	0.000000,-0.865000,-0.014000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 TAGS	61104	1	Weapon
 COMPONENT	61104	ParticleSystemComponent	1
 PROPERTY	ParticleSystemAsset	2	project://Particles/MuzzleFlash.plutoparticles	0
@@ -1399,7 +1399,7 @@ COMPONENT	61112	AnimationComponent	1
 PROPERTY	SourceAnimation	2	project://Weapons/pistol/pistol.plutoanim	0
 PROPERTY	AnimationGraph	2	project://Weapons/pistol/pistol.plutoanimgraph	0
 PROPERTY	CurrentClipIndex	6	10	15	pistol_Idle	pistol_Draw	pistol_Fire	pistol_Reload	pistol_Sprint	pistol_Idle	pistol_Sprint	pistol_Draw	pistol_Fire	pistol_Reload	pistol_Idle	pistol_Sprint	pistol_Draw	pistol_Fire	pistol_Reload
-PROPERTY	Time	0	0.846207	0
+PROPERTY	Time	0	1.120409	0
 PROPERTY	Speed	0	1.000000	0
 PROPERTY	Playing	4	true	0
 PROPERTY	Looping	4	true	0
@@ -1491,12 +1491,12 @@ PROPERTY	OcclusionStrength	0	1.000000	0
 PROPERTY	AirAbsorptionStrength	0	1.000000	0
 PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
-ENTITY	61113	61112	1	Weapon Socket	-0.000000,0.000696,0.000002	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	61113	61112	1	Weapon Socket	-0.000000,-0.000553,0.000000	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	61113	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	1	0
 PROPERTY	JointName	2	Weapon	0
 END_COMPONENT
-ENTITY	61114	61113	1	Muzzle Flash	0.000000,-0.505000,-0.005	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	61114	61113	1	Muzzle Flash	0.000000,-0.505000,-0.005000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 TAGS	61114	1	Weapon
 COMPONENT	61114	ParticleSystemComponent	1
 PROPERTY	ParticleSystemAsset	2	project://Particles/MuzzleFlash.plutoparticles	0
@@ -1520,7 +1520,7 @@ COMPONENT	61122	AnimationComponent	1
 PROPERTY	SourceAnimation	2	project://Weapons/lmg/lmg.plutoanim	0
 PROPERTY	AnimationGraph	2	project://Weapons/lmg/lmg.plutoanimgraph	0
 PROPERTY	CurrentClipIndex	6	10	15	lmg_Idle	lmg_Draw	lmg_Fire	lmg_Reload	lmg_Sprint	lmg_Idle	lmg_Sprint	lmg_Draw	lmg_Fire	lmg_Reload	lmg_Idle	lmg_Sprint	lmg_Draw	lmg_Fire	lmg_Reload
-PROPERTY	Time	0	0.846207	0
+PROPERTY	Time	0	1.120409	0
 PROPERTY	Speed	0	1.000000	0
 PROPERTY	Playing	4	true	0
 PROPERTY	Looping	4	true	0
@@ -1612,12 +1612,12 @@ PROPERTY	OcclusionStrength	0	1.000000	0
 PROPERTY	AirAbsorptionStrength	0	1.000000	0
 PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
-ENTITY	61123	61122	1	Weapon Socket	-0.000000,0.000696,0.000002	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	61123	61122	1	Weapon Socket	-0.000000,-0.000553,0.000000	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	61123	SkeletonAttachmentComponent	1
 PROPERTY	TargetNodeIndex	1	1	0
 PROPERTY	JointName	2	Weapon	0
 END_COMPONENT
-ENTITY	61124	61123	1	Muzzle Flash	0.000000,-0.995000,-0.014	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	61124	61123	1	Muzzle Flash	0.000000,-0.995000,-0.014000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 TAGS	61124	1	Weapon
 COMPONENT	61124	ParticleSystemComponent	1
 PROPERTY	ParticleSystemAsset	2	project://Particles/MuzzleFlash.plutoparticles	0
@@ -1653,6 +1653,7 @@ PROPERTY	AirAbsorptionStrength	0	1.000000	0
 PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
 ENTITY	5	0	1	Sky	0.000000,300.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+TAGS	5	1	Sky
 COMPONENT	5	PhysicalSkyComponent	1
 PROPERTY	Rayleigh Strength	0	1.000000	0
 PROPERTY	Mie Strength	0	0.650000	0
