@@ -109,7 +109,7 @@ public sealed partial class MultiplayerSession
         if (canThink && _time >= bot.NextNavigationAt)
         {
             var desired = BotObjectiveTactics.Destination(botId, _hardpoint.Snapshot(), state.Team,
-                bot.GameObject.WorldPosition, retreating, _time);
+                bot.GameObject.WorldPosition, retreating, _time, bot.ObjectiveApproachAngle);
             if (TryProjectBotNavigationPosition(desired, out var projected)) desired = projected;
             SetBotDestination(bot, desired, _hardpoint.Site.Position);
             bot.NextNavigationAt = _time + MathF.Max(.2f, botNavigationRefreshInterval);

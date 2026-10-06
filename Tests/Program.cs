@@ -160,6 +160,10 @@ foreach (var id in bots)
     Require(rules.Contains(goal), "An attacking bot chose a destination outside capture range.");
 }
 Require(goals.Distinct().Count() == bots.Length, "Bots all occupy the same tactical point.");
+var variedGoal = BotObjectiveTactics.Destination(bots[0], objectiveSnapshot, PlayerTeam.Alpha,
+    new(12, 1, 0), false, 0, MathF.PI / 2);
+Require(rules.Contains(variedGoal) && System.Numerics.Vector3.Distance(goals[0], variedGoal) > .1f,
+    "Per-life approach variation must change the route while preserving capture range.");
 var flankerId = bots.First(id => BotObjectiveTactics.Role(id) == BotRole.Flanker);
 var flank = BotObjectiveTactics.Destination(flankerId, objectiveSnapshot with { Owner = PlayerTeam.Alpha }, PlayerTeam.Alpha, new(12, 1, 0), false, 0);
 Require(!rules.Contains(flank), "Flanker failed to screen an owned zone.");

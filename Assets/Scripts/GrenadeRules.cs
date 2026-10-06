@@ -8,7 +8,7 @@ public sealed record GrenadeDefinition(string Id, float Fuse, float ThrowSpeed, 
 
 public static class GrenadeRules
 {
-    public static readonly GrenadeDefinition Frag = new("frag", 3, 16, 3, 20, .45f, 120, 2, 7);
+    public static readonly GrenadeDefinition Frag = new("frag", 3, 28, 7, 20, .45f, 120, 2, 7);
     public const int GrenadesPerLife = 2;
     public const float ThrowCooldown = .8f;
     public static bool IsFinite(Vector3 value) => float.IsFinite(value.X) && float.IsFinite(value.Y) && float.IsFinite(value.Z);

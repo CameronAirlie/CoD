@@ -5,7 +5,7 @@ player starts with two grenades, restored on respawn or a new round. G retains
 its existing armour-plate binding. Throwing is blocked while dead, using an
 objective, outside live match play, or while the cursor is unlocked.
 
-Frag tuning: three-second fuse, 16 m/s forward velocity plus 3 m/s lift,
+Frag tuning: three-second fuse, 28 m/s forward velocity plus 7 m/s lift,
 20 m/s² gravity, 0.45 bounce restitution and 0.8-second throw cooldown.
 Explosions deal 120 damage within two metres, falling linearly to zero at
 seven metres. A ray to the target's collider aim point tests cover. Team damage

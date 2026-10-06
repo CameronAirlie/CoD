@@ -19,6 +19,16 @@ internal static class GrenadeTests
         Require(supply.Remaining == 2 && supply.TrySpend(0), "Respawn did not restore grenade budget.");
 
         static GrenadeCollision? Empty(Vector3 start, Vector3 end) => null;
+        var levelThrow = new GrenadeProjectile(definition, new(0, 1.6f, 0), Vector3.UnitX);
+        var landingRange = 0f;
+        for (var i = 0; i < 120 && landingRange == 0; i++)
+            levelThrow.Tick(1f / 120, (start, end) =>
+            {
+                if (end.Y > 0) return null;
+                landingRange = end.X;
+                return new GrenadeCollision(end with { Y = 0 }, Vector3.UnitY);
+            });
+        Require(landingRange >= 23 && landingRange <= 27, "Level grenade throw must reach a useful 23–27 metre range before bouncing.");
         static GrenadeProjectile Simulate(int rate)
         {
             var projectile = new GrenadeProjectile(GrenadeRules.Frag, new(0, 10, 0), Vector3.UnitX);

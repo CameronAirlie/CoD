@@ -101,29 +101,29 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     [SerializedField] private float botFallbackSpawnRadius = 80.0f;
     [SerializedField] private int botFallbackSpawnAttempts = 24;
     [SerializedField] private float botFallbackSpawnGroundClearance = 8.0f;
-    [SerializedField] private float botPreferredRange = 13.0f;
+    [SerializedField] private float botPreferredRange = 16.0f;
     [SerializedField] private float botNavigationRefreshInterval = 0.75f;
     [SerializedField] private float botNavigationArrivalDistance = 1.25f;
     [SerializedField] private float botNavigationMoveTimeout = 8.0f;
     [SerializedField] private float botTargetReplanDistance = 6.0f;
-    [SerializedField] private float botTargetSelectionInterval = 0.5f;
-    [SerializedField] private float botPerceptionInterval = 0.15f;
+    [SerializedField] private float botTargetSelectionInterval = 0.3f;
+    [SerializedField] private float botPerceptionInterval = 0.1f;
     [SerializedField] private float botLostSightGrace = 0.5f;
     [SerializedField] private int botThinkBudgetPerFrame = 1;
-    [SerializedField] private float botReactionTime = 0.35f;
+    [SerializedField] private float botReactionTime = 0.22f;
     [SerializedField] private int botBurstSize = 5;
-    [SerializedField] private float botBurstPause = 0.55f;
+    [SerializedField] private float botBurstPause = 0.3f;
     [SerializedField] private float botStuckTimeout = 2.0f;
-    [SerializedField] private float botCombatHoldDuration = 4.0f;
+    [SerializedField] private float botCombatHoldDuration = 2.0f;
     [SerializedField] private float botRepositionDuration = .65f;
     [SerializedField] private float botAttackRange = 22.0f;
-    [SerializedField] private float botRoundsPerMinute = 360.0f;
+    [SerializedField] private float botRoundsPerMinute = 480.0f;
     [SerializedField] private int botMagazineSize = 30;
     [SerializedField] private float botReloadDuration = 2.0f;
     [SerializedField] private float botDamage = 18.0f;
-    [SerializedField] private float botAccuracyDegrees = 3.0f;
+    [SerializedField] private float botAccuracyDegrees = 2.25f;
     [SerializedField] private float botStationaryFireSpeed = 0.2f;
-    [SerializedField] private float botTurnSharpness = 10.0f;
+    [SerializedField] private float botTurnSharpness = 14.0f;
     [SerializedField] private float botFiringAngle = 8.0f;
     [SerializedField] private int botTacticalPositionSamples = 12;
     [SerializedField] private float botCentrePositionWeight = 1.25f;
@@ -907,7 +907,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             };
             _remotePlayers[peerId] = new RemotePlayer(instance, spawn, 0.0f);
             _bots[peerId] = new BotController(
-                instance, spawn, unchecked((uint)peerId * 747796405u), botMagazineSize);
+                instance, spawn, unchecked((uint)Random.Shared.NextInt64(1, 1L << 32)), botMagazineSize);
             instance.TryInvoke("ResetExternalNavigation", spawn.X, spawn.Y, spawn.Z);
             Debug.Log($"Added {_peerNames[peerId]} to {team}.");
             return true;
@@ -1072,9 +1072,10 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             {
                 bot.IsEngaging = true;
                 bot.CombatMovement.BeginHold(_time,
-                    MathF.Max(0.25f, botCombatHoldDuration) + (bot.TacticalAngleOffset / 360.0f) * 0.75f);
+                    MathF.Max(0.25f, botCombatHoldDuration) * (0.7f + NextBotRandom(bot) * 0.6f));
                 bot.NextShotAt = MathF.Max(bot.NextShotAt, _time + MathF.Max(0.0f, botReactionTime));
                 bot.ShotsInBurst = 0;
+                bot.BurstLimit = Math.Max(1, botBurstSize + (int)(NextBotRandom(bot) * 4) - 1);
                 bot.HasNavigationDestination = false;
                 // The NavAgent follows a target entity. Moving that target onto
                 // the agent does not invalidate its old path because it is
@@ -1104,12 +1105,12 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 bot.CombatMovement.BeginReposition(_time, botRepositionDuration);
                 // A short lateral step starts repositioning immediately; the
                 // budgeted search can refine it while the native agent moves.
+                bot.StrafeSign = NextBotRandom(bot) < 0.5f ? -1.0f : 1.0f;
                 var side = new Vector3(-direction.Z, 0.0f, direction.X) * bot.StrafeSign;
-                var desired = ObjectiveCombatPosition(botId, bot, botPosition + side * 2.0f);
+                var desired = ObjectiveCombatPosition(botId, bot, botPosition + side * (2.0f + NextBotRandom(bot) * 3.0f));
                 var destination = TryProjectBotNavigationPosition(desired, out var projected)
                     ? projected : desired;
                 SetBotDestination(bot, destination, targetPosition);
-                bot.StrafeSign = -bot.StrafeSign;
             }
 
             var navigationDistance = bot.HasNavigationDestination
@@ -1137,7 +1138,6 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 bot.TacticalSearchActive = false;
                 bot.NextNavigationAt = 0.0f;
                 bot.LastProgressAt = _time;
-                bot.StrafeSign = -bot.StrafeSign;
             }
             var targetMovedSincePlan = bot.HasNavigationDestination &&
                 HorizontalDistance(targetPosition, bot.TargetPositionAtPlan) >=
@@ -1200,9 +1200,10 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                     bot.MagazineAmmo--;
                     bot.ShotsInBurst++;
                     bot.NextShotAt = _time + 60.0f / MathF.Max(1.0f, botRoundsPerMinute);
-                    if (bot.ShotsInBurst >= Math.Max(1, botBurstSize))
+                    if (bot.ShotsInBurst >= bot.BurstLimit)
                     {
-                        bot.NextShotAt += MathF.Max(0.0f, botBurstPause);
+                        bot.NextShotAt += MathF.Max(0.0f, botBurstPause) * (0.75f + NextBotRandom(bot) * 0.5f);
+                        bot.BurstLimit = Math.Max(1, botBurstSize + (int)(NextBotRandom(bot) * 4) - 1);
                         bot.ShotsInBurst = 0;
                     }
                     if (bot.MagazineAmmo <= 0)
@@ -1314,7 +1315,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     {
         destination = bot.GameObject.WorldPosition;
         var samples = Math.Clamp(botTacticalPositionSamples, 4, 32);
-        var radius = MathF.Max(2.0f, botPreferredRange);
+        var radius = MathF.Max(2.0f, botPreferredRange * bot.RangeMultiplier);
         var targetPosition = target.WorldPosition;
         if (!bot.TacticalSearchActive || bot.TacticalSearchTargetId != targetId ||
             HorizontalDistance(targetPosition, bot.TacticalSearchTargetPosition) >=
@@ -1325,6 +1326,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             bot.TacticalSearchTargetPosition = targetPosition;
             bot.TacticalSearchOrigin = bot.GameObject.WorldPosition;
             bot.TacticalSampleIndex = 0;
+            bot.TacticalAngleOffset = NextBotRandom(bot) * 360.0f;
             bot.TacticalBestScore = float.MaxValue;
             bot.TacticalFound = false;
         }
@@ -1547,12 +1549,17 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         proxy.TryInvoke("ConfigureNetworkNameplate", username, friendly);
     }
 
+    private static float NextBotRandom(BotController bot)
+    {
+        bot.RandomState = unchecked(bot.RandomState * 1664525u + 1013904223u);
+        return (bot.RandomState & 0x00ffffffu) / 16777216.0f;
+    }
+
     private static Vector3 ApplyBotSpread(Vector3 direction, float degrees, BotController bot)
     {
         float Next()
         {
-            bot.RandomState = bot.RandomState * 1664525u + 1013904223u;
-            return (bot.RandomState & 0x00ffffffu) / 16777216.0f;
+            return NextBotRandom(bot);
         }
         var tangent = MathF.Tan(MathF.Max(0.0f, degrees) * MathF.PI / 180.0f);
         var right = Vector3.Cross(direction, Vector3.UnitY);
@@ -1969,7 +1976,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         instance.Active = true;
 
         var replacement = new BotController(
-            instance, respawnPosition, unchecked((uint)peerId * 747796405u), botMagazineSize);
+            instance, respawnPosition, unchecked((uint)Random.Shared.NextInt64(1, 1L << 32)), botMagazineSize);
         _bots[peerId] = replacement;
         _remotePlayers[peerId] = new RemotePlayer(instance, respawnPosition, 0.0f);
         instance.TryInvoke(
@@ -2003,6 +2010,9 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         public int MagazineAmmo { get; set; } = Math.Max(1, magazineSize);
         public BotCombatMovement CombatMovement { get; } = new();
         public int ShotsInBurst { get; set; }
+        public int BurstLimit { get; set; } = 5;
+        public float RangeMultiplier { get; } = 0.8f + ((seed >> 8) & 255u) / 255.0f * 0.4f;
+        public float ObjectiveApproachAngle { get; } = seed % 360u * MathF.PI / 180.0f;
         public Vector3 ProgressPosition { get; set; } = spawnPosition;
         public float LastProgressAt { get; set; }
         public float ReloadCompleteAt { get; set; }
@@ -2020,7 +2030,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         public bool IsEngaging { get; set; }
         public Vector3 CombatHoldPosition { get; set; } = spawnPosition;
         public float TurnDirection { get; set; } = 1.0f;
-        public float TacticalAngleOffset { get; } = seed % 360u;
+        public float TacticalAngleOffset { get; set; } = seed % 360u;
         public float StrafeSign { get; set; } = (seed & 1u) == 0 ? -1.0f : 1.0f;
         public uint RandomState { get; set; } = seed;
         public bool TacticalSearchActive { get; set; }
