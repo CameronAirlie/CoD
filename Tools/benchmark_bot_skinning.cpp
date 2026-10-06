@@ -24,7 +24,7 @@ int main(int argc, char **argv) try
     const auto palette = animation.GetJointMatrices(full->GetSkeleton(), full->GetAnimationNodes());
     RhiSkinningExecutor executor(4);
     double checksum = 0;
-    const auto benchmark = [&](const Mesh &mesh, bool legacy)
+    const auto benchmark = [&](const Mesh &mesh, bool legacy, bool copyStream = true)
     {
         std::array<std::vector<BasicVertex>, 9> vertices, staging;
         std::array<RhiSkinningJob, 9> jobs;
@@ -43,10 +43,10 @@ int main(int argc, char **argv) try
                 executor.DeformBatch(jobs);
                 for (std::size_t i = 0; i < jobs.size(); ++i)
                 {
-                    staging[i].assign(vertices[i].begin(), vertices[i].end());
+                    if (copyStream) staging[i].assign(vertices[i].begin(), vertices[i].end());
                     if (legacy) clusters[i] = BuildShadowGeometryClusters<BasicVertex>(vertices[i], mesh.GetMeshData().indices);
                     else bounds.Refit(palette, clusters[i]);
-                    checksum += staging[i][frame].position[0] + clusters[i][0].center.x;
+                    checksum += vertices[i][frame].position[0] + clusters[i][0].center.x;
                 }
             }
             if (frame >= 3) elapsed += std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - start).count();
@@ -56,8 +56,10 @@ int main(int argc, char **argv) try
     const auto before = benchmark(*full, true);
     const auto rendererOnly = benchmark(*full, false);
     const auto after = benchmark(*game, false);
+    const auto sharedStream = benchmark(*game, false, false);
     std::cout << "9 bots / 3 views CPU preparation: " << before << " ms baseline -> "
-              << rendererOnly << " ms renderer fix -> " << after << " ms with game mesh\n"
+              << rendererOnly << " ms renderer fix -> " << after << " ms with game mesh -> "
+              << sharedStream << " ms with shared vertex stream\n"
               << "Vertices per bot: " << full->GetVertexCount() << " -> " << game->GetVertexCount()
               << "; checksum=" << checksum << '\n';
     return 0;

@@ -79,3 +79,50 @@ IK regression checks pass; all 16 gameplay test groups pass. Native asset checks
 verify the lighter mesh and all eight clips. A fresh in-game profiling capture
 is still needed to measure whole-frame improvement; the previously documented
 Vulkan shutdown timeout has not been resolved by this work.
+
+Second performance pass (2026-10-06), based on frame 9267: 31.70 ms total,
+26.86 ms viewport, two 4.15/4.32 ms deformation scopes and two 3.35/3.53 ms
+RHI.BeginFrame scopes. The lighter mesh was already active. The next targets
+were duplicate render-texture/main-view deformation and large Vulkan uploads.
+
+Render-texture cameras now share skinning within their pass, then provide a
+single-use source to the immediately following main view and camera overlays.
+Camera history remains per view; material/packet aging uses a separate monotonic
+view counter. Empty texture passes expire old sources, and removing cameras or
+changing their order detaches caches safely. RenderTextures must run each scene
+frame before its on-screen view, including an empty pass when no cameras exist.
+Poses remain immutable between these submissions.
+
+Vulkan uploads above 64 KiB now copy through persistent mapped staging blocks
+instead of embedding the full vertex payload in vkCmdUpdateBuffer commands.
+Blocks are append-only within each submission and recycled only after its
+in-flight fence completes. Noncoherent ranges flush before submission; transfer
+barriers remain around destination updates. Small updates retain the inline path.
+A new command-pool-reset trace distinguishes reset overhead from the vertex
+uploads also included in the existing RHI.BeginFrame scope.
+
+The staging arena retains peak demand per in-flight slot (16 MiB blocks, larger
+for individual oversized uploads). This trades reusable host-visible memory for
+less command-stream copying and driver allocation work. No additional asset
+simplification or animation/IK quality reduction was applied in this pass.
+
+The completed skeletal vertex stream is also retained by shared ownership until
+its upload is recorded, removing the full per-pose CPU staging-array copy. The
+ordinary span-based dynamic-mesh API still copies its input. Shared streams must
+remain immutable until Render records the upload; renderer-owned skinning obeys
+this contract, and camera reuse does not queue another upload.
+
+The updated nine-bot/three-view CPU preparation microbenchmark measured 8.02 ms
+with the game mesh and staging-array copies versus 4.82 ms with shared vertex
+streams in the same run (about 40% lower). It excludes GPU uploads and full scene
+rendering. Removing the additional render-texture/main-camera pass is a separate
+saving confirmed by zero main-view deformation and upload counts in regression
+checks. Whole-game FPS still requires a fresh profiling capture after restart.
+
+Final second-pass validation: editor/runtime builds pass. All eight targeted
+checks pass: Vulkan/OpenGL skinning, Vulkan preparation cache, Vulkan/OpenGL
+camera stack, Vulkan render textures, VSM membership and large-buffer uploads.
+The skinning checks include independent actors, animated motion/history,
+material edits on a reused skinning frame, texture-camera reordering and removal.
+The upload check verifies CPU-source lifetime, partial destination offsets,
+staging-block rollover and more submissions than in-flight slots.
