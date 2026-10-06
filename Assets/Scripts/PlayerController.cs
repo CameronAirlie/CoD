@@ -92,7 +92,22 @@ public sealed class PlayerController : ScriptBehaviour
         _reserveAmmo = _inventory?.ReserveAmmo ?? _reserveAmmo;
         UpdateHud(); PublishStateChanges();
     }
-    public override void OnDestroy() { if (_inventory is not null) _inventory.Changed -= OnInventoryChanged; }
+    public override void OnDestroy()
+    {
+        if (_inventory is not null) _inventory.Changed -= OnInventoryChanged;
+        _hands.Dispose();
+    }
+    private readonly FirstPersonHands _hands = new();
+    public string? EquippedHandWeaponId => _hands.Equipped?.WeaponId;
+
+    /// <summary>Switches presentation only. A future weapon inventory must also select gameplay stats/ammo.</summary>
+    public void EquipHands(WeaponHandBinding binding)
+    {
+        ArgumentNullException.ThrowIfNull(binding);
+        if (_hands.Equipped == binding) return;
+        CancelReload();
+        _hands.Equip(binding);
+    }
     // Scene references
     [SerializedField] private CameraComponent? camera = null;
     [SerializedField] private GameObject? weaponModel = null;
@@ -255,7 +270,10 @@ public sealed class PlayerController : ScriptBehaviour
             _weaponRestRotation = weaponModel.Rotation;
             _weaponPosition = hipPosition;
             weaponModel.Position = _weaponPosition;
+            var binding = weaponModel.GetComponent<WeaponHandBinding>();
+            if (binding is not null) _hands.Equip(binding);
         }
+        _hands.AnimationEventRaised += HandleHandAnimationEvent;
 
         UpdateHud();
         _publishedAmmoState = CurrentAmmoState();
@@ -264,7 +282,7 @@ public sealed class PlayerController : ScriptBehaviour
 
     public override void OnUpdate(float deltaTime)
     {
-        if (deltaTime <= 0.0f)
+        if (!float.IsFinite(deltaTime) || deltaTime <= 0.0f)
         {
             return;
         }
@@ -293,6 +311,8 @@ public sealed class PlayerController : ScriptBehaviour
             _horizontalVelocity = Vector3.Zero;
             _sprinting = false;
             _aiming = false;
+            _hands.Tick(deltaTime, Vector2.Zero, false, false, false, 0);
+            PublishStateChanges();
             return;
         }
 
@@ -328,6 +348,7 @@ public sealed class PlayerController : ScriptBehaviour
         _aiming = false;
         _crouching = false;
         CancelReload();
+        _hands.SetVisible(false);
         if (camera is not null)
         {
             _deathCameraStartPosition = camera.GameObject.Position;
@@ -339,6 +360,7 @@ public sealed class PlayerController : ScriptBehaviour
     public void ExitDeathState()
     {
         _dead = false;
+        _hands.SetVisible(true);
         _deathCameraTime = 0.0f;
         _horizontalVelocity = Vector3.Zero;
         _verticalVelocity = 0.0f;
@@ -500,6 +522,12 @@ public sealed class PlayerController : ScriptBehaviour
             TryFire();
         }
 
+        if (_hands.Equipped is not null)
+        {
+            _hands.Tick(deltaTime, _mouseDelta, _grounded && _horizontalVelocity.LengthSquared() > .5f,
+                _aiming, _sprinting, _horizontalVelocity.Length());
+            return;
+        }
         if (weaponModel is null)
         {
             return;
@@ -558,7 +586,8 @@ public sealed class PlayerController : ScriptBehaviour
         _shotCooldown = 60.0f / MathF.Max(1.0f, roundsPerMinute);
         shotAudio?.PlayOneShot(1.0f, 0.97f + NextFloat() * 0.06f);
         muzzleFlash?.Emit(1);
-        weaponAnimator?.SetTrigger("Fire");
+        if (_hands.Equipped is not null) _hands.Fire();
+        else weaponAnimator?.SetTrigger("Fire");
         var direction = ApplySpread(camera?.GameObject.Forward ?? GameObject.Forward, _spreadDegrees);
         var origin = camera?.GameObject.WorldPosition ?? GameObject.WorldPosition;
         WeaponFired?.Invoke(new FpsWeaponShot(origin, direction));
@@ -609,13 +638,21 @@ public sealed class PlayerController : ScriptBehaviour
         _reloadTimeRemaining = MathF.Max(.1f, reloadDuration);
         _reloadAnimationActive = true;
         reloadAudio?.PlayOneShot();
-        weaponAnimator?.SetBool("Reload", true);
+        if (_hands.Equipped is not null) _hands.SetReload(true);
+        else weaponAnimator?.SetBool("Reload", true);
         UpdateHud();
     }
 
     public override void OnAnimationEvent(AnimationEvent animationEvent)
     {
-        if (!_reloading || !string.Equals(animationEvent.Name, "ReloadFinish", StringComparison.Ordinal))
+        // Bound rigs relay events from their own entity; ignore unrelated player/old rig events.
+        if (_hands.Equipped is null) HandleHandAnimationEvent(animationEvent);
+    }
+
+    private void HandleHandAnimationEvent(AnimationEvent animationEvent)
+    {
+        if (!_reloading || !string.Equals(animationEvent.Name,
+                _hands.Equipped?.ReloadCommitEvent ?? "ReloadFinish", StringComparison.Ordinal))
         {
             return;
         }
@@ -647,7 +684,8 @@ public sealed class PlayerController : ScriptBehaviour
         _reloadAnimationActive = false;
         // Reload is a Boolean animation layer so clearing it uses the graph's
         // configured blend-out instead of snapping the animator back to idle.
-        weaponAnimator?.SetBool("Reload", false);
+        if (_hands.Equipped is not null) _hands.SetReload(false);
+        else weaponAnimator?.SetBool("Reload", false);
         UpdateHud();
     }
 
