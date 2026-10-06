@@ -19,7 +19,7 @@ public readonly record struct FpsHitEvent(
     float Damage,
     bool IsHeadshot, bool IsKill = false, bool HitArmour = false);
 
-public readonly record struct FpsWeaponShot(Vector3 Origin, Vector3 Direction);
+public readonly record struct FpsWeaponShot(Vector3 Origin, Vector3 Direction, string WeaponId = "val");
 
 /// <summary>
 /// A responsive, self-contained first-person controller and hitscan weapon.
@@ -35,6 +35,12 @@ public sealed class PlayerController : ScriptBehaviour
 
     /// <summary>Raised after a round is successfully fired.</summary>
     public event Action<FpsWeaponShot>? WeaponFired;
+    public FpsWeaponShot GrenadeAim => new(camera?.GameObject.WorldPosition ?? GameObject.WorldPosition,
+        camera?.GameObject.Forward ?? GameObject.Forward);
+    public event Action? WeaponChanged;
+    public WeaponDefinition? EquippedWeapon => _weapons?.Equipped;
+    public bool HasWeaponLoadout => assaultRifleRig is not null && pistolRig is not null && machineGunRig is not null;
+    public int EquippedWeaponSlot => _weapons?.SelectedSlot ?? 0;
 
     /// <summary>Raised when a fired round damages a target.</summary>
     public event Action<FpsHitEvent>? HitConfirmed;
@@ -83,8 +89,13 @@ public sealed class PlayerController : ScriptBehaviour
     public void ResetWeaponForRound()
     {
         CancelReload(); _inventory?.CancelUse();
+        _shotCooldown = _weaponDrawRemaining = _damageCameraImpulse = 0;
+        if (_weapons is not null)
+        {
+            _weapons.Reset(_multiplayer?.SelectedLoadout ?? CombatLoadout.Assault);
+            ApplyEquippedWeapon();
+        }
         _ammo = Math.Max(1, magazineSize); _reserveAmmo = _inventory?.ReserveAmmo ?? Math.Max(0, startingReserveAmmo);
-        _shotCooldown = _damageCameraImpulse = 0;
         UpdateHud(); PublishStateChanges();
     }
     private void OnInventoryChanged()
@@ -98,10 +109,72 @@ public sealed class PlayerController : ScriptBehaviour
         _hands.Dispose();
     }
     private readonly FirstPersonHands _hands = new();
+    private WeaponLoadout? _weapons;
+    private readonly WeaponHandBinding?[] _weaponBindings = new WeaponHandBinding?[WeaponCatalog.SlotCount];
+
+    /// <summary>Bindings register after their native script instances exist, independent of scene startup order.</summary>
+    public void RegisterWeaponBinding(WeaponHandBinding binding)
+    {
+        GameObject?[] roots = [assaultRifleRig, pistolRig, machineGunRig];
+        for (var slot = 0; slot < roots.Length; slot++)
+        {
+            if (roots[slot]?.EntityId != binding.EntityId || WeaponCatalog.At(slot).Id != binding.WeaponId) continue;
+            _weaponBindings[slot] = binding;
+            if (_hands.Equipped != binding) binding.Root.Active = false;
+            if (_weapons is null && Array.TrueForAll(_weaponBindings, value => value is not null))
+            {
+                // Legacy scenes keep their original rig for compatibility; it must
+                // be hidden even if its script had not started during player OnCreate.
+                if (weaponModel is not null) weaponModel.Active = false;
+                _weapons = new WeaponLoadout();
+                ApplyEquippedWeapon();
+                UpdateHud(); PublishStateChanges();
+            }
+            return;
+        }
+    }
+
+    public bool SelectWeaponSlot(int slot)
+    {
+        if (_weapons is null || _dead || _inventory?.IsUsing == true || _multiplayer?.IsUsingObjective == true ||
+            slot < 0 || slot >= _weaponBindings.Length || _weaponBindings[slot] is null || slot == _weapons.SelectedSlot)
+            return false;
+        CancelReload();
+        _weapons.Select(slot);
+        ApplyEquippedWeapon();
+        _shotCooldown = MathF.Max(_shotCooldown, _weapons.Equipped.DrawSeconds);
+        _weaponDrawRemaining = _weapons.Equipped.DrawSeconds;
+        _aiming = false;
+        UpdateHud(); PublishStateChanges();
+        return true;
+    }
+
+    private void ApplyEquippedWeapon()
+    {
+        if (_weapons is null) return;
+        var weapon = _weapons.Equipped;
+        magazineSize = weapon.MagazineSize; automaticFire = weapon.Automatic;
+        roundsPerMinute = weapon.RoundsPerMinute; damage = weapon.Damage; range = weapon.Range;
+        reloadDuration = weapon.ReloadSeconds; hipSpreadDegrees = weapon.HipSpread; adsSpreadDegrees = weapon.AimSpread;
+        recoilPitch = weapon.RecoilPitch; recoilYaw = weapon.RecoilYaw;
+        _spreadDegrees = hipSpreadDegrees;
+        _recoilPitchOffset = _recoilYawOffset = 0;
+        if (_weaponBindings[_weapons.SelectedSlot] is { } binding)
+        {
+            var changedRig = _hands.Equipped != binding;
+            EquipHands(binding);
+            if (changedRig)
+            {
+                _weaponDrawRemaining = weapon.DrawSeconds;
+                _shotCooldown = MathF.Max(_shotCooldown, weapon.DrawSeconds);
+            }
+        }
+        WeaponChanged?.Invoke();
+    }
     public string? EquippedHandWeaponId => _hands.Equipped?.WeaponId;
 
-    /// <summary>Switches presentation only. A future weapon inventory must also select gameplay stats/ammo.</summary>
-    public void EquipHands(WeaponHandBinding binding)
+    /// <summary>Internal presentation step; selection goes through SelectWeaponSlot to keep gameplay synchronized.</summary>
+    private void EquipHands(WeaponHandBinding binding)
     {
         ArgumentNullException.ThrowIfNull(binding);
         if (_hands.Equipped == binding) return;
@@ -111,6 +184,9 @@ public sealed class PlayerController : ScriptBehaviour
     // Scene references
     [SerializedField] private CameraComponent? camera = null;
     [SerializedField] private GameObject? weaponModel = null;
+    [SerializedField] private GameObject? assaultRifleRig = null;
+    [SerializedField] private GameObject? pistolRig = null;
+    [SerializedField] private GameObject? machineGunRig = null;
     [SerializedField] private AnimationComponent? weaponAnimator = null;
     [SerializedField] private ParticleSystemComponent? muzzleFlash = null;
     [SerializedField] private SoundEmitterComponent? shotAudio = null;
@@ -209,10 +285,16 @@ public sealed class PlayerController : ScriptBehaviour
     private float _cameraHeight;
     private float _slideTime;
     private float _shotCooldown;
+    private float _weaponDrawRemaining;
     private float _bobTime;
     private float _recoilPitchOffset;
     private float _recoilYawOffset;
-    private int _ammo;
+    private int _legacyAmmo;
+    private int _ammo
+    {
+        get => _weapons?.Magazine ?? _legacyAmmo;
+        set { if (_weapons is not null) _weapons.Magazine = value; else _legacyAmmo = value; }
+    }
     private int _reserveAmmo;
     private PlayerInventory? _inventory;
     private MultiplayerSession? _multiplayer;
@@ -274,6 +356,11 @@ public sealed class PlayerController : ScriptBehaviour
             if (binding is not null) _hands.Equip(binding);
         }
         _hands.AnimationEventRaised += HandleHandAnimationEvent;
+        GameObject?[] rigs = [assaultRifleRig, pistolRig, machineGunRig];
+        for (var slot = 0; slot < rigs.Length; slot++)
+        {
+            if (rigs[slot]?.GetComponent<WeaponHandBinding>() is { } binding) RegisterWeaponBinding(binding);
+        }
 
         UpdateHud();
         _publishedAmmoState = CurrentAmmoState();
@@ -322,6 +409,7 @@ public sealed class PlayerController : ScriptBehaviour
         // }
 
         _shotCooldown = MathF.Max(0.0f, _shotCooldown - deltaTime);
+        _weaponDrawRemaining = MathF.Max(0, _weaponDrawRemaining - deltaTime);
         _mouseDelta = Input.MouseDelta;
         UpdateLook(deltaTime);
         if (_multiplayer?.IsPreparingRound == true || _multiplayer?.IsUsingObjective == true)
@@ -428,16 +516,18 @@ public sealed class PlayerController : ScriptBehaviour
         if (moveDirection.LengthSquared() > 1.0f) moveDirection = Vector3.Normalize(moveDirection);
 
         _aiming = Input.IsMouseButtonDown(MouseButton.Right) && !_reloading;
-        var wantsCrouch = Input.IsKeyDown(KeyCode.LeftControl) || _sliding;
+        var crouchHeld = Input.IsKeyDown(KeyCode.C);
+        var crouchPressed = Input.IsKeyPressed(KeyCode.C);
+        var wasSprinting = _sprinting;
         var wantsSprint = _grounded && Input.IsKeyDown(KeyCode.LeftShift) &&
-                          input.Y > 0.1f && !_aiming && !_crouching;
+                          input.Y > 0.1f && !_aiming && !crouchHeld && !_sliding;
         if (wantsSprint && _reloadAnimationActive)
             CancelReload();
-        var canSprint = input.Y > 0.1f && !_aiming && !_reloading && !_crouching;
+        var canSprint = input.Y > 0.1f && !_aiming && !_reloading && !crouchHeld && !_sliding;
         _sprinting = _grounded && Input.IsKeyDown(KeyCode.LeftShift) && canSprint;
 
-        if (_grounded && Input.IsKeyPressed(KeyCode.LeftControl) &&
-            _sprinting && _horizontalVelocity.Length() >= slideEntrySpeed)
+        if (_grounded && crouchPressed && wasSprinting && !_sliding &&
+            _horizontalVelocity.Length() >= slideEntrySpeed)
         {
             _sliding = true;
             _slideTime = slideDuration;
@@ -448,6 +538,8 @@ public sealed class PlayerController : ScriptBehaviour
 
         if (_sliding)
         {
+            _sprinting = false;
+            _aiming = false;
             _slideTime -= deltaTime;
             _slideVelocity = MoveTowards(_slideVelocity, Vector3.Zero, slideFriction * deltaTime);
             _horizontalVelocity = _slideVelocity;
@@ -458,7 +550,7 @@ public sealed class PlayerController : ScriptBehaviour
         }
         else
         {
-            _crouching = wantsCrouch;
+            _crouching = crouchHeld;
             var speed = _crouching ? crouchSpeed : (_sprinting ? sprintSpeed : walkSpeed);
             if (_aiming) speed *= adsSpeedMultiplier;
             var targetVelocity = moveDirection * speed;
@@ -468,7 +560,7 @@ public sealed class PlayerController : ScriptBehaviour
             _horizontalVelocity = MoveTowards(_horizontalVelocity, targetVelocity, acceleration * deltaTime);
         }
 
-        _crouching = wantsCrouch;
+        _crouching = crouchHeld || _sliding;
         if (_grounded && Input.IsKeyPressed(KeyCode.Space) && !_sliding)
         {
             _verticalVelocity = MathF.Sqrt(jumpHeight * -2.0f * gravity);
@@ -508,6 +600,13 @@ public sealed class PlayerController : ScriptBehaviour
 
     private void UpdateWeapon(float deltaTime)
     {
+        if (_weapons is not null && _multiplayer?.CurrentMatch?.Phase is not (MatchPhase.Warmup or MatchPhase.Results))
+        {
+            if (Input.IsKeyPressed(KeyCode.D1)) SelectWeaponSlot(0);
+            else if (Input.IsKeyPressed(KeyCode.D2)) SelectWeaponSlot(1);
+            else if (Input.IsKeyPressed(KeyCode.D3)) SelectWeaponSlot(2);
+            else if (Input.IsKeyPressed(KeyCode.Q)) SelectWeaponSlot(_weapons.NextSlot);
+        }
         UpdateSpread(deltaTime);
         if (Input.IsKeyPressed(KeyCode.R))
         {
@@ -584,13 +683,14 @@ public sealed class PlayerController : ScriptBehaviour
 
         _ammo--;
         _shotCooldown = 60.0f / MathF.Max(1.0f, roundsPerMinute);
-        shotAudio?.PlayOneShot(1.0f, 0.97f + NextFloat() * 0.06f);
-        muzzleFlash?.Emit(1);
+        var shotPitch = (_weapons?.Equipped.ShotPitch ?? 1) * (0.97f + NextFloat() * 0.06f);
+        if (_weapons is not null) _hands.Equipped?.PlayShot(shotPitch);
+        else { shotAudio?.PlayOneShot(1, shotPitch); muzzleFlash?.Emit(1); }
         if (_hands.Equipped is not null) _hands.Fire();
         else weaponAnimator?.SetTrigger("Fire");
         var direction = ApplySpread(camera?.GameObject.Forward ?? GameObject.Forward, _spreadDegrees);
         var origin = camera?.GameObject.WorldPosition ?? GameObject.WorldPosition;
-        WeaponFired?.Invoke(new FpsWeaponShot(origin, direction));
+        WeaponFired?.Invoke(new FpsWeaponShot(origin, direction, _weapons?.Equipped.Id ?? "val"));
         if (Physics.Raycast(origin, direction, range, GameObject, out var hit))
         {
             var hitFriendly = _multiplayer?.IsFriendlyNetworkParticipant(hit.Entity) == true;
@@ -630,7 +730,7 @@ public sealed class PlayerController : ScriptBehaviour
 
     private void BeginReload()
     {
-        if (_reloading || _ammo >= magazineSize || _reserveAmmo <= 0 || _sliding || _sprinting)
+        if (_reloading || _weaponDrawRemaining > 0 || _ammo >= magazineSize || _reserveAmmo <= 0 || _sliding || _sprinting)
         {
             return;
         }

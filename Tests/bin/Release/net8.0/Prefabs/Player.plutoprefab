@@ -21,6 +21,9 @@ PROPERTY	armourUseTime	0	0.500000	0
 END_COMPONENT
 COMPONENT	1	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.PlayerController	0
+PROPERTY	assaultRifleRig	9	50100	0
+PROPERTY	pistolRig	9	50110	0
+PROPERTY	machineGunRig	9	50120	0
 PROPERTY	camera	9	2	0
 PROPERTY	weaponModel	9	25	0
 PROPERTY	weaponAnimator	9	25	0
@@ -199,6 +202,7 @@ PROPERTY	NearPlane	0	0.100000	0
 PROPERTY	FarPlane	0	500.000000	0
 PROPERTY	MainCamera	4	true	0
 PROPERTY	PostProcessPresetAsset	2	project://PostProcessing/main.plutopostprocess	0
+PROPERTY	IgnoredTags	2	Weapon	0
 END_COMPONENT
 COMPONENT	2	SoundListenerComponent	1
 PROPERTY	Primary	4	true	0
@@ -1191,3 +1195,166 @@ COMPONENT	1	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.GameModeHud	0
 PROPERTY	player	9	1	0
 END_COMPONENT
+COMMENT	GENERATED_WEAPON_LOADOUT_BEGIN
+ENTITY	50100	2	1	AR-24 Assault Rifle	0.18,-0.15,-0.16	0,0,0	1,1,1
+TAGS	50100	1	Weapon
+COMPONENT	50100	ScriptComponent	1
+PROPERTY	Source	2	CoD.Scripts.WeaponHandBinding	0
+PROPERTY	weaponId	2	ar	0
+PROPERTY	owner	9	1	0
+PROPERTY	animator	9	50100	0
+PROPERTY	muzzleFlash	9	50102	0
+PROPERTY	shotAudio	9	50100	0
+PROPERTY	hipPosition	3	0.18,-0.15,-0.16	0
+PROPERTY	aimPosition	3	0,-0.105,-0.10	0
+PROPERTY	sprintPosition	3	0.22,-0.25,-0.08	0
+PROPERTY	drawTrigger	2	Draw	0
+PROPERTY	sprintParameter	2	Sprint	0
+END_COMPONENT
+COMPONENT	50100	MeshComponent	1
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	MeshAssetReference	2	project://Weapons/ar/ar.plutomesh	0
+PROPERTY	UseGeneratedLods	4	false	0
+END_COMPONENT
+COMPONENT	50100	AnimationComponent	1
+PROPERTY	SourceAnimation	2	project://Weapons/ar/ar.plutoanim	0
+PROPERTY	AnimationGraph	2	project://Weapons/ar/ar.plutoanimgraph	0
+PROPERTY	CurrentClipIndex	1	0	0
+PROPERTY	Time	0	0	0
+PROPERTY	Speed	0	1	0
+PROPERTY	Playing	4	true	0
+PROPERTY	Looping	4	true	0
+PROPERTY	Autoplay	4	true	0
+END_COMPONENT
+COMPONENT	50100	SoundEmitterComponent	1
+PROPERTY	Clip	2	project://Sounds/gun_shot.wav	0
+PROPERTY	PlayOnAwake	4	false	0
+PROPERTY	Looping	4	false	0
+PROPERTY	Spatialized	4	false	0
+PROPERTY	Volume	0	0.8	0
+PROPERTY	Pitch	0	1	0
+END_COMPONENT
+ENTITY	50101	50100	1	Weapon Socket	0,0,0	0,0,0	1,1,1
+COMPONENT	50101	SkeletonAttachmentComponent	1
+PROPERTY	TargetNodeIndex	1	1	0
+PROPERTY	JointName	2	Weapon	0
+END_COMPONENT
+ENTITY	50102	50101	1	Muzzle Flash	0,0.014,-0.865	0,0,0	1,1,1
+TAGS	50102	1	Weapon
+COMPONENT	50102	ParticleSystemComponent	1
+PROPERTY	ParticleSystemAsset	2	project://Particles/MuzzleFlash.plutoparticles	0
+END_COMPONENT
+ENTITY	50110	2	1	P-12 Pistol	0.18,-0.15,-0.16	0,0,0	1,1,1
+TAGS	50110	1	Weapon
+COMPONENT	50110	ScriptComponent	1
+PROPERTY	Source	2	CoD.Scripts.WeaponHandBinding	0
+PROPERTY	weaponId	2	pistol	0
+PROPERTY	owner	9	1	0
+PROPERTY	animator	9	50110	0
+PROPERTY	muzzleFlash	9	50112	0
+PROPERTY	shotAudio	9	50110	0
+PROPERTY	hipPosition	3	0.18,-0.15,-0.16	0
+PROPERTY	aimPosition	3	0,-0.074,-0.10	0
+PROPERTY	sprintPosition	3	0.22,-0.25,-0.08	0
+PROPERTY	drawTrigger	2	Draw	0
+PROPERTY	sprintParameter	2	Sprint	0
+END_COMPONENT
+COMPONENT	50110	MeshComponent	1
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	MeshAssetReference	2	project://Weapons/pistol/pistol.plutomesh	0
+PROPERTY	UseGeneratedLods	4	false	0
+END_COMPONENT
+COMPONENT	50110	AnimationComponent	1
+PROPERTY	SourceAnimation	2	project://Weapons/pistol/pistol.plutoanim	0
+PROPERTY	AnimationGraph	2	project://Weapons/pistol/pistol.plutoanimgraph	0
+PROPERTY	CurrentClipIndex	1	0	0
+PROPERTY	Time	0	0	0
+PROPERTY	Speed	0	1	0
+PROPERTY	Playing	4	true	0
+PROPERTY	Looping	4	true	0
+PROPERTY	Autoplay	4	true	0
+END_COMPONENT
+COMPONENT	50110	SoundEmitterComponent	1
+PROPERTY	Clip	2	project://Sounds/gun_shot.wav	0
+PROPERTY	PlayOnAwake	4	false	0
+PROPERTY	Looping	4	false	0
+PROPERTY	Spatialized	4	false	0
+PROPERTY	Volume	0	0.8	0
+PROPERTY	Pitch	0	1	0
+END_COMPONENT
+ENTITY	50111	50110	1	Weapon Socket	0,0,0	0,0,0	1,1,1
+COMPONENT	50111	SkeletonAttachmentComponent	1
+PROPERTY	TargetNodeIndex	1	1	0
+PROPERTY	JointName	2	Weapon	0
+END_COMPONENT
+ENTITY	50112	50111	1	Muzzle Flash	0,0.005,-0.505	0,0,0	1,1,1
+TAGS	50112	1	Weapon
+COMPONENT	50112	ParticleSystemComponent	1
+PROPERTY	ParticleSystemAsset	2	project://Particles/MuzzleFlash.plutoparticles	0
+END_COMPONENT
+ENTITY	50120	2	1	MG-60 Machine Gun	0.18,-0.15,-0.16	0,0,0	1,1,1
+TAGS	50120	1	Weapon
+COMPONENT	50120	ScriptComponent	1
+PROPERTY	Source	2	CoD.Scripts.WeaponHandBinding	0
+PROPERTY	weaponId	2	lmg	0
+PROPERTY	owner	9	1	0
+PROPERTY	animator	9	50120	0
+PROPERTY	muzzleFlash	9	50122	0
+PROPERTY	shotAudio	9	50120	0
+PROPERTY	hipPosition	3	0.18,-0.15,-0.16	0
+PROPERTY	aimPosition	3	0,-0.105,-0.10	0
+PROPERTY	sprintPosition	3	0.22,-0.25,-0.08	0
+PROPERTY	drawTrigger	2	Draw	0
+PROPERTY	sprintParameter	2	Sprint	0
+END_COMPONENT
+COMPONENT	50120	MeshComponent	1
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	MeshAssetReference	2	project://Weapons/lmg/lmg.plutomesh	0
+PROPERTY	UseGeneratedLods	4	false	0
+END_COMPONENT
+COMPONENT	50120	AnimationComponent	1
+PROPERTY	SourceAnimation	2	project://Weapons/lmg/lmg.plutoanim	0
+PROPERTY	AnimationGraph	2	project://Weapons/lmg/lmg.plutoanimgraph	0
+PROPERTY	CurrentClipIndex	1	0	0
+PROPERTY	Time	0	0	0
+PROPERTY	Speed	0	1	0
+PROPERTY	Playing	4	true	0
+PROPERTY	Looping	4	true	0
+PROPERTY	Autoplay	4	true	0
+END_COMPONENT
+COMPONENT	50120	SoundEmitterComponent	1
+PROPERTY	Clip	2	project://Sounds/gun_shot.wav	0
+PROPERTY	PlayOnAwake	4	false	0
+PROPERTY	Looping	4	false	0
+PROPERTY	Spatialized	4	false	0
+PROPERTY	Volume	0	0.8	0
+PROPERTY	Pitch	0	1	0
+END_COMPONENT
+ENTITY	50121	50120	1	Weapon Socket	0,0,0	0,0,0	1,1,1
+COMPONENT	50121	SkeletonAttachmentComponent	1
+PROPERTY	TargetNodeIndex	1	1	0
+PROPERTY	JointName	2	Weapon	0
+END_COMPONENT
+ENTITY	50122	50121	1	Muzzle Flash	0,0.014,-0.995	0,0,0	1,1,1
+TAGS	50122	1	Weapon
+COMPONENT	50122	ParticleSystemComponent	1
+PROPERTY	ParticleSystemAsset	2	project://Particles/MuzzleFlash.plutoparticles	0
+END_COMPONENT
+ENTITY	50140	2	1	WeaponOverlayCamera	0,0,0	0,0,0	1,1,1
+COMPONENT	50140	CameraComponent	1
+PROPERTY	FOV	0	65	0
+PROPERTY	NearPlane	0	0.03	0
+PROPERTY	FarPlane	0	100	0
+PROPERTY	MainCamera	4	false	0
+PROPERTY	RenderType	6	1	2	Base	Overlay	0
+PROPERTY	OverlayOrder	1	1	0
+PROPERTY	RenderTags	2	Weapon	0
+PROPERTY	TransparentBackground	4	true	0
+END_COMPONENT
+COMMENT	GENERATED_WEAPON_LOADOUT_END

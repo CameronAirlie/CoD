@@ -34,9 +34,9 @@ internal static class HandSystemTests
         Check(Vector3.Distance(once.Position, many.Position) < .00001f, "Stationary pose smoothing depends on frame rate.");
         foreach (var file in new[] { "Scenes/Main.plutoscene", "Scenes/Foundry.plutoscene", "Prefabs/Player.plutoprefab" })
         {
-            var text = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, file));
+            var text = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, file)).Replace("\r\n", "\n");
             var weapon = file.StartsWith("Prefabs") ? "25" : "22272";
-            Check(text.Contains($"COMPONENT\t{weapon}\tScriptComponent\t1\nPROPERTY\tSource\t2\tCoD.Scripts.WeaponHandBinding\t0".Replace("\n", Environment.NewLine)),
+            Check(text.Contains($"COMPONENT\t{weapon}\tScriptComponent\t1\nPROPERTY\tSource\t2\tCoD.Scripts.WeaponHandBinding\t0"),
                 $"{file} has no binding on its animated hand rig.");
         }
         Console.WriteLine("PASS: hand poses, sprint priority, equip reset, invalid input, bounded sway, frame-rate independence, scene bindings.");

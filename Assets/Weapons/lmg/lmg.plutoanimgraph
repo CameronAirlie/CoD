@@ -1,0 +1,12 @@
+AnimationGraphVersion=4
+DefaultStateId=1
+Parameter=1|Fire|Trigger|0|0|0
+Parameter=2|Reload|Bool|0|0|0
+Parameter=3|Draw|Trigger|0|0|0
+Parameter=4|Sprint|Bool|0|0|0
+Parameter=5|Speed|Float|0|0|0
+State=1|Idle|lmg_Idle|0|100|100|1|1|project://Weapons/lmg/Idle.plutoclip
+Layer=1|Sprint|project://Weapons/lmg/Sprint.plutoclip|lmg_Sprint|4|0|0|1||Sprint|1|0.12|0.12|1|1|1|
+Layer=2|Draw|project://Weapons/lmg/Draw.plutoclip|lmg_Draw|1|0|0|1||Draw|1|0.02|0.06|0|1|1|
+Layer=3|Fire|project://Weapons/lmg/Fire.plutoclip|lmg_Fire|2|0|0|1||Fire|1|0.01|0.035|0|1|1|
+Layer=4|Reload|project://Weapons/lmg/Reload.plutoclip|lmg_Reload|3|0|0|1||Reload|1|0.06|0.1|0|1|1|

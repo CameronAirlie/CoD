@@ -47,6 +47,9 @@
         <div id="incoming-left" class="incoming hidden"></div>
 
         <div id="weapon" class="panel">
+            <div id="weapon-name">AR-24 ASSAULT RIFLE</div>
+            <div id="weapon-slots">1 AR / 2 PISTOL / 3 MG / Q CYCLE</div>
+            <div id="grenades">F FRAG / 2 LEFT</div>
             <div class="ammo"><span id="ammo">30</span><span id="reserve" class="reserve"> / 120</span></div>
             <div id="survival-labels"><span>HEALTH <span id="health-value">100</span></span><span>ARMOUR</span></div>
             <progress id="health" value="100" max="100"></progress>

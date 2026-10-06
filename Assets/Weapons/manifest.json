@@ -1,0 +1,41 @@
+{
+  "ar": {
+    "vertices": 14940,
+    "triangles": 4980,
+    "submeshes": 6,
+    "bones": 6,
+    "animations": {
+      "Idle": 2.0,
+      "Draw": 0.45,
+      "Fire": 0.09,
+      "Reload": 2.1,
+      "Sprint": 0.8
+    }
+  },
+  "pistol": {
+    "vertices": 7032,
+    "triangles": 2344,
+    "submeshes": 5,
+    "bones": 6,
+    "animations": {
+      "Idle": 2.0,
+      "Draw": 0.3,
+      "Fire": 0.16,
+      "Reload": 1.5,
+      "Sprint": 0.8
+    }
+  },
+  "lmg": {
+    "vertices": 14820,
+    "triangles": 4940,
+    "submeshes": 7,
+    "bones": 6,
+    "animations": {
+      "Idle": 2.0,
+      "Draw": 0.6,
+      "Fire": 0.075,
+      "Reload": 3.4,
+      "Sprint": 0.8
+    }
+  }
+}

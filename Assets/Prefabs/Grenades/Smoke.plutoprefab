@@ -1,0 +1,5 @@
+SCENE	1
+ENTITY	1	0	1	Grenade Smoke	0,0,0	0,0,0	1,1,1
+COMPONENT	1	ParticleSystemComponent	1
+PROPERTY	ParticleSystemAsset	2	project://Particles/Grenades/Smoke.plutoparticles	0
+END_COMPONENT

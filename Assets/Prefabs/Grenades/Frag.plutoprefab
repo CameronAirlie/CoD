@@ -1,0 +1,10 @@
+SCENE	1
+ENTITY	1	0	1	Frag Grenade	0,0,0	0,0,0	0.16,0.21,0.16
+COMPONENT	1	MeshComponent	1
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/sphere	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Grenades/Body.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Grenades/Body.plutomaterial	0
+END_COMPONENT

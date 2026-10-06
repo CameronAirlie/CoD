@@ -1,0 +1,6 @@
+AnimationSetVersion=1
+Clip=project://Weapons/ar/Idle.plutoclip
+Clip=project://Weapons/ar/Draw.plutoclip
+Clip=project://Weapons/ar/Fire.plutoclip
+Clip=project://Weapons/ar/Reload.plutoclip
+Clip=project://Weapons/ar/Sprint.plutoclip

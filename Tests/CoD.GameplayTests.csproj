@@ -7,6 +7,10 @@
   </PropertyGroup>
   <ItemGroup><Compile Include="Program.cs" /><Compile Include="HandSystemTests.cs" /><Compile Include="../Assets/Scripts/HandMotion.cs" Link="HandMotion.cs" /><Compile Include="../Assets/Scripts/DefusalRules.cs" Link="DefusalRules.cs" /><Compile Include="../Assets/Scripts/DamageFeedbackState.cs" Link="DamageFeedbackState.cs" /><Compile Include="../Assets/Scripts/ObjectiveStatus.cs" Link="ObjectiveStatus.cs" /><Compile Include="../Assets/Scripts/CombatTargeting.cs" Link="CombatTargeting.cs" />
     <Compile Include="../Assets/Scripts/MatchContracts.cs" Link="MatchContracts.cs" />
+    <Compile Include="WeaponLoadoutTests.cs" />
+    <Compile Include="GrenadeTests.cs" />
+    <Compile Include="../Assets/Scripts/GrenadeRules.cs" Link="GrenadeRules.cs" />
+    <Compile Include="../Assets/Scripts/WeaponCatalog.cs" Link="WeaponCatalog.cs" />
     <Compile Include="../Assets/Scripts/HardpointRules.cs" Link="HardpointRules.cs" />
     <Compile Include="../Assets/Scripts/BotObjectiveTactics.cs" Link="BotObjectiveTactics.cs" />
     <Compile Include="../Assets/Scripts/InventoryRules.cs" Link="InventoryRules.cs" />
@@ -18,6 +22,7 @@
     <Compile Include="../Assets/Scripts/TeamNameplate.cs" Link="TeamNameplate.cs" />
     <None Include="../Assets/Prefabs/Enemy.plutoprefab" Link="Prefabs/Enemy.plutoprefab" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../Assets/Prefabs/Player.plutoprefab" Link="Prefabs/Player.plutoprefab" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../Assets/Weapons/manifest.json" Link="Weapons/manifest.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../Assets/Scenes/Main.plutoscene" Link="Scenes/Main.plutoscene" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../Assets/Scenes/Foundry.plutoscene" Link="Scenes/Foundry.plutoscene" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../Assets/Prefabs/RemotePlayer.plutoprefab" Link="Prefabs/RemotePlayer.plutoprefab" CopyToOutputDirectory="PreserveNewest" />

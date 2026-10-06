@@ -198,6 +198,9 @@ body {
 #round-progress { position: absolute; bottom: 32px; left: 32px; color: #80d8ff; font-size: 15px; }
 #supply-counts, #supply-use { margin-top: 7px; font-size: 10px; color: #a8b3c2; }
 #weapon { width: 330px; }
+#weapon-name { font-size: 14px; color: #ffdf7f; margin-bottom: 5px; }
+#weapon-slots { font-size: 10px; color: #a8b3c2; line-height: 16px; margin-bottom: 6px; }
+#grenades { font-size: 11px; color: #dfca91; line-height: 16px; margin-bottom: 4px; }
 .player-name { width: 65%; }
 #crosshair.armour-hit .arm { background-color: #59bfff; }
 #crosshair.elimination .arm { background-color: #ffdf7f; }

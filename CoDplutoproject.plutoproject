@@ -14,9 +14,9 @@ RUNTIME_RENDER_SCALE	0.9
 RUNTIME_UPSCALE_SHARPNESS	0.5
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	-15.5891	3.50306	24.3418
+EDITOR_CAMERA_POSITION	-3.64125	1.75791	27.6849
 EDITOR_CAMERA_SPEED	6
-EDITOR_CAMERA_ROTATION	-2535.06	-8.00002
+EDITOR_CAMERA_ROTATION	-2758.98	-2.84002
 EDITOR_CAMERA_LENS	70	0.1	10000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/performance.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -208,8 +208,8 @@ ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87
 ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Input/car.plutoinput	3839	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	224256	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	79456	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	232448	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	70348	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	276480	Assembly
 ASSET	project://Managed/PlutoGE.ScriptCore.pdb	96760	Unknown
@@ -298,15 +298,18 @@ ASSET	project://Prefabs/Car.plutoprefab	33578	Prefab
 ASSET	project://Prefabs/Enemy.plutoprefab	17387	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1932	Prefab
 ASSET	project://Prefabs/Lightsaber.plutoprefab	1949	Prefab
-ASSET	project://Prefabs/Player.plutoprefab	55343	Prefab
+ASSET	project://Prefabs/Player.plutoprefab	61338	Prefab
 ASSET	project://Prefabs/RemotePlayer.plutoprefab	14704	Prefab
 ASSET	project://Prefabs/RmlGameUI.plutoprefab	2475	Prefab
 ASSET	project://Prefabs/Tree.plutoprefab	3864	Prefab
 ASSET	project://Prefabs/Tree_Static.plutomesh	93677	Mesh
 ASSET	project://Prefabs/Tree_Static_Material_0.plutomaterial	452	Material
 ASSET	project://Prefabs/Tree_Static_Material_1.plutomaterial	452	Material
-ASSET	project://Scenes/Foundry.plutoscene	130090	Scene
-ASSET	project://Scenes/Main.plutoscene	159264	Scene
+ASSET	project://Prefabs/Weapons/ar.plutoprefab	1695	Prefab
+ASSET	project://Prefabs/Weapons/lmg.plutoprefab	1700	Prefab
+ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1715	Prefab
+ASSET	project://Scenes/Foundry.plutoscene	145599	Scene
+ASSET	project://Scenes/Main.plutoscene	164852	Scene
 ASSET	project://Scenes/Title.plutoscene	7283	Scene
 ASSET	project://Scenes/car_scene.plutoscene	2993166	Scene
 ASSET	project://Scenes/island.plutoscene	8536273	Scene
@@ -323,22 +326,24 @@ ASSET	project://Scripts/DefusalRules.cs	6338	Script
 ASSET	project://Scripts/EnemySoldierBot.cs	32610	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4254	Script
 ASSET	project://Scripts/FairBotPlanner.cs	1015	Script
-ASSET	project://Scripts/GameModeHud.cs	9419	Script
+ASSET	project://Scripts/FirstPersonHands.cs	2506	Script
+ASSET	project://Scripts/GameModeHud.cs	9510	Script
+ASSET	project://Scripts/HandMotion.cs	1876	Script
 ASSET	project://Scripts/HardpointMarker.cs	1984	Script
 ASSET	project://Scripts/HardpointRules.cs	3562	Script
-ASSET	project://Scripts/InventoryMenu.cs	6456	Script
+ASSET	project://Scripts/InventoryMenu.cs	6474	Script
 ASSET	project://Scripts/InventoryRules.cs	1089	Script
 ASSET	project://Scripts/MatchContracts.cs	1165	Script
 ASSET	project://Scripts/MultiplayerLaunch.cs	696	Script
 ASSET	project://Scripts/MultiplayerSession.Defusal.cs	9808	Script
 ASSET	project://Scripts/MultiplayerSession.Objectives.cs	6527	Script
-ASSET	project://Scripts/MultiplayerSession.cs	91134	Script
+ASSET	project://Scripts/MultiplayerSession.cs	91854	Script
 ASSET	project://Scripts/NetworkParticipantHitbox.cs	389	Script
 ASSET	project://Scripts/ObjectiveStatus.cs	1062	Script
 ASSET	project://Scripts/PauseMenu.cs	271	Script
-ASSET	project://Scripts/PlayerController.cs	32227	Script
+ASSET	project://Scripts/PlayerController.cs	38696	Script
 ASSET	project://Scripts/PlayerHealth.cs	9006	Script
-ASSET	project://Scripts/PlayerHud.cs	16769	Script
+ASSET	project://Scripts/PlayerHud.cs	17882	Script
 ASSET	project://Scripts/PlayerInventory.cs	5423	Script
 ASSET	project://Scripts/RoundProgression.cs	2194	Script
 ASSET	project://Scripts/SupplyPickup.cs	2907	Script
@@ -347,6 +352,8 @@ ASSET	project://Scripts/TeamNameplate.cs	351	Script
 ASSET	project://Scripts/TitleScreen.cs	3934	Script
 ASSET	project://Scripts/UIManager.cs	6351	Script
 ASSET	project://Scripts/VehicleSpeedometer.cs	6352	Script
+ASSET	project://Scripts/WeaponCatalog.cs	3324	Script
+ASSET	project://Scripts/WeaponHandBinding.cs	3759	Script
 ASSET	project://Sounds/engine.wav	760364	Audio
 ASSET	project://Sounds/feedback/armour.wav	8864	Audio
 ASSET	project://Sounds/feedback/headshot.wav	7982	Audio
@@ -357,6 +364,8 @@ ASSET	project://Sounds/gun_shot.wav	59456	Audio
 ASSET	project://Sounds/hitmarker.wav	7726	Audio
 ASSET	project://Sounds/melodyloops-shine-beyond-compressed.wav	3901788	Audio
 ASSET	project://Sounds/tyre_screech.wav	11720	Audio
+ASSET	project://SourceModels/FirstPersonHands/README.md	1200	Unknown
+ASSET	project://SourceModels/FirstPersonHands/SharedHands.blend	3120314	Unknown
 ASSET	project://SourceModels/UAL1_Standard/.plutoge-cache/meshes/4696578470734905787.pmesh	10546157	Unknown
 ASSET	project://SourceModels/UAL1_Standard/A_TPose.plutoclip	332294	Animation Clip
 ASSET	project://SourceModels/UAL1_Standard/Crouch_Fwd_Loop.plutoclip	273802	Animation Clip
@@ -408,6 +417,25 @@ ASSET	project://SourceModels/UAL1_Standard/UAL1_Standard.plutomesh	1090675	Mesh
 ASSET	project://SourceModels/UAL1_Standard/UAL1_Standard_RM.glb	7620504	Model
 ASSET	project://SourceModels/UAL1_Standard/Walk_Formal_Loop.plutoclip	195803	Animation Clip
 ASSET	project://SourceModels/UAL1_Standard/Walk_Loop.plutoclip	195796	Animation Clip
+ASSET	project://SourceModels/Weapons/README.md	862	Unknown
+ASSET	project://SourceModels/Weapons/ar.blend	176719	Unknown
+ASSET	project://SourceModels/Weapons/ar.blend1	176616	Unknown
+ASSET	project://SourceModels/Weapons/ar.glb	597468	Model
+ASSET	project://SourceModels/Weapons/ar_aim.png	393470	Texture
+ASSET	project://SourceModels/Weapons/ar_hip.png	408597	Texture
+ASSET	project://SourceModels/Weapons/ar_preview.png	453697	Texture
+ASSET	project://SourceModels/Weapons/lmg.blend	189164	Unknown
+ASSET	project://SourceModels/Weapons/lmg.blend1	189070	Unknown
+ASSET	project://SourceModels/Weapons/lmg.glb	597900	Model
+ASSET	project://SourceModels/Weapons/lmg_aim.png	399862	Texture
+ASSET	project://SourceModels/Weapons/lmg_hip.png	412801	Texture
+ASSET	project://SourceModels/Weapons/lmg_preview.png	463069	Texture
+ASSET	project://SourceModels/Weapons/pistol.blend	149020	Unknown
+ASSET	project://SourceModels/Weapons/pistol.blend1	148920	Unknown
+ASSET	project://SourceModels/Weapons/pistol.glb	296996	Model
+ASSET	project://SourceModels/Weapons/pistol_aim.png	379566	Texture
+ASSET	project://SourceModels/Weapons/pistol_hip.png	379929	Texture
+ASSET	project://SourceModels/Weapons/pistol_preview.png	429177	Texture
 ASSET	project://SourceModels/animation_low-poly_val/.plutoge-cache/meshes/17701108667481620326.pmesh	3852941	Unknown
 ASSET	project://SourceModels/animation_low-poly_val/LVA4_Armature_wpn_val_draw.plutoclip	94084	Animation Clip
 ASSET	project://SourceModels/animation_low-poly_val/LVA4_Armature_wpn_val_draw_1.plutoclip	94084	Animation Clip
@@ -626,8 +654,8 @@ ASSET	project://UI/friendly-nameplate.rcss	602	Unknown
 ASSET	project://UI/friendly-nameplate.rml	219	RML Document
 ASSET	project://UI/hardpoint-marker.rcss	448	Unknown
 ASSET	project://UI/hardpoint-marker.rml	161	RML Document
-ASSET	project://UI/hud.rcss	5723	Unknown
-ASSET	project://UI/hud.rml	2795	RML Document
+ASSET	project://UI/hud.rcss	5882	Unknown
+ASSET	project://UI/hud.rml	2928	RML Document
 ASSET	project://UI/inventory.rcss	1692	Unknown
 ASSET	project://UI/inventory.rml	1051	RML Document
 ASSET	project://UI/pause-menu.rcss	1354	Unknown
@@ -636,6 +664,38 @@ ASSET	project://UI/title.rcss	2267	Unknown
 ASSET	project://UI/title.rml	1209	RML Document
 ASSET	project://UI/vehicle-speedometer.rcss	2958	Unknown
 ASSET	project://UI/vehicle-speedometer.rml	1667	RML Document
+ASSET	project://Weapons/Materials/Accent.plutomaterial	167	Material
+ASSET	project://Weapons/Materials/Brass.plutomaterial	166	Material
+ASSET	project://Weapons/Materials/Glove.plutomaterial	168	Material
+ASSET	project://Weapons/Materials/Gunmetal.plutomaterial	166	Material
+ASSET	project://Weapons/Materials/Polymer.plutomaterial	170	Material
+ASSET	project://Weapons/Materials/Sand.plutomaterial	167	Material
+ASSET	project://Weapons/Materials/Sleeve.plutomaterial	164	Material
+ASSET	project://Weapons/ar/Draw.plutoclip	7619	Animation Clip
+ASSET	project://Weapons/ar/Fire.plutoclip	4379	Animation Clip
+ASSET	project://Weapons/ar/Idle.plutoclip	20939	Animation Clip
+ASSET	project://Weapons/ar/Reload.plutoclip	21701	Animation Clip
+ASSET	project://Weapons/ar/Sprint.plutoclip	10501	Animation Clip
+ASSET	project://Weapons/ar/ar.plutoanim	237	Animation
+ASSET	project://Weapons/ar/ar.plutoanimgraph	652	Animation Graph
+ASSET	project://Weapons/ar/ar.plutomesh	1377132	Mesh
+ASSET	project://Weapons/lmg/Draw.plutoclip	8700	Animation Clip
+ASSET	project://Weapons/lmg/Fire.plutoclip	4380	Animation Clip
+ASSET	project://Weapons/lmg/Idle.plutoclip	20940	Animation Clip
+ASSET	project://Weapons/lmg/Reload.plutoclip	33222	Animation Clip
+ASSET	project://Weapons/lmg/Sprint.plutoclip	10502	Animation Clip
+ASSET	project://Weapons/lmg/lmg.plutoanim	242	Animation
+ASSET	project://Weapons/lmg/lmg.plutoanimgraph	662	Animation Graph
+ASSET	project://Weapons/lmg/lmg.plutomesh	1366151	Mesh
+ASSET	project://Weapons/manifest.json	714	Unknown
+ASSET	project://Weapons/pistol/Draw.plutoclip	6183	Animation Clip
+ASSET	project://Weapons/pistol/Fire.plutoclip	5103	Animation Clip
+ASSET	project://Weapons/pistol/Idle.plutoclip	20943	Animation Clip
+ASSET	project://Weapons/pistol/Reload.plutoclip	16665	Animation Clip
+ASSET	project://Weapons/pistol/Sprint.plutoclip	10505	Animation Clip
+ASSET	project://Weapons/pistol/pistol.plutoanim	257	Animation
+ASSET	project://Weapons/pistol/pistol.plutoanimgraph	692	Animation Graph
+ASSET	project://Weapons/pistol/pistol.plutomesh	649542	Mesh
 ASSET	project://whispy-grass-meadow-unity/imgui.ini	2519	Unknown
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_albedo.png	8385185	Texture
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_ao.png	7004516	Texture
@@ -643,3 +703,15 @@ ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_height.png	4112027	
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_metallic.psd	2732299	Unknown
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_normal-ogl.png	12312674	Texture
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_preview.jpg	628869	Texture
+ASSET	project://Textures/Grenades/SoftParticle.png	1846	Texture
+ASSET	project://Materials/Grenades/Body.plutomaterial	159	Material
+ASSET	project://Materials/Grenades/Particle.plutomaterial	183	Material
+ASSET	project://Prefabs/Grenades/Frag.plutoprefab	430	Prefab
+ASSET	project://Particles/Grenades/Flash.plutoparticles	504	Particle System
+ASSET	project://Prefabs/Grenades/Flash.plutoprefab	188	Prefab
+ASSET	project://Particles/Grenades/Sparks.plutoparticles	508	Particle System
+ASSET	project://Prefabs/Grenades/Sparks.plutoprefab	190	Prefab
+ASSET	project://Particles/Grenades/Smoke.plutoparticles	518	Particle System
+ASSET	project://Prefabs/Grenades/Smoke.plutoprefab	188	Prefab
+ASSET	project://Scripts/GrenadeRules.cs	3374	Script
+ASSET	project://Scripts/MultiplayerSession.Grenades.cs	12183	Script

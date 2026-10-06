@@ -63,7 +63,7 @@ public sealed class GameModeHud : ScriptBehaviour
             Set("supply-use", _inventory.IsUsing ? $"APPLYING SUPPLY {(int)(_inventory.UseProgress * 100)}% - DAMAGE INTERRUPTS" : match?.Mode == MatchMode.Defusal ? "HOLD E PLANT / DEFUSE | I INVENTORY" : "E COLLECT SUPPLIES | I INVENTORY");
         }
         var selecting = match?.Phase is MatchPhase.Warmup or MatchPhase.Results;
-        Set("loadout-choice", selecting ? $"1 ASSAULT: 150 AMMO / 1 KIT / 1 PLATE<br/>2 MEDIC: 60 AMMO / 3 KITS<br/>3 DEFENDER: 90 AMMO / 1 KIT / 3 PLATES<br/>SELECTED: {_session?.SelectedLoadout.ToString().ToUpperInvariant()}" : "");
+        Set("loadout-choice", selecting ? $"1 ASSAULT / START WITH AR: 150 AMMO / 1 KIT / 1 PLATE<br/>2 MEDIC / START WITH PISTOL: 60 AMMO / 3 KITS<br/>3 DEFENDER / START WITH MG: 90 AMMO / 1 KIT / 3 PLATES<br/>ALL CLASSES CARRY ALL THREE WEAPONS<br/>SELECTED: {_session?.SelectedLoadout.ToString().ToUpperInvariant()}" : "");
         Set("combat-cue", _feedback?.CueTime > 0 ? _feedback.LastCue : "");
         Set("round-progress", _progression is null ? "" : match?.Phase == MatchPhase.Results && local is not null && (match.Mode != MatchMode.Defusal || match.Defusal?.MatchOver == true) ?
             $"{local.Kills} ELIMINATIONS | {(int)local.ObjectiveSeconds}s ON OBJECTIVE | +{_progression.LastMatchExperience} XP | LEVEL {_progression.Level}" : $"LEVEL {_progression.Level} | {_progression.TotalExperience} XP");

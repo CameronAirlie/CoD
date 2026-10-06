@@ -15,7 +15,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 {
     private static MultiplayerSession? _activeSession;
 
-    private const int ProtocolVersion = 10;
+    private const int ProtocolVersion = 12;
     private const ushort HandshakeChannel = 1;
     private const ushort TransformChannel = 2;
     private const ushort PeerLeftChannel = 3;
@@ -137,6 +137,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     private readonly Dictionary<int, float> _deadRemotePlayers = new();
     private readonly HashSet<int> _authenticatedPeers = new();
     private readonly Dictionary<int, float> _lastAcceptedShotAt = new();
+    private readonly Dictionary<int, string> _lastAcceptedWeapon = new();
     private readonly Dictionary<int, string> _peerNames = new();
     private readonly Dictionary<int, float> _peerLastSeenAt = new();
     private readonly Dictionary<int, PlayerMatchState> _playerStates = new();
@@ -180,6 +181,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         if (navigationMesh is null || !navigationMesh.IsValid)
             navigationMesh = GameObject.Find("Navmesh");
         PreloadNetworkPrefabs();
+        PreloadGrenadePrefabs();
 
         if (!MultiplayerLaunch.Mode.Equals("Offline", StringComparison.OrdinalIgnoreCase))
         {
@@ -208,6 +210,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         _time += safeDeltaTime;
         UpdateLoadoutSelection();
         UpdateBombInput();
+        UpdateGrenades(safeDeltaTime);
 
         if (_server is null &&
             mode.Equals("Host", StringComparison.OrdinalIgnoreCase) &&
@@ -277,6 +280,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         if (_shutDown)
             return;
         _shutDown = true;
+        ClearGrenades();
 
         if (_playerController is not null)
         {
@@ -299,6 +303,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         _client = null;
         _authenticatedPeers.Clear();
         _lastAcceptedShotAt.Clear();
+        _lastAcceptedWeapon.Clear();
         _peerLastSeenAt.Clear();
         _peerNames.Clear();
         _playerStates.Clear();
@@ -425,6 +430,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
             if (message.Channel == HandshakeChannel)
             {
+                if (_authenticatedPeers.Contains(message.PeerId)) return;
                 var hello = message.GetJson<ClientHello>();
                 if (hello is null || hello.ProtocolVersion != ProtocolVersion || hello.Mode != RulesMode)
                 {
@@ -466,6 +472,12 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 return;
             }
 
+            if (message.Channel == GrenadeThrowChannel && _authenticatedPeers.Contains(message.PeerId))
+            {
+                var request = message.GetJson<GrenadeThrow>();
+                if (request is not null) AcceptGrenade(message.PeerId, request);
+                return;
+            }
             if (message.Channel == BombInputChannel && IsDefusal && _authenticatedPeers.Contains(message.PeerId))
             {
                 var input = message.GetJson<BombInput>();
@@ -512,6 +524,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         try
         {
             _lastHostMessageAt = _time;
+            if (HandleGrenadeClientMessage(message)) return;
             if (message.Channel == HandshakeChannel)
             {
                 var welcome = message.GetJson<ServerWelcome>();
@@ -618,7 +631,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         if (direction.LengthSquared() < 0.001f)
             return;
 
-        var shot = ShotRequest.From(firedShot.Origin, Vector3.Normalize(direction));
+        var shot = ShotRequest.From(firedShot.Origin, Vector3.Normalize(direction), firedShot.WeaponId);
         if (_server is not null)
             ResolveShot(0, shot);
         else
@@ -635,7 +648,12 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             return;
 
         if (IsDefusal && _defusal?.Snapshot().Operator == shooterPeerId) return;
-        var minimumInterval = 60.0f / MathF.Max(1.0f, roundsPerMinute);
+        // Clients send an identity only; combat tuning is always resolved on the host.
+        if (!WeaponCatalog.TryFind(shot.WeaponId, out var weapon) &&
+            (shot.WeaponId != "val" || _playerController?.HasWeaponLoadout == true)) return;
+        var previousId = _lastAcceptedWeapon.GetValueOrDefault(shooterPeerId);
+        var minimumInterval = weapon is not null ? WeaponCatalog.MinimumShotInterval(weapon, previousId) :
+            60.0f / MathF.Max(1.0f, roundsPerMinute);
         if (_lastAcceptedShotAt.TryGetValue(shooterPeerId, out var lastShotAt) &&
             _time < lastShotAt + minimumInterval * 0.9f)
             return;
@@ -654,11 +672,12 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             return;
 
         _lastAcceptedShotAt[shooterPeerId] = _time;
+        _lastAcceptedWeapon[shooterPeerId] = shot.WeaponId;
         PublishShotEffect(shooterPeerId);
         if (!Physics.Raycast(
                 origin,
                 direction,
-                MathF.Max(1.0f, weaponRange),
+                weapon?.Range ?? MathF.Max(1.0f, weaponRange),
                 shooterObject,
                 out var hit))
             return;
@@ -672,7 +691,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             return;
 
         var isHeadshot = hit.Entity.HasTag("Head");
-        var damage = MathF.Max(0.0f, weaponDamage) *
+        var damage = (weapon?.Damage ?? MathF.Max(0.0f, weaponDamage)) *
             (isHeadshot ? MathF.Max(1.0f, multiplayerHeadshotMultiplier) : 1.0f);
         _lastHostArmourHit = targetPeerId == 0 && _playerHealth?.ArmourSlots > 0;
         targetState.Health = MathF.Max(0.0f, targetState.Health - damage);
@@ -747,9 +766,12 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     private void OnServerPeerDisconnected(int peerId)
     {
+        foreach (var id in _grenades.Where(p => p.Value.Owner == peerId).Select(p => p.Key).ToArray())
+            _grenades.Remove(id);
         var wasParticipant = _authenticatedPeers.Remove(peerId);
         _peerLastSeenAt.Remove(peerId);
         _lastAcceptedShotAt.Remove(peerId);
+        _lastAcceptedWeapon.Remove(peerId);
         var username = _peerNames.Remove(peerId, out var peerName)
             ? peerName
             : $"Peer {peerId}";
@@ -1695,6 +1717,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             if (state.Health <= 0.0f && _time >= state.RespawnAt)
             {
                 state.Health = MathF.Max(1.0f, multiplayerMaximumHealth);
+                ResetGrenadeSupply(pair.Key);
                 if (_bots.TryGetValue(pair.Key, out var bot))
                 {
                     bot = RespawnBot(pair.Key, bot);
@@ -1740,6 +1763,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     private void BeginPlaying()
     {
+        ClearGrenades();
+        foreach (var owner in _playerStates.Keys) ResetGrenadeSupply(owner);
         _alphaScore = 0;
         _bravoScore = 0;
         foreach (var state in _playerStates.Values)
@@ -1961,6 +1986,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         public int Kills { get; set; }
         public int Deaths { get; set; }
         public float Health { get; set; } = 100.0f;
+        public GrenadeSupply Grenades { get; } = new();
         public float ObjectiveSeconds { get; set; }
         public Vector3 LastHitDirection { get; set; }
         public float RespawnAt { get; set; }
@@ -2011,13 +2037,13 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     private sealed record ShotRequest(
         float OriginX, float OriginY, float OriginZ,
-        float DirectionX, float DirectionY, float DirectionZ)
+        float DirectionX, float DirectionY, float DirectionZ, string WeaponId)
     {
         public Vector3 Origin => new(OriginX, OriginY, OriginZ);
         public Vector3 Direction => new(DirectionX, DirectionY, DirectionZ);
 
-        public static ShotRequest From(Vector3 origin, Vector3 direction) =>
-            new(origin.X, origin.Y, origin.Z, direction.X, direction.Y, direction.Z);
+        public static ShotRequest From(Vector3 origin, Vector3 direction, string weaponId) =>
+            new(origin.X, origin.Y, origin.Z, direction.X, direction.Y, direction.Z, weaponId);
 
         public bool IsFinite() =>
             float.IsFinite(OriginX) && float.IsFinite(OriginY) && float.IsFinite(OriginZ) &&

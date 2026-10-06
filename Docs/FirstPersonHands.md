@@ -6,11 +6,10 @@ poses, graph parameter names and reload event name. `HandMotion` computes local
 sway, bob, aim and sprint offsets independently of PlutoGE. The animation graph
 continues to own skeletal animation and blends.
 
-Main, Foundry and the Player prefab use a VAL binding with the existing authored
-idle, fire and reload clips. Sprint uses a lowered procedural pose. Bindings can
-enable authored sprint and aim animation through optional Boolean parameters;
-blank names disable those graph channels. Unmigrated scenes retain the previous
-controller presentation path.
+Main, Foundry and the Player prefab now use three generated weapon rigs with
+their own draw, idle, fire, reload and sprint animations. See [Weapons](Weapons.md)
+for loadout controls and gameplay integration. The existing VAL asset remains
+available for legacy scenes. Blank parameter names disable optional channels.
 
 ## Add a weapon
 
@@ -23,20 +22,18 @@ controller presentation path.
    entity as its `AnimationComponent`; set its unique `weaponId`, animator,
    local hip/aim/sprint positions and matching graph names. A missing animator
    allows procedural motion but cannot play skeletal animation.
-4. Keep additional weapon roots inactive until equipped. All roots must share
-   the camera coordinate space. Keep the existing `Weapon` render tag and overlay
-   camera configuration to avoid world-camera clipping and duplicate rendering.
-5. Call `PlayerController.EquipHands(binding)` from the future weapon selection
-   system. It cancels reload before changing presentation. The old root is
-   hidden, its animation is reset and its event subscription removed; the new
-   root is reset to its own pose. Re-equipping the current binding does nothing.
+4. Set the binding's owner to the player and its catalog identity. Generated
+   roots start active so their scripts can register, then hide until selected.
+   All roots must share the camera coordinate space. Keep the `Weapon` render
+   tag and overlay camera configuration to avoid duplicate rendering.
+5. Select through `PlayerController.SelectWeaponSlot(slot)`, which synchronizes
+   gameplay and presentation and cancels reload before changing rigs. The old
+   root is hidden and disconnected; the new root resets to its own pose.
 
-This API switches **hand presentation**. Magazine state, weapon statistics,
-sounds, muzzle flash and server weapon validation still belong to the existing
-gameplay implementation. A future multi-weapon inventory must switch those
-together and replicate a validated weapon ID; changing a hand binding alone
-does not change damage or ammunition. The current multiplayer protocol remains
-compatible.
+`FirstPersonHands` owns presentation only. `WeaponLoadout` preserves magazines,
+`WeaponCatalog` supplies shared local/host tuning, and the controller coordinates
+selection. Shot requests now carry weapon identity with protocol 11. Rig bindings
+own their shot audio and muzzle-flash references.
 
 ## Lifecycle and animation events
 
@@ -45,7 +42,7 @@ event can finish an active reload; the controller's timer remains a fallback.
 Death cancels reload and hides the rig. Respawn restores it and resets its pose
 and animation. Cursor release settles motion and clears movement flags. Disposal
 disconnects rig events. Do not switch rigs by setting roots active directly:
-use `EquipHands` so cancellation and subscriptions are handled together.
+use `SelectWeaponSlot` so cancellation and subscriptions are handled together.
 
 ## Validation
 

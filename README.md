@@ -31,6 +31,10 @@ The configured startup scene is `Assets/Scenes/Title.plutoscene`. It transitions
 to `Assets/Scenes/Main.plutoscene` after hosting or joining a game. The default
 window size is 1280 × 720.
 
+Hold **C** to crouch. While sprinting with **Left Shift**, press **C** to slide
+once you have built up speed. Sliding carries your momentum and slows over
+0.72 seconds; keep C held to remain crouched afterwards, or release it to stand.
+
 ## Project structure
 
 ```text
@@ -47,6 +51,19 @@ Assets/
 ├── SourceModels/     Original model and animation sources
 └── Textures/         Gameplay and environment textures
 ```
+
+## Weapon loadouts
+
+Main, Foundry and the Player prefab include an original **P-12 pistol**, **AR-24
+assault rifle** and **MG-60 machine gun**, each with its own hand rig and five
+skeletal animations. During play use **1 / 2 / 3** to equip, **Q** to cycle and
+**R** to reload. Magazines persist across switches; reserve ammunition is shared.
+Preparation-phase number keys retain their class-selection behavior. Networking
+uses protocol 12; rebuild both peers. See [weapon setup and validation](Docs/Weapons.md).
+
+Press **F** to throw a frag grenade: two per life, a three-second fuse, bouncing
+flight and flash/spark/smoke explosion particles. The host applies damage with
+distance falloff and cover checks. See [grenade architecture and validation](Docs/Grenades.md).
 
 ## Managed scripts
 

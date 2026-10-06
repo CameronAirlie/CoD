@@ -20,7 +20,7 @@ public sealed class InventoryMenu : ScriptBehaviour
 
     public override void OnCreate()
     {
-        _slots[0] = new InventoryItem("RIFLE AMMO", "5.56", ItemKind.Ammo, 0);
+        _slots[0] = new InventoryItem("AMMUNITION", "SHARED RESERVE", ItemKind.Ammo, 0);
         _slots[1] = new InventoryItem("MED KIT", "+50 HP", ItemKind.HealthKit, 0);
         // Only show supplies backed by gameplay quantities.
         _slots[5] = new InventoryItem("ARMOUR PLATE", "DEFENCE", ItemKind.Armour, 0);
@@ -96,7 +96,7 @@ public sealed class InventoryMenu : ScriptBehaviour
     private void SyncDynamicItems()
     {
         SyncDynamicItem(ItemKind.Ammo, _inventory?.ReserveAmmo ?? 0,
-            new InventoryItem("RIFLE AMMO", "5.56", ItemKind.Ammo, 0), 0);
+            new InventoryItem("AMMUNITION", "SHARED RESERVE", ItemKind.Ammo, 0), 0);
         SyncDynamicItem(ItemKind.HealthKit, _inventory?.HealthKits ?? 0,
             new InventoryItem("MED KIT", "+30% HP", ItemKind.HealthKit, 0), 1);
         SyncDynamicItem(ItemKind.Armour, _inventory?.ArmourPlates ?? 0,

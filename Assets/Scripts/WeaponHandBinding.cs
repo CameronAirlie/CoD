@@ -9,6 +9,9 @@ public sealed class WeaponHandBinding : ScriptBehaviour
 {
     [SerializedField] private string weaponId = "val";
     [SerializedField] private AnimationComponent? animator = null;
+    [SerializedField] private GameObject? owner = null;
+    [SerializedField] private ParticleSystemComponent? muzzleFlash = null;
+    [SerializedField] private SoundEmitterComponent? shotAudio = null;
     [SerializedField] private Vector3 hipPosition = new(.07f, -.13f, .02f);
     [SerializedField] private Vector3 aimPosition = new(0, -.09f, 0);
     [SerializedField] private Vector3 sprintPosition = new(.10f, -.20f, .06f);
@@ -18,6 +21,7 @@ public sealed class WeaponHandBinding : ScriptBehaviour
     [SerializedField] private float bobAmount = .018f;
     [SerializedField] private string idleState = "Idle";
     [SerializedField] private string fireTrigger = "Fire";
+    [SerializedField] private string drawTrigger = "";
     [SerializedField] private string reloadParameter = "Reload";
     [SerializedField] private string reloadCommitEvent = "ReloadFinish";
     // Optional graph parameters: blank means the graph does not implement that channel.
@@ -30,6 +34,12 @@ public sealed class WeaponHandBinding : ScriptBehaviour
     public GameObject Root => GameObject;
     public event Action<WeaponHandBinding, AnimationEvent>? AnimationEventRaised;
     private AnimationComponent? Animator => animator ??= GameObject.GetComponent<AnimationComponent>();
+    public override void OnCreate() => owner?.GetComponent<PlayerController>()?.RegisterWeaponBinding(this);
+    public void PlayShot(float pitch)
+    {
+        shotAudio?.PlayOneShot(1, pitch);
+        muzzleFlash?.Emit(1);
+    }
 
     public HandMotionProfile CreateMotionProfile() => new(hipPosition, aimPosition, sprintPosition,
         Bounded(motionSharpness, 18, .01f, 100), Bounded(sway, .0018f, 0, .02f),
@@ -42,11 +52,13 @@ public sealed class WeaponHandBinding : ScriptBehaviour
     {
         SetReload(false);
         if (!string.IsNullOrEmpty(fireTrigger)) Animator?.ResetTrigger(fireTrigger);
+        if (!string.IsNullOrEmpty(drawTrigger)) Animator?.ResetTrigger(drawTrigger);
         SetMovement(false, false, 0);
         if (!string.IsNullOrEmpty(idleState)) Animator?.PlayState(idleState);
     }
 
     public void Fire() { if (!string.IsNullOrEmpty(fireTrigger)) Animator?.SetTrigger(fireTrigger); }
+    public void Draw() { if (!string.IsNullOrEmpty(drawTrigger)) Animator?.SetTrigger(drawTrigger); }
     public void SetReload(bool active) { if (!string.IsNullOrEmpty(reloadParameter)) Animator?.SetBool(reloadParameter, active); }
     public void SetMovement(bool aiming, bool sprinting, float speed)
     {

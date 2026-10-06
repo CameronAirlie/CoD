@@ -80,6 +80,7 @@ public sealed partial class MultiplayerSession
 
     private void OnLocalRespawn()
     {
+        ResetLocalGrenades();
         _inventory ??= GameObject.GetComponent<PlayerInventory>();
         _inventory?.ApplyLoadout(SelectedLoadout);
         _playerController?.ResetWeaponForRound();

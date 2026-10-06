@@ -27,6 +27,7 @@ public sealed class FirstPersonHands : IDisposable
         binding.Root.Position = _profile.Hip;
         binding.ResetAnimation();
         binding.Root.Active = _visible;
+        if (_visible) binding.Draw();
         binding.AnimationEventRaised += OnAnimationEvent;
     }
 

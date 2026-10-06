@@ -31,6 +31,8 @@ public sealed partial class MultiplayerSession
         _defusalRound++;
         _defusal = null;
         var attackers = DefusalRules.AttackersForRound(_defusalRound);
+        ClearGrenades();
+        foreach (var owner in _playerStates.Keys) ResetGrenadeSupply(owner);
         foreach (var state in _playerStates.Values) { state.Health = multiplayerMaximumHealth; state.RespawnAt = float.PositiveInfinity; state.LastDamagedAt = _time; }
         // Assign to a human attacker first; bots can carry when humans defend.
         var carrier = _playerStates.Where(p => p.Value.Team == attackers).OrderBy(p => p.Value.IsBot).ThenBy(p => p.Key).Select(p => p.Key).FirstOrDefault();

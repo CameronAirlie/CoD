@@ -1,0 +1,51 @@
+SCENE	1
+ENTITY	1	0	1	P-12 Pistol	0.18,-0.15,-0.16	0,0,0	1,1,1
+TAGS	1	1	Weapon
+COMPONENT	1	ScriptComponent	1
+PROPERTY	Source	2	CoD.Scripts.WeaponHandBinding	0
+PROPERTY	weaponId	2	pistol	0
+PROPERTY	owner	9	0	0
+PROPERTY	animator	9	1	0
+PROPERTY	muzzleFlash	9	3	0
+PROPERTY	shotAudio	9	1	0
+PROPERTY	hipPosition	3	0.18,-0.15,-0.16	0
+PROPERTY	aimPosition	3	0,-0.074,-0.10	0
+PROPERTY	sprintPosition	3	0.22,-0.25,-0.08	0
+PROPERTY	drawTrigger	2	Draw	0
+PROPERTY	sprintParameter	2	Sprint	0
+END_COMPONENT
+COMPONENT	1	MeshComponent	1
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	MeshAssetReference	2	project://Weapons/pistol/pistol.plutomesh	0
+PROPERTY	UseGeneratedLods	4	false	0
+END_COMPONENT
+COMPONENT	1	AnimationComponent	1
+PROPERTY	SourceAnimation	2	project://Weapons/pistol/pistol.plutoanim	0
+PROPERTY	AnimationGraph	2	project://Weapons/pistol/pistol.plutoanimgraph	0
+PROPERTY	CurrentClipIndex	1	0	0
+PROPERTY	Time	0	0	0
+PROPERTY	Speed	0	1	0
+PROPERTY	Playing	4	true	0
+PROPERTY	Looping	4	true	0
+PROPERTY	Autoplay	4	true	0
+END_COMPONENT
+COMPONENT	1	SoundEmitterComponent	1
+PROPERTY	Clip	2	project://Sounds/gun_shot.wav	0
+PROPERTY	PlayOnAwake	4	false	0
+PROPERTY	Looping	4	false	0
+PROPERTY	Spatialized	4	false	0
+PROPERTY	Volume	0	0.8	0
+PROPERTY	Pitch	0	1	0
+END_COMPONENT
+ENTITY	2	1	1	Weapon Socket	0,0,0	0,0,0	1,1,1
+COMPONENT	2	SkeletonAttachmentComponent	1
+PROPERTY	TargetNodeIndex	1	1	0
+PROPERTY	JointName	2	Weapon	0
+END_COMPONENT
+ENTITY	3	2	1	Muzzle Flash	0,0.005,-0.505	0,0,0	1,1,1
+TAGS	3	1	Weapon
+COMPONENT	3	ParticleSystemComponent	1
+PROPERTY	ParticleSystemAsset	2	project://Particles/MuzzleFlash.plutoparticles	0
+END_COMPONENT

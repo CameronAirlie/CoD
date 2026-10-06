@@ -22,6 +22,10 @@ public sealed class PlayerHud : ScriptBehaviour
     private RmlDocument? _document;
     private RmlElement? _ammo;
     private RmlElement? _reserve;
+    private RmlElement? _weaponName;
+    private RmlElement? _weaponSlots;
+    private RmlElement? _grenades;
+    private int _renderedGrenades = -1;
     private RmlElement? _interaction;
     private RmlElement? _health;
     private RmlElement? _healthValue;
@@ -77,6 +81,9 @@ public sealed class PlayerHud : ScriptBehaviour
         _document = new RmlDocument(documentPath);
         _ammo = _document.Element("ammo");
         _reserve = _document.Element("reserve");
+        _weaponName = _document.Element("weapon-name");
+        _weaponSlots = _document.Element("weapon-slots");
+        _grenades = _document.Element("grenades");
         _interaction = _document.Element("interaction");
         _health = _document.Element("health");
         _healthValue = _document.Element("health-value");
@@ -106,6 +113,8 @@ public sealed class PlayerHud : ScriptBehaviour
         ];
 
         _controller.AmmoChanged += OnAmmoChanged;
+        _controller.WeaponChanged += RenderWeapon;
+        RenderWeapon();
         _controller.MovementStateChanged += OnMovementChanged;
         _controller.HitConfirmed += OnHit;
         _controller.InteractionTargetChanged += OnInteractionChanged;
@@ -141,6 +150,7 @@ public sealed class PlayerHud : ScriptBehaviour
         if (_controller is not null)
         {
             _controller.AmmoChanged -= OnAmmoChanged;
+            _controller.WeaponChanged -= RenderWeapon;
             _controller.MovementStateChanged -= OnMovementChanged;
             _controller.HitConfirmed -= OnHit;
             _controller.InteractionTargetChanged -= OnInteractionChanged;
@@ -168,6 +178,9 @@ public sealed class PlayerHud : ScriptBehaviour
         _damageFeedback.Update(deltaTime);
         RenderDamageOverlay();
         var scoreboardVisible = Input.IsKeyDown(KeyCode.Tab);
+        var remaining = _multiplayer?.RemainingGrenades ?? 0;
+        if (_domReady && _grenades is not null && remaining != _renderedGrenades)
+        { _grenades.Markup = $"F FRAG / {remaining} LEFT"; _renderedGrenades = remaining; }
         if (!_scoreboardVisibilityInitialized || scoreboardVisible != _scoreboardVisible)
         {
             _scoreboardVisibilityInitialized = true;
@@ -183,6 +196,7 @@ public sealed class PlayerHud : ScriptBehaviour
             _crosshair is not null && _crosshair.SetClass("headshot", false))
         {
             _domReady = true;
+            RenderWeapon();
             OnAmmoChanged(new FpsAmmoState(
                 _controller.Ammo, _controller.ReserveAmmo,
                 _controller.MagazineSize, _controller.IsReloading));
@@ -224,6 +238,21 @@ public sealed class PlayerHud : ScriptBehaviour
         }
     }
 
+    private void RenderWeapon()
+    {
+        if (_weaponName is not null) _weaponName.Markup = _controller?.EquippedWeapon?.Name ?? "VAL";
+        if (_weaponSlots is not null)
+        {
+            if (_multiplayer?.CurrentMatch?.Phase is MatchPhase.Warmup or MatchPhase.Results)
+            {
+                _weaponSlots.Markup = "1 ASSAULT / 2 MEDIC / 3 DEFENDER<br/>WEAPON SWITCHING DURING PLAY";
+                return;
+            }
+            var selected = _controller?.EquippedWeaponSlot ?? 0;
+            _weaponSlots.Markup = $"{(selected == 0 ? "[1 AR]" : "1 AR")} &nbsp; {(selected == 1 ? "[2 PISTOL]" : "2 PISTOL")} &nbsp; {(selected == 2 ? "[3 MG]" : "3 MG")}<br/>Q CYCLE / R RELOAD";
+        }
+    }
+
     private void OnAmmoChanged(FpsAmmoState state)
     {
         if (_ammo is not null) _ammo.Markup = state.IsReloading ? "RELOAD" : state.Magazine.ToString();
@@ -232,7 +261,7 @@ public sealed class PlayerHud : ScriptBehaviour
 
     private void OnMovementChanged(FpsMovementState state)
     {
-        _crosshair?.SetClass("hidden", state.IsSprinting);
+            _crosshair?.SetClass("hidden", state.IsAiming || state.IsSprinting || _dead);
     }
 
     private void OnHit(FpsHitEvent hit)
@@ -314,6 +343,7 @@ public sealed class PlayerHud : ScriptBehaviour
 
     private void OnMatchUpdated(MatchSnapshot match)
     {
+        RenderWeapon();
         var seconds = Math.Max(0, (int)MathF.Ceiling(match.SecondsRemaining));
         if (_matchClock is not null) _matchClock.Markup = $"{seconds / 60:00}:{seconds % 60:00}";
         if (_alphaScore is not null) _alphaScore.Markup = match.AlphaScore.ToString();
