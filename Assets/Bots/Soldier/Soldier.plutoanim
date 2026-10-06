@@ -1,0 +1,9 @@
+AnimationSetVersion=1
+Clip=project://Bots/Soldier/Rifle_Idle.plutoclip
+Clip=project://Bots/Soldier/Rifle_Walk.plutoclip
+Clip=project://Bots/Soldier/Rifle_Jog.plutoclip
+Clip=project://Bots/Soldier/Rifle_Sprint.plutoclip
+Clip=project://Bots/Soldier/Rifle_Aim.plutoclip
+Clip=project://Bots/Soldier/Rifle_Fire.plutoclip
+Clip=project://Bots/Soldier/Rifle_Hit.plutoclip
+Clip=project://Bots/Soldier/Rifle_Reload.plutoclip

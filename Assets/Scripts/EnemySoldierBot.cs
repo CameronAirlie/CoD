@@ -14,6 +14,11 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     [SerializedField] private bool remoteProxy = false;
     [SerializedField] private GameObject? target;
     [SerializedField] private GameObject? animationObject = null;
+    [SerializedField] private GameObject? soldierMesh = null;
+    [SerializedField] private GameObject? supportHandTarget = null;
+    // Calibrated in the firing hand's local bone coordinates by the Blender exporter.
+    [SerializedField] private Vector3 supportGripOffset = new(0.052277785f, -0.11743106f, -0.10189182f);
+    private float _reloadAnimationRemaining;
     [SerializedField] private GameObject? gunAudioObject = null;
     [SerializedField] private GameObject? navigationTarget = null;
     [SerializedField] private GameObject? navigationMesh = null;
@@ -254,6 +259,12 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     public override void OnLateUpdate(float deltaTime)
     {
+        if (!_dead && supportHandTarget is not null && soldierMesh is not null &&
+            SkeletonAttachments.TryGetBoneWorldPose(soldierMesh, "Hand.R", out var handPosition, out var handRotation))
+            supportHandTarget.WorldPosition = handPosition + Vector3.Transform(supportGripOffset, handRotation);
+        if (_reloadAnimationRemaining > 0)
+            _reloadAnimationRemaining = MathF.Max(0, _reloadAnimationRemaining - MathF.Max(0, deltaTime));
+        SetAnimationFloat("SupportHandIK", _reloadAnimationRemaining > 0 ? 0 : 1);
         var position = GameObject.WorldPosition;
         var actualTravel = position - _latePreviousPosition;
         actualTravel.Y = 0.0f;
@@ -284,6 +295,14 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     // Also accepts callers which do not provide a damage value.
     public void TakeDamage() => TakeDamage(25.0f);
+
+    public void PlayExternalReloadAnimation(float duration)
+    {
+        if (_dead || !float.IsFinite(duration) || duration <= 0) return;
+        _reloadAnimationRemaining = duration;
+        SetAnimationFloat("SupportHandIK", 0);
+        SetAnimationTrigger("Reload");
+    }
 
     public void SetExternalCombatPaused(bool paused)
     {
@@ -316,6 +335,8 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     public void ResetExternalNavigation(float x, float y, float z)
     {
+        _reloadAnimationRemaining = 0;
+        SetAnimationFloat("SupportHandIK", 1);
         _externalNavigationControl = true;
         _remoteProxyMode = false;
         _externalAiming = false;

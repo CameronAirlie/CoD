@@ -1,0 +1,40 @@
+{
+  "vertices": 93538,
+  "triangles": 137328,
+  "joints": 63,
+  "submeshes": 46,
+  "supportPosition": [
+    0.052277784794569016,
+    -0.11743105947971344,
+    -0.10189182311296463
+  ],
+  "supportRotationQuaternion": [
+    0.7661769986152649,
+    -6.209250891231477e-10,
+    -5.299087035837147e-08,
+    -0.6426296234130859
+  ],
+  "weapon": {
+    "vertices": 32791,
+    "triangles": 21549,
+    "joints": 0,
+    "submeshes": 1
+  },
+  "animations": {
+    "Rifle_Idle": 2.0,
+    "Rifle_Walk": 1.2,
+    "Rifle_Jog": 0.8,
+    "Rifle_Sprint": 0.6,
+    "Rifle_Aim": 2.0,
+    "Rifle_Fire": 0.25,
+    "Rifle_Hit": 0.5,
+    "Rifle_Reload": 2.0
+  },
+  "gameMesh": {
+    "vertices": 65157,
+    "triangles": 96129,
+    "joints": 63,
+    "submeshes": 46,
+    "decimationRatio": 0.7
+  }
+}

@@ -15,7 +15,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 {
     private static MultiplayerSession? _activeSession;
 
-    private const int ProtocolVersion = 12;
+    private const int ProtocolVersion = 13;
     private const ushort HandshakeChannel = 1;
     private const ushort TransformChannel = 2;
     private const ushort PeerLeftChannel = 3;
@@ -30,6 +30,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     private const ushort HitConfirmationChannel = 12;
     private const ushort DeathEffectChannel = 13;
     private const ushort TeamSwitchChannel = 14;
+    private const ushort BotReloadEffectChannel = 20;
 
     public event Action<MatchSnapshot>? MatchUpdated;
     public event Action<KillFeedEntry>? KillFeedReceived;
@@ -591,6 +592,13 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 var effect = message.GetJson<ShotEffect>();
                 if (effect is not null)
                     PlayRemoteShotEffect(effect.ShooterPeerId);
+            }
+            else if (message.Channel == BotReloadEffectChannel)
+            {
+                var effect = message.GetJson<BotReloadEffect>();
+                if (effect is not null && float.IsFinite(effect.Duration) && effect.Duration > 0 && effect.Duration <= 30 &&
+                    _remotePlayers.TryGetValue(effect.BotId, out var reloadingBot))
+                    reloadingBot.GameObject.TryInvoke("PlayExternalReloadAnimation", effect.Duration);
             }
             else if (message.Channel == HitEffectChannel)
             {
@@ -1197,6 +1205,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 if (bot.MagazineAmmo <= 0)
                 {
                     bot.ReloadCompleteAt = _time + MathF.Max(0.1f, botReloadDuration);
+                    PublishBotReload(botId, bot);
                     bot.GameObject.TryInvoke("SetExternalAiming", false);
                 }
                 else
@@ -1214,6 +1223,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                     if (bot.MagazineAmmo <= 0)
                     {
                         bot.ReloadCompleteAt = _time + MathF.Max(0.1f, botReloadDuration);
+                        PublishBotReload(botId, bot);
                         bot.GameObject.TryInvoke("SetExternalAiming", false);
                     }
                 }
@@ -1496,6 +1506,13 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     {
         PlayRemoteShotEffect(shooterPeerId);
         _server?.BroadcastJson(ShotEffectChannel, new ShotEffect(shooterPeerId));
+    }
+
+    private void PublishBotReload(int botId, BotController bot)
+    {
+        var duration = MathF.Max(0.1f, botReloadDuration);
+        bot.GameObject.TryInvoke("PlayExternalReloadAnimation", duration);
+        _server?.BroadcastJson(BotReloadEffectChannel, new BotReloadEffect(botId, duration));
     }
 
     private void PlayRemoteShotEffect(int shooterPeerId)
@@ -1951,6 +1968,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     private sealed record PeerJoined(int PeerId, string Username);
     private sealed record PlayerDamage(float Amount, float SourceX = 0, float SourceY = 0, float SourceZ = 0);
     private sealed record ShotEffect(int ShooterPeerId);
+    private sealed record BotReloadEffect(int BotId, float Duration);
     private sealed record HitEffect(int VictimPeerId);
     private sealed record DeathEffect(int PeerId, float X = 0, float Y = 0, float Z = 0);
     private sealed record TeamSwitchRequest;
