@@ -4,6 +4,6 @@
     <link type="text/rcss" href="friendly-nameplate.rcss"/>
 </head>
 <body>
-    <div id="nameplate"><span id="friendly-name">FRIENDLY</span></div>
+    <div id="nameplate"><span id="friendly-name"></span></div>
 </body>
 </rml>

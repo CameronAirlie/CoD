@@ -80,9 +80,8 @@ movement.Reset();
 Require(movement.CanHold(0) && !movement.HoldExpired(100), "Round reset retained combat timers.");
 Console.WriteLine("PASS: bounded firing holds, guaranteed reposition window, repeat cycles, duration bounds, round reset.");
 
-Require(TeamNameplate.Format("Operator", true) == "FRIENDLY | Operator", "Friendly label is ambiguous.");
-Require(TeamNameplate.Format("Operator", false) == "ENEMY | Operator", "Enemy label is ambiguous.");
-Require(TeamNameplate.Format("<b>A&B</b>", true) == "FRIENDLY | &lt;b&gt;A&amp;B&lt;/b&gt;",
+Require(TeamNameplate.Format("Operator") == "Operator", "Nameplate should contain only the player name.");
+Require(TeamNameplate.Format("<b>A&B</b>") == "&lt;b&gt;A&amp;B&lt;/b&gt;",
     "Player name injected nameplate markup.");
 Console.WriteLine("PASS: friendly/enemy identification and escaped player names.");
 

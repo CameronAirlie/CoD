@@ -1,6 +1,5 @@
 /* Generated stylesheet source; shared tokens are defined in theme.tokens.json. */
-body { width: 240px; height: 30px; pointer-events: none; font-family: TacticalDisplay; }
-#marker { box-sizing: border-box; width: 240px; height: 30px; line-height: 28px; text-align: center; color: #F2F4F5; background-color: #090B0D99; border: 1px #2A3036; border-left: 2px #F2F4F5; font-size: 12px; }
-.marker-icon { display: inline-block; width: 16px; height: 16px; line-height: 16px; margin-right: 5px; vertical-align: middle; text-align: center; font-weight: bold; }
+body { width: 140px; height: 20px; pointer-events: none; font-family: TacticalDisplay; }
+#marker { width: 140px; height: 20px; line-height: 20px; text-align: center; white-space: nowrap; overflow: hidden; color: #F2F4F5; font-size: 11px; font-effect: shadow(1px 1px #090B0D); }
 #marker.hidden { visibility: hidden; }
-#marker.contested { color: #FF4545; border-left-color: #FF4545; }
+#marker.contested { color: #FF4545; }

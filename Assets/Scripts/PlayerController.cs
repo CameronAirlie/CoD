@@ -62,6 +62,9 @@ public sealed class PlayerController : ScriptBehaviour
     /// <summary>Current vertical camera field of view in degrees.</summary>
     public float CameraFov => _cameraFov;
 
+    /// <summary>Current view origin, including crouch and camera movement.</summary>
+    public Vector3 ViewPosition => camera?.GameObject.WorldPosition ?? GameObject.WorldPosition;
+
     public void ConfirmNetworkHit(float dealtDamage, bool isHeadshot, bool isKill = false, bool hitArmour = false)
     {
         if (!float.IsFinite(dealtDamage) || dealtDamage <= 0.0f)

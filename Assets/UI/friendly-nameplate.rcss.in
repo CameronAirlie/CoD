@@ -1,5 +1,5 @@
 /* Generated stylesheet source; shared tokens are defined in theme.tokens.json. */
-body { width: 240px; height: 36px; display: flex; justify-content: center; align-items: center; overflow: hidden; pointer-events: none; font-family: TacticalDisplay; }
-#nameplate { width: 240px; height: 36px; text-align: center; color: ${friendly}; font-size: 16px; line-height: 36px; font-effect: shadow(1px 1px ${background}); }
+body { width: 120px; height: 18px; display: flex; justify-content: center; align-items: center; overflow: hidden; pointer-events: none; font-family: TacticalDisplay; }
+#nameplate { width: 120px; height: 18px; text-align: center; white-space: nowrap; overflow: hidden; color: ${friendly}; font-size: 11px; line-height: 18px; font-effect: shadow(1px 1px ${background}); }
 #friendly-name.friendly { color: ${friendly}; }
 #friendly-name.enemy { color: ${enemy}; }

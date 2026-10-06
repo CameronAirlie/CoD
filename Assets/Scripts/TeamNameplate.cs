@@ -2,10 +2,10 @@ namespace CoD.Scripts;
 
 internal static class TeamNameplate
 {
-    public static string Format(string username, bool friendly)
+    public static string Format(string username)
     {
         var escaped = username.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;")
             .Replace("\"", "&quot;");
-        return $"{(friendly ? "FRIENDLY" : "ENEMY")} | {escaped}";
+        return escaped;
     }
 }

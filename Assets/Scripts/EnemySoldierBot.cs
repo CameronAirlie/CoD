@@ -97,7 +97,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private bool _networkNameplateVisible;
     private GameObject? _nameplateObserver;
     private float _nextNameplateVisibilityAt;
-    [SerializedField] private float nameplateMaximumDistance = 60.0f;
+    [SerializedField] private float nameplateMaximumDistance = 20.0f;
     private float _turnDirection = 1.0f;
 
     public override void OnCreate()
@@ -398,7 +398,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             SetNameplateVisible(false);
             return;
         }
-        var text = TeamNameplate.Format(username, friendly);
+        var text = TeamNameplate.Format(username);
         if (_networkNameplateText != text)
         {
             _networkNameplateText = text;
@@ -437,12 +437,15 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         _nextNameplateVisibilityAt = _time + 0.1f;
         _nameplateObserver ??= GameObject.FindWithTag("Player") ?? GameObject.Find("Player");
         if (_nameplateObserver is null) { SetNameplateVisible(false); return; }
-        var origin = _nameplateObserver.WorldPosition + Vector3.UnitY * 0.65f;
+        var observerController = _nameplateObserver.GetComponent<PlayerController>();
+        if (observerController is null) { SetNameplateVisible(false); return; }
+        var origin = observerController.ViewPosition;
         var ray = GameObject.WorldPosition + Vector3.UnitY * 0.2f - origin;
         var length = ray.Length();
-        var inRange = length <= MathF.Max(1.0f, nameplateMaximumDistance);
-        var visible = inRange && (length <= 0.5f ||
-            !Physics.Raycast(origin, ray / length, MathF.Max(0.0f, length - 0.5f),
+        var inRange = float.IsFinite(length) && float.IsFinite(nameplateMaximumDistance) &&
+            length <= MathF.Max(0.0f, nameplateMaximumDistance);
+        var visible = inRange && (length <= 0.001f ||
+            !Physics.Raycast(origin, ray / length, length,
                 _nameplateObserver, out var hit) || hit.Entity.EntityId == EntityId);
         SetNameplateVisible(visible);
     }

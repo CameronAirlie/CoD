@@ -105,9 +105,10 @@ int main(int argc,char** argv) try {
         if(!document) throw std::runtime_error("Document load failed");
         document->Show();
         auto set=[&](const char* id,const char* markup) { auto e=document->GetElementById(id);if(e) e->SetInnerRML(markup); };
+        set("friendly-name", "NOMAD");
         if(auto marker=document->GetElementById("marker")) {
             marker->SetClass("hidden",false);
-            marker->SetInnerRML("<span class=\"marker-icon\">A</span>COURTYARD / 42m");
+            marker->SetInnerRML(screen == "defusal-marker" ? "A · 42m" : "<span class=\"marker-icon\">H</span>CAPTURE / 42m");
         }
         if(screen=="inventory") {
             const char* stats[]={"28 DMG / 180m / 660 RPM / 30 RND","34 DMG / 90m / 360 RPM / 12 RND","23 DMG / 200m / 780 RPM / 60 RND"};
