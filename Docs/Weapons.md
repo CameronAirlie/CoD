@@ -105,3 +105,10 @@ python Tools/build_weapon_validator.py C:/Users/Cameron.Airlie/dev/PlutoGE/out/b
 
 Final arena lighting, sound balance and host/client interaction need an editor
 and two-process playtest.
+
+Muzzle flashes use the shared `Particles/MuzzleFlash.plutoparticles` asset at
+each weapon socket. Each shot emits one stationary, local-space billboard with
+a 60 ms fade and an emissive, alpha-blended material. The weapon overlay camera
+renders these particles before the shared temporal resolve; the base camera's
+Weapon exclusion keeps them from being drawn twice. The native weapon smoke
+test checks muzzle emission for the rifle, pistol and machine gun.

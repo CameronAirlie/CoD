@@ -21,6 +21,14 @@ public sealed class WeaponSmokeProbe : ScriptBehaviour
     {
         if (!value) throw new InvalidOperationException(message);
     }
+    private static void CheckMuzzleFlash(GameObject rig)
+    {
+        var binding = rig.GetComponent<WeaponHandBinding>()!;
+        var emitter = typeof(WeaponHandBinding).GetField("muzzleFlash", BindingFlags.NonPublic | BindingFlags.Instance)!
+            .GetValue(binding) as ParticleSystemComponent;
+        Check(emitter is not null && emitter.ParticleCount > 0, "Equipped weapon did not emit its muzzle flash.");
+    }
+
     private void Invoke(string name) => typeof(PlayerController).GetMethod(name, BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(_player, null);
 
     public override void OnUpdate(float deltaTime)
@@ -42,6 +50,7 @@ public sealed class WeaponSmokeProbe : ScriptBehaviour
                 case 35:
                     Invoke("TryFire");
                     Check(_player!.Ammo == 29, "Rifle firing did not consume its own magazine.");
+                    CheckMuzzleFlash(rifle!);
                     break;
                 case 45:
                     Check(_player!.SelectWeaponSlot(1) && _player.Ammo == 12, "Pistol equip failed.");
@@ -52,6 +61,7 @@ public sealed class WeaponSmokeProbe : ScriptBehaviour
                 case 75:
                     Invoke("TryFire");
                     Check(_player!.Ammo == 11, "Pistol firing did not consume ammunition.");
+                    CheckMuzzleFlash(pistol!);
                     Invoke("BeginReload");
                     Check(_player.IsReloading, "Pistol reload did not begin.");
                     break;
@@ -61,6 +71,11 @@ public sealed class WeaponSmokeProbe : ScriptBehaviour
                     Check(_player.Ammo == 60 && _player.ReserveAmmo == _reserve, "Old rig event committed a cancelled reload.");
                     break;
                 case 125:
+                    Invoke("TryFire");
+                    Check(_player!.Ammo == 59, "Machine gun firing did not consume ammunition.");
+                    CheckMuzzleFlash(machineGun!);
+                    break;
+                case 135:
                     Check(_player!.SelectWeaponSlot(1) && _player.Ammo == 11, "Switching refilled the pistol.");
                     break;
                 case 175:
@@ -83,7 +98,7 @@ public sealed class WeaponSmokeProbe : ScriptBehaviour
                     Check(_player.Ammo == 30 && _player.SelectWeaponSlot(2) && _player.Ammo == 60, "Round reset did not refill all magazines.");
                     break;
                 case 365:
-                    File.WriteAllText(resultPath, "PASS: native managed startup, rig visibility, equip draw lock, firing, per-weapon ammo, reload cancellation, stale event isolation, reserve transfer, death/respawn and round reset.");
+                    File.WriteAllText(resultPath, "PASS: native managed startup, rig visibility, equip draw lock, firing and muzzle flashes for all three weapons, per-weapon ammo, reload cancellation, stale event isolation, reserve transfer, death/respawn and round reset.");
                     Input.CursorLocked = false;
                     break;
             }

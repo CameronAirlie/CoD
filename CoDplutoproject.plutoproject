@@ -238,7 +238,7 @@ ASSET	project://Materials/Ground.plutomaterial	691	Material
 ASSET	project://Materials/GroundPlane.plutomaterial	550	Material
 ASSET	project://Materials/Lightsaber_blade.plutomaterial	447	Material
 ASSET	project://Materials/Lightsaber_hilt.plutomaterial	431	Material
-ASSET	project://Materials/MuzzleFlash.plutomaterial	486	Material
+ASSET	project://Materials/MuzzleFlash.plutomaterial	484	Material
 ASSET	project://Materials/NepalTerrain.plutomaterial	584	Material
 ASSET	project://Materials/RenderMaterial.plutomaterial	687	Material
 ASSET	project://Materials/SSS.plutomaterial	509	Material
@@ -298,7 +298,7 @@ ASSET	project://Packs/AnimationPack/Walk_Loop.plutoclip	195796	Animation Clip
 ASSET	project://Particles/Grenades/Flash.plutoparticles	504	Particle System
 ASSET	project://Particles/Grenades/Smoke.plutoparticles	518	Particle System
 ASSET	project://Particles/Grenades/Sparks.plutoparticles	508	Particle System
-ASSET	project://Particles/MuzzleFlash.plutoparticles	864	Particle System
+ASSET	project://Particles/MuzzleFlash.plutoparticles	861	Particle System
 ASSET	project://Particles/smoke.plutoparticles	1517	Particle System
 ASSET	project://PostProcessing/main.plutopostprocess	6045	Post Process Preset
 ASSET	project://PostProcessing/performance.plutopostprocess	5624	Post Process Preset
