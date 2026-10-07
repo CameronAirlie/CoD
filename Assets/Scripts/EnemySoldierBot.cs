@@ -593,13 +593,20 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             navigationTarget.WorldPosition = _navigationDestination;
     }
 
+    private Vector3 TargetAimPoint(Vector3 position)
+    {
+        var collider = target?.GetComponent<ColliderComponent>();
+        return collider is null ? position + Vector3.UnitY * targetHeight :
+            CombatTargeting.AimPoint(position, collider.Center, collider.Height);
+    }
+
     private bool HasLineOfSight(Vector3 position, Vector3 targetPosition, float distance)
     {
         if (target is null)
             return false;
 
         var origin = position + Vector3.UnitY * eyeHeight;
-        var aimPoint = targetPosition + Vector3.UnitY * targetHeight;
+        var aimPoint = TargetAimPoint(targetPosition);
         var ray = aimPoint - origin;
         var rayLength = ray.Length();
         if (rayLength < 0.001f)
@@ -610,7 +617,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     private bool HasLineOfSightFrom(Vector3 position, Vector3 targetPosition)
     {
-        var ray = targetPosition + Vector3.UnitY * targetHeight -
+        var ray = TargetAimPoint(targetPosition) -
                   (position + Vector3.UnitY * eyeHeight);
         var rayLength = ray.Length();
         return target is not null && rayLength >= 0.001f &&
@@ -657,8 +664,10 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         if (target is null)
             return;
 
+        if (!HasLineOfSight(GameObject.WorldPosition, target.WorldPosition,
+            Vector3.Distance(GameObject.WorldPosition, target.WorldPosition))) return;
         var origin = GameObject.WorldPosition + Vector3.UnitY * eyeHeight;
-        var aimPoint = target.WorldPosition + Vector3.UnitY * targetHeight;
+        var aimPoint = TargetAimPoint(target.WorldPosition);
         var direction = Vector3.Normalize(aimPoint - origin);
         direction = ApplySpread(direction, accuracyDegrees);
 

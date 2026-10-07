@@ -15,7 +15,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 {
     private static MultiplayerSession? _activeSession;
 
-    private const int ProtocolVersion = 13;
+    private const int ProtocolVersion = 14;
     private const ushort HandshakeChannel = 1;
     private const ushort TransformChannel = 2;
     private const ushort PeerLeftChannel = 3;
@@ -775,6 +775,16 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         }
         remote.TargetPosition = transform.Position;
         remote.TargetYaw = transform.Yaw;
+        if (remote.GameObject.GetComponent<ColliderComponent>() is { } collider)
+        {
+            remote.StandingColliderHeight ??= collider.Height;
+            remote.StandingColliderCenter ??= collider.Center;
+            var height = CombatTargeting.StanceHeight(remote.StandingColliderHeight.Value,
+                collider.Radius, .5f, transform.Crouching);
+            collider.Height = height;
+            collider.Center = remote.StandingColliderCenter.Value - Vector3.UnitY *
+                ((remote.StandingColliderHeight.Value - height) * .5f);
+        }
     }
 
     private void OnServerPeerDisconnected(int peerId)
@@ -1448,7 +1458,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         int botId, int targetId, GameObject bot, GameObject target)
     {
         var origin = bot.WorldPosition + Vector3.UnitY * 0.65f;
-        var aimPoint = target.WorldPosition + Vector3.UnitY * 0.65f;
+        var aimPoint = ParticipantAimPoint(target);
         var ray = aimPoint - origin;
         var length = ray.Length();
         if (length < 0.001f) return true;
@@ -1472,6 +1482,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     private void BotFire(int botId, GameObject intendedTarget, BotController bot)
     {
+        if (!HasBotLineOfSight(botId, bot.TargetPeerId, bot.GameObject, intendedTarget)) return;
         PublishShotEffect(botId);
         var origin = bot.GameObject.WorldPosition + Vector3.UnitY * 0.65f;
         var aimPoint = ParticipantAimPoint(intendedTarget);
@@ -2090,7 +2101,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         int PeerId,
         float X, float Y, float Z,
         float Pitch, float Yaw, float Roll,
-        float RotationX, float RotationY, float RotationZ, float RotationW)
+        float RotationX, float RotationY, float RotationZ, float RotationW,
+        bool Crouching = false)
     {
         public Vector3 Position => new(X, Y, Z);
         public bool HasQuaternion =>
@@ -2108,7 +2120,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             return new PlayerTransform(
                 peerId, position.X, position.Y, position.Z,
                 euler.X, euler.Y, euler.Z,
-                quaternion.X, quaternion.Y, quaternion.Z, quaternion.W);
+                quaternion.X, quaternion.Y, quaternion.Z, quaternion.W,
+                player.GetComponent<PlayerController>()?.IsCrouching == true);
         }
 
         public bool IsFinite() =>
@@ -2124,6 +2137,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         public GameObject GameObject { get; } = gameObject;
         public Vector3 TargetPosition { get; set; } = position;
         public float TargetYaw { get; set; } = yaw;
+        public float? StandingColliderHeight { get; set; }
+        public Vector3? StandingColliderCenter { get; set; }
 
         public void Interpolate(float blend)
         {

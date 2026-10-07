@@ -136,11 +136,9 @@ public sealed partial class MultiplayerSession
         var threat = target is not null && bot.CachedLineOfSight && HorizontalDistance(bot.GameObject.WorldPosition, target.WorldPosition) <= botAttackRange;
         var plan = _defusalTactics.PlanFor(id);
         var goal = bomb.Bomb == BombState.Planted || bomb.Bomb == BombState.Dropped ? bomb.Position : SitePosition(plan.Site);
-        if (bot.DefusalApproach.Complete && bomb.Bomb == BombState.Carried && bomb.Carrier is { } holder && !carrier && state.Team == bomb.Attackers)
-        {
-            var leader = GetParticipantObject(holder);
-            if (leader is not null) goal = leader.WorldPosition;
-        }
+        // Clear the planned site independently of the carrier's movement.
+        // Following a human carrier here pulled the whole attack back to spawn
+        // whenever the player stayed behind after the lane approach.
         var usingBomb = carrier && DefusalRules.Near(bot.GameObject.WorldPosition, goal, DefusalRules.SiteRadius) ||
             bomb.Bomb == BombState.Planted && state.Team != bomb.Attackers && DefusalRules.Near(bot.GameObject.WorldPosition, goal, DefusalRules.UseRadius);
         if (threat && (!usingBomb || (_time - state.LastDamagedAt < .75f && bomb.Seconds > 6))) { bot.GameObject.TryInvoke("SetExternalCombatPaused", false); return false; }

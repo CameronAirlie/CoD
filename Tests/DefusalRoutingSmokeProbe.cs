@@ -10,6 +10,18 @@ public sealed partial class MultiplayerSession
         static void Check(bool condition, string message)
         { if (!condition) throw new InvalidOperationException(message); }
         Check(navigationMesh is not null && navigationMesh.IsValid, "Foundry navmesh missing.");
+        var crouchedHeight = CombatTargeting.StanceHeight(2, .5f, .5f, true);
+        var crouchedCenter = -System.Numerics.Vector3.UnitY * ((2 - crouchedHeight) * .5f);
+        Check(crouchedHeight == 1.5f && crouchedCenter.Y - crouchedHeight * .5f == -1,
+            "Crouching did not shrink the hitbox while preserving its feet.");
+        Check(crouchedCenter.Y + crouchedHeight * .5f == .5f,
+            "Crouching left an exposed standing hitbox above cover.");
+        Check(CombatTargeting.AimPoint(System.Numerics.Vector3.Zero, crouchedCenter, crouchedHeight).Y <
+            CombatTargeting.AimPoint(System.Numerics.Vector3.Zero, System.Numerics.Vector3.Zero, 2).Y,
+            "Bot aim did not lower with the crouched hitbox.");
+        Check(CombatTargeting.StanceHeight(2, .5f, .5f, false) == 2 &&
+            CombatTargeting.StanceHeight(2, .5f, 10, true) == 1,
+            "Standing restore or minimum capsule diameter failed.");
         foreach (var role in new[] { "Attack", "Defend" })
         {
             var spawn = PlutoGE.ScriptCore.GameObject.Find(role == "Attack" ? "Attacker Spawn" : "Defender Spawn")!.WorldPosition;
@@ -41,6 +53,18 @@ public sealed partial class MultiplayerSession
                 Check(TryDefusalBotMovement(pair.Key, bot, _playerStates[pair.Key], true), "Objective movement rejected.");
                 Check(bot.DefusalWaypoint.HasValue && !bot.DefusalApproach.Complete, "Lane fell back to direct objective.");
                 Check(bot.NavigationDestination == bot.DefusalWaypoint!.Value, "Adapter did not issue the lane destination.");
+                // Complete the approach while the human carrier remains at spawn.
+                // The attack must keep clearing its site rather than return to them.
+                bot.DefusalApproach.Destination(bot.GameObject.WorldPosition,
+                    SitePosition(plan.Site), null, _time, false);
+                bot.NextNavigationAt = 0;
+                Check(TryDefusalBotMovement(pair.Key, bot, _playerStates[pair.Key], true), "Site movement rejected.");
+                var goal = SitePosition(plan.Site);
+                if (_defusal!.Carrier != pair.Key)
+                    goal += DefusalBotTactics.CoverOffset(plan.ApproachAngle);
+                if (TryProjectBotNavigationPosition(goal, out var projected)) goal = projected;
+                Check(HorizontalDistance(bot.NavigationDestination, goal) < .1f,
+                    "Bot abandoned its site to follow the stationary carrier.");
             }
         }
     }
@@ -56,7 +80,7 @@ public sealed class DefusalRoutingSmokeProbe : ScriptBehaviour
         try
         {
             GameObject.GetComponent<MultiplayerSession>()!.CheckDefusalRouting();
-            File.WriteAllText(resultPath, "PASS: six reachable Foundry lanes and native bot route destinations across eight round resets.");
+            File.WriteAllText(resultPath, "PASS: six reachable Foundry lanes, independent site advances and native bot route destinations across eight round resets.");
         }
         catch (Exception error) { File.WriteAllText(resultPath, "FAIL: " + error); }
     }

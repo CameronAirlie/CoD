@@ -1,9 +1,11 @@
 using System.Numerics;
 namespace CoD.Scripts;
 
-/// <summary>Standing FPS participants are aimed at inside their collision volume, independently of model proportions.</summary>
+/// <summary>Participant stance and aim geometry, independently of model proportions.</summary>
 public static class CombatTargeting
 {
+    public static float StanceHeight(float standingHeight, float radius, float cameraDrop, bool crouching) =>
+        crouching ? MathF.Max(radius * 2, standingHeight - MathF.Max(0, cameraDrop)) : standingHeight;
     public static Vector3 AimPoint(Vector3 position, Vector3 colliderCenter, float colliderHeight)
     {
         var height = float.IsFinite(colliderHeight) ? Math.Clamp(colliderHeight, .1f, 10) : 1.5f;

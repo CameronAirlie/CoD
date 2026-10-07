@@ -25,6 +25,11 @@ while shuffled defenders split coverage between both sites. Each bot selects a
 West, Mid or East lane different from its previous round and receives a new
 cover angle. Plans remain stable throughout the round.
 
+Attackers continue to their planned site after the lane approach, even when a
+human bomb carrier stays at spawn. They clear and cover the site independently;
+the carrier still needs to bring the bomb to a site and plant it. Defenders
+retain split site coverage, and nearby visible threats take combat priority.
+
 Foundry supplies separate attack and defence lane markers. The serialized
 `defusalAttackRouteNames` and `defusalDefendRouteNames` fields list marker names
 separated by `|`; custom maps can place their own markers. The adapter validates

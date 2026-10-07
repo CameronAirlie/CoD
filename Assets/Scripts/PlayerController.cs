@@ -280,6 +280,8 @@ public sealed class PlayerController : ScriptBehaviour
 
     private RigidbodyComponent? _rigidbody;
     private ColliderComponent? _collider;
+    private float _standingColliderHeight;
+    private Vector3 _standingColliderCenter;
     private float _yaw;
     private float _pitch;
     private float _verticalVelocity;
@@ -354,6 +356,8 @@ public sealed class PlayerController : ScriptBehaviour
         if (_collider is not null)
         {
             _collider.Shape = ColliderShape.Capsule;
+            _standingColliderHeight = _collider.Height;
+            _standingColliderCenter = _collider.Center;
         }
 
         if (weaponModel is not null)
@@ -455,6 +459,7 @@ public sealed class PlayerController : ScriptBehaviour
         _sliding = false;
         _aiming = false;
         _crouching = false;
+        UpdateStanceCollider();
         CancelReload();
         _hands.SetVisible(false);
         if (camera is not null)
@@ -468,6 +473,9 @@ public sealed class PlayerController : ScriptBehaviour
     public void ExitDeathState()
     {
         _dead = false;
+        _crouching = false;
+        _sliding = false;
+        UpdateStanceCollider();
         _hands.SetVisible(true);
         _deathCameraTime = 0.0f;
         _horizontalVelocity = Vector3.Zero;
@@ -581,6 +589,7 @@ public sealed class PlayerController : ScriptBehaviour
         }
 
         _crouching = crouchHeld || _sliding;
+        UpdateStanceCollider();
         if (_grounded && Input.IsKeyPressed(KeyCode.Space) && !_sliding)
         {
             _verticalVelocity = MathF.Sqrt(jumpHeight * -2.0f * gravity);
@@ -596,6 +605,15 @@ public sealed class PlayerController : ScriptBehaviour
         {
             _verticalVelocity = -2.0f;
         }
+    }
+
+    private void UpdateStanceCollider()
+    {
+        if (_collider is null) return;
+        var height = CombatTargeting.StanceHeight(_standingColliderHeight, _collider.Radius,
+            standingCameraHeight - crouchingCameraHeight, _crouching);
+        _collider.Height = height;
+        _collider.Center = _standingColliderCenter - Vector3.UnitY * ((_standingColliderHeight - height) * .5f);
     }
 
     private void UpdateCamera(float deltaTime)
