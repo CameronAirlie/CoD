@@ -14,10 +14,10 @@ RUNTIME_RENDER_SCALE	0.9
 RUNTIME_UPSCALE_SHARPNESS	0.5
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	-0.708894	0.545613	-1.63492
+EDITOR_CAMERA_POSITION	-129.704	45.046	-61.8405
 EDITOR_CAMERA_SPEED	6
 EDITOR_CAMERA_RUNTIME_UI	0
-EDITOR_CAMERA_ROTATION	-3029.59	-12.92
+EDITOR_CAMERA_ROTATION	-3727.27	-6.79999
 EDITOR_CAMERA_LENS	70	0.1	10000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/performance.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -351,7 +351,7 @@ ASSET	project://Scenes/Foundry.plutoscene	146580	Scene
 ASSET	project://Scenes/Main.plutoscene	177412	Scene
 ASSET	project://Scenes/Title.plutoscene	8908	Scene
 ASSET	project://Scenes/car_scene.plutoscene	2993166	Scene
-ASSET	project://Scenes/island.plutoscene	8536273	Scene
+ASSET	project://Scenes/island.plutoscene	8777265	Scene
 ASSET	project://Scenes/ragdoll_test.plutoscene	20927	Scene
 ASSET	project://Scripts/BotCombatMovement.cs	1265	Script
 ASSET	project://Scripts/BotObjectiveTactics.cs	1270	Script
