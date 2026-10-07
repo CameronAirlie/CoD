@@ -64,6 +64,23 @@ Require(BotSpawnResolver.TryResolve(marker, _ => projected,
     && stale == ground, "Stale projected floor prevented the authored fallback.");
 Console.WriteLine("PASS: missing navigation bake, preferred projection, missing ground, occupied marker, stale projected floor.");
 
+// Reaction is tied to visible target identity, independently of movement holds.
+var reaction = new BotTargetReaction();
+Require(!reaction.CanFire(100), "Unacquired target allowed firing.");
+reaction.Observe(1, true, 10, .5f);
+reaction.Observe(1, true, 10.25f, .5f);
+Require(!reaction.CanFire(10.49f) && reaction.CanFire(10.5f), "Acquisition delay failed or restarted every frame.");
+reaction.Observe(2, true, 10.6f, .5f);
+Require(!reaction.CanFire(10.9f) && reaction.CanFire(11.1f), "Target switch bypassed reaction.");
+reaction.Observe(2, false, 11.2f, .5f);
+Require(!reaction.CanFire(20), "Hidden target retained firing readiness.");
+reaction.Observe(2, true, 20, .5f);
+Require(!reaction.CanFire(20.49f) && reaction.CanFire(20.5f), "Reacquired target bypassed reaction.");
+reaction.Reset();
+Require(!reaction.CanFire(100), "Life/round reset retained firing readiness.");
+reaction.Observe(3, true, 100, -1);
+Require(reaction.CanFire(100), "Zero-delay tuning failed.");
+
 var movement = new BotCombatMovement();
 Require(movement.CanHold(0), "Fresh bot cannot engage.");
 movement.BeginHold(10, 2.5f);

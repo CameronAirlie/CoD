@@ -113,7 +113,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     [SerializedField] private float botPerceptionInterval = 0.1f;
     [SerializedField] private float botLostSightGrace = 0.5f;
     [SerializedField] private int botThinkBudgetPerFrame = 1;
-    [SerializedField] private float botReactionTime = 0.22f;
+    [SerializedField] private float botReactionTime = 0.5f;
     [SerializedField] private int botBurstSize = 5;
     [SerializedField] private float botBurstPause = 0.3f;
     [SerializedField] private float botStuckTimeout = 2.0f;
@@ -1051,6 +1051,10 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 }
             }
 
+            // Observe before objective movement can skip combat processing.
+            // Stance and burst cooldowns must not bypass target reacquisition.
+            bot.TargetReaction.Observe(bot.TargetPeerId, bot.CachedLineOfSight, _time, botReactionTime);
+
             if (IsDefusal && TryDefusalBotMovement(botId, bot, botState, canThink)) continue;
             if (TryObjectiveMovement(botId, bot, botState, canThink)) continue;
             var targetId = bot.TargetPeerId;
@@ -1096,7 +1100,6 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 bot.IsEngaging = true;
                 bot.CombatMovement.BeginHold(_time,
                     MathF.Max(0.25f, botCombatHoldDuration) * (0.7f + NextBotRandom(bot) * 0.6f));
-                bot.NextShotAt = MathF.Max(bot.NextShotAt, _time + MathF.Max(0.0f, botReactionTime));
                 bot.ShotsInBurst = 0;
                 bot.BurstLimit = Math.Max(1, botBurstSize + (int)(NextBotRandom(bot) * 4) - 1);
                 bot.HasNavigationDestination = false;
@@ -1210,7 +1213,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             }
 
             if (bot.IsEngaging && !isReloading && facingTarget && hasLineOfSight &&
-                _time >= bot.NextShotAt)
+                bot.TargetReaction.CanFire(_time) && _time >= bot.NextShotAt)
             {
                 if (bot.MagazineAmmo <= 0)
                 {
@@ -1903,6 +1906,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         bot.HasNavigationDestination = false;
         bot.TacticalSearchActive = false;
         bot.CombatMovement.Reset();
+        bot.TargetReaction.Reset();
         bot.LastLineOfSightAt = float.MinValue;
         bot.GameObject.TryInvoke("SetExternalAiming", false);
     }
@@ -2040,6 +2044,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         public GameObject GameObject { get; } = gameObject;
         public RigidbodyComponent? Body { get; } = gameObject.GetComponent<RigidbodyComponent>();
         public Vector3 SpawnPosition { get; } = spawnPosition;
+        public BotTargetReaction TargetReaction { get; } = new();
         public float NextShotAt { get; set; }
         public int MagazineAmmo { get; set; } = Math.Max(1, magazineSize);
         public BotCombatMovement CombatMovement { get; } = new();

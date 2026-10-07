@@ -578,7 +578,7 @@ PROPERTY	botTargetSelectionInterval	0	0.300000	0
 PROPERTY	botPerceptionInterval	0	0.100000	0
 PROPERTY	botLostSightGrace	0	0.500000	0
 PROPERTY	botThinkBudgetPerFrame	1	1	0
-PROPERTY	botReactionTime	0	0.220000	0
+PROPERTY	botReactionTime	0	0.500000	0
 PROPERTY	botBurstSize	1	5	0
 PROPERTY	botBurstPause	0	0.300000	0
 PROPERTY	botStuckTimeout	0	2.000000	0

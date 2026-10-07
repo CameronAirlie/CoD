@@ -35,6 +35,48 @@ public sealed partial class MultiplayerSession
                 Check(path.Complete && path.Points.Count > 0, $"Unreachable {name}.");
             }
         }
+        // Terrain tiers must be real collision surfaces and reachable in both directions.
+        foreach (var sample in new[] {
+            new System.Numerics.Vector3(-22, 2, -16),
+            new System.Numerics.Vector3(22, 4, -16),
+            new System.Numerics.Vector3(0, 4, -32),
+            new System.Numerics.Vector3(0, 0, 3) })
+        {
+            Check(Physics.Raycast(sample + System.Numerics.Vector3.UnitY * 10,
+                -System.Numerics.Vector3.UnitY, 15, out var floor) &&
+                MathF.Abs(floor.Point.Y - sample.Y) < .1f, "Incorrect Foundry tier height.");
+        }
+        // Representative cross-map views must hit architecture before the far yard.
+        foreach (var (from, to) in new[] {
+            (new System.Numerics.Vector3(-22, 3.6f, 0), new System.Numerics.Vector3(22, 5.6f, 0)),
+            (new System.Numerics.Vector3(-22, 3.6f, -16), new System.Numerics.Vector3(22, 5.6f, -16)),
+            (new System.Numerics.Vector3(0, 1.6f, 21), new System.Numerics.Vector3(0, 5.6f, -26)),
+            (new System.Numerics.Vector3(-24, 3.6f, 10), new System.Numerics.Vector3(-24, 3.6f, -8)),
+            (new System.Numerics.Vector3(24, 5.6f, 10), new System.Numerics.Vector3(24, 5.6f, -8)),
+            (new System.Numerics.Vector3(-28, 5.6f, -30), new System.Numerics.Vector3(28, 5.6f, -30)) })
+        {
+            var ray = to - from;
+            Check(Physics.Raycast(from, System.Numerics.Vector3.Normalize(ray), ray.Length(), out var obstruction)
+                && obstruction.Distance < ray.Length() - 1, $"Unblocked Foundry sightline {from} -> {to}.");
+        }
+        var connections = new[] {
+            (new System.Numerics.Vector3(-23, 0, 25), new System.Numerics.Vector3(-23, 2, 15)),
+            (new System.Numerics.Vector3(23, 0, 29), new System.Numerics.Vector3(23, 4, 15)),
+            (new System.Numerics.Vector3(0, 0, -15), new System.Numerics.Vector3(0, 4, -25)),
+            (new System.Numerics.Vector3(-24, 2, -17), new System.Numerics.Vector3(-24, 4, -25)),
+            (new System.Numerics.Vector3(-6, 0, -15), new System.Numerics.Vector3(-16, 2, -15)),
+            (new System.Numerics.Vector3(-6, 0, 2), new System.Numerics.Vector3(-16, 2, 2)),
+            (new System.Numerics.Vector3(-6, 0, 13), new System.Numerics.Vector3(-16, 2, 13)),
+            (new System.Numerics.Vector3(6, 0, -18), new System.Numerics.Vector3(16, 4, -18)),
+            (new System.Numerics.Vector3(6, 0, 0), new System.Numerics.Vector3(16, 4, 0)),
+            (new System.Numerics.Vector3(6, 0, 12), new System.Numerics.Vector3(16, 4, 12)) };
+        foreach (var (low, high) in connections)
+        {
+            Check(Navigation.FindPath(navigationMesh!, low, high, botNavigationAgentRadius, botNavigationAgentHeight).Complete,
+                $"Unreachable uphill Foundry connection {low} -> {high}.");
+            Check(Navigation.FindPath(navigationMesh!, high, low, botNavigationAgentRadius, botNavigationAgentHeight).Complete,
+                $"Unreachable downhill Foundry connection {high} -> {low}.");
+        }
         for (int i = 0; i < 6; i++) EnsureBotFill();
         Check(_bots.Count >= 2, "Bot roster failed to spawn.");
         var previous = new Dictionary<int, int>();
@@ -80,7 +122,7 @@ public sealed class DefusalRoutingSmokeProbe : ScriptBehaviour
         try
         {
             GameObject.GetComponent<MultiplayerSession>()!.CheckDefusalRouting();
-            File.WriteAllText(resultPath, "PASS: six reachable Foundry lanes, independent site advances and native bot route destinations across eight round resets.");
+            File.WriteAllText(resultPath, "PASS: six blocked cross-map sightlines, four terrain heights, ten bidirectional tier connections, six Foundry lanes and native bot routes across eight round resets.");
         }
         catch (Exception error) { File.WriteAllText(resultPath, "FAIL: " + error); }
     }

@@ -8,15 +8,167 @@ PROPERTY	Size	3	1.000000,1.000000,1.000000	0
 PROPERTY	Radius	0	0.300000	0
 PROPERTY	Height	0	1.500000	0
 PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
 PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	156	AnimationComponent	1
+PROPERTY	SourceAnimation	2	project://Bots/Soldier/Soldier.plutoanim	0
+PROPERTY	AnimationGraph	2	project://Bots/Soldier/Soldier.plutoanimgraph	0
+PROPERTY	CurrentClipIndex	6	30	44	Rifle_Idle	Rifle_Walk	Rifle_Jog	Rifle_Sprint	Rifle_Aim	Rifle_Fire	Rifle_Hit	Rifle_Reload	Pistol_Idle	Pistol_Walk	Pistol_Jog	Pistol_Sprint	Pistol_Aim	Pistol_Fire	Pistol_Hit	Pistol_Reload	Idle_Loop	Walk_Loop	Jog_Fwd_Loop	Sprint_Loop	Rifle_Idle	Rifle_Aim	Rifle_Fire	Rifle_Hit	Rifle_Reload	Pistol_Idle	Pistol_Aim	Pistol_Fire	Pistol_Hit	Pistol_Reload	Idle_Loop	Walk_Loop	Jog_Fwd_Loop	Sprint_Loop	Rifle_Idle	Rifle_Aim	Rifle_Fire	Rifle_Hit	Rifle_Reload	Pistol_Idle	Pistol_Aim	Pistol_Fire	Pistol_Hit	Pistol_Reload
+PROPERTY	Time	0	1.265579	0
+PROPERTY	Speed	0	1.000000	0
+PROPERTY	Playing	4	true	0
+PROPERTY	Looping	4	true	0
+PROPERTY	Autoplay	4	true	0
+PROPERTY	PoseUpdateRate	0	30.000000	0
+PROPERTY	RagdollEnabled	4	false	0
+PROPERTY	RagdollWeight	0	1.000000	0
+PROPERTY	ClipCount	1	44	0
+PROPERTY	Clips.0.Name	2	Rifle_Idle	0
+PROPERTY	Clips.0.Duration	0	2.000000	0
+PROPERTY	Clips.0.ChannelCount	1	189	0
+PROPERTY	Clips.1.Name	2	Rifle_Walk	0
+PROPERTY	Clips.1.Duration	0	1.200000	0
+PROPERTY	Clips.1.ChannelCount	1	189	0
+PROPERTY	Clips.2.Name	2	Rifle_Jog	0
+PROPERTY	Clips.2.Duration	0	0.800000	0
+PROPERTY	Clips.2.ChannelCount	1	189	0
+PROPERTY	Clips.3.Name	2	Rifle_Sprint	0
+PROPERTY	Clips.3.Duration	0	0.600000	0
+PROPERTY	Clips.3.ChannelCount	1	189	0
+PROPERTY	Clips.4.Name	2	Rifle_Aim	0
+PROPERTY	Clips.4.Duration	0	2.000000	0
+PROPERTY	Clips.4.ChannelCount	1	189	0
+PROPERTY	Clips.5.Name	2	Rifle_Fire	0
+PROPERTY	Clips.5.Duration	0	0.250000	0
+PROPERTY	Clips.5.ChannelCount	1	189	0
+PROPERTY	Clips.6.Name	2	Rifle_Hit	0
+PROPERTY	Clips.6.Duration	0	0.500000	0
+PROPERTY	Clips.6.ChannelCount	1	189	0
+PROPERTY	Clips.7.Name	2	Rifle_Reload	0
+PROPERTY	Clips.7.Duration	0	2.000000	0
+PROPERTY	Clips.7.ChannelCount	1	189	0
+PROPERTY	Clips.8.Name	2	Pistol_Idle	0
+PROPERTY	Clips.8.Duration	0	2.000000	0
+PROPERTY	Clips.8.ChannelCount	1	189	0
+PROPERTY	Clips.9.Name	2	Pistol_Walk	0
+PROPERTY	Clips.9.Duration	0	1.200000	0
+PROPERTY	Clips.9.ChannelCount	1	189	0
+PROPERTY	Clips.10.Name	2	Pistol_Jog	0
+PROPERTY	Clips.10.Duration	0	0.800000	0
+PROPERTY	Clips.10.ChannelCount	1	189	0
+PROPERTY	Clips.11.Name	2	Pistol_Sprint	0
+PROPERTY	Clips.11.Duration	0	0.600000	0
+PROPERTY	Clips.11.ChannelCount	1	189	0
+PROPERTY	Clips.12.Name	2	Pistol_Aim	0
+PROPERTY	Clips.12.Duration	0	2.000000	0
+PROPERTY	Clips.12.ChannelCount	1	189	0
+PROPERTY	Clips.13.Name	2	Pistol_Fire	0
+PROPERTY	Clips.13.Duration	0	0.250000	0
+PROPERTY	Clips.13.ChannelCount	1	189	0
+PROPERTY	Clips.14.Name	2	Pistol_Hit	0
+PROPERTY	Clips.14.Duration	0	0.500000	0
+PROPERTY	Clips.14.ChannelCount	1	189	0
+PROPERTY	Clips.15.Name	2	Pistol_Reload	0
+PROPERTY	Clips.15.Duration	0	2.000000	0
+PROPERTY	Clips.15.ChannelCount	1	189	0
+PROPERTY	Clips.16.Name	2	Idle_Loop	0
+PROPERTY	Clips.16.Duration	0	2.500000	0
+PROPERTY	Clips.16.ChannelCount	1	195	0
+PROPERTY	Clips.17.Name	2	Walk_Loop	0
+PROPERTY	Clips.17.Duration	0	1.333333	0
+PROPERTY	Clips.17.ChannelCount	1	195	0
+PROPERTY	Clips.18.Name	2	Jog_Fwd_Loop	0
+PROPERTY	Clips.18.Duration	0	0.933333	0
+PROPERTY	Clips.18.ChannelCount	1	195	0
+PROPERTY	Clips.19.Name	2	Sprint_Loop	0
+PROPERTY	Clips.19.Duration	0	0.666667	0
+PROPERTY	Clips.19.ChannelCount	1	195	0
+PROPERTY	Clips.20.Name	2	Rifle_Idle	0
+PROPERTY	Clips.20.Duration	0	2.000000	0
+PROPERTY	Clips.20.ChannelCount	1	189	0
+PROPERTY	Clips.21.Name	2	Rifle_Aim	0
+PROPERTY	Clips.21.Duration	0	2.000000	0
+PROPERTY	Clips.21.ChannelCount	1	189	0
+PROPERTY	Clips.22.Name	2	Rifle_Fire	0
+PROPERTY	Clips.22.Duration	0	0.250000	0
+PROPERTY	Clips.22.ChannelCount	1	189	0
+PROPERTY	Clips.23.Name	2	Rifle_Hit	0
+PROPERTY	Clips.23.Duration	0	0.500000	0
+PROPERTY	Clips.23.ChannelCount	1	189	0
+PROPERTY	Clips.24.Name	2	Rifle_Reload	0
+PROPERTY	Clips.24.Duration	0	2.000000	0
+PROPERTY	Clips.24.ChannelCount	1	189	0
+PROPERTY	Clips.25.Name	2	Pistol_Idle	0
+PROPERTY	Clips.25.Duration	0	2.000000	0
+PROPERTY	Clips.25.ChannelCount	1	189	0
+PROPERTY	Clips.26.Name	2	Pistol_Aim	0
+PROPERTY	Clips.26.Duration	0	2.000000	0
+PROPERTY	Clips.26.ChannelCount	1	189	0
+PROPERTY	Clips.27.Name	2	Pistol_Fire	0
+PROPERTY	Clips.27.Duration	0	0.250000	0
+PROPERTY	Clips.27.ChannelCount	1	189	0
+PROPERTY	Clips.28.Name	2	Pistol_Hit	0
+PROPERTY	Clips.28.Duration	0	0.500000	0
+PROPERTY	Clips.28.ChannelCount	1	189	0
+PROPERTY	Clips.29.Name	2	Pistol_Reload	0
+PROPERTY	Clips.29.Duration	0	2.000000	0
+PROPERTY	Clips.29.ChannelCount	1	189	0
+PROPERTY	Clips.30.Name	2	Idle_Loop	0
+PROPERTY	Clips.30.Duration	0	2.500000	0
+PROPERTY	Clips.30.ChannelCount	1	195	0
+PROPERTY	Clips.31.Name	2	Walk_Loop	0
+PROPERTY	Clips.31.Duration	0	1.333333	0
+PROPERTY	Clips.31.ChannelCount	1	195	0
+PROPERTY	Clips.32.Name	2	Jog_Fwd_Loop	0
+PROPERTY	Clips.32.Duration	0	0.933333	0
+PROPERTY	Clips.32.ChannelCount	1	195	0
+PROPERTY	Clips.33.Name	2	Sprint_Loop	0
+PROPERTY	Clips.33.Duration	0	0.666667	0
+PROPERTY	Clips.33.ChannelCount	1	195	0
+PROPERTY	Clips.34.Name	2	Rifle_Idle	0
+PROPERTY	Clips.34.Duration	0	2.000000	0
+PROPERTY	Clips.34.ChannelCount	1	189	0
+PROPERTY	Clips.35.Name	2	Rifle_Aim	0
+PROPERTY	Clips.35.Duration	0	2.000000	0
+PROPERTY	Clips.35.ChannelCount	1	189	0
+PROPERTY	Clips.36.Name	2	Rifle_Fire	0
+PROPERTY	Clips.36.Duration	0	0.250000	0
+PROPERTY	Clips.36.ChannelCount	1	189	0
+PROPERTY	Clips.37.Name	2	Rifle_Hit	0
+PROPERTY	Clips.37.Duration	0	0.500000	0
+PROPERTY	Clips.37.ChannelCount	1	189	0
+PROPERTY	Clips.38.Name	2	Rifle_Reload	0
+PROPERTY	Clips.38.Duration	0	2.000000	0
+PROPERTY	Clips.38.ChannelCount	1	189	0
+PROPERTY	Clips.39.Name	2	Pistol_Idle	0
+PROPERTY	Clips.39.Duration	0	2.000000	0
+PROPERTY	Clips.39.ChannelCount	1	189	0
+PROPERTY	Clips.40.Name	2	Pistol_Aim	0
+PROPERTY	Clips.40.Duration	0	2.000000	0
+PROPERTY	Clips.40.ChannelCount	1	189	0
+PROPERTY	Clips.41.Name	2	Pistol_Fire	0
+PROPERTY	Clips.41.Duration	0	0.250000	0
+PROPERTY	Clips.41.ChannelCount	1	189	0
+PROPERTY	Clips.42.Name	2	Pistol_Hit	0
+PROPERTY	Clips.42.Duration	0	0.500000	0
+PROPERTY	Clips.42.ChannelCount	1	189	0
+PROPERTY	Clips.43.Name	2	Pistol_Reload	0
+PROPERTY	Clips.43.Duration	0	2.000000	0
+PROPERTY	Clips.43.ChannelCount	1	189	0
 END_COMPONENT
 COMPONENT	156	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.EnemySoldierBot	0
-PROPERTY	soldierMesh	9	160	0
-PROPERTY	supportHandTarget	9	7001	0
 PROPERTY	remoteProxy	4	false	0
 PROPERTY	target	9	1	0
 PROPERTY	animationObject	9	156	0
+PROPERTY	supportHandTarget	9	7001	0
+PROPERTY	rifleWeapon	9	7003	0
+PROPERTY	pistolWeapon	9	7004	0
+PROPERTY	supportGripOffset	3	0.069968,-0.033534,-0.245002	0
+PROPERTY	pistolSupportGripOffset	3	0.017292,0.050999,0.015000	0
+PROPERTY	supportGripRotation	3	3.718197,4.337301,-170.660461	0
+PROPERTY	pistolSupportGripRotation	3	-0.000029,0.000025,98.937157	0
 PROPERTY	gunAudioObject	9	157	0
 PROPERTY	navigationTarget	9	162	0
 PROPERTY	navigationMesh	9	707	0
@@ -59,22 +211,25 @@ PROPERTY	hasTargetParameter	2	HasTarget	0
 PROPERTY	shootTriggerParameter	2	Shoot	0
 PROPERTY	hitTriggerParameter	2	Hit	0
 PROPERTY	deathCleanupDelay	0	4.000000	0
+PROPERTY	nameplateMaximumDistance	0	20.000000	0
+PROPERTY	moveAnimation	2	Walk	0
 PROPERTY	tacticalRepathMin	0	0.650000	0
 PROPERTY	tacticalRepathMax	0	1.250000	0
 PROPERTY	idleAnimation	2	Idle	0
-PROPERTY	strafeSpeed	0	2.200000	0
 PROPERTY	fireAnimation	2	Shoot	0
+PROPERTY	strafeSpeed	0	2.200000	0
 PROPERTY	deathAnimation	2	Death	0
 PROPERTY	moveSpeed	0	4.800000	0
 PROPERTY	retreatRange	0	7.000000	0
 PROPERTY	flankAngle	0	55.000000	0
-PROPERTY	moveAnimation	2	Walk	0
+PROPERTY	weaponPose	2	0	0
 END_COMPONENT
 COMPONENT	156	RigidbodyComponent	1
 PROPERTY	Mass	0	1.000000	0
 PROPERTY	Linear Drag	0	0.000000	0
 PROPERTY	Angular Drag	0	0.050000	0
 PROPERTY	Friction	0	1.800000	0
+PROPERTY	Restitution	0	0.000000	0
 PROPERTY	Use Gravity	4	true	0
 PROPERTY	Is Kinematic	4	true	0
 PROPERTY	Freeze Rotation	4	true	0
@@ -104,27 +259,19 @@ PROPERTY	Damping	0	8.000000	0
 PROPERTY	MaxForce	0	1200.000000	0
 PROPERTY	MaxTorque	0	80.000000	0
 END_COMPONENT
-COMPONENT	156	AnimationComponent	1
-PROPERTY	SourceAnimation	2	project://Bots/Soldier/Soldier.plutoanim	0
-PROPERTY	AnimationGraph	2	project://Bots/Soldier/Soldier.plutoanimgraph	0
-PROPERTY	Playing	4	true	0
-PROPERTY	Looping	4	true	0
-PROPERTY	Autoplay	4	true	0
-PROPERTY	PoseUpdateRate	0	30	0
-END_COMPONENT
 COMPONENT	156	IKComponent	1
 PROPERTY	Mesh	9	160	0
 PROPERTY	PreviewInEditor	4	true	0
 PROPERTY	ConstraintCount	1	1	0
 PROPERTY	Constraints.0.Name	2	Rifle support hand	0
 PROPERTY	Constraints.0.Enabled	4	true	0
-PROPERTY	Constraints.0.RootBone	2	UpperArm.L	0
-PROPERTY	Constraints.0.MiddleBone	2	LowerArm.L	0
-PROPERTY	Constraints.0.TipBone	2	Hand.L	0
+PROPERTY	Constraints.0.RootBone	2	UpperArm.L	64		Root	Hips	Spine	Chest	UpperChest	Neck	Head	LeftShoulder	UpperArm.L	LowerArm.L	Hand.L	Thumb1.L	Thumb2.L	Thumb3.L	Index1.L	Index2.L	Index3.L	Middle1.L	Middle2.L	Middle3.L	Ring1.L	Ring2.L	Ring3.L	Little1.L	Little2.L	Little3.L	WeaponSocket.L	RightShoulder	UpperArm.R	LowerArm.R	Hand.R	Thumb1.R	Thumb2.R	Thumb3.R	Index1.R	Index2.R	Index3.R	Middle1.R	Middle2.R	Middle3.R	Ring1.R	Ring2.R	Ring3.R	Little1.R	Little2.R	Little3.R	WeaponSocket.R	LeftUpperLeg	LeftLowerLeg	Foot.L	LeftToes	RightUpperLeg	RightLowerLeg	Foot.R	RightToes	CTRL_Hand.L	CTRL_Elbow.L	CTRL_Foot.L	CTRL_Knee.L	CTRL_Hand.R	CTRL_Elbow.R	CTRL_Foot.R	CTRL_Knee.R
+PROPERTY	Constraints.0.MiddleBone	2	LowerArm.L	2		LowerArm.L
+PROPERTY	Constraints.0.TipBone	2	Hand.L	2		Hand.L
 PROPERTY	Constraints.0.Target	9	7001	0
 PROPERTY	Constraints.0.Hint	9	7002	0
 PROPERTY	Constraints.0.Weight	0	1	0
-PROPERTY	Constraints.0.RotationWeight	0	0	0
+PROPERTY	Constraints.0.RotationWeight	0	1	0
 PROPERTY	Constraints.0.WeightParameter	2	SupportHandIK	0
 END_COMPONENT
 ENTITY	157	156	1	Audio	0.000000,0.000000,-0.671811	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
@@ -143,19 +290,27 @@ PROPERTY	AirAbsorptionStrength	0	1.000000	0
 PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
 ENTITY	159	156	1	UAL1_Standard	0.000000,0.000000,0.000000	0.000000,180.000000,0.000000	1.000000,1.000000,1.000000
-ENTITY	160	159	1	Rigged Soldier	0,0,0	0,0,0	1,1,1
+ENTITY	160	159	1	Rigged Soldier	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	160	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2		0
+PROPERTY	ModelObjectId	2	0	0
 PROPERTY	MeshAssetReference	2	project://Bots/Soldier/Soldier_Game.plutomesh	0
-PROPERTY	MeshPositionOffset	3	0,-1,0	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,-1.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
-ENTITY	2509	160	1	Joint 6 - Head	-0.021321,0.521621,0.014549	22.304100,0.141954,10.108565	1.000000,1.000000,1.000000
+ENTITY	2509	160	1	Joint 6 - Head	-0.004289,0.550712,-0.030801	88.339119,-0.516403,13.319022	1.000000,1.000000,1.000000
 TAGS	2509	1	SkeletonAttachment
 COMPONENT	2509	SkeletonAttachmentComponent	1
-PROPERTY	TargetNodeIndex	1	0	0
-PROPERTY	JointName	2	Head	0
+PROPERTY	PositionOffset	3	0,0,0	0
+PROPERTY	RotationOffset	3	0,0,0	0
+PROPERTY	TargetNodeIndex	1	6	0
+PROPERTY	JointName	2	Head	64		Root	Hips	Spine	Chest	UpperChest	Neck	Head	LeftShoulder	UpperArm.L	LowerArm.L	Hand.L	Thumb1.L	Thumb2.L	Thumb3.L	Index1.L	Index2.L	Index3.L	Middle1.L	Middle2.L	Middle3.L	Ring1.L	Ring2.L	Ring3.L	Little1.L	Little2.L	Little3.L	WeaponSocket.L	RightShoulder	UpperArm.R	LowerArm.R	Hand.R	Thumb1.R	Thumb2.R	Thumb3.R	Index1.R	Index2.R	Index3.R	Middle1.R	Middle2.R	Middle3.R	Ring1.R	Ring2.R	Ring3.R	Little1.R	Little2.R	Little3.R	WeaponSocket.R	LeftUpperLeg	LeftLowerLeg	Foot.L	LeftToes	RightUpperLeg	RightLowerLeg	Foot.R	RightToes	CTRL_Hand.L	CTRL_Elbow.L	CTRL_Foot.L	CTRL_Knee.L	CTRL_Hand.R	CTRL_Elbow.R	CTRL_Foot.R	CTRL_Knee.R
 END_COMPONENT
 ENTITY	2568	2509	1	HeadCollider	-0.000167,0.131896,-0.000004	-0.000003,-0.000010,-0.000009	0.230001,0.154475,0.230002
 TAGS	2568	1	Head
@@ -166,16 +321,48 @@ PROPERTY	Size	3	1.000000,1.000000,1.000000	0
 PROPERTY	Radius	0	0.500000	0
 PROPERTY	Height	0	2.000000	0
 PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
 COMPONENT	2568	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.NetworkParticipantHitbox	0
 PROPERTY	participant	9	156	0
 END_COMPONENT
-ENTITY	2537	160	1	M16 firing hand socket	0,0,0	0,0,0	1,1,1
+ENTITY	2537	160	1	M16 firing hand socket	-0.137950,0.308160,0.085825	176.319290,13.311245,-49.009209	1.000000,1.000000,1.000000
 COMPONENT	2537	SkeletonAttachmentComponent	1
-PROPERTY	JointName	2	Hand.R	0
-PROPERTY	TargetNodeIndex	1	-1	0
+PROPERTY	PositionOffset	3	0,0,0	0
+PROPERTY	RotationOffset	3	0,0,0	0
+PROPERTY	TargetNodeIndex	1	30	0
+PROPERTY	JointName	2	Hand.R	64		Root	Hips	Spine	Chest	UpperChest	Neck	Head	LeftShoulder	UpperArm.L	LowerArm.L	Hand.L	Thumb1.L	Thumb2.L	Thumb3.L	Index1.L	Index2.L	Index3.L	Middle1.L	Middle2.L	Middle3.L	Ring1.L	Ring2.L	Ring3.L	Little1.L	Little2.L	Little3.L	WeaponSocket.L	RightShoulder	UpperArm.R	LowerArm.R	Hand.R	Thumb1.R	Thumb2.R	Thumb3.R	Index1.R	Index2.R	Index3.R	Middle1.R	Middle2.R	Middle3.R	Ring1.R	Ring2.R	Ring3.R	Little1.R	Little2.R	Little3.R	WeaponSocket.R	LeftUpperLeg	LeftLowerLeg	Foot.L	LeftToes	RightUpperLeg	RightLowerLeg	Foot.R	RightToes	CTRL_Hand.L	CTRL_Elbow.L	CTRL_Foot.L	CTRL_Knee.L	CTRL_Hand.R	CTRL_Elbow.R	CTRL_Foot.R	CTRL_Knee.R
+END_COMPONENT
+ENTITY	7001	2537	1	Support Hand IK Target	0.069970,-0.033534,-0.245004	4.019851,6.686595,106.284370	1.000001,1.000000,1.000000
+ENTITY	7003	2537	1	M16	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	7003	MeshComponent	1
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2		0
+PROPERTY	ModelObjectId	2	0	0
+PROPERTY	MeshAssetReference	2	project://Bots/Soldier/M16_HandSpace.plutomesh	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+END_COMPONENT
+ENTITY	7004	2537	0	P-12 pistol	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	7004	MeshComponent	1
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2		0
+PROPERTY	ModelObjectId	2	0	0
+PROPERTY	MeshAssetReference	2	project://Bots/Soldier/P12_HandSpace.plutomesh	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 END_COMPONENT
 ENTITY	162	156	1	Tactical Destination	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 ENTITY	6000	156	1	Friendly Nameplate	0.000000,1.250000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
@@ -221,13 +408,4 @@ PROPERTY	ExpandChildHeight	4	false	0
 PROPERTY	HorizontalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 PROPERTY	VerticalContentSize	6	0	3	Unconstrained	Minimum	Preferred
 END_COMPONENT
-ENTITY	7001	156	1	Support Hand IK Target	0.07,0.39,-0.46	0,0,0	1,1,1
-ENTITY	7002	156	1	Support Elbow IK Hint	-0.45,0.3,-0.1	0,0,0	1,1,1
-ENTITY	7003	2537	1	M16	0,0,0	0,0,0	1,1,1
-COMPONENT	7003	MeshComponent	1
-PROPERTY	Static	4	false	0
-PROPERTY	Visible	4	true	0
-PROPERTY	SubmeshIndex	1	-1	0
-PROPERTY	MeshAssetReference	2	project://Bots/Soldier/M16_HandSpace.plutomesh	0
-PROPERTY	MeshPositionOffset	3	0,0,0	0
-END_COMPONENT
+ENTITY	7002	156	1	Support Elbow IK Hint	-0.340000,0.120000,-0.080000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000

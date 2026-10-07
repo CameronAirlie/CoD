@@ -12,7 +12,6 @@ PROPERTY	Blocks Audio	4	false	0
 END_COMPONENT
 COMPONENT	1	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.EnemySoldierBot	0
-PROPERTY	soldierMesh	9	3	0
 PROPERTY	supportHandTarget	9	7001	0
 PROPERTY	remoteProxy	4	true	0
 PROPERTY	target	9	0	0
@@ -59,6 +58,13 @@ PROPERTY	hasTargetParameter	2	HasTarget	0
 PROPERTY	shootTriggerParameter	2	Shoot	0
 PROPERTY	hitTriggerParameter	2	Hit	0
 PROPERTY	deathCleanupDelay	0	4.000000	0
+PROPERTY	weaponPose	6	0	2	Rifle	Pistol
+PROPERTY	rifleWeapon	9	7003	0
+PROPERTY	pistolWeapon	9	7004	0
+PROPERTY	supportGripOffset	3	0.0699676871,-0.0335340947,-0.245001823	0
+PROPERTY	pistolSupportGripOffset	3	0.0172923785,0.0509994552,0.0149998218	0
+PROPERTY	supportGripRotation	3	3.71819668,4.33730105,-170.660455	0
+PROPERTY	pistolSupportGripRotation	3	-2.89164743e-05,2.47244237e-05,98.9371589	0
 END_COMPONENT
 COMPONENT	1	AnimationComponent	1
 PROPERTY	SourceAnimation	2	project://Bots/Soldier/Soldier.plutoanim	0
@@ -80,7 +86,7 @@ PROPERTY	Constraints.0.TipBone	2	Hand.L	0
 PROPERTY	Constraints.0.Target	9	7001	0
 PROPERTY	Constraints.0.Hint	9	7002	0
 PROPERTY	Constraints.0.Weight	0	1	0
-PROPERTY	Constraints.0.RotationWeight	0	0	0
+PROPERTY	Constraints.0.RotationWeight	0	1	0
 PROPERTY	Constraints.0.WeightParameter	2	SupportHandIK	0
 END_COMPONENT
 ENTITY	2	1	1	Animated Soldier	0.000000,0.000000,0.000000	0.000000,180.000000,0.000000	1.000000,1.000000,1.000000
@@ -161,13 +167,21 @@ COMPONENT	7000	SkeletonAttachmentComponent	1
 PROPERTY	JointName	2	Hand.R	0
 PROPERTY	TargetNodeIndex	1	-1	0
 END_COMPONENT
-ENTITY	7001	1	1	Support Hand IK Target	0.07,0.39,-0.46	0,0,0	1,1,1
-ENTITY	7002	1	1	Support Elbow IK Hint	-0.45,0.3,-0.1	0,0,0	1,1,1
+ENTITY	7001	7000	1	Support Hand IK Target	0.0699676871,-0.0335340947,-0.245001823	3.71819668,4.33730105,-170.660455	1,1,1
+ENTITY	7002	1	1	Support Elbow IK Hint	-0.34,0.12,-0.08	0,0,0	1,1,1
 ENTITY	7003	7000	1	M16	0,0,0	0,0,0	1,1,1
 COMPONENT	7003	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
 PROPERTY	MeshAssetReference	2	project://Bots/Soldier/M16_HandSpace.plutomesh	0
+PROPERTY	MeshPositionOffset	3	0,0,0	0
+END_COMPONENT
+ENTITY	7004	7000	0	P-12 pistol	0,0,0	0,0,0	1,1,1
+COMPONENT	7004	MeshComponent	1
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	MeshAssetReference	2	project://Bots/Soldier/P12_HandSpace.plutomesh	0
 PROPERTY	MeshPositionOffset	3	0,0,0	0
 END_COMPONENT

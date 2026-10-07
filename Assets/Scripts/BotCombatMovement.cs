@@ -36,3 +36,23 @@ internal sealed class BotCombatMovement
         _retreatEndsAt = _nextRetreatAt = 0;
     }
 }
+
+/// <summary>Requires a fresh reaction interval after acquisition or lost visibility.</summary>
+internal sealed class BotTargetReaction
+{
+    private int _target = int.MinValue;
+    private float _readyAt = float.PositiveInfinity;
+    public void Observe(int target, bool visible, float time, float delay)
+    {
+        if (!visible || target == int.MinValue) { Reset(); return; }
+        if (_target == target) return;
+        _target = target;
+        _readyAt = time + MathF.Max(0, delay);
+    }
+    public bool CanFire(float time) => _target != int.MinValue && time >= _readyAt;
+    public void Reset()
+    {
+        _target = int.MinValue;
+        _readyAt = float.PositiveInfinity;
+    }
+}

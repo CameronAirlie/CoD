@@ -2016,116 +2016,6 @@ PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
 PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
 END_COMPONENT
-ENTITY	60011	0	1	Courtyard workshop	-10.000000,3.500000,11.000000	0.000000,0.000000,0.000000	10.000000,7.000000,10.000000
-COMPONENT	60011	ColliderComponent	1
-PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
-PROPERTY	Center	3	0.000000,0.000000,0.000000	0
-PROPERTY	Size	3	1.000000,1.000000,1.000000	0
-PROPERTY	Radius	0	0.500000	0
-PROPERTY	Height	0	2.000000	0
-PROPERTY	Is Trigger	4	false	0
-PROPERTY	Surface Asset	2		0
-PROPERTY	Blocks Audio	4	true	0
-END_COMPONENT
-COMPONENT	60011	MeshComponent	1
-PROPERTY	Static	4	true	0
-PROPERTY	Visible	4	true	0
-PROPERTY	SubmeshIndex	1	-1	0
-PROPERTY	SubmeshCount	1	1	0
-PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
-PROPERTY	ModelObjectId	2	1	0
-PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
-PROPERTY	UseGeneratedLods	4	false	0
-PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Plaster.plutomaterial	0
-PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Plaster.plutomaterial	0
-END_COMPONENT
-ENTITY	60012	0	1	Roof cornice	-10.000000,7.180000,11.000000	0.000000,0.000000,0.000000	10.500000,0.360000,10.500000
-COMPONENT	60012	ColliderComponent	1
-PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
-PROPERTY	Center	3	0.000000,0.000000,0.000000	0
-PROPERTY	Size	3	1.000000,1.000000,1.000000	0
-PROPERTY	Radius	0	0.500000	0
-PROPERTY	Height	0	2.000000	0
-PROPERTY	Is Trigger	4	false	0
-PROPERTY	Surface Asset	2		0
-PROPERTY	Blocks Audio	4	true	0
-END_COMPONENT
-COMPONENT	60012	MeshComponent	1
-PROPERTY	Static	4	true	0
-PROPERTY	Visible	4	true	0
-PROPERTY	SubmeshIndex	1	-1	0
-PROPERTY	SubmeshCount	1	1	0
-PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
-PROPERTY	ModelObjectId	2	1	0
-PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
-PROPERTY	UseGeneratedLods	4	false	0
-PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/RoofTile.plutomaterial	0
-PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/RoofTile.plutomaterial	0
-END_COMPONENT
-ENTITY	60013	0	1	Workshop shutter	-15.030000,3.000000,8.000000	0.000000,0.000000,0.000000	0.080000,2.000000,1.700000
-COMPONENT	60013	MeshComponent	1
-PROPERTY	Static	4	true	0
-PROPERTY	Visible	4	true	0
-PROPERTY	SubmeshIndex	1	-1	0
-PROPERTY	SubmeshCount	1	1	0
-PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
-PROPERTY	ModelObjectId	2	1	0
-PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
-PROPERTY	UseGeneratedLods	4	false	0
-PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Dark.plutomaterial	0
-PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Dark.plutomaterial	0
-END_COMPONENT
-ENTITY	60014	0	1	Workshop shutter	-15.030000,3.000000,14.000000	0.000000,0.000000,0.000000	0.080000,2.000000,1.700000
-COMPONENT	60014	MeshComponent	1
-PROPERTY	Static	4	true	0
-PROPERTY	Visible	4	true	0
-PROPERTY	SubmeshIndex	1	-1	0
-PROPERTY	SubmeshCount	1	1	0
-PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
-PROPERTY	ModelObjectId	2	1	0
-PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
-PROPERTY	UseGeneratedLods	4	false	0
-PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Dark.plutomaterial	0
-PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Dark.plutomaterial	0
-END_COMPONENT
-ENTITY	60015	0	1	Building plinth	-10.000000,0.300000,11.000000	0.000000,0.000000,0.000000	10.200000,0.600000,10.200000
-COMPONENT	60015	ColliderComponent	1
-PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
-PROPERTY	Center	3	0.000000,0.000000,0.000000	0
-PROPERTY	Size	3	1.000000,1.000000,1.000000	0
-PROPERTY	Radius	0	0.500000	0
-PROPERTY	Height	0	2.000000	0
-PROPERTY	Is Trigger	4	false	0
-PROPERTY	Surface Asset	2		0
-PROPERTY	Blocks Audio	4	true	0
-END_COMPONENT
-COMPONENT	60015	MeshComponent	1
-PROPERTY	Static	4	true	0
-PROPERTY	Visible	4	true	0
-PROPERTY	SubmeshIndex	1	-1	0
-PROPERTY	SubmeshCount	1	1	0
-PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
-PROPERTY	ModelObjectId	2	1	0
-PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
-PROPERTY	UseGeneratedLods	4	false	0
-PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
-PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
-END_COMPONENT
 ENTITY	60016	0	1	Foundry warehouse	10.000000,3.000000,-5.000000	0.000000,0.000000,0.000000	10.000000,6.000000,10.000000
 COMPONENT	60016	ColliderComponent	1
 PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
@@ -2222,116 +2112,6 @@ PROPERTY	Surface Asset	2		0
 PROPERTY	Blocks Audio	4	true	0
 END_COMPONENT
 COMPONENT	60020	MeshComponent	1
-PROPERTY	Static	4	true	0
-PROPERTY	Visible	4	true	0
-PROPERTY	SubmeshIndex	1	-1	0
-PROPERTY	SubmeshCount	1	1	0
-PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
-PROPERTY	ModelObjectId	2	1	0
-PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
-PROPERTY	UseGeneratedLods	4	false	0
-PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
-PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
-END_COMPONENT
-ENTITY	60021	0	1	Foundry warehouse	10.000000,3.000000,11.000000	0.000000,0.000000,0.000000	10.000000,6.000000,10.000000
-COMPONENT	60021	ColliderComponent	1
-PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
-PROPERTY	Center	3	0.000000,0.000000,0.000000	0
-PROPERTY	Size	3	1.000000,1.000000,1.000000	0
-PROPERTY	Radius	0	0.500000	0
-PROPERTY	Height	0	2.000000	0
-PROPERTY	Is Trigger	4	false	0
-PROPERTY	Surface Asset	2		0
-PROPERTY	Blocks Audio	4	true	0
-END_COMPONENT
-COMPONENT	60021	MeshComponent	1
-PROPERTY	Static	4	true	0
-PROPERTY	Visible	4	true	0
-PROPERTY	SubmeshIndex	1	-1	0
-PROPERTY	SubmeshCount	1	1	0
-PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
-PROPERTY	ModelObjectId	2	1	0
-PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
-PROPERTY	UseGeneratedLods	4	false	0
-PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Steel.plutomaterial	0
-PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Steel.plutomaterial	0
-END_COMPONENT
-ENTITY	60022	0	1	Roof cornice	10.000000,6.180000,11.000000	0.000000,0.000000,0.000000	10.500000,0.360000,10.500000
-COMPONENT	60022	ColliderComponent	1
-PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
-PROPERTY	Center	3	0.000000,0.000000,0.000000	0
-PROPERTY	Size	3	1.000000,1.000000,1.000000	0
-PROPERTY	Radius	0	0.500000	0
-PROPERTY	Height	0	2.000000	0
-PROPERTY	Is Trigger	4	false	0
-PROPERTY	Surface Asset	2		0
-PROPERTY	Blocks Audio	4	true	0
-END_COMPONENT
-COMPONENT	60022	MeshComponent	1
-PROPERTY	Static	4	true	0
-PROPERTY	Visible	4	true	0
-PROPERTY	SubmeshIndex	1	-1	0
-PROPERTY	SubmeshCount	1	1	0
-PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
-PROPERTY	ModelObjectId	2	1	0
-PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
-PROPERTY	UseGeneratedLods	4	false	0
-PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/RoofMetal.plutomaterial	0
-PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/RoofMetal.plutomaterial	0
-END_COMPONENT
-ENTITY	60023	0	1	Workshop shutter	15.030000,3.000000,8.000000	0.000000,0.000000,0.000000	0.080000,2.000000,1.700000
-COMPONENT	60023	MeshComponent	1
-PROPERTY	Static	4	true	0
-PROPERTY	Visible	4	true	0
-PROPERTY	SubmeshIndex	1	-1	0
-PROPERTY	SubmeshCount	1	1	0
-PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
-PROPERTY	ModelObjectId	2	1	0
-PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
-PROPERTY	UseGeneratedLods	4	false	0
-PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Dark.plutomaterial	0
-PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Dark.plutomaterial	0
-END_COMPONENT
-ENTITY	60024	0	1	Workshop shutter	15.030000,3.000000,14.000000	0.000000,0.000000,0.000000	0.080000,2.000000,1.700000
-COMPONENT	60024	MeshComponent	1
-PROPERTY	Static	4	true	0
-PROPERTY	Visible	4	true	0
-PROPERTY	SubmeshIndex	1	-1	0
-PROPERTY	SubmeshCount	1	1	0
-PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
-PROPERTY	ModelObjectId	2	1	0
-PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
-PROPERTY	UseGeneratedLods	4	false	0
-PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Dark.plutomaterial	0
-PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Dark.plutomaterial	0
-END_COMPONENT
-ENTITY	60025	0	1	Building plinth	10.000000,0.300000,11.000000	0.000000,0.000000,0.000000	10.200000,0.600000,10.200000
-COMPONENT	60025	ColliderComponent	1
-PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
-PROPERTY	Center	3	0.000000,0.000000,0.000000	0
-PROPERTY	Size	3	1.000000,1.000000,1.000000	0
-PROPERTY	Radius	0	0.500000	0
-PROPERTY	Height	0	2.000000	0
-PROPERTY	Is Trigger	4	false	0
-PROPERTY	Surface Asset	2		0
-PROPERTY	Blocks Audio	4	true	0
-END_COMPONENT
-COMPONENT	60025	MeshComponent	1
 PROPERTY	Static	4	true	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
@@ -3152,3 +2932,1823 @@ ENTITY	62003	0	1	Defusal Attack East	20.000000,0.100000,3.000000	0.000000,0.0000
 ENTITY	62004	0	1	Defusal Defend West	-20.000000,0.100000,-21.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 ENTITY	62005	0	1	Defusal Defend Mid	0.000000,0.100000,-18.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 ENTITY	62006	0	1	Defusal Defend East	20.000000,0.100000,-21.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	63000	0	1	A Workshop / mid corridor wall	-5.200000,1.500000,11.000000	0.000000,0.000000,0.000000	0.400000,3.000000,10.000000
+COMPONENT	63000	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63000	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Plaster.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Plaster.plutomaterial	0
+END_COMPONENT
+ENTITY	63001	0	1	A Workshop / outer wall south	-14.800000,1.500000,14.750000	0.000000,0.000000,0.000000	0.400000,3.000000,2.500000
+COMPONENT	63001	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63001	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Plaster.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Plaster.plutomaterial	0
+END_COMPONENT
+ENTITY	63002	0	1	A Workshop / outer wall north	-14.800000,1.500000,8.250000	0.000000,0.000000,0.000000	0.400000,3.000000,4.500000
+COMPONENT	63002	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63002	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Plaster.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Plaster.plutomaterial	0
+END_COMPONENT
+ENTITY	63003	0	1	A Workshop / side doorway lintel	-14.800000,2.750000,12.000000	0.000000,0.000000,0.000000	0.400000,0.500000,3.000000
+COMPONENT	63003	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63003	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Plaster.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Plaster.plutomaterial	0
+END_COMPONENT
+ENTITY	63004	0	1	A Workshop / north wall inner	-6.750000,1.500000,6.200000	0.000000,0.000000,0.000000	3.500000,3.000000,0.400000
+COMPONENT	63004	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63004	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Plaster.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Plaster.plutomaterial	0
+END_COMPONENT
+ENTITY	63005	0	1	A Workshop / north wall outer	-13.250000,1.500000,6.200000	0.000000,0.000000,0.000000	3.500000,3.000000,0.400000
+COMPONENT	63005	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63005	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Plaster.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Plaster.plutomaterial	0
+END_COMPONENT
+ENTITY	63006	0	1	A Workshop / north doorway lintel	-10.000000,2.750000,6.200000	0.000000,0.000000,0.000000	3.000000,0.500000,0.400000
+COMPONENT	63006	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63006	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Plaster.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Plaster.plutomaterial	0
+END_COMPONENT
+ENTITY	63007	0	1	A Workshop / gallery floor	-8.250000,3.050000,10.000000	0.000000,0.000000,0.000000	6.500000,0.300000,12.000000
+COMPONENT	63007	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63007	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Steel.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Steel.plutomaterial	0
+END_COMPONENT
+ENTITY	63008	0	1	A Workshop / stair landing	-13.250000,3.050000,7.000000	0.000000,0.000000,0.000000	3.500000,0.300000,2.000000
+COMPONENT	63008	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63008	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Steel.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Steel.plutomaterial	0
+END_COMPONENT
+ENTITY	63009	0	1	A Workshop / stair outer rim	-14.750000,3.050000,12.000000	0.000000,0.000000,0.000000	0.500000,0.300000,8.000000
+COMPONENT	63009	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63009	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Steel.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Steel.plutomaterial	0
+END_COMPONENT
+ENTITY	63010	0	1	A Workshop / stair 01	-13.000000,0.100000,15.750000	0.000000,0.000000,0.000000	2.500000,0.200000,0.500000
+COMPONENT	63010	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63010	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63011	0	1	A Workshop / stair 02	-13.000000,0.200000,15.250000	0.000000,0.000000,0.000000	2.500000,0.400000,0.500000
+COMPONENT	63011	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63011	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63012	0	1	A Workshop / stair 03	-13.000000,0.300000,14.750000	0.000000,0.000000,0.000000	2.500000,0.600000,0.500000
+COMPONENT	63012	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63012	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63013	0	1	A Workshop / stair 04	-13.000000,0.400000,14.250000	0.000000,0.000000,0.000000	2.500000,0.800000,0.500000
+COMPONENT	63013	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63013	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63014	0	1	A Workshop / stair 05	-13.000000,0.500000,13.750000	0.000000,0.000000,0.000000	2.500000,1.000000,0.500000
+COMPONENT	63014	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63014	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63015	0	1	A Workshop / stair 06	-13.000000,0.600000,13.250000	0.000000,0.000000,0.000000	2.500000,1.200000,0.500000
+COMPONENT	63015	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63015	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63016	0	1	A Workshop / stair 07	-13.000000,0.700000,12.750000	0.000000,0.000000,0.000000	2.500000,1.400000,0.500000
+COMPONENT	63016	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63016	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63017	0	1	A Workshop / stair 08	-13.000000,0.800000,12.250000	0.000000,0.000000,0.000000	2.500000,1.600000,0.500000
+COMPONENT	63017	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63017	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63018	0	1	A Workshop / stair 09	-13.000000,0.900000,11.750000	0.000000,0.000000,0.000000	2.500000,1.800000,0.500000
+COMPONENT	63018	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63018	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63019	0	1	A Workshop / stair 10	-13.000000,1.000000,11.250000	0.000000,0.000000,0.000000	2.500000,2.000000,0.500000
+COMPONENT	63019	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63019	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63020	0	1	A Workshop / stair 11	-13.000000,1.100000,10.750000	0.000000,0.000000,0.000000	2.500000,2.200000,0.500000
+COMPONENT	63020	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63020	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63021	0	1	A Workshop / stair 12	-13.000000,1.200000,10.250000	0.000000,0.000000,0.000000	2.500000,2.400000,0.500000
+COMPONENT	63021	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63021	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63022	0	1	A Workshop / stair 13	-13.000000,1.300000,9.750000	0.000000,0.000000,0.000000	2.500000,2.600000,0.500000
+COMPONENT	63022	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63022	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63023	0	1	A Workshop / stair 14	-13.000000,1.400000,9.250000	0.000000,0.000000,0.000000	2.500000,2.800000,0.500000
+COMPONENT	63023	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63023	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63024	0	1	A Workshop / stair 15	-13.000000,1.500000,8.750000	0.000000,0.000000,0.000000	2.500000,3.000000,0.500000
+COMPONENT	63024	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63024	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63025	0	1	A Workshop / stair 16	-13.000000,1.600000,8.250000	0.000000,0.000000,0.000000	2.500000,3.200000,0.500000
+COMPONENT	63025	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63025	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63026	0	1	A Workshop / stairwell guard	-11.650000,3.700000,12.000000	0.000000,0.000000,0.000000	0.300000,1.000000,8.000000
+COMPONENT	63026	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63026	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+END_COMPONENT
+ENTITY	63027	0	1	A Workshop / outer gallery parapet	-14.800000,3.700000,7.000000	0.000000,0.000000,0.000000	0.400000,1.000000,2.000000
+COMPONENT	63027	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63027	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+END_COMPONENT
+ENTITY	63028	0	1	A Workshop / south gallery parapet	-8.250000,3.700000,15.800000	0.000000,0.000000,0.000000	6.500000,1.000000,0.400000
+COMPONENT	63028	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63028	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+END_COMPONENT
+ENTITY	63029	0	1	A Workshop / mid parapet north	-5.200000,3.700000,6.000000	0.000000,0.000000,0.000000	0.400000,1.000000,4.000000
+COMPONENT	63029	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63029	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+END_COMPONENT
+ENTITY	63030	0	1	A Workshop / mid parapet south	-5.200000,3.700000,13.500000	0.000000,0.000000,0.000000	0.400000,1.000000,5.000000
+COMPONENT	63030	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63030	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+END_COMPONENT
+ENTITY	63031	0	1	A Workshop / north balcony parapet	-10.000000,3.700000,4.200000	0.000000,0.000000,0.000000	10.000000,1.000000,0.400000
+COMPONENT	63031	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63031	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+END_COMPONENT
+ENTITY	63032	0	1	A Workshop / gallery machinery cover	-9.500000,3.850000,12.000000	0.000000,0.000000,0.000000	1.800000,1.300000,1.500000
+COMPONENT	63032	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63032	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Dark.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Dark.plutomaterial	0
+END_COMPONENT
+ENTITY	63033	0	1	A Workshop / corridor service cabinet	-6.400000,0.650000,11.800000	0.000000,0.000000,0.000000	1.600000,1.300000,1.400000
+COMPONENT	63033	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63033	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Dark.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Dark.plutomaterial	0
+END_COMPONENT
+ENTITY	63034	0	1	A Workshop / outer lane screen	-25.000000,1.500000,14.000000	0.000000,0.000000,0.000000	5.000000,3.000000,0.600000
+COMPONENT	63034	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63034	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+END_COMPONENT
+ENTITY	63035	0	1	B Machine Hall / mid corridor wall	5.200000,1.500000,11.000000	0.000000,0.000000,0.000000	0.400000,3.000000,10.000000
+COMPONENT	63035	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63035	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+END_COMPONENT
+ENTITY	63036	0	1	B Machine Hall / outer wall south	14.800000,1.500000,14.750000	0.000000,0.000000,0.000000	0.400000,3.000000,2.500000
+COMPONENT	63036	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63036	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+END_COMPONENT
+ENTITY	63037	0	1	B Machine Hall / outer wall north	14.800000,1.500000,8.250000	0.000000,0.000000,0.000000	0.400000,3.000000,4.500000
+COMPONENT	63037	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63037	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+END_COMPONENT
+ENTITY	63038	0	1	B Machine Hall / side doorway lintel	14.800000,2.750000,12.000000	0.000000,0.000000,0.000000	0.400000,0.500000,3.000000
+COMPONENT	63038	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63038	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+END_COMPONENT
+ENTITY	63039	0	1	B Machine Hall / north wall inner	6.750000,1.500000,6.200000	0.000000,0.000000,0.000000	3.500000,3.000000,0.400000
+COMPONENT	63039	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63039	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+END_COMPONENT
+ENTITY	63040	0	1	B Machine Hall / north wall outer	13.250000,1.500000,6.200000	0.000000,0.000000,0.000000	3.500000,3.000000,0.400000
+COMPONENT	63040	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63040	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+END_COMPONENT
+ENTITY	63041	0	1	B Machine Hall / north doorway lintel	10.000000,2.750000,6.200000	0.000000,0.000000,0.000000	3.000000,0.500000,0.400000
+COMPONENT	63041	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63041	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+END_COMPONENT
+ENTITY	63042	0	1	B Machine Hall / gallery floor	8.250000,3.050000,10.000000	0.000000,0.000000,0.000000	6.500000,0.300000,12.000000
+COMPONENT	63042	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63042	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Steel.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Steel.plutomaterial	0
+END_COMPONENT
+ENTITY	63043	0	1	B Machine Hall / stair landing	13.250000,3.050000,7.000000	0.000000,0.000000,0.000000	3.500000,0.300000,2.000000
+COMPONENT	63043	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63043	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Steel.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Steel.plutomaterial	0
+END_COMPONENT
+ENTITY	63044	0	1	B Machine Hall / stair outer rim	14.750000,3.050000,12.000000	0.000000,0.000000,0.000000	0.500000,0.300000,8.000000
+COMPONENT	63044	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63044	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Steel.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Steel.plutomaterial	0
+END_COMPONENT
+ENTITY	63045	0	1	B Machine Hall / stair 01	13.000000,0.100000,15.750000	0.000000,0.000000,0.000000	2.500000,0.200000,0.500000
+COMPONENT	63045	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63045	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63046	0	1	B Machine Hall / stair 02	13.000000,0.200000,15.250000	0.000000,0.000000,0.000000	2.500000,0.400000,0.500000
+COMPONENT	63046	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63046	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63047	0	1	B Machine Hall / stair 03	13.000000,0.300000,14.750000	0.000000,0.000000,0.000000	2.500000,0.600000,0.500000
+COMPONENT	63047	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63047	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63048	0	1	B Machine Hall / stair 04	13.000000,0.400000,14.250000	0.000000,0.000000,0.000000	2.500000,0.800000,0.500000
+COMPONENT	63048	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63048	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63049	0	1	B Machine Hall / stair 05	13.000000,0.500000,13.750000	0.000000,0.000000,0.000000	2.500000,1.000000,0.500000
+COMPONENT	63049	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63049	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63050	0	1	B Machine Hall / stair 06	13.000000,0.600000,13.250000	0.000000,0.000000,0.000000	2.500000,1.200000,0.500000
+COMPONENT	63050	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63050	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63051	0	1	B Machine Hall / stair 07	13.000000,0.700000,12.750000	0.000000,0.000000,0.000000	2.500000,1.400000,0.500000
+COMPONENT	63051	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63051	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63052	0	1	B Machine Hall / stair 08	13.000000,0.800000,12.250000	0.000000,0.000000,0.000000	2.500000,1.600000,0.500000
+COMPONENT	63052	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63052	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63053	0	1	B Machine Hall / stair 09	13.000000,0.900000,11.750000	0.000000,0.000000,0.000000	2.500000,1.800000,0.500000
+COMPONENT	63053	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63053	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63054	0	1	B Machine Hall / stair 10	13.000000,1.000000,11.250000	0.000000,0.000000,0.000000	2.500000,2.000000,0.500000
+COMPONENT	63054	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63054	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63055	0	1	B Machine Hall / stair 11	13.000000,1.100000,10.750000	0.000000,0.000000,0.000000	2.500000,2.200000,0.500000
+COMPONENT	63055	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63055	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63056	0	1	B Machine Hall / stair 12	13.000000,1.200000,10.250000	0.000000,0.000000,0.000000	2.500000,2.400000,0.500000
+COMPONENT	63056	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63056	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63057	0	1	B Machine Hall / stair 13	13.000000,1.300000,9.750000	0.000000,0.000000,0.000000	2.500000,2.600000,0.500000
+COMPONENT	63057	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63057	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63058	0	1	B Machine Hall / stair 14	13.000000,1.400000,9.250000	0.000000,0.000000,0.000000	2.500000,2.800000,0.500000
+COMPONENT	63058	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63058	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63059	0	1	B Machine Hall / stair 15	13.000000,1.500000,8.750000	0.000000,0.000000,0.000000	2.500000,3.000000,0.500000
+COMPONENT	63059	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63059	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63060	0	1	B Machine Hall / stair 16	13.000000,1.600000,8.250000	0.000000,0.000000,0.000000	2.500000,3.200000,0.500000
+COMPONENT	63060	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63060	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Stone.plutomaterial	0
+END_COMPONENT
+ENTITY	63061	0	1	B Machine Hall / stairwell guard	11.650000,3.700000,12.000000	0.000000,0.000000,0.000000	0.300000,1.000000,8.000000
+COMPONENT	63061	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63061	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+END_COMPONENT
+ENTITY	63062	0	1	B Machine Hall / outer gallery parapet	14.800000,3.700000,7.000000	0.000000,0.000000,0.000000	0.400000,1.000000,2.000000
+COMPONENT	63062	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63062	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+END_COMPONENT
+ENTITY	63063	0	1	B Machine Hall / south gallery parapet	8.250000,3.700000,15.800000	0.000000,0.000000,0.000000	6.500000,1.000000,0.400000
+COMPONENT	63063	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63063	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+END_COMPONENT
+ENTITY	63064	0	1	B Machine Hall / mid parapet north	5.200000,3.700000,6.000000	0.000000,0.000000,0.000000	0.400000,1.000000,4.000000
+COMPONENT	63064	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63064	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+END_COMPONENT
+ENTITY	63065	0	1	B Machine Hall / mid parapet south	5.200000,3.700000,13.500000	0.000000,0.000000,0.000000	0.400000,1.000000,5.000000
+COMPONENT	63065	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63065	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+END_COMPONENT
+ENTITY	63066	0	1	B Machine Hall / north balcony parapet	10.000000,3.700000,4.200000	0.000000,0.000000,0.000000	10.000000,1.000000,0.400000
+COMPONENT	63066	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63066	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Rust.plutomaterial	0
+END_COMPONENT
+ENTITY	63067	0	1	B Machine Hall / gallery machinery cover	9.500000,3.850000,12.000000	0.000000,0.000000,0.000000	1.800000,1.300000,1.500000
+COMPONENT	63067	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63067	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Dark.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Dark.plutomaterial	0
+END_COMPONENT
+ENTITY	63068	0	1	B Machine Hall / corridor service cabinet	6.400000,0.650000,11.800000	0.000000,0.000000,0.000000	1.600000,1.300000,1.400000
+COMPONENT	63068	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63068	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Dark.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Dark.plutomaterial	0
+END_COMPONENT
+ENTITY	63069	0	1	B Machine Hall / outer lane screen	25.000000,1.500000,14.000000	0.000000,0.000000,0.000000	5.000000,3.000000,0.600000
+COMPONENT	63069	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Center	3	0.000000,0.000000,0.000000	0
+PROPERTY	Size	3	1.000000,1.000000,1.000000	0
+PROPERTY	Radius	0	0.500000	0
+PROPERTY	Height	0	2.000000	0
+PROPERTY	Is Trigger	4	false	0
+PROPERTY	Surface Asset	2		0
+PROPERTY	Blocks Audio	4	true	0
+END_COMPONENT
+COMPONENT	63069	MeshComponent	1
+PROPERTY	Static	4	true	0
+PROPERTY	Visible	4	true	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	SubmeshCount	1	1	0
+PROPERTY	ModelAssetId	2	engine://builtin/mesh/cube	0
+PROPERTY	ModelObjectId	2	1	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	UseGeneratedLods	4	false	0
+PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Foundry/Brick.plutomaterial	0
+END_COMPONENT

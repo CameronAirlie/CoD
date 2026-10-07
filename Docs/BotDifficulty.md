@@ -1,9 +1,12 @@
 # Bot difficulty
 
 The host owns all bot decisions. The shipped maps and player prefab use a
-0.22-second reaction delay, 0.1-second visibility checks, 480 RPM, 18 damage
+0.5-second reaction delay, 0.1-second visibility checks, 480 RPM, 18 damage
 and 2.25-degree spread. Visibility, aim alignment, stationary firing, cover
 and friendly-fire rules still gate attacks; bots do not shoot through walls.
+The reaction clock starts on visibility, restarts when switching targets or
+reacquiring after a failed visibility check, and gates every shot independently
+of firing holds and burst cooldowns. Continued visibility does not restart it.
 
 Each spawned life receives a fresh seed. Bots vary their objective approach
 angle and preferred engagement distance, choose new candidate angles on each
