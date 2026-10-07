@@ -14,9 +14,10 @@ RUNTIME_RENDER_SCALE	0.9
 RUNTIME_UPSCALE_SHARPNESS	0.5
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	-21.2299	5.31219	27.9512
+EDITOR_CAMERA_POSITION	-0.708894	0.545613	-1.63492
 EDITOR_CAMERA_SPEED	6
-EDITOR_CAMERA_ROTATION	-3037.15	-11
+EDITOR_CAMERA_RUNTIME_UI	0
+EDITOR_CAMERA_ROTATION	-3029.59	-12.92
 EDITOR_CAMERA_LENS	70	0.1	10000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/performance.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -28,16 +29,39 @@ ASSET	engine://builtin/mesh/quad	0	Mesh
 ASSET	engine://builtin/mesh/sphere	0	Mesh
 ASSET	engine://builtin/shadergraph/default-lit	0	Shader Graph
 ASSET	engine://builtin/shadergraph/default-unlit	0	Shader Graph
-ASSET	project://AnimGraphs/enemy.plutoanimgraph	1582	Animation Graph
-ASSET	project://AnimGraphs/player.plutoanimgraph	1061	Animation Graph
-ASSET	project://Data/4x4.plutoscriptable	2074	Scriptable Object
+ASSET	project://AnimGraphs/enemy.plutoanimgraph	1548	Animation Graph
+ASSET	project://AnimGraphs/player.plutoanimgraph	1059	Animation Graph
+ASSET	project://Bots/Soldier/M16_HandSpace.plutomesh	3148716	Mesh
+ASSET	project://Bots/Soldier/P12_HandSpace.plutomesh	270504	Mesh
+ASSET	project://Bots/Soldier/Pistol_Aim.plutoclip	219824	Animation Clip
+ASSET	project://Bots/Soldier/Pistol_Fire.plutoclip	61065	Animation Clip
+ASSET	project://Bots/Soldier/Pistol_Hit.plutoclip	83744	Animation Clip
+ASSET	project://Bots/Soldier/Pistol_Idle.plutoclip	219825	Animation Clip
+ASSET	project://Bots/Soldier/Pistol_Jog.plutoclip	110204	Animation Clip
+ASSET	project://Bots/Soldier/Pistol_Reload.plutoclip	219946	Animation Clip
+ASSET	project://Bots/Soldier/Pistol_Sprint.plutoclip	91307	Animation Clip
+ASSET	project://Bots/Soldier/Pistol_Walk.plutoclip	148005	Animation Clip
+ASSET	project://Bots/Soldier/Rifle_Aim.plutoclip	219823	Animation Clip
+ASSET	project://Bots/Soldier/Rifle_Fire.plutoclip	61064	Animation Clip
+ASSET	project://Bots/Soldier/Rifle_Hit.plutoclip	83743	Animation Clip
+ASSET	project://Bots/Soldier/Rifle_Idle.plutoclip	219824	Animation Clip
+ASSET	project://Bots/Soldier/Rifle_Jog.plutoclip	110203	Animation Clip
+ASSET	project://Bots/Soldier/Rifle_Reload.plutoclip	219945	Animation Clip
+ASSET	project://Bots/Soldier/Rifle_Sprint.plutoclip	91306	Animation Clip
+ASSET	project://Bots/Soldier/Rifle_Walk.plutoclip	148004	Animation Clip
+ASSET	project://Bots/Soldier/Soldier.plutoanim	833	Animation
+ASSET	project://Bots/Soldier/Soldier.plutoanimgraph	2532	Animation Graph
+ASSET	project://Bots/Soldier/Soldier.plutomesh	9904786	Mesh
+ASSET	project://Bots/Soldier/Soldier_Game.plutomesh	6912864	Mesh
+ASSET	project://Bots/Soldier/manifest.json	2128	Unknown
+ASSET	project://Data/4x4.plutoscriptable	2094	Scriptable Object
 ASSET	project://Data/AudiS5.plutoscriptable	2127	Scriptable Object
-ASSET	project://Data/Racecar.plutoscriptable	2071	Scriptable Object
+ASSET	project://Data/Racecar.plutoscriptable	2092	Scriptable Object
 ASSET	project://Fonts/Georama.ttf	434664	Unknown
-ASSET	project://Fonts/Inter-OFL.txt	4470	Unknown
+ASSET	project://Fonts/Inter-OFL.txt	4377	Unknown
 ASSET	project://Fonts/Inter.ttf	876576	Unknown
 ASSET	project://Fonts/Rajdhani-Bold.ttf	400680	Unknown
-ASSET	project://Fonts/Rajdhani-OFL.txt	4466	Unknown
+ASSET	project://Fonts/Rajdhani-OFL.txt	4373	Unknown
 ASSET	project://Fonts/Rajdhani-Regular.ttf	377860	Unknown
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_A_TPose_0.plutoclip	332294	Animation Clip
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Crouch_Fwd_Loop_1.plutoclip	273802	Animation Clip
@@ -186,7 +210,7 @@ ASSET	project://Imported/grassv3/Textures/T_0.tga	2097170	Texture
 ASSET	project://Imported/grassv3/Textures/T_1.tga	2097170	Texture
 ASSET	project://Imported/grassv3/grassv3.plutomesh	7366	Mesh
 ASSET	project://Imported/grassv3/grassv3.plutomesh.materials	116	Unknown
-ASSET	project://Imported/grassv4/M_grassv4_0.plutomaterial	533	Material
+ASSET	project://Imported/grassv4/M_grassv4_0.plutomaterial	538	Material
 ASSET	project://Imported/grassv4/M_grassv4_1.plutomaterial	506	Material
 ASSET	project://Imported/grassv4/Textures/T_0.tga	2097170	Texture
 ASSET	project://Imported/grassv4/Textures/T_1.tga	2097170	Texture
@@ -211,13 +235,13 @@ ASSET	project://Imported/scene/Textures/Grass_green.007_normal.png	139268	Textur
 ASSET	project://Imported/scene/Textures/Grass_green.014_baseColor.png	367821	Texture
 ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87934	Texture
 ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
-ASSET	project://Input/car.plutoinput	3771	Input Mapping
+ASSET	project://Input/car.plutoinput	3839	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	281088	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	97984	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	285696	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	83420	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
-ASSET	project://Managed/PlutoGE.ScriptCore.dll	283648	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	98460	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.dll	289280	Assembly
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	99400	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	369	Unknown
 ASSET	project://Materials/BulletHole.plutomaterial	473	Material
 ASSET	project://Materials/Foundry/Brick.plutomaterial	415	Material
@@ -232,8 +256,8 @@ ASSET	project://Materials/Foundry/SiteB.plutomaterial	419	Material
 ASSET	project://Materials/Foundry/Steel.plutomaterial	417	Material
 ASSET	project://Materials/Foundry/Stone.plutomaterial	419	Material
 ASSET	project://Materials/Foundry/Wood.plutomaterial	410	Material
-ASSET	project://Materials/Grenades/Body.plutomaterial	166	Material
-ASSET	project://Materials/Grenades/Particle.plutomaterial	189	Material
+ASSET	project://Materials/Grenades/Body.plutomaterial	159	Material
+ASSET	project://Materials/Grenades/Particle.plutomaterial	183	Material
 ASSET	project://Materials/Ground.plutomaterial	691	Material
 ASSET	project://Materials/GroundPlane.plutomaterial	550	Material
 ASSET	project://Materials/Lightsaber_blade.plutomaterial	447	Material
@@ -295,25 +319,26 @@ ASSET	project://Packs/AnimationPack/UAL1_Standard.plutomesh	1090015	Mesh
 ASSET	project://Packs/AnimationPack/UAL1_Standard_RM.glb	7620504	Model
 ASSET	project://Packs/AnimationPack/Walk_Formal_Loop.plutoclip	195803	Animation Clip
 ASSET	project://Packs/AnimationPack/Walk_Loop.plutoclip	195796	Animation Clip
-ASSET	project://Particles/Grenades/Flash.plutoparticles	528	Particle System
-ASSET	project://Particles/Grenades/Smoke.plutoparticles	542	Particle System
-ASSET	project://Particles/Grenades/Sparks.plutoparticles	532	Particle System
+ASSET	project://Particles/Grenades/Flash.plutoparticles	504	Particle System
+ASSET	project://Particles/Grenades/Smoke.plutoparticles	518	Particle System
+ASSET	project://Particles/Grenades/Sparks.plutoparticles	508	Particle System
 ASSET	project://Particles/MuzzleFlash.plutoparticles	861	Particle System
 ASSET	project://Particles/smoke.plutoparticles	1517	Particle System
 ASSET	project://PostProcessing/main.plutopostprocess	6045	Post Process Preset
 ASSET	project://PostProcessing/performance.plutopostprocess	5624	Post Process Preset
 ASSET	project://Prefabs/AmmoPickup.plutoprefab	1895	Prefab
 ASSET	project://Prefabs/ArmourPickup.plutoprefab	1900	Prefab
+ASSET	project://Prefabs/Audio/GameplayCue.plutoprefab	245	Prefab
 ASSET	project://Prefabs/Car.plutoprefab	33578	Prefab
-ASSET	project://Prefabs/Enemy.plutoprefab	17387	Prefab
-ASSET	project://Prefabs/Grenades/Flash.plutoprefab	193	Prefab
-ASSET	project://Prefabs/Grenades/Frag.plutoprefab	440	Prefab
-ASSET	project://Prefabs/Grenades/Smoke.plutoprefab	193	Prefab
-ASSET	project://Prefabs/Grenades/Sparks.plutoprefab	195	Prefab
+ASSET	project://Prefabs/Enemy.plutoprefab	19393	Prefab
+ASSET	project://Prefabs/Grenades/Flash.plutoprefab	188	Prefab
+ASSET	project://Prefabs/Grenades/Frag.plutoprefab	430	Prefab
+ASSET	project://Prefabs/Grenades/Smoke.plutoprefab	188	Prefab
+ASSET	project://Prefabs/Grenades/Sparks.plutoprefab	190	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1932	Prefab
 ASSET	project://Prefabs/Lightsaber.plutoprefab	1949	Prefab
 ASSET	project://Prefabs/Player.plutoprefab	61338	Prefab
-ASSET	project://Prefabs/RemotePlayer.plutoprefab	14704	Prefab
+ASSET	project://Prefabs/RemotePlayer.plutoprefab	7801	Prefab
 ASSET	project://Prefabs/RmlGameUI.plutoprefab	2475	Prefab
 ASSET	project://Prefabs/Tree.plutoprefab	3864	Prefab
 ASSET	project://Prefabs/Tree_Static.plutomesh	93677	Mesh
@@ -322,58 +347,340 @@ ASSET	project://Prefabs/Tree_Static_Material_1.plutomaterial	452	Material
 ASSET	project://Prefabs/Weapons/ar.plutoprefab	1696	Prefab
 ASSET	project://Prefabs/Weapons/lmg.plutoprefab	1701	Prefab
 ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1716	Prefab
-ASSET	project://Scenes/Foundry.plutoscene	146577	Scene
+ASSET	project://Scenes/Foundry.plutoscene	146580	Scene
 ASSET	project://Scenes/Main.plutoscene	177412	Scene
 ASSET	project://Scenes/Title.plutoscene	8873	Scene
 ASSET	project://Scenes/car_scene.plutoscene	2993166	Scene
 ASSET	project://Scenes/island.plutoscene	8536273	Scene
 ASSET	project://Scenes/ragdoll_test.plutoscene	20927	Scene
 ASSET	project://Scripts/BotCombatMovement.cs	1265	Script
-ASSET	project://Scripts/BotObjectiveTactics.cs	1272	Script
+ASSET	project://Scripts/BotObjectiveTactics.cs	1270	Script
 ASSET	project://Scripts/BotSpawnResolver.cs	1211	Script
-ASSET	project://Scripts/CombatFeedback.cs	4764	Script
+ASSET	project://Scripts/CombatFeedback.cs	4930	Script
 ASSET	project://Scripts/CombatFeedbackMath.cs	590	Script
-ASSET	project://Scripts/CombatTargeting.cs	925	Script
+ASSET	project://Scripts/CombatTargeting.cs	1121	Script
 ASSET	project://Scripts/DamageFeedbackState.cs	605	Script
-ASSET	project://Scripts/DefusalBotTactics.cs	2397	Script
-ASSET	project://Scripts/DefusalMarker.cs	2671	Script
+ASSET	project://Scripts/DefusalBotTactics.cs	2335	Script
+ASSET	project://Scripts/DefusalMarker.cs	2668	Script
 ASSET	project://Scripts/DefusalRules.cs	6338	Script
-ASSET	project://Scripts/EnemySoldierBot.cs	32886	Script
-ASSET	project://Scripts/EnemyWaveSpawner.cs	4384	Script
+ASSET	project://Scripts/EnemySoldierBot.cs	36000	Script
+ASSET	project://Scripts/EnemyWaveSpawner.cs	4254	Script
 ASSET	project://Scripts/FairBotPlanner.cs	1015	Script
-ASSET	project://Scripts/FirstPersonHands.cs	2576	Script
+ASSET	project://Scripts/FirstPersonHands.cs	2506	Script
 ASSET	project://Scripts/GameGraphicsSettings.cs	4262	Script
-ASSET	project://Scripts/GameModeHud.cs	9511	Script
+ASSET	project://Scripts/GameModeHud.cs	9510	Script
+ASSET	project://Scripts/GameplaySounds.cs	5070	Script
 ASSET	project://Scripts/GrenadeRules.cs	3543	Script
-ASSET	project://Scripts/HandMotion.cs	1914	Script
-ASSET	project://Scripts/HardpointMarker.cs	2224	Script
-ASSET	project://Scripts/HardpointRules.cs	3486	Script
-ASSET	project://Scripts/InventoryMenu.cs	7730	Script
-ASSET	project://Scripts/InventoryRules.cs	1069	Script
+ASSET	project://Scripts/HandMotion.cs	1876	Script
+ASSET	project://Scripts/HardpointMarker.cs	2223	Script
+ASSET	project://Scripts/HardpointRules.cs	3562	Script
+ASSET	project://Scripts/InventoryMenu.cs	7696	Script
+ASSET	project://Scripts/InventoryRules.cs	1089	Script
 ASSET	project://Scripts/MatchContracts.cs	1165	Script
-ASSET	project://Scripts/MultiplayerLaunch.cs	714	Script
-ASSET	project://Scripts/MultiplayerSession.Defusal.cs	11967	Script
-ASSET	project://Scripts/MultiplayerSession.Grenades.cs	13159	Script
-ASSET	project://Scripts/MultiplayerSession.Objectives.cs	6586	Script
-ASSET	project://Scripts/MultiplayerSession.cs	93925	Script
-ASSET	project://Scripts/NetworkParticipantHitbox.cs	401	Script
+ASSET	project://Scripts/MultiplayerLaunch.cs	696	Script
+ASSET	project://Scripts/MultiplayerSession.Defusal.cs	11859	Script
+ASSET	project://Scripts/MultiplayerSession.Grenades.cs	13342	Script
+ASSET	project://Scripts/MultiplayerSession.Objectives.cs	6582	Script
+ASSET	project://Scripts/MultiplayerSession.cs	95826	Script
+ASSET	project://Scripts/NetworkParticipantHitbox.cs	389	Script
 ASSET	project://Scripts/ObjectiveStatus.cs	1062	Script
-ASSET	project://Scripts/PauseMenu.cs	262	Script
-ASSET	project://Scripts/PlayerController.cs	39704	Script
-ASSET	project://Scripts/PlayerHealth.cs	9006	Script
-ASSET	project://Scripts/PlayerHud.cs	19494	Script
-ASSET	project://Scripts/PlayerInventory.cs	5423	Script
+ASSET	project://Scripts/PauseMenu.cs	271	Script
+ASSET	project://Scripts/PlayerController.cs	42252	Script
+ASSET	project://Scripts/PlayerHealth.cs	9127	Script
+ASSET	project://Scripts/PlayerHud.cs	19424	Script
+ASSET	project://Scripts/PlayerInventory.cs	5631	Script
 ASSET	project://Scripts/PlayerSettings.cs	4209	Script
 ASSET	project://Scripts/RoundProgression.cs	2194	Script
-ASSET	project://Scripts/SupplyPickup.cs	2907	Script
+ASSET	project://Scripts/SupplyPickup.cs	3008	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
-ASSET	project://Scripts/TacticalUi.cs	1047	Script
-ASSET	project://Scripts/TeamNameplate.cs	293	Script
+ASSET	project://Scripts/TacticalUi.cs	1020	Script
+ASSET	project://Scripts/TeamNameplate.cs	291	Script
 ASSET	project://Scripts/TitleScreen.cs	4655	Script
-ASSET	project://Scripts/UIManager.cs	6549	Script
-ASSET	project://Scripts/VehicleSpeedometer.cs	6437	Script
-ASSET	project://Scripts/WeaponCatalog.cs	3396	Script
-ASSET	project://Scripts/WeaponHandBinding.cs	3867	Script
+ASSET	project://Scripts/UIManager.cs	6745	Script
+ASSET	project://Scripts/VehicleSpeedometer.cs	6352	Script
+ASSET	project://Scripts/WeaponCatalog.cs	3324	Script
+ASSET	project://Scripts/WeaponHandBinding.cs	3957	Script
+ASSET	project://Sounds/Gameplay/Explosions/grenade_ufx_1.wav	308780	Audio
+ASSET	project://Sounds/Gameplay/Firearms/Fire/assault_rifle_fire_ufx_1.wav	308780	Audio
+ASSET	project://Sounds/Gameplay/Firearms/Fire/machinegun_heavy_fire_ufx_1.wav	308780	Audio
+ASSET	project://Sounds/Gameplay/Firearms/Fire/pistol_fire_ufx_1.wav	156716	Audio
+ASSET	project://Sounds/Gameplay/Firearms/Misc/pistol_universal_empty_barrel_ufx_1.wav	156716	Audio
+ASSET	project://Sounds/Gameplay/Firearms/Misc/rifle_universal_empty_barrel_ufx_1.wav	156716	Audio
+ASSET	project://Sounds/Gameplay/Firearms/Racking/assault_rifle_racking_ufx_1.wav	156716	Audio
+ASSET	project://Sounds/Gameplay/Firearms/Racking/pistol_racking_ufx_1.wav	156716	Audio
+ASSET	project://Sounds/Gameplay/Firearms/Reloading/assault_rifle_reloading_mag_in_ufx_1.wav	156716	Audio
+ASSET	project://Sounds/Gameplay/Firearms/Reloading/assault_rifle_reloading_mag_out_ufx_1.wav	156716	Audio
+ASSET	project://Sounds/Gameplay/Firearms/Reloading/pistol_reloading_mag_in_ufx_1.wav	156716	Audio
+ASSET	project://Sounds/Gameplay/Firearms/Reloading/pistol_reloading_mag_out_ufx_1.wav	156716	Audio
+ASSET	project://Sounds/Gameplay/Impact & Break/Body/impact_body_ufx_1.wav	162876	Audio
+ASSET	project://Sounds/Gameplay/Impact & Break/Body/impact_body_ufx_2.wav	162876	Audio
+ASSET	project://Sounds/Gameplay/Impact & Break/Concrete/impact_concrete_ufx_1.wav	325704	Audio
+ASSET	project://Sounds/Gameplay/Melee/Throw/throw_heavy_ufx_1.wav	151244	Audio
+ASSET	project://Sounds/Gameplay/Misc/inventory_close_ufx_1.wav	658328	Audio
+ASSET	project://Sounds/Gameplay/Misc/inventory_open_ufx_1.wav	658328	Audio
+ASSET	project://Sounds/Gameplay/Misc/item_equip_ufx_1.wav	156716	Audio
+ASSET	project://Sounds/Gameplay/Misc/item_pickup_ufx_1.wav	156716	Audio
+ASSET	project://Sounds/Gameplay/Misc/medkit_use_ufx_1.wav	235052	Audio
+ASSET	project://Sounds/Gameplay/Misc/new_objective_ufx_1.wav	156716	Audio
+ASSET	project://Sounds/Gameplay/Player/Footsteps/Concrete/footstep_concrete_ufx_1.wav	81460	Audio
+ASSET	project://Sounds/Gameplay/Player/Footsteps/Concrete/footstep_concrete_ufx_2.wav	81460	Audio
+ASSET	project://Sounds/Gameplay/Player/Footsteps/Concrete/footstep_concrete_ufx_3.wav	81460	Audio
+ASSET	project://Sounds/Gameplay/Player/Footsteps/Concrete/footstep_concrete_ufx_4.wav	81460	Audio
+ASSET	project://Sounds/SFX Library/Bonus/OST/1998_ufx_1_loop.ogg	3858529	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_long_ufx_1.ogg	168311	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_long_ufx_2.ogg	149864	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_long_ufx_3.ogg	94206	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_long_ufx_4.ogg	157949	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_long_ufx_5.ogg	170794	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_long_ufx_6.ogg	115331	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_long_ufx_7.ogg	160831	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_long_ufx_8.ogg	146416	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_short_ufx_1.ogg	104746	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_short_ufx_2.ogg	80345	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_short_ufx_3.ogg	85759	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_short_ufx_4.ogg	83157	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_short_ufx_5.ogg	89929	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_distant_long_ufx_1.ogg	87745	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_distant_long_ufx_2.ogg	74477	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_distant_short_ufx_1.ogg	86654	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_distant_short_ufx_2.ogg	80873	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/flashbang_ufx_1.ogg	57348	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/grenade_ufx_1.ogg	56628	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Drop/firearm_drop_ufx_1.ogg	43835	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Drop/firearm_drop_ufx_2.ogg	53243	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Drop/firearm_drop_ufx_3.ogg	51722	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Drop/firearm_drop_ufx_4.ogg	33860	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Drop/firearm_drop_ufx_5.ogg	48317	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/assault_rifle_fire_suppressed_ufx_1.ogg	32252	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/assault_rifle_fire_suppressed_ufx_2.ogg	28170	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/assault_rifle_fire_ufx_1.ogg	50546	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/assault_rifle_fire_ufx_2.ogg	32762	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/assault_rifle_fire_ufx_3.ogg	34566	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/assault_rifle_fire_ufx_4.ogg	31997	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/assault_rifle_fire_ufx_5.ogg	33256	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/grenade_launcher_fire_ufx_1.ogg	49628	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/grenade_launcher_fire_ufx_2.ogg	62975	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/grenade_launcher_fire_ufx_3.ogg	63868	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/grenade_launcher_fire_ufx_4.ogg	65420	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/grenade_launcher_fire_ufx_5.ogg	35987	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/machinegun_heavy_fire_ufx_1.ogg	49984	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_pistol_fire_ufx_1.ogg	62863	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_pistol_fire_ufx_2.ogg	32018	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_pistol_fire_ufx_3.ogg	31150	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_revolver_fire_ufx_1.ogg	52275	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_rifle_fire_ufx_1.ogg	48250	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_rifle_fire_ufx_2.ogg	55187	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_rifle_fire_ufx_3.ogg	61183	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_rifle_fire_ufx_4.ogg	60365	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_rifle_fire_ufx_5.ogg	50471	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_rifle_fire_ufx_6.ogg	53794	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_shotgun_fire_ufx_1.ogg	40891	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_suppressed_ufx_1.ogg	31559	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_suppressed_ufx_2.ogg	30917	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_suppressed_ufx_3.ogg	11386	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_ufx_1.ogg	28540	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_ufx_2.ogg	47911	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_ufx_3.ogg	47449	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_ufx_4.ogg	32428	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_ufx_5.ogg	25073	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_ufx_6.ogg	42277	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_ufx_7.ogg	34605	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/revolver_fire_ufx_1.ogg	31574	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/revolver_fire_ufx_2.ogg	37821	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/rocket_launcher_fire_ufx_1.ogg	71270	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/shotgun_fire_suppressed_ufx_1.ogg	13244	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/shotgun_fire_ufx_1.ogg	49855	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/shotgun_fire_ufx_2.ogg	57643	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/smg_fire_suppressed_ufx_1.ogg	32142	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/smg_fire_suppressed_ufx_2.ogg	19300	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/smg_fire_suppressed_ufx_3.ogg	12392	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/smg_fire_suppressed_ufx_4.ogg	9857	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/smg_fire_ufx_1.ogg	17404	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/smg_fire_ufx_2.ogg	46959	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/smg_fire_ufx_3.ogg	33525	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/sniper_rifle_fire_suppressed_ufx_1.ogg	49709	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/sniper_rifle_fire_ufx_1.ogg	38994	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/sniper_rifle_fire_ufx_2.ogg	52120	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/sniper_rifle_fire_ufx_3.ogg	52546	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/sniper_rifle_fire_ufx_4.ogg	61055	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/sniper_rifle_fire_ufx_5.ogg	78086	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/sniper_rifle_heavy_fire_ufx_1.ogg	47745	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/sniper_rifle_heavy_fire_ufx_2.ogg	46257	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/bullet_ricochet_ufx_1.wav	1975034	Audio
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/bullet_ricochet_ufx_2.wav	1316750	Audio
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/bullet_ricochet_ufx_3.wav	905322	Audio
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/bullet_ricochet_ufx_4.wav	905322	Audio
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/firearm_universal_safety_switch_ufx_1.ogg	17015	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/firearm_universal_safety_switch_ufx_2.ogg	18491	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/pistol_universal_empty_barrel_ufx_1.ogg	24801	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/rifle_universal_empty_barrel_ufx_1.ogg	29515	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/rifle_universal_empty_barrel_ufx_2.ogg	29563	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/smg_universal_empty_barrel_ufx_1.ogg	29717	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/assault_rifle_racking_ufx_1.ogg	36443	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/pistol_racking_sneaky_ufx_2.ogg	33545	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/pistol_racking_ufx_1.ogg	37640	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/pistol_racking_ufx_2.ogg	29213	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/pistol_racking_ufx_3.ogg	20725	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/pistol_racking_ufx_4.ogg	32341	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/shotgun_racking_ufx_1.ogg	47204	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/shotgun_racking_ufx_2.ogg	31188	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/shotgun_racking_ufx_3.ogg	33024	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/shotgun_racking_ufx_4.ogg	36727	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/smg_racking_ufx_1.ogg	30410	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/smg_racking_ufx_2.ogg	28992	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/assault_rifle_reloading_mag_in_ufx_1.ogg	20611	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/assault_rifle_reloading_mag_in_ufx_2.ogg	32648	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/assault_rifle_reloading_mag_in_ufx_3.ogg	17191	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/assault_rifle_reloading_mag_in_ufx_4.ogg	32220	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/assault_rifle_reloading_mag_out_ufx_1.ogg	38849	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/assault_rifle_reloading_mag_out_ufx_2.ogg	37601	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/assault_rifle_reloading_mag_out_ufx_3.ogg	33780	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/pistol_reloading_mag_in_ufx_1.ogg	15316	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/pistol_reloading_mag_out_ufx_1.ogg	36621	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/pistol_reloading_mag_out_ufx_2.ogg	37988	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/shotgun_reloading_slug_in_ufx_1.ogg	20938	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/shotgun_reloading_slug_in_ufx_2.ogg	32129	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/shotgun_reloading_slug_in_ufx_3.ogg	23634	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/smg_reloading_mag_in_ufx_1.ogg	16315	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/smg_reloading_mag_out_ufx_2.ogg	29838	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/sniper_rifle_reloading_round_in_ufx_1.ogg	38924	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/sniper_rifle_reloading_round_in_ufx_2.ogg	39373	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Body/impact_body_ufx_1.ogg	13974	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Body/impact_body_ufx_2.ogg	14275	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Concrete/break_concrete_ufx_1.ogg	56004	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Concrete/break_concrete_ufx_2.ogg	57620	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Concrete/impact_concrete_ufx_1.ogg	38214	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Concrete/impact_concrete_ufx_2.ogg	38753	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Concrete/impact_concrete_ufx_3.ogg	43715	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Glass/impact_glass_ufx_1.ogg	73543	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Glass/impact_glass_ufx_2.ogg	73928	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Glass/impact_glass_ufx_3.ogg	70466	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Glass/impact_glass_ufx_4.ogg	40346	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Glass/impact_glass_ufx_5.ogg	47503	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Metal/break_metal_ufx_1.ogg	60758	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Metal/impact_metal_ufx_1.ogg	34089	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Metal/impact_metal_ufx_2.ogg	39108	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Metal/impact_metal_ufx_3.ogg	79973	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Metal/impact_metal_ufx_4.ogg	77278	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Wood/break_wood_ufx_1.ogg	73981	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Wood/impact_wood_ufx_1.ogg	40365	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Wood/impact_wood_ufx_2.ogg	30591	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Draw/knife_draw_ufx_1.ogg	13819	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Draw/sword_draw_ufx_1.ogg	37087	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Draw/sword_draw_ufx_2.ogg	27926	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_bloody_heavy_ufx_1.ogg	40640	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_bloody_light_ufx_1.ogg	45570	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_bloody_light_ufx_2.ogg	47018	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_bloody_moderate_ufx_1.ogg	38328	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_body_ufx_1.ogg	17202	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_body_ufx_2.ogg	18316	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_body_ufx_3.ogg	19498	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_body_ufx_4.ogg	17566	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_heavy_ufx_1.ogg	31708	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_metal_ufx_1.ogg	27318	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_soft_ufx_1.ogg	30563	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_wood_ufx_1.ogg	18785	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/knife_hit_hard_surface_ufx_1.ogg	18302	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/knife_hit_hard_surface_ufx_2.ogg	19471	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/knife_hit_hard_surface_ufx_3.ogg	15102	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sharp_critical_hit_body_ufx_1.ogg	25193	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sharp_critical_hit_body_ufx_2.ogg	25463	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sharp_hit_heavy_ufx_1.ogg	32729	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sharp_hit_light_bloody_ufx_1.ogg	43508	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sharp_slash_body_ufx_1.ogg	34055	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/slash_bloody_heavy_ufx_1.ogg	41424	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/slash_bloody_heavy_ufx_2.ogg	42477	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/slash_bloody_heavy_ufx_3.ogg	47540	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/slash_bloody_light_ufx_1.ogg	59173	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sticky_hit_body_ufx_1.ogg	38736	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sticky_hit_body_ufx_2.ogg	41679	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sword_clash_ufx_1.ogg	36671	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sword_hit_ufx_1.ogg	49146	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Swing/knife_swing_miss_ufx_1.ogg	15061	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Swing/universal_swing_miss_heavy_ufx_1.ogg	30654	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Swing/universal_swing_miss_heavy_ufx_2.ogg	27216	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Swing/universal_swing_miss_heavy_ufx_3.ogg	37305	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Swing/universal_swing_miss_light_ufx_1.ogg	26528	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Swing/universal_swing_miss_light_ufx_2.ogg	26889	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Throw/throw_heavy_ufx_1.ogg	20225	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Throw/throw_light_ufx_1.ogg	20466	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/inventory_close_ufx_1.wav	658462	Audio
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/inventory_open_ufx_1.wav	658462	Audio
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/item_craft_ufx_1.ogg	19499	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/item_craft_ufx_3.ogg	34649	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/item_equip_ufx_1.ogg	34161	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/item_equip_ufx_2.wav	576178	Audio
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/item_equip_ufx_3.wav	658462	Audio
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/item_equip_ufx_4.wav	658462	Audio
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/item_pickup_ufx_1.ogg	34115	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/item_upgrade_ufx_1.ogg	49491	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/medkit_use_ufx_1.ogg	39883	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/new_objective_ufx_1.ogg	19336	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/note_turn_page_ufx_1.ogg	25403	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/plastic_container_open_small_ufx_1.ogg	32844	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/player_level_up_ufx_1.ogg	55310	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/wooden_container_close_large_ufx_1.ogg	136150	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Misc/wooden_container_open_large_ufx_1.ogg	33234	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Concrete/footstep_concrete_ufx_1.ogg	28114	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Concrete/footstep_concrete_ufx_2.ogg	27383	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Concrete/footstep_concrete_ufx_3.ogg	27524	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Concrete/footstep_concrete_ufx_4.ogg	27025	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Dirt/footstep_dirt_ufx_1.ogg	34304	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Dirt/footstep_dirt_ufx_2.ogg	35727	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Dirt/footstep_dirt_ufx_3.ogg	36838	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Dirt/footstep_dirt_ufx_4.ogg	24428	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Dirt/footstep_dirt_ufx_5.ogg	34858	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Dirt/footstep_dirt_ufx_6.ogg	23437	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Dirt/footstep_dirt_ufx_7.ogg	35633	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Dirt/footstep_dirt_ufx_8.ogg	34291	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Grass/footstep_grass_ufx_1.ogg	44361	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Grass/footstep_grass_ufx_2.ogg	37842	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Grass/footstep_grass_ufx_3.ogg	36183	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Grass/footstep_grass_ufx_4.ogg	31309	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Grass/footstep_grass_ufx_5.ogg	37213	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Gravel/footstep_gravel_ufx_1.ogg	41726	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Gravel/footstep_gravel_ufx_2.ogg	42892	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Gravel/footstep_gravel_ufx_3.ogg	36899	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Gravel/footstep_gravel_ufx_4.ogg	43082	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Gravel/footstep_gravel_ufx_5.ogg	31536	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Metal/footstep_metal_ufx_1.ogg	24963	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Metal/footstep_metal_ufx_2.ogg	25213	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Metal/footstep_metal_ufx_3.ogg	25575	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Metal/footstep_metal_ufx_4.ogg	24502	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Metal/footstep_metal_ufx_5.ogg	24970	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Metal/footstep_metal_ufx_6.ogg	24526	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Metal/footstep_metal_ufx_7.ogg	25853	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_1.ogg	27341	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_10.ogg	25903	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_11.ogg	33197	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_2.ogg	29306	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_3.ogg	22891	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_4.ogg	27410	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_5.ogg	19476	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_6.ogg	20388	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_7.ogg	19026	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_8.ogg	29658	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_9.ogg	21774	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_1.ogg	32545	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_10.ogg	31903	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_11.ogg	32144	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_12.ogg	31947	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_13.ogg	32363	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_14.ogg	32347	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_15.ogg	31979	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_16.ogg	32491	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_17.ogg	32627	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_18.ogg	31981	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_19.ogg	32131	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_2.ogg	31821	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_20.ogg	32729	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_3.ogg	32198	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_4.ogg	33272	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_5.ogg	32374	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_6.ogg	32712	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_7.ogg	32382	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_8.ogg	32585	Unknown
+ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_9.ogg	32982	Unknown
 ASSET	project://Sounds/engine.wav	760364	Audio
 ASSET	project://Sounds/feedback/armour.wav	8864	Audio
 ASSET	project://Sounds/feedback/headshot.wav	7982	Audio
@@ -384,8 +691,108 @@ ASSET	project://Sounds/gun_shot.wav	59456	Audio
 ASSET	project://Sounds/hitmarker.wav	7726	Audio
 ASSET	project://Sounds/melodyloops-shine-beyond-compressed.wav	3901788	Audio
 ASSET	project://Sounds/tyre_screech.wav	11720	Audio
-ASSET	project://SourceModels/FirstPersonHands/README.md	1223	Unknown
+ASSET	project://SourceModels/FirstPersonHands/README.md	1200	Unknown
 ASSET	project://SourceModels/FirstPersonHands/SharedHands.blend	3120314	Unknown
+ASSET	project://SourceModels/Solider/M_Solider_0.plutomaterial	671	Material
+ASSET	project://SourceModels/Solider/M_Solider_1.plutomaterial	677	Material
+ASSET	project://SourceModels/Solider/M_Solider_10.plutomaterial	677	Material
+ASSET	project://SourceModels/Solider/M_Solider_11.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_12.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_13.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_14.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_15.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_16.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_17.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_18.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_19.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_2.plutomaterial	677	Material
+ASSET	project://SourceModels/Solider/M_Solider_20.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_21.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_22.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_23.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_24.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_25.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_26.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_27.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_28.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_29.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_3.plutomaterial	677	Material
+ASSET	project://SourceModels/Solider/M_Solider_30.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_31.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_32.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_33.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_34.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_35.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_36.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_37.plutomaterial	680	Material
+ASSET	project://SourceModels/Solider/M_Solider_38.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_39.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_4.plutomaterial	677	Material
+ASSET	project://SourceModels/Solider/M_Solider_40.plutomaterial	697	Material
+ASSET	project://SourceModels/Solider/M_Solider_41.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_42.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_43.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_44.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_45.plutomaterial	678	Material
+ASSET	project://SourceModels/Solider/M_Solider_46.plutomaterial	637	Material
+ASSET	project://SourceModels/Solider/M_Solider_5.plutomaterial	677	Material
+ASSET	project://SourceModels/Solider/M_Solider_6.plutomaterial	677	Material
+ASSET	project://SourceModels/Solider/M_Solider_7.plutomaterial	677	Material
+ASSET	project://SourceModels/Solider/M_Solider_8.plutomaterial	677	Material
+ASSET	project://SourceModels/Solider/M_Solider_9.plutomaterial	677	Material
+ASSET	project://SourceModels/Solider/Rigged/README.txt	1998	Unknown
+ASSET	project://SourceModels/Solider/Rigged/Soldier_Bot_Animations.blend	89102465	Unknown
+ASSET	project://SourceModels/Solider/Rigged/Soldier_Bot_Game.blend	93922358	Unknown
+ASSET	project://SourceModels/Solider/Rigged/Soldier_Bot_WeaponPoses.blend	89505791	Unknown
+ASSET	project://SourceModels/Solider/Rigged/Soldier_Rig_Review.blend	84973302	Unknown
+ASSET	project://SourceModels/Solider/Rigged/Soldier_Rig_Review.glb	84263480	Model
+ASSET	project://SourceModels/Solider/Solider.glb	82415144	Model
+ASSET	project://SourceModels/Solider/Solider.plutomesh	11673123	Mesh
+ASSET	project://SourceModels/Solider/Textures/T_0.tga	16777234	Texture
+ASSET	project://SourceModels/Solider/Textures/T_1.tga	16777234	Texture
+ASSET	project://SourceModels/Solider/Textures/T_10.tga	16777234	Texture
+ASSET	project://SourceModels/Solider/Textures/T_11.tga	16777234	Texture
+ASSET	project://SourceModels/Solider/Textures/T_12.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_13.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_14.tga	16777234	Texture
+ASSET	project://SourceModels/Solider/Textures/T_15.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_16.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_17.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_18.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_19.tga	16777234	Texture
+ASSET	project://SourceModels/Solider/Textures/T_2.tga	16777234	Texture
+ASSET	project://SourceModels/Solider/Textures/T_20.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_21.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_22.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_23.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_24.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_25.tga	16777234	Texture
+ASSET	project://SourceModels/Solider/Textures/T_26.tga	16777234	Texture
+ASSET	project://SourceModels/Solider/Textures/T_27.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_28.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_29.tga	1048594	Texture
+ASSET	project://SourceModels/Solider/Textures/T_3.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_30.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_31.tga	8388626	Texture
+ASSET	project://SourceModels/Solider/Textures/T_32.tga	1048594	Texture
+ASSET	project://SourceModels/Solider/Textures/T_33.tga	16777234	Texture
+ASSET	project://SourceModels/Solider/Textures/T_34.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_35.tga	1048594	Texture
+ASSET	project://SourceModels/Solider/Textures/T_36.tga	1048594	Texture
+ASSET	project://SourceModels/Solider/Textures/T_37.tga	16777234	Texture
+ASSET	project://SourceModels/Solider/Textures/T_38.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_39.tga	16777234	Texture
+ASSET	project://SourceModels/Solider/Textures/T_4.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_40.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_41.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_42.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_43.tga	1048594	Texture
+ASSET	project://SourceModels/Solider/Textures/T_44.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_5.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_6.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_7.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_8.tga	4194322	Texture
+ASSET	project://SourceModels/Solider/Textures/T_9.tga	4194322	Texture
 ASSET	project://SourceModels/UAL1_Standard/.plutoge-cache/meshes/4696578470734905787.pmesh	10546157	Unknown
 ASSET	project://SourceModels/UAL1_Standard/A_TPose.plutoclip	332294	Animation Clip
 ASSET	project://SourceModels/UAL1_Standard/Crouch_Fwd_Loop.plutoclip	273802	Animation Clip
@@ -437,18 +844,21 @@ ASSET	project://SourceModels/UAL1_Standard/UAL1_Standard.plutomesh	1090675	Mesh
 ASSET	project://SourceModels/UAL1_Standard/UAL1_Standard_RM.glb	7620504	Model
 ASSET	project://SourceModels/UAL1_Standard/Walk_Formal_Loop.plutoclip	195803	Animation Clip
 ASSET	project://SourceModels/UAL1_Standard/Walk_Loop.plutoclip	195796	Animation Clip
-ASSET	project://SourceModels/Weapons/README.md	877	Unknown
+ASSET	project://SourceModels/Weapons/README.md	862	Unknown
 ASSET	project://SourceModels/Weapons/ar.blend	176719	Unknown
+ASSET	project://SourceModels/Weapons/ar.blend1	176616	Unknown
 ASSET	project://SourceModels/Weapons/ar.glb	597468	Model
 ASSET	project://SourceModels/Weapons/ar_aim.png	393470	Texture
 ASSET	project://SourceModels/Weapons/ar_hip.png	408597	Texture
 ASSET	project://SourceModels/Weapons/ar_preview.png	453697	Texture
 ASSET	project://SourceModels/Weapons/lmg.blend	189164	Unknown
+ASSET	project://SourceModels/Weapons/lmg.blend1	189070	Unknown
 ASSET	project://SourceModels/Weapons/lmg.glb	597900	Model
 ASSET	project://SourceModels/Weapons/lmg_aim.png	399862	Texture
 ASSET	project://SourceModels/Weapons/lmg_hip.png	412801	Texture
 ASSET	project://SourceModels/Weapons/lmg_preview.png	463069	Texture
 ASSET	project://SourceModels/Weapons/pistol.blend	149020	Unknown
+ASSET	project://SourceModels/Weapons/pistol.blend1	148920	Unknown
 ASSET	project://SourceModels/Weapons/pistol.glb	296996	Model
 ASSET	project://SourceModels/Weapons/pistol_aim.png	379566	Texture
 ASSET	project://SourceModels/Weapons/pistol_hip.png	379929	Texture
@@ -562,9 +972,9 @@ ASSET	project://SourceModels/grass_green/M_grass_green_6.plutomaterial	682	Mater
 ASSET	project://SourceModels/grass_green/M_grass_green_7.plutomaterial	626	Material
 ASSET	project://SourceModels/grass_green/M_grass_green_8.plutomaterial	626	Material
 ASSET	project://SourceModels/grass_green/M_grass_green_9.plutomaterial	626	Material
-ASSET	project://SourceModels/grass_green/grass_green.gltf	31169	Model
+ASSET	project://SourceModels/grass_green/grass_green.gltf	29601	Model
 ASSET	project://SourceModels/grass_green/grass_green.plutomesh	10141	Mesh
-ASSET	project://SourceModels/grass_green/license.txt	702	Unknown
+ASSET	project://SourceModels/grass_green/license.txt	692	Unknown
 ASSET	project://SourceModels/grass_green/scene.bin	2320	Unknown
 ASSET	project://SourceModels/grass_green/textures/Grass_green.007_normal.png	139268	Texture
 ASSET	project://SourceModels/grass_green/textures/Grass_green.014_baseColor.png	367821	Texture
@@ -576,9 +986,9 @@ ASSET	project://SourceModels/grass_patch/Grass_green.014_metallicRoughness.png	8
 ASSET	project://SourceModels/grass_patch/M_grass_patch_0.plutomaterial	646	Material
 ASSET	project://SourceModels/grass_patch/M_grass_patch_1.plutomaterial	702	Material
 ASSET	project://SourceModels/grass_patch/M_grass_patch_2.plutomaterial	490	Material
-ASSET	project://SourceModels/grass_patch/grass_patch.gltf	31169	Model
+ASSET	project://SourceModels/grass_patch/grass_patch.gltf	29601	Model
 ASSET	project://SourceModels/grass_patch/grass_patch.plutomesh	9320	Mesh
-ASSET	project://SourceModels/grass_patch/license.txt	702	Unknown
+ASSET	project://SourceModels/grass_patch/license.txt	692	Unknown
 ASSET	project://SourceModels/grass_patch/scene.bin	2320	Unknown
 ASSET	project://SourceModels/grass_patch/textures/Grass_green.007_normal.png	139268	Texture
 ASSET	project://SourceModels/grass_patch/textures/Grass_green.014_baseColor.png	367821	Texture
@@ -604,15 +1014,21 @@ ASSET	project://SourceModels/grassv4/Texture 0.tga	2097170	Texture
 ASSET	project://SourceModels/grassv4/Texture 1.tga	2097170	Texture
 ASSET	project://SourceModels/grassv4/grassv4.glb	538732	Model
 ASSET	project://SourceModels/grassv4/grassv4.plutomesh	7102	Mesh
-ASSET	project://SourceModels/pine_tree/.plutoge-cache/meshes/7476251161630818917.pmesh	534603	Unknown
+ASSET	project://SourceModels/m16_assault_rifle/M_m16_assault_rifle_0.plutomaterial	825	Material
+ASSET	project://SourceModels/m16_assault_rifle/M_m16_assault_rifle_1.plutomaterial	637	Material
+ASSET	project://SourceModels/m16_assault_rifle/Textures/T_0.tga	4194322	Texture
+ASSET	project://SourceModels/m16_assault_rifle/Textures/T_1.tga	4194322	Texture
+ASSET	project://SourceModels/m16_assault_rifle/Textures/T_2.tga	4194322	Texture
+ASSET	project://SourceModels/m16_assault_rifle/m16_assault_rifle.glb	5060768	Model
+ASSET	project://SourceModels/m16_assault_rifle/m16_assault_rifle.plutomesh	2746490	Mesh
 ASSET	project://SourceModels/pine_tree/.plutoge-cache/meshes/7926698830897143094.pmesh	534663	Unknown
 ASSET	project://SourceModels/pine_tree/.plutoge-cache/meshes/9056569313017772201.pmesh	533809	Unknown
 ASSET	project://SourceModels/pine_tree/M_pine_tree_0.plutomaterial	573	Material
 ASSET	project://SourceModels/pine_tree/M_pine_tree_1.plutomaterial	612	Material
 ASSET	project://SourceModels/pine_tree/M_pine_tree_2.plutomaterial	506	Material
 ASSET	project://SourceModels/pine_tree/imgui.ini	1805	Unknown
-ASSET	project://SourceModels/pine_tree/license.txt	674	Unknown
-ASSET	project://SourceModels/pine_tree/pine_tree.gltf	7437	Model
+ASSET	project://SourceModels/pine_tree/license.txt	664	Unknown
+ASSET	project://SourceModels/pine_tree/pine_tree.gltf	7042	Model
 ASSET	project://SourceModels/pine_tree/pine_tree.plutomesh	533531	Mesh
 ASSET	project://SourceModels/pine_tree/scene.bin	189516	Unknown
 ASSET	project://SourceModels/pine_tree/textures/Leavs_baseColor.png	345552	Texture
@@ -683,31 +1099,31 @@ ASSET	project://UI/Weapons/pistol.png	123405	Texture
 ASSET	project://UI/Weapons/pistol.tga	983579	Texture
 ASSET	project://UI/defusal-marker.rcss	443	Unknown
 ASSET	project://UI/defusal-marker.rcss.in	453	Unknown
-ASSET	project://UI/defusal-marker.rml	203	RML Document
+ASSET	project://UI/defusal-marker.rml	202	RML Document
 ASSET	project://UI/friendly-nameplate.rcss	533	Unknown
 ASSET	project://UI/friendly-nameplate.rcss.in	548	Unknown
-ASSET	project://UI/friendly-nameplate.rml	220	RML Document
+ASSET	project://UI/friendly-nameplate.rml	211	RML Document
 ASSET	project://UI/hardpoint-marker.rcss	792	Unknown
 ASSET	project://UI/hardpoint-marker.rcss.in	818	Unknown
-ASSET	project://UI/hardpoint-marker.rml	205	RML Document
+ASSET	project://UI/hardpoint-marker.rml	204	RML Document
 ASSET	project://UI/hud.rcss	7403	Unknown
 ASSET	project://UI/hud.rcss.in	7561	Unknown
-ASSET	project://UI/hud.rml	3324	RML Document
+ASSET	project://UI/hud.rml	3311	RML Document
 ASSET	project://UI/inventory.rcss	2777	Unknown
 ASSET	project://UI/inventory.rcss.in	2839	Unknown
-ASSET	project://UI/inventory.rml	2263	RML Document
+ASSET	project://UI/inventory.rml	2262	RML Document
 ASSET	project://UI/pause-menu.rcss	796	Unknown
 ASSET	project://UI/pause-menu.rcss.in	809	Unknown
 ASSET	project://UI/pause-menu.rml	6265	RML Document
 ASSET	project://UI/settings.rcss	3406	Unknown
 ASSET	project://UI/theme.rcss	3731	Unknown
 ASSET	project://UI/theme.rcss.in	3724	Unknown
-ASSET	project://UI/theme.tokens.json	278	Unknown
+ASSET	project://UI/theme.tokens.json	272	Unknown
 ASSET	project://UI/title.rcss	3132	Unknown
 ASSET	project://UI/title.rcss.in	3167	Unknown
 ASSET	project://UI/title.rml	7938	RML Document
 ASSET	project://UI/vehicle-speedometer.rcss	2990	Unknown
-ASSET	project://UI/vehicle-speedometer.rml	1698	RML Document
+ASSET	project://UI/vehicle-speedometer.rml	1667	RML Document
 ASSET	project://Weapons/Materials/Accent.plutomaterial	167	Material
 ASSET	project://Weapons/Materials/Brass.plutomaterial	166	Material
 ASSET	project://Weapons/Materials/Glove.plutomaterial	168	Material
@@ -747,301 +1163,3 @@ ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_height.png	4112027	
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_metallic.psd	2732299	Unknown
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_normal-ogl.png	12312674	Texture
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_preview.jpg	628869	Texture
-ASSET	project://Scripts/GameplaySounds.cs	4985	Script
-ASSET	project://Prefabs/Audio/GameplayCue.plutoprefab	245	Prefab
-ASSET	project://Sounds/SFX Library/Bonus/OST/1998_ufx_1_loop.ogg	3858529	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_long_ufx_1.ogg	168311	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_long_ufx_2.ogg	149864	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_long_ufx_3.ogg	94206	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_long_ufx_4.ogg	157949	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_long_ufx_5.ogg	170794	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_long_ufx_6.ogg	115331	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_long_ufx_7.ogg	160831	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_long_ufx_8.ogg	146416	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_short_ufx_1.ogg	104746	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_short_ufx_2.ogg	80345	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_short_ufx_3.ogg	85759	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_short_ufx_4.ogg	83157	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_close_short_ufx_5.ogg	89929	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_distant_long_ufx_1.ogg	87745	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_distant_long_ufx_2.ogg	74477	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_distant_short_ufx_1.ogg	86654	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/explosion_distant_short_ufx_2.ogg	80873	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/flashbang_ufx_1.ogg	57348	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Explosions/grenade_ufx_1.ogg	56628	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/inventory_close_ufx_1.wav	658462	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/inventory_open_ufx_1.wav	658462	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/item_craft_ufx_1.ogg	19499	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/item_craft_ufx_3.ogg	34649	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/item_equip_ufx_1.ogg	34161	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/item_equip_ufx_2.wav	576178	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/item_equip_ufx_3.wav	658462	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/item_equip_ufx_4.wav	658462	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/item_pickup_ufx_1.ogg	34115	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/item_upgrade_ufx_1.ogg	49491	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/medkit_use_ufx_1.ogg	39883	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/new_objective_ufx_1.ogg	19336	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/note_turn_page_ufx_1.ogg	25403	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/plastic_container_open_small_ufx_1.ogg	32844	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/player_level_up_ufx_1.ogg	55310	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/wooden_container_close_large_ufx_1.ogg	136150	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Misc/wooden_container_open_large_ufx_1.ogg	33234	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Drop/firearm_drop_ufx_1.ogg	43835	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Drop/firearm_drop_ufx_2.ogg	53243	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Drop/firearm_drop_ufx_3.ogg	51722	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Drop/firearm_drop_ufx_4.ogg	33860	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Drop/firearm_drop_ufx_5.ogg	48317	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/assault_rifle_fire_suppressed_ufx_1.ogg	32252	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/assault_rifle_fire_suppressed_ufx_2.ogg	28170	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/assault_rifle_fire_ufx_1.ogg	50546	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/assault_rifle_fire_ufx_2.ogg	32762	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/assault_rifle_fire_ufx_3.ogg	34566	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/assault_rifle_fire_ufx_4.ogg	31997	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/assault_rifle_fire_ufx_5.ogg	33256	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/grenade_launcher_fire_ufx_1.ogg	49628	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/grenade_launcher_fire_ufx_2.ogg	62975	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/grenade_launcher_fire_ufx_3.ogg	63868	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/grenade_launcher_fire_ufx_4.ogg	65420	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/grenade_launcher_fire_ufx_5.ogg	35987	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/machinegun_heavy_fire_ufx_1.ogg	49984	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_pistol_fire_ufx_1.ogg	62863	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_pistol_fire_ufx_2.ogg	32018	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_pistol_fire_ufx_3.ogg	31150	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_revolver_fire_ufx_1.ogg	52275	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_rifle_fire_ufx_1.ogg	48250	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_rifle_fire_ufx_2.ogg	55187	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_rifle_fire_ufx_3.ogg	61183	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_rifle_fire_ufx_4.ogg	60365	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_rifle_fire_ufx_5.ogg	50471	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_rifle_fire_ufx_6.ogg	53794	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/old_shotgun_fire_ufx_1.ogg	40891	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_suppressed_ufx_1.ogg	31559	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_suppressed_ufx_2.ogg	30917	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_suppressed_ufx_3.ogg	11386	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_ufx_1.ogg	28540	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_ufx_2.ogg	47911	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_ufx_3.ogg	47449	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_ufx_4.ogg	32428	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_ufx_5.ogg	25073	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_ufx_6.ogg	42277	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/pistol_fire_ufx_7.ogg	34605	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/revolver_fire_ufx_1.ogg	31574	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/revolver_fire_ufx_2.ogg	37821	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/rocket_launcher_fire_ufx_1.ogg	71270	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/shotgun_fire_suppressed_ufx_1.ogg	13244	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/shotgun_fire_ufx_1.ogg	49855	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/shotgun_fire_ufx_2.ogg	57643	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/smg_fire_suppressed_ufx_1.ogg	32142	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/smg_fire_suppressed_ufx_2.ogg	19300	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/smg_fire_suppressed_ufx_3.ogg	12392	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/smg_fire_suppressed_ufx_4.ogg	9857	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/smg_fire_ufx_1.ogg	17404	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/smg_fire_ufx_2.ogg	46959	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/smg_fire_ufx_3.ogg	33525	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/sniper_rifle_fire_suppressed_ufx_1.ogg	49709	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/sniper_rifle_fire_ufx_1.ogg	38994	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/sniper_rifle_fire_ufx_2.ogg	52120	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/sniper_rifle_fire_ufx_3.ogg	52546	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/sniper_rifle_fire_ufx_4.ogg	61055	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/sniper_rifle_fire_ufx_5.ogg	78086	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/sniper_rifle_heavy_fire_ufx_1.ogg	47745	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Fire/sniper_rifle_heavy_fire_ufx_2.ogg	46257	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/bullet_ricochet_ufx_1.wav	1975034	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/bullet_ricochet_ufx_2.wav	1316750	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/bullet_ricochet_ufx_3.wav	905322	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/bullet_ricochet_ufx_4.wav	905322	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/firearm_universal_safety_switch_ufx_1.ogg	17015	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/firearm_universal_safety_switch_ufx_2.ogg	18491	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/pistol_universal_empty_barrel_ufx_1.ogg	24801	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/rifle_universal_empty_barrel_ufx_1.ogg	29515	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/rifle_universal_empty_barrel_ufx_2.ogg	29563	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Misc/smg_universal_empty_barrel_ufx_1.ogg	29717	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/assault_rifle_racking_ufx_1.ogg	36443	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/pistol_racking_sneaky_ufx_2.ogg	33545	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/pistol_racking_ufx_1.ogg	37640	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/pistol_racking_ufx_2.ogg	29213	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/pistol_racking_ufx_3.ogg	20725	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/pistol_racking_ufx_4.ogg	32341	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/shotgun_racking_ufx_1.ogg	47204	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/shotgun_racking_ufx_2.ogg	31188	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/shotgun_racking_ufx_3.ogg	33024	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/shotgun_racking_ufx_4.ogg	36727	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/smg_racking_ufx_1.ogg	30410	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Racking/smg_racking_ufx_2.ogg	28992	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/assault_rifle_reloading_mag_in_ufx_1.ogg	20611	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/assault_rifle_reloading_mag_in_ufx_2.ogg	32648	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/assault_rifle_reloading_mag_in_ufx_3.ogg	17191	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/assault_rifle_reloading_mag_in_ufx_4.ogg	32220	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/assault_rifle_reloading_mag_out_ufx_1.ogg	38849	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/assault_rifle_reloading_mag_out_ufx_2.ogg	37601	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/assault_rifle_reloading_mag_out_ufx_3.ogg	33780	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/pistol_reloading_mag_in_ufx_1.ogg	15316	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/pistol_reloading_mag_out_ufx_1.ogg	36621	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/pistol_reloading_mag_out_ufx_2.ogg	37988	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/shotgun_reloading_slug_in_ufx_1.ogg	20938	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/shotgun_reloading_slug_in_ufx_2.ogg	32129	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/shotgun_reloading_slug_in_ufx_3.ogg	23634	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/smg_reloading_mag_in_ufx_1.ogg	16315	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/smg_reloading_mag_out_ufx_2.ogg	29838	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/sniper_rifle_reloading_round_in_ufx_1.ogg	38924	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Firearms/Reloading/sniper_rifle_reloading_round_in_ufx_2.ogg	39373	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Body/impact_body_ufx_1.ogg	13974	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Body/impact_body_ufx_2.ogg	14275	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Concrete/break_concrete_ufx_1.ogg	56004	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Concrete/break_concrete_ufx_2.ogg	57620	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Concrete/impact_concrete_ufx_1.ogg	38214	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Concrete/impact_concrete_ufx_2.ogg	38753	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Concrete/impact_concrete_ufx_3.ogg	43715	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Glass/impact_glass_ufx_1.ogg	73543	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Glass/impact_glass_ufx_2.ogg	73928	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Glass/impact_glass_ufx_3.ogg	70466	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Glass/impact_glass_ufx_4.ogg	40346	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Glass/impact_glass_ufx_5.ogg	47503	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Metal/break_metal_ufx_1.ogg	60758	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Metal/impact_metal_ufx_1.ogg	34089	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Metal/impact_metal_ufx_2.ogg	39108	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Metal/impact_metal_ufx_3.ogg	79973	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Metal/impact_metal_ufx_4.ogg	77278	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Wood/break_wood_ufx_1.ogg	73981	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Wood/impact_wood_ufx_1.ogg	40365	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Impact & Break/Wood/impact_wood_ufx_2.ogg	30591	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Draw/knife_draw_ufx_1.ogg	13819	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Draw/sword_draw_ufx_1.ogg	37087	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Draw/sword_draw_ufx_2.ogg	27926	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_bloody_heavy_ufx_1.ogg	40640	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_bloody_light_ufx_1.ogg	45570	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_bloody_light_ufx_2.ogg	47018	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_bloody_moderate_ufx_1.ogg	38328	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_body_ufx_1.ogg	17202	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_body_ufx_2.ogg	18316	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_body_ufx_3.ogg	19498	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_body_ufx_4.ogg	17566	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_heavy_ufx_1.ogg	31708	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_metal_ufx_1.ogg	27318	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_soft_ufx_1.ogg	30563	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/blunt_hit_wood_ufx_1.ogg	18785	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/knife_hit_hard_surface_ufx_1.ogg	18302	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/knife_hit_hard_surface_ufx_2.ogg	19471	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/knife_hit_hard_surface_ufx_3.ogg	15102	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sharp_critical_hit_body_ufx_1.ogg	25193	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sharp_critical_hit_body_ufx_2.ogg	25463	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sharp_hit_heavy_ufx_1.ogg	32729	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sharp_hit_light_bloody_ufx_1.ogg	43508	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sharp_slash_body_ufx_1.ogg	34055	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/slash_bloody_heavy_ufx_1.ogg	41424	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/slash_bloody_heavy_ufx_2.ogg	42477	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/slash_bloody_heavy_ufx_3.ogg	47540	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/slash_bloody_light_ufx_1.ogg	59173	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sticky_hit_body_ufx_1.ogg	38736	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sticky_hit_body_ufx_2.ogg	41679	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sword_clash_ufx_1.ogg	36671	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Hit/sword_hit_ufx_1.ogg	49146	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Swing/knife_swing_miss_ufx_1.ogg	15061	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Swing/universal_swing_miss_heavy_ufx_1.ogg	30654	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Swing/universal_swing_miss_heavy_ufx_2.ogg	27216	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Swing/universal_swing_miss_heavy_ufx_3.ogg	37305	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Swing/universal_swing_miss_light_ufx_1.ogg	26528	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Swing/universal_swing_miss_light_ufx_2.ogg	26889	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Throw/throw_heavy_ufx_1.ogg	20225	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Melee/Throw/throw_light_ufx_1.ogg	20466	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Concrete/footstep_concrete_ufx_1.ogg	28114	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Concrete/footstep_concrete_ufx_2.ogg	27383	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Concrete/footstep_concrete_ufx_3.ogg	27524	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Concrete/footstep_concrete_ufx_4.ogg	27025	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Dirt/footstep_dirt_ufx_1.ogg	34304	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Dirt/footstep_dirt_ufx_2.ogg	35727	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Dirt/footstep_dirt_ufx_3.ogg	36838	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Dirt/footstep_dirt_ufx_4.ogg	24428	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Dirt/footstep_dirt_ufx_5.ogg	34858	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Dirt/footstep_dirt_ufx_6.ogg	23437	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Dirt/footstep_dirt_ufx_7.ogg	35633	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Dirt/footstep_dirt_ufx_8.ogg	34291	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Grass/footstep_grass_ufx_1.ogg	44361	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Grass/footstep_grass_ufx_2.ogg	37842	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Grass/footstep_grass_ufx_3.ogg	36183	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Grass/footstep_grass_ufx_4.ogg	31309	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Grass/footstep_grass_ufx_5.ogg	37213	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Gravel/footstep_gravel_ufx_1.ogg	41726	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Gravel/footstep_gravel_ufx_2.ogg	42892	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Gravel/footstep_gravel_ufx_3.ogg	36899	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Gravel/footstep_gravel_ufx_4.ogg	43082	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Gravel/footstep_gravel_ufx_5.ogg	31536	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Metal/footstep_metal_ufx_1.ogg	24963	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Metal/footstep_metal_ufx_2.ogg	25213	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Metal/footstep_metal_ufx_3.ogg	25575	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Metal/footstep_metal_ufx_4.ogg	24502	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Metal/footstep_metal_ufx_5.ogg	24970	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Metal/footstep_metal_ufx_6.ogg	24526	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Metal/footstep_metal_ufx_7.ogg	25853	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_1.ogg	27341	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_10.ogg	25903	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_11.ogg	33197	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_2.ogg	29306	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_3.ogg	22891	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_4.ogg	27410	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_5.ogg	19476	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_6.ogg	20388	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_7.ogg	19026	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_8.ogg	29658	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Snow/footstep_snow_ufx_9.ogg	21774	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_1.ogg	32545	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_10.ogg	31903	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_11.ogg	32144	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_12.ogg	31947	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_13.ogg	32363	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_14.ogg	32347	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_15.ogg	31979	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_16.ogg	32491	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_17.ogg	32627	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_18.ogg	31981	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_19.ogg	32131	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_2.ogg	31821	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_20.ogg	32729	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_3.ogg	32198	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_4.ogg	33272	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_5.ogg	32374	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_6.ogg	32712	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_7.ogg	32382	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_8.ogg	32585	Audio
-ASSET	project://Sounds/SFX Library/Sound Effects/Player/Footsteps/Wood/footstep_wood_ufx_9.ogg	32982	Audio
-ASSET	project://Sounds/Gameplay/Explosions/grenade_ufx_1.wav	308780	Audio
-ASSET	project://Sounds/Gameplay/Misc/item_equip_ufx_1.wav	156716	Audio
-ASSET	project://Sounds/Gameplay/Misc/item_pickup_ufx_1.wav	156716	Audio
-ASSET	project://Sounds/Gameplay/Misc/medkit_use_ufx_1.wav	235052	Audio
-ASSET	project://Sounds/Gameplay/Firearms/Fire/assault_rifle_fire_ufx_1.wav	308780	Audio
-ASSET	project://Sounds/Gameplay/Firearms/Fire/machinegun_heavy_fire_ufx_1.wav	308780	Audio
-ASSET	project://Sounds/Gameplay/Firearms/Fire/pistol_fire_ufx_1.wav	156716	Audio
-ASSET	project://Sounds/Gameplay/Firearms/Misc/pistol_universal_empty_barrel_ufx_1.wav	156716	Audio
-ASSET	project://Sounds/Gameplay/Firearms/Misc/rifle_universal_empty_barrel_ufx_1.wav	156716	Audio
-ASSET	project://Sounds/Gameplay/Firearms/Racking/assault_rifle_racking_ufx_1.wav	156716	Audio
-ASSET	project://Sounds/Gameplay/Firearms/Racking/pistol_racking_ufx_1.wav	156716	Audio
-ASSET	project://Sounds/Gameplay/Firearms/Reloading/assault_rifle_reloading_mag_in_ufx_1.wav	156716	Audio
-ASSET	project://Sounds/Gameplay/Firearms/Reloading/assault_rifle_reloading_mag_out_ufx_1.wav	156716	Audio
-ASSET	project://Sounds/Gameplay/Firearms/Reloading/pistol_reloading_mag_in_ufx_1.wav	156716	Audio
-ASSET	project://Sounds/Gameplay/Firearms/Reloading/pistol_reloading_mag_out_ufx_1.wav	156716	Audio
-ASSET	project://Sounds/Gameplay/Impact & Break/Body/impact_body_ufx_1.wav	162876	Audio
-ASSET	project://Sounds/Gameplay/Impact & Break/Body/impact_body_ufx_2.wav	162876	Audio
-ASSET	project://Sounds/Gameplay/Impact & Break/Concrete/impact_concrete_ufx_1.wav	325704	Audio
-ASSET	project://Sounds/Gameplay/Melee/Throw/throw_heavy_ufx_1.wav	151244	Audio
-ASSET	project://Sounds/Gameplay/Player/Footsteps/Concrete/footstep_concrete_ufx_1.wav	81460	Audio
-ASSET	project://Sounds/Gameplay/Player/Footsteps/Concrete/footstep_concrete_ufx_2.wav	81460	Audio
-ASSET	project://Sounds/Gameplay/Player/Footsteps/Concrete/footstep_concrete_ufx_3.wav	81460	Audio
-ASSET	project://Sounds/Gameplay/Player/Footsteps/Concrete/footstep_concrete_ufx_4.wav	81460	Audio
-ASSET	project://Sounds/Gameplay/Misc/inventory_close_ufx_1.wav	658328	Audio
-ASSET	project://Sounds/Gameplay/Misc/inventory_open_ufx_1.wav	658328	Audio
-ASSET	project://Sounds/Gameplay/Misc/new_objective_ufx_1.wav	156716	Audio
-ASSET	project://Bots/Soldier/M16_HandSpace.plutomesh	0	Mesh
-ASSET	project://Bots/Soldier/Rifle_Aim.plutoclip	0	Animation Clip
-ASSET	project://Bots/Soldier/Rifle_Fire.plutoclip	0	Animation Clip
-ASSET	project://Bots/Soldier/Rifle_Hit.plutoclip	0	Animation Clip
-ASSET	project://Bots/Soldier/Rifle_Idle.plutoclip	0	Animation Clip
-ASSET	project://Bots/Soldier/Rifle_Jog.plutoclip	0	Animation Clip
-ASSET	project://Bots/Soldier/Rifle_Reload.plutoclip	0	Animation Clip
-ASSET	project://Bots/Soldier/Rifle_Sprint.plutoclip	0	Animation Clip
-ASSET	project://Bots/Soldier/Rifle_Walk.plutoclip	0	Animation Clip
-ASSET	project://Bots/Soldier/Soldier.plutoanim	0	Animation
-ASSET	project://Bots/Soldier/Soldier.plutoanimgraph	0	Animation Graph
-ASSET	project://Bots/Soldier/Soldier.plutomesh	0	Mesh
-ASSET	project://SourceModels/Solider/Rigged/Soldier_Bot_Animations.blend	0	Model
-ASSET	project://Bots/Soldier/Soldier_Game.plutomesh	0	Mesh
-ASSET	project://SourceModels/Solider/Rigged/Soldier_Bot_Game.blend	0	Model

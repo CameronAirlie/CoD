@@ -4,18 +4,18 @@
   "joints": 63,
   "submeshes": 46,
   "supportPosition": [
-    0.052277784794569016,
-    -0.11743105947971344,
-    -0.10189182311296463
+    0.06996768712997437,
+    -0.03353409469127655,
+    -0.24500182271003723
   ],
   "supportRotationQuaternion": [
-    0.7661769986152649,
-    -6.209250891231477e-10,
-    -5.299087035837147e-08,
-    -0.6426296234130859
+    0.08253514021635056,
+    -0.03505631163716316,
+    0.035389963537454605,
+    -0.995342493057251
   ],
   "weapon": {
-    "vertices": 32791,
+    "vertices": 32839,
     "triangles": 21549,
     "joints": 0,
     "submeshes": 1
@@ -28,7 +28,15 @@
     "Rifle_Aim": 2.0,
     "Rifle_Fire": 0.25,
     "Rifle_Hit": 0.5,
-    "Rifle_Reload": 2.0
+    "Rifle_Reload": 2.0,
+    "Pistol_Idle": 2.0,
+    "Pistol_Walk": 1.2,
+    "Pistol_Jog": 0.8,
+    "Pistol_Sprint": 0.6,
+    "Pistol_Aim": 2.0,
+    "Pistol_Fire": 0.25,
+    "Pistol_Hit": 0.5,
+    "Pistol_Reload": 2.0
   },
   "gameMesh": {
     "vertices": 65157,
@@ -36,5 +44,49 @@
     "joints": 63,
     "submeshes": 46,
     "decimationRatio": 0.7
+  },
+  "weaponPoses": {
+    "Rifle": {
+      "supportGripOffset": [
+        0.06996768712997437,
+        -0.03353409469127655,
+        -0.24500182271003723
+      ],
+      "supportRotationQuaternion": [
+        0.08253514021635056,
+        -0.03505631163716316,
+        0.035389963537454605,
+        -0.995342493057251
+      ],
+      "minimumReachMargin": 0.04130275221019414,
+      "maximumWristError": 3.97749159684319e-05
+    },
+    "Pistol": {
+      "supportGripOffset": [
+        0.017292378470301628,
+        0.05099945515394211,
+        0.014999821782112122
+      ],
+      "supportRotationQuaternion": [
+        0.6498649716377258,
+        -1.1218361851451919e-13,
+        3.3200956295331707e-07,
+        0.7600497007369995
+      ],
+      "minimumReachMargin": 0.12300382412188554,
+      "maximumWristError": 8.4586241683839e-07
+    },
+    "rifleMesh": {
+      "vertices": 32839,
+      "triangles": 21549,
+      "joints": 0,
+      "submeshes": 1
+    },
+    "pistolMesh": {
+      "vertices": 2871,
+      "triangles": 1448,
+      "joints": 0,
+      "submeshes": 3
+    }
   }
 }

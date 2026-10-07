@@ -4,6 +4,8 @@ using PlutoGE.ScriptCore;
 
 namespace CoD.Scripts;
 
+public enum BotWeaponPose { Rifle, Pistol }
+
 /// <summary>
 /// An infantry bot which repeatedly takes a useful firing position, holds it,
 /// and engages the player whenever it has line-of-sight.
@@ -14,10 +16,16 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     [SerializedField] private bool remoteProxy = false;
     [SerializedField] private GameObject? target;
     [SerializedField] private GameObject? animationObject = null;
-    [SerializedField] private GameObject? soldierMesh = null;
     [SerializedField] private GameObject? supportHandTarget = null;
+    [SerializedField] private BotWeaponPose weaponPose = BotWeaponPose.Rifle;
+    [SerializedField] private GameObject? rifleWeapon = null;
+    [SerializedField] private GameObject? pistolWeapon = null;
+    private BotWeaponPose? _appliedWeaponPose;
     // Calibrated in the firing hand's local bone coordinates by the Blender exporter.
-    [SerializedField] private Vector3 supportGripOffset = new(0.052277785f, -0.11743106f, -0.10189182f);
+    [SerializedField] private Vector3 supportGripOffset = new(0.06996769f, -0.033534095f, -0.24500182f);
+    [SerializedField] private Vector3 pistolSupportGripOffset = new(0.017292378f, 0.050999455f, 0.014999822f);
+    [SerializedField] private Vector3 supportGripRotation = new(3.7181967f, 4.337301f, -170.66045f);
+    [SerializedField] private Vector3 pistolSupportGripRotation = new(0, 0, 98.93716f);
     private float _reloadAnimationRemaining;
     [SerializedField] private GameObject? gunAudioObject = null;
     [SerializedField] private GameObject? navigationTarget = null;
@@ -121,6 +129,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         var animationOwner = animationObject ?? GameObject;
         var audioOwner = gunAudioObject ?? GameObject;
         _animation = animationOwner.GetComponent<AnimationComponent>();
+        ApplyWeaponPose();
         _ragdollController = animationOwner.GetComponent<ActiveRagdollComponent>();
         _gunAudio = audioOwner.GetComponent<SoundEmitterComponent>();
         _body = GameObject.GetComponent<RigidbodyComponent>();
@@ -259,9 +268,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     public override void OnLateUpdate(float deltaTime)
     {
-        if (!_dead && supportHandTarget is not null && soldierMesh is not null &&
-            SkeletonAttachments.TryGetBoneWorldPose(soldierMesh, "Hand.R", out var handPosition, out var handRotation))
-            supportHandTarget.WorldPosition = handPosition + Vector3.Transform(supportGripOffset, handRotation);
+        ApplyWeaponPose();
         if (_reloadAnimationRemaining > 0)
             _reloadAnimationRemaining = MathF.Max(0, _reloadAnimationRemaining - MathF.Max(0, deltaTime));
         SetAnimationFloat("SupportHandIK", _reloadAnimationRemaining > 0 ? 0 : 1);
@@ -758,13 +765,40 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         SetAnimationBool(hasTargetParameter, false);
     }
 
+    /// <summary>Select the matching upper-body hold and third-person weapon (0 rifle, 1 pistol).</summary>
+    public void SetWeaponPose(int pose)
+    {
+        weaponPose = pose == 1 ? BotWeaponPose.Pistol : BotWeaponPose.Rifle;
+        ApplyWeaponPose();
+    }
+
+    private void ApplyWeaponPose()
+    {
+        if (_animation is null || _appliedWeaponPose == weaponPose) return;
+        var pistol = weaponPose == BotWeaponPose.Pistol;
+        _animation.SetFloat("RiflePoseWeight", pistol ? 0 : 1);
+        _animation.SetFloat("PistolPoseWeight", pistol ? 1 : 0);
+        if (rifleWeapon is not null) rifleWeapon.Active = !pistol;
+        if (pistolWeapon is not null) pistolWeapon.Active = pistol;
+        if (supportHandTarget is not null)
+        {
+            // Target is a child of the firing-hand socket: inherit its full pose.
+            supportHandTarget.Position = pistol ? pistolSupportGripOffset : supportGripOffset;
+            supportHandTarget.Rotation = pistol ? pistolSupportGripRotation : supportGripRotation;
+        }
+        _appliedWeaponPose = weaponPose;
+    }
+
     private void SetAnimationFloat(string parameter, float value)
     {
         if (_animation is null || string.IsNullOrWhiteSpace(parameter))
             return;
-        if (!float.IsNaN(_lastAnimationSpeed) && MathF.Abs(_lastAnimationSpeed - value) < 0.01f)
-            return;
-        _lastAnimationSpeed = value;
+        if (parameter == movementSpeedParameter)
+        {
+            if (!float.IsNaN(_lastAnimationSpeed) && MathF.Abs(_lastAnimationSpeed - value) < 0.01f)
+                return;
+            _lastAnimationSpeed = value;
+        }
         _animation.SetFloat(parameter, value);
     }
 

@@ -61,3 +61,6 @@ for path in paths:
     if not any(line.startswith('ASSET\t'+reference+'\t') for line in registry.splitlines()): registry+=f'ASSET\t{reference}\t0\t{types[path.suffix]}\n'
 project.write_text(registry,encoding='utf8',newline='\r\n')
 print('Installed rifle graph, authored IK and M16 attachments on Enemy and RemotePlayer.')
+if (ASSETS/'Bots/Soldier/Pistol_Idle.plutoclip').exists():
+    from install_bot_weapon_poses import install
+    install()
