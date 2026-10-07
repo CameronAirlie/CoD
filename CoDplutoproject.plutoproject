@@ -7,7 +7,7 @@ LOADING_ACCENT	0.65	0.68	0.72
 WINDOW_TITLE	CoD
 WINDOW_SIZE	1920	1080
 VSYNC	1
-GRAPHICS_API	OpenGL
+GRAPHICS_API	Vulkan
 RUNTIME_UPSCALER	FSR2
 RUNTIME_UPSCALER_QUALITY	Quality
 RUNTIME_RENDER_SCALE	0.9
@@ -52,8 +52,8 @@ ASSET	project://Bots/Soldier/Rifle_Walk.plutoclip	148004	Animation Clip
 ASSET	project://Bots/Soldier/Soldier.plutoanim	833	Animation
 ASSET	project://Bots/Soldier/Soldier.plutoanimgraph	2532	Animation Graph
 ASSET	project://Bots/Soldier/Soldier.plutomesh	9904786	Mesh
-ASSET	project://Bots/Soldier/Soldier_Game.plutomesh	6912864	Mesh
-ASSET	project://Bots/Soldier/manifest.json	2128	Unknown
+ASSET	project://Bots/Soldier/Soldier_Game.plutomesh	8344844	Mesh
+ASSET	project://Bots/Soldier/manifest.json	2281	Unknown
 ASSET	project://Data/4x4.plutoscriptable	2094	Scriptable Object
 ASSET	project://Data/AudiS5.plutoscriptable	2127	Scriptable Object
 ASSET	project://Data/Racecar.plutoscriptable	2092	Scriptable Object
@@ -349,7 +349,7 @@ ASSET	project://Prefabs/Weapons/lmg.plutoprefab	1701	Prefab
 ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1716	Prefab
 ASSET	project://Scenes/Foundry.plutoscene	146580	Scene
 ASSET	project://Scenes/Main.plutoscene	177412	Scene
-ASSET	project://Scenes/Title.plutoscene	8873	Scene
+ASSET	project://Scenes/Title.plutoscene	8908	Scene
 ASSET	project://Scenes/car_scene.plutoscene	2993166	Scene
 ASSET	project://Scenes/island.plutoscene	8536273	Scene
 ASSET	project://Scenes/ragdoll_test.plutoscene	20927	Scene

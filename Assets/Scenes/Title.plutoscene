@@ -43,6 +43,7 @@ PROPERTY	IgnoredTags	2		0
 PROPERTY	TargetTexture	2		0
 PROPERTY	TransparentBackground	4	false	0
 PROPERTY	FilterLightsByTags	4	false	0
+PROPERTY	RenderRuntimeUI	4	true	0
 PROPERTY	PostProcessPresetAsset	2		0
 PROPERTY	PostProcessEffectCount	1	11	0
 PROPERTY	PostProcessEffects.0.Type	2	SSGI	0
