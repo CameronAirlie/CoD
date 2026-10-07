@@ -27,10 +27,12 @@ def export_weighted_mesh(path, objects, rig, references, source):
                     vertex = mesh.vertices[loop.vertex_index]
                     p = CONVERSION @ obj.matrix_world @ vertex.co
                     n = (normals @ mesh.corner_normals[loop_index].vector).normalized()
-                    tangent = n.cross(Vector((0,1,0)))
-                    if tangent.length < .001: tangent = n.cross(Vector((1,0,0)))
-                    tangent.normalize()
-                    uv = mesh.uv_layers.active.data[loop_index].uv if mesh.uv_layers.active else (0,0)
+                    # Native assets share glTF's texture-coordinate convention.
+                    # Blender UVs have the opposite V origin. Leave tangents
+                    # unset so the engine derives them from the corrected UVs.
+                    tangent = (0., 0., 0.)
+                    blender_uv = mesh.uv_layers.active.data[loop_index].uv if mesh.uv_layers.active else None
+                    uv = (blender_uv[0], 1. - blender_uv[1]) if blender_uv is not None else (0., 0.)
                     influences = sorted([(groups[g.group],g.weight) for g in vertex.groups if g.group in groups and g.weight>0], key=lambda item:-item[1])[:4]
                     if rig and not influences: raise ValueError(f'Unweighted vertex {vertex.index}')
                     total = sum(w for _,w in influences)

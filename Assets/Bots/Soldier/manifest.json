@@ -43,7 +43,14 @@
     "triangles": 96129,
     "joints": 63,
     "submeshes": 46,
-    "decimationRatio": 0.7
+    "decimationRatio": 0.7,
+    "lodTriangles": [
+      96129,
+      62723,
+      43301,
+      27195
+    ],
+    "uvConvention": "engine top-left (Blender V converted once)"
   },
   "weaponPoses": {
     "Rifle": {
