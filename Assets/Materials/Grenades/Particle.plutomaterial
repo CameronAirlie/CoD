@@ -2,5 +2,5 @@ Color=1,1,1,1
 SurfaceType=Standard
 AlphaMode=Blend
 CastsShadow=false
-AlbedoTexture=project://Textures/Grenades/SoftParticle.png
+AlbedoTexture=asset://e70bc2051ba75dbba91ae6445b03c2a5#0
 ShaderGraph=engine://builtin/shadergraph/default-unlit

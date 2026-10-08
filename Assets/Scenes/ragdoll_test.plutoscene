@@ -377,7 +377,7 @@ PROPERTY	SubmeshIndex	1	0	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	8b3d61e6b0bde27e348d075f2c262b01	0
 PROPERTY	ModelObjectId	2	15563061709532230224	0
-PROPERTY	MeshAssetReference	2	project://Imported/UAL1_Standard/UAL1_Standard.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://be0c53bfb7dbc6a0b0c406059a8b3afb#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
@@ -390,7 +390,7 @@ PROPERTY	SubmeshIndex	1	1	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	8b3d61e6b0bde27e348d075f2c262b01	0
 PROPERTY	ModelObjectId	2	15563061709532230224	0
-PROPERTY	MeshAssetReference	2	project://Imported/UAL1_Standard/UAL1_Standard.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://be0c53bfb7dbc6a0b0c406059a8b3afb#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0

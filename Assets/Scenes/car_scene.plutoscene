@@ -247,7 +247,7 @@ PROPERTY	SubmeshIndex	1	3	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -261,7 +261,7 @@ PROPERTY	SubmeshIndex	1	4	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -275,7 +275,7 @@ PROPERTY	SubmeshIndex	1	5	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -289,7 +289,7 @@ PROPERTY	SubmeshIndex	1	7	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -303,7 +303,7 @@ PROPERTY	SubmeshIndex	1	8	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -320,7 +320,7 @@ PROPERTY	SubmeshIndex	1	3	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -334,7 +334,7 @@ PROPERTY	SubmeshIndex	1	4	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -348,7 +348,7 @@ PROPERTY	SubmeshIndex	1	5	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -362,7 +362,7 @@ PROPERTY	SubmeshIndex	1	7	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -376,7 +376,7 @@ PROPERTY	SubmeshIndex	1	8	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -393,7 +393,7 @@ PROPERTY	SubmeshIndex	1	3	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -407,7 +407,7 @@ PROPERTY	SubmeshIndex	1	4	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -421,7 +421,7 @@ PROPERTY	SubmeshIndex	1	5	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -435,7 +435,7 @@ PROPERTY	SubmeshIndex	1	7	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -449,7 +449,7 @@ PROPERTY	SubmeshIndex	1	8	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -464,7 +464,7 @@ PROPERTY	SubmeshIndex	1	3	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -478,7 +478,7 @@ PROPERTY	SubmeshIndex	1	4	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -492,7 +492,7 @@ PROPERTY	SubmeshIndex	1	5	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -506,7 +506,7 @@ PROPERTY	SubmeshIndex	1	7	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -520,7 +520,7 @@ PROPERTY	SubmeshIndex	1	8	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -537,7 +537,7 @@ PROPERTY	SubmeshIndex	1	3	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -551,7 +551,7 @@ PROPERTY	SubmeshIndex	1	4	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -565,7 +565,7 @@ PROPERTY	SubmeshIndex	1	5	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -579,7 +579,7 @@ PROPERTY	SubmeshIndex	1	7	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -593,7 +593,7 @@ PROPERTY	SubmeshIndex	1	8	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -609,7 +609,7 @@ PROPERTY	SubmeshIndex	1	0	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -623,7 +623,7 @@ PROPERTY	SubmeshIndex	1	1	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -637,7 +637,7 @@ PROPERTY	SubmeshIndex	1	2	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -651,7 +651,7 @@ PROPERTY	SubmeshIndex	1	9	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -665,7 +665,7 @@ PROPERTY	SubmeshIndex	1	13	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -679,7 +679,7 @@ PROPERTY	SubmeshIndex	1	16	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -693,7 +693,7 @@ PROPERTY	SubmeshIndex	1	20	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -707,7 +707,7 @@ PROPERTY	SubmeshIndex	1	23	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -721,7 +721,7 @@ PROPERTY	SubmeshIndex	1	27	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -735,7 +735,7 @@ PROPERTY	SubmeshIndex	1	30	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -749,7 +749,7 @@ PROPERTY	SubmeshIndex	1	31	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -763,7 +763,7 @@ PROPERTY	SubmeshIndex	1	6	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	e716b4e01e85fb1cda74ae637c3e9ca4	0
 PROPERTY	ModelObjectId	2	4769860108020660933	0
-PROPERTY	MeshAssetReference	2	project://Imported/audi_rs5/audi_rs5.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://f80a7cadfcb6b0699266c2730569628b#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0

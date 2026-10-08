@@ -298,7 +298,7 @@ PROPERTY	SubmeshIndex	1	-1	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2		0
 PROPERTY	ModelObjectId	2	0	0
-PROPERTY	MeshAssetReference	2	project://Bots/Soldier/Soldier_Game.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://67577c194ae3570798eb8521e433b6fd#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,-1.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -344,7 +344,7 @@ PROPERTY	SubmeshIndex	1	-1	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2		0
 PROPERTY	ModelObjectId	2	0	0
-PROPERTY	MeshAssetReference	2	project://Bots/Soldier/M16_HandSpace.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://4ab61f6e424c5f1f93eeb20700656918#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -358,7 +358,7 @@ PROPERTY	SubmeshIndex	1	-1	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2		0
 PROPERTY	ModelObjectId	2	0	0
-PROPERTY	MeshAssetReference	2	project://Bots/Soldier/P12_HandSpace.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://b88b17a0a23f58708c88117853ea3eab#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0

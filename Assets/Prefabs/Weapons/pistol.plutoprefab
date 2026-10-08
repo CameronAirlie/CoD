@@ -18,7 +18,7 @@ COMPONENT	1	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
-PROPERTY	MeshAssetReference	2	project://Weapons/pistol/pistol.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://7627daec34eb5509b430d4ac3629f4ae#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 END_COMPONENT
 COMPONENT	1	AnimationComponent	1

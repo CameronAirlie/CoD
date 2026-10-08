@@ -18,7 +18,7 @@ COMPONENT	1	MeshComponent	1
 PROPERTY	Static	4	false	0
 PROPERTY	Visible	4	true	0
 PROPERTY	SubmeshIndex	1	-1	0
-PROPERTY	MeshAssetReference	2	project://Weapons/ar/ar.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://8680ba5085e25685b0041bb4c30e86b4#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 END_COMPONENT
 COMPONENT	1	AnimationComponent	1

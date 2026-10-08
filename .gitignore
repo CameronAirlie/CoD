@@ -8,3 +8,12 @@ Tools/__pycache__/
 Tools/weapon-generation.log
 Assets/SourceModels/Weapons/*.blend1
 Tests/
+
+# Disposable asset imports and local migration recovery data
+/Library/
+/.pluto-import.lock
+/.pluto-import-transactions/
+/.pluto-migration-backups/
+/.mw/
+
+*.plutometa

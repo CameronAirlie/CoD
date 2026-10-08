@@ -352,7 +352,7 @@ PROPERTY	SubmeshIndex	1	0	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
 PROPERTY	ModelObjectId	2	8194938600375813045	0
-PROPERTY	MeshAssetReference	2	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://15f0271c716a4732d5b0661eaf27fac0#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1024,7 +1024,7 @@ PROPERTY	SubmeshIndex	1	1	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
 PROPERTY	ModelObjectId	2	8194938600375813045	0
-PROPERTY	MeshAssetReference	2	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://15f0271c716a4732d5b0661eaf27fac0#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1038,7 +1038,7 @@ PROPERTY	SubmeshIndex	1	2	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
 PROPERTY	ModelObjectId	2	8194938600375813045	0
-PROPERTY	MeshAssetReference	2	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://15f0271c716a4732d5b0661eaf27fac0#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1052,7 +1052,7 @@ PROPERTY	SubmeshIndex	1	3	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
 PROPERTY	ModelObjectId	2	8194938600375813045	0
-PROPERTY	MeshAssetReference	2	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://15f0271c716a4732d5b0661eaf27fac0#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1066,7 +1066,7 @@ PROPERTY	SubmeshIndex	1	4	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
 PROPERTY	ModelObjectId	2	8194938600375813045	0
-PROPERTY	MeshAssetReference	2	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://15f0271c716a4732d5b0661eaf27fac0#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1080,7 +1080,7 @@ PROPERTY	SubmeshIndex	1	5	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
 PROPERTY	ModelObjectId	2	8194938600375813045	0
-PROPERTY	MeshAssetReference	2	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://15f0271c716a4732d5b0661eaf27fac0#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1094,7 +1094,7 @@ PROPERTY	SubmeshIndex	1	6	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
 PROPERTY	ModelObjectId	2	8194938600375813045	0
-PROPERTY	MeshAssetReference	2	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://15f0271c716a4732d5b0661eaf27fac0#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1108,7 +1108,7 @@ PROPERTY	SubmeshIndex	1	7	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
 PROPERTY	ModelObjectId	2	8194938600375813045	0
-PROPERTY	MeshAssetReference	2	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://15f0271c716a4732d5b0661eaf27fac0#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1122,7 +1122,7 @@ PROPERTY	SubmeshIndex	1	8	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
 PROPERTY	ModelObjectId	2	8194938600375813045	0
-PROPERTY	MeshAssetReference	2	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://15f0271c716a4732d5b0661eaf27fac0#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1136,7 +1136,7 @@ PROPERTY	SubmeshIndex	1	9	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
 PROPERTY	ModelObjectId	2	8194938600375813045	0
-PROPERTY	MeshAssetReference	2	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://15f0271c716a4732d5b0661eaf27fac0#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1150,7 +1150,7 @@ PROPERTY	SubmeshIndex	1	10	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
 PROPERTY	ModelObjectId	2	8194938600375813045	0
-PROPERTY	MeshAssetReference	2	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://15f0271c716a4732d5b0661eaf27fac0#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1164,7 +1164,7 @@ PROPERTY	SubmeshIndex	1	11	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
 PROPERTY	ModelObjectId	2	8194938600375813045	0
-PROPERTY	MeshAssetReference	2	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://15f0271c716a4732d5b0661eaf27fac0#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1178,7 +1178,7 @@ PROPERTY	SubmeshIndex	1	12	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
 PROPERTY	ModelObjectId	2	8194938600375813045	0
-PROPERTY	MeshAssetReference	2	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://15f0271c716a4732d5b0661eaf27fac0#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1192,7 +1192,7 @@ PROPERTY	SubmeshIndex	1	13	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
 PROPERTY	ModelObjectId	2	8194938600375813045	0
-PROPERTY	MeshAssetReference	2	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://15f0271c716a4732d5b0661eaf27fac0#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1206,7 +1206,7 @@ PROPERTY	SubmeshIndex	1	14	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
 PROPERTY	ModelObjectId	2	8194938600375813045	0
-PROPERTY	MeshAssetReference	2	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://15f0271c716a4732d5b0661eaf27fac0#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1220,7 +1220,7 @@ PROPERTY	SubmeshIndex	1	15	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2	938d56ba6f2e7c95bfe160b2fc08922d	0
 PROPERTY	ModelObjectId	2	8194938600375813045	0
-PROPERTY	MeshAssetReference	2	project://Imported/animation_low-poly_val/animation_low-poly_val.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://15f0271c716a4732d5b0661eaf27fac0#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1269,7 +1269,7 @@ PROPERTY	SubmeshIndex	1	-1	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2		0
 PROPERTY	ModelObjectId	2	0	0
-PROPERTY	MeshAssetReference	2	project://Weapons/ar/ar.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://8680ba5085e25685b0041bb4c30e86b4#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1390,7 +1390,7 @@ PROPERTY	SubmeshIndex	1	-1	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2		0
 PROPERTY	ModelObjectId	2	0	0
-PROPERTY	MeshAssetReference	2	project://Weapons/pistol/pistol.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://7627daec34eb5509b430d4ac3629f4ae#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
@@ -1511,7 +1511,7 @@ PROPERTY	SubmeshIndex	1	-1	0
 PROPERTY	SubmeshCount	1	1	0
 PROPERTY	ModelAssetId	2		0
 PROPERTY	ModelObjectId	2	0	0
-PROPERTY	MeshAssetReference	2	project://Weapons/lmg/lmg.plutomesh	0
+PROPERTY	MeshAssetReference	2	asset://e44222c480055dd3b3a48e4cedb424b2#0	0
 PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
