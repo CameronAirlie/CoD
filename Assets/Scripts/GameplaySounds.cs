@@ -5,8 +5,11 @@ namespace CoD.Scripts;
 
 public static class GameplaySounds
 {
-    public const string Root = "project://Sounds/SFX Library/Sound Effects/";
-    public static string RuntimeClip(string clip) => clip.Replace(Root, "project://Sounds/Gameplay/").Replace(".ogg", ".wav");
+    // These are directory prefixes used to construct clip references, not assets.
+    private const string ProjectScheme = "project://";
+    public const string Root = ProjectScheme + "Sounds/SFX Library/Sound Effects/";
+    private const string RuntimeRoot = ProjectScheme + "Sounds/Gameplay/";
+    public static string RuntimeClip(string clip) => clip.Replace(Root, RuntimeRoot).Replace(".ogg", ".wav");
     public static string Shot(string? id) => Root + "Firearms/Fire/" + (id == "pistol" ? "pistol_fire_ufx_1.ogg" : id == "lmg" ? "machinegun_heavy_fire_ufx_1.ogg" : "assault_rifle_fire_ufx_1.ogg");
     public static string Empty(string? id) => Root + "Firearms/Misc/" + (id == "pistol" ? "pistol" : "rifle") + "_universal_empty_barrel_ufx_1.ogg";
     public static string? Reload(string? id, string name) => name switch

@@ -178,7 +178,10 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             if (_remoteProxyMode || _externalCombatPaused)
                 _navigationDestination = GameObject.WorldPosition;
             UpdateNavigationTarget();
-            SetAnimationFloat(movementSpeedParameter, navigationSpeed);
+            // Network interpolation runs in MultiplayerSession.OnUpdate. Sample
+            // proxy motion in LateUpdate after all scripts have moved the actor.
+            if (!_remoteProxyMode)
+                SetAnimationFloat(movementSpeedParameter, navigationSpeed);
             SetAnimationBool(hasTargetParameter, !_remoteProxyMode && _externalAiming);
             return;
         }
@@ -277,11 +280,16 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         actualTravel.Y = 0.0f;
         _latePreviousPosition = position;
 
-        if (_dead || _remoteProxyMode || deltaTime <= 0.0f)
+        if (_dead || deltaTime <= 0.0f)
             return;
 
         var travelDistance = actualTravel.Length();
         var actualSpeed = travelDistance / deltaTime;
+        if (_remoteProxyMode)
+        {
+            SetAnimationFloat(movementSpeedParameter, actualSpeed);
+            return;
+        }
         if (actualSpeed > MathF.Max(0.01f, stationaryFireSpeed) &&
             !_externalAiming && travelDistance > 0.0001f)
             TurnTowards(actualTravel / travelDistance, deltaTime);
