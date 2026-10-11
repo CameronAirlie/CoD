@@ -14,10 +14,10 @@ RUNTIME_RENDER_SCALE	0.9
 RUNTIME_UPSCALE_SHARPNESS	0.5
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	-21.7711	9.10525	-16.1798
+EDITOR_CAMERA_POSITION	-18.086	6.40359	-23.8902
 EDITOR_CAMERA_SPEED	6
 EDITOR_CAMERA_RUNTIME_UI	0
-EDITOR_CAMERA_ROTATION	-3727.71	-13.52
+EDITOR_CAMERA_ROTATION	-4814.86	-7.15981
 EDITOR_CAMERA_LENS	70	0.1	10000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/performance.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -237,8 +237,8 @@ ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87
 ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Input/car.plutoinput	3771	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	301056	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	101264	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	286208	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	83628	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	321536	Assembly
 ASSET	project://Managed/PlutoGE.ScriptCore.pdb	109040	Unknown
@@ -264,6 +264,7 @@ ASSET	project://Materials/Lightsaber_blade.plutomaterial	447	Material
 ASSET	project://Materials/Lightsaber_hilt.plutomaterial	431	Material
 ASSET	project://Materials/MuzzleFlash.plutomaterial	480	Material
 ASSET	project://Materials/NepalTerrain.plutomaterial	584	Material
+ASSET	project://Materials/Probe.plutomaterial	649	Material
 ASSET	project://Materials/RenderMaterial.plutomaterial	687	Material
 ASSET	project://Materials/SSS.plutomaterial	509	Material
 ASSET	project://Materials/Terrain.plutomaterial	643	Material
@@ -347,7 +348,7 @@ ASSET	project://Prefabs/Tree_Static_Material_1.plutomaterial	452	Material
 ASSET	project://Prefabs/Weapons/ar.plutoprefab	1705	Prefab
 ASSET	project://Prefabs/Weapons/lmg.plutoprefab	1708	Prefab
 ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1717	Prefab
-ASSET	project://Scenes/Foundry.plutoscene	345642	Scene
+ASSET	project://Scenes/Foundry.plutoscene	10359127	Scene
 ASSET	project://Scenes/Main.plutoscene	356450	Scene
 ASSET	project://Scenes/Title.plutoscene	8908	Scene
 ASSET	project://Scenes/car_scene.plutoscene	2993018	Scene
@@ -369,7 +370,7 @@ ASSET	project://Scripts/FairBotPlanner.cs	1015	Script
 ASSET	project://Scripts/FirstPersonHands.cs	2576	Script
 ASSET	project://Scripts/GameGraphicsSettings.cs	4262	Script
 ASSET	project://Scripts/GameModeHud.cs	9511	Script
-ASSET	project://Scripts/GameplaySounds.cs	4985	Script
+ASSET	project://Scripts/GameplaySounds.cs	5187	Script
 ASSET	project://Scripts/GrenadeRules.cs	3543	Script
 ASSET	project://Scripts/HandMotion.cs	1914	Script
 ASSET	project://Scripts/HardpointMarker.cs	2224	Script
