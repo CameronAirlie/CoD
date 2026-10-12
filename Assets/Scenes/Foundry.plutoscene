@@ -7975,5 +7975,5 @@ PROPERTY	UseGeneratedLods	4	false	0
 PROPERTY	MeshPositionOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	PivotOffset	3	0.000000,0.000000,0.000000	0
 PROPERTY	MeshRotationOffset	3	0.000000,0.000000,0.000000	0
-PROPERTY	MaterialSlots.0.MaterialAsset	2	asset://8df338ca8915b22532f3bd2146ce8543#0	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	engine://builtin/material/default-shaded	0
 END_COMPONENT
