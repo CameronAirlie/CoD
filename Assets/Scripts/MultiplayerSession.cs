@@ -14,13 +14,14 @@ namespace CoD.Scripts;
 public sealed partial class MultiplayerSession : ScriptBehaviour
 {
     private static MultiplayerSession? _activeSession;
+    private readonly Dictionary<int, float> _pendingHandshakes = new();
 
     // Include connecting clients and hosts awaiting a retry, even without peers.
     public static bool IsMultiplayerActive => _activeSession is { _shutDown: false } session &&
         (session.mode.Equals("Host", StringComparison.OrdinalIgnoreCase) ||
          session.mode.Equals("Client", StringComparison.OrdinalIgnoreCase));
 
-    private const int ProtocolVersion = 14;
+    private const int ProtocolVersion = 16;
     private const ushort HandshakeChannel = 1;
     private const ushort TransformChannel = 2;
     private const ushort PeerLeftChannel = 3;
@@ -180,21 +181,22 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         if (_activeSession is not null && !ReferenceEquals(_activeSession, this))
             _activeSession.Shutdown();
         _activeSession = this;
-        _playerHealth = GameObject.GetComponent<PlayerHealth>();
+        DedicatedServerSettings.Apply(this);
+        _playerHealth = IsDedicated ? null : GameObject.GetComponent<PlayerHealth>();
         if (IsDefusal) { _playerHealth?.SetRoundRespawn(false); multiplayerRegenerationPerSecond = 0; }
         if (_playerHealth is not null) _playerHealth.Respawned += OnLocalRespawn;
-        _playerController = GameObject.GetComponent<PlayerController>();
-        if (_playerController is not null)
-            _playerController.WeaponFired += OnLocalWeaponFired;
+        _playerController = IsDedicated ? null : GameObject.GetComponent<PlayerController>();
         if (navigationMesh is null || !navigationMesh.IsValid)
             navigationMesh = GameObject.Find("Navmesh");
         PreloadNetworkPrefabs();
         PreloadGrenadePrefabs();
 
-        if (!MultiplayerLaunch.Mode.Equals("Offline", StringComparison.OrdinalIgnoreCase))
+        if (!IsDedicated && !MultiplayerLaunch.Mode.Equals("Offline", StringComparison.OrdinalIgnoreCase))
         {
             mode = MultiplayerLaunch.Mode;
             serverAddress = MultiplayerLaunch.ServerAddress;
+            serverPort = MultiplayerLaunch.ServerPort;
+            if (MultiplayerLaunch.ServerMatchMode is { } rules) gameMode = rules.ToString();
             _username = MultiplayerLaunch.Username;
         }
 
@@ -208,7 +210,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     public override void OnUpdate(float deltaTime)
     {
-        if (Input.QuitRequested)
+        if (!IsDedicated && Input.QuitRequested)
         {
             Shutdown();
             return;
@@ -228,8 +230,11 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             StartHost();
         }
 
+        _server?.Poll();
+        _client?.Poll();
         if (_server is not null)
         {
+            TickHumans(safeDeltaTime);
             if (_time >= _nextBotFillAt && (!IsDefusal || _matchPhase != MatchPhase.Playing))
             {
                 TryEnsureBotFill();
@@ -238,9 +243,6 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             UpdateMatch(safeDeltaTime);
             UpdateBots(safeDeltaTime);
         }
-
-        _server?.Poll();
-        _client?.Poll();
 
         if (_server is not null)
             RemoveTimedOutPeers();
@@ -259,7 +261,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
         if (_time >= _nextSendAt)
         {
-            SendLocalTransform();
+            if (_server is not null) SendAuthoritativeStates();
+            else if (_client?.IsConnected == true) _client.Send(25, Array.Empty<byte>());
             SendBotTransforms();
             _nextSendAt = _time + 1.0f / MathF.Max(1.0f, updatesPerSecond);
         }
@@ -267,10 +270,9 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         var blend = 1.0f - MathF.Exp(-MathF.Max(0.0f, interpolationSharpness) * safeDeltaTime);
         foreach (var pair in _remotePlayers)
         {
-            // Host bots are authoritative local entities driven by their nav
-            // agents. Interpolating the same object as a remote proxy performs
-            // redundant native transform reads/writes and can oppose movement.
-            if (_server is not null && _bots.ContainsKey(pair.Key))
+            // Server entities are driven by authoritative movement/navigation.
+            // Interpolation is presentation-only on clients.
+            if (_server is not null)
                 continue;
             pair.Value.Interpolate(blend);
         }
@@ -292,7 +294,6 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
         if (_playerController is not null)
         {
-            _playerController.WeaponFired -= OnLocalWeaponFired;
             _playerController = null;
         }
 
@@ -310,11 +311,13 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         _client?.Dispose();
         _client = null;
         _authenticatedPeers.Clear();
+        _pendingHandshakes.Clear();
         _lastAcceptedShotAt.Clear();
         _lastAcceptedWeapon.Clear();
         _peerLastSeenAt.Clear();
         _peerNames.Clear();
         _playerStates.Clear();
+        _humans.Clear();
         _deadRemotePlayers.Clear();
         _bots.Clear();
         ClearRemotePlayers();
@@ -336,22 +339,30 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                     multiplayerRegenerationDelay,
                     multiplayerRegenerationPerSecond);
             }
-            _localPeerId = 0;
+            _localPeerId = IsDedicated ? -1 : 0;
+            if (!IsDedicated)
+            {
             _peerNames[0] = _username;
             _playerStates[0] = new PlayerMatchState(PlayerTeam.Alpha, false)
             {
                 Health = MathF.Max(1.0f, multiplayerMaximumHealth)
             };
+            }
             _server = new NetworkServer
             {
-                MaxClients = maximumParticipants > 1 ? Math.Clamp(maximumParticipants - 1, 1, 4096) : 128
+                MaxPayloadSize = 4096,
+                MaxClients = maximumParticipants > 0 ? Math.Clamp(maximumParticipants - (IsDedicated ? 0 : 1), 1, 4096) : 128
             };
             _server.ClientConnected += peerId =>
+            {
+                _pendingHandshakes[peerId] = _time;
                 Debug.Log($"Network peer {peerId} connected; awaiting handshake.");
+            };
             _server.ClientDisconnected += OnServerPeerDisconnected;
             _server.MessageReceived += OnServerMessage;
             _server.Error += exception => Debug.LogError($"Network server: {exception.Message}");
             _server.Start(CheckedPort());
+            if (!IsDedicated) AddHuman(0);
             BeginPhase(MatchPhase.Warmup, warmupDuration);
             // Scene-owned prefab and navigation resources may finish becoming
             // available after this component's OnCreate. Try now, then let the
@@ -435,6 +446,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
             if (message.Channel == LeaveChannel)
             {
+                _server?.Disconnect(message.PeerId);
                 OnServerPeerDisconnected(message.PeerId);
                 return;
             }
@@ -443,12 +455,14 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             {
                 if (_authenticatedPeers.Contains(message.PeerId)) return;
                 var hello = message.GetJson<ClientHello>();
-                if (hello is null || hello.ProtocolVersion != ProtocolVersion || hello.Mode != RulesMode)
+                if (hello is null || hello.ProtocolVersion != ProtocolVersion)
                 {
                     Debug.LogWarning($"Peer {message.PeerId} uses an incompatible protocol.");
+                    _server?.Disconnect(message.PeerId);
                     return;
                 }
 
+                _pendingHandshakes.Remove(message.PeerId);
                 var username = SanitizeUsername(hello.Username, message.PeerId);
                 if (!IsDefusal || _matchPhase != MatchPhase.Playing) RemoveOneBot();
                 _authenticatedPeers.Add(message.PeerId);
@@ -458,6 +472,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 {
                     Health = IsDefusal && _matchPhase == MatchPhase.Playing ? 0 : MathF.Max(1.0f, multiplayerMaximumHealth)
                 };
+                AddHuman(message.PeerId);
                 _server!.SendJson(
                     message.PeerId,
                     HandshakeChannel,
@@ -466,7 +481,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                         message.PeerId,
                         multiplayerMaximumHealth,
                         multiplayerRegenerationDelay,
-                        multiplayerRegenerationPerSecond));
+                        multiplayerRegenerationPerSecond,
+                        RulesMode, SceneManager.GetActiveScene().Name));
                 foreach (var peer in _peerNames)
                 {
                     _server.SendJson(
@@ -503,26 +519,18 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 return;
             }
 
-            if (message.Channel != TransformChannel ||
-                !_authenticatedPeers.Contains(message.PeerId))
+            if (message.Channel == PickupChannel && _authenticatedPeers.Contains(message.PeerId))
             {
-                if (message.Channel == ShootChannel &&
-                    _authenticatedPeers.Contains(message.PeerId))
-                {
-                    var shot = message.GetJson<ShotRequest>();
-                    if (shot is not null)
-                        ResolveShot(message.PeerId, shot);
-                }
-                return;
+                var request = message.GetJson<SupplyRequest>();
+                if (request is not null) CollectSupply(message.PeerId, request);
             }
+            else if (message.Channel == InputChannel && _authenticatedPeers.Contains(message.PeerId))
+            {
+                var command = message.GetJson<PlayerCommand>();
+                if (command is not null) AcceptInput(message.PeerId, command);
+            }
+            // Positions and raw shot requests from clients have no authority.
 
-            var incoming = message.GetJson<PlayerTransform>();
-            if (incoming is null || !incoming.IsFinite())
-                return;
-
-            var authoritative = incoming with { PeerId = message.PeerId };
-            ApplyRemoteTransform(authoritative);
-            _server!.BroadcastJson(TransformChannel, authoritative, message.PeerId);
         }
         catch (Exception exception)
         {
@@ -546,7 +554,21 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                     return;
                 }
 
+                if (!Enum.IsDefined(welcome.Mode) || welcome.Scene is not ("Main" or "Foundry"))
+                {
+                    Debug.LogError("The server advertised an unsupported map or mode.");
+                    _returnToTitle = true;
+                    return;
+                }
+                gameMode = welcome.Mode.ToString();
+                MultiplayerLaunch.SetServerMatch(welcome.Mode);
                 _localPeerId = welcome.PeerId;
+                if (SceneManager.GetActiveScene().Name != welcome.Scene)
+                {
+                    Shutdown();
+                    if (!SceneManager.LoadScene(welcome.Scene)) Debug.LogError("Could not load the server map.");
+                    return;
+                }
                 if (float.IsFinite(welcome.MaximumHealth) && welcome.MaximumHealth > 0.0f)
                     _playerHealth?.ConfigureMultiplayerHealthRules(
                         welcome.MaximumHealth,
@@ -556,7 +578,17 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 return;
             }
 
-            if (message.Channel == TransformChannel)
+            if (message.Channel == SupplyStateChannel)
+            {
+                var supplies = message.GetJson<SupplyPosition[]>();
+                if (supplies is not null) ApplySupplyState(supplies);
+            }
+            else if (message.Channel == OwnerStateChannel)
+            {
+                var state = message.GetJson<OwnerState>();
+                if (state is not null) ApplyOwnerState(state);
+            }
+            else if (message.Channel == TransformChannel)
             {
                 var transform = message.GetJson<PlayerTransform>();
                 if (transform is not null && transform.PeerId != _localPeerId && transform.IsFinite())
@@ -630,32 +662,6 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         }
     }
 
-    private void SendLocalTransform()
-    {
-        var transform = PlayerTransform.From(_localPeerId, GameObject);
-        if (_server is not null)
-            _server.BroadcastJson(TransformChannel, transform);
-        else if (_client?.IsConnected == true && _localPeerId >= 0)
-            _client.SendJson(TransformChannel, transform);
-    }
-
-    private void OnLocalWeaponFired(FpsWeaponShot firedShot)
-    {
-        if (_localPeerId < 0 ||
-            _playerHealth?.IsDead == true)
-            return;
-
-        var direction = firedShot.Direction;
-        if (direction.LengthSquared() < 0.001f)
-            return;
-
-        var shot = ShotRequest.From(firedShot.Origin, Vector3.Normalize(direction), firedShot.WeaponId);
-        if (_server is not null)
-            ResolveShot(0, shot);
-        else
-            _client?.SendJson(ShootChannel, shot);
-    }
-
     private void ResolveShot(int shooterPeerId, ShotRequest shot)
     {
         if (_server is null || _matchPhase != MatchPhase.Playing || !shot.IsFinite())
@@ -711,23 +717,14 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         var isHeadshot = hit.Entity.HasTag("Head");
         var damage = (weapon?.Damage ?? MathF.Max(0.0f, weaponDamage)) *
             (isHeadshot ? MathF.Max(1.0f, multiplayerHeadshotMultiplier) : 1.0f);
-        _lastHostArmourHit = targetPeerId == 0 && _playerHealth?.ArmourSlots > 0;
-        targetState.Health = MathF.Max(0.0f, targetState.Health - damage);
+        var armourHit = _humans.TryGetValue(targetPeerId, out var targetHuman) && targetHuman.Armour > 0;
+        var protectedDamage = ApplyHumanArmour(targetPeerId, damage);
+        targetState.Health = MathF.Max(0.0f, targetState.Health - protectedDamage);
         targetState.LastDamagedAt = _time;
         targetState.LastHitDirection = hit.Point - origin;
         PublishHitEffect(targetPeerId);
-        if (targetPeerId == 0)
-        {
-            _playerHealth?.TakeDamageFrom(damage, origin.X, origin.Y, origin.Z);
-            // The host's actual health component is authoritative for the host.
-            // This also accounts for locally configured health and armour.
-            if (_playerHealth is not null)
-                targetState.Health = MathF.Max(0.0f, _playerHealth.CurrentHealth);
-        }
-        else if (!_bots.ContainsKey(targetPeerId))
-            _server.SendJson(targetPeerId, DamageChannel, new PlayerDamage(damage, origin.X, origin.Y, origin.Z));
 
-        ConfirmShooterHit(shooterPeerId, damage, isHeadshot, targetState.Health <= 0, targetPeerId == 0 && _lastHostArmourHit);
+        ConfirmShooterHit(shooterPeerId, damage, isHeadshot, targetState.Health <= 0, armourHit);
 
         if (targetState.Health <= 0.0f)
             RegisterKill(shooterPeerId, targetPeerId);
@@ -736,7 +733,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     private int FindPeerForEntity(GameObject entity)
     {
         var entityId = entity.EntityId;
-        if (GameObject.EntityId == entityId)
+        if (!IsDedicated && GameObject.EntityId == entityId)
             return 0;
 
         var hitbox = entity.GetComponent<NetworkParticipantHitbox>();
@@ -782,6 +779,14 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         remote.TargetYaw = transform.Yaw;
         if (remote.GameObject.GetComponent<ColliderComponent>() is { } collider)
         {
+            if (_server is not null && _humans.ContainsKey(transform.PeerId))
+            {
+                // Human simulation must use the same capsule as the owning client,
+                // rather than the narrower presentation/bot prefab collider.
+                collider.Radius = .5f;
+                remote.StandingColliderHeight = 2;
+                remote.StandingColliderCenter = Vector3.Zero;
+            }
             remote.StandingColliderHeight ??= collider.Height;
             remote.StandingColliderCenter ??= collider.Center;
             var height = CombatTargeting.StanceHeight(remote.StandingColliderHeight.Value,
@@ -794,6 +799,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     private void OnServerPeerDisconnected(int peerId)
     {
+        _pendingHandshakes.Remove(peerId);
         foreach (var id in _grenades.Where(p => p.Value.Owner == peerId).Select(p => p.Key).ToArray())
             _grenades.Remove(id);
         var wasParticipant = _authenticatedPeers.Remove(peerId);
@@ -804,6 +810,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             ? peerName
             : $"Peer {peerId}";
         _playerStates.Remove(peerId);
+        _humans.Remove(peerId);
         RemoveRemotePlayer(peerId);
         if (!wasParticipant)
             return;
@@ -815,6 +822,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     private void RemoveTimedOutPeers()
     {
+        foreach (var peer in _pendingHandshakes.ToArray())
+            if (_time - peer.Value > 5) _server?.Disconnect(peer.Key);
         var timeout = MathF.Max(1.0f, disconnectTimeout);
         List<int>? timedOut = null;
         foreach (var peer in _peerLastSeenAt)
@@ -830,6 +839,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         foreach (var peerId in timedOut)
         {
             Debug.LogWarning($"Peer {peerId} timed out.");
+            _server?.Disconnect(peerId);
             OnServerPeerDisconnected(peerId);
         }
     }
@@ -958,6 +968,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         }
         _bots.Remove(peerId, out var removedBot);
         _playerStates.Remove(peerId);
+        _humans.Remove(peerId);
         _peerNames.Remove(peerId);
         var proxyTracked = _remotePlayers.ContainsKey(peerId);
         RemoveRemotePlayer(peerId);
@@ -1486,7 +1497,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     }
 
     private GameObject? GetParticipantObject(int peerId)
-        => peerId == 0 ? GameObject : _remotePlayers.GetValueOrDefault(peerId)?.GameObject;
+        => peerId == 0 ? (IsDedicated ? null : GameObject) : _remotePlayers.GetValueOrDefault(peerId)?.GameObject;
 
     private void BotFire(int botId, GameObject intendedTarget, BotController bot)
     {
@@ -1507,17 +1518,10 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             return;
 
         var damage = MathF.Max(0.0f, botDamage);
-        victim.Health = MathF.Max(0.0f, victim.Health - damage);
+        victim.Health = MathF.Max(0.0f, victim.Health - ApplyHumanArmour(victimId, damage));
         victim.LastDamagedAt = _time;
         victim.LastHitDirection = hit.Point - origin;
         PublishHitEffect(victimId);
-        if (victimId == 0)
-        {
-            _playerHealth?.TakeDamageFrom(damage, origin.X, origin.Y, origin.Z);
-            if (_playerHealth is not null)
-                victim.Health = MathF.Max(0.0f, _playerHealth.CurrentHealth);
-        }
-        else if (!_bots.ContainsKey(victimId)) _server?.SendJson(victimId, DamageChannel, new PlayerDamage(damage, origin.X, origin.Y, origin.Z));
         if (victim.Health <= 0.0f) RegisterKill(botId, victimId);
     }
 
@@ -1530,12 +1534,13 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     private void PublishBotReload(int botId, BotController bot)
     {
         var duration = MathF.Max(0.1f, botReloadDuration);
-        bot.GameObject.TryInvoke("PlayExternalReloadAnimation", duration);
+        if (!IsDedicated) bot.GameObject.TryInvoke("PlayExternalReloadAnimation", duration);
         _server?.BroadcastJson(BotReloadEffectChannel, new BotReloadEffect(botId, duration));
     }
 
     private void PlayRemoteShotEffect(int shooterPeerId)
     {
+        if (IsDedicated) return;
         if (_remotePlayers.TryGetValue(shooterPeerId, out var remote))
             remote.GameObject.TryInvoke("PlayExternalShootAnimation");
     }
@@ -1546,7 +1551,6 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         _server?.BroadcastJson(HitEffectChannel, new HitEffect(victimPeerId));
     }
 
-    private bool _lastHostArmourHit;
     private void ConfirmShooterHit(int shooterPeerId, float damage, bool isHeadshot, bool isKill, bool hitArmour)
     {
         if (shooterPeerId == 0)
@@ -1563,6 +1567,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     private void PlayRemoteHitEffect(int victimPeerId)
     {
+        if (IsDedicated) return;
         if (_remotePlayers.TryGetValue(victimPeerId, out var remote))
             remote.GameObject.TryInvoke("PlayExternalHitAnimation");
     }
@@ -1571,6 +1576,12 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     {
         _deadRemotePlayers[victimPeerId] =
             IsDefusal ? float.PositiveInfinity : _time + MathF.Max(0.1f, combatRespawnDelay);
+        if (_server is not null && _remotePlayers.TryGetValue(victimPeerId, out var serverActor))
+        {
+            if (IsDedicated) serverActor.GameObject.Active = false;
+            else serverActor.GameObject.TryInvoke("PlayExternalDeathWithImpulse", x, y, z);
+            return;
+        }
         if (_remotePlayers.Remove(victimPeerId, out var remote))
             remote.GameObject.TryInvoke("PlayExternalDeathWithImpulse", x, y, z);
     }
@@ -1755,7 +1766,6 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     {
         if (IsDefusal)
         {
-            if (_playerHealth is not null && _playerStates.TryGetValue(0, out var localState)) localState.Health = MathF.Max(0, _playerHealth.CurrentHealth);
             TickDefusal(deltaTime);
             return;
         }
@@ -1775,6 +1785,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                     bot.IsEngaging = false;
                     bot.TargetPeerId = int.MinValue;
                 }
+                if (_humans.ContainsKey(pair.Key)) SpawnHuman(pair.Key);
                 _deadRemotePlayers.Remove(pair.Key);
             }
             else if (state.Health > 0.0f &&
@@ -1785,10 +1796,6 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                     state.Health + MathF.Max(0.0f, multiplayerRegenerationPerSecond) * deltaTime);
         }
 
-        // Keep the host's authoritative match state aligned with the component
-        // that drives its HUD, death, armour, and regeneration.
-        if (_playerHealth is not null && _playerStates.TryGetValue(0, out var hostState))
-            hostState.Health = MathF.Max(0.0f, _playerHealth.CurrentHealth);
 
         UpdateObjective(MathF.Min(deltaTime, MathF.Max(0, _phaseEndsAt - _time + deltaTime)));
 
@@ -1832,6 +1839,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             ClearBotTarget(bot);
             _deadRemotePlayers.Remove(peerId);
         }
+        ResetHumansForRound();
         BeginObjectiveRound();
         BeginPhase(MatchPhase.Playing, matchDuration);
     }
@@ -1983,7 +1991,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         int PeerId,
         float MaximumHealth = 100.0f,
         float RegenerationDelay = 5.0f,
-        float RegenerationPerSecond = 6.0f);
+        float RegenerationPerSecond = 6.0f,
+        MatchMode Mode = MatchMode.Hardpoint, string Scene = "Main");
     private sealed record PeerLeft(int PeerId);
     private sealed record PeerJoined(int PeerId, string Username);
     private sealed record PlayerDamage(float Amount, float SourceX = 0, float SourceY = 0, float SourceZ = 0);

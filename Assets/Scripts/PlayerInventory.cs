@@ -31,6 +31,13 @@ public sealed class PlayerInventory : ScriptBehaviour
         ReserveAmmo = supplies.Ammo; HealthKits = supplies.Kits; ArmourPlates = supplies.Plates;
         Changed?.Invoke();
     }
+    public void ApplyServerState(int ammo, int kits, int plates, int usingItem)
+    {
+        ReserveAmmo = ammo; HealthKits = kits; ArmourPlates = plates;
+        _activeUse = usingItem == 1 ? UseAction.HealthKit : usingItem == 2 ? UseAction.ArmourPlate : UseAction.None;
+        Changed?.Invoke();
+    }
+
     public override void OnDestroy()
     {
         if (_health is not null) { _health.DamageTaken -= CancelUse; _health.Died -= CancelUse; }
@@ -121,6 +128,8 @@ public sealed class PlayerInventory : ScriptBehaviour
         if (_activeUse != UseAction.None || HealthKits <= 0 ||
             _health is null || _health.IsDead || _health.IsFullHealth)
             return false;
+        if (GameObject.GetComponent<MultiplayerSession>() is { UsesServerAuthority: true } session)
+        { session.QueueItemUse(1); return true; }
         _activeUse = UseAction.HealthKit;
         _useTimeRemaining = MathF.Max(0.0f, healthKitUseTime);
         return true;
@@ -132,6 +141,8 @@ public sealed class PlayerInventory : ScriptBehaviour
         if (_activeUse != UseAction.None || ArmourPlates <= 0 || _health is null ||
             _health.IsDead || _health.ArmourSlots >= _health.MaximumArmourSlots)
             return false;
+        if (GameObject.GetComponent<MultiplayerSession>() is { UsesServerAuthority: true } session)
+        { session.QueueItemUse(2); return true; }
         _activeUse = UseAction.ArmourPlate;
         _useTimeRemaining = MathF.Max(0.0f, armourUseTime);
         Debug.Log("Applying armour plate...");

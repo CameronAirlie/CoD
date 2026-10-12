@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+<PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
+<ItemGroup>
+<Compile Include="../../Assets/Scripts/DefusalRules.cs" Link="DefusalRules.cs"/>
+<Compile Include="../../Assets/Scripts/MatchContracts.cs" Link="MatchContracts.cs"/>
+<Compile Include="../../Assets/Scripts/MultiplayerLaunch.cs" Link="MultiplayerLaunch.cs"/>
+<Compile Include="../../Assets/Scripts/ServerSimulation.cs" Link="ServerSimulation.cs"/>
+<Compile Include="../../Assets/Scripts/WeaponCatalog.cs" Link="WeaponCatalog.cs"/>
+<Compile Include="../../Assets/Scripts/InventoryRules.cs" Link="InventoryRules.cs"/>
+<None Update="arena.plutoscene" CopyToOutputDirectory="PreserveNewest"/>
+<Reference Include="PlutoGE.ScriptCore"><HintPath>C:/Users/Cameron.Airlie/dev/PlutoGE/engine/scripting/managed/PlutoGE.ScriptCore/bin/Release/net8.0/PlutoGE.ScriptCore.dll</HintPath></Reference>
+</ItemGroup></Project>

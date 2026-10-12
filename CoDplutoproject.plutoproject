@@ -99,6 +99,18 @@ BUILD_ALWAYS_INCLUDE	project://UI/title.rcss
 BUILD_ALWAYS_INCLUDE	project://UI/title.rml
 BUILD_ALWAYS_INCLUDE	project://UI/vehicle-speedometer.rcss
 BUILD_ALWAYS_INCLUDE	project://UI/vehicle-speedometer.rml
+SERVER_SCENE	project://Scenes/Main.plutoscene
+SERVER_OUTPUT	Build/DedicatedServer/CoDServer.exe
+SERVER_TICK_RATE	60
+SERVER_SCRIPT	CoD.Scripts.MultiplayerSession
+SERVER_SCRIPT	CoD.Scripts.EnemySoldierBot
+SERVER_SCRIPT	CoD.Scripts.NetworkParticipantHitbox
+SERVER_SCRIPT	CoD.Scripts.SupplySpawner
+SERVER_SCRIPT	CoD.Scripts.SupplyPickup
+SERVER_ENV	COD_SERVER_PORT	7777
+SERVER_ENV	COD_SERVER_PLAYERS	12
+SERVER_ENV	COD_SERVER_BOTS	8
+SERVER_ENV	COD_SERVER_MODE	Hardpoint
 SCRIPT_ASSEMBLY	project://Managed/CoD.Scripts.dll
 LOADING_ACCENT	0.65	0.68	0.72
 WINDOW_TITLE	CoD
@@ -334,11 +346,11 @@ ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87
 ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Input/car.plutoinput	3839	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	301056	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	101328	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	342528	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	119420	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
-ASSET	project://Managed/PlutoGE.ScriptCore.dll	321024	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	109084	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.dll	321536	Assembly
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	109184	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	369	Unknown
 ASSET	project://Materials/BulletHole.plutomaterial	471	Material
 ASSET	project://Materials/Foundry/Brick.plutomaterial	412	Material
@@ -458,6 +470,7 @@ ASSET	project://Scripts/CombatFeedback.cs	4930	Script
 ASSET	project://Scripts/CombatFeedbackMath.cs	590	Script
 ASSET	project://Scripts/CombatTargeting.cs	1121	Script
 ASSET	project://Scripts/DamageFeedbackState.cs	605	Script
+ASSET	project://Scripts/DedicatedServerSettings.cs	1040	Script
 ASSET	project://Scripts/DefusalBotTactics.cs	2335	Script
 ASSET	project://Scripts/DefusalMarker.cs	2668	Script
 ASSET	project://Scripts/DefusalRules.cs	6338	Script
@@ -475,26 +488,28 @@ ASSET	project://Scripts/HardpointRules.cs	3562	Script
 ASSET	project://Scripts/InventoryMenu.cs	7696	Script
 ASSET	project://Scripts/InventoryRules.cs	1089	Script
 ASSET	project://Scripts/MatchContracts.cs	1165	Script
-ASSET	project://Scripts/MultiplayerLaunch.cs	696	Script
-ASSET	project://Scripts/MultiplayerSession.Defusal.cs	11859	Script
-ASSET	project://Scripts/MultiplayerSession.Grenades.cs	13342	Script
-ASSET	project://Scripts/MultiplayerSession.Objectives.cs	6582	Script
-ASSET	project://Scripts/MultiplayerSession.cs	96153	Script
+ASSET	project://Scripts/MultiplayerLaunch.cs	1510	Script
+ASSET	project://Scripts/MultiplayerSession.Authority.cs	17827	Script
+ASSET	project://Scripts/MultiplayerSession.Defusal.cs	11947	Script
+ASSET	project://Scripts/MultiplayerSession.Grenades.cs	13054	Script
+ASSET	project://Scripts/MultiplayerSession.Objectives.cs	6708	Script
+ASSET	project://Scripts/MultiplayerSession.cs	97218	Script
 ASSET	project://Scripts/NetworkParticipantHitbox.cs	389	Script
 ASSET	project://Scripts/ObjectiveStatus.cs	1062	Script
 ASSET	project://Scripts/PauseMenu.cs	271	Script
-ASSET	project://Scripts/PlayerController.cs	42252	Script
-ASSET	project://Scripts/PlayerHealth.cs	9127	Script
+ASSET	project://Scripts/PlayerController.cs	46699	Script
+ASSET	project://Scripts/PlayerHealth.cs	10406	Script
 ASSET	project://Scripts/PlayerHud.cs	19424	Script
-ASSET	project://Scripts/PlayerInventory.cs	5631	Script
+ASSET	project://Scripts/PlayerInventory.cs	6249	Script
 ASSET	project://Scripts/PlayerSettings.cs	4209	Script
 ASSET	project://Scripts/RoundProgression.cs	2194	Script
-ASSET	project://Scripts/SupplyPickup.cs	3008	Script
+ASSET	project://Scripts/ServerSimulation.cs	11266	Script
+ASSET	project://Scripts/SupplyPickup.cs	4022	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
 ASSET	project://Scripts/TacticalUi.cs	1020	Script
 ASSET	project://Scripts/TeamNameplate.cs	291	Script
-ASSET	project://Scripts/TitleScreen.cs	4655	Script
-ASSET	project://Scripts/UIManager.cs	6745	Script
+ASSET	project://Scripts/TitleScreen.cs	4790	Script
+ASSET	project://Scripts/UIManager.cs	7202	Script
 ASSET	project://Scripts/VehicleSpeedometer.cs	6352	Script
 ASSET	project://Scripts/WeaponCatalog.cs	3324	Script
 ASSET	project://Scripts/WeaponHandBinding.cs	3957	Script

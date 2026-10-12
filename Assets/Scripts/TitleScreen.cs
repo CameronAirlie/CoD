@@ -86,7 +86,11 @@ public sealed class TitleScreen : ScriptBehaviour
             return;
         }
 
-        MultiplayerLaunch.Configure(launchMode, cleanName, serverAddress);
+        if (!MultiplayerLaunch.Configure(launchMode, cleanName, serverAddress))
+        {
+            SetStatus("Enter a server address such as 127.0.0.1 or 127.0.0.1:7777.");
+            return;
+        }
         _loading = SceneManager.LoadScene(_defusalSelected ? defusalScene : gameScene);
         SetStatus(_loading
             ? launchMode == "Host" ? "Starting host..." : "Joining game..."

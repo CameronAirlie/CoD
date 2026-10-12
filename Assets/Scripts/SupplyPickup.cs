@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 using PlutoGE.ScriptCore;
 
 namespace CoD.Scripts;
@@ -17,6 +18,28 @@ public sealed class SupplyPickup : ScriptBehaviour
     [SerializedField] private float rotationSpeed = 45.0f;
 
     private bool _consumed;
+    internal static readonly HashSet<SupplyPickup> Live = new();
+    public override void OnCreate() => Live.Add(this);
+    public override void OnDestroy() => Live.Remove(this);
+    internal Vector3 SupplyPosition => GameObject.WorldPosition;
+    internal void SetNetworkVisible(bool visible) => GameObject.Active = visible;
+    internal bool CollectOnServer(ServerEquipment equipment, float health, float maximum, out float healed)
+    {
+        healed = 0;
+        if (_consumed) return false;
+        var granted = equipment.AddSupply(ammoAmount, healthKitAmount, armourPlateAmount);
+        healed = MathF.Min(MathF.Max(0, healthAmount), maximum - health);
+        if (!granted && healed <= 0) return false;
+        Consume(); return true;
+    }
+    private void Consume()
+    {
+        _consumed = true;
+        var spawner = GameObject.Find("SupplySpawner");
+        if (spawner is not null && !string.IsNullOrWhiteSpace(respawnPrefab))
+            spawner.TryInvoke("PickupConsumed", respawnPrefab, GameObject.WorldPosition, GameObject.WorldRotation);
+        GameObject.Destroy();
+    }
 
     public override void OnUpdate(float deltaTime)
     {
@@ -32,6 +55,9 @@ public sealed class SupplyPickup : ScriptBehaviour
     {
         if (_consumed || interactor is null || !interactor.IsValid)
             return;
+
+        if (interactor.GetComponent<MultiplayerSession>() is { UsesServerAuthority: true } session)
+        { session.RequestSupply(SupplyPosition); return; }
 
         var inventory = interactor.GetComponent<PlayerInventory>();
         var health = interactor.GetComponent<PlayerHealth>();
@@ -57,11 +83,7 @@ public sealed class SupplyPickup : ScriptBehaviour
             return;
         }
 
-        _consumed = true;
         interactor.GetComponent<PlayerController>()?.PlayGameplayCue("Misc/item_pickup_ufx_1.ogg");
-        var spawner = GameObject.Find("SupplySpawner");
-        if (spawner is not null && !string.IsNullOrWhiteSpace(respawnPrefab))
-            spawner.TryInvoke("PickupConsumed", respawnPrefab, GameObject.WorldPosition, GameObject.WorldRotation);
-        GameObject.Destroy();
+        Consume();
     }
 }

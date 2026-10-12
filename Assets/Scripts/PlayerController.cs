@@ -75,6 +75,7 @@ public sealed class PlayerController : ScriptBehaviour
     }
 
     private float _damageCameraImpulse;
+    private int _serverLife, _requestedServerSlot = -1;
     private float _reloadTimeRemaining;
     [SerializedField] private float reloadDuration = 2.2f;
     public void AddCameraImpulse(float amount)
@@ -383,6 +384,11 @@ public sealed class PlayerController : ScriptBehaviour
 
     public override void OnUpdate(float deltaTime)
     {
+        // Scripts are created in component order. MultiplayerSession can be
+        // unavailable in OnCreate, so resolve it again before choosing movement
+        // authority or we predict locally without ever submitting server input.
+        _multiplayer ??= GameObject.GetComponent<MultiplayerSession>();
+
         if (!float.IsFinite(deltaTime) || deltaTime <= 0.0f)
         {
             return;
@@ -395,10 +401,41 @@ public sealed class PlayerController : ScriptBehaviour
         }
 
         _damageCameraImpulse = MathF.Max(0, _damageCameraImpulse - deltaTime * 8);
-        if (_reloading) { _reloadTimeRemaining -= deltaTime; if (_reloadTimeRemaining <= 0) FinishReload(); }
-        _inventory?.TickUse(deltaTime);
+        if (_multiplayer?.UsesServerAuthority != true && _reloading) { _reloadTimeRemaining -= deltaTime; if (_reloadTimeRemaining <= 0) FinishReload(); }
+        if (_multiplayer?.UsesServerAuthority != true) _inventory?.TickUse(deltaTime);
 
         var cursorLocked = Input.CursorLocked;
+        if (_multiplayer?.UsesServerAuthority == true)
+        {
+            _mouseDelta = cursorLocked ? Input.MouseDelta : Vector2.Zero;
+            if (cursorLocked) UpdateLook(deltaTime);
+            var slot = _requestedServerSlot >= 0 ? _requestedServerSlot : EquippedWeaponSlot;
+            if (cursorLocked && _multiplayer.CurrentMatch?.Phase == MatchPhase.Playing)
+            {
+                if (Input.IsKeyPressed(KeyCode.D1)) slot = 0;
+                if (Input.IsKeyPressed(KeyCode.D2)) slot = 1;
+                if (Input.IsKeyPressed(KeyCode.D3)) slot = 2;
+                if (Input.IsKeyPressed(KeyCode.Q)) slot = (slot + 1) % WeaponCatalog.SlotCount;
+            }
+            _requestedServerSlot = slot;
+            _weaponDrawRemaining = MathF.Max(0, _weaponDrawRemaining - deltaTime);
+            _aiming = cursorLocked && Input.IsMouseButtonDown(MouseButton.Right) && !_reloading;
+            _multiplayer.SubmitLocalInput(
+                cursorLocked ? (Input.IsKeyDown(KeyCode.D) ? 1 : 0) - (Input.IsKeyDown(KeyCode.A) ? 1 : 0) : 0,
+                cursorLocked ? (Input.IsKeyDown(KeyCode.W) ? 1 : 0) - (Input.IsKeyDown(KeyCode.S) ? 1 : 0) : 0,
+                _yaw, _pitch, cursorLocked && Input.IsKeyPressed(KeyCode.Space),
+                cursorLocked && Input.IsKeyDown(KeyCode.LeftShift), cursorLocked && Input.IsKeyDown(KeyCode.C),
+                _aiming, cursorLocked && Input.IsMouseButtonDown(MouseButton.Left),
+                cursorLocked && Input.IsKeyPressed(KeyCode.R), slot,
+                cursorLocked && Input.IsKeyPressed(KeyCode.H) ? 1 : cursorLocked && Input.IsKeyPressed(KeyCode.G) ? 2 : 0, deltaTime);
+            _shotCooldown = MathF.Max(0, _shotCooldown - deltaTime);
+            UpdateCamera(deltaTime);
+            // Weapon effects remain responsive locally; hits/resources belong to the server.
+            if (cursorLocked) { UpdateWeapon(deltaTime); UpdateInteraction(deltaTime); }
+            PublishStateChanges();
+            return;
+        }
+
         if (cursorLocked && _inventory is not null)
         {
             if (Input.IsKeyPressed(KeyCode.H))
@@ -443,6 +480,34 @@ public sealed class PlayerController : ScriptBehaviour
         UpdateWeapon(deltaTime);
         UpdateInteraction(deltaTime);
         PublishStateChanges();
+    }
+
+    public void ApplyServerState(MultiplayerSession.OwnerState state)
+    {
+        if (_serverLife != state.Life)
+        {
+            _serverLife = state.Life; _requestedServerSlot = state.Slot;
+            SetRoundFacing(state.Yaw); _shotCooldown = _weaponDrawRemaining = 0;
+        }
+        _horizontalVelocity = new Vector3(state.VelocityX, 0, state.VelocityZ);
+        if (_weapons is not null && _weapons.SelectedSlot != state.Slot)
+        { _weapons.Select(state.Slot); ApplyEquippedWeapon(); WeaponChanged?.Invoke(); }
+        _ammo = state.Magazine; _reserveAmmo = state.Reserve;
+        _reloading = _reloadAnimationActive = state.Reloading;
+        if (_hands.Equipped is not null) _hands.SetReload(state.Reloading);
+        else weaponAnimator?.SetBool("Reload", state.Reloading);
+        ApplyPredictedMovement(_multiplayer?.PredictedMotorState ?? new MotorState(
+            new Vector3(state.VelocityX, state.VelocityY, state.VelocityZ), state.Grounded,
+            state.Crouching, state.Sprinting, state.Sliding, state.SlideRemaining, state.WasCrouching));
+        UpdateStanceCollider(); UpdateHud(); PublishStateChanges();
+    }
+
+    public void ApplyPredictedMovement(MotorState state)
+    {
+        _horizontalVelocity = new Vector3(state.Velocity.X, 0, state.Velocity.Z);
+        _grounded = state.Grounded; _crouching = state.Crouching;
+        _sprinting = state.Sprinting; _sliding = state.Sliding;
+        UpdateStanceCollider();
     }
 
     public void EnterDeathState()
@@ -610,10 +675,14 @@ public sealed class PlayerController : ScriptBehaviour
     private void UpdateStanceCollider()
     {
         if (_collider is null) return;
-        var height = CombatTargeting.StanceHeight(_standingColliderHeight, _collider.Radius,
-            standingCameraHeight - crouchingCameraHeight, _crouching);
+        var networked = _multiplayer?.UsesServerAuthority == true;
+        var standingHeight = networked ? 2 : _standingColliderHeight;
+        var center = networked ? Vector3.Zero : _standingColliderCenter;
+        if (networked) _collider.Radius = .5f;
+        var height = CombatTargeting.StanceHeight(standingHeight, _collider.Radius,
+            networked ? .5f : standingCameraHeight - crouchingCameraHeight, _crouching);
         _collider.Height = height;
-        _collider.Center = _standingColliderCenter - Vector3.UnitY * ((_standingColliderHeight - height) * .5f);
+        _collider.Center = center - Vector3.UnitY * ((standingHeight - height) * .5f);
     }
 
     private void UpdateCamera(float deltaTime)
@@ -623,7 +692,9 @@ public sealed class PlayerController : ScriptBehaviour
             return;
         }
 
-        var desiredHeight = (_crouching || _sliding) ? crouchingCameraHeight : standingCameraHeight;
+        var desiredHeight = _multiplayer?.UsesServerAuthority == true
+            ? ServerMotor.EyeHeight(_crouching || _sliding)
+            : (_crouching || _sliding) ? crouchingCameraHeight : standingCameraHeight;
         _cameraHeight = Damp(_cameraHeight, desiredHeight, cameraHeightSharpness, deltaTime);
         var localPosition = camera.GameObject.Position;
         localPosition.Y = _cameraHeight;
@@ -752,7 +823,7 @@ public sealed class PlayerController : ScriptBehaviour
 
             if (!hitFriendly &&
                 (hit.Entity.HasTag(damageableTag) || hit.Entity.HasTag(headTag)) &&
-                _multiplayer?.IsNetworkParticipant(hit.Entity) != true)
+                _multiplayer?.UsesServerAuthority != true)
             {
                 var isHeadshot = hit.Entity.HasTag(headTag);
                 var dealtDamage = damage * (isHeadshot ? headshotMultiplier : 1.0f);
@@ -775,6 +846,7 @@ public sealed class PlayerController : ScriptBehaviour
 
     private void BeginReload()
     {
+        if (_multiplayer?.UsesServerAuthority == true) return;
         if (_reloading || _weaponDrawRemaining > 0 || _ammo >= magazineSize || _reserveAmmo <= 0 || _sliding || _sprinting)
         {
             return;
@@ -812,6 +884,7 @@ public sealed class PlayerController : ScriptBehaviour
 
     private void FinishReload()
     {
+        if (_multiplayer?.UsesServerAuthority == true) return;
         if (!_reloading) return;
         var needed = Math.Max(0, magazineSize - _ammo);
         var transferred = _inventory?.TakeAmmo(needed) ?? Math.Min(needed, _reserveAmmo);
@@ -842,6 +915,7 @@ public sealed class PlayerController : ScriptBehaviour
     /// <summary>Adds ammunition to the reserve, for pickups and scripted rewards.</summary>
     public void AddAmmo(int amount)
     {
+        if (_multiplayer?.UsesServerAuthority == true) return;
         if (amount <= 0)
         {
             return;

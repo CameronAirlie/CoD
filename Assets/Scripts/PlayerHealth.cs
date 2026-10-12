@@ -41,6 +41,8 @@ public sealed class PlayerHealth : ScriptBehaviour
     private Vector3 _spawnRotation;
     private RigidbodyComponent? _body;
     private PlayerController? _controller;
+    private MultiplayerSession? _session;
+    private bool ServerAuthority => (_session ??= GameObject.GetComponent<MultiplayerSession>())?.UsesServerAuthority == true;
 
     public bool IsDead => _dead;
     public bool IsFullHealth => _health >= maximumHealth;
@@ -51,7 +53,8 @@ public sealed class PlayerHealth : ScriptBehaviour
     public event Action<float, float, int, int>? StatusChanged;
     public event Action? DamageTaken;
     public event Action<PlayerDamageEvent>? DamageReceived;
-    public void ResetForRound() => Respawn();
+    public void ResetForRound()
+    { if (!ServerAuthority) Respawn(); }
     public void SetRoundRespawn(bool enabled) => respawnOnDeath = enabled;
     public void EliminateForRound()
     {
@@ -75,8 +78,27 @@ public sealed class PlayerHealth : ScriptBehaviour
         PublishStatus();
     }
 
+    public void ApplyServerState(float health, int armour)
+    {
+        _controller ??= GameObject.GetComponent<PlayerController>();
+        var wasDead = _dead;
+        var previous = _health;
+        _health = Math.Clamp(health, 0, maximumHealth); _armourSlots = Math.Clamp(armour, 0, maximumArmourSlots);
+        _dead = _health <= 0;
+        if (_health < previous)
+        {
+            _lastDamageAt = _time; DamageTaken?.Invoke();
+            DamageReceived?.Invoke(new(previous - _health, Vector3.Zero, false, 0));
+            if (_damageImage is not null) SetDamageOverlayAlpha(damageFlashAlpha);
+        }
+        if (_dead && !wasDead) { _controller?.EnterDeathState(); Died?.Invoke(); }
+        if (!_dead && wasDead) { _controller?.ExitDeathState(); Respawned?.Invoke(); }
+        RefreshLabel(); PublishStatus();
+    }
+
     public override void OnCreate()
     {
+        _session = GameObject.GetComponent<MultiplayerSession>();
         _health = MathF.Max(1.0f, maximumHealth);
         _lastDamageAt = _time;
         _spawnPosition = GameObject.WorldPosition;
@@ -110,6 +132,8 @@ public sealed class PlayerHealth : ScriptBehaviour
                 PublishDamageOverlayAlpha();
         }
 
+        if (ServerAuthority) return;
+
         if (_dead && respawnOnDeath && _time >= _restartAt)
         {
             Respawn();
@@ -134,6 +158,7 @@ public sealed class PlayerHealth : ScriptBehaviour
         ApplyDamage(amount, new Vector3(x, y, z), float.IsFinite(x) && float.IsFinite(y) && float.IsFinite(z));
     private void ApplyDamage(float amount, Vector3 source, bool hasSource)
     {
+        if (ServerAuthority) return;
         if (_dead || _time < _invulnerableUntil || !float.IsFinite(amount) || amount <= 0.0f)
             return;
 
@@ -166,6 +191,7 @@ public sealed class PlayerHealth : ScriptBehaviour
 
     public void Heal(float amount)
     {
+        if (ServerAuthority) return;
         if (_dead || amount <= 0.0f)
             return;
         _health = MathF.Min(maximumHealth, _health + amount);
@@ -177,6 +203,7 @@ public sealed class PlayerHealth : ScriptBehaviour
 
     public bool AddArmourSlot()
     {
+        if (ServerAuthority) return false;
         var capacity = Math.Max(0, maximumArmourSlots);
         if (_dead || ArmourSlots >= capacity)
             return false;

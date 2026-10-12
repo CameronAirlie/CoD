@@ -1,0 +1,18 @@
+SCENE	1
+ENTITY	1	0	1	Player	0,1,0	0,0,0	1,1,1
+COMPONENT	1	ScriptComponent	1
+PROPERTY	Source	2	CoD.Scripts.MultiplayerSession	0
+PROPERTY	mode	2	Host	0
+PROPERTY	warmupDuration	0	0.2	0
+PROPERTY	combatRespawnDelay	0	1.5	0
+PROPERTY	multiplayerRegenerationPerSecond	0	0	0
+END_COMPONENT
+ENTITY	2	0	1	Floor	0,-0.5,0	0,0,0	1,1,1
+COMPONENT	2	ColliderComponent	1
+PROPERTY	Shape	6	0	5	Box	Sphere	Capsule	Terrain	Mesh
+PROPERTY	Size	3	200,1,200	0
+END_COMPONENT
+ENTITY	3	0	1	Spawn North West	-5,1,0	0,0,0	1,1,1
+ENTITY	4	0	1	Spawn North East	5,1,0	0,0,0	1,1,1
+ENTITY	5	0	1	Spawn South East	5,1,-10	0,0,0	1,1,1
+ENTITY	6	0	1	Spawn South West	-5,1,-10	0,0,0	1,1,1

@@ -43,7 +43,7 @@ public sealed partial class MultiplayerSession
     private void UpdateGrenades(float deltaTime)
     {
         if (_shutDown) return;
-        if (Input.CursorLocked && !GamePause.IsPaused && Input.IsKeyPressed(KeyCode.F) &&
+        if (!IsDedicated && Input.CursorLocked && !GamePause.IsPaused && Input.IsKeyPressed(KeyCode.F) &&
             _playerController is not null && _playerHealth?.IsDead != true &&
             (GrenadesOffline || CanFight) && !IsUsingObjective && _time >= _nextLocalThrowAt && RemainingGrenades > 0)
         {
@@ -162,17 +162,10 @@ public sealed partial class MultiplayerSession
             var target = ParticipantAimPoint(actor);
             var damage = GrenadeRules.Damage(grenade.Projectile.Definition, Vector3.Distance(point, target));
             if (damage <= 0 || !BlastReaches(point, target, actor)) continue;
-            var armour = pair.Key == 0 && _playerHealth?.ArmourSlots > 0;
-            state.Health = MathF.Max(0, state.Health - damage);
+            var armour = _humans.TryGetValue(pair.Key, out var human) && human.Armour > 0;
+            state.Health = MathF.Max(0, state.Health - ApplyHumanArmour(pair.Key, damage));
             state.LastDamagedAt = _time; state.LastHitDirection = target - point;
             PublishHitEffect(pair.Key);
-            if (pair.Key == 0)
-            {
-                _playerHealth?.TakeDamageFrom(damage, point.X, point.Y, point.Z);
-                if (_playerHealth is not null) state.Health = MathF.Max(0, _playerHealth.CurrentHealth);
-            }
-            else if (!_bots.ContainsKey(pair.Key))
-                _server?.SendJson(pair.Key, DamageChannel, new PlayerDamage(damage, point.X, point.Y, point.Z));
             ConfirmShooterHit(grenade.Owner, damage, false, state.Health <= 0, armour);
             if (state.Health <= 0) RegisterKill(grenade.Owner, pair.Key);
         }
@@ -217,6 +210,7 @@ public sealed partial class MultiplayerSession
 
     private void ApplyGrenadeFrame(GrenadeFrame frame)
     {
+        if (IsDedicated) return;
         if (frame.Items is null || frame.Items.Length > 64 || frame.Items.Any(p => !GrenadeRules.IsFinite(p.Position))) return;
         var present = frame.Items.Select(p => p.Id).ToHashSet();
         foreach (var id in _grenadeVisuals.Keys.ToArray())
@@ -235,6 +229,7 @@ public sealed partial class MultiplayerSession
     }
     private void PlayGrenadeExplosion(Vector3 position)
     {
+        if (IsDedicated) return;
         _playerController?.PlayGameplayCueAt("Explosions/grenade_ufx_1.ogg", position, 1);
         foreach (var (name, count) in new[] { ("Flash", 24), ("Sparks", 70), ("Smoke", 35) })
         {

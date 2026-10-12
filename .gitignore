@@ -7,7 +7,10 @@ Tools/Native/
 Tools/__pycache__/
 Tools/weapon-generation.log
 Assets/SourceModels/Weapons/*.blend1
-Tests/
+Tests/*
+!Tests/Authority/
+Tests/Authority/bin/
+Tests/Authority/obj/
 
 # Disposable asset imports and local migration recovery data
 /Library/
@@ -17,3 +20,7 @@ Tests/
 /.mw/
 
 *.plutometa
+
+Server/bin/
+Server/obj/
+Server/*.log

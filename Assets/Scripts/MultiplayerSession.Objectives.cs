@@ -67,6 +67,7 @@ public sealed partial class MultiplayerSession
 
     private void UpdateLocalRound(MatchSnapshot snapshot)
     {
+        if (UsesServerAuthority) { _lastLocalPhase = snapshot.Phase; return; }
         _inventory ??= GameObject.GetComponent<PlayerInventory>();
         if (snapshot.Mode == MatchMode.Defusal) { ApplyDefusalLocalRound(snapshot); return; }
         if (_lastLocalPhase != snapshot.Phase && snapshot.Phase == MatchPhase.Playing)
@@ -80,6 +81,7 @@ public sealed partial class MultiplayerSession
 
     private void OnLocalRespawn()
     {
+        if (UsesServerAuthority) return;
         ResetLocalGrenades();
         _inventory ??= GameObject.GetComponent<PlayerInventory>();
         _inventory?.ApplyLoadout(SelectedLoadout);

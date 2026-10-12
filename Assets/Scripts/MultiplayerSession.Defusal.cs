@@ -50,6 +50,7 @@ public sealed partial class MultiplayerSession
             var bot = RespawnBot(id, _bots[id]);
             ClearBotTarget(bot); bot.NextShotAt = _time + .5f;
         }
+        ResetHumansForRound();
         _deadRemotePlayers.Clear(); _bombHeldUntil.Clear(); _lastBombPositions.Clear();
         BeginPhase(MatchPhase.Playing, matchDuration);
     }
@@ -97,7 +98,7 @@ public sealed partial class MultiplayerSession
     }
     private void UpdateBombInput()
     {
-        if (!IsDefusal || _time < _nextBombInputAt) return;
+        if (IsDedicated || !IsDefusal || _time < _nextBombInputAt) return;
         _nextBombInputAt = _time + .1f;
         var held = Input.CursorLocked && Input.IsKeyDown(KeyCode.E) &&
             !Input.IsKeyDown(KeyCode.W) && !Input.IsKeyDown(KeyCode.A) && !Input.IsKeyDown(KeyCode.S) && !Input.IsKeyDown(KeyCode.D) && _playerController?.IsReloading != true && _inventory?.IsUsing != true;
