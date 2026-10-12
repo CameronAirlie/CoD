@@ -347,7 +347,7 @@ ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Input/car.plutoinput	3839	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
 ASSET	project://Managed/CoD.Scripts.dll	342528	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	119420	Unknown
+ASSET	project://Managed/CoD.Scripts.pdb	119456	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	321536	Assembly
 ASSET	project://Managed/PlutoGE.ScriptCore.pdb	109184	Unknown
@@ -489,7 +489,7 @@ ASSET	project://Scripts/InventoryMenu.cs	7696	Script
 ASSET	project://Scripts/InventoryRules.cs	1089	Script
 ASSET	project://Scripts/MatchContracts.cs	1165	Script
 ASSET	project://Scripts/MultiplayerLaunch.cs	1510	Script
-ASSET	project://Scripts/MultiplayerSession.Authority.cs	17827	Script
+ASSET	project://Scripts/MultiplayerSession.Authority.cs	17832	Script
 ASSET	project://Scripts/MultiplayerSession.Defusal.cs	11947	Script
 ASSET	project://Scripts/MultiplayerSession.Grenades.cs	13054	Script
 ASSET	project://Scripts/MultiplayerSession.Objectives.cs	6708	Script
@@ -497,13 +497,13 @@ ASSET	project://Scripts/MultiplayerSession.cs	97218	Script
 ASSET	project://Scripts/NetworkParticipantHitbox.cs	389	Script
 ASSET	project://Scripts/ObjectiveStatus.cs	1062	Script
 ASSET	project://Scripts/PauseMenu.cs	271	Script
-ASSET	project://Scripts/PlayerController.cs	46699	Script
+ASSET	project://Scripts/PlayerController.cs	46817	Script
 ASSET	project://Scripts/PlayerHealth.cs	10406	Script
 ASSET	project://Scripts/PlayerHud.cs	19424	Script
 ASSET	project://Scripts/PlayerInventory.cs	6249	Script
 ASSET	project://Scripts/PlayerSettings.cs	4209	Script
 ASSET	project://Scripts/RoundProgression.cs	2194	Script
-ASSET	project://Scripts/ServerSimulation.cs	11266	Script
+ASSET	project://Scripts/ServerSimulation.cs	11625	Script
 ASSET	project://Scripts/SupplyPickup.cs	4022	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
 ASSET	project://Scripts/TacticalUi.cs	1020	Script
