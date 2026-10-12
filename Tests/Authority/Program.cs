@@ -3,7 +3,7 @@ using System.Numerics;
 
 if (args.Length > 0)
 {
-    try { await ServerIntegration.Run(args); }
+    try { if (args.Length == 3 && args[2] == "--bots") await BotIntegration.Run(args); else await ServerIntegration.Run(args); }
     catch (Exception error) { Console.Error.WriteLine(error); Environment.ExitCode = 1; }
     return;
 }

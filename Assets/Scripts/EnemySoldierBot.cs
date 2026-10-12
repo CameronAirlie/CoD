@@ -64,7 +64,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     [SerializedField] private float burstPauseMin = 0.35f;
     [SerializedField] private float burstPauseMax = 0.8f;
     [SerializedField] private float damagePerShot = 12.0f;
-    [SerializedField] private float accuracyDegrees = 2.0f;
+    [SerializedField] private float accuracyDegrees = 4.5f;
 
     [SerializedField] private string movementSpeedParameter = "MovementSpeed";
     [SerializedField] private string hasTargetParameter = "HasTarget";

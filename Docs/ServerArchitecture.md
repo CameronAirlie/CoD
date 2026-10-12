@@ -175,3 +175,17 @@ share root-relative eye heights (standing +0.5, crouching +0.0), rather than usi
 foot-relative 1.62/1.12 offsets above the root. The real-server damage regression
 aims level between equal-height players so an origin above the target cannot
 silently pass the test by aiming downward.
+
+
+Bot combat must also be verified against the exported package, since changing
+Assets/Managed does not update a previously exported .plutopack. Run the real bot
+prefab regression (torso and head-height damage, hit confirmations, death, kill
+credit and respawn) against the deployment package:
+
+```powershell
+dotnet run --project Tests/Authority/CoD.AuthorityTests.csproj -c Release -- Build/DedicatedServer/CoDServer.exe Build/DedicatedServer/CoDServer.plutopack --bots
+```
+
+Re-export the dedicated server after rebuilding scripts, and restart the running
+server to load the new packed assembly. Restarting an unchanged package still
+loads the older code, even if the editor/source assembly has been rebuilt.

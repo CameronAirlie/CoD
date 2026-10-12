@@ -171,7 +171,7 @@ PROPERTY	botRoundsPerMinute	0	480.000000	0
 PROPERTY	botMagazineSize	1	30	0
 PROPERTY	botReloadDuration	0	2.000000	0
 PROPERTY	botDamage	0	18.000000	0
-PROPERTY	botAccuracyDegrees	0	2.250000	0
+PROPERTY	botAccuracyDegrees	0	4.500000	0
 PROPERTY	botStationaryFireSpeed	0	0.200000	0
 PROPERTY	botTurnSharpness	0	14.000000	0
 PROPERTY	botFiringAngle	0	8.000000	0

@@ -130,7 +130,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     [SerializedField] private int botMagazineSize = 30;
     [SerializedField] private float botReloadDuration = 2.0f;
     [SerializedField] private float botDamage = 18.0f;
-    [SerializedField] private float botAccuracyDegrees = 2.25f;
+    [SerializedField] private float botAccuracyDegrees = 4.5f;
     [SerializedField] private float botStationaryFireSpeed = 0.2f;
     [SerializedField] private float botTurnSharpness = 14.0f;
     [SerializedField] private float botFiringAngle = 8.0f;
