@@ -335,7 +335,7 @@ ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Input/car.plutoinput	3839	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
 ASSET	project://Managed/CoD.Scripts.dll	301056	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	101332	Unknown
+ASSET	project://Managed/CoD.Scripts.pdb	101328	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	321024	Assembly
 ASSET	project://Managed/PlutoGE.ScriptCore.pdb	109084	Unknown
@@ -445,12 +445,12 @@ ASSET	project://Prefabs/Tree_Static_Material_1.plutomaterial	452	Material
 ASSET	project://Prefabs/Weapons/ar.plutoprefab	1705	Prefab
 ASSET	project://Prefabs/Weapons/lmg.plutoprefab	1708	Prefab
 ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1717	Prefab
-ASSET	project://Scenes/Foundry.plutoscene	10023893	Scene
+ASSET	project://Scenes/Foundry.plutoscene	10023891	Scene
 ASSET	project://Scenes/Main.plutoscene	356450	Scene
 ASSET	project://Scenes/Title.plutoscene	8749	Scene
 ASSET	project://Scenes/car_scene.plutoscene	2993018	Scene
 ASSET	project://Scenes/island.plutoscene	8776760	Scene
-ASSET	project://Scenes/ragdoll_test.plutoscene	20899	Scene
+ASSET	project://Scenes/ragdoll_test.plutoscene	21181	Scene
 ASSET	project://Scripts/BotCombatMovement.cs	1982	Script
 ASSET	project://Scripts/BotObjectiveTactics.cs	1270	Script
 ASSET	project://Scripts/BotSpawnResolver.cs	1211	Script

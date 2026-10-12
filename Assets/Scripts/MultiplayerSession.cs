@@ -15,6 +15,11 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 {
     private static MultiplayerSession? _activeSession;
 
+    // Include connecting clients and hosts awaiting a retry, even without peers.
+    public static bool IsMultiplayerActive => _activeSession is { _shutDown: false } session &&
+        (session.mode.Equals("Host", StringComparison.OrdinalIgnoreCase) ||
+         session.mode.Equals("Client", StringComparison.OrdinalIgnoreCase));
+
     private const int ProtocolVersion = 14;
     private const ushort HandshakeChannel = 1;
     private const ushort TransformChannel = 2;

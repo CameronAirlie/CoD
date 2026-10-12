@@ -19,6 +19,7 @@ public sealed class UIManager : ScriptBehaviour
     private bool _isInventoryOpen;
     private bool _needsInitialPresentation = true;
     private float _previousTimeScale = 1.0f;
+    private bool _ownsTimePause;
 
     public bool IsPaused => _isPaused;
 
@@ -94,12 +95,18 @@ public sealed class UIManager : ScriptBehaviour
         if (isPaused)
         {
             _isInventoryOpen = false;
-            _previousTimeScale = GamePause.TimeScale;
-            GamePause.TimeScale = 0.0f;
+            // Multiplayer must keep simulation and network polling running.
+            // The menu still releases the cursor, which blocks player input.
+            if (!CoD.Scripts.MultiplayerSession.IsMultiplayerActive)
+            {
+                _previousTimeScale = GamePause.TimeScale;
+                GamePause.TimeScale = 0.0f;
+                _ownsTimePause = true;
+            }
         }
         else
         {
-            GamePause.TimeScale = _previousTimeScale;
+            RestoreTimeScale();
         }
 
         _isPaused = isPaused;
@@ -144,13 +151,21 @@ public sealed class UIManager : ScriptBehaviour
 
     public override void OnDestroy()
     {
-        if (_isPaused)
-            GamePause.TimeScale = _previousTimeScale;
+        RestoreTimeScale();
 
         _pauseDocument?.Dispose();
         _pauseDocument = null;
         _hudDocument?.Dispose();
         _hudDocument = null;
+    }
+
+    private void RestoreTimeScale()
+    {
+        if (!_ownsTimePause)
+            return;
+
+        GamePause.TimeScale = _previousTimeScale;
+        _ownsTimePause = false;
     }
 
     private static void SetWidgetVisible(RmlWidgetComponent? widget, bool visible)
