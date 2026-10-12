@@ -205,7 +205,7 @@ PROPERTY	burstMax	1	7	0
 PROPERTY	burstPauseMin	0	1.000000	0
 PROPERTY	burstPauseMax	0	2.000000	0
 PROPERTY	damagePerShot	0	6.000000	0
-PROPERTY	accuracyDegrees	0	2.000000	0
+PROPERTY	accuracyDegrees	0	4.500000	0
 PROPERTY	movementSpeedParameter	2	MovementSpeed	0
 PROPERTY	hasTargetParameter	2	HasTarget	0
 PROPERTY	shootTriggerParameter	2	Shoot	0

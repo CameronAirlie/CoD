@@ -3,10 +3,13 @@ using System.Numerics;
 
 if (args.Length > 0)
 {
-    try { if (args.Length == 3 && args[2] == "--bots") await BotIntegration.Run(args); else await ServerIntegration.Run(args); }
+    try { if (args.Length == 3 && args[2] == "--defusal-movement") await DefusalMovementIntegration.Run(args); else if (args.Length == 3 && args[2] == "--bots") await BotIntegration.Run(args); else await ServerIntegration.Run(args); }
     catch (Exception error) { Console.Error.WriteLine(error); Environment.ExitCode = 1; }
     return;
 }
+
+MovementPresentationTests.Run();
+DefusalRoundPresentationTests.Run();
 
 static void Check(bool condition, string message)
 { if (!condition) throw new InvalidOperationException(message); }
@@ -165,3 +168,66 @@ Vector3 FloorSweep(Vector3 displacement)
 for (var tick = 0; tick < 60; tick++) floorMotor.Tick(PlayerCommand.Idle with { MoveY = 1 }, ServerMotor.Step, true, FloorSweep, false);
 Check(-floorTravel.Z > 4.9f && -floorTravel.Z <= 5.4f, "Floor contact reduced full walking speed");
 Console.WriteLine("PASS: floor support does not consume horizontal movement distance");
+
+var sprintJump = new ServerMotor();
+var sprintInput = PlayerCommand.Idle with { MoveY = 1, Sprint = true };
+for (var tick = 0; tick < 60; tick++) sprintJump.Tick(sprintInput, ServerMotor.Step, true, d => d, false);
+sprintJump.Tick(sprintInput with { Jump = true }, ServerMotor.Step, true, d => d, false);
+var takeoffSpeed = new Vector2(sprintJump.Velocity.X, sprintJump.Velocity.Z).Length();
+Check(MathF.Abs(takeoffSpeed - 8) < .0001f, "Sprint jump did not start at sprint speed.");
+var restoredJump = new ServerMotor(); restoredJump.Restore(sprintJump.Capture());
+for (var tick = 0; tick < 30; tick++)
+{
+    var airInput = sprintInput with { Sprint = false, Yaw = tick * 3 };
+    sprintJump.Tick(airInput, ServerMotor.Step, false, d => d, false);
+    restoredJump.Tick(airInput, ServerMotor.Step, false, d => d, false);
+    Check(MathF.Abs(new Vector2(sprintJump.Velocity.X, sprintJump.Velocity.Z).Length() - takeoffSpeed) < .0001f,
+        "Sprinting momentum was lost or increased while steering in the air.");
+}
+Check(sprintJump.Capture() == restoredJump.Capture(), "Sprint momentum diverged during reconciliation replay.");
+var carried = sprintJump.Velocity;
+sprintJump.Tick(PlayerCommand.Idle, ServerMotor.Step, false, d => d, false);
+Check(new Vector2(sprintJump.Velocity.X, sprintJump.Velocity.Z) == new Vector2(carried.X, carried.Z),
+    "Releasing movement midair removed takeoff momentum.");
+sprintJump.Tick(PlayerCommand.Idle, ServerMotor.Step, true, d => d, false);
+Check(new Vector2(sprintJump.Velocity.X, sprintJump.Velocity.Z).Length() < takeoffSpeed,
+    "Ground braking did not resume on landing.");
+var standingJump = new ServerMotor();
+standingJump.Tick(PlayerCommand.Idle with { Jump = true }, ServerMotor.Step, true, d => d, false);
+for (var tick = 0; tick < 60; tick++) standingJump.Tick(sprintInput, ServerMotor.Step, false, d => d, false);
+Check(new Vector2(standingJump.Velocity.X, standingJump.Velocity.Z).Length() <= 5.4001f,
+    "Airborne sprint input created sprint momentum without a sprinting takeoff.");
+Console.WriteLine("PASS: sprint-jump momentum, air steering/coasting, landing braking, replay and airborne speed cap");
+
+var slideJump = new ServerMotor();
+for (var tick = 0; tick < 60; tick++) slideJump.Tick(sprintInput, ServerMotor.Step, true, d => d, false);
+slideJump.Tick(sprintInput with { Crouch = true }, ServerMotor.Step, true, d => d, false);
+Check(slideJump.Sliding, "Sprint crouch did not enter slide.");
+var slideSpeed = new Vector2(slideJump.Velocity.X, slideJump.Velocity.Z).Length();
+slideJump.Tick(sprintInput with { Crouch = true, Jump = true }, ServerMotor.Step, true, d => d, false);
+Check(!slideJump.Sliding && !slideJump.Grounded && slideJump.Velocity.Y > 0 && slideJump.Capture().SlideRemaining == 0,
+    "Jump did not cancel slide and launch the player.");
+var slideTakeoff = new Vector2(slideJump.Velocity.X, slideJump.Velocity.Z).Length();
+Check(MathF.Abs(slideTakeoff - (slideSpeed - 8 * ServerMotor.Step)) < .0001f, "Slide jump lost horizontal momentum.");
+var slideReplay = new ServerMotor(); slideReplay.Restore(slideJump.Capture());
+for (var tick = 0; tick < 12; tick++)
+{
+    var slideAirInput = sprintInput with { Crouch = true };
+    slideJump.Tick(slideAirInput, ServerMotor.Step, false, d => d, false);
+    slideReplay.Tick(slideAirInput, ServerMotor.Step, false, d => d, false);
+}
+Check(slideJump.Capture() == slideReplay.Capture(), "Slide jump replay diverged.");
+Check(MathF.Abs(new Vector2(slideJump.Velocity.X, slideJump.Velocity.Z).Length() - slideTakeoff) < .0001f,
+    "Holding crouch in the air lost slide jump momentum.");
+Console.WriteLine("PASS: slide jump launch, momentum, slide cancellation and reconciliation replay");
+
+foreach (var heading in new[] { -179f, -135f, -91f, -90f, -45f, 0f, 45f, 90f, 91f, 135f, 179f, 180f })
+{
+    var rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, heading * MathF.PI / 180);
+    var transmittedYaw = CharacterHeading.Yaw(rotation);
+    var displayed = Quaternion.CreateFromAxisAngle(Vector3.UnitY, transmittedYaw * MathF.PI / 180);
+    var expectedForward = Vector3.Transform(-Vector3.UnitZ, rotation);
+    var displayedForward = Vector3.Transform(-Vector3.UnitZ, displayed);
+    Check(Vector3.Dot(expectedForward, displayedForward) > .99999f, "Network heading folded and displayed a bot facing away.");
+}
+Console.WriteLine("PASS: replicated bot facing across all quadrants and the 180-degree seam");

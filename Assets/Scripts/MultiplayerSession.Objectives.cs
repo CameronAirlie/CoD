@@ -67,7 +67,13 @@ public sealed partial class MultiplayerSession
 
     private void UpdateLocalRound(MatchSnapshot snapshot)
     {
-        if (UsesServerAuthority) { _lastLocalPhase = snapshot.Phase; return; }
+        if (UsesServerAuthority)
+        {
+            if (snapshot.Mode == MatchMode.Defusal)
+                ApplyDefusalRemoteLives(snapshot);
+            _lastLocalPhase = snapshot.Phase;
+            return;
+        }
         _inventory ??= GameObject.GetComponent<PlayerInventory>();
         if (snapshot.Mode == MatchMode.Defusal) { ApplyDefusalLocalRound(snapshot); return; }
         if (_lastLocalPhase != snapshot.Phase && snapshot.Phase == MatchPhase.Playing)
@@ -119,7 +125,7 @@ public sealed partial class MultiplayerSession
         if (_remotePlayers.TryGetValue(botId, out var remote))
         {
             remote.TargetPosition = bot.GameObject.WorldPosition;
-            remote.TargetYaw = bot.GameObject.Rotation.Y;
+            remote.TargetYaw = CharacterHeading.Yaw(bot.GameObject.RotationQuaternion);
         }
         return true;
     }

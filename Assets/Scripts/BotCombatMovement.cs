@@ -56,3 +56,13 @@ internal sealed class BotTargetReaction
         _readyAt = float.PositiveInfinity;
     }
 }
+
+/// <summary>Extracts an upright heading without Euler decomposition folding at 90 degrees.</summary>
+public static class CharacterHeading
+{
+    public static float Yaw(System.Numerics.Quaternion rotation)
+    {
+        var forward = System.Numerics.Vector3.Transform(-System.Numerics.Vector3.UnitZ, rotation);
+        return MathF.Atan2(-forward.X, -forward.Z) * 180.0f / MathF.PI;
+    }
+}

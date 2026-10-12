@@ -382,8 +382,27 @@ public sealed class PlayerController : ScriptBehaviour
         _publishedMovementState = CurrentMovementState();
     }
 
+    private Vector3 _presentationCameraOffset;
+    private void ClearPresentationCameraOffset()
+    {
+        if (camera is null || _presentationCameraOffset == Vector3.Zero) return;
+        camera.GameObject.Position -= _presentationCameraOffset;
+        _presentationCameraOffset = Vector3.Zero;
+    }
+    public override void OnLateUpdate(float deltaTime)
+    {
+        ClearPresentationCameraOffset();
+        if (_dead || camera is null || _multiplayer?.UsesServerAuthority != true) return;
+        var offset = _multiplayer.LocalPresentationOffset(deltaTime);
+        var baseline = camera.GameObject.Position;
+        camera.GameObject.WorldPosition += offset;
+        // Store in parent-local space so turning cannot rotate yesterday's offset
+        // into today's camera baseline. The player/collision transform stays exact.
+        _presentationCameraOffset = camera.GameObject.Position - baseline;
+    }
     public override void OnUpdate(float deltaTime)
     {
+        ClearPresentationCameraOffset();
         // Scripts are created in component order. MultiplayerSession can be
         // unavailable in OnCreate, so resolve it again before choosing movement
         // authority or we predict locally without ever submitting server input.
@@ -429,6 +448,7 @@ public sealed class PlayerController : ScriptBehaviour
                 cursorLocked && Input.IsKeyPressed(KeyCode.R), slot,
                 cursorLocked && Input.IsKeyPressed(KeyCode.H) ? 1 : cursorLocked && Input.IsKeyPressed(KeyCode.G) ? 2 : 0, deltaTime);
             _shotCooldown = MathF.Max(0, _shotCooldown - deltaTime);
+            UpdateFootsteps(deltaTime);
             UpdateCamera(deltaTime);
             // Weapon effects remain responsive locally; hits/resources belong to the server.
             if (cursorLocked) { UpdateWeapon(deltaTime); UpdateInteraction(deltaTime); }
@@ -466,6 +486,15 @@ public sealed class PlayerController : ScriptBehaviour
         if (_multiplayer?.IsPreparingRound == true || _multiplayer?.IsUsingObjective == true)
         { _horizontalVelocity = Vector3.Zero; _sprinting = false; }
         else UpdateMovement(deltaTime);
+        UpdateFootsteps(deltaTime);
+        UpdateCamera(deltaTime);
+        UpdateWeapon(deltaTime);
+        UpdateInteraction(deltaTime);
+        PublishStateChanges();
+    }
+
+    private void UpdateFootsteps(float deltaTime)
+    {
         if (_grounded && !_sliding && _horizontalVelocity.LengthSquared() > .5f)
         {
             _footstepDistance += _horizontalVelocity.Length() * deltaTime;
@@ -476,10 +505,6 @@ public sealed class PlayerController : ScriptBehaviour
             }
         }
         else _footstepDistance = 0;
-        UpdateCamera(deltaTime);
-        UpdateWeapon(deltaTime);
-        UpdateInteraction(deltaTime);
-        PublishStateChanges();
     }
 
     public void ApplyServerState(MultiplayerSession.OwnerState state)
@@ -586,7 +611,7 @@ public sealed class PlayerController : ScriptBehaviour
 
     private void UpdateMovement(float deltaTime)
     {
-        _grounded = CheckGrounded();
+        _grounded = _verticalVelocity <= 0 && CheckGrounded();
         if (_grounded && _verticalVelocity < 0.0f)
         {
             _verticalVelocity = -2.0f;
@@ -650,17 +675,21 @@ public sealed class PlayerController : ScriptBehaviour
             var acceleration = !_grounded
                 ? airAcceleration
                 : (input.LengthSquared() > 0.0f ? groundAcceleration : groundDeceleration);
-            _horizontalVelocity = MoveTowards(_horizontalVelocity, targetVelocity, acceleration * deltaTime);
+            _horizontalVelocity = _grounded
+                ? MoveTowards(_horizontalVelocity, targetVelocity, acceleration * deltaTime)
+                : ServerMotor.AirVelocity(_horizontalVelocity, moveDirection, speed, airAcceleration, deltaTime);
         }
 
-        _crouching = crouchHeld || _sliding;
-        UpdateStanceCollider();
-        if (_grounded && Input.IsKeyPressed(KeyCode.Space) && !_sliding)
+        if (_grounded && Input.IsKeyPressed(KeyCode.Space))
         {
+            _sliding = false;
+            _slideTime = 0;
             _verticalVelocity = MathF.Sqrt(jumpHeight * -2.0f * gravity);
             _grounded = false;
             CancelReload();
         }
+        _crouching = crouchHeld || _sliding;
+        UpdateStanceCollider();
         _verticalVelocity += gravity * deltaTime;
 
         var vertical = new Vector3(0.0f, _verticalVelocity * deltaTime, 0.0f);
@@ -745,7 +774,7 @@ public sealed class PlayerController : ScriptBehaviour
         if (moving) _bobTime += deltaTime * bobFrequency * (_sprinting ? 1.35f : 1.0f);
         var bobScale = moving && !_aiming ? bobAmount : 0.0f;
         var bob = new Vector3(MathF.Cos(_bobTime) * bobScale, MathF.Abs(MathF.Sin(_bobTime)) * bobScale, 0.0f);
-        var sway = _mouseDelta * weaponSway;
+        var sway = _mouseDelta * weaponSway * (_aiming ? .15f : 1f);
         var target = (_aiming ? adsPosition : hipPosition) + bob + new Vector3(sway.X, -sway.Y, 0.0f);
         _weaponPosition = SmoothDamp(_weaponPosition, target, ref _weaponVelocity,
             1.0f / MathF.Max(weaponPositionSharpness, 0.01f), deltaTime);

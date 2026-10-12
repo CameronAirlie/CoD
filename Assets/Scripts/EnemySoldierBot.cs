@@ -82,6 +82,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private float _nextShotAt;
     private float _nextBurstAt;
     private float _destroyAt;
+    private bool _retainCorpseForRespawn;
     private int _shotsLeft;
     private uint _randomState;
     private bool _dead;
@@ -93,6 +94,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private float _positionMoveDeadline;
     private float _nextPerceptionRefreshAt;
     private float _lastLineOfSightAt = float.MinValue;
+    private float _smoothedLocomotionSpeed;
     private float _lastAnimationSpeed = float.NaN;
     private bool _lastHasTarget;
     private bool _hasLastHasTarget;
@@ -165,7 +167,16 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         if (_dead)
         {
             if (_time >= _destroyAt)
-                GameObject.Destroy();
+            {
+                // Stop simulation before hiding pooled actors or deferring destruction.
+                if (_animation is not null)
+                {
+                    _animation.RagdollEnabled = false;
+                    _animation.RagdollWeight = 0;
+                }
+                GameObject.Active = false;
+                if (!_retainCorpseForRespawn) GameObject.Destroy();
+            }
             return;
         }
 
@@ -180,8 +191,6 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             UpdateNavigationTarget();
             // Network interpolation runs in MultiplayerSession.OnUpdate. Sample
             // proxy motion in LateUpdate after all scripts have moved the actor.
-            if (!_remoteProxyMode)
-                SetAnimationFloat(movementSpeedParameter, navigationSpeed);
             SetAnimationBool(hasTargetParameter, !_remoteProxyMode && _externalAiming);
             return;
         }
@@ -190,7 +199,6 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             ResolveTarget();
         if (target is null)
         {
-            SetAnimationFloat(movementSpeedParameter, 0.0f);
             SetAnimationBool(hasTargetParameter, false);
             return;
         }
@@ -210,7 +218,6 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             UpdateNavigationTarget();
             TurnTowardsNavigation(deltaTime);
             _spottedAt = float.MaxValue;
-            SetAnimationFloat(movementSpeedParameter, navigationSpeed);
             SetAnimationBool(hasTargetParameter, false);
             return;
         }
@@ -260,7 +267,6 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         // Horizontal movement, collision-safe gravity, path following, and local
         // avoidance are owned by the native NavAgentComponent. Derive animation
         // speed from its actual motion instead of moving the entity a second time.
-        SetAnimationFloat(movementSpeedParameter, navigationSpeed);
 
         if (isStationary && canSeeTarget && IsFacingTarget(direction, firingAngle) &&
             distance <= attackRange && _time >= _spottedAt + reactionTime)
@@ -285,11 +291,13 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
         var travelDistance = actualTravel.Length();
         var actualSpeed = travelDistance / deltaTime;
+        // Navigation and network snapshots move on fixed ticks. Filter their
+        // frame-to-frame displacement so render frames do not restart locomotion.
+        _smoothedLocomotionSpeed += (actualSpeed - _smoothedLocomotionSpeed) *
+            (1.0f - MathF.Exp(-deltaTime / 0.10f));
+        SetAnimationFloat(movementSpeedParameter, _smoothedLocomotionSpeed);
         if (_remoteProxyMode)
-        {
-            SetAnimationFloat(movementSpeedParameter, actualSpeed);
             return;
-        }
         if (actualSpeed > MathF.Max(0.01f, stationaryFireSpeed) &&
             !_externalAiming && travelDistance > 0.0001f)
             TurnTowards(actualTravel / travelDistance, deltaTime);
@@ -329,8 +337,18 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         if (_body is not null) _body.Velocity = Vector3.Zero;
         SetAnimationBool(hasTargetParameter, false);
     }
+    // Only the authoritative session owns reusable actors. Client proxies are
+    // detached from the roster on death and must always destroy themselves.
+    public void PlayRetainedExternalDeathWithImpulse(float x, float y, float z)
+    {
+        if (_dead) return;
+        _retainCorpseForRespawn = true;
+        PlayExternalDeathWithImpulse(x, y, z);
+    }
+
     public void PlayExternalDeathWithImpulse(float x, float y, float z)
     {
+        if (_dead) return;
         PlayExternalDeath();
         var direction = new Vector3(x, y, z);
         if (_animation is not null && direction.LengthSquared() > .001f &&
@@ -357,6 +375,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         _externalAiming = false;
         _dead = false;
         _destroyAt = float.MaxValue;
+        _retainCorpseForRespawn = false;
         _currentHealth = MathF.Max(1.0f, health);
         if (_body is not null)
         {
@@ -373,6 +392,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         }
         if (_ragdollController is not null)
             _ragdollController.Enabled = true;
+        _smoothedLocomotionSpeed = 0;
         _lastAnimationSpeed = float.NaN;
         _hasLastHasTarget = false;
         GameObject.WorldPosition = new Vector3(x, y, z);
@@ -700,14 +720,14 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     {
         // PlutoGE entities face local -Z, so positive world X is a negative yaw.
         var desiredYaw = MathF.Atan2(-direction.X, -direction.Z) * 180.0f / MathF.PI;
-        var rotation = Rotation;
-        var difference = WrapAngle(desiredYaw - rotation.Y);
+        var currentYaw = CharacterHeading.Yaw(GameObject.RotationQuaternion);
+        var difference = WrapAngle(desiredYaw - currentYaw);
         if (MathF.Abs(MathF.Abs(difference) - 180.0f) < 0.1f)
             difference = 180.0f * _turnDirection;
         else if (MathF.Abs(difference) > 0.1f)
             _turnDirection = MathF.Sign(difference);
-        rotation.Y += difference * (1.0f - MathF.Exp(-turnSharpness * deltaTime));
-        Rotation = rotation;
+        var yaw = currentYaw + difference * (1.0f - MathF.Exp(-turnSharpness * deltaTime));
+        GameObject.RotationQuaternion = Quaternion.CreateFromAxisAngle(Vector3.UnitY, yaw * MathF.PI / 180.0f);
     }
 
     private void TurnTowardsNavigation(float deltaTime)
@@ -740,11 +760,10 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         _externalAiming = false;
         _navigationDestination = GameObject.WorldPosition;
         UpdateNavigationTarget();
-        // Session-controlled bots are retained as an inexpensive respawn pool.
-        // Standalone bots keep the normal timed corpse cleanup behaviour.
-        _destroyAt = _externalNavigationControl
-            ? float.MaxValue
-            : _time + MathF.Max(0.0f, deathCleanupDelay);
+        // Every corpse has a finite visible/physics lifetime, including remote
+        // proxies. Retention is explicit and never inferred from navigation mode.
+        var cleanupDelay = float.IsFinite(deathCleanupDelay) ? MathF.Max(0, deathCleanupDelay) : 2.5f;
+        _destroyAt = _time + cleanupDelay;
         if (_body is not null)
         {
             _body.Velocity = Vector3.Zero;

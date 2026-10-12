@@ -21,14 +21,40 @@ public sealed partial class MultiplayerSession
     private bool IsDefusal => RulesMode == MatchMode.Defusal;
     public bool IsPreparingRound => CurrentMatch?.Mode == MatchMode.Defusal && CurrentMatch.Phase != MatchPhase.Playing;
     public bool IsUsingObjective => CurrentMatch?.Defusal is { Operator: { } actor, Progress: > 0 } && actor == _localPeerId;
-    private PlayerTeam AttackingTeam => _defusal?.Attackers ?? DefusalRules.AttackersForRound(_defusalRound);
+    private readonly Dictionary<int, (PlayerTeam Team, int Slot)> _defusalSpawnSlots = new();
+    private PlayerTeam? _defusalSpawnAttackers;
+    private PlayerTeam AttackingTeam => _defusalSpawnAttackers ?? _defusal?.Attackers ?? DefusalRules.AttackersForRound(_defusalRound);
     private Vector3 SitePosition(int index) => GameObject.Find(index == 0 ? "Bombsite A" : "Bombsite B")?.WorldPosition ?? new Vector3(index == 0 ? -22 : 22, .2f, -16);
     private Vector3 DefusalSpawn(PlayerTeam team, int peer)
     {
         var attackers = team == AttackingTeam;
         var marker = GameObject.Find(attackers ? "Attacker Spawn" : "Defender Spawn");
         var origin = marker?.WorldPosition ?? new Vector3(0, 1.2f, attackers ? 28 : -29);
-        return origin + new Vector3(((Math.Abs(peer) % 5) - 2) * 2.2f, 0, 0);
+        if (!_defusalSpawnSlots.TryGetValue(peer, out var assigned) || assigned.Team != team)
+        {
+            var used = _defusalSpawnSlots.Where(p => p.Key != peer && _playerStates.ContainsKey(p.Key) && p.Value.Team == team)
+                .Select(p => p.Value.Slot).ToHashSet();
+            var slot = 0;
+            while (used.Contains(slot)) slot++;
+            assigned = (team, slot);
+            _defusalSpawnSlots[peer] = assigned;
+        }
+        return DefusalRules.SpawnPosition(origin, assigned.Slot, attackers);
+    }
+    private void PrepareDefusalSpawns()
+    {
+        // Move both sides back during preparation, rather than leaving them at
+        // their previous combat positions until the next round starts.
+        var nextRound = _alphaScore >= scoreLimit || _bravoScore >= scoreLimit ? 1 : _defusalRound + 1;
+        _defusalSpawnAttackers = DefusalRules.AttackersForRound(nextRound);
+        foreach (var state in _playerStates.Values) state.Health = multiplayerMaximumHealth;
+        _deadRemotePlayers.Clear();
+        foreach (var id in _bots.Keys.ToArray())
+        {
+            var bot = RespawnBot(id, _bots[id]);
+            ClearBotTarget(bot);
+        }
+        ResetHumansForRound();
     }
     private void StartDefusalRound()
     {
@@ -36,6 +62,7 @@ public sealed partial class MultiplayerSession
         _defusalRound++;
         _defusal = null;
         var attackers = DefusalRules.AttackersForRound(_defusalRound);
+        _defusalSpawnAttackers = attackers;
         _defusalTactics.BeginRound(_bots.Keys.Select(id => (id, _playerStates[id].Team == attackers)), Random.Shared.Next());
         _defusalAttackRoutes = defusalAttackRouteNames.Split('|', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
         _defusalDefendRoutes = defusalDefendRouteNames.Split('|', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
@@ -105,6 +132,20 @@ public sealed partial class MultiplayerSession
         if (_server is not null) _bombHeldUntil[0] = held ? _time + .25f : 0;
         else _client?.SendJson(BombInputChannel, new BombInput(held));
     }
+    private void ApplyDefusalRemoteLives(MatchSnapshot match)
+    {
+        // Defusal deaths block transform-driven proxy creation indefinitely.
+        // The authoritative alive roster releases that block during preparation
+        // and the next round, even though owner movement bypasses offline resets.
+        foreach (var participant in match.Players)
+        {
+            if (participant.PeerId == match.LocalPeerId) continue;
+            if (participant.Alive)
+                _deadRemotePlayers.Remove(participant.PeerId);
+            else if (!_deadRemotePlayers.ContainsKey(participant.PeerId))
+                PlayRemoteDeath(participant.PeerId);
+        }
+    }
     private void ApplyDefusalLocalRound(MatchSnapshot match)
     {
         if (match.Defusal is not { } bomb) return;
@@ -117,8 +158,12 @@ public sealed partial class MultiplayerSession
             _deadRemotePlayers.Clear();
             _playerHealth?.ResetForRound();
             var marker = GameObject.Find(local.Team == bomb.Attackers ? "Attacker Spawn" : "Defender Spawn");
-            if (marker is not null) GameObject.WorldPosition = marker.WorldPosition + new Vector3(((Math.Abs(match.LocalPeerId) % 5) - 2) * 2.2f, 0, 0);
-            _playerController?.SetRoundFacing(local.Team == bomb.Attackers ? 180 : 0);
+            if (!UsesServerAuthority && marker is not null)
+            {
+                var slot = match.Players.Count(p => p.Team == local.Team && p.PeerId < match.LocalPeerId);
+                GameObject.WorldPosition = DefusalRules.SpawnPosition(marker.WorldPosition, slot, local.Team == bomb.Attackers);
+            }
+            _playerController?.SetRoundFacing(DefusalRules.SpawnYaw(local.Team == bomb.Attackers));
             _inventory?.ApplyLoadout(SelectedLoadout); _playerController?.ResetWeaponForRound();
         }
         if (_server is null)

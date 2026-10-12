@@ -78,14 +78,17 @@ public sealed class PlayerHealth : ScriptBehaviour
         PublishStatus();
     }
 
-    public void ApplyServerState(float health, int armour)
+    public void ApplyServerState(float health, int armour, bool damageFeedback = true)
     {
         _controller ??= GameObject.GetComponent<PlayerController>();
         var wasDead = _dead;
         var previous = _health;
+        var previousArmour = _armourSlots;
         _health = Math.Clamp(health, 0, maximumHealth); _armourSlots = Math.Clamp(armour, 0, maximumArmourSlots);
         _dead = _health <= 0;
-        if (_health < previous)
+        if (damageFeedback && !wasDead && (_health < previous || _armourSlots < previousArmour))
+            _controller?.PlayGameplayCue(GameplaySounds.PlayerHit, .75f);
+        if (damageFeedback && _health < previous)
         {
             _lastDamageAt = _time; DamageTaken?.Invoke();
             DamageReceived?.Invoke(new(previous - _health, Vector3.Zero, false, 0));
@@ -171,7 +174,7 @@ public sealed class PlayerHealth : ScriptBehaviour
             remainingDamage = MathF.Max(0.0f, remainingDamage - protectionPerSlot);
         }
         _health = MathF.Max(0.0f, _health - remainingDamage);
-        _controller?.PlayGameplayCue("Impact & Break/Body/impact_body_ufx_" + Random.Shared.Next(1, 3) + ".ogg", .75f);
+        _controller?.PlayGameplayCue(GameplaySounds.PlayerHit, .75f);
         if (_damageImage is not null)
             SetDamageOverlayAlpha(MathF.Max(
                 _damageOverlayAlpha, Math.Clamp(damageFlashAlpha, 0.0f, 1.0f)));

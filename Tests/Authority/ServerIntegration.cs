@@ -138,6 +138,22 @@ internal static class ServerIntegration
             Check(secondOwner.GetProperty("Life").GetInt32() == deadLife + 1 && Vector3.Distance(Position(secondOwner), respawnPosition) < .1f,
                 "Respawn did not remain stable");
             Check(match.GetProperty("Players").EnumerateArray().Any(p => p.GetProperty("PeerId").GetInt32() == firstPeer && p.GetProperty("Kills").GetInt32() == 1), "Server kill was not scored");
+            intent = PlayerCommand.Idle with { MoveY = 1, Sprint = true,
+                Yaw = Position(owner).Z < 0 ? 180 : 0 };
+            await Pump(.6);
+            intent = intent with { Crouch = true };
+            await Pump(.12);
+            Check(owner.GetProperty("Sliding").GetBoolean(), "Sprint crouch did not enter authoritative slide");
+            var slideStart = Position(owner);
+            intent = intent with { Jump = true };
+            await Pump(.04);
+            intent = intent with { Jump = false };
+            await Pump(.18);
+            Check(!owner.GetProperty("Sliding").GetBoolean() && Position(owner).Y > slideStart.Y + .3f,
+                $"Slide jump was rejected or rolled back: {owner}");
+            await Pump(1);
+            intent = intent with { Crouch = false };
+            Console.WriteLine("PASS: networked slide jump leaves the floor and stays out of sliding");
             await second.DisconnectAsync();
             await Pump(.5);
             Check(first.IsConnected, "One peer leaving stopped the server");

@@ -107,10 +107,16 @@ public sealed class ServerMotor
             var speed = Crouching ? 3.1f : Sprinting ? 8 : 5.4f;
             if (input.Aim) speed *= .72f;
             var desired = blocked ? Vector3.Zero : (right * axes.X + forward * axes.Y) * speed;
-            horizontal = Approach(horizontal, desired, (grounded ? axes.LengthSquared() > 0 ? 38 : 30 : 9) * dt);
+            horizontal = !grounded && !blocked
+                ? AirVelocity(horizontal, right * axes.X + forward * axes.Y, speed, 9, dt)
+                : Approach(horizontal, desired, (grounded ? axes.LengthSquared() > 0 ? 38 : 30 : 9) * dt);
         }
         var vertical = grounded && Velocity.Y < 0 ? -2 : Velocity.Y;
-        if (!blocked && grounded && input.Jump && !Sliding) { vertical = MathF.Sqrt(1.15f * 52); Grounded = false; }
+        if (!blocked && grounded && input.Jump)
+        {
+            vertical = MathF.Sqrt(1.15f * 52); Grounded = false;
+            Sliding = false; _slideRemaining = 0; Crouching = input.Crouch;
+        }
         vertical -= 26 * dt;
         var requested = new Vector3(horizontal.X, vertical, horizontal.Z) * dt;
         // Sweep travel separately from gravity. A combined diagonal sweep into
@@ -120,6 +126,23 @@ public sealed class ServerMotor
         applied += move(new Vector3(0, requested.Y, 0));
         if (vertical < 0 && MathF.Abs(applied.Y) < MathF.Abs(requested.Y) * .5f) vertical = -2;
         Velocity = new(horizontal.X, vertical, horizontal.Z);
+    }
+    // Preserve takeoff momentum without allowing sprint-speed acceleration in midair.
+    // Air steering changes the direction of carried speed, rather than braking it
+    // toward the grounded walking/ADS/crouch limit on every airborne tick.
+    public static Vector3 AirVelocity(Vector3 velocity, Vector3 direction, float wishSpeed, float acceleration, float dt)
+    {
+        if (direction.LengthSquared() < .000001f) return velocity;
+        var speed = velocity.Length();
+        var targetSpeed = wishSpeed * MathF.Min(1, direction.Length());
+        if (speed <= targetSpeed || speed < .000001f)
+            return Approach(velocity, Vector3.Normalize(direction) * targetSpeed, acceleration * dt);
+        var currentAngle = MathF.Atan2(velocity.Z, velocity.X);
+        var desiredAngle = MathF.Atan2(direction.Z, direction.X);
+        var difference = MathF.Atan2(MathF.Sin(desiredAngle - currentAngle), MathF.Cos(desiredAngle - currentAngle));
+        var turnLimit = acceleration * dt / speed;
+        var angle = currentAngle + Math.Clamp(difference, -turnLimit, turnLimit);
+        return new Vector3(MathF.Cos(angle), 0, MathF.Sin(angle)) * speed;
     }
     private static Vector3 Approach(Vector3 from, Vector3 to, float amount)
     { var d = to - from; var length = d.Length(); return length <= amount ? to : from + d / length * amount; }
@@ -215,4 +238,33 @@ public sealed class MovementPrediction
         foreach (var command in _pending) simulate(Motor, command);
     }
     public void Clear() { _pending.Clear(); Motor.Reset(); }
+}
+
+/// <summary>Render-only translation between fixed movement ticks and small reconciliation corrections.</summary>
+public sealed class MovementPresentation
+{
+    private Vector3 _previous, _current, _correction;
+    private bool _initialized;
+    public void Reset(Vector3 position)
+    { _previous = _current = position; _correction = Vector3.Zero; _initialized = true; }
+    public void Advance(Vector3 before, Vector3 after)
+    {
+        if (!_initialized) Reset(before);
+        _previous = before; _current = after;
+    }
+    public void Correct(Vector3 position)
+    {
+        if (!_initialized || Vector3.DistanceSquared(position, _current) > 1)
+        { Reset(position); return; }
+        var delta = position - _current;
+        _previous += delta; _current = position; _correction -= delta;
+        if (_correction.LengthSquared() > 1) Reset(position);
+    }
+    public Vector3 Offset(Vector3 simulationPosition, float remainder, float elapsed)
+    {
+        if (!_initialized) return Vector3.Zero;
+        if (float.IsFinite(elapsed) && elapsed > 0) _correction *= MathF.Exp(-18 * elapsed);
+        var alpha = float.IsFinite(remainder) ? Math.Clamp(remainder / ServerMotor.Step, 0, 1) : 1;
+        return Vector3.Lerp(_previous, _current, alpha) + _correction - simulationPosition;
+    }
 }

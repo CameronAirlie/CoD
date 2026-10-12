@@ -16,6 +16,10 @@ public sealed partial class MultiplayerSession
     private bool _ownerAlive;
     public MotorState? PredictedMotorState => _server is null && _localLife > 0 ? _prediction.Motor.Capture() : null;
     private float _movementAccumulator;
+    private readonly MovementPresentation _localPresentation = new();
+    public Vector3 LocalPresentationOffset(float elapsed) => !IsDedicated && UsesServerAuthority
+        ? _localPresentation.Offset(GameObject.WorldPosition, _server is null ? _predictionAccumulator : _movementAccumulator, elapsed)
+        : Vector3.Zero;
     public bool UsesServerAuthority => !mode.Equals("Offline", StringComparison.OrdinalIgnoreCase);
     public bool IsDedicated => DedicatedServerSettings.Enabled;
 
@@ -74,7 +78,9 @@ public sealed partial class MultiplayerSession
         {
             _predictionAccumulator -= ServerMotor.Step;
             var tick = _pendingLocalInput.Consume(_time) with { Sequence = ++_commandSequence };
+            var before = GameObject.WorldPosition;
             if (!_prediction.Predict(tick, SimulatePrediction)) break;
+            _localPresentation.Advance(before, GameObject.WorldPosition);
             _client.SendJson(InputChannel, tick);
         }
         _playerController?.ApplyPredictedMovement(_prediction.Motor.Capture());
@@ -104,7 +110,7 @@ public sealed partial class MultiplayerSession
         var state = _playerStates[peer];
         human.Spawn = IsDefusal ? DefusalSpawn(state.Team, peer) :
             TryBotSpawnPosition(peer, out var spawn) ? spawn : GameObject.WorldPosition;
-        if (peer == 0 && !IsDedicated) human.Spawn = GameObject.WorldPosition;
+        if (peer == 0 && !IsDedicated && !IsDefusal) human.Spawn = GameObject.WorldPosition;
         else if (Physics.Raycast(human.Spawn + Vector3.UnitY * 256, -Vector3.UnitY, 512, out var ground))
             human.Spawn = new Vector3(human.Spawn.X, ground.Point.Y + 1.02f, human.Spawn.Z);
         SpawnHuman(peer);
@@ -114,7 +120,7 @@ public sealed partial class MultiplayerSession
         if (!_humans.TryGetValue(peer, out var human)) return;
         var state = _playerStates[peer];
         human.Movement.Clear(); human.MovementBudget = 0; human.Motor.Reset(); human.Equipment.Reset(human.Loadout); human.Armour = 0; human.Life++;
-        human.Input.Clear(IsDefusal && state.Team == AttackingTeam ? 180 : 0, human.Equipment.Weapons.SelectedSlot);
+        human.Input.Clear(IsDefusal ? DefusalRules.SpawnYaw(state.Team == AttackingTeam) : 0, human.Equipment.Weapons.SelectedSlot);
         human.RecoilPitch = human.RecoilYaw = 0; human.Spread = human.Equipment.Weapons.Equipped.HipSpread;
         if (IsDefusal) human.Spawn = DefusalSpawn(state.Team, peer);
         _deadRemotePlayers.Remove(peer);
@@ -127,7 +133,7 @@ public sealed partial class MultiplayerSession
             actor.TryInvoke("ResetExternalNavigation", human.Spawn.X, human.Spawn.Y, human.Spawn.Z);
             if (peer != 0) actor.TryInvoke("SetRemoteProxyMode");
         }
-        human.Command = PlayerCommand.Idle with { Yaw = IsDefusal && state.Team == AttackingTeam ? 180 : 0 };
+        human.Command = PlayerCommand.Idle with { Yaw = IsDefusal ? DefusalRules.SpawnYaw(state.Team == AttackingTeam) : 0 };
     }
     private void ResetHumansForRound()
     { foreach (var peer in _humans.Keys) SpawnHuman(peer); }
@@ -156,7 +162,8 @@ public sealed partial class MultiplayerSession
                     var alive = state.Health > 0;
                     var canAct = alive && _matchPhase == MatchPhase.Playing &&
                         (!IsDefusal || _defusal?.Snapshot().Operator != peer);
-                    actor.Rotation = new Vector3(0, command.Yaw, 0);
+                    // Local mouse look runs at render cadence; do not overwrite it with the last fixed-tick yaw.
+                    if (peer != 0) actor.Rotation = new Vector3(0, command.Yaw, 0);
                     if (command.UseItem == 1 && state.Health >= multiplayerMaximumHealth || command.UseItem == 2 && human.Armour >= 3)
                         command = command with { UseItem = 0 };
                     var used = human.Equipment.Tick(command, _time, canAct);
@@ -166,8 +173,10 @@ public sealed partial class MultiplayerSession
                         -Vector3.UnitY, ServerMotor.GroundProbeDistance, actor, out var ground) && ground.Normal.Y > .55f;
                     if (alive)
                     {
+                        var before = actor.WorldPosition;
                         human.Motor.Tick(command, step, grounded,
                             displacement => Physics.MoveKinematic(actor, displacement, ServerMotor.SkinWidth), !canAct);
+                        if (peer == 0 && !IsDedicated) _localPresentation.Advance(before, actor.WorldPosition);
                         if (_remotePlayers.TryGetValue(peer, out var proxy))
                         {
                             proxy.TargetPosition = actor.WorldPosition; proxy.TargetYaw = command.Yaw;
@@ -240,7 +249,9 @@ public sealed partial class MultiplayerSession
                 state.Grounded, state.Crouching, state.Sprinting, state.Sliding, state.SlideRemaining, state.WasCrouching);
             _prediction.Reconcile(state.AcknowledgedCommand, motor, SimulatePrediction);
         }
-        _playerHealth?.ApplyServerState(state.Health, state.Armour);
+        if (newLife || state.Health <= 0) _localPresentation.Reset(GameObject.WorldPosition);
+        else if (_server is null) _localPresentation.Correct(GameObject.WorldPosition);
+        _playerHealth?.ApplyServerState(state.Health, state.Armour, damageFeedback: !newLife);
         _inventory ??= GameObject.GetComponent<PlayerInventory>();
         _inventory?.ApplyServerState(state.Reserve, state.Kits, state.Plates, state.UsingItem);
         _playerController?.ApplyServerState(state);

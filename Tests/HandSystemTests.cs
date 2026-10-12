@@ -16,6 +16,14 @@ internal static class HandSystemTests
         Check(Vector3.Distance(pose.Position, profile.Aim) < .0001f, "ADS did not converge to the weapon pose.");
         pose = motion.Tick(profile, 10, Vector2.Zero, false, true, true);
         Check(Vector3.Distance(pose.Position, profile.Sprint) < .0001f, "Sprint must take precedence over ADS.");
+        motion.Reset(profile);
+        var hipSway = motion.Tick(profile, 10, new(10, -5), false, false, false);
+        motion.Reset(profile);
+        var aimSway = motion.Tick(profile, 10, new(10, -5), false, true, false);
+        Check(Vector3.Distance(aimSway.Position - profile.Aim, (hipSway.Position - profile.Hip) * .15f) < .00001f,
+            "ADS positional sway should be 15% of hip sway.");
+        Check(Vector3.Distance(aimSway.RotationOffset, hipSway.RotationOffset * .15f) < .00001f,
+            "ADS rotational sway should be 15% of hip sway.");
         var second = profile with { Hip = new(-.2f, -.4f, -.1f) };
         motion.Reset(second);
         Check(motion.Tick(second, 0, Vector2.Zero, false, false, false).Position == second.Hip,

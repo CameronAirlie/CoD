@@ -72,7 +72,7 @@ PROPERTY	AnimationGraph	2	project://Bots/Soldier/Soldier.plutoanimgraph	0
 PROPERTY	Playing	4	true	0
 PROPERTY	Looping	4	true	0
 PROPERTY	Autoplay	4	true	0
-PROPERTY	PoseUpdateRate	0	30	0
+PROPERTY	PoseUpdateRate	0	0	0
 END_COMPONENT
 COMPONENT	1	IKComponent	1
 PROPERTY	Mesh	9	3	0

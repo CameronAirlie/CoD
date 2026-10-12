@@ -241,3 +241,53 @@ Foundry is an original courtyard/industrial blockout: A is west, B is east, mid 
 Architecture: `DefusalRules` owns deterministic, engine-independent bomb rules. `MultiplayerSession.Defusal` supplies authoritative actors/input, round lifecycle and bot objectives. `MatchContracts` replicates immutable snapshots, while `GameModeHud` and `DefusalMarker` only present that state. Networking protocol 10 rejects mismatched versions/modes. The existing transform replication remains suitable for trusted sessions, not competitive anti-cheat.
 
 Tests: `dotnet run --project Tests/CoD.GameplayTests.csproj -c Release` covers planting, interruption, recovery, permissions, elimination, timers, defusing, deadline ties, timestep equivalence, halftime and snapshot serialization, alongside the existing gameplay regressions.
+
+### Dedicated server modes and maps
+
+The dedicated session chooses its scene from its mode: Defusal uses Foundry;
+Hardpoint and TeamDeathmatch use Main. `COD_SERVER_MODE` in Project Settings
+sets the packaged default. `COD_SERVER_MAP` optionally specifies a compatible map.
+Unsupported modes and mode/map combinations are rejected.
+
+Launch overrides require no new export:
+
+```powershell
+.\Build\DedicatedServer\CoDServer.exe --mode Defusal
+.\Build\DedicatedServer\CoDServer.exe --mode Hardpoint --map Main
+```
+
+`--mode` / `--map` override the authored defaults through
+`PLUTOGE_SERVER_MODE` / `PLUTOGE_SERVER_MAP`. An explicit map must match the mode;
+otherwise omit it to use the mode's default scene. The gameplay mapping takes
+precedence over the generic server startup scene.
+
+In the running server console, use `maps`, `mode Defusal`, `mode Hardpoint`,
+`mode tdm`, `mode Defusal Foundry`, or `map Main` (for a compatible current mode).
+Mode switches choose the new mode's default map; `map` preserves the current mode.
+Switching reloads the scene and resets the match, disconnecting players. Clients
+must select the matching mode and reconnect. Console changes last until restart.
+After initially exporting these changes, switching between packaged modes/maps
+requires no rebuild. Editing project defaults or adding assets still needs export.
+
+Defusal spawn slots are stable per participant and team. Both teams return to
+opposite Foundry spawn markers during preparation and face inward; roles swap
+at round seven. Local authoritative clients use the server's spawn state.
+The server console's `players` command also prints world positions for diagnosis.
+
+Incoming damage uses the library's `impact_body_ufx_1` body impact cue
+(`Sounds/Gameplay/Impact & Break/Body/impact_body_ufx_1.wav`). It plays locally
+for server-confirmed health or armour loss, respects effects volume, and is
+suppressed when a new life/round resets equipment. Offline damage uses the same cue.
+
+Networked first-person camera translation interpolates between fixed 60 Hz
+movement ticks in late update, for both local hosts and predicted clients.
+Small reconciliation corrections decay on the render timeline; new lives and
+large teleports clear presentation history. Mouse look remains at render cadence,
+and camera offsets never modify the authoritative collision/player position.
+Movement presentation regression coverage is in `Tests/Authority/MovementPresentationTests.cs`.
+
+Sprint jumps retain horizontal takeoff momentum while airborne, including when
+sprint/movement keys are released. Air steering preserves carried speed without
+adding sprint speed to a standing/walking jump. Normal ground acceleration and
+braking resume on landing. Server movement, prediction/replay and offline play
+share this rule; client and server exports must both be updated.

@@ -29,7 +29,7 @@ public sealed class HandMotion
         if (moving) _phase = (_phase + deltaTime * profile.BobFrequency * (sprinting ? 1.35f : 1)) % MathF.Tau;
         var amount = moving && !aiming ? profile.BobAmount : 0;
         var bob = new Vector3(MathF.Cos(_phase) * amount, MathF.Abs(MathF.Sin(_phase)) * amount, 0);
-        var sway = look * profile.Sway;
+        var sway = look * profile.Sway * (aiming && !sprinting ? .15f : 1f);
         var target = (sprinting ? profile.Sprint : aiming ? profile.Aim : profile.Hip)
             + bob + new Vector3(sway.X, -sway.Y, 0);
         _position = Vector3.Lerp(_position, target, 1 - MathF.Exp(-profile.Sharpness * deltaTime));

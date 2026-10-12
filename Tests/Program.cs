@@ -267,3 +267,13 @@ Require(serializedBomb?.Position == bigStep.Position && serializedBomb.Bomb == B
 Console.WriteLine("PASS: defusal plant/interruption, recovery, team permissions, elimination, fuse, defuse, deadline ties, frame independence and wire format.");
 
 Require(DefusalRules.AttackersForRound(6) == PlayerTeam.Alpha && DefusalRules.AttackersForRound(7) == PlayerTeam.Bravo, "Halftime roles changed on the wrong round.");
+
+// Opposing teams stay on their side, including IDs shared modulo five and halftime.
+var attackOrigin = new System.Numerics.Vector3(0, 1.2f, 28);
+var defendOrigin = new System.Numerics.Vector3(0, 5.2f, -29);
+var attackSpawns = Enumerable.Range(0, 12).Select(i => DefusalRules.SpawnPosition(attackOrigin, i, true)).ToArray();
+var defendSpawns = Enumerable.Range(0, 12).Select(i => DefusalRules.SpawnPosition(defendOrigin, i, false)).ToArray();
+Require(attackSpawns.Distinct().Count() == 12 && defendSpawns.Distinct().Count() == 12, "Team spawn slots overlap.");
+Require(attackSpawns.All(p => p.Z >= 28) && defendSpawns.All(p => p.Z <= -29), "A spawn crossed to the opposing side.");
+Require(DefusalRules.SpawnYaw(true) == 0 && DefusalRules.SpawnYaw(false) == 180, "Teams face away from the map.");
+Console.WriteLine("PASS: separated Defusal team slots and inward spawn facing");

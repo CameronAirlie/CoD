@@ -15,6 +15,10 @@ public sealed record DefusalSnapshot(int Round, PlayerTeam Attackers, BombState 
 public sealed class DefusalRules
 {
     public static PlayerTeam AttackersForRound(int round) => round <= 6 ? PlayerTeam.Alpha : PlayerTeam.Bravo;
+    // Slots are team-local, so human IDs and negative bot IDs never share a slot.
+    public static Vector3 SpawnPosition(Vector3 origin, int slot, bool attacking) =>
+        origin + new Vector3((slot % 5 - 2) * 2.2f, 0, slot / 5 * (attacking ? -2.2f : 2.2f));
+    public static float SpawnYaw(bool attacking) => attacking ? 0 : 180;
     public const float SiteRadius = 4;
     public const float UseRadius = 2.5f;
     public const float PlantSeconds = 3;

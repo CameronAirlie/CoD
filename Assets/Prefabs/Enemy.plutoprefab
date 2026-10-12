@@ -20,7 +20,7 @@ PROPERTY	Speed	0	1.000000	0
 PROPERTY	Playing	4	true	0
 PROPERTY	Looping	4	true	0
 PROPERTY	Autoplay	4	true	0
-PROPERTY	PoseUpdateRate	0	30.000000	0
+PROPERTY	PoseUpdateRate	0	0	0
 PROPERTY	RagdollEnabled	4	false	0
 PROPERTY	RagdollWeight	0	1.000000	0
 PROPERTY	ClipCount	1	44	0

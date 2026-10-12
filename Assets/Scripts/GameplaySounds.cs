@@ -7,6 +7,7 @@ public static class GameplaySounds
 {
     // These are directory prefixes used to construct clip references, not assets.
     private const string ProjectScheme = "project://";
+    public const string PlayerHit = "Impact & Break/Body/impact_body_ufx_1.ogg";
     public const string Root = ProjectScheme + "Sounds/SFX Library/Sound Effects/";
     private const string RuntimeRoot = ProjectScheme + "Sounds/Gameplay/";
     public static string RuntimeClip(string clip) => clip.Replace(Root, RuntimeRoot).Replace(".ogg", ".wav");

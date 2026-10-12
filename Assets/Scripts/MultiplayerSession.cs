@@ -182,6 +182,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             _activeSession.Shutdown();
         _activeSession = this;
         DedicatedServerSettings.Apply(this);
+        if (DedicatedServerSettings.NeedsMap) return;
         _playerHealth = IsDedicated ? null : GameObject.GetComponent<PlayerHealth>();
         if (IsDefusal) { _playerHealth?.SetRoundRespawn(false); multiplayerRegenerationPerSecond = 0; }
         if (_playerHealth is not null) _playerHealth.Respawned += OnLocalRespawn;
@@ -210,6 +211,11 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     public override void OnUpdate(float deltaTime)
     {
+        if (DedicatedServerSettings.NeedsMap)
+        {
+            SceneManager.LoadScene(DedicatedServerSettings.Map);
+            return;
+        }
         if (!IsDedicated && Input.QuitRequested)
         {
             Shutdown();
@@ -470,7 +476,9 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 _peerNames[message.PeerId] = username;
                 _playerStates[message.PeerId] = new PlayerMatchState(ChooseTeam(), false)
                 {
-                    Health = IsDefusal && _matchPhase == MatchPhase.Playing ? 0 : MathF.Max(1.0f, multiplayerMaximumHealth)
+                    // A new connection gets its first life even if bots already started the round.
+                    // Combat deaths still wait for StartDefusalRound to restore health.
+                    Health = MathF.Max(1.0f, multiplayerMaximumHealth)
                 };
                 AddHuman(message.PeerId);
                 _server!.SendJson(
@@ -776,7 +784,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             ConfigureNameplate(transform.PeerId, instance);
         }
         remote.TargetPosition = transform.Position;
-        remote.TargetYaw = transform.Yaw;
+        remote.TargetYaw = CharacterHeading.Yaw(transform.Rotation);
         if (remote.GameObject.GetComponent<ColliderComponent>() is { } collider)
         {
             if (_server is not null && _humans.ContainsKey(transform.PeerId))
@@ -957,7 +965,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         }
     }
 
-    private void RemoveOneBot()
+    private void RemoveOneBot(int? requestedId = null)
     {
         if (_bots.Count == 0) return;
         var peerId = 0;
@@ -966,6 +974,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             peerId = id;
             break;
         }
+        if (requestedId is { } requested) peerId = requested;
+        if (!_bots.ContainsKey(peerId)) return;
         _bots.Remove(peerId, out var removedBot);
         _playerStates.Remove(peerId);
         _humans.Remove(peerId);
@@ -1220,12 +1230,12 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             var isReloading = _time < bot.ReloadCompleteAt;
             bot.GameObject.TryInvoke(
                 "SetExternalAiming",
-                bot.IsEngaging && !isReloading && facingTarget && hasLineOfSight);
+                bot.IsEngaging && !isReloading && hasLineOfSight);
 
             if (_remotePlayers.TryGetValue(botId, out var remote))
             {
                 remote.TargetPosition = botPosition;
-                remote.TargetYaw = bot.GameObject.Rotation.Y;
+                remote.TargetYaw = CharacterHeading.Yaw(bot.GameObject.RotationQuaternion);
             }
 
             if (bot.IsEngaging && !isReloading && facingTarget && hasLineOfSight &&
@@ -1501,7 +1511,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     private void BotFire(int botId, GameObject intendedTarget, BotController bot)
     {
-        if (!HasBotLineOfSight(botId, bot.TargetPeerId, bot.GameObject, intendedTarget)) return;
+        if (!IsBotFacing(bot.GameObject, intendedTarget.WorldPosition - bot.GameObject.WorldPosition, botFiringAngle) ||
+            !HasBotLineOfSight(botId, bot.TargetPeerId, bot.GameObject, intendedTarget)) return;
         PublishShotEffect(botId);
         var origin = bot.GameObject.WorldPosition + Vector3.UnitY * 0.65f;
         var aimPoint = ParticipantAimPoint(intendedTarget);
@@ -1579,7 +1590,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         if (_server is not null && _remotePlayers.TryGetValue(victimPeerId, out var serverActor))
         {
             if (IsDedicated) serverActor.GameObject.Active = false;
-            else serverActor.GameObject.TryInvoke("PlayExternalDeathWithImpulse", x, y, z);
+            else serverActor.GameObject.TryInvoke("PlayRetainedExternalDeathWithImpulse", x, y, z);
             return;
         }
         if (_remotePlayers.Remove(victimPeerId, out var remote))
@@ -1847,6 +1858,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     private void BeginPhase(MatchPhase phase, float duration)
     {
         _matchPhase = phase;
+        if (IsDefusal && phase == MatchPhase.Warmup) PrepareDefusalSpawns();
         Debug.Log($"Match phase: {phase}; score {_alphaScore}-{_bravoScore}.");
         foreach (var bot in _bots.Values) bot.GameObject.TryInvoke("SetExternalCombatPaused", phase != MatchPhase.Playing);
         _phaseEndsAt = _time + MathF.Max(0.1f, duration);
@@ -2026,6 +2038,10 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         // enemy prefab (animation graph, meshes, ragdoll, UI and audio) on every
         // respawn. Invalid instances still take the instantiate fallback above.
         instance.Active = true;
+        instance.WorldPosition = respawnPosition;
+        if (IsDefusal && _playerStates.TryGetValue(peerId, out var respawnState))
+            instance.Rotation = new Vector3(0, DefusalRules.SpawnYaw(respawnState.Team == AttackingTeam), 0);
+        if (instance.GetComponent<RigidbodyComponent>() is { } body) body.Velocity = Vector3.Zero;
 
         var replacement = new BotController(
             instance, respawnPosition, unchecked((uint)Random.Shared.NextInt64(1, 1L << 32)), botMagazineSize);
@@ -2138,7 +2154,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             var quaternion = player.RotationQuaternion;
             return new PlayerTransform(
                 peerId, position.X, position.Y, position.Z,
-                euler.X, euler.Y, euler.Z,
+                euler.X, CharacterHeading.Yaw(quaternion), euler.Z,
                 quaternion.X, quaternion.Y, quaternion.Z, quaternion.W,
                 player.GetComponent<PlayerController>()?.IsCrouching == true);
         }
