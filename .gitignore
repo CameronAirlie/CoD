@@ -24,7 +24,6 @@ Tests/Authority/obj/
 /.pluto-migration-backups/
 /.mw/
 
-*.plutometa
 *.csproj
 !Tests/NetworkEconomy/CoD.NetworkEconomyTests.csproj
 Assets/Managed/
