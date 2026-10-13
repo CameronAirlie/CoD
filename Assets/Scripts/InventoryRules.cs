@@ -18,3 +18,16 @@ public static class InventoryRules
         Math.Min(Math.Max(0, requested), Math.Min(Math.Max(0, 3 - (kit ? kits : plates)),
             Math.Max(0, Capacity - Slots(ammo, kits, plates)) / (kit ? 2 : 1)));
 }
+
+/// <summary>Fixed Hardpoint equipment; selection is committed only by a spawn.</summary>
+public sealed record HardpointLoadout(CombatLoadout Id, string Name, int WeaponMask, string Description, string[] Throwables);
+public static class HardpointLoadouts
+{
+    public static readonly IReadOnlyList<HardpointLoadout> Catalog = Array.AsReadOnly(new[] {
+        new HardpointLoadout(CombatLoadout.Assault, "ASSAULT", 3, "AR-24 + P-12 / 150 reserve / 1 med kit / 1 plate / frag + flash", ["frag", "flash"]),
+        new HardpointLoadout(CombatLoadout.Medic, "MEDIC", 2, "P-12 / 60 reserve / 3 med kits / smoke + flash", ["smoke", "flash"]),
+        new HardpointLoadout(CombatLoadout.Defender, "DEFENDER", 6, "MG-60 + P-12 / 90 reserve / 1 med kit / 3 plates / frag + molotov", ["frag", "molotov"])
+    });
+    public static HardpointLoadout Find(CombatLoadout id) => Catalog.First(x => x.Id == id);
+    public static CombatLoadout ForBot(int peer) => (CombatLoadout)Math.Abs(peer % Catalog.Count);
+}

@@ -18,6 +18,35 @@ public sealed partial class MultiplayerSession
     private PlayerInventory? _inventory;
     private MatchPhase? _lastLocalPhase;
     public CombatLoadout SelectedLoadout { get; private set; } = CombatLoadout.Assault;
+    public CombatLoadout ActiveLoadout { get; private set; } = CombatLoadout.Assault;
+    public bool UsesPresetLoadouts => RulesMode == MatchMode.Hardpoint;
+    private const ushort LoadoutChannel = 30;
+    private bool _offlineLoadoutInitialized;
+    public void SelectLoadout(CombatLoadout loadout)
+    {
+        if (IsNeutralSpectator || !Enum.IsDefined(loadout)) return;
+        if (!UsesPresetLoadouts && CurrentMatch?.Phase is not (MatchPhase.Warmup or MatchPhase.Results)) return;
+        SelectedLoadout = loadout;
+        if (_server is not null) AcceptLoadout(0, loadout);
+        else if (_client?.IsConnected == true) _client.SendJson(LoadoutChannel, new LoadoutRequest(loadout));
+    }
+    private void AcceptLoadout(int peer, CombatLoadout loadout)
+    {
+        if (!Enum.IsDefined(loadout) || !_playerStates.TryGetValue(peer, out var state) ||
+            !TeamIdentity.IsCombatTeam(state.Team) || !_humans.TryGetValue(peer, out var human)) return;
+        if (UsesPresetLoadouts || _matchPhase is MatchPhase.Warmup or MatchPhase.Results) human.Loadout = loadout;
+    }
+    private sealed record LoadoutRequest(CombatLoadout Loadout);
+    private void ApplyOfflineSpawnLoadout()
+    {
+        ActiveLoadout = SelectedLoadout;
+        if (UsesPresetLoadouts)
+        {
+            _offlineAccount.SetWeaponLoadout(HardpointLoadouts.Find(ActiveLoadout).WeaponMask);
+            _offlineGrenades.SetLoadout(HardpointLoadouts.Find(ActiveLoadout).Throwables);
+            SendEconomy(0); SendGrenadeSupply(0, _offlineGrenades.Remaining);
+        }
+    }
     public MatchMode RulesMode => gameMode.Equals("TeamDeathmatch", StringComparison.OrdinalIgnoreCase)
         ? MatchMode.TeamDeathmatch : gameMode.Equals("Defusal", StringComparison.OrdinalIgnoreCase) ? MatchMode.Defusal : MatchMode.Hardpoint;
     public bool CanFight => !IsNeutralSpectator && CurrentMatch?.Phase == MatchPhase.Playing;
@@ -79,8 +108,8 @@ public sealed partial class MultiplayerSession
         if (_lastLocalPhase != snapshot.Phase && snapshot.Phase == MatchPhase.Playing)
         {
             _playerHealth?.ResetForRound();
-            _inventory?.ApplyLoadout(SelectedLoadout);
-            _playerController?.ResetWeaponForRound();
+            if (!UsesPresetLoadouts)
+            { _inventory?.ApplyLoadout(SelectedLoadout); _playerController?.ResetWeaponForRound(); }
         }
         _lastLocalPhase = snapshot.Phase;
     }
@@ -89,17 +118,19 @@ public sealed partial class MultiplayerSession
     {
         if (UsesServerAuthority) return;
         ResetLocalGrenades();
+        ApplyOfflineSpawnLoadout();
         _inventory ??= GameObject.GetComponent<PlayerInventory>();
         _inventory?.ApplyLoadout(SelectedLoadout);
         _playerController?.ResetWeaponForRound();
     }
     private void UpdateLoadoutSelection()
     {
-        if (IsNeutralSpectator) return;
+        // Hardpoint selection lives in the B/I menu; number keys keep switching weapons.
+        if (IsNeutralSpectator || UsesPresetLoadouts) return;
         if (CurrentMatch?.Phase is not (MatchPhase.Warmup or MatchPhase.Results)) return;
-        if (Input.IsKeyPressed(KeyCode.D1)) SelectedLoadout = CombatLoadout.Assault;
-        if (Input.IsKeyPressed(KeyCode.D2)) SelectedLoadout = CombatLoadout.Medic;
-        if (Input.IsKeyPressed(KeyCode.D3)) SelectedLoadout = CombatLoadout.Defender;
+        if (Input.IsKeyPressed(KeyCode.D1)) SelectLoadout(CombatLoadout.Assault);
+        if (Input.IsKeyPressed(KeyCode.D2)) SelectLoadout(CombatLoadout.Medic);
+        if (Input.IsKeyPressed(KeyCode.D3)) SelectLoadout(CombatLoadout.Defender);
     }
 
     private bool TryObjectiveMovement(int botId, BotController bot, PlayerMatchState state, bool canThink)

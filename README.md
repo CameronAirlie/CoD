@@ -322,3 +322,39 @@ Visual detail is combined into 22 native meshes with separate simple collision g
 Run `python Tools/run_shipment_smoke.py <path-to-PlutoGERuntime.exe>` to check all
 20 corner-to-hill paths using the native navigation system and the authored bot capsule.
 Layout reference: https://www.callofduty.com/blog/2021/03/call-of-duty-mobile-map-snapshot-guide-shipment-modern-warfare
+
+
+Semi-automatic fire buffers one click made within 180 ms of the next legal shot.
+The shot fires when cadence permits, even after release; holding does not repeat it.
+Reloading, switching weapons, death, and blocked actions clear queued fire. Offline
+and server-authoritative combat share the trigger logic.
+
+Hardpoint/TDM human and bot respawns reselect a clear location each life. Spawn
+candidates require 10 metres of horizontal clearance from living opponents and
+3 metres from living teammates; spectators and corpses do not block selection.
+Initial bots use their assigned team. If every candidate is blocked, respawning
+waits and retries after 250 ms instead of falling back to a hostile old location.
+Defusal retains its fixed team round-start spawns.
+
+Validation: `dotnet run --project Tests/CombatSpawns/CombatSpawns.Tests.csproj -c Release`
+and `python Tools/run_combat_spawn_smoke.py <path-to-PlutoGERuntime.exe>`.
+
+
+Hardpoint uses free preset loadouts instead of purchasing equipment. Press **B** or
+**I** to select Assault, Medic or Defender at any time, including while dead.
+The menu shows CURRENT and NEXT SPAWN. Changing the selection never refills or
+replaces live equipment; the latest choice applies at the next successful spawn.
+
+| Preset | Weapons | Reserve / med kits / plates | Throwables |
+| --- | --- | --- | --- |
+| Assault | AR-24 and P-12 | 150 / 1 / 1 | Frag and flash |
+| Medic | P-12 | 60 / 3 / 0 | Smoke and flash |
+| Defender | MG-60 and P-12 | 90 / 1 / 3 | Frag and molotov |
+
+Bots spawn with free presets, too. Hardpoint purchase requests are rejected by the
+host; Defusal and Team Deathmatch retain their economy. Weapon switching stays
+separate from choosing the next life’s loadout. Packaged games need rebuilding.
+
+Run `python Tools/run_loadout_smoke.py <path-to-PlutoGERuntime.exe>` for native
+pending/active equipment, dead selection, offline/server spawn commitment, bot
+preset, purchase rejection, mode isolation and RML menu checks.

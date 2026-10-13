@@ -15,6 +15,7 @@ public sealed partial class MultiplayerSession
             _playerStates.Add(peer, new(PlayerTeam.Bravo, true));
             _remotePlayers.Add(peer, new(actor, actor.WorldPosition, 0));
             _bots.Add(peer, new(actor, actor.WorldPosition, actor.EntityId));
+            EquipHardpointBot(peer, _bots[peer]);
             PresentBotWeapon(_bots[peer]);
         }
         _playerStates[peer].Health = health;
@@ -57,7 +58,7 @@ public sealed partial class MultiplayerSession
     {
         if (_activeSession is not { GrenadesOffline: true } session || !session._offlineBotIds.TryGetValue(actor.EntityId, out var peer)) return;
         session._playerStates[peer].Health = 0;
-        session.Account(peer).LoseEquipment();
+        if (!session.UsesPresetLoadouts) session.Account(peer).LoseEquipment();
     }
     public static void UnregisterOfflineBot(GameObject actor)
     {
@@ -72,8 +73,19 @@ public sealed partial class MultiplayerSession
         bot.PresentedWeapon = slot;
         bot.GameObject.TryInvoke("SetWeaponPose", slot == 1 ? 1 : 0);
     }
+    private void EquipHardpointBot(int peer, BotController bot)
+    {
+        if (!UsesPresetLoadouts) return;
+        var choice = HardpointLoadouts.ForBot(peer);
+        var preset = HardpointLoadouts.Find(choice);
+        bot.Loadout.Equipment.Reset(choice);
+        Account(peer).SetWeaponLoadout(preset.WeaponMask);
+        if (_playerStates.TryGetValue(peer, out var state))
+        { state.Grenades.SetLoadout(preset.Throwables); SendGrenadeSupply(peer, state.Grenades.Remaining); }
+    }
     private void BuyBotEquipment(int peer, BotController bot)
     {
+        if (UsesPresetLoadouts) return;
         if (_time < bot.Loadout.NextBuy) return;
         bot.Loadout.NextBuy = _time + 1;
         if (!_playerStates.TryGetValue(peer, out var state)) return;

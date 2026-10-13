@@ -42,6 +42,7 @@ public sealed partial class MultiplayerSession
         public ServerMotor Motor { get; } = new();
         public ServerEquipment Equipment { get; } = new();
         public CombatLoadout Loadout { get; set; }
+        public CombatLoadout ActiveLoadout { get; set; }
         public PlayerCommand Command { get; set; } = PlayerCommand.Idle;
         public int Armour { get; set; }
         public float RecoilPitch { get; set; }
@@ -53,7 +54,7 @@ public sealed partial class MultiplayerSession
     public sealed record OwnerState(long Tick, long AcknowledgedCommand, float X, float Y, float Z,
         float Health, int Armour, int Magazine, int Reserve, int Kits, int Plates, int Slot,
         bool Reloading, bool Grounded, bool Crouching, bool Sprinting, bool Sliding, int UsingItem,
-        int Life, float Yaw, float VelocityX, float VelocityY, float VelocityZ, float SlideRemaining, bool WasCrouching);
+        int Life, float Yaw, float VelocityX, float VelocityY, float VelocityZ, float SlideRemaining, bool WasCrouching, CombatLoadout ActiveLoadout = CombatLoadout.Assault);
 
     public void QueueItemUse(int item)
     { if (item is 1 or 2) _queuedUseItem = item; }
@@ -101,26 +102,37 @@ public sealed partial class MultiplayerSession
     {
         if (_humans.TryGetValue(peer, out var human) && command.Life == human.Life && human.Movement.Accept(command))
         {
-            if (_matchPhase is MatchPhase.Warmup or MatchPhase.Results) human.Loadout = command.Loadout;
+            if (!UsesPresetLoadouts && _matchPhase is (MatchPhase.Warmup or MatchPhase.Results)) human.Loadout = command.Loadout;
         }
     }
     private void AddHuman(int peer)
     {
         var human = new HumanSimulation(); _humans[peer] = human;
-        var state = _playerStates[peer];
-        human.Spawn = IsDefusal ? DefusalSpawn(state.Team, peer) :
-            TryBotSpawnPosition(peer, out var spawn) ? spawn : GameObject.WorldPosition;
-        if (peer == 0 && !IsDedicated && !IsDefusal) human.Spawn = GameObject.WorldPosition;
-        else if (Physics.Raycast(human.Spawn + Vector3.UnitY * 256, -Vector3.UnitY, 512, out var ground))
-            human.Spawn = new Vector3(human.Spawn.X, ground.Point.Y + 1.02f, human.Spawn.Z);
+        if (peer == 0) human.Loadout = SelectedLoadout;
         SpawnHuman(peer);
     }
-    private void SpawnHuman(int peer)
+    private void SpawnHuman(int peer, Vector3? selectedSpawn = null)
     {
         if (!_humans.TryGetValue(peer, out var human)) return;
         var state = _playerStates[peer];
+        var spawn = selectedSpawn.GetValueOrDefault();
+        if (selectedSpawn is null && !TryBotSpawnPosition(peer, out spawn))
+        { state.Health = 0; state.RespawnAt = _time + .25f; return; }
+        // Human roots are capsule centers. Bots retain their authored settling clearance.
+        human.Spawn = spawn;
+        if (Physics.Raycast(spawn + Vector3.UnitY * 256, -Vector3.UnitY, 512, out var floor))
+            human.Spawn = new Vector3(spawn.X, floor.Point.Y + 1.02f, spawn.Z);
+        state.Health = MathF.Max(1, multiplayerMaximumHealth);
         human.Movement.Clear(); human.MovementBudget = 0; human.Motor.Reset(); human.Equipment.Reset(human.Loadout); human.Armour = 0; human.Life++;
-        human.Equipment.Weapons.Select(1);
+        human.ActiveLoadout = human.Loadout;
+        if (UsesPresetLoadouts)
+        {
+            var preset = HardpointLoadouts.Find(human.ActiveLoadout);
+            Account(peer).SetWeaponLoadout(preset.WeaponMask);
+            state.Grenades.SetLoadout(preset.Throwables);
+            SendGrenadeSupply(peer, state.Grenades.Remaining);
+        }
+        else human.Equipment.Weapons.Select(1);
         SendEconomy(peer);
         human.Input.Clear(IsDefusal ? DefusalRules.SpawnYaw(state.Team == AttackingTeam) : 0, human.Equipment.Weapons.SelectedSlot);
         human.RecoilPitch = human.RecoilYaw = 0; human.Spread = human.Equipment.Weapons.Equipped.HipSpread;
@@ -228,7 +240,7 @@ public sealed partial class MultiplayerSession
                 equipment.Weapons.SelectedSlot, equipment.Reloading, human.Motor.Grounded, human.Motor.Crouching,
                 human.Motor.Sprinting, human.Motor.Sliding, equipment.UsingItem, human.Life, human.Command.Yaw,
                 human.Motor.Velocity.X, human.Motor.Velocity.Y, human.Motor.Velocity.Z,
-                human.Motor.Capture().SlideRemaining, human.Motor.Capture().WasCrouching);
+                human.Motor.Capture().SlideRemaining, human.Motor.Capture().WasCrouching, human.ActiveLoadout);
             if (peer == 0) ApplyOwnerState(snapshot);
             else _server?.SendJson(peer, OwnerStateChannel, snapshot);
             if (state.Health > 0) _server?.BroadcastJson(TransformChannel,
@@ -240,6 +252,7 @@ public sealed partial class MultiplayerSession
         if (state.Tick <= _lastOwnerTick || !float.IsFinite(state.X) || !float.IsFinite(state.Y) ||
             !float.IsFinite(state.Z) || !float.IsFinite(state.Health)) return;
         var newLife = _localLife != state.Life;
+        if (Enum.IsDefined(state.ActiveLoadout)) ActiveLoadout = state.ActiveLoadout;
         if (newLife || state.Health <= 0)
         {
             _pendingLocalInput.Clear(state.Yaw, state.Slot);

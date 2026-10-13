@@ -92,12 +92,13 @@ public sealed class PlayerController : ScriptBehaviour
     }
     public void ResetWeaponForRound()
     {
+        _triggerBuffer.Reset();
         CancelReload(); _inventory?.CancelUse();
         _shotCooldown = _weaponDrawRemaining = _damageCameraImpulse = 0;
         if (_weapons is not null)
         {
-            _weapons.Reset(_multiplayer?.SelectedLoadout ?? CombatLoadout.Assault);
-            _weapons.Select(1);
+            _weapons.Reset(_multiplayer?.UsesPresetLoadouts == true ? _multiplayer.ActiveLoadout : _multiplayer?.SelectedLoadout ?? CombatLoadout.Assault);
+            if (_multiplayer?.UsesPresetLoadouts != true) _weapons.Select(1);
             ApplyEquippedWeapon();
         }
         _ammo = Math.Max(1, magazineSize); _reserveAmmo = _inventory?.ReserveAmmo ?? Math.Max(0, startingReserveAmmo);
@@ -138,7 +139,8 @@ public sealed class PlayerController : ScriptBehaviour
                 // be hidden even if its script had not started during player OnCreate.
                 if (weaponModel is not null) weaponModel.Active = false;
                 _weapons = new WeaponLoadout();
-                _weapons.Select(1);
+                if (_multiplayer?.UsesPresetLoadouts == true) _weapons.Reset(_multiplayer.ActiveLoadout);
+                else _weapons.Select(1);
                 ApplyEquippedWeapon();
                 UpdateHud(); PublishStateChanges();
             }
@@ -152,6 +154,7 @@ public sealed class PlayerController : ScriptBehaviour
             (_multiplayer is not null && !_multiplayer.OwnsWeapon(slot)) ||
             slot < 0 || slot >= _weaponBindings.Length || _weaponBindings[slot] is null || slot == _weapons.SelectedSlot)
             return false;
+        _triggerBuffer.Cancel();
         CancelReload();
         _weapons.Select(slot);
         if (_multiplayer?.UsesServerAuthority == true) _requestedServerSlot = slot;
@@ -314,6 +317,8 @@ public sealed class PlayerController : ScriptBehaviour
     private float _cameraHeight;
     private float _slideTime;
     private float _shotCooldown;
+    private float _fireClock;
+    private readonly WeaponTriggerBuffer _triggerBuffer = new();
     private float _weaponDrawRemaining;
     private float _bobTime;
     private float _recoilPitchOffset;
@@ -417,6 +422,7 @@ public sealed class PlayerController : ScriptBehaviour
     public override void OnLateUpdate(float deltaTime)
     {
         ClearPresentationCameraOffset();
+        _fireClock += deltaTime;
         if (_dead || _neutralSpectator)
         {
             // Physics extrapolation and built-in camera rigs run after OnUpdate.
@@ -447,6 +453,7 @@ public sealed class PlayerController : ScriptBehaviour
             return;
         }
 
+        _fireClock += deltaTime;
         if (_dead || _neutralSpectator)
         {
             UpdateDeathCamera(deltaTime);
@@ -458,6 +465,7 @@ public sealed class PlayerController : ScriptBehaviour
         if (_multiplayer?.UsesServerAuthority != true) _inventory?.TickUse(deltaTime);
 
         var cursorLocked = Input.CursorLocked;
+        if (!cursorLocked) _triggerBuffer.Cancel();
         if (_multiplayer?.UsesServerAuthority == true)
         {
             _mouseDelta = cursorLocked ? Input.MouseDelta : Vector2.Zero;
@@ -572,6 +580,7 @@ public sealed class PlayerController : ScriptBehaviour
 
     public void EnterDeathState()
     {
+        _triggerBuffer.Reset();
         if (_dead)
             return;
 
@@ -919,10 +928,11 @@ public sealed class PlayerController : ScriptBehaviour
             BeginReload();
         }
 
-        var fireHeld = automaticFire
-            ? Input.IsMouseButtonDown(MouseButton.Left)
-            : Input.IsMouseButtonPressed(MouseButton.Left);
-        if (fireHeld && !_sprinting && !_sliding)
+        var fireHeld = Input.IsMouseButtonDown(MouseButton.Left);
+        if (_triggerBuffer.Consume(fireHeld, automaticFire, _fireClock, _fireClock + _shotCooldown,
+                !_sprinting && !_sliding && !_reloading && _weaponDrawRemaining <= 0 &&
+                _inventory?.IsUsing != true && _multiplayer?.IsUsingObjective != true &&
+                _multiplayer?.CurrentMatch is not { Phase: not MatchPhase.Playing }))
         {
             TryFire();
         }
@@ -1049,6 +1059,7 @@ public sealed class PlayerController : ScriptBehaviour
         {
             return;
         }
+        _triggerBuffer.Cancel();
         _reloading = true;
         _reloadTimeRemaining = MathF.Max(.1f, reloadDuration);
         _reloadAnimationActive = true;

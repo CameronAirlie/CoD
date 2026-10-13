@@ -61,6 +61,7 @@ public sealed class GrenadeSupply
         if (i < 0 || !float.IsFinite(now) || now < _nextThrow || _counts[i] <= 0) return false;
         _counts[i]--; _nextThrow = now + GrenadeRules.ThrowCooldown; return true;
     }
+    public void SetLoadout(IEnumerable<string> kinds) { Array.Clear(_counts); _nextThrow = 0; foreach (var kind in kinds) TryAdd(kind); }
     public void Reset() { Array.Clear(_counts); _counts[0] = GrenadeRules.GrenadesPerLife; _nextThrow = 0; }
 }
 

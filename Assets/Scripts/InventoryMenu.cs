@@ -52,6 +52,11 @@ public sealed class InventoryMenu : ScriptBehaviour
             _document.OnClick($"buy-{id}", () => _session?.Buy(id));
             if (item.Throwable is { } kind) _document.OnClick($"select-{id}", () => _session?.SelectThrowable(kind));
         }
+        foreach (var preset in HardpointLoadouts.Catalog)
+        {
+            var choice = preset.Id;
+            _document.OnClick($"loadout-{choice}", () => _session?.SelectLoadout(choice));
+        }
         if (_controller is not null) _controller.WeaponChanged += RenderWeapons;
         for (var index = 0; index < WeaponCatalog.SlotCount; index++)
         {
@@ -86,11 +91,30 @@ public sealed class InventoryMenu : ScriptBehaviour
         if (_document is null || _session is null) return;
         // Include quantities and ownership, not only the wallet: throws and equipment loss
         // must invalidate purchase availability even when no transaction occurred.
-        var presentation = $"{_session.Money}/{_session.CanBuy}/{_session.IsUsingObjective}/{MathF.Ceiling(_session.BuySecondsRemaining)}/{_session.ShopStatus}/" +
+        var presets = _session.UsesPresetLoadouts;
+        var presentation = $"{_session.IsNeutralSpectator}/{presets}/{_session.ActiveLoadout}/{_session.SelectedLoadout}/{_session.Money}/{_session.CanBuy}/{_session.IsUsingObjective}/{MathF.Ceiling(_session.BuySecondsRemaining)}/{_session.ShopStatus}/" +
             string.Join(",", EconomyRules.Catalog.Select(item => $"{_session.OwnsWeapon(item.WeaponSlot)}:{(item.Throwable is { } kind ? _session.ThrowableCount(kind) : 0)}"));
         if (presentation != _shopPresentation && _document.Element("shop-balance").SetClass("ready", true))
         {
             _shopPresentation = presentation;
+            _document.Element("inventory-panel").SetClass("preset-mode", presets);
+            _document.Element("inventory-mode").Markup = presets ? "HARDPOINT / NEXT SPAWN" : "BUY / INVENTORY";
+            _document.Element("loadout-selector").SetStyle("display", presets ? "block" : "none");
+            _document.Element("buy-equipment").SetStyle("display", presets ? "none" : "block");
+            if (presets)
+            {
+                _document.Element("loadout-state").Markup = $"CURRENT: {_session.ActiveLoadout.ToString().ToUpperInvariant()} / NEXT SPAWN: {_session.SelectedLoadout.ToString().ToUpperInvariant()}";
+                foreach (var preset in HardpointLoadouts.Catalog)
+                {
+                    var card = _document.Element($"loadout-{preset.Id}");
+                    card.SetClass("selected", _session.SelectedLoadout == preset.Id);
+                    card.SetClass("current", _session.ActiveLoadout == preset.Id);
+                    card["aria-disabled"] = _session.IsNeutralSpectator ? "true" : "false";
+                    _document.Element($"loadout-action-{preset.Id}").Markup = _session.SelectedLoadout == preset.Id ? "SELECTED FOR NEXT SPAWN" : "SELECT FOR NEXT SPAWN";
+                    card.SetStyle("pointer-events", _session.IsNeutralSpectator ? "none" : "auto");
+                }
+            }
+
             _document.Element("shop-balance").Markup = $"${_session.Money:N0}";
             _document.Element("shop-window").Markup = !_session.CanBuy ? "BUY CLOSED" : float.IsPositiveInfinity(_session.BuySecondsRemaining)
                 ? "BUY OPEN" : $"BUY OPEN / {MathF.Ceiling(_session.BuySecondsRemaining):0}s LEFT";

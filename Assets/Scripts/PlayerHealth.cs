@@ -217,7 +217,15 @@ public sealed class PlayerHealth : ScriptBehaviour
 
     private void Respawn()
     {
-        GameObject.WorldPosition = _spawnPosition;
+        var spawn = _spawnPosition;
+        _session ??= GameObject.GetComponent<MultiplayerSession>();
+        if (_session is not null)
+        {
+            if (!_session.TrySelectLocalRespawn(out spawn)) { _restartAt = _time + .25f; return; }
+            if (Physics.Raycast(spawn + Vector3.UnitY * 256, -Vector3.UnitY, 512, GameObject, out var floor))
+                spawn = new Vector3(spawn.X, floor.Point.Y + 1.02f, spawn.Z);
+        }
+        GameObject.WorldPosition = spawn;
         GameObject.WorldRotation = _spawnRotation;
         if (_body is not null)
         {

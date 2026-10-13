@@ -32,6 +32,7 @@ public sealed class EconomyAccount
     public int WeaponMask { get; private set; } = 1 << 1; // Free starting sidearm.
     public bool Owns(int slot) => slot is >= 0 and < WeaponCatalog.SlotCount && (WeaponMask & (1 << slot)) != 0;
     public void Credit(int amount) => Money = (int)Math.Clamp((long)Money + Math.Max(0, amount), 0, EconomyRules.MaximumMoney);
+    public void SetWeaponLoadout(int mask) => WeaponMask = (mask & 7) | (1 << 1);
     public void LoseEquipment() => WeaponMask = 1 << 1;
     public bool TryBuy(string? id, GrenadeSupply supply, out string result)
     {

@@ -15,12 +15,12 @@ public sealed partial class MultiplayerSession
     public event Action? EconomyChanged;
     public static void RewardOfflineKill()
     {
-        if (_activeSession is not { GrenadesOffline: true } session) return;
+        if (_activeSession is not { GrenadesOffline: true } session || session.UsesPresetLoadouts) return;
         session._offlineAccount.Credit(EconomyRules.KillReward); session.SendEconomy(0);
     }
     public bool OwnsWeapon(int slot) => GrenadesOffline ? _offlineAccount.Owns(slot) :
         slot is >= 0 and < WeaponCatalog.SlotCount && (_ownedWeapons & (1 << slot)) != 0;
-    public bool CanBuy => !IsNeutralSpectator && (GrenadesOffline ? _playerHealth?.IsDead != true :
+    public bool CanBuy => !UsesPresetLoadouts && !IsNeutralSpectator && (GrenadesOffline ? _playerHealth?.IsDead != true :
         _localPeerId >= 0 && _playerHealth?.IsDead != true &&
         (CurrentMatch?.Phase == MatchPhase.Warmup || CurrentMatch?.Phase == MatchPhase.Playing &&
             CurrentMatch.SecondsRemaining >= matchDuration - EconomyRules.BuySeconds));
@@ -48,6 +48,7 @@ public sealed partial class MultiplayerSession
     }
     private void AcceptPurchase(int peer, string? id)
     {
+        if (UsesPresetLoadouts) return;
         if (_playerStates.TryGetValue(peer, out var observer) && !TeamIdentity.IsCombatTeam(observer.Team)) return;
         var localOffline = GrenadesOffline && peer == 0;
         var allowed = localOffline ? _playerHealth?.IsDead != true :
@@ -75,6 +76,7 @@ public sealed partial class MultiplayerSession
         _ownedWeapons = state.WeaponMask & 7;
         ShopStatus = state.Message;
         EconomyChanged?.Invoke();
+        if (UsesPresetLoadouts) return;
         if (_playerController is { } controller && !OwnsWeapon(controller.EquippedWeaponSlot))
             controller.SelectWeaponSlot(1);
         if (_playerController is { } equipped)
@@ -89,6 +91,7 @@ public sealed partial class MultiplayerSession
     }
     private void RewardRound(PlayerTeam? winner)
     {
+        if (UsesPresetLoadouts) return;
         foreach (var pair in _playerStates)
         {
             if (!TeamIdentity.IsCombatTeam(pair.Value.Team)) continue;

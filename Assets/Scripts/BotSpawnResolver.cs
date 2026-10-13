@@ -6,6 +6,15 @@ namespace CoD.Scripts;
 /// <summary>Prefers navigation placement without making authored spawns depend on a valid bake.</summary>
 internal static class BotSpawnResolver
 {
+    public static bool HasClearance(Vector3 spawn, PlayerTeam team, Vector3 occupant,
+        PlayerTeam occupantTeam, float health)
+    {
+        if (health <= 0 || occupantTeam is not (PlayerTeam.Alpha or PlayerTeam.Bravo)) return true;
+        var delta = new Vector2(spawn.X - occupant.X, spawn.Z - occupant.Z);
+        var radius = team == occupantTeam ? 3f : 10f;
+        return delta.LengthSquared() >= radius * radius;
+    }
+
     public static bool TryResolve(Vector3 marker,
         Func<Vector3, Vector3?> project, Func<Vector3, Vector3?> placeAboveGround,
         Func<Vector3, bool> isClear, out Vector3 spawn)

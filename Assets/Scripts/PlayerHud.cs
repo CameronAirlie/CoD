@@ -241,7 +241,9 @@ public sealed class PlayerHud : ScriptBehaviour
         var kind = pov?.SelectedThrowable ?? _multiplayer?.SelectedThrowable ?? "frag";
         var count = pov is null ? _multiplayer?.ThrowableCount(kind) ?? 0 : kind switch
         { "flash" => pov.Flashbang, "smoke" => pov.Smoke, "molotov" => pov.Molotov, _ => pov.Frag };
-        var status = pov is null ? $"G {GrenadeRules.Name(kind)} / {count} / T CYCLE / ${_multiplayer?.Money ?? 0} / B BUY"
+        var status = _multiplayer?.UsesPresetLoadouts == true
+            ? pov is null ? $"G {GrenadeRules.Name(kind)} / {count} / T CYCLE / B / I LOADOUTS" : $"{GrenadeRules.Name(kind)} / {count}"
+            : pov is null ? $"G {GrenadeRules.Name(kind)} / {count} / T CYCLE / ${_multiplayer?.Money ?? 0} / B BUY"
             : $"{GrenadeRules.Name(kind)} / {count} / ${pov.Money}";
         if (_domReady && _grenades is not null && status != _renderedThrowableStatus)
         { _grenades.Markup = status; _renderedThrowableStatus = status; }
@@ -320,7 +322,7 @@ public sealed class PlayerHud : ScriptBehaviour
         if (_weaponName is not null) _weaponName.Markup = _controller?.EquippedWeapon?.Name ?? "VAL";
         if (_weaponSlots is not null)
         {
-            if (_multiplayer?.CurrentMatch?.Phase is MatchPhase.Warmup or MatchPhase.Results)
+            if (_multiplayer?.UsesPresetLoadouts != true && _multiplayer?.CurrentMatch?.Phase is (MatchPhase.Warmup or MatchPhase.Results))
             {
                 _weaponSlots.Markup = "1 ASSAULT / 2 MEDIC / 3 DEFENDER<br/>WEAPON SWITCHING DURING PLAY";
                 return;

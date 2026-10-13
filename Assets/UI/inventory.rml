@@ -1,10 +1,20 @@
 <rml><head><title>Loadout / Inventory</title><link type="text/rcss" href="theme.rcss"/><link type="text/rcss" href="inventory.rcss"/></head>
 <body><div id="inventory-backdrop"><div id="inventory-panel" class="ui-panel">
-<div id="header"><div><div class="ui-eyebrow accent">02 / EQUIPMENT</div><div class="title ui-heading">LOADOUT</div></div><div class="ui-meta">BUY / INVENTORY / <span class="ui-key">I</span> CLOSE</div></div>
+<div id="header"><div><div class="ui-eyebrow accent">02 / EQUIPMENT</div><div class="title ui-heading">LOADOUT</div></div><div class="ui-meta"><span id="inventory-mode">BUY / INVENTORY</span> / <span class="ui-key">I</span> CLOSE</div></div>
+<div id="loadout-selector">
+<div class="section-label"><span class="ui-eyebrow">CHOOSE YOUR LOADOUT</span><span class="ui-meta">SELECT ANYTIME / APPLIES NEXT SPAWN</span></div>
+<div id="loadout-state" class="ui-meta">CURRENT: ASSAULT / NEXT SPAWN: ASSAULT</div>
+<div id="loadout-grid">
+<button id="loadout-Assault" class="loadout-card"><img src="UI/Weapons/ar.tga" class="loadout-portrait"/><div class="loadout-name">ASSAULT</div><div class="loadout-details">AR-24 + P-12<br/>150 RESERVE / 1 MED KIT / 1 PLATE<br/>FRAG + FLASH</div><div id="loadout-action-Assault" class="loadout-action">SELECT FOR NEXT SPAWN</div></button>
+<button id="loadout-Medic" class="loadout-card"><img src="UI/Weapons/pistol.tga" class="loadout-portrait"/><div class="loadout-name">MEDIC</div><div class="loadout-details">P-12 SIDEARM<br/>60 RESERVE / 3 MED KITS<br/>SMOKE + FLASH</div><div id="loadout-action-Medic" class="loadout-action">SELECT FOR NEXT SPAWN</div></button>
+<button id="loadout-Defender" class="loadout-card"><img src="UI/Weapons/lmg.tga" class="loadout-portrait"/><div class="loadout-name">DEFENDER</div><div class="loadout-details">MG-60 + P-12<br/>90 RESERVE / 1 MED KIT / 3 PLATES<br/>FRAG + MOLOTOV</div><div id="loadout-action-Defender" class="loadout-action">SELECT FOR NEXT SPAWN</div></button>
+</div></div>
+<div id="buy-equipment">
 <div id="shop-summary"><div><div class="ui-eyebrow">AVAILABLE FUNDS</div><div id="shop-balance">$800</div></div><div id="shop-window" class="ui-eyebrow">BUY OPEN</div></div>
 <div id="shop-status" class="ui-meta">Choose an item to buy.</div>
 <div class="section-label"><span class="ui-eyebrow">BUY EQUIPMENT</span><span class="ui-meta">ONE PRIMARY / ONE SIDEARM</span></div>
 <div id="shop-grid"><button id="buy-pistol" class="shop-button">P-12 / $200</button><button id="buy-ar" class="shop-button">AR-24 / $2700</button><button id="buy-lmg" class="shop-button">MG-60 / $3200</button><button id="buy-frag" class="shop-button">FRAG / $300</button><button id="buy-flash" class="shop-button">FLASH / $200</button><button id="buy-smoke" class="shop-button">SMOKE / $300</button><button id="buy-molotov" class="shop-button">MOLOTOV / $400</button></div>
+</div>
 <div class="section-label"><span class="ui-eyebrow">SELECT THROWABLE</span><span id="throwable-capacity" class="ui-meta">2/4 CARRIED</span></div><div id="throwable-grid"><button id="select-frag" class="shop-button">FRAG</button><button id="select-flash" class="shop-button">FLASH</button><button id="select-smoke" class="shop-button">SMOKE</button><button id="select-molotov" class="shop-button">MOLOTOV</button></div>
 <div class="section-label"><span class="ui-eyebrow">WEAPON SYSTEMS</span><span class="ui-meta">SELECT OWNED WEAPONS TO EQUIP</span></div>
 <div id="weapon-grid">

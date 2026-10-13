@@ -225,6 +225,14 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
         var safeDeltaTime = MathF.Max(0.0f, deltaTime);
         _time += safeDeltaTime;
+        if (GrenadesOffline && UsesPresetLoadouts && !_offlineLoadoutInitialized)
+        {
+            _offlineLoadoutInitialized = true;
+            ApplyOfflineSpawnLoadout();
+            _inventory ??= GameObject.GetComponent<PlayerInventory>();
+            _inventory?.ApplyLoadout(ActiveLoadout);
+            _playerController?.ResetWeaponForRound();
+        }
         UpdateLoadoutSelection();
         UpdateBombInput();
         UpdateGrenades(safeDeltaTime);
@@ -518,6 +526,11 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 return;
             }
 
+            if (message.Channel == LoadoutChannel && _authenticatedPeers.Contains(message.PeerId))
+            {
+                if (message.GetJson<LoadoutRequest>() is { } request) AcceptLoadout(message.PeerId, request.Loadout);
+                return;
+            }
             if (message.Channel == BuyChannel && _authenticatedPeers.Contains(message.PeerId))
             {
                 if (message.GetJson<PurchaseRequest>() is { } purchase) AcceptPurchase(message.PeerId, purchase.Id);
@@ -600,6 +613,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                         welcome.MaximumHealth,
                         welcome.RegenerationDelay,
                         welcome.RegenerationPerSecond);
+                if (!IsNeutralSpectator && UsesPresetLoadouts)
+                    _client?.SendJson(LoadoutChannel, new LoadoutRequest(SelectedLoadout));
                 Debug.Log($"{_username} joined multiplayer as peer {_localPeerId}.");
                 return;
             }
@@ -956,7 +971,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 return false;
 
             var peerId = _nextBotId--;
-            if (!TryBotSpawnPosition(peerId, out var spawn))
+            var team = ChooseTeam();
+            if (!TryBotSpawnPosition(peerId, out var spawn, team))
             {
                 Debug.LogWarning("Could not find a grounded, clear TDM bot spawn; spawn deferred.");
                 return false;
@@ -968,7 +984,6 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 return false;
             }
 
-            var team = ChooseTeam();
             _peerNames[peerId] = $"[BOT] Operator {Math.Abs(peerId + 999)}";
             _playerStates[peerId] = new PlayerMatchState(team, true)
             {
@@ -978,6 +993,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             _bots[peerId] = new BotController(
                 instance, spawn, unchecked((uint)Random.Shared.NextInt64(1, 1L << 32)));
             instance.TryInvoke("ResetExternalNavigation", spawn.X, spawn.Y, spawn.Z);
+            EquipHardpointBot(peerId, _bots[peerId]);
             PresentBotWeapon(_bots[peerId]);
             Debug.Log($"Added {_peerNames[peerId]} to {team}.");
             return true;
@@ -1634,7 +1650,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             Vector3.UnitY * ((Next() * 2.0f - 1.0f) * tangent));
     }
 
-    private bool TryBotSpawnPosition(int peerId, out Vector3 spawnPosition)
+    private bool TryBotSpawnPosition(int peerId, out Vector3 spawnPosition, PlayerTeam? assignedTeam = null)
     {
         if (IsDefusal)
         {
@@ -1659,11 +1675,11 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             if (marker is null || !marker.IsValid) continue;
             if (BotSpawnResolver.TryResolve(marker.WorldPosition,
                     ProjectBotSpawn, PlaceBotSpawn,
-                    position => IsBotSpawnClear(peerId, position), out spawnPosition))
+                    position => IsBotSpawnClear(peerId, position, assignedTeam), out spawnPosition))
                 return true;
         }
 
-        if (TryRandomBotSpawnPosition(peerId, out var randomSpawn))
+        if (TryRandomBotSpawnPosition(peerId, out var randomSpawn, assignedTeam))
         {
             spawnPosition = randomSpawn;
             return true;
@@ -1672,13 +1688,15 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         return false;
     }
 
+    public bool TrySelectLocalRespawn(out Vector3 spawn) => TryBotSpawnPosition(0, out spawn, PlayerTeam.Alpha);
+
     private Vector3? ProjectBotSpawn(Vector3 position) =>
         TryProjectBotNavigationPosition(position, out var projected) ? projected : null;
 
     private Vector3? PlaceBotSpawn(Vector3 position) =>
         TryPlaceBotAboveGround(position, out var spawn) ? spawn : null;
 
-    private bool TryRandomBotSpawnPosition(int peerId, out Vector3 spawn)
+    private bool TryRandomBotSpawnPosition(int peerId, out Vector3 spawn, PlayerTeam? assignedTeam = null)
     {
         spawn = default;
         if (navigationMesh is null || !navigationMesh.IsValid)
@@ -1714,7 +1732,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             if (HorizontalDistance(origin, projected) < minimumDistance)
                 continue;
 
-            if (!IsBotSpawnClear(peerId, projected))
+            if (!IsBotSpawnClear(peerId, projected, assignedTeam))
                 continue;
 
             if (TryPlaceBotAboveGround(projected, out spawn))
@@ -1723,17 +1741,18 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         return false;
     }
 
-    private bool IsBotSpawnClear(int peerId, Vector3 position)
+    private bool IsBotSpawnClear(int peerId, Vector3 position, PlayerTeam? assignedTeam = null)
     {
+        var team = assignedTeam ?? (_playerStates.TryGetValue(peerId, out var spawning) ? spawning.Team : PlayerTeam.Alpha);
+        if (peerId != 0 && !IsDedicated && !_playerStates.ContainsKey(0) &&
+            !BotSpawnResolver.HasClearance(position, team, GameObject.WorldPosition, PlayerTeam.Alpha,
+                _playerHealth?.CurrentHealth ?? 0)) return false;
         foreach (var pair in _playerStates)
         {
-            if (pair.Key == peerId || pair.Value.Health <= 0.0f) continue;
+            if (pair.Key == peerId || pair.Value.Health <= 0.0f || !TeamIdentity.IsCombatTeam(pair.Value.Team)) continue;
             var participant = GetParticipantObject(pair.Key);
             if (participant is null || !participant.IsValid) continue;
-            var sameTeam = _playerStates.TryGetValue(peerId, out var spawning) &&
-                spawning.Team == pair.Value.Team;
-            var clearance = sameTeam ? 3.0f : 10.0f;
-            if (HorizontalDistance(participant.WorldPosition, position) < clearance)
+            if (!BotSpawnResolver.HasClearance(position, team, participant.WorldPosition, pair.Value.Team, pair.Value.Health))
                 return false;
         }
         return true;
@@ -1788,18 +1807,20 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             if (!TeamIdentity.IsCombatTeam(state.Team)) continue;
             if (state.Health <= 0.0f && _time >= state.RespawnAt)
             {
+                if (!TryBotSpawnPosition(pair.Key, out var safeSpawn))
+                { state.RespawnAt = _time + .25f; continue; }
                 state.Health = MathF.Max(1.0f, multiplayerMaximumHealth);
                 ResetGrenadeSupply(pair.Key);
                 if (_bots.TryGetValue(pair.Key, out var bot))
                 {
-                    bot = RespawnBot(pair.Key, bot);
+                    bot = RespawnBot(pair.Key, bot, safeSpawn);
                     bot.NextShotAt = _time + 0.5f;
                     bot.NextNavigationAt = _time + 0.5f;
                     bot.PreviousPosition = bot.SpawnPosition;
                     bot.IsEngaging = false;
                     bot.TargetPeerId = int.MinValue;
                 }
-                if (_humans.ContainsKey(pair.Key)) SpawnHuman(pair.Key);
+                if (_humans.ContainsKey(pair.Key)) SpawnHuman(pair.Key, safeSpawn);
                 _deadRemotePlayers.Remove(pair.Key);
             }
             else if (state.Health > 0.0f &&
@@ -1878,9 +1899,9 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             return;
 
         killer.Kills++;
-        if (killerPeerId != victimPeerId && killer.Team != victim.Team)
+        if (!UsesPresetLoadouts && killerPeerId != victimPeerId && killer.Team != victim.Team)
         { Account(killerPeerId).Credit(EconomyRules.KillReward); SendEconomy(killerPeerId); }
-        Account(victimPeerId).LoseEquipment(); SendEconomy(victimPeerId);
+        if (!UsesPresetLoadouts) { Account(victimPeerId).LoseEquipment(); SendEconomy(victimPeerId); }
         victim.Deaths++;
         victim.RespawnAt = IsDefusal ? float.PositiveInfinity : _time + MathF.Max(0.1f, combatRespawnDelay);
         var impulse = victim.LastHitDirection;
@@ -2039,19 +2060,23 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         public bool IsFinite() => float.IsFinite(Damage) && Damage > 0.0f;
     }
 
-    private BotController RespawnBot(int peerId, BotController previous)
+    private BotController RespawnBot(int peerId, BotController previous, Vector3? selectedSpawn = null)
     {
-        // Prefer separated, navigable arena markers; use random samples only
-        // when every marker is blocked. Retain the prior spawn as a last resort.
-        var respawnPosition = TryBotSpawnPosition(peerId, out var position)
-            ? position
-            : previous.SpawnPosition;
+        var respawnPosition = selectedSpawn.GetValueOrDefault();
+        if (selectedSpawn is null && !TryBotSpawnPosition(peerId, out respawnPosition))
+        {
+            if (_playerStates.TryGetValue(peerId, out var waiting))
+            { waiting.Health = 0; waiting.RespawnAt = _time + .25f; }
+            return previous;
+        }
         var instance = previous.GameObject.IsValid
             ? previous.GameObject
             : Prefab.Instantiate(hostBotPrefab, respawnPosition, Vector3.Zero);
         if (instance is null || !instance.IsValid)
         {
             Debug.LogWarning($"Could not respawn bot {peerId} from '{hostBotPrefab}'.");
+            if (_playerStates.TryGetValue(peerId, out var waiting))
+            { waiting.Health = 0; waiting.RespawnAt = _time + .25f; }
             return previous;
         }
 
@@ -2072,6 +2097,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             "ResetExternalNavigation",
             respawnPosition.X, respawnPosition.Y, respawnPosition.Z);
         ConfigureNameplate(peerId, instance);
+        EquipHardpointBot(peerId, replacement);
         PresentBotWeapon(replacement);
         return replacement;
     }

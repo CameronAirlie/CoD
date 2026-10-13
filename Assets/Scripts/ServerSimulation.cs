@@ -34,7 +34,7 @@ public sealed class ServerInput
     public PlayerCommand Consume(float now)
     {
         var command = now - ReceivedAt <= .25f ? _latest with
-        { Jump = _jump, Reload = _reload, Fire = _fire, UseItem = _use } :
+        { Jump = _jump, Reload = _reload, Fire = _fire || _latest.Fire, UseItem = _use } :
             PlayerCommand.Idle with { Sequence = Math.Max(1, LastSequence), Yaw = _latest.Yaw, Pitch = _latest.Pitch, Slot = _latest.Slot };
         _jump = _reload = _fire = false; _use = 0;
         return command;
@@ -148,6 +148,26 @@ public sealed class ServerMotor
     { var d = to - from; var length = d.Length(); return length <= amount ? to : from + d / length * amount; }
 }
 
+/// <summary>One early click may wait for cadence; holding never repeats a semi-auto shot.</summary>
+public sealed class WeaponTriggerBuffer
+{
+    public const float Window = .18f;
+    private bool _held, _pending;
+    private float _expires;
+    public void Cancel() => _pending = false;
+    public void Reset() { _held = false; Cancel(); }
+    public bool Consume(bool held, bool automatic, float now, float readyAt, bool allowed)
+    {
+        var pressed = held && !_held; _held = held;
+        if (!allowed) { Cancel(); return false; }
+        if (automatic) { Cancel(); return held && now >= readyAt; }
+        if (_pending && now > _expires) Cancel();
+        if (pressed && readyAt - now <= Window) { _pending = true; _expires = MathF.Max(now + Window, readyAt + .05f); }
+        if (!_pending || now < readyAt) return false;
+        Cancel(); return true;
+    }
+}
+
 /// <summary>Per-life authoritative weapon and inventory state, independent of native/UI code.</summary>
 public sealed class ServerEquipment
 {
@@ -157,20 +177,20 @@ public sealed class ServerEquipment
     public int Plates { get; private set; }
     public bool Reloading => _reloadAt > 0;
     public int UsingItem { get; private set; }
-    private float _reloadAt, _readyAt, _useAt;
-    private bool _fireHeld;
+    private float _reloadAt, _readyAt, _useAt, _drawUntil;
+    private readonly WeaponTriggerBuffer _trigger = new();
     public void Reset(CombatLoadout loadout)
     {
         Weapons.Reset(loadout);
         var supply = InventoryRules.Loadout(loadout);
         Reserve = supply.Ammo; Kits = supply.Kits; Plates = supply.Plates;
-        _reloadAt = _readyAt = _useAt = 0; UsingItem = 0; _fireHeld = false;
+        _reloadAt = _readyAt = _useAt = _drawUntil = 0; UsingItem = 0; _trigger.Reset();
     }
     public int Tick(PlayerCommand input, float now, bool canAct)
     {
-        if (!canAct) { CancelUse(); _reloadAt = 0; _fireHeld = false; return 0; }
+        if (!canAct) { CancelUse(); _reloadAt = 0; _trigger.Cancel(); return 0; }
         if (input.Slot != Weapons.SelectedSlot && UsingItem == 0)
-        { Weapons.Select(input.Slot); _reloadAt = 0; _readyAt = MathF.Max(_readyAt, now + Weapons.Equipped.DrawSeconds); }
+        { _trigger.Cancel(); Weapons.Select(input.Slot); _reloadAt = 0; _drawUntil = now + Weapons.Equipped.DrawSeconds; _readyAt = MathF.Max(_readyAt, _drawUntil); }
         if (_reloadAt > 0 && now >= _reloadAt)
         { var n = Math.Min(Reserve, Weapons.Equipped.MagazineSize - Weapons.Magazine); Weapons.Magazine += n; Reserve -= n; _reloadAt = 0; }
         var used = 0;
@@ -178,16 +198,16 @@ public sealed class ServerEquipment
         { used = UsingItem; if (used == 1) Kits--; else Plates--; UsingItem = 0; }
         if (input.UseItem != 0 && UsingItem == 0 && !Reloading && now >= _readyAt &&
             (input.UseItem == 1 ? Kits > 0 : Plates > 0))
-        { UsingItem = input.UseItem; _useAt = now + (UsingItem == 1 ? 1 : .5f); }
+        { _trigger.Cancel(); UsingItem = input.UseItem; _useAt = now + (UsingItem == 1 ? 1 : .5f); }
         if (input.Reload && !Reloading && UsingItem == 0 && now >= _readyAt &&
             Weapons.Magazine < Weapons.Equipped.MagazineSize && Reserve > 0)
-            _reloadAt = now + Weapons.Equipped.ReloadSeconds;
+        { _trigger.Cancel(); _reloadAt = now + Weapons.Equipped.ReloadSeconds; }
         return used;
     }
     public bool TryFire(bool held, float now, bool canAct)
     {
-        var trigger = held && (Weapons.Equipped.Automatic || !_fireHeld); _fireHeld = held;
-        if (!trigger || !canAct || Reloading || UsingItem != 0 || now < _readyAt || Weapons.Magazine <= 0) return false;
+        if (!_trigger.Consume(held, Weapons.Equipped.Automatic, now, _readyAt,
+                canAct && !Reloading && UsingItem == 0 && now >= _drawUntil && Weapons.Magazine > 0)) return false;
         Weapons.Magazine--; _readyAt = now + Weapons.Equipped.ShotInterval; return true;
     }
     public void CancelUse() { UsingItem = 0; _useAt = 0; }

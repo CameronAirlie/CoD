@@ -47,3 +47,17 @@ scrollbarvertical { width: 8dp; }
 .shop-button.unavailable { tab-index: none; }
 .weapon-card.unavailable { tab-index: none; }
 @media (max-width: 800px) { #shop-grid .shop-button { width: 46%; } #weapon-grid { flex-wrap: wrap; } .weapon-card { width: 100%; } #footer, #header { flex-wrap: wrap; } }
+
+#loadout-selector { display: none; }
+#loadout-grid { display: flex; flex-wrap: wrap; gap: 10dp; margin-top: 12dp; }
+.loadout-card { box-sizing: border-box; flex-grow: 1; width: 30%; padding: 14dp; text-align: left; background-color: ${background}; color: ${text}; border: 1dp ${border}; }
+.loadout-card:hover, .loadout-card:focus { border-color: ${accent}; background-color: ${elevated}; }
+.loadout-card.selected { border-color: ${accent}; background-color: ${elevated}; }
+.loadout-portrait { display: block; width: 100%; height: 70dp; }
+.loadout-name { font-family: TacticalHeading; font-size: 26dp; margin-top: 8dp; }
+.loadout-details { font-family: TacticalDisplay; font-size: 12dp; color: ${secondary}; margin-top: 6dp; }
+.loadout-action { font-family: TacticalDisplay; font-size: 11dp; color: ${accent}; margin-top: 12dp; }
+.loadout-card.selected .loadout-action { font-weight: bold; }
+.preset-mode .weapon-portrait { height: 50dp; }
+.preset-mode .weapon-card-name { font-size: 22dp; }
+@media (max-width: 700px) { .loadout-card { width: 100%; } }

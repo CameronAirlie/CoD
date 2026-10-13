@@ -479,7 +479,7 @@ ASSET	project://Scenes/ragdoll_test.plutoscene	21181	Scene
 ASSET	project://Scripts/BotCombatMovement.cs	2384	Script
 ASSET	project://Scripts/BotEquipmentRules.cs	3199	Script
 ASSET	project://Scripts/BotObjectiveTactics.cs	1272	Script
-ASSET	project://Scripts/BotSpawnResolver.cs	1211	Script
+ASSET	project://Scripts/BotSpawnResolver.cs	1654	Script
 ASSET	project://Scripts/CombatFeedback.cs	4926	Script
 ASSET	project://Scripts/CombatFeedbackMath.cs	590	Script
 ASSET	project://Scripts/CombatTargeting.cs	1322	Script
@@ -488,40 +488,40 @@ ASSET	project://Scripts/DedicatedServerSettings.cs	12342	Script
 ASSET	project://Scripts/DefusalBotTactics.cs	2397	Script
 ASSET	project://Scripts/DefusalMarker.cs	2671	Script
 ASSET	project://Scripts/DefusalRules.cs	6715	Script
-ASSET	project://Scripts/EconomyRules.cs	2779	Script
+ASSET	project://Scripts/EconomyRules.cs	2862	Script
 ASSET	project://Scripts/EnemySoldierBot.cs	40631	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4384	Script
 ASSET	project://Scripts/FairBotPlanner.cs	1015	Script
 ASSET	project://Scripts/FirstPersonHands.cs	2576	Script
 ASSET	project://Scripts/GameGraphicsSettings.cs	4262	Script
-ASSET	project://Scripts/GameModeHud.cs	10972	Script
+ASSET	project://Scripts/GameModeHud.cs	11233	Script
 ASSET	project://Scripts/GameplaySounds.cs	5357	Script
-ASSET	project://Scripts/GrenadeRules.cs	5941	Script
+ASSET	project://Scripts/GrenadeRules.cs	6080	Script
 ASSET	project://Scripts/HandMotion.cs	1951	Script
 ASSET	project://Scripts/HardpointMarker.cs	2224	Script
 ASSET	project://Scripts/HardpointRules.cs	3610	Script
-ASSET	project://Scripts/InventoryMenu.cs	11555	Script
-ASSET	project://Scripts/InventoryRules.cs	1069	Script
+ASSET	project://Scripts/InventoryMenu.cs	13279	Script
+ASSET	project://Scripts/InventoryRules.cs	2100	Script
 ASSET	project://Scripts/MatchContracts.cs	7492	Script
 ASSET	project://Scripts/MultiplayerLaunch.cs	1634	Script
-ASSET	project://Scripts/MultiplayerSession.Authority.cs	19191	Script
-ASSET	project://Scripts/MultiplayerSession.BotEquipment.cs	7670	Script
+ASSET	project://Scripts/MultiplayerSession.Authority.cs	19958	Script
+ASSET	project://Scripts/MultiplayerSession.BotEquipment.cs	8301	Script
 ASSET	project://Scripts/MultiplayerSession.Defusal.cs	14561	Script
-ASSET	project://Scripts/MultiplayerSession.Economy.cs	5562	Script
+ASSET	project://Scripts/MultiplayerSession.Economy.cs	5738	Script
 ASSET	project://Scripts/MultiplayerSession.Grenades.cs	15998	Script
-ASSET	project://Scripts/MultiplayerSession.Objectives.cs	6954	Script
+ASSET	project://Scripts/MultiplayerSession.Objectives.cs	8719	Script
 ASSET	project://Scripts/MultiplayerSession.Throwables.cs	6675	Script
-ASSET	project://Scripts/MultiplayerSession.cs	101182	Script
+ASSET	project://Scripts/MultiplayerSession.cs	103055	Script
 ASSET	project://Scripts/NetworkParticipantHitbox.cs	401	Script
 ASSET	project://Scripts/ObjectiveStatus.cs	1062	Script
 ASSET	project://Scripts/PauseMenu.cs	262	Script
-ASSET	project://Scripts/PlayerController.cs	56973	Script
-ASSET	project://Scripts/PlayerHealth.cs	10619	Script
-ASSET	project://Scripts/PlayerHud.cs	24925	Script
+ASSET	project://Scripts/PlayerController.cs	57782	Script
+ASSET	project://Scripts/PlayerHealth.cs	11063	Script
+ASSET	project://Scripts/PlayerHud.cs	25165	Script
 ASSET	project://Scripts/PlayerInventory.cs	6249	Script
 ASSET	project://Scripts/PlayerSettings.cs	4209	Script
 ASSET	project://Scripts/RoundProgression.cs	2235	Script
-ASSET	project://Scripts/ServerSimulation.cs	14374	Script
+ASSET	project://Scripts/ServerSimulation.cs	15403	Script
 ASSET	project://Scripts/SupplyPickup.cs	4022	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
 ASSET	project://Scripts/TeamNameplate.cs	293	Script
@@ -1271,8 +1271,8 @@ ASSET	project://UI/hardpoint-marker.rcss	792	Unknown
 ASSET	project://UI/hardpoint-marker.rml	205	RML Document
 ASSET	project://UI/hud.rcss	8741	Unknown
 ASSET	project://UI/hud.rml	3688	RML Document
-ASSET	project://UI/inventory.rcss	4111	Unknown
-ASSET	project://UI/inventory.rml	3553	RML Document
+ASSET	project://UI/inventory.rcss	5151	Unknown
+ASSET	project://UI/inventory.rml	4939	RML Document
 ASSET	project://UI/loading.plutoloading	72	Loading Screen
 ASSET	project://UI/loading.rcss	2545	Unknown
 ASSET	project://UI/loading.rml	993	RML Document

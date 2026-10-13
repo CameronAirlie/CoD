@@ -45,3 +45,8 @@ Tests/SpectatorPresentation/bin/
 Tests/SpectatorPresentation/obj/
 !Tests/SpectatorPresentation/SpectatorPresentation.Tests.csproj
 !Tests/ShipmentSmokeProbe.cs
+
+!Tests/CombatSpawns/
+Tests/CombatSpawns/bin/
+Tests/CombatSpawns/obj/
+!Tests/CombatSpawns/CombatSpawns.Tests.csproj
