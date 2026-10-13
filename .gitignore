@@ -44,3 +44,4 @@ Server/*.log
 Tests/SpectatorPresentation/bin/
 Tests/SpectatorPresentation/obj/
 !Tests/SpectatorPresentation/SpectatorPresentation.Tests.csproj
+!Tests/ShipmentSmokeProbe.cs

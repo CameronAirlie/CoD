@@ -300,3 +300,25 @@ sprint/movement keys are released. Air steering preserves carried speed without
 adding sprint speed to a standing/walking jump. Normal ground acceleration and
 braking resume on landing. Server movement, prediction/replay and offline play
 share this rule; client and server exports must both be updated.
+
+
+## Shipment hardpoint yard
+
+The Title scene's Hardpoint selection now loads `Assets/Scenes/Shipment.plutoscene`.
+Open that scene directly to play in the editor. Main remains available separately.
+Shipment is an original recreation inspired by the classic daylight Shipment yard:
+four paired center container blocks, crossing lanes, angled open perimeter containers,
+weathered painted steel, chain-link fencing, forklift/crate cover and an industrial backdrop.
+It is an approximation, not a measured replica or an import of Call of Duty assets.
+Five hills rotate Center, Gate, Blue, Forklift, Red (45 seconds each; 3.2 metre radius).
+Four corner spawn markers and a 0.4 metre navigation grid support bots.
+
+Dedicated server: `CoDServer.exe --mode Hardpoint --map Shipment`, or local console
+`mode Hardpoint Shipment`. Clients accept the host's Shipment map advertisement.
+Rebuild/export the game to update packaged builds.
+
+Regenerate map assets with `python Tools/build_shipment.py` (requires Pillow).
+Visual detail is combined into 22 native meshes with separate simple collision geometry.
+Run `python Tools/run_shipment_smoke.py <path-to-PlutoGERuntime.exe>` to check all
+20 corner-to-hill paths using the native navigation system and the authored bot capsule.
+Layout reference: https://www.callofduty.com/blog/2021/03/call-of-duty-mobile-map-snapshot-guide-shipment-modern-warfare

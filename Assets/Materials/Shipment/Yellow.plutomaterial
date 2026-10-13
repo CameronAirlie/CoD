@@ -1,0 +1,8 @@
+Color=1,1,1,1
+SurfaceType=Standard
+AlphaMode=Opaque
+CastsShadow=true
+Metallic=0.55
+Roughness=.86
+AlbedoTexture=project://Textures/Shipment/Yellow.png
+ShaderGraph=engine://builtin/shadergraph/default-lit

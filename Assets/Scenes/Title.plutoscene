@@ -23,7 +23,7 @@ END_COMPONENT
 COMPONENT	1	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.TitleScreen	0
 PROPERTY	documentPath	2	UI/title.rml	0
-PROPERTY	gameScene	2	Main	0
+PROPERTY	gameScene	2	Shipment	0
 PROPERTY	username	2	Player	0
 PROPERTY	serverAddress	2	127.0.0.1	0
 PROPERTY	defusalScene	2	Foundry	0

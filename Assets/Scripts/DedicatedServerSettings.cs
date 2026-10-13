@@ -14,7 +14,8 @@ internal static class DedicatedServerSettings
     {
         var expected = mode == "Defusal" ? "Foundry" : "Main";
         if (string.IsNullOrWhiteSpace(map)) return expected;
-        if (!map.Equals(expected, StringComparison.OrdinalIgnoreCase)) throw new ArgumentException($"{mode} supports map {expected}.");
+        if (mode != "Defusal" && map.Equals("Shipment", StringComparison.OrdinalIgnoreCase)) return "Shipment";
+        if (!map.Equals(expected, StringComparison.OrdinalIgnoreCase)) throw new ArgumentException($"{mode} supports map {expected}{(mode == "Defusal" ? "" : " or Shipment")}.");
         return expected;
     }
     public static string Map => MapFor(Mode, Environment.GetEnvironmentVariable("PLUTOGE_SERVER_MAP") ?? Environment.GetEnvironmentVariable("COD_SERVER_MAP"));
@@ -59,7 +60,7 @@ public sealed partial class MultiplayerSession : PlutoGE.ScriptCore.IServerComma
         {
             try
             {
-                if (verb == "maps") { AdminLog("Defusal: Foundry; Hardpoint / TeamDeathmatch: Main."); return true; }
+                if (verb == "maps") { AdminLog("Defusal: Foundry; Hardpoint / TeamDeathmatch: Main, Shipment."); return true; }
                 Require(verb == "mode" ? args.Length is 2 or 3 : args.Length == 2, "Usage: mode <Hardpoint|Defusal|tdm> [map] | map <name>");
                 var nextMode = verb == "mode" ? DedicatedServerSettings.NormalizeMode(args[1]) : DedicatedServerSettings.Mode;
                 var nextMap = DedicatedServerSettings.MapFor(nextMode, verb == "map" ? args[1] : args.Length == 3 ? args[2] : null);
