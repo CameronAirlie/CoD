@@ -1,0 +1,10 @@
+Color=1.00000,1.00000,1.00000,1.00000
+SurfaceType=Standard
+AlphaMode=Opaque
+CastsShadow=true
+TwoSided=true
+Metallic=0
+Roughness=0.4
+AlbedoTexture=project://Textures/Terminal/Light.png
+Emission=1,1,0.8
+ShaderGraph=engine://builtin/shadergraph/default-lit

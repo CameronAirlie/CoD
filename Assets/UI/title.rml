@@ -3,7 +3,7 @@
 <div id="masthead"><span class="brand">PLUTO <span class="accent">//</span> COMBAT</span><span class="ui-eyebrow">MULTIPLAYER OPERATIONS</span></div>
 <div id="menu"><div class="ui-eyebrow accent">01 / OPERATIONS</div><div id="game-title" class="ui-heading">MULTIPLAYER</div>
 <div class="menu-description">Choose your mission. Prepare for deployment.</div>
-<div id="modes"><button tabindex="0" id="mode-hardpoint" class="ui-tab selected"><span class="mode-number">01</span> HARDPOINT <span class="mode-map">ARENA</span></button><button tabindex="1" id="mode-defusal" class="ui-tab"><span class="mode-number">02</span> DEFUSAL <span class="mode-map">FOUNDRY</span></button></div>
+<div id="modes"><button tabindex="0" id="mode-hardpoint" class="ui-tab selected"><span class="mode-number">01</span> HARDPOINT <span class="mode-map">ARENA</span></button><button tabindex="1" id="mode-defusal" class="ui-tab"><span class="mode-number">02</span> DEFUSAL <span class="mode-map">TERMINAL</span></button></div>
 <div class="connection ui-panel"><div class="ui-eyebrow">OPERATOR / CONNECTION</div>
 <div class="field-row"><label for="username">CALLSIGN</label><input tabindex="2" id="username" class="ui-field" type="text" value="Player" maxlength="20" /></div>
 <div class="field-row"><label for="address">HOST ADDRESS</label><input tabindex="3" id="address" class="ui-field" type="text" value="127.0.0.1" maxlength="253" /></div></div>

@@ -1,0 +1,9 @@
+Color=1.00000,1.00000,1.00000,0.16000
+SurfaceType=Standard
+AlphaMode=Blend
+CastsShadow=false
+TwoSided=true
+Metallic=0.1
+Roughness=0.15
+AlbedoTexture=project://Textures/Terminal/Glass.png
+ShaderGraph=engine://builtin/shadergraph/default-lit

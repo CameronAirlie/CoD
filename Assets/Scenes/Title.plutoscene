@@ -26,7 +26,7 @@ PROPERTY	documentPath	2	UI/title.rml	0
 PROPERTY	gameScene	2	Shipment	0
 PROPERTY	username	2	Player	0
 PROPERTY	serverAddress	2	127.0.0.1	0
-PROPERTY	defusalScene	2	Foundry	0
+PROPERTY	defusalScene	2	Terminal	0
 END_COMPONENT
 ENTITY	9	0	1	Camera	0.000000,2.000000,5.000000	-15.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	9	CameraComponent	1

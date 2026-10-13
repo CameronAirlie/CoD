@@ -32,7 +32,7 @@ public sealed class GameModeHud : ScriptBehaviour
         if (_refresh > 0 || _document is null) return;
         _refresh = .1f;
         var match = _session?.CurrentMatch;
-        Set("match-mode", match?.Mode == MatchMode.Defusal ? "DEFUSAL / FOUNDRY" : match?.Mode == MatchMode.Hardpoint ? "HARDPOINT" : "TEAM DEATHMATCH");
+        Set("match-mode", match?.Mode == MatchMode.Defusal ? $"DEFUSAL / {SceneManager.GetActiveScene().Name.ToUpperInvariant()}" : match?.Mode == MatchMode.Hardpoint ? "HARDPOINT" : "TEAM DEATHMATCH");
         Set("scoreboard-mode", match?.Mode == MatchMode.Defusal ? "DEFUSAL | FIRST TO 7 ROUNDS" : match?.Mode == MatchMode.Hardpoint ? "HARDPOINT | OBJ = SECONDS ON POINT" : "TEAM DEATHMATCH");
         Set("scoreboard-objective-heading", match?.Mode == MatchMode.Defusal ? "LIFE" : "OBJ");
         var pov = _controller?.SpectatorView;

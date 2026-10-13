@@ -238,7 +238,7 @@ Taking a hit triggers a red screen-edge flash, including hits absorbed by armour
 
 Foundry runs 5v5: ten participants, with the host counting as one player. Up to nine bots fill empty slots, and the server accepts up to nine remote clients. Teams are balanced as players and bots join.
 
-Open `Assets/Scenes/Foundry.plutoscene` and Play, or select **DEFUSAL / FOUNDRY** on the Title scene before hosting/joining. Both peers must select the same mode. Main remains the existing Hardpoint scene. Rebuild/export the project to include the new scene and scripts in a packaged game; old exports are not updated automatically.
+Open `Assets/Scenes/Foundry.plutoscene` and Play to use Foundry. The Title scene’s Defusal selection now loads Terminal before hosting/joining. Both peers must select the same mode. Main remains the existing Hardpoint scene. Rebuild/export the project to include the new scene and scripts in a packaged game; old exports are not updated automatically.
 
 Foundry is an original courtyard/industrial blockout: A is west, B is east, mid connects the approaches, and the northern passage supports defender rotations. Colored ground outlines and projected labels identify the plant zones. Foundry now has terrain-scale elevation: the southern deployment and central channel are at 0m, the west courtyard and site A are at +2m, and the east foundry, site B and northern rotation are at +4m. Broad southern ramps lead up to both side terraces; three stair connections per side link them to low mid, with separate northern stairs for retakes and rotation. Open-sky workshop/machine-hall corridors, side exits, offset machinery and terrace-edge cover create distinct close-range routes and downhill firing positions. Bombsites, boundaries, defender spawn and tactical markers follow the terrain heights. Tall compound walls separate mid from the elevated yards; boiler/maintenance buildings force offset turns through mid. Side passages have alternating return walls, site entrances are offset from corridor exits, and northern utility buildings break the defender rotation sightline. Tall compound walls separate mid from the elevated yards; boiler/maintenance buildings force offset turns through mid. Side passages have alternating return walls, site entrances are offset from corridor exits, and northern utility buildings break the defender rotation sightline. Navigation rebakes at 0.5m resolution; the layout avoids overlapping walkable floors so its heightfield navigation can represent every route. The layout uses existing engine meshes, player/weapon assets and materials; it contains no Counter-Strike assets.
 
@@ -361,3 +361,47 @@ pending/active equipment, dead selection, offline/server spawn commitment, bot
 preset, purchase rejection, mode isolation and RML menu checks.
 
 Nameplate regression check: `python Tools/run_nameplate_smoke.py <path-to-PlutoGERuntime.exe>`.
+
+
+## Terminal Defusal airport
+
+Open `Assets/Scenes/Terminal.plutoscene` and Play, or select **DEFUSAL / TERMINAL**
+on the Title screen. Hardpoint continues to use Shipment. Foundry remains available
+by opening its scene or selecting it explicitly on the dedicated server.
+
+Terminal is an original geometric recreation inspired by the Modern Warfare 3
+airport layout. Its revised concave footprint is traced from the user-supplied
+421 x 282 minimap: light blue is enclosed interior and dark blue is the apron.
+The Security projection, southwest steps, two central shop blocks, narrow east
+window hallway, northeast lounge and diagonal glazed corner follow that plan.
+The lounge now has a north/south escalator run and separate upper/lower floors;
+the main aircraft uses rear engines and a T-tail, with a background double-deck
+jumbo beyond the apron. Public environment images supplement the attached references. It includes
+Security scanners, a shopping atrium, bookstore shortcut, duty-free store, Burger
+Town/checkered Dining, upper and lower lounges with working escalator steps,
+maintenance, a glazed jet bridge, apron freight cover and a curved aircraft with
+seating and three traversable entrances. Site A is in the upper lounge; B is in
+the cabin near the emergency exit. Existing Defusal economy, round rules, bots,
+team changes and spectators are retained. Dimensions and artwork are approximated;
+this is not an exact replica or an import of the original game's assets.
+
+Dedicated server: `CoDServer.exe --mode Defusal --map Terminal`, or local console
+`mode Defusal Terminal`. Both Terminal and Foundry are accepted for Defusal.
+Rebuild/export the game to include the scene in packaged builds.
+
+Regenerate with `python Tools/build_terminal.py` (Pillow; Windows Arial font).
+The generator registers its textures, materials, native meshes and scene without
+rewriting Main, Foundry or Shipment. Geometry is combined into spatial/material
+batches; gameplay uses separate simple collision shapes and a 0.4m navigation grid.
+
+Validation: `python Tools/run_terminal_smoke.py <path-to-PlutoGERuntime.exe>` checks
+all six approaches to both sites, three aircraft entrances, escalators, 24 spawn
+slots, collision heights, both plant/defuse interactions and server map selection.
+
+References: [official Terminal map guide](https://www.callofduty.com/guides/multiplayer-maps/call-of-duty-modern-warfare-iii-play-maps-core-multiplayer-map-guide-terminal)
+and [Terminal Search & Destroy overhead](https://breakingpoint.gg/posts/snd-bombsite-locations-in-modern-warfare-3).
+
+
+The generator also writes `Tools/Native/Terminal/Terminal-footprint.png` for reviewing
+the traced interior/exterior boundary. Terminal native checks include stepped-boundary
+collision samples as well as all routes, entrances, spawn slots and bomb interactions.
