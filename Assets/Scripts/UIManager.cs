@@ -15,6 +15,9 @@ public sealed class UIManager : ScriptBehaviour
     private RmlWidgetComponent? _inventoryWidget;
     private RmlDocument? _pauseDocument;
     private RmlDocument? _hudDocument;
+    private CoD.Scripts.MultiplayerSession? _session;
+    private string _switchTeamLabel = "";
+    private CoD.Scripts.MultiplayerSession? Session => _session ??= GameObject.Find("Player")?.GetComponent<CoD.Scripts.MultiplayerSession>();
     private bool _isPaused;
     private bool _isInventoryOpen;
     private bool _needsInitialPresentation = true;
@@ -66,6 +69,9 @@ public sealed class UIManager : ScriptBehaviour
     {
         // Scene and RML initialization can change cursor capture after OnCreate.
         // Reapply the initial gameplay state once the scene is fully live.
+        var label = Session?.IsNeutralSpectator == true ? "SWITCH VIEWED TEAM" : "SWITCH TEAM";
+        if (_isPaused && _pauseDocument is not null && label != _switchTeamLabel && _pauseDocument.Element("switch-team").SetClass("ready", true))
+        { _pauseDocument.Element("switch-team").Markup = label; _switchTeamLabel = label; }
         if (_needsInitialPresentation)
         {
             _needsInitialPresentation = false;
@@ -115,6 +121,7 @@ public sealed class UIManager : ScriptBehaviour
 
     public void SetInventoryOpen(bool isOpen)
     {
+        if (isOpen && Session?.IsNeutralSpectator == true) return;
         if (_isPaused || _isInventoryOpen == isOpen)
             return;
 

@@ -61,7 +61,7 @@ public sealed partial class MultiplayerSession
     public void SubmitLocalInput(float moveX, float moveY, float yaw, float pitch, bool jump,
         bool sprint, bool crouch, bool aim, bool fire, bool reload, int slot, int useItem, float elapsed)
     {
-        if (!UsesServerAuthority || IsDedicated || _localPeerId < 0) return;
+        if (!UsesServerAuthority || IsDedicated || IsNeutralSpectator || _localPeerId < 0) return;
         if (useItem == 0) useItem = _queuedUseItem;
         _queuedUseItem = 0;
         var command = new PlayerCommand(1, moveX, moveY, yaw % 360, Math.Clamp(pitch, -89, 89),

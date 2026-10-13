@@ -3,6 +3,7 @@ namespace CoD.Scripts;
 /// <summary>Launch settings carried from the title screen into the game scene.</summary>
 public static class MultiplayerLaunch
 {
+    public static bool JoinAsSpectator { get; private set; }
     public static string Mode { get; private set; } = "Offline";
     public static string Username { get; private set; } = "Player";
     internal static MatchMode? ServerMatchMode { get; private set; }
@@ -10,7 +11,7 @@ public static class MultiplayerLaunch
     public static int ServerPort { get; private set; } = 7777;
     public static string ServerAddress { get; private set; } = "127.0.0.1";
 
-    public static bool Configure(string mode, string username, string serverAddress)
+    public static bool Configure(string mode, string username, string serverAddress, bool spectator = false)
     {
         var address = string.IsNullOrWhiteSpace(serverAddress) ? "127.0.0.1" : serverAddress.Trim();
         var port = 7777;
@@ -24,6 +25,7 @@ public static class MultiplayerLaunch
         }
         ServerMatchMode = null;
         Mode = mode;
+        JoinAsSpectator = spectator;
         Username = string.IsNullOrWhiteSpace(username) ? "Player" : username.Trim();
         ServerAddress = address; ServerPort = port;
         return true;

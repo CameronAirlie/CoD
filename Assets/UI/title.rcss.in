@@ -30,3 +30,23 @@
 @media (max-width: 1000px) { #mission-panel { width: 270dp; } #menu { width: 360dp; } #actions button { width: 174dp; } .field-row input { width: 210dp; } }
 
 #graphics-preset { display: block; width: 100%; margin-top: 12dp; height: 34dp; line-height: 32dp; padding: 0 12dp; }
+
+#join-role { display: flex; gap: 8dp; margin-top: 12dp; }
+#join-role button { width: 50%; box-sizing: border-box; font-size: 12dp; }
+#menu { max-height: 78%; overflow-y: auto; padding-right: 8dp; box-sizing: border-box; }
+
+/* Keep role selection and deployment actions visible at larger interface sizes. */
+@media (max-height: 800px) {
+    #game-title { font-size: 42dp; line-height: 46dp; }
+    #modes { margin-top: 12dp; }
+    #modes button { height: 34dp; padding: 6dp 12dp; margin-bottom: 4dp; }
+    .connection { margin-top: 12dp; padding: 12dp; }
+    .field-row { margin-top: 8dp; }
+    .field-row input { height: 34dp; }
+    #join-role { margin-top: 8dp; }
+    #join-role button { padding: 6dp 10dp; }
+    #actions { margin-top: 12dp; }
+    #actions button { height: 40dp; line-height: 38dp; }
+    #status { margin-top: 8dp; min-height: 24dp; }
+    #instructions { display: none; }
+}

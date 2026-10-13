@@ -47,7 +47,7 @@ public sealed class HardpointRules
             bool alpha = false, bravo = false;
             foreach (var participant in participants)
             {
-                if (!participant.Alive || !Contains(participant.Position)) continue;
+                if (!participant.Alive || !TeamIdentity.IsCombatTeam(participant.Team) || !Contains(participant.Position)) continue;
                 if (participant.Team == PlayerTeam.Alpha) alpha = true; else bravo = true;
             }
             PlayerTeam? owner = alpha == bravo ? null : alpha ? PlayerTeam.Alpha : PlayerTeam.Bravo;

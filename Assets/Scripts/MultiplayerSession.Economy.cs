@@ -10,7 +10,7 @@ public sealed partial class MultiplayerSession
     private readonly EconomyAccount _offlineAccount = new();
     private int _money = EconomyRules.StartingMoney, _ownedWeapons = 1 << 1;
     private float _buyEndsAt;
-    public int Money => GrenadesOffline ? _offlineAccount.Money : _money;
+    public int Money => IsNeutralSpectator ? 0 : GrenadesOffline ? _offlineAccount.Money : _money;
     public string ShopStatus { get; private set; } = "Choose an item to buy.";
     public event Action? EconomyChanged;
     public static void RewardOfflineKill()
@@ -20,10 +20,10 @@ public sealed partial class MultiplayerSession
     }
     public bool OwnsWeapon(int slot) => GrenadesOffline ? _offlineAccount.Owns(slot) :
         slot is >= 0 and < WeaponCatalog.SlotCount && (_ownedWeapons & (1 << slot)) != 0;
-    public bool CanBuy => GrenadesOffline ? _playerHealth?.IsDead != true :
+    public bool CanBuy => !IsNeutralSpectator && (GrenadesOffline ? _playerHealth?.IsDead != true :
         _localPeerId >= 0 && _playerHealth?.IsDead != true &&
         (CurrentMatch?.Phase == MatchPhase.Warmup || CurrentMatch?.Phase == MatchPhase.Playing &&
-            CurrentMatch.SecondsRemaining >= matchDuration - EconomyRules.BuySeconds);
+            CurrentMatch.SecondsRemaining >= matchDuration - EconomyRules.BuySeconds));
 
     public float BuySecondsRemaining => !CanBuy ? 0 : GrenadesOffline ? float.PositiveInfinity :
         CurrentMatch?.Phase == MatchPhase.Warmup ? MathF.Max(0, CurrentMatch.SecondsRemaining) :
@@ -48,6 +48,7 @@ public sealed partial class MultiplayerSession
     }
     private void AcceptPurchase(int peer, string? id)
     {
+        if (_playerStates.TryGetValue(peer, out var observer) && !TeamIdentity.IsCombatTeam(observer.Team)) return;
         var localOffline = GrenadesOffline && peer == 0;
         var allowed = localOffline ? _playerHealth?.IsDead != true :
             _playerStates.TryGetValue(peer, out var state) && state.Health > 0 &&
@@ -61,6 +62,7 @@ public sealed partial class MultiplayerSession
     }
     private void SendEconomy(int peer, string message = "Choose an item to buy.")
     {
+        if (_playerStates.TryGetValue(peer, out var observer) && !TeamIdentity.IsCombatTeam(observer.Team)) return;
         var account = Account(peer);
         var state = new EconomyState(account.Money, account.WeaponMask, message);
         if (peer == 0) ApplyEconomy(state);
@@ -89,6 +91,7 @@ public sealed partial class MultiplayerSession
     {
         foreach (var pair in _playerStates)
         {
+            if (!TeamIdentity.IsCombatTeam(pair.Value.Team)) continue;
             Account(pair.Key).Credit(winner is null || pair.Value.Team == winner ? EconomyRules.WinReward : EconomyRules.LossReward);
             SendEconomy(pair.Key);
         }

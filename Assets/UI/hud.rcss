@@ -72,3 +72,16 @@ body { pointer-events: none; focus: none; }
 #flash-overlay { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: white; opacity: 0; pointer-events: none; }
 
 #spectator-status { position: absolute; left: 20%; right: 20%; bottom: 32dp; text-align: center; font-family: TacticalDisplay; font-size: 18dp; color: #F2F4F5; background-color: #090B0Dee; line-height: 26dp; z-index: 10; pointer-events: none; }
+
+#match-strip { width: 360dp; max-width: 80%; margin-left: -180dp; padding: 6dp 12dp; }
+.team-score { display: flex; align-items: center; gap: 6dp; }
+.score-team-name { font-family: TacticalDisplay; font-size: 12dp; }
+.score-row.alpha-team { background-color: #4DA8FF15; }
+.score-row.bravo-team { background-color: #FF9F4315; }
+.score-row.observer-team { background-color: #A6A0B40c; }
+#spectator-status { left: 30%; right: 30%; max-width: 90%; padding: 8dp; box-sizing: border-box; font-size: 15dp; }
+#scoreboard { max-height: 70%; overflow-y: auto; }
+@media (max-width: 700px) { #match-strip { left: 10%; right: 10%; width: auto; margin-left: 0; } .score-team-name { display: none; } #spectator-status { left: 5%; right: 5%; bottom: 140dp; font-size: 12dp; } #scoreboard { left: 5%; right: 5%; } }
+
+.scoreboard-heading span { width: 10%; text-align: right; }
+.scoreboard-heading span:first-child { width: 65%; text-align: left; }

@@ -197,20 +197,26 @@ public sealed class PlayerHud : ScriptBehaviour
         }
         if (_domReady && _document is not null)
         {
-            var spectator = !_dead ? "" : _controller?.IsSpectating == true
-                ? $"SPECTATING {EscapeMarkup(_controller.SpectatorName)}<br/>Q PREVIOUS / E NEXT TEAMMATE"
+            var neutral = _multiplayer?.IsNeutralSpectator == true;
+            var viewedTeam = _controller?.SpectatorView is { } targetView
+                ? _multiplayer?.CurrentMatch?.Players.FirstOrDefault(p => p.PeerId == targetView.PeerId)?.Team ?? PlayerTeam.Spectator
+                : neutral ? _multiplayer!.SpectatorTeam : PlayerTeam.Spectator;
+            var teamLabel = $"<span class=\"{TeamIdentity.CssClass(viewedTeam)}\">{TeamIdentity.EmblemMarkup(viewedTeam)} {TeamIdentity.Name(viewedTeam)}</span>";
+            var spectator = !_dead && !neutral ? "" : _controller?.IsSpectating == true
+                ? $"{(neutral ? "NEUTRAL SPECTATOR / " : "")} {teamLabel} / {EscapeMarkup(_controller.SpectatorName)}<br/>Q PREVIOUS / E NEXT{(neutral ? " / F1 ALPHA / F2 BRAVO" : " TEAMMATE")}" : neutral
+                ? $"NEUTRAL SPECTATOR / {teamLabel}<br/>NO LIVE PLAYERS ON THIS SIDE / F1 ALPHA / F2 BRAVO"
                 : "NO TEAMMATES AVAILABLE<br/>WAITING TO RESPAWN";
             if (spectator != _spectatorPresentation)
             {
                 _document.Element("spectator-status").Markup = spectator;
                 _spectatorPresentation = spectator;
             }
-            var hideVitals = _dead && _controller?.IsSpectating != true;
+            var hideVitals = (_dead || neutral) && _controller?.IsSpectating != true;
             if (_renderedDead != hideVitals)
             {
                 _document.Element("weapon").SetClass("hidden", hideVitals);
                 _document.Element("vitals").SetClass("hidden", hideVitals);
-                _document.Element("interaction").SetClass("hidden", _dead);
+                _document.Element("interaction").SetClass("hidden", _dead || neutral);
                 _renderedDead = hideVitals;
                 if (hideVitals) _crosshair?.SetClass("hidden", true);
             }
@@ -453,9 +459,9 @@ public sealed class PlayerHud : ScriptBehaviour
         var rows = new System.Text.StringBuilder();
         foreach (var playerState in match.Players)
         {
-            var teamClass = playerState.Team == PlayerTeam.Alpha ? "alpha-team" : "bravo-team";
+            var teamClass = TeamIdentity.CssClass(playerState.Team);
             var localClass = playerState.PeerId == match.LocalPeerId ? " local" : string.Empty;
-            rows.Append($"<div class=\"score-row {teamClass}{localClass}\"><span class=\"player-name\">{EscapeMarkup(playerState.Username)}</span><span class=\"stat\">{playerState.Kills}</span><span class=\"stat\">{playerState.Deaths}</span><span class=\"stat\">{(match.Mode == MatchMode.Defusal ? playerState.Alive ? "IN" : "OUT" : ((int)playerState.ObjectiveSeconds).ToString())}</span></div>");
+            rows.Append($"<div class=\"score-row {teamClass}{localClass}\"><span class=\"player-name\">{TeamIdentity.EmblemMarkup(playerState.Team)} {TeamIdentity.Name(playerState.Team)} / {EscapeMarkup(playerState.Username)}</span><span class=\"stat\">{playerState.Kills}</span><span class=\"stat\">{playerState.Deaths}</span><span class=\"stat\">{(playerState.Team == PlayerTeam.Spectator ? "OBS" : match.Mode == MatchMode.Defusal ? playerState.Alive ? "IN" : "OUT" : ((int)playerState.ObjectiveSeconds).ToString())}</span></div>");
         }
         _scoreboardRows.Markup = rows.ToString();
     }
@@ -463,7 +469,7 @@ public sealed class PlayerHud : ScriptBehaviour
     private static string DescribeMatch(MatchSnapshot match)
     {
         var local = Array.Find(match.Players, player => player.PeerId == match.LocalPeerId);
-        if (local is null) return $"FIRST TO {match.ScoreLimit}";
+        if (local is null || local.Team == PlayerTeam.Spectator) return $"NEUTRAL SPECTATOR | FIRST TO {match.ScoreLimit}";
         var own = local.Team == PlayerTeam.Alpha ? match.AlphaScore : match.BravoScore;
         var enemy = local.Team == PlayerTeam.Alpha ? match.BravoScore : match.AlphaScore;
         var status = own == enemy ? "TIED" : own > enemy ? "WINNING" : "LOSING";
@@ -472,7 +478,7 @@ public sealed class PlayerHud : ScriptBehaviour
 
     private void OnKillFeed(KillFeedEntry entry)
     {
-        _feed.Add(($"{EscapeMarkup(entry.Killer)} eliminated {EscapeMarkup(entry.Victim)}", _hudTime + 5.0f));
+        _feed.Add(($"<span class=\"{TeamIdentity.CssClass(entry.KillerTeam)}\">{TeamIdentity.Badge(entry.KillerTeam)}</span> {EscapeMarkup(entry.Killer)} eliminated {EscapeMarkup(entry.Victim)}", _hudTime + 5.0f));
         while (_feed.Count > 4) _feed.RemoveAt(0);
         RenderKillFeed();
     }

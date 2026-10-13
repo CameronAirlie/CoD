@@ -27,7 +27,7 @@ public sealed class RoundProgression : ScriptBehaviour
         if (_phase == MatchPhase.Playing && match.Phase == MatchPhase.Results && (match.Mode != MatchMode.Defusal || match.Defusal?.MatchOver == true))
         {
             var local = Array.Find(match.Players, p => p.PeerId == match.LocalPeerId);
-            if (local is not null)
+            if (local is not null && TeamIdentity.IsCombatTeam(local.Team))
             {
                 var own = local.Team == PlayerTeam.Alpha ? match.AlphaScore : match.BravoScore;
                 var other = local.Team == PlayerTeam.Alpha ? match.BravoScore : match.AlphaScore;

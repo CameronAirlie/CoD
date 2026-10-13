@@ -21,7 +21,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         (session.mode.Equals("Host", StringComparison.OrdinalIgnoreCase) ||
          session.mode.Equals("Client", StringComparison.OrdinalIgnoreCase));
 
-    private const int ProtocolVersion = 19;
+    private const int ProtocolVersion = 20;
     private const ushort HandshakeChannel = 1;
     private const ushort TransformChannel = 2;
     private const ushort PeerLeftChannel = 3;
@@ -44,6 +44,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     public void RequestTeamSwitch()
     {
+        if (IsNeutralSpectator) { SetSpectatorTeam(SpectatorTeam == PlayerTeam.Alpha ? PlayerTeam.Bravo : PlayerTeam.Alpha); return; }
         if (_server is not null)
         {
             SwitchTeam(0);
@@ -78,6 +79,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     }
 
     [SerializedField] private string mode = "Offline";
+    [SerializedField] private bool joinAsSpectator = false;
+    [SerializedField] private int maximumSpectators = 8;
     [SerializedField] private string serverAddress = "127.0.0.1";
     [SerializedField] private int serverPort = 7777;
     [SerializedField] private float updatesPerSecond = 20.0f;
@@ -191,12 +194,14 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         if (!IsDedicated && !MultiplayerLaunch.Mode.Equals("Offline", StringComparison.OrdinalIgnoreCase))
         {
             mode = MultiplayerLaunch.Mode;
+            joinAsSpectator = MultiplayerLaunch.JoinAsSpectator;
             serverAddress = MultiplayerLaunch.ServerAddress;
             serverPort = MultiplayerLaunch.ServerPort;
             if (MultiplayerLaunch.ServerMatchMode is { } rules) gameMode = rules.ToString();
             _username = MultiplayerLaunch.Username;
         }
 
+        ApplyLocalSpectatorRole(!mode.Equals("Offline", StringComparison.OrdinalIgnoreCase) && joinAsSpectator);
         if (mode.Equals("Host", StringComparison.OrdinalIgnoreCase))
             StartHost();
         else if (mode.Equals("Client", StringComparison.OrdinalIgnoreCase))
@@ -347,15 +352,16 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             if (!IsDedicated)
             {
             _peerNames[0] = _username;
-            _playerStates[0] = new PlayerMatchState(PlayerTeam.Alpha, false)
+            _playerStates[0] = new PlayerMatchState(IsNeutralSpectator ? PlayerTeam.Spectator : PlayerTeam.Alpha, false)
             {
-                Health = MathF.Max(1.0f, multiplayerMaximumHealth)
+                Health = IsNeutralSpectator ? 0 : MathF.Max(1.0f, multiplayerMaximumHealth),
+                RespawnAt = IsNeutralSpectator ? float.PositiveInfinity : 0
             };
             }
             _server = new NetworkServer
             {
                 MaxPayloadSize = 4096,
-                MaxClients = maximumParticipants > 0 ? Math.Clamp(maximumParticipants - (IsDedicated ? 0 : 1), 1, 4096) : 128
+                MaxClients = maximumParticipants > 0 ? Math.Clamp(maximumParticipants + Math.Clamp(maximumSpectators, 0, 128) - (IsDedicated ? 0 : 1), 1, 4096) : 128
             };
             _server.ClientConnected += peerId =>
             {
@@ -366,7 +372,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             _server.MessageReceived += OnServerMessage;
             _server.Error += exception => Debug.LogError($"Network server: {exception.Message}");
             _server.Start(CheckedPort());
-            if (!IsDedicated) AddHuman(0);
+            if (!IsDedicated && !IsNeutralSpectator) AddHuman(0);
             BeginPhase(MatchPhase.Warmup, warmupDuration);
             // Scene-owned prefab and navigation resources may finish becoming
             // available after this component's OnCreate. Try now, then let the
@@ -412,7 +418,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         {
             _lastHostMessageAt = _time;
             Debug.Log($"Connected to {serverAddress}:{serverPort}.");
-            _client.SendJson(HandshakeChannel, new ClientHello(ProtocolVersion, _username, RulesMode));
+            _client.SendJson(HandshakeChannel, new ClientHello(ProtocolVersion, _username, RulesMode, joinAsSpectator));
         };
         _client.Disconnected += () =>
         {
@@ -468,19 +474,24 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                     return;
                 }
 
+                var full = hello.Spectator
+                    ? _playerStates.Values.Count(s => s.Team == PlayerTeam.Spectator) >= Math.Clamp(maximumSpectators, 0, 128)
+                    : maximumParticipants > 0 && CombatHumanCount >= maximumParticipants;
+                if (full) { _server?.Disconnect(message.PeerId); return; }
                 _pendingHandshakes.Remove(message.PeerId);
                 var username = SanitizeUsername(hello.Username, message.PeerId);
-                if (!IsDefusal || _matchPhase != MatchPhase.Playing) RemoveOneBot();
+                if (!hello.Spectator && (!IsDefusal || _matchPhase != MatchPhase.Playing)) RemoveOneBot();
                 _authenticatedPeers.Add(message.PeerId);
                 _peerLastSeenAt[message.PeerId] = _time;
                 _peerNames[message.PeerId] = username;
-                _playerStates[message.PeerId] = new PlayerMatchState(ChooseTeam(), false)
+                _playerStates[message.PeerId] = new PlayerMatchState(hello.Spectator ? PlayerTeam.Spectator : ChooseTeam(), false)
                 {
                     // A new connection gets its first life even if bots already started the round.
                     // Combat deaths still wait for StartDefusalRound to restore health.
-                    Health = MathF.Max(1.0f, multiplayerMaximumHealth)
+                    Health = hello.Spectator ? 0 : MathF.Max(1.0f, multiplayerMaximumHealth),
+                    RespawnAt = hello.Spectator ? float.PositiveInfinity : 0
                 };
-                AddHuman(message.PeerId);
+                if (!hello.Spectator) AddHuman(message.PeerId);
                 _server!.SendJson(
                     message.PeerId,
                     HandshakeChannel,
@@ -490,7 +501,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                         multiplayerMaximumHealth,
                         multiplayerRegenerationDelay,
                         multiplayerRegenerationPerSecond,
-                        RulesMode, SceneManager.GetActiveScene().Name));
+                        RulesMode, SceneManager.GetActiveScene().Name, hello.Spectator));
                 foreach (var peer in _peerNames)
                 {
                     _server.SendJson(
@@ -521,6 +532,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             if (message.Channel == BombInputChannel && IsDefusal && _authenticatedPeers.Contains(message.PeerId))
             {
                 var input = message.GetJson<BombInput>();
+                if (!_playerStates.TryGetValue(message.PeerId, out var bombUser) || !TeamIdentity.IsCombatTeam(bombUser.Team) || bombUser.Health <= 0) return;
                 _bombHeldUntil[message.PeerId] = input?.Held == true && _matchPhase == MatchPhase.Playing ? _time + .25f : 0;
                 return;
             }
@@ -576,6 +588,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 gameMode = welcome.Mode.ToString();
                 MultiplayerLaunch.SetServerMatch(welcome.Mode);
                 _localPeerId = welcome.PeerId;
+                ApplyLocalSpectatorRole(welcome.Spectator);
                 if (SceneManager.GetActiveScene().Name != welcome.Scene)
                 {
                     Shutdown();
@@ -902,7 +915,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             return;
         }
 
-        var humanCount = _playerStates.Count - _bots.Count;
+        var humanCount = CombatHumanCount;
         var desired = Math.Clamp(
             Math.Max(0, minimumParticipants) - humanCount,
             0,
@@ -1509,7 +1522,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     }
 
     private GameObject? GetParticipantObject(int peerId)
-        => peerId == 0 ? (IsDedicated ? null : GameObject) : _remotePlayers.GetValueOrDefault(peerId)?.GameObject;
+        => _playerStates.TryGetValue(peerId, out var participant) && !TeamIdentity.IsCombatTeam(participant.Team) ? null : peerId == 0 ? (IsDedicated ? null : GameObject) : _remotePlayers.GetValueOrDefault(peerId)?.GameObject;
 
     private void BotFire(int botId, GameObject intendedTarget, BotController bot)
     {
@@ -1598,7 +1611,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         var username = _knownPlayers.TryGetValue(peerId, out var player)
             ? player.Username
             : string.Empty;
-        proxy.TryInvoke("ConfigureNetworkNameplate", username, friendly);
+        proxy.TryInvoke("ConfigureNetworkNameplate", username, friendly, player is null ? -1 : (int)player.Team);
     }
 
     private static float NextBotRandom(BotController bot)
@@ -1772,6 +1785,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         foreach (var pair in _playerStates)
         {
             var state = pair.Value;
+            if (!TeamIdentity.IsCombatTeam(state.Team)) continue;
             if (state.Health <= 0.0f && _time >= state.RespawnAt)
             {
                 state.Health = MathF.Max(1.0f, multiplayerMaximumHealth);
@@ -1819,10 +1833,10 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     private void BeginPlaying()
     {
         ClearGrenades();
-        foreach (var owner in _playerStates.Keys) ResetGrenadeSupply(owner);
+        foreach (var owner in _playerStates.Where(p => TeamIdentity.IsCombatTeam(p.Value.Team)).Select(p => p.Key)) ResetGrenadeSupply(owner);
         _alphaScore = 0;
         _bravoScore = 0;
-        foreach (var state in _playerStates.Values)
+        foreach (var state in _playerStates.Values.Where(s => TeamIdentity.IsCombatTeam(s.Team)))
         {
             state.Kills = 0;
             state.Deaths = 0;
@@ -1897,7 +1911,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         foreach (var state in _playerStates.Values)
         {
             if (state.Team == PlayerTeam.Alpha) alpha++;
-            else bravo++;
+            else if (state.Team == PlayerTeam.Bravo) bravo++;
         }
         return alpha <= bravo ? PlayerTeam.Alpha : PlayerTeam.Bravo;
     }
@@ -1905,7 +1919,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     private void SwitchTeam(int peerId)
     {
         if (IsDefusal) return;
-        if (!_playerStates.TryGetValue(peerId, out var state) || state.IsBot)
+        if (!_playerStates.TryGetValue(peerId, out var state) || state.IsBot || !TeamIdentity.IsCombatTeam(state.Team))
             return;
 
         state.Team = state.Team == PlayerTeam.Alpha ? PlayerTeam.Bravo : PlayerTeam.Alpha;
@@ -1968,7 +1982,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     public int? SelectSpectatorTarget(int? current, int direction) => SpectatorRules.Select(
         CurrentMatch, current, direction, id => _remotePlayers.TryGetValue(id, out var remote) && remote.GameObject.IsValid &&
-            (_spectatorViews.TryGetValue(id, out var cached) && _time - cached.Received < 1));
+            (_spectatorViews.TryGetValue(id, out var cached) && _time - cached.Received < 1), SpectatorTeam);
 
     public bool TryGetSpectatorActor(int peer, out GameObject? actor)
     {
@@ -2004,14 +2018,14 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         return clean.Length <= 20 ? clean : clean[..20];
     }
 
-    private sealed record ClientHello(int ProtocolVersion, string Username, MatchMode Mode);
+    private sealed record ClientHello(int ProtocolVersion, string Username, MatchMode Mode, bool Spectator = false);
     private sealed record ServerWelcome(
         int ProtocolVersion,
         int PeerId,
         float MaximumHealth = 100.0f,
         float RegenerationDelay = 5.0f,
         float RegenerationPerSecond = 6.0f,
-        MatchMode Mode = MatchMode.Hardpoint, string Scene = "Main");
+        MatchMode Mode = MatchMode.Hardpoint, string Scene = "Main", bool Spectator = false);
     private sealed record PeerLeft(int PeerId);
     private sealed record PeerJoined(int PeerId, string Username);
     private sealed record PlayerDamage(float Amount, float SourceX = 0, float SourceY = 0, float SourceZ = 0);

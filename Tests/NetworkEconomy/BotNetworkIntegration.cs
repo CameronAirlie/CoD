@@ -27,7 +27,7 @@ internal static class BotNetworkIntegration
         using var client = new NetworkClient();
         var botCount = 0; var pistolBots = new HashSet<int>(); var shots = new HashSet<int>(); var throws = false;
         var money = -1;
-        client.Connected += () => client.SendJson(1, new { ProtocolVersion = 19, Username = "BotEquipmentObserver", Mode = 0 });
+        client.Connected += () => client.SendJson(1, new { ProtocolVersion = 20, Username = "BotEquipmentObserver", Mode = 0 });
         client.MessageReceived += message => {
             var json = message.GetJson<JsonElement>();
             if (message.Channel == 7) botCount = json.GetProperty("Players").EnumerateArray().Count(p => p.GetProperty("IsBot").GetBoolean());

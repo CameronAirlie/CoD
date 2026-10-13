@@ -8,6 +8,17 @@ namespace CoD.Scripts;
 public sealed partial class MultiplayerSession
 {
     private const ushort SpectatorViewChannel = 29;
+    public bool IsNeutralSpectator { get; private set; }
+    public PlayerTeam SpectatorTeam { get; private set; } = PlayerTeam.Alpha;
+    private int CombatHumanCount => _playerStates.Values.Count(s => !s.IsBot && TeamIdentity.IsCombatTeam(s.Team));
+    private void ApplyLocalSpectatorRole(bool spectator)
+    {
+        IsNeutralSpectator = spectator;
+        _playerController?.SetNeutralSpectator(spectator);
+    }
+    public void SetSpectatorTeam(PlayerTeam team)
+    { if (IsNeutralSpectator && TeamIdentity.IsCombatTeam(team)) SpectatorTeam = team; }
+
     [SerializedField] private float spectatorUpdatesPerSecond = 60;
     [SerializedField] private float spectatorInterpolationDelay = .1f;
     private readonly Dictionary<int, SpectatorViewBuffer> _spectatorViewBuffers = new();
@@ -17,7 +28,7 @@ public sealed partial class MultiplayerSession
 
     public void PublishLocalSpectatorView()
     {
-        if (IsDedicated || !UsesServerAuthority || _localPeerId < 0 || _playerHealth?.IsDead != false ||
+        if (IsDedicated || IsNeutralSpectator || !UsesServerAuthority || _localPeerId < 0 || _playerHealth?.IsDead != false ||
             _time < _nextSpectatorSendAt || _playerController is null) return;
         var rate = float.IsFinite(spectatorUpdatesPerSecond) ? Math.Clamp(spectatorUpdatesPerSecond, 1, 60) : 60;
         _nextSpectatorSendAt = _time + 1 / rate;
@@ -84,7 +95,7 @@ public sealed partial class MultiplayerSession
     public bool TryGetSpectatorView(int peer, out SpectatorViewState? view)
     {
         view = null;
-        if (_playerHealth?.IsDead != true || SelectSpectatorTarget(peer, 0) != peer) return false;
+        if (!IsNeutralSpectator && _playerHealth?.IsDead != true || SelectSpectatorTarget(peer, 0) != peer) return false;
         if (_spectatorViews.TryGetValue(peer, out var cached) && _time - cached.Received < 1)
         {
             if (_spectatorViewBuffers.TryGetValue(peer, out var buffer) && buffer.TrySample(_time, spectatorInterpolationDelay, out view)) return true;

@@ -16,6 +16,7 @@ public sealed class TitleScreen : ScriptBehaviour
     private RmlElement? _statusLabel;
     private bool _loading;
     private bool _defusalSelected;
+    private bool _spectatorSelected;
     [SerializedField] private string defusalScene = "Foundry";
 
     public override void OnCreate()
@@ -43,6 +44,8 @@ public sealed class TitleScreen : ScriptBehaviour
         _addressInput.On("change", SyncFields);
         _document.OnClick("mode-hardpoint", () => SelectMode(false));
         _document.OnClick("mode-defusal", () => SelectMode(true));
+        _document.OnClick("role-player", () => SelectRole(false));
+        _document.OnClick("role-spectator", () => SelectRole(true));
         _document.OnClick("host", () => Launch("Host"));
         _document.OnClick("join", () => Launch("Client"));
         SetStatus("Enter a username, then host or join a game.");
@@ -86,7 +89,7 @@ public sealed class TitleScreen : ScriptBehaviour
             return;
         }
 
-        if (!MultiplayerLaunch.Configure(launchMode, cleanName, serverAddress))
+        if (!MultiplayerLaunch.Configure(launchMode, cleanName, serverAddress, _spectatorSelected))
         {
             SetStatus("Enter a server address such as 127.0.0.1 or 127.0.0.1:7777.");
             return;
@@ -95,6 +98,15 @@ public sealed class TitleScreen : ScriptBehaviour
         SetStatus(_loading
             ? launchMode == "Host" ? "Starting host..." : "Joining game..."
             : "Could not load the game scene.");
+    }
+
+    private void SelectRole(bool spectator)
+    {
+        if (_loading) return;
+        _spectatorSelected = spectator;
+        _document?.Element("role-player").SetClass("selected", !spectator);
+        _document?.Element("role-spectator").SetClass("selected", spectator);
+        SetStatus(spectator ? "NEUTRAL SPECTATOR: Watch both teams. F1 / F2 choose a side; Q / E cycle players." : "PLAYER: Join a team and play the match.");
     }
 
     private void SelectMode(bool defusal)

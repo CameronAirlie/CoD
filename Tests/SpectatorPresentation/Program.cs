@@ -109,6 +109,32 @@ unsafe class Program
         Check(Enabled[10] && !Enabled[12], "Same-peer proxy replacement failed to restore/hide the correct body.");
         controller.ExitDeathState();
         Check(Enabled[12], "Respawn left the observed body invisible.");
+        // A neutral observer is healthy locally but must still render spectating,
+        // with no collision/simulation body and no restriction to either team.
+        Set(health,"_dead",false);
+        typeof(MultiplayerSession).GetProperty("IsNeutralSpectator")!.SetValue(session,true);
+        var neutralMatch = match with { Players = [match.Players[0] with { Team = PlayerTeam.Spectator }, match.Players[1],
+            new(3,"Bravo",PlayerTeam.Bravo,0,0,false)] };
+        typeof(MultiplayerSession).GetProperty("CurrentMatch")!.SetValue(session,neutralMatch);
+        views[3] = (view with { PeerId = 3, X = 40 },0f);
+        proxies[3] = Construct(remoteType,Object(22),Vector3.Zero,0f);
+        Enabled[40] = true; Enabled[41] = false;
+        Set(controller,"_collider",Construct(typeof(ColliderComponent),40u));
+        Set(controller,"_rigidbody",Construct(typeof(RigidbodyComponent),41u));
+        controller.SetNeutralSpectator(true);
+        Set(controller,"_spectatorPeer",2);
+        controller.OnLateUpdate(1f/60);
+        Check(controller.IsSpectating && !Enabled[40] && !Enabled[41], "Healthy neutral observer entered gameplay physics or failed to spectate.");
+        session.SetSpectatorTeam(PlayerTeam.Bravo);
+        Check(session.SelectSpectatorTarget(2,0) == 3, "Neutral camera could not switch to Bravo.");
+        Set(controller,"_spectatorPeer",3);
+        controller.OnLateUpdate(1f/60);
+        Check(controller.SpectatorView?.PeerId == 3 && cameraPosition.X == 40 && Enabled[12], "Neutral team switch failed to change POV/restore the previous body.");
+        session.SetSpectatorTeam(PlayerTeam.Spectator);
+        Check(session.SpectatorTeam == PlayerTeam.Bravo, "Invalid observer view filter was accepted.");
+        controller.SetNeutralSpectator(false);
+        Check(Enabled[40] && !Enabled[41], "Leaving observer mode changed the original physics state.");
+        Console.WriteLine("PASS: neutral role physics isolation, Alpha/Bravo POV switching and original-state restoration.");
         Console.WriteLine("PASS: late-bound mesh hiding/restoration and render-timeline camera height, rotation and FOV.");
     }
 }

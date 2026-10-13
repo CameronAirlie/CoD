@@ -47,7 +47,7 @@ public sealed partial class MultiplayerSession
         // their previous combat positions until the next round starts.
         var nextRound = _alphaScore >= scoreLimit || _bravoScore >= scoreLimit ? 1 : _defusalRound + 1;
         _defusalSpawnAttackers = DefusalRules.AttackersForRound(nextRound);
-        foreach (var state in _playerStates.Values) state.Health = multiplayerMaximumHealth;
+        foreach (var state in _playerStates.Values.Where(s => TeamIdentity.IsCombatTeam(s.Team))) state.Health = multiplayerMaximumHealth;
         _deadRemotePlayers.Clear();
         foreach (var id in _bots.Keys.ToArray())
         {
@@ -67,8 +67,8 @@ public sealed partial class MultiplayerSession
         _defusalAttackRoutes = defusalAttackRouteNames.Split('|', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
         _defusalDefendRoutes = defusalDefendRouteNames.Split('|', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
         ClearGrenades();
-        foreach (var owner in _playerStates.Keys) ResetGrenadeSupply(owner);
-        foreach (var state in _playerStates.Values) { state.Health = multiplayerMaximumHealth; state.RespawnAt = float.PositiveInfinity; state.LastDamagedAt = _time; }
+        foreach (var owner in _playerStates.Where(p => TeamIdentity.IsCombatTeam(p.Value.Team)).Select(p => p.Key)) ResetGrenadeSupply(owner);
+        foreach (var state in _playerStates.Values.Where(s => TeamIdentity.IsCombatTeam(s.Team))) { state.Health = multiplayerMaximumHealth; state.RespawnAt = float.PositiveInfinity; state.LastDamagedAt = _time; }
         // Assign to a human attacker first; bots can carry when humans defend.
         var carrier = _playerStates.Where(p => p.Value.Team == attackers).OrderBy(p => p.Value.IsBot).ThenBy(p => p.Key).Select(p => p.Key).FirstOrDefault();
         _defusal = new(_defusalRound, attackers, carrier, DefusalSpawn(attackers, carrier), [SitePosition(0), SitePosition(1)], matchDuration);
@@ -88,6 +88,7 @@ public sealed partial class MultiplayerSession
             _defusalAgents.Clear();
             foreach (var pair in _playerStates)
             {
+                if (!TeamIdentity.IsCombatTeam(pair.Value.Team)) continue;
                 var actor = GetParticipantObject(pair.Key);
                 if (actor is null || !actor.IsValid)
                 {
@@ -126,7 +127,7 @@ public sealed partial class MultiplayerSession
     }
     private void UpdateBombInput()
     {
-        if (IsDedicated || !IsDefusal || _time < _nextBombInputAt) return;
+        if (IsDedicated || IsNeutralSpectator || !IsDefusal || _time < _nextBombInputAt) return;
         _nextBombInputAt = _time + .1f;
         var held = Input.CursorLocked && Input.IsKeyDown(KeyCode.E) &&
             !Input.IsKeyDown(KeyCode.W) && !Input.IsKeyDown(KeyCode.A) && !Input.IsKeyDown(KeyCode.S) && !Input.IsKeyDown(KeyCode.D) && _playerController?.IsReloading != true && _inventory?.IsUsing != true;
@@ -140,7 +141,7 @@ public sealed partial class MultiplayerSession
         // and the next round, even though owner movement bypasses offline resets.
         foreach (var participant in match.Players)
         {
-            if (participant.PeerId == match.LocalPeerId) continue;
+            if (participant.PeerId == match.LocalPeerId || !TeamIdentity.IsCombatTeam(participant.Team)) continue;
             if (participant.Alive)
                 _deadRemotePlayers.Remove(participant.PeerId);
             else if (!_deadRemotePlayers.ContainsKey(participant.PeerId))

@@ -24,8 +24,8 @@ internal static class EconomyIntegration
         using var first = new NetworkClient(); using var second = new NetworkClient();
         JsonElement owner = default, economy = default, secondEconomy = default, supply = default, frame = default, secondFrame = default, match = default;
         var peer = -1; var sequence = 0L; var responses = 0;
-        first.Connected += () => first.SendJson(1, new { ProtocolVersion = 19, Username = "Buyer", Mode = 0 });
-        second.Connected += () => second.SendJson(1, new { ProtocolVersion = 19, Username = "Observer", Mode = 0 });
+        first.Connected += () => first.SendJson(1, new { ProtocolVersion = 20, Username = "Buyer", Mode = 0 });
+        second.Connected += () => second.SendJson(1, new { ProtocolVersion = 20, Username = "Observer", Mode = 0 });
         first.MessageReceived += message => {
             var json = message.GetJson<JsonElement>();
             if (message.Channel == 1) peer = json.GetProperty("PeerId").GetInt32();

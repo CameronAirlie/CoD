@@ -18,9 +18,9 @@
         </div>
 
         <div id="match-strip" class="panel">
-            <span id="alpha-score" class="alpha">0</span>
+            <span class="team-score alpha-team"><span class="team-emblem alpha-emblem"><span>A</span></span><span class="score-team-name">ALPHA</span><span id="alpha-score">0</span></span>
             <span id="match-clock">05:00</span>
-            <span id="bravo-score" class="bravo">0</span>
+            <span class="team-score bravo-team"><span class="team-emblem bravo-emblem"><span>B</span></span><span class="score-team-name">BRAVO</span><span id="bravo-score">0</span></span>
         </div>
 
         <div id="score-goal"></div>

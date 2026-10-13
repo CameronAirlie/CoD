@@ -20,7 +20,7 @@ public sealed partial class MultiplayerSession
     public CombatLoadout SelectedLoadout { get; private set; } = CombatLoadout.Assault;
     public MatchMode RulesMode => gameMode.Equals("TeamDeathmatch", StringComparison.OrdinalIgnoreCase)
         ? MatchMode.TeamDeathmatch : gameMode.Equals("Defusal", StringComparison.OrdinalIgnoreCase) ? MatchMode.Defusal : MatchMode.Hardpoint;
-    public bool CanFight => CurrentMatch?.Phase == MatchPhase.Playing;
+    public bool CanFight => !IsNeutralSpectator && CurrentMatch?.Phase == MatchPhase.Playing;
 
     private void BeginObjectiveRound()
     {
@@ -95,6 +95,7 @@ public sealed partial class MultiplayerSession
     }
     private void UpdateLoadoutSelection()
     {
+        if (IsNeutralSpectator) return;
         if (CurrentMatch?.Phase is not (MatchPhase.Warmup or MatchPhase.Results)) return;
         if (Input.IsKeyPressed(KeyCode.D1)) SelectedLoadout = CombatLoadout.Assault;
         if (Input.IsKeyPressed(KeyCode.D2)) SelectedLoadout = CombatLoadout.Medic;

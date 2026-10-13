@@ -43,3 +43,14 @@ scrollbarvertical sliderbar:hover, scrollbarhorizontal sliderbar:hover { backgro
 scrollbarvertical sliderarrowdec, scrollbarvertical sliderarrowinc { height: 0; }
 scrollbarhorizontal sliderarrowdec, scrollbarhorizontal sliderarrowinc { width: 0; }
 scrollbarcorner { background-color: #1B1C20; }
+
+/* Absolute team identity: never swap these colours with the viewer's allegiance. */
+.alpha-team { color: #4DA8FF; }
+.bravo-team { color: #FF9F43; }
+.observer-team { color: #A6A0B4; }
+.team-emblem { display: inline-block; box-sizing: border-box; width: 20dp; height: 20dp; margin: 0 7dp; text-align: center; line-height: 17dp; font-family: TacticalHeading; font-size: 14dp; border: 2dp #F2F4F5; vertical-align: middle; }
+.team-emblem span { display: block; }
+.alpha-emblem { color: #4DA8FF; border-color: #4DA8FF; transform: rotate(45deg); }
+.alpha-emblem span { transform: rotate(-45deg); }
+.bravo-emblem { color: #FF9F43; border-color: #FF9F43; border-radius: 10dp; }
+.observer-emblem { display: inline-block; padding: 0 4dp; border: 1dp #A6A0B4; font-size: 10dp; line-height: 18dp; }

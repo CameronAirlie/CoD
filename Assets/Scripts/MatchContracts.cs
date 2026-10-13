@@ -3,7 +3,7 @@ using System.Numerics;
 namespace CoD.Scripts;
 
 public enum MatchPhase { Waiting, Warmup, Playing, Results }
-public enum PlayerTeam { Alpha, Bravo }
+public enum PlayerTeam { Alpha, Bravo, Spectator }
 public enum MatchMode { TeamDeathmatch, Hardpoint, Defusal }
 public sealed record MatchPlayer(int PeerId, string Username, PlayerTeam Team, int Kills,
     int Deaths, bool IsBot, float ObjectiveSeconds = 0, bool Alive = true);
@@ -20,22 +20,25 @@ public sealed record KillFeedEntry(string Killer, string Victim, PlayerTeam Kill
 public readonly record struct HardpointSite(string Name, Vector3 Position);
 public readonly record struct ObjectiveParticipant(PlayerTeam Team, Vector3 Position, bool Alive);
 
-/// <summary>Teammate-only selection shared by camera adapters and engine-independent tests.</summary>
+/// <summary>Role-aware viewing policy shared by transport, camera adapters and engine-independent tests.</summary>
 public static class SpectatorRules
 {
     public static bool CanReceiveView(MatchPlayer source, MatchPlayer recipient) =>
-        source.PeerId != recipient.PeerId && source.Alive && !recipient.Alive && !recipient.IsBot && source.Team == recipient.Team;
+        source.PeerId != recipient.PeerId && source.Alive && TeamIdentity.IsCombatTeam(source.Team) && !recipient.IsBot &&
+        (recipient.Team == PlayerTeam.Spectator || !recipient.Alive && source.Team == recipient.Team);
 
-    public static int? Select(MatchSnapshot? match, int? current, int direction, Func<int, bool> available)
+    public static int? Select(MatchSnapshot? match, int? current, int direction, Func<int, bool> available, PlayerTeam? viewedTeam = null)
     {
         if (match is null) return null;
         var local = Array.Find(match.Players, p => p.PeerId == match.LocalPeerId);
         if (local is null) return null;
+        var team = local.Team == PlayerTeam.Spectator ? viewedTeam ?? PlayerTeam.Alpha : local.Team;
+        if (!TeamIdentity.IsCombatTeam(team)) return null;
         // Most frames keep the current target; avoid sorting and allocating in that path.
         if (direction == 0 && current is { } selected && Array.Exists(match.Players,
-            p => p.PeerId == selected && p.PeerId != local.PeerId && p.Team == local.Team && p.Alive) && available(selected))
+            p => p.PeerId == selected && p.PeerId != local.PeerId && p.Team == team && p.Alive) && available(selected))
             return selected;
-        var peers = match.Players.Where(p => p.PeerId != local.PeerId && p.Team == local.Team && p.Alive && available(p.PeerId)).Select(p => p.PeerId).OrderBy(id => id).ToArray();
+        var peers = match.Players.Where(p => p.PeerId != local.PeerId && p.Team == team && p.Alive && available(p.PeerId)).Select(p => p.PeerId).OrderBy(id => id).ToArray();
         if (peers.Length == 0) return null;
         var index = current.HasValue ? Array.IndexOf(peers, current.Value) : -1;
         return index < 0 ? peers[0] : peers[(index + Math.Sign(direction) + peers.Length) % peers.Length];
@@ -76,4 +79,19 @@ public sealed record SpectatorViewState(int PeerId, int Life, long Sequence,
         Frag is >= 0 and <= 4 && Flashbang is >= 0 and <= 4 && Smoke is >= 0 and <= 4 && Molotov is >= 0 and <= 4 &&
         SelectedThrowable is "frag" or "flash" or "smoke" or "molotov";
     private static bool Finite(Vector3 value) => float.IsFinite(value.X) && float.IsFinite(value.Y) && float.IsFinite(value.Z);
+}
+
+/// <summary>Stable team identity independent of viewer allegiance and attacker/defender roles.</summary>
+public static class TeamIdentity
+{
+    public static bool IsCombatTeam(PlayerTeam team) => team is PlayerTeam.Alpha or PlayerTeam.Bravo;
+    public static string Name(PlayerTeam team) => team switch { PlayerTeam.Alpha => "ALPHA", PlayerTeam.Bravo => "BRAVO", _ => "SPECTATORS" };
+    public static string CssClass(PlayerTeam team) => team switch { PlayerTeam.Alpha => "alpha-team", PlayerTeam.Bravo => "bravo-team", _ => "observer-team" };
+    public static string Badge(PlayerTeam team) => team switch { PlayerTeam.Alpha => "[A]", PlayerTeam.Bravo => "[B]", _ => "[OBS]" };
+    public static string EmblemMarkup(PlayerTeam team) => team switch
+    {
+        PlayerTeam.Alpha => "<span class=\"team-emblem alpha-emblem\"><span>A</span></span>",
+        PlayerTeam.Bravo => "<span class=\"team-emblem bravo-emblem\"><span>B</span></span>",
+        _ => "<span class=\"observer-emblem\">OBS</span>"
+    };
 }

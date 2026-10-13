@@ -28,7 +28,7 @@ internal static class BotIntegration
         JsonElement owner = default, match = default;
         var transforms = new Dictionary<int, JsonElement>();
         var peer = -1; var hitCount = 0; var deaths = new HashSet<int>();
-        client.Connected += () => client.SendJson(1, new { ProtocolVersion = 19, Username = "BotDamageTest", Mode = 0 });
+        client.Connected += () => client.SendJson(1, new { ProtocolVersion = 20, Username = "BotDamageTest", Mode = 0 });
         client.MessageReceived += message =>
         {
             var json = message.GetJson<JsonElement>();

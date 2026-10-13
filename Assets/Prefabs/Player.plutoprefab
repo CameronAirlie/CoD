@@ -120,6 +120,8 @@ PROPERTY	hardpointDuration	0	45.000000	0
 PROPERTY	hardpointRadius	0	5.000000	0
 PROPERTY	hardpointSiteNames	2	Hardpoint Courtyard|Hardpoint West|Hardpoint East	0
 PROPERTY	mode	2	Host	0
+PROPERTY	joinAsSpectator	4	false	0
+PROPERTY	maximumSpectators	1	8	0
 PROPERTY	serverAddress	2	0.0.0.0	0
 PROPERTY	serverPort	1	7777	0
 PROPERTY	updatesPerSecond	0	20.000000	0

@@ -32,6 +32,19 @@ internal static class SpectatorViewTests
         Check(!SpectatorRules.CanReceiveView(source, deadAlly with { Alive = true }), "POV exposed to living player.");
         Check(!SpectatorRules.CanReceiveView(source with { Alive = false }, deadAlly), "Dead source exposed stale POV.");
         Check(!SpectatorRules.CanReceiveView(source, deadAlly with { PeerId = 2 }), "Self-spectating allowed.");
+        var neutral = deadAlly with { Team = PlayerTeam.Spectator, Alive = false };
+        Check(SpectatorRules.CanReceiveView(source, neutral) && SpectatorRules.CanReceiveView(source with { Team = PlayerTeam.Bravo }, neutral), "Neutral spectator cannot receive both teams.");
+        Check(!SpectatorRules.CanReceiveView(source with { Team = PlayerTeam.Spectator }, neutral), "Neutral spectator treated as a camera source.");
+        var match = new MatchSnapshot(MatchPhase.Playing, 20, 10, 0, 0, neutral.PeerId,
+            [neutral, source, source with { PeerId = 4, Team = PlayerTeam.Bravo }, source with { PeerId = 5, Alive = false }]);
+        Check(SpectatorRules.Select(match, null, 0, _ => true, PlayerTeam.Alpha) == source.PeerId, "Neutral Alpha selection failed.");
+        Check(SpectatorRules.Select(match, source.PeerId, 0, _ => true, PlayerTeam.Bravo) == 4, "Neutral team change retained previous team.");
+        Check(SpectatorRules.Select(match, null, 0, _ => true, PlayerTeam.Spectator) is null, "Observer selected another observer.");
+        Check(TeamIdentity.CssClass(PlayerTeam.Alpha) != TeamIdentity.CssClass(PlayerTeam.Bravo) && TeamIdentity.Badge(PlayerTeam.Alpha) != TeamIdentity.Badge(PlayerTeam.Bravo), "Team identity is ambiguous.");
+        var hardpoint = new HardpointRules([new("Test", Vector3.Zero)], 45, 5);
+        hardpoint.Tick(2, [new(PlayerTeam.Spectator, Vector3.Zero, true)]);
+        Check(hardpoint.Owner is null && hardpoint.AlphaScore == 0 && hardpoint.BravoScore == 0, "Neutral spectator scored a hardpoint.");
+        Console.WriteLine("PASS: neutral view routing/selection, team identity and objective exclusion.");
         Console.WriteLine("PASS: first-person camera/HUD serialization, invalid snapshots, packet ordering/life and teammate-only routing.");
     }
     private static void RotationAndInterpolation(SpectatorViewState template)

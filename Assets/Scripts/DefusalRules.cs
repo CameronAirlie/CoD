@@ -55,7 +55,7 @@ public sealed class DefusalRules
         var budget = MathF.Min(dt, 600);
         while (budget > .000001f && Winner is null)
         {
-            var alive = agents.Where(a => a.Alive && Finite(a.Position)).OrderBy(a => a.Id).ToArray();
+            var alive = agents.Where(a => a.Alive && TeamIdentity.IsCombatTeam(a.Team) && Finite(a.Position)).OrderBy(a => a.Id).ToArray();
             if (!alive.Any(a => a.Team == Defenders)) { End(Attackers, "Defenders eliminated"); break; }
             if (Bomb != BombState.Planted && !alive.Any(a => a.Team == Attackers)) { End(Defenders, "Attackers eliminated"); break; }
             if (Bomb == BombState.Carried)

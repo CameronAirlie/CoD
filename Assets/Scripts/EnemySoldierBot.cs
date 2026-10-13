@@ -140,6 +140,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private string _networkNameplateText = string.Empty;
     private bool _networkNameplateDirty;
     private bool _networkNameplateFriendly;
+    private PlayerTeam? _networkNameplateTeam;
     private bool _networkNameplateConfigured;
     private bool _networkNameplateVisible;
     private GameObject? _nameplateObserver;
@@ -478,17 +479,20 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         }
     }
 
-    public void ConfigureNetworkNameplate(string username, bool friendly)
+    public void ConfigureNetworkNameplate(string username, bool friendly) => ConfigureNetworkNameplate(username, friendly, -1);
+
+    public void ConfigureNetworkNameplate(string username, bool friendly, int team)
     {
         if (networkNameplate is null || !networkNameplate.IsValid) return;
         _networkNameplateFriendly = friendly;
+        _networkNameplateTeam = TeamIdentity.IsCombatTeam((PlayerTeam)team) ? (PlayerTeam)team : null;
         _networkNameplateConfigured = !string.IsNullOrWhiteSpace(username);
         if (!_networkNameplateConfigured || _dead || _spectatorHidden)
         {
             SetNameplateVisible(false);
             return;
         }
-        var text = TeamNameplate.Format(username);
+        var text = (_networkNameplateTeam is { } identity ? TeamIdentity.Badge(identity) + " " : "") + TeamNameplate.Format(username);
         if (_networkNameplateText != text)
         {
             _networkNameplateText = text;
@@ -547,6 +551,8 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         if (!_networkNameplateDirty || _networkNameplateDocument is null) return;
         var label = _networkNameplateDocument.Element("friendly-name");
         label.Markup = _networkNameplateText;
+        label.SetClass("alpha-team", _networkNameplateTeam == PlayerTeam.Alpha);
+        label.SetClass("bravo-team", _networkNameplateTeam == PlayerTeam.Bravo);
         var friendlyApplied = label.SetClass("friendly", _networkNameplateFriendly);
         var enemyApplied = label.SetClass("enemy", !_networkNameplateFriendly);
         _networkNameplateDirty = !friendlyApplied || !enemyApplied;

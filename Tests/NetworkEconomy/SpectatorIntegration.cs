@@ -9,33 +9,37 @@ internal static class SpectatorIntegration
 {
     public static async Task Run(string[] args)
     {
+        var defusal = args[2] == "--neutral-defusal";
         var listener = new TcpListener(IPAddress.Loopback, 0); listener.Start();
         var port = (ushort)((IPEndPoint)listener.LocalEndpoint).Port; listener.Stop();
         var start = new ProcessStartInfo(Path.GetFullPath(args[0])) {
-            UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true };
+            UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true, RedirectStandardInput = true };
         start.Environment["COD_SERVER_PORT"] = port.ToString();
-        start.Environment["COD_SERVER_BOTS"] = "0"; start.Environment["COD_SERVER_MODE"] = "TeamDeathmatch";
+        start.Environment["COD_SERVER_BOTS"] = "0"; start.Environment["COD_SERVER_MODE"] = defusal ? "Defusal" : "TeamDeathmatch";
         foreach (var value in new[] { "--project", Path.GetFullPath(args[1]), "--scene", Path.Combine(AppContext.BaseDirectory, "arena.plutoscene"),
             "--ticks", "1800", "--script", "CoD.Scripts.MultiplayerSession", "--script", "CoD.Scripts.NetworkParticipantHitbox" }) start.ArgumentList.Add(value);
         using var process = Process.Start(start)!;
         var output = process.StandardOutput.ReadToEndAsync(); var errors = process.StandardError.ReadToEndAsync();
-        using var source = new NetworkClient(); using var enemy = new NetworkClient(); using var observer = new NetworkClient();
-        NetworkClient[] clients = [source, enemy, observer];
-        MultiplayerSessionState?[] owners = new MultiplayerSessionState?[3];
-        var peers = new int[] { -1, -1, -1 }; long[] sequences = new long[3];
+        using var source = new NetworkClient(); using var enemy = new NetworkClient(); using var observer = new NetworkClient(); using var neutral = new NetworkClient();
+        NetworkClient[] clients = [source, enemy, observer, neutral];
+        MultiplayerSessionState?[] owners = new MultiplayerSessionState?[4];
+        var peers = new int[] { -1, -1, -1, -1 }; long[] sequences = new long[4];
         var received = new List<SpectatorViewState>(); var enemyViews = 0; var sourceViews = 0; var viewSequence = 0L;
+        var neutralViews = new List<SpectatorViewState>(); MatchSnapshot? roster = null; var neutralEconomyMessages = 0;
         for (var i = 0; i < clients.Length; i++)
         {
             var index = i;
-            clients[i].Connected += () => clients[index].SendJson(1, new { ProtocolVersion = 19, Username = "SpectatorTest" + index, Mode = 0 });
+            clients[i].Connected += () => clients[index].SendJson(1, new { ProtocolVersion = 20, Username = "SpectatorTest" + index, Mode = 0, Spectator = index == 3 });
             clients[i].MessageReceived += message => {
                 if (message.Channel == 1) peers[index] = message.GetJson<System.Text.Json.JsonElement>().GetProperty("PeerId").GetInt32();
+                if (index == 3 && message.Channel == 7) roster = message.GetJson<MatchSnapshot>();
+                if (index == 3 && message.Channel == 28) neutralEconomyMessages++;
                 if (message.Channel == 22) owners[index] = message.GetJson<MultiplayerSessionState>();
                 if (message.Channel == 29)
                 {
                     if (index == 0) sourceViews++;
                     else if (index == 1) enemyViews++;
-                    else if (message.GetJson<SpectatorViewState>() is { } view) received.Add(view);
+                    else if (message.GetJson<SpectatorViewState>() is { } view) { if (index == 3) neutralViews.Add(view); else received.Add(view); }
                 }
             };
         }
@@ -61,6 +65,7 @@ internal static class SpectatorIntegration
                     nextSend = clock.Elapsed.TotalSeconds + 1.0 / 60;
                     for (var i = 0; i < clients.Length; i++)
                     {
+                        if (peers[i] >= 0) clients[i].Send(25, Array.Empty<byte>());
                         if (peers[i] < 0 || owners[i] is not { } state) continue;
                         var command = PlayerCommand.Idle with { Sequence = ++sequences[i], Life = state.Life, Slot = 1 };
                         if (i == 1 && shoot && owners[2] is { } target)
@@ -73,11 +78,27 @@ internal static class SpectatorIntegration
                         clients[i].SendJson(21, command); clients[i].Send(25, Array.Empty<byte>());
                     }
                     if (owners[0] is not null) source.SendJson(29, MakeView());
+                    if (owners[1] is { } enemyState)
+                        enemy.SendJson(29, MakeView() with { Life = enemyState.Life, X = enemyState.X, Y = enemyState.Y + ServerMotor.EyeHeight(false), Z = enemyState.Z });
                 }
                 if (until?.Invoke() == true) return;
                 await Task.Delay(4);
             }
             if (until is not null) throw new Exception("Spectator test timed out; owners=" + System.Text.Json.JsonSerializer.Serialize(owners));
+        }
+        async Task CheckObserverAcrossRounds()
+        {
+            await Pump(10, () => roster?.Phase == MatchPhase.Playing);
+            await process.StandardInput.WriteLineAsync("round end"); await process.StandardInput.FlushAsync();
+            await Pump(3, () => roster?.Phase == MatchPhase.Results);
+            Check(neutralEconomyMessages == 0 && owners[3] is null && roster!.Players.Single(p => p.PeerId == peers[3]).Alive == false,
+                "Observer earned a round reward or spawned during results.");
+            await process.StandardInput.WriteLineAsync("round restart"); await process.StandardInput.FlushAsync();
+            await Pump(3, () => roster?.Phase == MatchPhase.Playing);
+            Check(roster!.Players.Single(p => p.PeerId == peers[3]).Team == PlayerTeam.Spectator && !roster.Players.Single(p => p.PeerId == peers[3]).Alive && owners[3] is null,
+                "Observer joined a team or spawned on round restart.");
+            var before = neutralViews.Count;
+            await Pump(2, () => neutralViews.Count > before);
         }
         try
         {
@@ -87,13 +108,32 @@ internal static class SpectatorIntegration
             await Pump(10, () => owners[0] is not null);
             await enemy.ConnectAsync("127.0.0.1", port); await Pump(10, () => owners[1] is not null);
             await observer.ConnectAsync("127.0.0.1", port); await Pump(10, () => owners[2] is not null);
-            await Pump(.3);
+            await neutral.ConnectAsync("127.0.0.1", port);
+            await Pump(10, () => roster?.Players.Any(p => p.PeerId == peers[3] && p.Team == PlayerTeam.Spectator) == true && neutralViews.Select(v => v.PeerId).Distinct().Count() >= 2);
+            Check(owners[3] is null, "Neutral observer received a simulated player body.");
+            Check(roster!.Players.Count(p => TeamIdentity.IsCombatTeam(p.Team)) == 3 && roster.Players.Single(p => p.PeerId == peers[3]).Alive == false,
+                "Neutral observer changed the combat roster.");
+            neutral.SendJson(14, new { });
+            neutral.SendJson(27, new { Id = "flash" });
+            neutral.SendJson(21, PlayerCommand.Idle with { Sequence = 1, Life = 1, Fire = true, MoveY = 1 });
+            await Pump(.4);
+            Check(neutralEconomyMessages == 0 && owners[3] is null && roster.Players.Single(p => p.PeerId == peers[3]).Team == PlayerTeam.Spectator,
+                "Neutral gameplay requests granted a team, economy or simulated body.");
             Check(received.Count == 0 && enemyViews == 0 && sourceViews == 0, "Living players received private spectator frames.");
+            if (defusal)
+            {
+                neutral.SendJson(15, new { Held = true }); await Pump(.2);
+                Check(roster?.Defusal?.Operator != peers[3] && roster?.Defusal?.Carrier != peers[3], "Neutral observer operated/carried the bomb.");
+                await CheckObserverAcrossRounds();
+                Console.WriteLine("PASS: Defusal neutral observer receives both teams, cannot operate/carry the bomb, and stays outside the roster/rewards across round restart.");
+                return;
+            }
             shoot = true;
             await Pump(12, () => owners[2]?.Health <= 0);
             shoot = false;
             await Pump(1, () => received.Count > 0);
             var view = received[^1];
+            Check(received.All(v => v.PeerId == peers[0]), "Dead team player received opposing POV.");
             Check(view.PeerId == peers[0], "Server trusted spoofed peer id.");
             Check(view.Pitch == -37 && view.Yaw == 123 && view.Roll == .35f && view.Fov == 60 && view.Magazine == 8 && view.HandX == .1f,
                 "Server relay changed rendered POV or HUD state.");
@@ -104,6 +144,9 @@ internal static class SpectatorIntegration
             await Pump(.2); var afterRespawn = received.Count;
             await Pump(.3);
             Check(received.Count == afterRespawn, "Respawned observer kept receiving POV.");
+            Check(neutralViews.Any(v => v.PeerId == peers[0]) && neutralViews.Any(v => v.PeerId == peers[1]) && roster!.Players.Single(p => p.PeerId == peers[3]).Alive == false, "Neutral observer lost a team or respawned into combat.");
+            await CheckObserverAcrossRounds();
+            Console.WriteLine("PASS: neutral observer receives both teams, cannot join combat/buy/move, and remains neutral across player respawns.");
             Console.WriteLine("PASS: real server routes exact POV to dead teammate, stamps transport identity, excludes living/enemy peers and stops on respawn.");
         }
         finally

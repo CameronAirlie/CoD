@@ -81,7 +81,7 @@ public sealed partial class MultiplayerSession : PlutoGE.ScriptCore.IServerComma
                     Require(args.Length == 1, "Usage: players");
                     AdminLog($"{_playerStates.Count} participants ({_bots.Count} bots), capacity {maximumParticipants}; {RulesMode}, {_matchPhase}; score {_alphaScore}-{_bravoScore}.");
                     foreach (var pair in _playerStates.OrderBy(p => p.Key))
-                        AdminLog($"{pair.Key,6}  {(pair.Value.IsBot ? "BOT" : "HUMAN"),5}  {_peerNames.GetValueOrDefault(pair.Key, "Player")}  {pair.Value.Team}  HP {pair.Value.Health:0}  K/D {pair.Value.Kills}/{pair.Value.Deaths}  Pos {GetParticipantObject(pair.Key)?.WorldPosition}");
+                        AdminLog($"{pair.Key,6}  {(pair.Value.IsBot ? "BOT" : pair.Value.Team == PlayerTeam.Spectator ? "OBS" : "HUMAN"),5}  {_peerNames.GetValueOrDefault(pair.Key, "Player")}  {pair.Value.Team}  HP {pair.Value.Health:0}  K/D {pair.Value.Kills}/{pair.Value.Deaths}  Pos {GetParticipantObject(pair.Key)?.WorldPosition}");
                     break;
                 case "kick":
                     Require(args.Length == 2 && int.TryParse(args[1], out _), "Usage: kick <peer-id> (use players to find IDs)");
@@ -107,7 +107,7 @@ public sealed partial class MultiplayerSession : PlutoGE.ScriptCore.IServerComma
                     var action = args[1].ToLowerInvariant();
                     Require(action is "add" or "remove" or "set", "Expected bots add, remove or set.");
                     Require(action != "set" || args.Length == 3, "Usage: bots set <n>");
-                    var target = Math.Clamp(minimumParticipants - (_playerStates.Count - _bots.Count), 0, maximumBots);
+                    var target = Math.Clamp(minimumParticipants - (CombatHumanCount), 0, maximumBots);
                     var amount = args.Length == 2 ? 1 : args[2] == "all" && action == "remove" ? target : AdminInteger(args[2], 0, 128);
                     SetAdminBotTarget(action == "set" ? amount : action == "add" ? target + amount : Math.Max(0, target - amount));
                     break;
@@ -156,7 +156,7 @@ public sealed partial class MultiplayerSession : PlutoGE.ScriptCore.IServerComma
 
     private void SetAdminBotTarget(int bots)
     {
-        var humans = _playerStates.Count - _bots.Count;
+        var humans = CombatHumanCount;
         Require(bots >= 0 && bots <= Math.Max(0, maximumParticipants - humans), $"Bot target must be 0..{Math.Max(0, maximumParticipants - humans)} with the current human roster.");
         minimumParticipants = humans + bots;
         maximumBots = bots;

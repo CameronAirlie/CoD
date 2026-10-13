@@ -3,3 +3,6 @@ body { width: 120px; height: 18px; display: flex; justify-content: center; align
 #nameplate { width: 120px; height: 18px; text-align: center; white-space: nowrap; overflow: hidden; color: #4DA8FF; font-size: 11px; line-height: 18px; font-effect: shadow(1px 1px #090B0D); }
 #friendly-name.friendly { color: #4DA8FF; }
 #friendly-name.enemy { color: #F05252; }
+
+#friendly-name.alpha-team { color: #4DA8FF; }
+#friendly-name.bravo-team { color: #FF9F43; }

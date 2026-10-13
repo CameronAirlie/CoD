@@ -43,3 +43,14 @@ scrollbarvertical sliderbar:hover, scrollbarhorizontal sliderbar:hover { backgro
 scrollbarvertical sliderarrowdec, scrollbarvertical sliderarrowinc { height: 0; }
 scrollbarhorizontal sliderarrowdec, scrollbarhorizontal sliderarrowinc { width: 0; }
 scrollbarcorner { background-color: #1B1C20; }
+
+/* Absolute team identity: never swap these colours with the viewer's allegiance. */
+.alpha-team { color: ${teamAlpha}; }
+.bravo-team { color: ${teamBravo}; }
+.observer-team { color: ${secondary}; }
+.team-emblem { display: inline-block; box-sizing: border-box; width: 20dp; height: 20dp; margin: 0 7dp; text-align: center; line-height: 17dp; font-family: TacticalHeading; font-size: 14dp; border: 2dp ${text}; vertical-align: middle; }
+.team-emblem span { display: block; }
+.alpha-emblem { color: ${teamAlpha}; border-color: ${teamAlpha}; transform: rotate(45deg); }
+.alpha-emblem span { transform: rotate(-45deg); }
+.bravo-emblem { color: ${teamBravo}; border-color: ${teamBravo}; border-radius: 10dp; }
+.observer-emblem { display: inline-block; padding: 0 4dp; border: 1dp ${secondary}; font-size: 10dp; line-height: 18dp; }
