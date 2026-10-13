@@ -112,6 +112,7 @@ public sealed partial class MultiplayerSession
             _defusal.Tick(dt, _defusalAgents);
             if (_defusal.Winner is { } winner)
             {
+                RewardRound(winner);
                 if (winner == PlayerTeam.Alpha) _alphaScore++; else _bravoScore++;
                 BeginPhase(MatchPhase.Results, resultsDuration);
             }

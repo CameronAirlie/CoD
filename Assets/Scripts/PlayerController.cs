@@ -97,6 +97,7 @@ public sealed class PlayerController : ScriptBehaviour
         if (_weapons is not null)
         {
             _weapons.Reset(_multiplayer?.SelectedLoadout ?? CombatLoadout.Assault);
+            if (_multiplayer is not null && !_multiplayer.OwnsWeapon(_weapons.SelectedSlot)) _weapons.Select(1);
             ApplyEquippedWeapon();
         }
         _ammo = Math.Max(1, magazineSize); _reserveAmmo = _inventory?.ReserveAmmo ?? Math.Max(0, startingReserveAmmo);
@@ -136,6 +137,7 @@ public sealed class PlayerController : ScriptBehaviour
                 // be hidden even if its script had not started during player OnCreate.
                 if (weaponModel is not null) weaponModel.Active = false;
                 _weapons = new WeaponLoadout();
+                if (_multiplayer is not null && !_multiplayer.OwnsWeapon(_weapons.SelectedSlot)) _weapons.Select(1);
                 ApplyEquippedWeapon();
                 UpdateHud(); PublishStateChanges();
             }
@@ -146,10 +148,12 @@ public sealed class PlayerController : ScriptBehaviour
     public bool SelectWeaponSlot(int slot)
     {
         if (_weapons is null || _dead || _inventory?.IsUsing == true || _multiplayer?.IsUsingObjective == true ||
+            (_multiplayer is not null && !_multiplayer.OwnsWeapon(slot)) ||
             slot < 0 || slot >= _weaponBindings.Length || _weaponBindings[slot] is null || slot == _weapons.SelectedSlot)
             return false;
         CancelReload();
         _weapons.Select(slot);
+        if (_multiplayer?.UsesServerAuthority == true) _requestedServerSlot = slot;
         ApplyEquippedWeapon();
         PlayGameplayCue("Misc/item_equip_ufx_1.ogg", .4f);
         _shotCooldown = MathF.Max(_shotCooldown, _weapons.Equipped.DrawSeconds);
@@ -157,6 +161,16 @@ public sealed class PlayerController : ScriptBehaviour
         _aiming = false;
         UpdateHud(); PublishStateChanges();
         return true;
+    }
+
+    private int NextOwnedWeaponSlot(int from)
+    {
+        for (var step = 1; step <= WeaponCatalog.SlotCount; step++)
+        {
+            var slot = (from + step) % WeaponCatalog.SlotCount;
+            if (_multiplayer?.OwnsWeapon(slot) != false) return slot;
+        }
+        return from;
     }
 
     private void ApplyEquippedWeapon()
@@ -434,8 +448,9 @@ public sealed class PlayerController : ScriptBehaviour
                 if (Input.IsKeyPressed(KeyCode.D1)) slot = 0;
                 if (Input.IsKeyPressed(KeyCode.D2)) slot = 1;
                 if (Input.IsKeyPressed(KeyCode.D3)) slot = 2;
-                if (Input.IsKeyPressed(KeyCode.Q)) slot = (slot + 1) % WeaponCatalog.SlotCount;
+                if (Input.IsKeyPressed(KeyCode.Q)) slot = NextOwnedWeaponSlot(EquippedWeaponSlot);
             }
+            if (!_multiplayer.OwnsWeapon(slot)) slot = EquippedWeaponSlot;
             _requestedServerSlot = slot;
             _weaponDrawRemaining = MathF.Max(0, _weaponDrawRemaining - deltaTime);
             _aiming = cursorLocked && Input.IsMouseButtonDown(MouseButton.Right) && !_reloading;
@@ -446,7 +461,7 @@ public sealed class PlayerController : ScriptBehaviour
                 cursorLocked && Input.IsKeyDown(KeyCode.LeftShift), cursorLocked && Input.IsKeyDown(KeyCode.C),
                 _aiming, cursorLocked && Input.IsMouseButtonDown(MouseButton.Left),
                 cursorLocked && Input.IsKeyPressed(KeyCode.R), slot,
-                cursorLocked && Input.IsKeyPressed(KeyCode.H) ? 1 : cursorLocked && Input.IsKeyPressed(KeyCode.G) ? 2 : 0, deltaTime);
+                cursorLocked && Input.IsKeyPressed(KeyCode.H) ? 1 : cursorLocked && Input.IsKeyPressed(KeyCode.J) ? 2 : 0, deltaTime);
             _shotCooldown = MathF.Max(0, _shotCooldown - deltaTime);
             UpdateFootsteps(deltaTime);
             UpdateCamera(deltaTime);
@@ -460,7 +475,7 @@ public sealed class PlayerController : ScriptBehaviour
         {
             if (Input.IsKeyPressed(KeyCode.H))
                 _inventory.BeginUseHealthKit();
-            else if (Input.IsKeyPressed(KeyCode.G))
+            else if (Input.IsKeyPressed(KeyCode.J))
                 _inventory.BeginUseArmourPlate();
         }
 
@@ -743,7 +758,7 @@ public sealed class PlayerController : ScriptBehaviour
             if (Input.IsKeyPressed(KeyCode.D1)) SelectWeaponSlot(0);
             else if (Input.IsKeyPressed(KeyCode.D2)) SelectWeaponSlot(1);
             else if (Input.IsKeyPressed(KeyCode.D3)) SelectWeaponSlot(2);
-            else if (Input.IsKeyPressed(KeyCode.Q)) SelectWeaponSlot(_weapons.NextSlot);
+            else if (Input.IsKeyPressed(KeyCode.Q)) SelectWeaponSlot(NextOwnedWeaponSlot(EquippedWeaponSlot));
         }
         UpdateSpread(deltaTime);
         if (Input.IsKeyPressed(KeyCode.R))

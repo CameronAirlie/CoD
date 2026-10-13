@@ -29,7 +29,7 @@ public sealed class PlayerHud : ScriptBehaviour
     private RmlElement? _compassHeading;
     private int _renderedHeading = -1;
     private RmlElement? _grenades;
-    private int _renderedGrenades = -1;
+    private string _renderedThrowableStatus = "";
     private RmlElement? _interaction;
     private RmlElement? _health;
     private RmlElement? _healthValue;
@@ -195,9 +195,12 @@ public sealed class PlayerHud : ScriptBehaviour
         _damageFeedback.Update(deltaTime);
         RenderDamageOverlay();
         var scoreboardVisible = Input.IsKeyDown(KeyCode.Tab);
-        var remaining = _multiplayer?.RemainingGrenades ?? 0;
-        if (_domReady && _grenades is not null && remaining != _renderedGrenades)
-        { _grenades.Markup = $"F FRAG / {remaining} LEFT"; _renderedGrenades = remaining; }
+        var kind = _multiplayer?.SelectedThrowable ?? "frag";
+        var status = $"G {GrenadeRules.Name(kind)} / {_multiplayer?.ThrowableCount(kind) ?? 0} / T CYCLE / ${_multiplayer?.Money ?? 0} / B BUY";
+        if (_domReady && _grenades is not null && status != _renderedThrowableStatus)
+        { _grenades.Markup = status; _renderedThrowableStatus = status; }
+        if (_domReady && _document is not null)
+            _document.Element("flash-overlay").SetStyle("opacity", (_multiplayer?.FlashOpacity ?? 0).ToString(CultureInfo.InvariantCulture));
         if (!_scoreboardVisibilityInitialized || scoreboardVisible != _scoreboardVisible)
         {
             _scoreboardVisibilityInitialized = true;

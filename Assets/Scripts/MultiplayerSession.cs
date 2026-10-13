@@ -21,7 +21,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         (session.mode.Equals("Host", StringComparison.OrdinalIgnoreCase) ||
          session.mode.Equals("Client", StringComparison.OrdinalIgnoreCase));
 
-    private const int ProtocolVersion = 16;
+    private const int ProtocolVersion = 17;
     private const ushort HandshakeChannel = 1;
     private const ushort TransformChannel = 2;
     private const ushort PeerLeftChannel = 3;
@@ -507,6 +507,11 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 return;
             }
 
+            if (message.Channel == BuyChannel && _authenticatedPeers.Contains(message.PeerId))
+            {
+                if (message.GetJson<PurchaseRequest>() is { } purchase) AcceptPurchase(message.PeerId, purchase.Id);
+                return;
+            }
             if (message.Channel == GrenadeThrowChannel && _authenticatedPeers.Contains(message.PeerId))
             {
                 var request = message.GetJson<GrenadeThrow>();
@@ -551,7 +556,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         try
         {
             _lastHostMessageAt = _time;
-            if (HandleGrenadeClientMessage(message)) return;
+            if (HandleGrenadeClientMessage(message) || HandleEconomyClientMessage(message)) return;
             if (message.Channel == HandshakeChannel)
             {
                 var welcome = message.GetJson<ServerWelcome>();
@@ -819,6 +824,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             : $"Peer {peerId}";
         _playerStates.Remove(peerId);
         _humans.Remove(peerId);
+        _accounts.Remove(peerId);
         RemoveRemotePlayer(peerId);
         if (!wasParticipant)
             return;
@@ -979,6 +985,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         _bots.Remove(peerId, out var removedBot);
         _playerStates.Remove(peerId);
         _humans.Remove(peerId);
+        _accounts.Remove(peerId);
         _peerNames.Remove(peerId);
         var proxyTracked = _remotePlayers.ContainsKey(peerId);
         RemoveRemotePlayer(peerId);
@@ -1444,6 +1451,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     {
         var origin = position + Vector3.UnitY * 0.65f;
         var aimPoint = ParticipantAimPoint(target);
+        if (SightBlocked(origin, aimPoint)) return false;
         var ray = aimPoint - origin;
         var length = ray.Length();
         return length < 0.001f ||
@@ -1486,8 +1494,10 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     private bool HasBotLineOfSight(
         int botId, int targetId, GameObject bot, GameObject target)
     {
+        if (IsBlinded(bot)) return false;
         var origin = bot.WorldPosition + Vector3.UnitY * 0.65f;
         var aimPoint = ParticipantAimPoint(target);
+        if (SightBlocked(origin, aimPoint)) return false;
         var ray = aimPoint - origin;
         var length = ray.Length();
         if (length < 0.001f) return true;
@@ -1857,6 +1867,9 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     private void BeginPhase(MatchPhase phase, float duration)
     {
+        if (phase == MatchPhase.Results && _matchPhase != MatchPhase.Results && !IsDefusal)
+            RewardRound(_alphaScore == _bravoScore ? null : _alphaScore > _bravoScore ? PlayerTeam.Alpha : PlayerTeam.Bravo);
+        if (phase == MatchPhase.Playing) _buyEndsAt = _time + EconomyRules.BuySeconds;
         _matchPhase = phase;
         if (IsDefusal && phase == MatchPhase.Warmup) PrepareDefusalSpawns();
         Debug.Log($"Match phase: {phase}; score {_alphaScore}-{_bravoScore}.");
@@ -1872,6 +1885,9 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             return;
 
         killer.Kills++;
+        if (killerPeerId != victimPeerId && killer.Team != victim.Team)
+        { Account(killerPeerId).Credit(EconomyRules.KillReward); SendEconomy(killerPeerId); }
+        Account(victimPeerId).LoseEquipment(); SendEconomy(victimPeerId);
         victim.Deaths++;
         victim.RespawnAt = IsDefusal ? float.PositiveInfinity : _time + MathF.Max(0.1f, combatRespawnDelay);
         var impulse = victim.LastHitDirection;

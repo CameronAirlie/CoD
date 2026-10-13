@@ -1,0 +1,20 @@
+SCENE	1
+ENTITY	1	0	1	Flashbang	0,0,0	0,0,0	1,1,1
+ENTITY	2	1	1	Flashbang part	0,0,0	0,0,0	.11,.2,.11
+COMPONENT	2	MeshComponent	1
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/sphere	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Grenades/Flashbang.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Grenades/Flashbang.plutomaterial	0
+END_COMPONENT
+ENTITY	3	1	1	Flashbang part	0,.19,0	0,0,0	.07,.04,.07
+COMPONENT	3	MeshComponent	1
+PROPERTY	Static	4	false	0
+PROPERTY	Visible	4	true	0
+PROPERTY	MeshAssetReference	2	engine://builtin/mesh/cube	0
+PROPERTY	SubmeshIndex	1	-1	0
+PROPERTY	MaterialSlots.0.MaterialAsset	2	project://Materials/Grenades/Flashbang.plutomaterial	0
+PROPERTY	SubmeshOverrides.0.MaterialAsset	2	project://Materials/Grenades/Flashbang.plutomaterial	0
+END_COMPONENT

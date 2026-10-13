@@ -637,11 +637,12 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     private bool HasLineOfSight(Vector3 position, Vector3 targetPosition, float distance)
     {
-        if (target is null)
+        if (target is null || MultiplayerSession.IsBlinded(GameObject))
             return false;
 
         var origin = position + Vector3.UnitY * eyeHeight;
         var aimPoint = TargetAimPoint(targetPosition);
+        if (MultiplayerSession.SightBlocked(origin, aimPoint)) return false;
         var ray = aimPoint - origin;
         var rayLength = ray.Length();
         if (rayLength < 0.001f)
@@ -652,6 +653,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     private bool HasLineOfSightFrom(Vector3 position, Vector3 targetPosition)
     {
+        if (MultiplayerSession.IsBlinded(GameObject) || MultiplayerSession.SightBlocked(position + Vector3.UnitY * eyeHeight, TargetAimPoint(targetPosition))) return false;
         var ray = TargetAimPoint(targetPosition) -
                   (position + Vector3.UnitY * eyeHeight);
         var rayLength = ray.Length();
@@ -757,6 +759,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             return;
 
         _dead = true;
+        MultiplayerSession.RewardOfflineKill();
         _externalAiming = false;
         _navigationDestination = GameObject.WorldPosition;
         UpdateNavigationTarget();

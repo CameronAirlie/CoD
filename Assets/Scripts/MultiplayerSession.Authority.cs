@@ -120,6 +120,8 @@ public sealed partial class MultiplayerSession
         if (!_humans.TryGetValue(peer, out var human)) return;
         var state = _playerStates[peer];
         human.Movement.Clear(); human.MovementBudget = 0; human.Motor.Reset(); human.Equipment.Reset(human.Loadout); human.Armour = 0; human.Life++;
+        if (!Account(peer).Owns(human.Equipment.Weapons.SelectedSlot)) human.Equipment.Weapons.Select(1);
+        SendEconomy(peer);
         human.Input.Clear(IsDefusal ? DefusalRules.SpawnYaw(state.Team == AttackingTeam) : 0, human.Equipment.Weapons.SelectedSlot);
         human.RecoilPitch = human.RecoilYaw = 0; human.Spread = human.Equipment.Weapons.Equipped.HipSpread;
         if (IsDefusal) human.Spawn = DefusalSpawn(state.Team, peer);
@@ -166,6 +168,7 @@ public sealed partial class MultiplayerSession
                     if (peer != 0) actor.Rotation = new Vector3(0, command.Yaw, 0);
                     if (command.UseItem == 1 && state.Health >= multiplayerMaximumHealth || command.UseItem == 2 && human.Armour >= 3)
                         command = command with { UseItem = 0 };
+                    if (!Account(peer).Owns(command.Slot)) command = command with { Slot = human.Equipment.Weapons.SelectedSlot };
                     var used = human.Equipment.Tick(command, _time, canAct);
                     if (used == 1) state.Health = MathF.Min(multiplayerMaximumHealth, state.Health + multiplayerMaximumHealth * .3f);
                     if (used == 2) human.Armour = Math.Min(3, human.Armour + 1);

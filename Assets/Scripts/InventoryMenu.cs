@@ -18,6 +18,9 @@ public sealed class InventoryMenu : ScriptBehaviour
     private readonly HashSet<int> _dragSources = [];
     private PlayerInventory? _inventory;
     private PlayerController? _controller;
+    private MultiplayerSession? _session;
+    private string _shopPresentation = "";
+    private string _throwablePresentation = "";
 
     public override void OnCreate()
     {
@@ -42,6 +45,13 @@ public sealed class InventoryMenu : ScriptBehaviour
             _widget.Source = documentPath;
         _document = _widget.Document;
         _controller = player?.GetComponent<PlayerController>();
+        _session = player?.GetComponent<MultiplayerSession>();
+        foreach (var item in EconomyRules.Catalog)
+        {
+            var id = item.Id;
+            _document.OnClick($"buy-{id}", () => _session?.Buy(id));
+            if (item.Throwable is { } kind) _document.OnClick($"select-{id}", () => _session?.SelectThrowable(kind));
+        }
         if (_controller is not null) _controller.WeaponChanged += RenderWeapons;
         for (var index = 0; index < WeaponCatalog.SlotCount; index++)
         {
@@ -69,6 +79,25 @@ public sealed class InventoryMenu : ScriptBehaviour
             _inventory.Changed -= RenderAll;
         // The RmlWidgetComponent owns this document handle.
         _document = null;
+    }
+
+    public override void OnUpdate(float deltaTime)
+    {
+        if (_document is null || _session is null) return;
+        var presentation = $"${_session.Money} / {(_session.CanBuy ? "BUY OPEN" : "BUY CLOSED")} / {_session.ShopStatus}";
+        if (presentation != _shopPresentation)
+        {
+            _shopPresentation = presentation;
+            _document.Element("shop-status").Markup = System.Net.WebUtility.HtmlEncode(presentation);
+            foreach (var item in EconomyRules.Catalog)
+                _document.Element($"buy-{item.Id}").Markup = item.WeaponSlot >= 0 && _session.OwnsWeapon(item.WeaponSlot)
+                    ? $"{item.Name} / OWNED" : $"{item.Name} / ${item.Price}";
+        }
+        var throwables = _session.SelectedThrowable + string.Join(",", GrenadeRules.Types.Select(_session.ThrowableCount));
+        if (_throwablePresentation == throwables) return;
+        _throwablePresentation = throwables;
+        foreach (var kind in GrenadeRules.Types)
+            _document.Element($"select-{kind}").Markup = $"{(_session.SelectedThrowable == kind ? "> " : "")}{GrenadeRules.Name(kind)} / {_session.ThrowableCount(kind)}";
     }
 
     private void BeginDrag(int source)

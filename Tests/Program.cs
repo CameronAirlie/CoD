@@ -1,8 +1,15 @@
 using CoD.Scripts;
 
+if (args.Contains("--economy-grenades"))
+{
+    GrenadeTests.Run(); EconomyTests.Run();
+    return;
+}
+
 HandSystemTests.Run();
 WeaponLoadoutTests.Run();
 GrenadeTests.Run();
+EconomyTests.Run();
 TacticalUiTests.Run();
 DefusalBotTacticsTests.Run();
 

@@ -21,12 +21,17 @@ public sealed partial class MultiplayerSession
     private float _nextLocalThrowAt;
     private int _remainingGrenades = GrenadeRules.GrenadesPerLife;
     public int RemainingGrenades => _remainingGrenades;
+    public string SelectedThrowable { get; private set; } = "frag";
+    private int[] _throwableCounts = [GrenadeRules.GrenadesPerLife, 0, 0, 0];
+    public int ThrowableCount(string kind) => GrenadeRules.Types.IndexOfKind(kind) is var i && i >= 0 ? _throwableCounts[i] : 0;
+    public void SelectThrowable(string kind)
+    { if (GrenadeRules.Find(kind) is not null) SelectedThrowable = kind; }
 
     private bool GrenadesOffline => _server is null && _client is null && mode.Equals("Offline", StringComparison.OrdinalIgnoreCase);
 
     private static void PreloadGrenadePrefabs()
     {
-        foreach (var name in new[] { "Frag", "Flash", "Sparks", "Smoke" })
+        foreach (var name in new[] { "Frag", "Flash", "Sparks", "Smoke", "SmokeCloud", "Fire", "Flashbang", "SmokeGrenade", "Molotov" })
             if (!Prefab.Preload(GrenadeEffectPrefab(name)))
                 Debug.LogWarning($"Could not preload grenade prefab: {name}.");
     }
@@ -37,18 +42,32 @@ public sealed partial class MultiplayerSession
         "Flash" => "project://Prefabs/Grenades/Flash.plutoprefab",
         "Sparks" => "project://Prefabs/Grenades/Sparks.plutoprefab",
         "Smoke" => "project://Prefabs/Grenades/Smoke.plutoprefab",
+        "SmokeCloud" => "project://Prefabs/Grenades/SmokeCloud.plutoprefab",
+        "Fire" => "project://Prefabs/Grenades/Fire.plutoprefab",
+        "Flashbang" => "project://Prefabs/Grenades/Flashbang.plutoprefab",
+        "SmokeGrenade" => "project://Prefabs/Grenades/SmokeGrenade.plutoprefab",
+        "Molotov" => "project://Prefabs/Grenades/Molotov.plutoprefab",
         _ => throw new ArgumentOutOfRangeException(nameof(name), name, "Unknown grenade effect.")
     };
 
     private void UpdateGrenades(float deltaTime)
     {
         if (_shutDown) return;
-        if (!IsDedicated && Input.CursorLocked && !GamePause.IsPaused && Input.IsKeyPressed(KeyCode.F) &&
+        if (!IsDedicated && Input.CursorLocked && Input.IsKeyPressed(KeyCode.T))
+        {
+            var index = GrenadeRules.Types.IndexOfKind(SelectedThrowable);
+            for (var step = 1; step <= GrenadeRules.Types.Count; step++)
+            {
+                var kind = GrenadeRules.Types[(index + step) % GrenadeRules.Types.Count];
+                if (ThrowableCount(kind) > 0) { SelectedThrowable = kind; break; }
+            }
+        }
+        if (!IsDedicated && Input.CursorLocked && !GamePause.IsPaused && Input.IsKeyPressed(KeyCode.G) &&
             _playerController is not null && _playerHealth?.IsDead != true &&
-            (GrenadesOffline || CanFight) && !IsUsingObjective && _time >= _nextLocalThrowAt && RemainingGrenades > 0)
+            (GrenadesOffline || CanFight) && !IsUsingObjective && _inventory?.IsUsing != true && _time >= _nextLocalThrowAt && ThrowableCount(SelectedThrowable) > 0)
         {
             var aim = _playerController.GrenadeAim;
-            var request = GrenadeThrow.From(aim.Direction);
+            var request = GrenadeThrow.From(aim.Direction, SelectedThrowable);
             _nextLocalThrowAt = _time + GrenadeRules.ThrowCooldown;
             _playerController.PlayGameplayCue("Melee/Throw/throw_heavy_ufx_1.ogg", .45f);
             if (_server is not null || GrenadesOffline) AcceptGrenade(0, request);
@@ -69,14 +88,13 @@ public sealed partial class MultiplayerSession
                 {
                     _grenades.Remove(pair.Key);
                     var point = grenade.Projectile.Position;
-                    var explosion = new GrenadeExplosion(point.X, point.Y, point.Z);
-                    PlayGrenadeExplosion(point);
+                    var explosion = new GrenadeExplosion(point.X, point.Y, point.Z, grenade.Projectile.Definition.Id);
+                    DetonateThrowable(grenade, point);
                     _server?.BroadcastJson(GrenadeExplosionChannel, explosion);
-                    if (GrenadesOffline || _matchPhase == MatchPhase.Playing) DamageGrenadeTargets(grenade, point);
                 }
             }
             var frame = new GrenadeFrame(_grenades.Select(p => new GrenadePosition(p.Key,
-                p.Value.Projectile.Position.X, p.Value.Projectile.Position.Y, p.Value.Projectile.Position.Z)).ToArray());
+                p.Value.Projectile.Position.X, p.Value.Projectile.Position.Y, p.Value.Projectile.Position.Z, p.Value.Projectile.Definition.Id)).ToArray(), CaptureAreas());
             ApplyGrenadeFrame(frame);
             if (_server is not null && _time >= _nextGrenadeFrameAt)
             {
@@ -84,6 +102,7 @@ public sealed partial class MultiplayerSession
                 _nextGrenadeFrameAt = _time + .05f;
             }
         }
+        UpdateThrowableAreas();
         for (var i = _grenadeEffects.Count - 1; i >= 0; i--)
             if (_time >= _grenadeEffects[i].Expires)
             { _grenadeEffects[i].Entity.Destroy(); _grenadeEffects.RemoveAt(i); }
@@ -94,6 +113,8 @@ public sealed partial class MultiplayerSession
         if ((!GrenadesOffline && (_server is null || _matchPhase != MatchPhase.Playing)) ||
             !GrenadeRules.IsFinite(request.Direction) || request.Direction.LengthSquared() < .5f ||
             request.Direction.LengthSquared() > 2 || _grenades.Count >= 64) return;
+        var definition = GrenadeRules.Find(request.Kind);
+        if (definition is null) return;
         var actor = GetParticipantObject(owner);
         if (actor is null || !actor.IsValid) return;
         GrenadeSupply supply;
@@ -110,7 +131,7 @@ public sealed partial class MultiplayerSession
                 (IsDefusal && _defusal?.Snapshot().Operator == owner)) return;
             supply = state.Grenades; team = state.Team;
         }
-        if (!supply.TrySpend(_time)) { SendGrenadeSupply(owner, supply.Remaining); return; }
+        if (!supply.TrySpend(request.Kind, _time)) { SendGrenadeSupply(owner, supply.Remaining); return; }
         var direction = Vector3.Normalize(request.Direction);
         // The client supplies direction only. The host chooses the launch position.
         var origin = owner == 0 && _playerController is not null
@@ -118,7 +139,7 @@ public sealed partial class MultiplayerSession
         var launch = origin + direction * .4f;
         if (Physics.Raycast(origin, direction, .5f, actor, out var obstruction))
             launch = obstruction.Point + obstruction.Normal * .09f;
-        _grenades.Add(++_nextGrenadeId, new(owner, team, new(GrenadeRules.Frag, launch, direction)));
+        _grenades.Add(++_nextGrenadeId, new(owner, team, new(definition, launch, direction)));
         SendGrenadeSupply(owner, supply.Remaining);
     }
 
@@ -173,8 +194,10 @@ public sealed partial class MultiplayerSession
 
     private void SendGrenadeSupply(int owner, int count)
     {
-        if (owner == 0) _remainingGrenades = count;
-        else if (!_bots.ContainsKey(owner)) _server?.SendJson(owner, GrenadeSupplyChannel, new GrenadeInventory(count));
+        var supply = GrenadesOffline ? _offlineGrenades : _playerStates.GetValueOrDefault(owner)?.Grenades;
+        var counts = supply?.Snapshot() ?? new int[4];
+        if (owner == 0) { _remainingGrenades = count; _throwableCounts = counts; }
+        else if (!_bots.ContainsKey(owner)) _server?.SendJson(owner, GrenadeSupplyChannel, new GrenadeInventory(count, counts));
     }
     private void ResetGrenadeSupply(int owner)
     {
@@ -182,7 +205,7 @@ public sealed partial class MultiplayerSession
     }
     private void ResetLocalGrenades()
     {
-        if (GrenadesOffline) { _offlineGrenades.Reset(); _remainingGrenades = _offlineGrenades.Remaining; }
+        if (GrenadesOffline) { _offlineGrenades.Reset(); _offlineAccount.LoseEquipment(); SendGrenadeSupply(0, _offlineGrenades.Remaining); SendEconomy(0); }
         else if (_server is not null) ResetGrenadeSupply(0);
         _nextLocalThrowAt = 0;
     }
@@ -197,12 +220,13 @@ public sealed partial class MultiplayerSession
         else if (message.Channel == GrenadeExplosionChannel)
         {
             var explosion = message.GetJson<GrenadeExplosion>();
-            if (explosion is not null && GrenadeRules.IsFinite(explosion.Position)) PlayGrenadeExplosion(explosion.Position);
+            if (explosion is not null && GrenadeRules.IsFinite(explosion.Position)) PresentThrowableExplosion(explosion.Position, explosion.Kind);
         }
         else if (message.Channel == GrenadeSupplyChannel)
         {
             var inventory = message.GetJson<GrenadeInventory>();
-            if (inventory is not null) _remainingGrenades = Math.Clamp(inventory.Count, 0, GrenadeRules.GrenadesPerLife);
+            if (inventory?.Counts is { Length: 4 } counts && counts.All(n => n >= 0 && n <= 2) && counts.Sum() <= 4)
+            { _throwableCounts = counts; _remainingGrenades = counts.Sum(); }
         }
         else return false;
         return true;
@@ -210,8 +234,9 @@ public sealed partial class MultiplayerSession
 
     private void ApplyGrenadeFrame(GrenadeFrame frame)
     {
+        ApplyThrowableAreas(frame.Areas);
         if (IsDedicated) return;
-        if (frame.Items is null || frame.Items.Length > 64 || frame.Items.Any(p => !GrenadeRules.IsFinite(p.Position))) return;
+        if (frame.Items is null || frame.Items.Length > 64 || frame.Items.Any(p => !GrenadeRules.IsFinite(p.Position) || GrenadeRules.Find(p.Kind) is null)) return;
         var present = frame.Items.Select(p => p.Id).ToHashSet();
         foreach (var id in _grenadeVisuals.Keys.ToArray())
             if (!present.Contains(id)) { _grenadeVisuals[id].Destroy(); _grenadeVisuals.Remove(id); }
@@ -219,7 +244,10 @@ public sealed partial class MultiplayerSession
         {
             if (!_grenadeVisuals.TryGetValue(item.Id, out var visual))
             {
-                visual = Prefab.Instantiate(GrenadePrefab, item.Position);
+                var prefab = item.Kind switch {
+                    "flash" => GrenadeEffectPrefab("Flashbang"), "smoke" => GrenadeEffectPrefab("SmokeGrenade"),
+                    "molotov" => GrenadeEffectPrefab("Molotov"), _ => GrenadePrefab };
+                visual = Prefab.Instantiate(prefab, item.Position);
                 if (visual is null) continue;
                 _grenadeVisuals.Add(item.Id, visual);
             }
@@ -246,6 +274,7 @@ public sealed partial class MultiplayerSession
     }
     private void ClearGrenades()
     {
+        ClearThrowableAreas();
         _grenades.Clear();
         foreach (var entity in _grenadeVisuals.Values) entity.Destroy();
         _grenadeVisuals.Clear();
@@ -254,13 +283,13 @@ public sealed partial class MultiplayerSession
     }
 
     private sealed record ActiveGrenade(int Owner, PlayerTeam? Team, GrenadeProjectile Projectile);
-    private sealed record GrenadeThrow(float X, float Y, float Z)
+    private sealed record GrenadeThrow(float X, float Y, float Z, string Kind = "frag")
     {
         public Vector3 Direction => new(X, Y, Z);
-        public static GrenadeThrow From(Vector3 direction) => new(direction.X, direction.Y, direction.Z);
+        public static GrenadeThrow From(Vector3 direction, string kind = "frag") => new(direction.X, direction.Y, direction.Z, kind);
     }
-    private sealed record GrenadePosition(int Id, float X, float Y, float Z) { public Vector3 Position => new(X, Y, Z); }
-    private sealed record GrenadeFrame(GrenadePosition[] Items);
-    private sealed record GrenadeExplosion(float X, float Y, float Z) { public Vector3 Position => new(X, Y, Z); }
-    private sealed record GrenadeInventory(int Count);
+    private sealed record GrenadePosition(int Id, float X, float Y, float Z, string Kind = "frag") { public Vector3 Position => new(X, Y, Z); }
+    private sealed record GrenadeFrame(GrenadePosition[] Items, ThrowableAreaFrame[]? Areas = null);
+    private sealed record GrenadeExplosion(float X, float Y, float Z, string Kind = "frag") { public Vector3 Position => new(X, Y, Z); }
+    private sealed record GrenadeInventory(int Count, int[]? Counts = null);
 }

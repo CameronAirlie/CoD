@@ -63,10 +63,15 @@ assault rifle** and **MG-60 machine gun**, each with its own hand rig and five
 skeletal animations. During play use **1 / 2 / 3** to equip, **Q** to cycle and
 **R** to reload. Magazines persist across switches; reserve ammunition is shared.
 Preparation-phase number keys retain their class-selection behavior. Networking
-uses protocol 12; rebuild both peers. See [weapon setup and validation](Docs/Weapons.md).
+uses protocol 17; rebuild both peers. See [weapon setup and validation](Docs/Weapons.md).
 
-Press **F** to throw a frag grenade: two per life, a three-second fuse, bouncing
-flight and flash/spark/smoke explosion particles. The host applies damage with
+Press **G** to throw and **T** to cycle frag, flashbang, smoke and molotov.
+Press **J** to use armour and **B** (or **I**) to open the buy/inventory menu.
+Players start with a pistol, $800 and two frags; buy the other weapons and utility.
+Kills award $300; round wins/losses award $3,250/$1,400, capped at $16,000.
+Buying is available during warmup and the first 20 seconds of play (any time
+while alive offline). Purchased weapons are lost on death; money persists for
+the session. See [economy rules and validation](Docs/Economy.md). The host applies damage with
 distance falloff and cover checks. See [grenade architecture and validation](Docs/Grenades.md).
 
 ## Managed scripts

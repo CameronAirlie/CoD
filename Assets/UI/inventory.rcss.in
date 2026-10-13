@@ -1,6 +1,6 @@
 /* Generated stylesheet source; shared tokens are defined in theme.tokens.json. */
 #inventory-backdrop { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: ${background}cc; }
-#inventory-panel { width: 900dp; max-width: 92%; padding: 24dp; border-top: 2dp ${accent}; }
+#inventory-panel { width: 900dp; max-width: 92%; max-height: 94%; overflow-y: auto; padding: 24dp; border-top: 2dp ${accent}; }
 #header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1dp ${border}; padding-bottom: 16dp; }
 .title { margin-top: 4dp; }
 .section-label { display: flex; justify-content: space-between; margin: 16dp 0 12dp; }
@@ -28,3 +28,9 @@
 #footer { display: flex; justify-content: space-between; margin-top: 16dp; border-top: 1dp ${border}; padding-top: 16dp; }
 .close-hint { color: ${accent}; }
 @media (max-height: 650px) { #inventory-panel { padding: 16dp; } #header { padding-bottom: 8dp; } .title { font-size: 30dp; line-height: 32dp; } .section-label { margin: 10dp 0 8dp; } .weapon-portrait { height: 64dp; } .slot { height: 80dp; padding: 8dp; } .item-name { font-size: 16dp; } #footer { margin-top: 8dp; padding-top: 8dp; } }
+
+#shop-status { margin-top: 12dp; }
+#shop-grid, #throwable-grid { display: flex; flex-wrap: wrap; gap: 6dp; margin-top: 8dp; }
+.shop-button { padding: 8dp; color: ${text}; background-color: ${elevated}; border: 1dp ${border}; font-size: 12dp; }
+.shop-button:hover, .shop-button:focus { border-color: ${accent}; }
+scrollbarvertical { width: 8dp; }
