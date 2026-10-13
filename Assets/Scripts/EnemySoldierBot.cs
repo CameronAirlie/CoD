@@ -145,7 +145,6 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private bool _networkNameplateVisible;
     private GameObject? _nameplateObserver;
     private float _nextNameplateVisibilityAt;
-    [SerializedField] private float nameplateMaximumDistance = 20.0f;
     private float _turnDirection = 1.0f;
 
     public override void OnCreate()
@@ -487,7 +486,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         _networkNameplateFriendly = friendly;
         _networkNameplateTeam = TeamIdentity.IsCombatTeam((PlayerTeam)team) ? (PlayerTeam)team : null;
         _networkNameplateConfigured = !string.IsNullOrWhiteSpace(username);
-        if (!_networkNameplateConfigured || _dead || _spectatorHidden)
+        if (!_networkNameplateConfigured || !_networkNameplateFriendly || _dead || _spectatorHidden)
         {
             SetNameplateVisible(false);
             return;
@@ -500,6 +499,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         }
         _networkNameplateDocument ??=
             new RmlDocument($"UI/friendly-nameplate.rml#entity:{networkNameplate.EntityId}");
+        _nextNameplateVisibilityAt = 0;
         RefreshNetworkNameplate();
     }
 
@@ -512,19 +512,19 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     private void SetNameplateVisible(bool visible)
     {
-        visible &= !_spectatorHidden;
+        visible &= _networkNameplateConfigured && _networkNameplateFriendly && !_dead && !_spectatorHidden;
         if (networkNameplate is null || !networkNameplate.IsValid) return;
         if (_networkNameplateVisible == visible && networkNameplate.Active == visible) return;
         _networkNameplateVisible = visible;
         networkNameplate.Active = visible;
         // Inactive canvases unload their document. Reapply text and team color
-        // when it is recreated after occlusion, distance culling, or respawn.
+        // when it is recreated after occlusion or respawn.
         if (visible) _networkNameplateDirty = true;
     }
 
     private void UpdateNameplateVisibility()
     {
-        if (!_networkNameplateConfigured || _dead || _spectatorHidden)
+        if (!_networkNameplateConfigured || !_networkNameplateFriendly || _dead || _spectatorHidden)
         {
             SetNameplateVisible(false);
             return;
@@ -538,9 +538,8 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         var origin = observerController.ViewPosition;
         var ray = GameObject.WorldPosition + Vector3.UnitY * 0.2f - origin;
         var length = ray.Length();
-        var inRange = float.IsFinite(length) && float.IsFinite(nameplateMaximumDistance) &&
-            length <= MathF.Max(0.0f, nameplateMaximumDistance);
-        var visible = inRange && (length <= 0.001f ||
+        // Friendly identification has no range cap; geometry still occludes it.
+        var visible = float.IsFinite(length) && (length <= 0.001f ||
             !Physics.Raycast(origin, ray / length, length,
                 _nameplateObserver, out var hit) || hit.Entity.EntityId == EntityId);
         SetNameplateVisible(visible);

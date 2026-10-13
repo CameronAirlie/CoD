@@ -213,7 +213,6 @@ PROPERTY	hasTargetParameter	2	HasTarget	0
 PROPERTY	shootTriggerParameter	2	Shoot	0
 PROPERTY	hitTriggerParameter	2	Hit	0
 PROPERTY	deathCleanupDelay	0	4.000000	0
-PROPERTY	nameplateMaximumDistance	0	20.000000	0
 PROPERTY	moveAnimation	2	Walk	0
 PROPERTY	tacticalRepathMin	0	0.650000	0
 PROPERTY	tacticalRepathMax	0	1.250000	0

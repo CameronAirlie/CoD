@@ -448,7 +448,7 @@ ASSET	project://Prefabs/AmmoPickup.plutoprefab	1895	Prefab
 ASSET	project://Prefabs/ArmourPickup.plutoprefab	1900	Prefab
 ASSET	project://Prefabs/Audio/GameplayCue.plutoprefab	245	Prefab
 ASSET	project://Prefabs/Car.plutoprefab	33430	Prefab
-ASSET	project://Prefabs/Enemy.plutoprefab	19452	Prefab
+ASSET	project://Prefabs/Enemy.plutoprefab	19403	Prefab
 ASSET	project://Prefabs/Grenades/Fire.plutoprefab	183	Prefab
 ASSET	project://Prefabs/Grenades/Flash.plutoprefab	193	Prefab
 ASSET	project://Prefabs/Grenades/Flashbang.plutoprefab	930	Prefab
@@ -489,7 +489,7 @@ ASSET	project://Scripts/DefusalBotTactics.cs	2397	Script
 ASSET	project://Scripts/DefusalMarker.cs	2671	Script
 ASSET	project://Scripts/DefusalRules.cs	6715	Script
 ASSET	project://Scripts/EconomyRules.cs	2862	Script
-ASSET	project://Scripts/EnemySoldierBot.cs	40631	Script
+ASSET	project://Scripts/EnemySoldierBot.cs	40650	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4384	Script
 ASSET	project://Scripts/FairBotPlanner.cs	1015	Script
 ASSET	project://Scripts/FirstPersonHands.cs	2576	Script

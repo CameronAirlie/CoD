@@ -196,10 +196,11 @@ bounds without the native engine.
 ## Team identification and arena surfaces
 
 Network participants use world-anchored projected nameplates with constant
-screen sizing (supported by Vulkan and OpenGL): blue `FRIENDLY` names and red `ENEMY` names. Team changes update
-both color and label; dead participants hide their nameplates. Visibility rays
-hide tags behind obstacles, and tags are limited to 60 units by default. Names are escaped
-before inserting them into RmlUi. Arena walls use roughness 0.85 for a matte finish.
+screen sizing (supported by Vulkan and OpenGL). Only friendly tags are shown, with
+no distance limit while there is line of sight. Enemy tags never appear, including
+immediately after a team change. Dead participants and the currently observed
+spectator actor hide their nameplates. Visibility rays hide friendly tags behind
+obstacles. Names are escaped before inserting them into RmlUi. Arena walls use roughness 0.85 for a matte finish.
 
 The engine SSR shader varies its GGX sampling pattern across pixels and uses
 surface-aware filtering on rough receivers to avoid coherent repeated reflections.
@@ -358,3 +359,5 @@ separate from choosing the next life’s loadout. Packaged games need rebuilding.
 Run `python Tools/run_loadout_smoke.py <path-to-PlutoGERuntime.exe>` for native
 pending/active equipment, dead selection, offline/server spawn commitment, bot
 preset, purchase rejection, mode isolation and RML menu checks.
+
+Nameplate regression check: `python Tools/run_nameplate_smoke.py <path-to-PlutoGERuntime.exe>`.
