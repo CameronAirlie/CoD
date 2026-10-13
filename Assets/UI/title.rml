@@ -1,5 +1,5 @@
 <rml><head><title>Pluto Combat / Deployment</title><link type="text/rcss" href="theme.rcss" /><link type="text/rcss" href="title.rcss" /><link type="text/rcss" href="settings.rcss" /></head>
-<body><img id="menu-artwork" src="UI/Artwork/menu-background.tga" /><div id="title-screen">
+<body><img id="menu-artwork" src="Artwork/title-compound.tga" /><div id="title-screen">
 <div id="masthead"><span class="brand">PLUTO <span class="accent">//</span> COMBAT</span><span class="ui-eyebrow">MULTIPLAYER OPERATIONS</span></div>
 <div id="menu"><div class="ui-eyebrow accent">01 / OPERATIONS</div><div id="game-title" class="ui-heading">MULTIPLAYER</div>
 <div class="menu-description">Choose your mission. Prepare for deployment.</div>

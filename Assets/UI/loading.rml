@@ -1,0 +1,15 @@
+<rml>
+<head><title>Pluto Combat / Loading</title><link type="text/rcss" href="theme.rcss" /><link type="text/rcss" href="loading.rcss" /></head>
+<body>
+<img id="loading-artwork" src="Artwork/loading-foundry.tga" />
+<div id="loading-screen">
+    <div id="loading-masthead"><span class="brand">PLUTO <span class="accent">//</span> COMBAT</span><span class="loading-eyebrow">OPERATIONS / DEPLOYMENT</span></div>
+    <div id="loading-copy"><div class="loading-eyebrow accent">STAND BY / MISSION PREPARATION</div><div id="loading-title">PREPARING DEPLOYMENT</div><div id="loading-scene"></div></div>
+    <div id="loading-footer">
+        <div id="loading-status"><div id="loading-spinner"></div><div id="loading-status-copy"><div class="loading-eyebrow">LOADING OPERATION</div><div id="loading-stage">Preparing...</div></div></div>
+        <div id="loading-error"></div>
+        <div id="loading-hint">Stay with your squad. Play the objective.</div>
+    </div>
+</div>
+</body>
+</rml>

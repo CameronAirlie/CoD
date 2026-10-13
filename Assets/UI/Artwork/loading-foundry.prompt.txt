@@ -1,0 +1,5 @@
+Use case: stylized-concept
+Asset type: production game loading-screen background for Pluto Combat, widescreen 16:9, 2048x1152.
+Primary request: cinematic tactical industrial battlefield environment at dusk, an abandoned foundry with weathered concrete, steel structures, atmospheric smoke and subtle amber industrial lamps. Grounded high-end military game environmental concept art, detailed realistic materials, restrained charcoal and cool gray palette with small warm amber accents matching #FFB31A.
+Composition: wide establishing view, industrial buildings concentrated in the right half; left half and lower quarter dark, quiet and uncluttered to support white loading-screen text and amber spinner. Dark sky along top for masthead. Natural atmospheric depth and soft light, visually compelling without overwhelming a UI overlay.
+Constraints: background artwork only. No typography, no logos, no watermark, no interface, no spinner, no soldiers or weapons. Opaque background.

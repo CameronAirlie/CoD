@@ -1,0 +1,34 @@
+/* Generated from loading.rcss.in and the shared tactical theme tokens. */
+body { background-color: #090B0D; pointer-events: none; overflow: hidden; }
+#loading-artwork { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+#loading-screen { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: #090B0D55; }
+#loading-masthead { position: absolute; top: 32dp; left: 5%; right: 5%; padding-bottom: 16dp; border-bottom: 1dp #2A3036; display: flex; justify-content: space-between; align-items: center; }
+.brand { font-family: TacticalHeading; font-size: 26dp; letter-spacing: 3dp; }
+.loading-eyebrow { font-family: TacticalDisplay; font-size: 12dp; letter-spacing: 2dp; color: #A6A0B4; }
+.loading-eyebrow.accent { color: #FFB31A; }
+#loading-copy { position: absolute; left: 5%; right: 5%; top: 36%; }
+#loading-title { margin-top: 8dp; font-family: TacticalHeading; font-size: 52dp; line-height: 56dp; }
+#loading-scene { margin-top: 12dp; color: #A6A0B4; font-family: TacticalDisplay; font-size: 18dp; word-break: break-all; }
+#loading-footer { position: absolute; left: 5%; right: 5%; bottom: 32dp; padding-top: 20dp; border-top: 1dp #2A3036; }
+#loading-status { display: flex; align-items: center; }
+#loading-spinner { width: 32dp; height: 32dp; flex-shrink: 0; box-sizing: border-box; border: 3dp #2A3036; border-top-color: #FFB31A; border-right-color: #FFB31A; border-radius: 16dp; transform-origin: 50% 50%; animation: 1s linear infinite loading-spin; }
+#loading-status-copy { margin-left: 16dp; flex: 1; }
+#loading-stage { margin-top: 4dp; font-family: TacticalHeading; font-size: 22dp; }
+#loading-error { margin-top: 8dp; color: #FF4545; font-size: 13dp; word-break: break-all; }
+#loading-error:empty { display: none; }
+#loading-hint { margin-top: 16dp; font-family: TacticalDisplay; color: #A6A0B4; font-size: 13dp; }
+@keyframes loading-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@media (max-width: 700px) {
+    #loading-masthead { top: 20dp; }
+    #loading-masthead .loading-eyebrow { display: none; }
+    #loading-title { font-size: 32dp; line-height: 36dp; }
+    #loading-footer { bottom: 20dp; }
+}
+@media (max-height: 420px) {
+    #loading-masthead { top: 16dp; padding-bottom: 8dp; }
+    #loading-copy { top: 29%; }
+    #loading-title { font-size: 30dp; line-height: 34dp; }
+    #loading-scene { margin-top: 4dp; font-size: 14dp; }
+    #loading-footer { bottom: 16dp; padding-top: 12dp; }
+    #loading-hint { display: none; }
+}

@@ -62,6 +62,8 @@ BUILD_ALWAYS_INCLUDE	project://Sounds/feedback/armour.wav
 BUILD_ALWAYS_INCLUDE	project://Sounds/feedback/headshot.wav
 BUILD_ALWAYS_INCLUDE	project://Sounds/feedback/kill.wav
 BUILD_ALWAYS_INCLUDE	project://Sounds/feedback/objective.wav
+BUILD_ALWAYS_INCLUDE	project://UI/Artwork/title-compound.tga
+BUILD_ALWAYS_INCLUDE	project://UI/Artwork/loading-foundry.tga
 BUILD_ALWAYS_INCLUDE	project://UI/Artwork/menu-background.png
 BUILD_ALWAYS_INCLUDE	project://UI/Artwork/menu-background.tga
 BUILD_ALWAYS_INCLUDE	project://UI/Icons/ammo.tga
@@ -112,6 +114,7 @@ SERVER_ENV	COD_SERVER_PLAYERS	12
 SERVER_ENV	COD_SERVER_BOTS	8
 SERVER_ENV	COD_SERVER_MODE	Defusal
 SCRIPT_ASSEMBLY	project://Managed/CoD.Scripts.dll
+LOADING_SCREEN	project://UI/loading.plutoloading
 LOADING_ACCENT	0.65	0.68	0.72
 WINDOW_TITLE	CoD
 WINDOW_SIZE	800	600
@@ -1197,6 +1200,9 @@ ASSET	project://Textures/Heightmaps/Nepal/27_871_87_262_13_505_505_16bit.png	510
 ASSET	project://Textures/Heightmaps/Nepal/27_871_87_262_13_505_505_albedo_topo.png	446489	Texture
 ASSET	project://Textures/MuzzleFlash/MuzzleFlash.png	90402	Texture
 ASSET	project://Textures/RenderTexture.plutorendertexture	45	Texture
+ASSET	project://UI/Artwork/loading-foundry.png	2173728	Texture
+ASSET	project://UI/Artwork/loading-foundry.prompt.txt	982	Unknown
+ASSET	project://UI/Artwork/loading-foundry.tga	6293426	Texture
 ASSET	project://UI/Artwork/menu-background.png	1769367	Texture
 ASSET	project://UI/Artwork/menu-background.tga	4720595	Texture
 ASSET	project://UI/Icons/ammo.tga	5202	Texture
@@ -1228,6 +1234,10 @@ ASSET	project://UI/hud.rml	3311	RML Document
 ASSET	project://UI/inventory.rcss	2777	Unknown
 ASSET	project://UI/inventory.rcss.in	2839	Unknown
 ASSET	project://UI/inventory.rml	2262	RML Document
+ASSET	project://UI/loading.plutoloading	72	Loading Screen
+ASSET	project://UI/loading.rcss	2545	Unknown
+ASSET	project://UI/loading.rcss.in	2588	Unknown
+ASSET	project://UI/loading.rml	993	RML Document
 ASSET	project://UI/pause-menu.rcss	796	Unknown
 ASSET	project://UI/pause-menu.rcss.in	809	Unknown
 ASSET	project://UI/pause-menu.rml	6265	RML Document
@@ -1239,7 +1249,7 @@ ASSET	project://UI/theme.rcss.in	3724	Unknown
 ASSET	project://UI/theme.tokens.json	272	Unknown
 ASSET	project://UI/title.rcss	3132	Unknown
 ASSET	project://UI/title.rcss.in	3167	Unknown
-ASSET	project://UI/title.rml	7938	RML Document
+ASSET	project://UI/title.rml	7934	RML Document
 ASSET	project://UI/vehicle-speedometer.rcss	2990	Unknown
 ASSET	project://UI/vehicle-speedometer.rml	1667	RML Document
 ASSET	project://Weapons/Materials/Accent.plutomaterial	167	Material
@@ -1281,3 +1291,5 @@ ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_height.png	4112027	
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_metallic.psd	2732299	Unknown
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_normal-ogl.png	12312674	Texture
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_preview.jpg	628869	Texture
+ASSET	project://UI/Artwork/title-compound.png	2227731	Texture
+ASSET	project://UI/Artwork/title-compound.tga	6293426	Texture
