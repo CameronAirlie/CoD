@@ -7,9 +7,11 @@
     <Compile Include="../../Assets/Scripts/ServerSimulation.cs" Link="ServerSimulation.cs" />
     <Compile Include="../../Assets/Scripts/WeaponCatalog.cs" Link="WeaponCatalog.cs" />
     <Compile Include="../../Assets/Scripts/InventoryRules.cs" Link="InventoryRules.cs" />
+    <Compile Include="../../Assets/Scripts/MatchContracts.cs" Link="MatchContracts.cs" />
+    <Compile Include="../../Assets/Scripts/DefusalRules.cs" Link="DefusalRules.cs" />
     <None Include="../Authority/arena.plutoscene" Link="arena.plutoscene" CopyToOutputDirectory="PreserveNewest" />
     <Reference Include="PlutoGE.ScriptCore">
       <HintPath>../../Assets/Managed/PlutoGE.ScriptCore.dll</HintPath>
     </Reference>
-  </ItemGroup>
+  <Compile Include="../../Assets/Scripts/SpectatorPresentation.cs" Link="SpectatorPresentation.cs" /></ItemGroup>
 </Project>

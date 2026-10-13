@@ -453,7 +453,7 @@ ASSET	project://Prefabs/AmmoPickup.plutoprefab	1895	Prefab
 ASSET	project://Prefabs/ArmourPickup.plutoprefab	1900	Prefab
 ASSET	project://Prefabs/Audio/GameplayCue.plutoprefab	245	Prefab
 ASSET	project://Prefabs/Car.plutoprefab	33430	Prefab
-ASSET	project://Prefabs/Enemy.plutoprefab	19374	Prefab
+ASSET	project://Prefabs/Enemy.plutoprefab	19452	Prefab
 ASSET	project://Prefabs/Grenades/Fire.plutoprefab	183	Prefab
 ASSET	project://Prefabs/Grenades/Flash.plutoprefab	193	Prefab
 ASSET	project://Prefabs/Grenades/Flashbang.plutoprefab	930	Prefab
@@ -465,8 +465,8 @@ ASSET	project://Prefabs/Grenades/SmokeGrenade.plutoprefab	951	Prefab
 ASSET	project://Prefabs/Grenades/Sparks.plutoprefab	195	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1932	Prefab
 ASSET	project://Prefabs/Lightsaber.plutoprefab	1949	Prefab
-ASSET	project://Prefabs/Player.plutoprefab	60843	Prefab
-ASSET	project://Prefabs/RemotePlayer.plutoprefab	7826	Prefab
+ASSET	project://Prefabs/Player.plutoprefab	60944	Prefab
+ASSET	project://Prefabs/RemotePlayer.plutoprefab	7902	Prefab
 ASSET	project://Prefabs/RmlGameUI.plutoprefab	2475	Prefab
 ASSET	project://Prefabs/Tree.plutoprefab	3864	Prefab
 ASSET	project://Prefabs/Tree_Static.plutomesh	93677	Mesh
@@ -475,11 +475,11 @@ ASSET	project://Prefabs/Tree_Static_Material_1.plutomaterial	452	Material
 ASSET	project://Prefabs/Weapons/ar.plutoprefab	1705	Prefab
 ASSET	project://Prefabs/Weapons/lmg.plutoprefab	1708	Prefab
 ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1717	Prefab
-ASSET	project://Scenes/Foundry.plutoscene	10048591	Scene
-ASSET	project://Scenes/Main.plutoscene	356450	Scene
+ASSET	project://Scenes/Foundry.plutoscene	10048690	Scene
+ASSET	project://Scenes/Main.plutoscene	356551	Scene
 ASSET	project://Scenes/Title.plutoscene	8749	Scene
 ASSET	project://Scenes/car_scene.plutoscene	2993018	Scene
-ASSET	project://Scenes/island.plutoscene	8776760	Scene
+ASSET	project://Scenes/island.plutoscene	8776861	Scene
 ASSET	project://Scenes/ragdoll_test.plutoscene	21181	Scene
 ASSET	project://Scripts/BotCombatMovement.cs	2384	Script
 ASSET	project://Scripts/BotEquipmentRules.cs	3199	Script
@@ -487,42 +487,42 @@ ASSET	project://Scripts/BotObjectiveTactics.cs	1272	Script
 ASSET	project://Scripts/BotSpawnResolver.cs	1211	Script
 ASSET	project://Scripts/CombatFeedback.cs	4926	Script
 ASSET	project://Scripts/CombatFeedbackMath.cs	590	Script
-ASSET	project://Scripts/CombatTargeting.cs	1126	Script
+ASSET	project://Scripts/CombatTargeting.cs	1322	Script
 ASSET	project://Scripts/DamageFeedbackState.cs	605	Script
 ASSET	project://Scripts/DedicatedServerSettings.cs	12160	Script
 ASSET	project://Scripts/DefusalBotTactics.cs	2397	Script
 ASSET	project://Scripts/DefusalMarker.cs	2671	Script
 ASSET	project://Scripts/DefusalRules.cs	6678	Script
-ASSET	project://Scripts/EconomyRules.cs	2373	Script
-ASSET	project://Scripts/EnemySoldierBot.cs	38281	Script
+ASSET	project://Scripts/EconomyRules.cs	2779	Script
+ASSET	project://Scripts/EnemySoldierBot.cs	40090	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4384	Script
 ASSET	project://Scripts/FairBotPlanner.cs	1015	Script
 ASSET	project://Scripts/FirstPersonHands.cs	2576	Script
 ASSET	project://Scripts/GameGraphicsSettings.cs	4262	Script
-ASSET	project://Scripts/GameModeHud.cs	9511	Script
+ASSET	project://Scripts/GameModeHud.cs	10776	Script
 ASSET	project://Scripts/GameplaySounds.cs	5357	Script
 ASSET	project://Scripts/GrenadeRules.cs	5941	Script
 ASSET	project://Scripts/HandMotion.cs	1951	Script
 ASSET	project://Scripts/HardpointMarker.cs	2224	Script
 ASSET	project://Scripts/HardpointRules.cs	3486	Script
-ASSET	project://Scripts/InventoryMenu.cs	9407	Script
+ASSET	project://Scripts/InventoryMenu.cs	11555	Script
 ASSET	project://Scripts/InventoryRules.cs	1069	Script
-ASSET	project://Scripts/MatchContracts.cs	1165	Script
+ASSET	project://Scripts/MatchContracts.cs	6164	Script
 ASSET	project://Scripts/MultiplayerLaunch.cs	1510	Script
 ASSET	project://Scripts/MultiplayerSession.Authority.cs	19169	Script
 ASSET	project://Scripts/MultiplayerSession.BotEquipment.cs	7670	Script
 ASSET	project://Scripts/MultiplayerSession.Defusal.cs	14257	Script
-ASSET	project://Scripts/MultiplayerSession.Economy.cs	4412	Script
+ASSET	project://Scripts/MultiplayerSession.Economy.cs	5206	Script
 ASSET	project://Scripts/MultiplayerSession.Grenades.cs	15998	Script
 ASSET	project://Scripts/MultiplayerSession.Objectives.cs	6890	Script
 ASSET	project://Scripts/MultiplayerSession.Throwables.cs	6675	Script
-ASSET	project://Scripts/MultiplayerSession.cs	98109	Script
+ASSET	project://Scripts/MultiplayerSession.cs	99288	Script
 ASSET	project://Scripts/NetworkParticipantHitbox.cs	401	Script
 ASSET	project://Scripts/ObjectiveStatus.cs	1062	Script
 ASSET	project://Scripts/PauseMenu.cs	262	Script
-ASSET	project://Scripts/PlayerController.cs	48992	Script
+ASSET	project://Scripts/PlayerController.cs	55091	Script
 ASSET	project://Scripts/PlayerHealth.cs	10619	Script
-ASSET	project://Scripts/PlayerHud.cs	19926	Script
+ASSET	project://Scripts/PlayerHud.cs	23885	Script
 ASSET	project://Scripts/PlayerInventory.cs	6249	Script
 ASSET	project://Scripts/PlayerSettings.cs	4209	Script
 ASSET	project://Scripts/RoundProgression.cs	2194	Script
@@ -535,7 +535,7 @@ ASSET	project://Scripts/TitleScreen.cs	4790	Script
 ASSET	project://Scripts/UIManager.cs	7237	Script
 ASSET	project://Scripts/VehicleSpeedometer.cs	6437	Script
 ASSET	project://Scripts/WeaponCatalog.cs	3503	Script
-ASSET	project://Scripts/WeaponHandBinding.cs	3956	Script
+ASSET	project://Scripts/WeaponHandBinding.cs	4019	Script
 ASSET	project://Sounds/Gameplay/Explosions/grenade_ufx_1.wav	308780	Audio
 ASSET	project://Sounds/Gameplay/Firearms/Fire/assault_rifle_fire_ufx_1.wav	308780	Audio
 ASSET	project://Sounds/Gameplay/Firearms/Fire/machinegun_heavy_fire_ufx_1.wav	308780	Audio
@@ -1250,12 +1250,12 @@ ASSET	project://UI/friendly-nameplate.rml	220	RML Document
 ASSET	project://UI/hardpoint-marker.rcss	792	Unknown
 ASSET	project://UI/hardpoint-marker.rcss.in	818	Unknown
 ASSET	project://UI/hardpoint-marker.rml	205	RML Document
-ASSET	project://UI/hud.rcss	7548	Unknown
-ASSET	project://UI/hud.rcss.in	7706	Unknown
-ASSET	project://UI/hud.rml	3383	RML Document
-ASSET	project://UI/inventory.rcss	3157	Unknown
-ASSET	project://UI/inventory.rcss.in	3227	Unknown
-ASSET	project://UI/inventory.rml	3077	RML Document
+ASSET	project://UI/hud.rcss	7796	Unknown
+ASSET	project://UI/hud.rcss.in	7960	Unknown
+ASSET	project://UI/hud.rml	3426	RML Document
+ASSET	project://UI/inventory.rcss	4111	Unknown
+ASSET	project://UI/inventory.rcss.in	4198	Unknown
+ASSET	project://UI/inventory.rml	3553	RML Document
 ASSET	project://UI/loading.plutoloading	72	Loading Screen
 ASSET	project://UI/loading.rcss	2545	Unknown
 ASSET	project://UI/loading.rcss.in	2588	Unknown
@@ -1313,3 +1313,5 @@ ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_height.png	4112027	
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_metallic.psd	2732299	Unknown
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_normal-ogl.png	12312674	Texture
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_preview.jpg	628869	Texture
+ASSET	project://Scripts/MultiplayerSession.Spectating.cs	6753	Script
+ASSET	project://Scripts/SpectatorPresentation.cs	5578	Script

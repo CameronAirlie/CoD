@@ -9,6 +9,7 @@ Tools/weapon-generation.log
 Assets/SourceModels/Weapons/*.blend1
 Tests/*
 !Tests/EconomyTests.cs
+!Tests/SpectatorViewTests.cs
 !Tests/BotEquipmentSmokeChecks.cs
 !Tests/NetworkEconomy/
 Tests/NetworkEconomy/bin/
@@ -38,3 +39,8 @@ Server/*.log
 /.benchmark.lock
 /.grenade-smoke-*.plutoproject
 /Tools/Benchmarks/__pycache__/
+
+!Tests/SpectatorPresentation/
+Tests/SpectatorPresentation/bin/
+Tests/SpectatorPresentation/obj/
+!Tests/SpectatorPresentation/SpectatorPresentation.Tests.csproj

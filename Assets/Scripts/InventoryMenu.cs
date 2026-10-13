@@ -84,17 +84,34 @@ public sealed class InventoryMenu : ScriptBehaviour
     public override void OnUpdate(float deltaTime)
     {
         if (_document is null || _session is null) return;
-        var presentation = $"${_session.Money} / {(_session.CanBuy ? "BUY OPEN" : "BUY CLOSED")} / {_session.ShopStatus}";
-        if (presentation != _shopPresentation)
+        // Include quantities and ownership, not only the wallet: throws and equipment loss
+        // must invalidate purchase availability even when no transaction occurred.
+        var presentation = $"{_session.Money}/{_session.CanBuy}/{_session.IsUsingObjective}/{MathF.Ceiling(_session.BuySecondsRemaining)}/{_session.ShopStatus}/" +
+            string.Join(",", EconomyRules.Catalog.Select(item => $"{_session.OwnsWeapon(item.WeaponSlot)}:{(item.Throwable is { } kind ? _session.ThrowableCount(kind) : 0)}"));
+        if (presentation != _shopPresentation && _document.Element("shop-balance").SetClass("ready", true))
         {
             _shopPresentation = presentation;
-            _document.Element("shop-status").Markup = System.Net.WebUtility.HtmlEncode(presentation);
+            _document.Element("shop-balance").Markup = $"${_session.Money:N0}";
+            _document.Element("shop-window").Markup = !_session.CanBuy ? "BUY CLOSED" : float.IsPositiveInfinity(_session.BuySecondsRemaining)
+                ? "BUY OPEN" : $"BUY OPEN / {MathF.Ceiling(_session.BuySecondsRemaining):0}s LEFT";
+            _document.Element("shop-status").Markup = System.Net.WebUtility.HtmlEncode(_session.ShopStatus);
+            _document.Element("throwable-capacity").Markup = $"{GrenadeRules.Types.Sum(_session.ThrowableCount)}/4 CARRIED";
             foreach (var item in EconomyRules.Catalog)
-                _document.Element($"buy-{item.Id}").Markup = item.WeaponSlot >= 0 && _session.OwnsWeapon(item.WeaponSlot)
-                    ? $"{item.Name} / OWNED" : $"{item.Name} / ${item.Price}";
+            {
+                var reason = _session.PurchaseUnavailableReason(item);
+                var quantity = item.Throwable is { } kind ? $"CARRIED {_session.ThrowableCount(kind)} / {(kind == "flash" ? 2 : 1)}" :
+                    _session.OwnsWeapon(item.WeaponSlot) ? "OWNED" : item.WeaponSlot == 1 ? "SIDEARM" : "REPLACES PRIMARY";
+                var button = _document.Element($"buy-{item.Id}");
+                button.Markup = $"<div class=\"shop-name\">{item.Name}</div><div class=\"shop-price\">${item.Price:N0}</div><div class=\"shop-detail\">{quantity}</div><div class=\"shop-action\">{reason ?? $"BUY / ${_session.Money - item.Price:N0} LEFT"}</div>";
+                button.SetClass("unavailable", reason is not null);
+                button.SetClass("available", reason is null);
+                button["aria-disabled"] = reason is not null ? "true" : "false";
+                button.SetStyle("pointer-events", reason is not null ? "none" : "auto");
+            }
+            RenderWeapons();
         }
         var throwables = _session.SelectedThrowable + string.Join(",", GrenadeRules.Types.Select(_session.ThrowableCount));
-        if (_throwablePresentation == throwables) return;
+        if (_throwablePresentation == throwables || !_document.Element("throwable-grid").SetClass("ready", true)) return;
         _throwablePresentation = throwables;
         foreach (var kind in GrenadeRules.Types)
             _document.Element($"select-{kind}").Markup = $"{(_session.SelectedThrowable == kind ? "> " : "")}{GrenadeRules.Name(kind)} / {_session.ThrowableCount(kind)}";
@@ -138,6 +155,10 @@ public sealed class InventoryMenu : ScriptBehaviour
         for (var index = 0; index < WeaponCatalog.SlotCount; index++)
         {
             var weapon = WeaponCatalog.At(index);
+            var owned = _session?.OwnsWeapon(index) == true;
+            _document.Element($"weapon-{index}")["aria-disabled"] = owned ? "false" : "true";
+            _document.Element($"weapon-{index}").SetStyle("pointer-events", owned ? "auto" : "none");
+            _document.Element($"weapon-{index}").SetClass("unavailable", !owned);
             _document.Element($"weapon-{index}").SetClass("selected", _controller?.EquippedWeaponSlot == index);
             _document.Element($"weapon-stats-{index}").Markup = $"{weapon.Damage:0} DMG / {weapon.Range:0}m / {weapon.RoundsPerMinute:0} RPM / {weapon.MagazineSize} RND";
         }

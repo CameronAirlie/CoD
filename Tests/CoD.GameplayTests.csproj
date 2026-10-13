@@ -10,6 +10,7 @@
     <Compile Include="WeaponLoadoutTests.cs" />
     <Compile Include="GrenadeTests.cs" />
     <Compile Include="EconomyTests.cs" />
+    <Compile Include="SpectatorViewTests.cs" />
     <Compile Include="../Assets/Scripts/EconomyRules.cs" Link="EconomyRules.cs" />
     <Compile Include="../Assets/Scripts/BotEquipmentRules.cs" Link="BotEquipmentRules.cs" />
     <Compile Include="../Assets/Scripts/ServerSimulation.cs" Link="ServerSimulation.cs" />
@@ -34,5 +35,5 @@
     <None Include="../Assets/Scenes/Main.plutoscene" Link="Scenes/Main.plutoscene" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../Assets/Scenes/Foundry.plutoscene" Link="Scenes/Foundry.plutoscene" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../Assets/Prefabs/RemotePlayer.plutoprefab" Link="Prefabs/RemotePlayer.plutoprefab" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
+  <Compile Include="../Assets/Scripts/SpectatorPresentation.cs" Link="SpectatorPresentation.cs" /></ItemGroup>
 </Project>

@@ -123,6 +123,8 @@ PROPERTY	mode	2	Host	0
 PROPERTY	serverAddress	2	0.0.0.0	0
 PROPERTY	serverPort	1	7777	0
 PROPERTY	updatesPerSecond	0	20.000000	0
+PROPERTY	spectatorUpdatesPerSecond	0	60.000000	0
+PROPERTY	spectatorInterpolationDelay	0	0.100000	0
 PROPERTY	disconnectTimeout	0	3.000000	0
 PROPERTY	titleScene	2	Title	0
 PROPERTY	remotePlayerPrefab	2	project://Prefabs/RemotePlayer.plutoprefab	0

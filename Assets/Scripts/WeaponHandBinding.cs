@@ -57,6 +57,8 @@ public sealed class WeaponHandBinding : ScriptBehaviour
         if (!string.IsNullOrEmpty(idleState)) Animator?.PlayState(idleState);
     }
 
+    public void ShowMuzzleFlash() => muzzleFlash?.Emit(1);
+
     public void Fire() { if (!string.IsNullOrEmpty(fireTrigger)) Animator?.SetTrigger(fireTrigger); }
     public void Draw() { if (!string.IsNullOrEmpty(drawTrigger)) Animator?.SetTrigger(drawTrigger); }
     public void SetReload(bool active) { if (!string.IsNullOrEmpty(reloadParameter)) Animator?.SetBool(reloadParameter, active); }

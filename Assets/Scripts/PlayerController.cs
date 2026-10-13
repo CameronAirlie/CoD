@@ -112,6 +112,7 @@ public sealed class PlayerController : ScriptBehaviour
     {
         _gameplayAudio?.Dispose();
         if (_inventory is not null) _inventory.Changed -= OnInventoryChanged;
+        ClearSpectatorPresentation();
         _hands.Dispose();
     }
     private readonly FirstPersonHands _hands = new();
@@ -343,6 +344,9 @@ public sealed class PlayerController : ScriptBehaviour
     private float _interactionProbeCooldown;
     private Vector2 _mouseDelta;
     private bool _dead;
+    private int? _spectatorPeer;
+    public bool IsSpectating => _dead && SpectatorView is not null;
+    public string SpectatorName => _multiplayer?.CurrentMatch?.Players.FirstOrDefault(p => p.PeerId == _spectatorPeer)?.Username ?? "";
     private float _deathCameraTime;
     private Vector3 _deathCameraStartPosition;
     private Vector3 _deathCameraStartRotation;
@@ -409,13 +413,22 @@ public sealed class PlayerController : ScriptBehaviour
     public override void OnLateUpdate(float deltaTime)
     {
         ClearPresentationCameraOffset();
-        if (_dead || camera is null || _multiplayer?.UsesServerAuthority != true) return;
+        if (_dead)
+        {
+            // Physics extrapolation and built-in camera rigs run after OnUpdate.
+            // Reapply the world pose on the render timeline so the dead owner's
+            // parent transform cannot lower or roll the spectator camera.
+            if (_spectatorPeer is { } peer) UpdateSpectatorCamera(peer);
+            return;
+        }
+        if (camera is null || _multiplayer?.UsesServerAuthority != true) return;
         var offset = _multiplayer.LocalPresentationOffset(deltaTime);
         var baseline = camera.GameObject.Position;
         camera.GameObject.WorldPosition += offset;
         // Store in parent-local space so turning cannot rotate yesterday's offset
         // into today's camera baseline. The player/collision transform stays exact.
         _presentationCameraOffset = camera.GameObject.Position - baseline;
+        _multiplayer.PublishLocalSpectatorView();
     }
     public override void OnUpdate(float deltaTime)
     {
@@ -559,6 +572,7 @@ public sealed class PlayerController : ScriptBehaviour
             return;
 
         _dead = true;
+        _spectatorPeer = null;
         _deathCameraTime = 0.0f;
         _horizontalVelocity = Vector3.Zero;
         _verticalVelocity = 0.0f;
@@ -580,22 +594,111 @@ public sealed class PlayerController : ScriptBehaviour
 
     public void ExitDeathState()
     {
+        ClearSpectatorPresentation();
         _dead = false;
+        _spectatorPeer = null;
         _crouching = false;
         _sliding = false;
         UpdateStanceCollider();
+        ApplyEquippedWeapon();
         _hands.SetVisible(true);
+        _cameraFov = PlayerSettings.Current.FieldOfView;
+        if (camera is not null) camera.Fov = _cameraFov;
         _deathCameraTime = 0.0f;
         _horizontalVelocity = Vector3.Zero;
         _verticalVelocity = 0.0f;
         _cameraHeight = standingCameraHeight;
         if (camera is not null)
         {
-            var position = camera.GameObject.Position;
+            var position = _deathCameraStartPosition;
             position.Y = standingCameraHeight;
             camera.GameObject.Position = position;
             camera.GameObject.Rotation = new Vector3(_pitch, 0.0f, 0.0f);
         }
+    }
+
+    private long _presentationShots;
+    private long _spectatorShots;
+    private int? _presentedSpectatorPeer;
+    private EnemySoldierBot? _hiddenSpectatorModel;
+    public SpectatorViewState? SpectatorView { get; private set; }
+
+    public SpectatorViewState? CaptureSpectatorView(int peer, long sequence)
+    {
+        if (_dead || camera is null || _multiplayer is null) return null;
+        var position = camera.GameObject.WorldPosition;
+        var orientation = SpectatorCameraMath.FromBasis(camera.GameObject.Forward, camera.GameObject.Right);
+        var rotation = SpectatorCameraMath.ToEngineEuler(orientation);
+        var hand = _hands.Equipped?.Root;
+        var hp = hand?.Position ?? Vector3.Zero;
+        var hr = hand?.Rotation ?? Vector3.Zero;
+        var health = GameObject.GetComponent<PlayerHealth>();
+        return new(peer, _serverLife, sequence, position.X, position.Y, position.Z, rotation.X, rotation.Y, rotation.Z, camera.Fov,
+            EquippedWeaponSlot, Ammo, ReserveAmmo, IsReloading, IsAiming, IsSprinting, SpreadDegrees,
+            health?.CurrentHealth ?? 100, health?.MaximumHealth ?? 100, health?.ArmourSlots ?? 0, _multiplayer.FlashOpacity, _multiplayer.Money,
+            hp.X, hp.Y, hp.Z, hr.X, hr.Y, hr.Z, hand is not null && hand.Active, _presentationShots,
+            _multiplayer.ThrowableCount("frag"), _multiplayer.ThrowableCount("flash"), _multiplayer.ThrowableCount("smoke"),
+            _multiplayer.ThrowableCount("molotov"), _multiplayer.SelectedThrowable,
+            _inventory?.HealthKits ?? 0, _inventory?.ArmourPlates ?? 0, _inventory?.IsUsing ?? false, _inventory?.UseProgress ?? 0,
+            orientation.X, orientation.Y, orientation.Z, orientation.W);
+    }
+
+    private void ClearSpectatorPresentation()
+    {
+        _hiddenSpectatorModel?.SetSpectatorHidden(false);
+        _hiddenSpectatorModel = null;
+        _presentedSpectatorPeer = null;
+        SpectatorView = null;
+        _hands.SetVisible(false);
+    }
+
+    private bool UpdateSpectatorCamera(int peer)
+    {
+        if (camera is null || _multiplayer is null || !_multiplayer.TryGetSpectatorView(peer, out var view) || view is null)
+        { if (_presentedSpectatorPeer.HasValue) ClearSpectatorPresentation(); return false; }
+        var changed = _presentedSpectatorPeer != peer;
+        if (changed)
+        {
+            ClearSpectatorPresentation();
+            _presentedSpectatorPeer = peer;
+            _spectatorShots = view.Shots;
+        }
+        // Prefab script instances may be created after the first camera frame.
+        // Resolve until available, and rebind when the same peer gets a new proxy.
+        if (_multiplayer.TryGetSpectatorActor(peer, out var actor) && actor is not null)
+        {
+            var model = actor.GetComponent<EnemySoldierBot>();
+            if (model != _hiddenSpectatorModel)
+            {
+                _hiddenSpectatorModel?.SetSpectatorHidden(false);
+                _hiddenSpectatorModel = model;
+            }
+            _hiddenSpectatorModel?.SetSpectatorHidden(true);
+        }
+        SpectatorView = view;
+        // The playback buffer interpolates the owner's camera on a delayed source timeline.
+        // Convert orientation only at the engine boundary; world Euler yaw/pitch composition
+        // would introduce yaw-dependent horizon roll.
+        camera.GameObject.WorldPosition = view.Position;
+        camera.GameObject.WorldRotation = SpectatorCameraMath.ToEngineEuler(view.Orientation);
+        camera.Fov = _cameraFov = view.Fov;
+        if (_weaponBindings[view.Slot] is { } binding)
+        {
+            if (_hands.Equipped != binding) { _hands.Equip(binding); _hands.SetVisible(true); }
+            else if (changed) _hands.SetVisible(true);
+            binding.Root.Active = view.HasHands || view.Life == 0;
+            if (view.HasHands)
+            {
+                binding.Root.Position = view.HandPosition;
+                binding.Root.Rotation = view.HandRotation;
+            }
+            else _hands.Tick(0, Vector2.Zero, false, view.Aiming, view.Sprinting, 0);
+            binding.SetMovement(view.Aiming, view.Sprinting, 0);
+            _hands.SetReload(view.Reloading);
+            if (view.Shots > _spectatorShots) { _hands.Fire(); binding.ShowMuzzleFlash(); }
+        }
+        _spectatorShots = view.Shots;
+        return true;
     }
 
     private void UpdateDeathCamera(float deltaTime)
@@ -604,6 +707,14 @@ public sealed class PlayerController : ScriptBehaviour
             return;
 
         _deathCameraTime += MathF.Max(0.0f, deltaTime);
+        if (_deathCameraTime >= MathF.Max(.01f, deathCameraFallDuration) && _multiplayer is not null)
+        {
+            var cycle = Input.CursorLocked ? (Input.IsKeyPressed(KeyCode.E) ? 1 : Input.IsKeyPressed(KeyCode.Q) ? -1 : 0) : 0;
+            _spectatorPeer = _multiplayer.SelectSpectatorTarget(_spectatorPeer, cycle);
+            // Selection/input runs here; presentation runs once in LateUpdate after physics.
+            if (_spectatorPeer.HasValue) return;
+            if (_presentedSpectatorPeer.HasValue) ClearSpectatorPresentation();
+        }
         var duration = MathF.Max(0.01f, deathCameraFallDuration);
         var t = Math.Clamp(_deathCameraTime / duration, 0.0f, 1.0f);
         t = t * t * (3.0f - 2.0f * t);
@@ -842,6 +953,7 @@ public sealed class PlayerController : ScriptBehaviour
         _ammo--;
         _shotCooldown = 60.0f / MathF.Max(1.0f, roundsPerMinute);
         var shotPitch = (_weapons?.Equipped.ShotPitch ?? 1) * (0.97f + NextFloat() * 0.06f);
+        _presentationShots++;
         if (_weapons is not null) _hands.Equipped?.PlayShot(shotPitch);
         else { GameplaySounds.Play(shotAudio, GameplaySounds.Shot(null), 1, shotPitch); muzzleFlash?.Emit(1); }
         if (_hands.Equipped is not null) _hands.Fire();
@@ -914,6 +1026,7 @@ public sealed class PlayerController : ScriptBehaviour
 
     private void HandleHandAnimationEvent(AnimationEvent animationEvent)
     {
+        if (_dead) return; // Spectator playback must never commit local reloads or play local cues.
         if (_reloading && GameplaySounds.Reload(_weapons?.Equipped.Id ?? _hands.Equipped?.WeaponId, animationEvent.Name) is { } clip)
         {
             if (reloadAudio is not null) GameplaySounds.Play(reloadAudio, clip, .65f);

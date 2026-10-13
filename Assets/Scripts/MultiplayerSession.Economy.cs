@@ -25,6 +25,13 @@ public sealed partial class MultiplayerSession
         (CurrentMatch?.Phase == MatchPhase.Warmup || CurrentMatch?.Phase == MatchPhase.Playing &&
             CurrentMatch.SecondsRemaining >= matchDuration - EconomyRules.BuySeconds);
 
+    public float BuySecondsRemaining => !CanBuy ? 0 : GrenadesOffline ? float.PositiveInfinity :
+        CurrentMatch?.Phase == MatchPhase.Warmup ? MathF.Max(0, CurrentMatch.SecondsRemaining) :
+        MathF.Max(0, (CurrentMatch?.SecondsRemaining ?? 0) - matchDuration + EconomyRules.BuySeconds);
+    public string? PurchaseUnavailableReason(ShopItem item) => EconomyRules.UnavailableReason(item,
+        CanBuy && !IsUsingObjective, Money, item.WeaponSlot >= 0 && OwnsWeapon(item.WeaponSlot),
+        item.Throwable is { } kind ? ThrowableCount(kind) : 0, GrenadeRules.Types.Sum(ThrowableCount));
+
     private EconomyAccount Account(int peer)
     {
         if (GrenadesOffline && peer == 0) return _offlineAccount;
@@ -33,6 +40,9 @@ public sealed partial class MultiplayerSession
     }
     public void Buy(string id)
     {
+        if (EconomyRules.Find(id) is not { } item) return;
+        if (PurchaseUnavailableReason(item) is { } reason)
+        { ShopStatus = reason; EconomyChanged?.Invoke(); return; }
         if (GrenadesOffline || _server is not null) AcceptPurchase(0, id);
         else if (_client?.IsConnected == true) _client.SendJson(BuyChannel, new PurchaseRequest(id));
     }

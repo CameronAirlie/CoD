@@ -46,6 +46,9 @@ public sealed class PlayerHud : ScriptBehaviour
     private RmlElement? _killFeed;
     private RmlElement[] _armour = [];
     private RmlElement[] _arms = [];
+    private string _spectatorPresentation = "";
+    private bool? _renderedDead;
+    private SpectatorViewState? _renderedSpectatorView;
     private float _hitTime;
     private float _deathTime;
     private float _renderedGap = float.NaN;
@@ -183,7 +186,8 @@ public sealed class PlayerHud : ScriptBehaviour
         _hudTime += MathF.Max(0.0f, deltaTime);
         if (_domReady && player is not null)
         {
-            var heading = TacticalUi.Heading(player.Forward);
+            var heading = _controller?.SpectatorView is { } compassView
+                ? ((int)MathF.Round(compassView.Heading) % 360 + 360) % 360 : TacticalUi.Heading(player.Forward);
             if (heading != _renderedHeading)
             {
                 if (_compassHeading is not null) _compassHeading.Markup = heading.ToString("000");
@@ -191,16 +195,52 @@ public sealed class PlayerHud : ScriptBehaviour
                 _renderedHeading = heading;
             }
         }
+        if (_domReady && _document is not null)
+        {
+            var spectator = !_dead ? "" : _controller?.IsSpectating == true
+                ? $"SPECTATING {EscapeMarkup(_controller.SpectatorName)}<br/>Q PREVIOUS / E NEXT TEAMMATE"
+                : "NO TEAMMATES AVAILABLE<br/>WAITING TO RESPAWN";
+            if (spectator != _spectatorPresentation)
+            {
+                _document.Element("spectator-status").Markup = spectator;
+                _spectatorPresentation = spectator;
+            }
+            var hideVitals = _dead && _controller?.IsSpectating != true;
+            if (_renderedDead != hideVitals)
+            {
+                _document.Element("weapon").SetClass("hidden", hideVitals);
+                _document.Element("vitals").SetClass("hidden", hideVitals);
+                _document.Element("interaction").SetClass("hidden", _dead);
+                _renderedDead = hideVitals;
+                if (hideVitals) _crosshair?.SetClass("hidden", true);
+            }
+        }
         UpdateDeathEffect(deltaTime);
         _damageFeedback.Update(deltaTime);
         RenderDamageOverlay();
         var scoreboardVisible = Input.IsKeyDown(KeyCode.Tab);
-        var kind = _multiplayer?.SelectedThrowable ?? "frag";
-        var status = $"G {GrenadeRules.Name(kind)} / {_multiplayer?.ThrowableCount(kind) ?? 0} / T CYCLE / ${_multiplayer?.Money ?? 0} / B BUY";
+        var pov = _controller?.SpectatorView;
+        if (_domReady && pov is not null && !SameSpectatorHud(pov, _renderedSpectatorView))
+        {
+            var weapon = WeaponCatalog.At(pov.Slot);
+            if (_weaponName is not null) _weaponName.Markup = weapon.Name;
+            if (_weaponSlots is not null) _weaponSlots.Markup = "TEAMMATE LOADOUT";
+            OnAmmoChanged(new(pov.Magazine, pov.Reserve, weapon.MagazineSize, pov.Reloading));
+            if (_weaponState is not null) _weaponState.Markup = pov.Reloading ? "RELOADING" : weapon.Automatic ? "AUTO / READY" : "SEMI / READY";
+            OnHealthChanged(pov.Health, pov.MaximumHealth, pov.Armour, _armour.Length);
+            _crosshair?.SetClass("hidden", pov.Aiming || pov.Sprinting);
+            _renderedSpectatorView = pov;
+        }
+        else if (pov is null) _renderedSpectatorView = null;
+        var kind = pov?.SelectedThrowable ?? _multiplayer?.SelectedThrowable ?? "frag";
+        var count = pov is null ? _multiplayer?.ThrowableCount(kind) ?? 0 : kind switch
+        { "flash" => pov.Flashbang, "smoke" => pov.Smoke, "molotov" => pov.Molotov, _ => pov.Frag };
+        var status = pov is null ? $"G {GrenadeRules.Name(kind)} / {count} / T CYCLE / ${_multiplayer?.Money ?? 0} / B BUY"
+            : $"{GrenadeRules.Name(kind)} / {count} / ${pov.Money}";
         if (_domReady && _grenades is not null && status != _renderedThrowableStatus)
         { _grenades.Markup = status; _renderedThrowableStatus = status; }
         if (_domReady && _document is not null)
-            _document.Element("flash-overlay").SetStyle("opacity", (_multiplayer?.FlashOpacity ?? 0).ToString(CultureInfo.InvariantCulture));
+            _document.Element("flash-overlay").SetStyle("opacity", (pov?.Flash ?? _multiplayer?.FlashOpacity ?? 0).ToString(CultureInfo.InvariantCulture));
         if (!_scoreboardVisibilityInitialized || scoreboardVisible != _scoreboardVisible)
         {
             _scoreboardVisibilityInitialized = true;
@@ -233,7 +273,7 @@ public sealed class PlayerHud : ScriptBehaviour
         // vertical FOV, the cone edge sits tan(spread)/tan(fov/2) of the half-height
         // from centre; 50vh is that half-height. Margins in hud.rcss add arm length.
         var halfFov = Math.Clamp(_controller.CameraFov, 1.0f, 170.0f) * 0.5f * MathF.PI / 180.0f;
-        var spread = Math.Clamp(_controller.SpreadDegrees, 0.0f, 45.0f) * MathF.PI / 180.0f;
+        var spread = Math.Clamp(pov?.Spread ?? _controller.SpreadDegrees, 0.0f, 45.0f) * MathF.PI / 180.0f;
         var gap = 50.0f * MathF.Tan(spread) / MathF.Tan(halfFov);
         if (float.IsNaN(_renderedGap) || MathF.Abs(gap - _renderedGap) >= 0.005f)
         {
@@ -258,8 +298,19 @@ public sealed class PlayerHud : ScriptBehaviour
         }
     }
 
+    private static bool SameSpectatorHud(SpectatorViewState a, SpectatorViewState? b) => b is not null &&
+        a.Slot == b.Slot && a.Magazine == b.Magazine && a.Reserve == b.Reserve && a.Reloading == b.Reloading &&
+        a.Health == b.Health && a.MaximumHealth == b.MaximumHealth && a.Armour == b.Armour &&
+        a.Aiming == b.Aiming && a.Sprinting == b.Sprinting;
+
     private void RenderWeapon()
     {
+        if (_controller?.SpectatorView is { } view)
+        {
+            if (_weaponName is not null) _weaponName.Markup = WeaponCatalog.At(view.Slot).Name;
+            if (_weaponSlots is not null) _weaponSlots.Markup = "TEAMMATE LOADOUT";
+            return;
+        }
         if (_weaponName is not null) _weaponName.Markup = _controller?.EquippedWeapon?.Name ?? "VAL";
         if (_weaponSlots is not null)
         {
@@ -276,6 +327,8 @@ public sealed class PlayerHud : ScriptBehaviour
 
     private void OnAmmoChanged(FpsAmmoState state)
     {
+        if (_controller?.SpectatorView is { } view)
+            state = new(view.Magazine, view.Reserve, WeaponCatalog.At(view.Slot).MagazineSize, view.Reloading);
         if (_ammo is not null)
         {
             _ammo.Markup = state.Magazine.ToString();
@@ -283,7 +336,7 @@ public sealed class PlayerHud : ScriptBehaviour
         }
         if (_weaponState is not null)
         {
-            _weaponState.Markup = state.IsReloading ? "RELOADING" : _controller?.EquippedWeapon?.Automatic == false ? "SEMI / READY" : "AUTO / READY";
+            _weaponState.Markup = state.IsReloading ? "RELOADING" : (_controller?.SpectatorView is { } weaponView ? WeaponCatalog.At(weaponView.Slot).Automatic : _controller?.EquippedWeapon?.Automatic) == false ? "SEMI / READY" : "AUTO / READY";
             _weaponState.SetClass("reloading", state.IsReloading);
         }
         if (_reserve is not null) _reserve.Markup = $" / {state.Reserve}";
@@ -291,7 +344,8 @@ public sealed class PlayerHud : ScriptBehaviour
 
     private void OnMovementChanged(FpsMovementState state)
     {
-            _crosshair?.SetClass("hidden", state.IsAiming || state.IsSprinting || _dead);
+        var view = _controller?.SpectatorView;
+        _crosshair?.SetClass("hidden", view is not null ? view.Aiming || view.Sprinting : state.IsAiming || state.IsSprinting || _dead);
     }
 
     private void OnHit(FpsHitEvent hit)
@@ -315,6 +369,8 @@ public sealed class PlayerHud : ScriptBehaviour
 
     private void OnHealthChanged(float current, float maximum, int armour, int maximumArmour)
     {
+        if (_controller?.SpectatorView is { } view)
+        { current = view.Health; maximum = view.MaximumHealth; armour = view.Armour; maximumArmour = _armour.Length; }
         if (_health is not null)
         {
             _health["max"] = MathF.Max(1.0f, maximum).ToString(
@@ -352,6 +408,8 @@ public sealed class PlayerHud : ScriptBehaviour
         _deathRed?.SetClass("hidden", true);
         _deathBlack?.SetClass("hidden", true);
         _crosshair?.SetClass("hidden", false);
+        RenderWeapon();
+        if (_controller is not null) OnAmmoChanged(new(_controller.Ammo, _controller.ReserveAmmo, _controller.MagazineSize, _controller.IsReloading));
         if (_healthController is not null)
             OnHealthChanged(_healthController.CurrentHealth, _healthController.MaximumHealth,
                 _healthController.ArmourSlots, _healthController.MaximumArmourSlots);
@@ -365,15 +423,15 @@ public sealed class PlayerHud : ScriptBehaviour
         _deathTime += MathF.Max(0.0f, deltaTime);
         var fadeDuration = MathF.Max(0.01f, deathFadeDuration);
         var black = Math.Clamp((_deathTime - MathF.Max(0.0f, deathFadeDelay)) / fadeDuration, 0.0f, 1.0f);
-        if (_multiplayer?.RulesMode == MatchMode.Defusal) black = 0;
-        var red = _multiplayer?.RulesMode == MatchMode.Defusal ? .12f : 0.72f * (1.0f - black);
+        if (_controller?.IsSpectating == true || _multiplayer?.RulesMode == MatchMode.Defusal) black = 0;
+        var red = _controller?.IsSpectating == true ? 0 : _multiplayer?.RulesMode == MatchMode.Defusal ? .12f : 0.72f * (1.0f - black);
         _deathRed?.SetStyle("opacity", red.ToString(System.Globalization.CultureInfo.InvariantCulture));
         _deathBlack?.SetStyle("opacity", black.ToString(System.Globalization.CultureInfo.InvariantCulture));
     }
 
     private void OnMatchUpdated(MatchSnapshot match)
     {
-        RenderWeapon();
+        if (_controller?.IsSpectating != true) RenderWeapon();
         var seconds = Math.Max(0, (int)MathF.Ceiling(match.SecondsRemaining));
         if (_matchClock is not null) _matchClock.Markup = $"{seconds / 60:00}:{seconds % 60:00}";
         if (_alphaScore is not null) _alphaScore.Markup = match.AlphaScore.ToString();

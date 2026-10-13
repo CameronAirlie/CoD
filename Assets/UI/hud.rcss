@@ -70,3 +70,5 @@ body { pointer-events: none; focus: none; }
 @media (max-width: 1100px) { #objective { width: 240dp; left: 24dp; padding: 10dp 12dp; } #kill-feed { width: 220dp; right: 24dp; } #compass { width: 240dp; margin-left: -120dp; } #vitals { left: 24dp; width: 210dp; } #weapon { right: 24dp; width: 210dp; } .armour-slot { width: 64dp; } #loadout-choice { top: 42%; max-width: 260dp; font-size: 11dp; line-height: 18dp; } }
 
 #flash-overlay { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: white; opacity: 0; pointer-events: none; }
+
+#spectator-status { position: absolute; left: 20%; right: 20%; bottom: 32dp; text-align: center; font-family: TacticalDisplay; font-size: 18dp; color: #F2F4F5; background-color: #090B0Dee; line-height: 26dp; z-index: 10; pointer-events: none; }

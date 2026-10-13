@@ -16,6 +16,38 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     [SerializedField] private bool remoteProxy = false;
     [SerializedField] private GameObject? target;
     [SerializedField] private GameObject? animationObject = null;
+    [SerializedField] private MeshComponent? spectatorBodyMesh = null;
+    // Root is the capsule centre, matching the human player's first-person camera convention.
+    [SerializedField] private float spectatorEyeHeight = ServerMotor.StandingEyeHeight;
+    public Vector3 SpectatorEyePosition => CombatTargeting.EyePoint(GameObject.WorldPosition, spectatorEyeHeight);
+    private bool _spectatorHidden;
+    private readonly System.Collections.Generic.List<(MeshComponent Mesh, bool Enabled)> _spectatorMeshes = new();
+
+    // Hide rendering only. The authoritative actor, animation, AI and colliders keep running.
+    public void SetSpectatorHidden(bool hidden)
+    {
+        if (!hidden && !_spectatorHidden) return;
+        _spectatorHidden = hidden;
+        if (hidden)
+        {
+            foreach (var mesh in new[] { spectatorBodyMesh, rifleWeapon?.GetComponent<MeshComponent>(), pistolWeapon?.GetComponent<MeshComponent>() })
+                if (mesh is not null)
+                {
+                    // References can become available after prefab startup. Capture each
+                    // original state once, then keep rendering suppressed while observed.
+                    if (!_spectatorMeshes.Exists(entry => entry.Mesh.EntityId == mesh.EntityId))
+                        _spectatorMeshes.Add((mesh, mesh.Enabled));
+                    if (mesh.Enabled) mesh.Enabled = false;
+                }
+            SetNameplateVisible(false);
+        }
+        else
+        {
+            foreach (var entry in _spectatorMeshes) if (entry.Mesh.IsValid) entry.Mesh.Enabled = entry.Enabled;
+            _spectatorMeshes.Clear();
+            _nextNameplateVisibilityAt = 0;
+        }
+    }
     [SerializedField] private GameObject? supportHandTarget = null;
     [SerializedField] private BotWeaponPose weaponPose = BotWeaponPose.Rifle;
     [SerializedField] private GameObject? rifleWeapon = null;
@@ -451,7 +483,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         if (networkNameplate is null || !networkNameplate.IsValid) return;
         _networkNameplateFriendly = friendly;
         _networkNameplateConfigured = !string.IsNullOrWhiteSpace(username);
-        if (!_networkNameplateConfigured || _dead)
+        if (!_networkNameplateConfigured || _dead || _spectatorHidden)
         {
             SetNameplateVisible(false);
             return;
@@ -476,6 +508,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     private void SetNameplateVisible(bool visible)
     {
+        visible &= !_spectatorHidden;
         if (networkNameplate is null || !networkNameplate.IsValid) return;
         if (_networkNameplateVisible == visible && networkNameplate.Active == visible) return;
         _networkNameplateVisible = visible;
@@ -487,7 +520,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     private void UpdateNameplateVisibility()
     {
-        if (!_networkNameplateConfigured || _dead)
+        if (!_networkNameplateConfigured || _dead || _spectatorHidden)
         {
             SetNameplateVisible(false);
             return;

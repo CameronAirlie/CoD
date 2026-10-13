@@ -68,6 +68,7 @@
         <div id="flash-overlay"></div>
         <div id="death-red" class="hidden"></div>
         <div id="death-black" class="hidden"></div>
+        <div id="spectator-status"></div>
     </div>
 </body>
 </rml>

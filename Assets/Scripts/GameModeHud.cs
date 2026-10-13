@@ -8,6 +8,7 @@ public sealed class GameModeHud : ScriptBehaviour
     [SerializedField] private GameObject? player = null;
     private MultiplayerSession? _session;
     private PlayerInventory? _inventory;
+    private PlayerController? _controller;
     private PlayerHealth? _health;
     private CombatFeedback? _feedback;
     private RoundProgression? _progression;
@@ -18,6 +19,7 @@ public sealed class GameModeHud : ScriptBehaviour
     {
         _session = player?.GetComponent<MultiplayerSession>();
         _inventory = player?.GetComponent<PlayerInventory>();
+        _controller = player?.GetComponent<PlayerController>();
         _health = player?.GetComponent<PlayerHealth>();
         _feedback = player?.GetComponent<CombatFeedback>();
         _progression = player?.GetComponent<RoundProgression>();
@@ -33,14 +35,19 @@ public sealed class GameModeHud : ScriptBehaviour
         Set("match-mode", match?.Mode == MatchMode.Defusal ? "DEFUSAL / FOUNDRY" : match?.Mode == MatchMode.Hardpoint ? "HARDPOINT" : "TEAM DEATHMATCH");
         Set("scoreboard-mode", match?.Mode == MatchMode.Defusal ? "DEFUSAL | FIRST TO 7 ROUNDS" : match?.Mode == MatchMode.Hardpoint ? "HARDPOINT | OBJ = SECONDS ON POINT" : "TEAM DEATHMATCH");
         Set("scoreboard-objective-heading", match?.Mode == MatchMode.Defusal ? "LIFE" : "OBJ");
-        var local = match is null ? null : Array.Find(match.Players, p => p.PeerId == match.LocalPeerId);
+        var pov = _controller?.SpectatorView;
+        var local = match is null ? null : Array.Find(match.Players, p => p.PeerId == (pov?.PeerId ?? match.LocalPeerId));
+        var position = pov?.Position ?? player?.WorldPosition ?? System.Numerics.Vector3.Zero;
+        var yaw = (pov?.Heading ?? 0) * MathF.PI / 180;
+        var forward = pov is null ? player?.Forward ?? -System.Numerics.Vector3.UnitZ : new System.Numerics.Vector3(-MathF.Sin(yaw), 0, -MathF.Cos(yaw));
+        var right = System.Numerics.Vector3.Cross(forward, System.Numerics.Vector3.UnitY);
         var objective = match?.Objective;
         if (match?.Mode == MatchMode.Defusal) RenderDefusal(match, local);
         else if (match?.Phase == MatchPhase.Playing && objective is not null && player is not null)
         {
-            var direction = objective.Position - player.WorldPosition;
-            var bearing = CombatFeedbackMath.Bearing(player.Forward, player.Right, direction);
-            var status = ObjectiveStatus.Describe(objective, local?.Team, player.WorldPosition, _health?.IsDead != true);
+            var direction = objective.Position - position;
+            var bearing = CombatFeedbackMath.Bearing(forward, right, direction);
+            var status = ObjectiveStatus.Describe(objective, local?.Team, position, pov is not null || _health?.IsDead != true);
             Set("objective-status", status.Headline);
             Set("objective-instruction", status.Instruction);
             Set("objective-detail", $"{objective.Name.ToUpperInvariant().Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;")} | {(status.Inside ? "YOU ARE IN THE ZONE" : $"{(int)direction.Length()}m {Compass(bearing)}")}");
@@ -57,17 +64,22 @@ public sealed class GameModeHud : ScriptBehaviour
             foreach (var style in new[] { "neutral", "friendly", "enemy", "contested" }) _document.Element("objective").SetClass(style, false);
         }
         Set("score-goal", match is null ? "" : $"FIRST TO {match.ScoreLimit} | YOU: {local?.Team.ToString().ToUpperInvariant() ?? "SPECTATOR"}");
-        if (_inventory is not null)
+        if (pov is not null)
+        {
+            Set("supply-counts", $"MED KITS {pov.Kits} | PLATES {pov.Plates} | CAPACITY {InventoryRules.Slots(pov.Reserve, pov.Kits, pov.Plates)}/{InventoryRules.Capacity}");
+            Set("supply-use", pov.UsingSupply ? $"APPLYING SUPPLY {(int)(pov.UseProgress * 100)}%" : "");
+        }
+        else if (_inventory is not null)
         {
             Set("supply-counts", $"H MED KITS {_inventory.HealthKits} | G PLATES {_inventory.ArmourPlates} | CAPACITY {_inventory.SlotsUsed}/{InventoryRules.Capacity}");
             Set("supply-use", _inventory.IsUsing ? $"APPLYING SUPPLY {(int)(_inventory.UseProgress * 100)}% - DAMAGE INTERRUPTS" : match?.Mode == MatchMode.Defusal ? "HOLD E PLANT / DEFUSE | I INVENTORY" : "E COLLECT SUPPLIES | I INVENTORY");
         }
         var selecting = match?.Phase is MatchPhase.Warmup or MatchPhase.Results;
         Set("loadout-choice", selecting ? $"1 ASSAULT / START WITH AR: 150 AMMO / 1 KIT / 1 PLATE<br/>2 MEDIC / START WITH PISTOL: 60 AMMO / 3 KITS<br/>3 DEFENDER / START WITH MG: 90 AMMO / 1 KIT / 3 PLATES<br/>ALL CLASSES CARRY ALL THREE WEAPONS<br/>SELECTED: {_session?.SelectedLoadout.ToString().ToUpperInvariant()}" : "");
-        Set("combat-cue", _feedback?.CueTime > 0 ? _feedback.LastCue : "");
+        Set("combat-cue", pov is null && _feedback?.CueTime > 0 ? _feedback.LastCue : "");
         Set("round-progress", _progression is null ? "" : match?.Phase == MatchPhase.Results && local is not null && (match.Mode != MatchMode.Defusal || match.Defusal?.MatchOver == true) ?
             $"{local.Kills} ELIMINATIONS | {(int)local.ObjectiveSeconds}s ON OBJECTIVE | +{_progression.LastMatchExperience} XP | LEVEL {_progression.Level}" : $"LEVEL {_progression.Level} | {_progression.TotalExperience} XP");
-        var sector = _feedback?.DamageIndicatorTime > 0 ? Sector(_feedback.DamageBearing) : -1;
+        var sector = pov is null && _feedback?.DamageIndicatorTime > 0 ? Sector(_feedback.DamageBearing) : -1;
         string[] names = ["front", "right", "back", "left"];
         for (var i = 0; i < names.Length; i++) _document.Element("incoming-" + names[i]).SetClass("hidden", sector != i);
     }
@@ -101,7 +113,13 @@ public sealed class GameModeHud : ScriptBehaviour
             {
                 headline = "BOMB DROPPED";
                 instruction = attack ? "Recover the bomb by walking over it." : "Guard the dropped bomb or eliminate the remaining attackers.";
-                if (player is not null) detail += $" | BOMB {(int)(player.WorldPosition - bomb.Position).Length()}m {Compass(CombatFeedbackMath.Bearing(player.Forward, player.Right, bomb.Position - player.WorldPosition))}";
+                if (player is not null)
+                {
+                    var origin = _controller?.SpectatorView?.Position ?? player.WorldPosition;
+                    var facing = _controller?.SpectatorView is not null ? _controller.GrenadeAim.Direction : player.Forward;
+                    var right = System.Numerics.Vector3.Cross(facing, System.Numerics.Vector3.UnitY);
+                    detail += $" | BOMB {(int)(origin - bomb.Position).Length()}m {Compass(CombatFeedbackMath.Bearing(facing, right, bomb.Position - origin))}";
+                }
             }
             else if (bomb.Carrier == local?.PeerId) instruction = "YOU CARRY THE BOMB / Enter A or B, stop, and hold E for 3 seconds.";
             else if (attack) instruction = "ESCORT YOUR BOMB CARRIER / Clear either site.";

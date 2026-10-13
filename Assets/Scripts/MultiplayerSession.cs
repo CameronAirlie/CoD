@@ -21,7 +21,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         (session.mode.Equals("Host", StringComparison.OrdinalIgnoreCase) ||
          session.mode.Equals("Client", StringComparison.OrdinalIgnoreCase));
 
-    private const int ProtocolVersion = 17;
+    private const int ProtocolVersion = 19;
     private const ushort HandshakeChannel = 1;
     private const ushort TransformChannel = 2;
     private const ushort PeerLeftChannel = 3;
@@ -293,6 +293,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             return;
         _shutDown = true;
         ClearGrenades();
+        _spectatorViews.Clear();
+        _spectatorViewBuffers.Clear();
 
         if (_playerController is not null)
         {
@@ -446,6 +448,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             if (_authenticatedPeers.Contains(message.PeerId))
                 _peerLastSeenAt[message.PeerId] = _time;
 
+            if (HandleSpectatorServerMessage(message)) return;
+
             if (message.Channel == LeaveChannel)
             {
                 _server?.Disconnect(message.PeerId);
@@ -552,7 +556,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         try
         {
             _lastHostMessageAt = _time;
-            if (HandleGrenadeClientMessage(message) || HandleEconomyClientMessage(message)) return;
+            if (HandleGrenadeClientMessage(message) || HandleEconomyClientMessage(message) || HandleSpectatorClientMessage(message)) return;
             if (message.Channel == HandshakeChannel)
             {
                 var welcome = message.GetJson<ServerWelcome>();
@@ -867,6 +871,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     private void RemoveRemotePlayer(int peerId)
     {
+        _spectatorViews.Remove(peerId);
+        _spectatorViewBuffers.Remove(peerId);
         if (_remotePlayers.Remove(peerId, out var remote))
         {
             // Native destruction is deferred until the end of the frame. Hide
@@ -1000,7 +1006,10 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     {
         if (_server is null) return;
         foreach (var pair in _bots)
+        {
             _server.BroadcastJson(TransformChannel, PlayerTransform.From(pair.Key, pair.Value.GameObject) with { WeaponSlot = pair.Value.Loadout.Equipment.Weapons.SelectedSlot });
+            PublishBotSpectatorView(pair.Key);
+        }
     }
 
     private void UpdateBots(float deltaTime)
@@ -1515,6 +1524,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     private void PublishShotEffect(int shooterPeerId)
     {
+        if (_bots.TryGetValue(shooterPeerId, out var bot)) bot.SpectatorShots++;
         PlayRemoteShotEffect(shooterPeerId);
         _server?.BroadcastJson(ShotEffectChannel, new ShotEffect(shooterPeerId));
     }
@@ -1562,6 +1572,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     private void PlayRemoteDeath(int victimPeerId, float x = 0, float y = 0, float z = 0)
     {
+        _spectatorViews.Remove(victimPeerId);
+        _spectatorViewBuffers.Remove(victimPeerId);
         _deadRemotePlayers[victimPeerId] =
             IsDefusal ? float.PositiveInfinity : _time + MathF.Max(0.1f, combatRespawnDelay);
         if (_server is not null && _remotePlayers.TryGetValue(victimPeerId, out var serverActor))
@@ -1954,6 +1966,18 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         _server?.BroadcastJson(MatchStateChannel, snapshot);
     }
 
+    public int? SelectSpectatorTarget(int? current, int direction) => SpectatorRules.Select(
+        CurrentMatch, current, direction, id => _remotePlayers.TryGetValue(id, out var remote) && remote.GameObject.IsValid &&
+            (_spectatorViews.TryGetValue(id, out var cached) && _time - cached.Received < 1));
+
+    public bool TryGetSpectatorActor(int peer, out GameObject? actor)
+    {
+        actor = null;
+        if (SelectSpectatorTarget(peer, 0) != peer || !_remotePlayers.TryGetValue(peer, out var remote)) return false;
+        actor = remote.GameObject;
+        return true;
+    }
+
     private void PublishMatch(MatchSnapshot snapshot)
     {
         CurrentMatch = snapshot;
@@ -2061,6 +2085,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         public BotTargetReaction TargetReaction { get; } = new();
         public float NextShotAt { get; set; }
         public BotEquipmentState Loadout { get; } = new();
+        public long SpectatorShots { get; set; }
         public int PresentedWeapon { get; set; } = -1;
         public BotCombatMovement CombatMovement { get; } = new();
         public int ShotsInBurst { get; set; }

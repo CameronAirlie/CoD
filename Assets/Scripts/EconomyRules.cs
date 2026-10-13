@@ -16,6 +16,13 @@ public static class EconomyRules
         new ShopItem("flash", "FLASHBANG", 200, Throwable: "flash"),
         new ShopItem("smoke", "SMOKE GRENADE", 300, Throwable: "smoke"),
         new ShopItem("molotov", "MOLOTOV", 400, Throwable: "molotov") });
+    public static string? UnavailableReason(ShopItem item, bool canBuy, int money, bool owned, int count, int total)
+    {
+        if (owned) return "OWNED";
+        if (!canBuy) return "BUY CLOSED";
+        if (item.Throwable is { } kind && (total >= 4 || count >= (kind == "flash" ? 2 : 1))) return "INVENTORY FULL";
+        return money < item.Price ? $"NEED ${item.Price - money}" : null;
+    }
     public static ShopItem? Find(string? id) => Catalog.FirstOrDefault(item => item.Id == id);
 }
 

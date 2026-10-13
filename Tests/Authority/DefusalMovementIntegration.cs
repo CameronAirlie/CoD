@@ -43,8 +43,8 @@ internal static class DefusalMovementIntegration
             if (message.Channel == 1) secondPeer = message.GetJson<JsonElement>().GetProperty("PeerId").GetInt32();
             if (message.Channel == 22) secondOwner = message.GetJson<JsonElement>();
         };
-        first.Connected += () => first.SendJson(1, new { ProtocolVersion = 16, Username = "AuthorityTestA", Mode = 0 });
-        second.Connected += () => second.SendJson(1, new { ProtocolVersion = 16, Username = "AuthorityTestB", Mode = 0 });
+        first.Connected += () => first.SendJson(1, new { ProtocolVersion = 19, Username = "AuthorityTestA", Mode = 0 });
+        second.Connected += () => second.SendJson(1, new { ProtocolVersion = 19, Username = "AuthorityTestB", Mode = 0 });
         var sequence = 0L;
         PlayerCommand intent = PlayerCommand.Idle;
         PlayerCommand secondIntent = PlayerCommand.Idle;

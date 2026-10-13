@@ -6,6 +6,23 @@ internal static class EconomyTests
     public static void Run()
     {
         static void Check(bool ok, string message) { if (!ok) throw new InvalidOperationException(message); }
+        var rifle = EconomyRules.Find("ar")!;
+        Check(EconomyRules.UnavailableReason(rifle, true, 800, false, 0, 0) == "NEED $1900", "Missing affordability reason.");
+        Check(EconomyRules.UnavailableReason(rifle, true, 5000, false, 0, 0) is null, "Affordable item disabled.");
+        Check(EconomyRules.UnavailableReason(rifle, false, 5000, false, 0, 0) == "BUY CLOSED", "Closed window enabled.");
+        Check(EconomyRules.UnavailableReason(rifle, true, 5000, true, 0, 0) == "OWNED", "Owned item enabled.");
+        Check(EconomyRules.UnavailableReason(EconomyRules.Find("flash")!, true, 5000, false, 2, 2) == "INVENTORY FULL", "Per-kind limit missing.");
+        Check(EconomyRules.UnavailableReason(EconomyRules.Find("smoke")!, true, 5000, false, 0, 4) == "INVENTORY FULL", "Total limit missing.");
+        var match = new MatchSnapshot(MatchPhase.Playing, 20, 10, 0, 0, 0, [
+            new(0, "Local", PlayerTeam.Alpha, 0, 0, false), new(1, "Enemy", PlayerTeam.Bravo, 0, 0, false),
+            new(2, "Ally", PlayerTeam.Alpha, 0, 0, false), new(3, "Dead", PlayerTeam.Alpha, 0, 0, false, Alive: false),
+            new(4, "Bot", PlayerTeam.Alpha, 0, 0, true)]);
+        Check(SpectatorRules.Select(match, null, 0, _ => true) == 2, "Spectator selected enemy/self/dead player.");
+        Check(SpectatorRules.Select(match, 2, 1, _ => true) == 4 && SpectatorRules.Select(match, 2, -1, _ => true) == 4, "Spectator wrap failed.");
+        Check(SpectatorRules.Select(match, 4, 0, id => id != 4) == 2, "Disconnected target retained.");
+        Check(SpectatorRules.Select(match, 2, 0, _ => false) is null, "No-target state failed.");
+        Check(SpectatorRules.Select(match with { Players = match.Players.Select(p => p.PeerId == 2 ? p with { Alive = false } : p).ToArray() }, 2, 0, _ => true) == 4, "Dead target retained.");
+        Check(SpectatorRules.Select(match with { LocalPeerId = 99 }, 2, 0, _ => true) is null, "Unknown local team exposed targets.");
         var account = new EconomyAccount(); var supply = new GrenadeSupply();
         Check(account.Money == 800 && account.Owns(1) && !account.Owns(0), "Starting wallet/sidearm incorrect.");
         Check(!account.TryBuy("ar", supply, out _) && account.Money == 800, "Unaffordable purchase charged wallet.");

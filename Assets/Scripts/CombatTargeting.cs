@@ -4,6 +4,9 @@ namespace CoD.Scripts;
 /// <summary>Participant stance and aim geometry, independently of model proportions.</summary>
 public static class CombatTargeting
 {
+    public static Vector3 EyePoint(Vector3 root, float eyeHeight) => root + Vector3.UnitY *
+        (float.IsFinite(eyeHeight) ? Math.Clamp(eyeHeight, 0, 10) : ServerMotor.StandingEyeHeight);
+
     public static float StanceHeight(float standingHeight, float radius, float cameraDrop, bool crouching) =>
         crouching ? MathF.Max(radius * 2, standingHeight - MathF.Max(0, cameraDrop)) : standingHeight;
     public static Vector3 AimPoint(Vector3 position, Vector3 colliderCenter, float colliderHeight)

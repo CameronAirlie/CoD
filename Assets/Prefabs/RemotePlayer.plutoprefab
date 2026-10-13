@@ -12,6 +12,8 @@ PROPERTY	Blocks Audio	4	false	0
 END_COMPONENT
 COMPONENT	1	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.EnemySoldierBot	0
+PROPERTY	spectatorEyeHeight	0	0.500000	0
+PROPERTY	spectatorBodyMesh	9	3	0
 PROPERTY	supportHandTarget	9	7001	0
 PROPERTY	remoteProxy	4	true	0
 PROPERTY	target	9	0	0

@@ -159,6 +159,8 @@ PROPERTY	Clips.43.ChannelCount	1	189	0
 END_COMPONENT
 COMPONENT	156	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.EnemySoldierBot	0
+PROPERTY	spectatorEyeHeight	0	0.500000	0
+PROPERTY	spectatorBodyMesh	9	160	0
 PROPERTY	remoteProxy	4	false	0
 PROPERTY	target	9	1	0
 PROPERTY	animationObject	9	156	0

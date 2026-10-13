@@ -34,3 +34,16 @@
 .shop-button { padding: 8dp; color: #F2F4F5; background-color: #1B1C20; border: 1dp #2A3036; font-size: 12dp; }
 .shop-button:hover, .shop-button:focus { border-color: #FFB31A; }
 scrollbarvertical { width: 8dp; }
+
+#shop-summary { display: flex; justify-content: space-between; align-items: center; margin-top: 16dp; padding: 16dp; background-color: #090B0D; border: 1dp #2A3036; }
+#shop-balance { font-family: TacticalHeading; font-size: 38dp; color: #FFB31A; }
+#shop-grid .shop-button { box-sizing: border-box; width: 23%; flex-grow: 1; text-align: left; padding: 12dp; }
+.shop-name { font-family: TacticalDisplay; font-size: 13dp; }
+.shop-price { font-family: TacticalHeading; font-size: 26dp; margin-top: 6dp; }
+.shop-detail, .shop-action { font-size: 11dp; margin-top: 6dp; }
+.shop-action { color: #FFB31A; }
+.unavailable { opacity: .65; }
+.unavailable .shop-action { color: #A6A0B4; }
+.shop-button.unavailable { tab-index: none; }
+.weapon-card.unavailable { tab-index: none; }
+@media (max-width: 800px) { #shop-grid .shop-button { width: 46%; } #weapon-grid { flex-wrap: wrap; } .weapon-card { width: 100%; } #footer, #header { flex-wrap: wrap; } }

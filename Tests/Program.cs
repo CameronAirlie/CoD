@@ -2,7 +2,7 @@ using CoD.Scripts;
 
 if (args.Contains("--economy-grenades"))
 {
-    GrenadeTests.Run(); EconomyTests.Run();
+    GrenadeTests.Run(); EconomyTests.Run(); SpectatorViewTests.Run();
     return;
 }
 
@@ -10,6 +10,7 @@ HandSystemTests.Run();
 WeaponLoadoutTests.Run();
 GrenadeTests.Run();
 EconomyTests.Run();
+SpectatorViewTests.Run();
 TacticalUiTests.Run();
 DefusalBotTacticsTests.Run();
 
