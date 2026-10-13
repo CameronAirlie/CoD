@@ -20,6 +20,8 @@ Tests/Authority/obj/
 /.mw/
 
 *.plutometa
+*.csproj
+Assets/Managed/
 
 Server/bin/
 Server/obj/
