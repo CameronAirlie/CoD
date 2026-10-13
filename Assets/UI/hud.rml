@@ -50,7 +50,7 @@
 
         <div id="weapon" class="panel">
             <div id="weapon-name">AR-24 ASSAULT RIFLE</div>
-            <div id="weapon-slots">1 AR / 2 PISTOL / 3 MG / Q CYCLE</div>
+            <div id="weapon-slots">1 PRIMARY / 2 PISTOL / Q SWITCH</div>
             <div id="grenades">G FRAG / 2 / T CYCLE / $800 / B BUY</div>
             <div class="ammo"><span id="ammo">30</span><span id="reserve" class="reserve"> / 120</span></div>
             <div id="weapon-state" class="ui-meta">AUTO / READY</div>

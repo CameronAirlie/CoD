@@ -67,11 +67,11 @@ public sealed class GrenadeSupply
 public readonly record struct GrenadeCollision(Vector3 Point, Vector3 Normal);
 
 /// <summary>Fixed-step projectile simulation. The engine adapter supplies swept collision queries.</summary>
-public sealed class GrenadeProjectile(GrenadeDefinition definition, Vector3 position, Vector3 direction)
+public sealed class GrenadeProjectile(GrenadeDefinition definition, Vector3 position, Vector3 direction, float strength = 1)
 {
     public GrenadeDefinition Definition { get; } = definition;
     public Vector3 Position { get; private set; } = position;
-    public Vector3 Velocity { get; private set; } = direction * definition.ThrowSpeed + Vector3.UnitY * definition.UpwardSpeed;
+    public Vector3 Velocity { get; private set; } = (direction * definition.ThrowSpeed + Vector3.UnitY * definition.UpwardSpeed) * Math.Clamp(strength, .2f, 1);
     public float Age { get; private set; }
     private bool _impact;
     public bool Exploded => _impact || Age >= Definition.Fuse;

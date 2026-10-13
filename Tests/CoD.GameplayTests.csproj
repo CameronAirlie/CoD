@@ -11,6 +11,8 @@
     <Compile Include="GrenadeTests.cs" />
     <Compile Include="EconomyTests.cs" />
     <Compile Include="../Assets/Scripts/EconomyRules.cs" Link="EconomyRules.cs" />
+    <Compile Include="../Assets/Scripts/BotEquipmentRules.cs" Link="BotEquipmentRules.cs" />
+    <Compile Include="../Assets/Scripts/ServerSimulation.cs" Link="ServerSimulation.cs" />
     <Compile Include="DefusalBotTacticsTests.cs" />
     <Compile Include="../Assets/Scripts/DefusalBotTactics.cs" Link="DefusalBotTactics.cs" />
     <Compile Include="TacticalUiTests.cs" />

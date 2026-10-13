@@ -105,7 +105,7 @@ public sealed partial class MultiplayerSession
     {
         if (_hardpoint is null) return false;
         var retreating = bot.CombatMovement.WantsRetreat(_time,
-            state.Health / MathF.Max(1, multiplayerMaximumHealth), _time < bot.ReloadCompleteAt);
+            state.Health / MathF.Max(1, multiplayerMaximumHealth), bot.Loadout.Equipment.Reloading);
         var target = GetParticipantObject(bot.TargetPeerId);
         var closeThreat = target is not null && bot.CachedLineOfSight &&
             HorizontalDistance(bot.GameObject.WorldPosition, target.WorldPosition) <= botAttackRange;

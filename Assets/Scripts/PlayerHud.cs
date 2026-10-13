@@ -269,7 +269,8 @@ public sealed class PlayerHud : ScriptBehaviour
                 return;
             }
             var selected = _controller?.EquippedWeaponSlot ?? 0;
-            _weaponSlots.Markup = $"{(selected == 0 ? "[1 AR]" : "1 AR")} &nbsp; {(selected == 1 ? "[2 PISTOL]" : "2 PISTOL")} &nbsp; {(selected == 2 ? "[3 MG]" : "3 MG")}<br/>Q CYCLE / R RELOAD";
+            var primary = _multiplayer?.OwnsWeapon(0) == true ? "AR" : _multiplayer?.OwnsWeapon(2) == true ? "MG" : "EMPTY";
+            _weaponSlots.Markup = $"{(selected != 1 ? $"[1 {primary}]" : $"1 {primary}")} &nbsp; {(selected == 1 ? "[2 PISTOL]" : "2 PISTOL")}<br/>Q SWITCH / R RELOAD";
         }
     }
 

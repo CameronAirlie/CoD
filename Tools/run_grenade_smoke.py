@@ -21,6 +21,7 @@ project.write_text(f'''<Project Sdk="Microsoft.NET.Sdk">
 <EnableDefaultItems>false</EnableDefaultItems><AssemblyName>CoD.Scripts</AssemblyName><OutputPath>Managed/</OutputPath>
 <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath></PropertyGroup>
 <ItemGroup><Compile Include="../../../Assets/Scripts/**/*.cs"/><Compile Include="../../../Tests/GrenadeSmokeProbe.cs"/>
+<Compile Include="../../../Tests/BotEquipmentSmokeChecks.cs"/>
 <Reference Include="PlutoGE.ScriptCore"><HintPath>{core.as_posix()}</HintPath><Private>true</Private></Reference></ItemGroup>
 </Project>''')
 flags = subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0

@@ -97,7 +97,7 @@ public sealed class PlayerController : ScriptBehaviour
         if (_weapons is not null)
         {
             _weapons.Reset(_multiplayer?.SelectedLoadout ?? CombatLoadout.Assault);
-            if (_multiplayer is not null && !_multiplayer.OwnsWeapon(_weapons.SelectedSlot)) _weapons.Select(1);
+            _weapons.Select(1);
             ApplyEquippedWeapon();
         }
         _ammo = Math.Max(1, magazineSize); _reserveAmmo = _inventory?.ReserveAmmo ?? Math.Max(0, startingReserveAmmo);
@@ -137,7 +137,7 @@ public sealed class PlayerController : ScriptBehaviour
                 // be hidden even if its script had not started during player OnCreate.
                 if (weaponModel is not null) weaponModel.Active = false;
                 _weapons = new WeaponLoadout();
-                if (_multiplayer is not null && !_multiplayer.OwnsWeapon(_weapons.SelectedSlot)) _weapons.Select(1);
+                _weapons.Select(1);
                 ApplyEquippedWeapon();
                 UpdateHud(); PublishStateChanges();
             }
@@ -172,6 +172,9 @@ public sealed class PlayerController : ScriptBehaviour
         }
         return from;
     }
+
+    private int PrimaryWeaponSlot => _multiplayer?.OwnsWeapon(0) == true ? 0 :
+        _multiplayer?.OwnsWeapon(2) == true ? 2 : 1;
 
     private void ApplyEquippedWeapon()
     {
@@ -445,7 +448,7 @@ public sealed class PlayerController : ScriptBehaviour
             var slot = _requestedServerSlot >= 0 ? _requestedServerSlot : EquippedWeaponSlot;
             if (cursorLocked && _multiplayer.CurrentMatch?.Phase == MatchPhase.Playing)
             {
-                if (Input.IsKeyPressed(KeyCode.D1)) slot = 0;
+                if (Input.IsKeyPressed(KeyCode.D1)) slot = PrimaryWeaponSlot;
                 if (Input.IsKeyPressed(KeyCode.D2)) slot = 1;
                 if (Input.IsKeyPressed(KeyCode.D3)) slot = 2;
                 if (Input.IsKeyPressed(KeyCode.Q)) slot = NextOwnedWeaponSlot(EquippedWeaponSlot);
@@ -755,7 +758,7 @@ public sealed class PlayerController : ScriptBehaviour
     {
         if (_weapons is not null && _multiplayer?.CurrentMatch?.Phase is not (MatchPhase.Warmup or MatchPhase.Results))
         {
-            if (Input.IsKeyPressed(KeyCode.D1)) SelectWeaponSlot(0);
+            if (Input.IsKeyPressed(KeyCode.D1)) SelectWeaponSlot(PrimaryWeaponSlot);
             else if (Input.IsKeyPressed(KeyCode.D2)) SelectWeaponSlot(1);
             else if (Input.IsKeyPressed(KeyCode.D3)) SelectWeaponSlot(2);
             else if (Input.IsKeyPressed(KeyCode.Q)) SelectWeaponSlot(NextOwnedWeaponSlot(EquippedWeaponSlot));

@@ -51,6 +51,7 @@ public sealed class WeaponLoadout
     private readonly int[] _magazines = new int[WeaponCatalog.SlotCount];
     public int SelectedSlot { get; private set; }
     public WeaponDefinition Equipped => WeaponCatalog.At(SelectedSlot);
+    public int MagazineAt(int slot) => slot is >= 0 and < WeaponCatalog.SlotCount ? _magazines[slot] : 0;
     public int Magazine
     {
         get => _magazines[SelectedSlot];

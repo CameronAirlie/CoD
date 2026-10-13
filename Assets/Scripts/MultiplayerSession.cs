@@ -126,10 +126,6 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     [SerializedField] private float botCombatHoldDuration = 2.0f;
     [SerializedField] private float botRepositionDuration = .65f;
     [SerializedField] private float botAttackRange = 22.0f;
-    [SerializedField] private float botRoundsPerMinute = 480.0f;
-    [SerializedField] private int botMagazineSize = 30;
-    [SerializedField] private float botReloadDuration = 2.0f;
-    [SerializedField] private float botDamage = 18.0f;
     [SerializedField] private float botAccuracyDegrees = 4.5f;
     [SerializedField] private float botStationaryFireSpeed = 0.2f;
     [SerializedField] private float botTurnSharpness = 14.0f;
@@ -788,6 +784,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             _remotePlayers.Add(transform.PeerId, remote);
             ConfigureNameplate(transform.PeerId, instance);
         }
+        if (transform.WeaponSlot is >= 0 and < WeaponCatalog.SlotCount)
+            remote.GameObject.TryInvoke("SetWeaponPose", transform.WeaponSlot == 1 ? 1 : 0);
         remote.TargetPosition = transform.Position;
         remote.TargetYaw = CharacterHeading.Yaw(transform.Rotation);
         if (remote.GameObject.GetComponent<ColliderComponent>() is { } collider)
@@ -959,8 +957,9 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             };
             _remotePlayers[peerId] = new RemotePlayer(instance, spawn, 0.0f);
             _bots[peerId] = new BotController(
-                instance, spawn, unchecked((uint)Random.Shared.NextInt64(1, 1L << 32)), botMagazineSize);
+                instance, spawn, unchecked((uint)Random.Shared.NextInt64(1, 1L << 32)));
             instance.TryInvoke("ResetExternalNavigation", spawn.X, spawn.Y, spawn.Z);
+            PresentBotWeapon(_bots[peerId]);
             Debug.Log($"Added {_peerNames[peerId]} to {team}.");
             return true;
         }
@@ -1001,14 +1000,15 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     {
         if (_server is null) return;
         foreach (var pair in _bots)
-            _server.BroadcastJson(TransformChannel, PlayerTransform.From(pair.Key, pair.Value.GameObject));
+            _server.BroadcastJson(TransformChannel, PlayerTransform.From(pair.Key, pair.Value.GameObject) with { WeaponSlot = pair.Value.Loadout.Equipment.Weapons.SelectedSlot });
     }
 
     private void UpdateBots(float deltaTime)
     {
         if (_matchPhase != MatchPhase.Playing)
         {
-            foreach (var bot in _bots.Values) bot.GameObject.TryInvoke("SetExternalCombatPaused", true);
+            foreach (var pair in _bots)
+            { TickBotEquipment(pair.Key, pair.Value, false); pair.Value.GameObject.TryInvoke("SetExternalCombatPaused", true); }
             return;
         }
         _botPlanner.BeginFrame(_bots.Keys, botThinkBudgetPerFrame,
@@ -1020,12 +1020,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             if (!_playerStates.TryGetValue(botId, out var botState) || botState.Health <= 0.0f)
                 continue;
 
-                        if (bot.ReloadCompleteAt > 0.0f && _time >= bot.ReloadCompleteAt)
-            {
-                bot.MagazineAmmo = Math.Max(1, botMagazineSize);
-                bot.ReloadCompleteAt = 0.0f;
-                bot.NextShotAt = _time;
-            }
+            TickBotEquipment(botId, bot, !IsBlinded(bot.GameObject) &&
+                (!IsDefusal || _defusal?.Snapshot().Operator != botId));
 
             var canThink = _botPlanner.CanPlan(botId);
             var currentTargetValid = IsValidBotTarget(botId, bot.TargetPeerId);
@@ -1126,7 +1122,9 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                 bot.NextPerceptionAt = _time + MathF.Max(0.05f, botPerceptionInterval);
             }
             var hasLineOfSight = bot.CachedLineOfSight;
-            var canEngage = hasLineOfSight && distance <= MathF.Max(1.0f, botAttackRange);
+            if (canThink && bot.TargetReaction.CanFire(_time) && _time >= bot.NextShotAt)
+                TryBotThrowable(botId, bot, targetPosition, hasLineOfSight);
+            var canEngage = hasLineOfSight && distance <= MathF.Min(bot.Loadout.Equipment.Weapons.Equipped.Range, MathF.Max(1, botAttackRange));
 
             if (!bot.IsEngaging && canEngage && bot.CombatMovement.CanHold(_time))
             {
@@ -1231,10 +1229,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             if (bot.IsEngaging || isStationary)
                 TurnBotTowards(bot, direction, deltaTime);
             var facingTarget = IsBotFacing(bot.GameObject, direction, botFiringAngle);
-            // Complete the reload before evaluating fire. Previously a bot
-            // reached ReloadCompleteAt with an empty magazine, entered the
-            // firing branch first, and immediately started another reload.
-            var isReloading = _time < bot.ReloadCompleteAt;
+            // Shared equipment has already advanced reloads before fire decisions.
+            var isReloading = bot.Loadout.Equipment.Reloading;
             bot.GameObject.TryInvoke(
                 "SetExternalAiming",
                 bot.IsEngaging && !isReloading && hasLineOfSight);
@@ -1248,29 +1244,16 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             if (bot.IsEngaging && !isReloading && facingTarget && hasLineOfSight &&
                 bot.TargetReaction.CanFire(_time) && _time >= bot.NextShotAt)
             {
-                if (bot.MagazineAmmo <= 0)
-                {
-                    bot.ReloadCompleteAt = _time + MathF.Max(0.1f, botReloadDuration);
-                    PublishBotReload(botId, bot);
-                    bot.GameObject.TryInvoke("SetExternalAiming", false);
-                }
-                else
+                if (bot.Loadout.Equipment.TryFire(true, _time, !IsBlinded(bot.GameObject)))
                 {
                     BotFire(botId, targetObject, bot);
-                    bot.MagazineAmmo--;
                     bot.ShotsInBurst++;
-                    bot.NextShotAt = _time + 60.0f / MathF.Max(1.0f, botRoundsPerMinute);
+                    bot.NextShotAt = _time + bot.Loadout.Equipment.Weapons.Equipped.ShotInterval;
                     if (bot.ShotsInBurst >= bot.BurstLimit)
                     {
-                        bot.NextShotAt += MathF.Max(0.0f, botBurstPause) * (0.75f + NextBotRandom(bot) * 0.5f);
+                        bot.NextShotAt += MathF.Max(0, botBurstPause) * (.75f + NextBotRandom(bot) * .5f);
                         bot.BurstLimit = Math.Max(1, botBurstSize + (int)(NextBotRandom(bot) * 4) - 1);
                         bot.ShotsInBurst = 0;
-                    }
-                    if (bot.MagazineAmmo <= 0)
-                    {
-                        bot.ReloadCompleteAt = _time + MathF.Max(0.1f, botReloadDuration);
-                        PublishBotReload(botId, bot);
-                        bot.GameObject.TryInvoke("SetExternalAiming", false);
                     }
                 }
             }
@@ -1523,27 +1506,11 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     {
         if (!IsBotFacing(bot.GameObject, intendedTarget.WorldPosition - bot.GameObject.WorldPosition, botFiringAngle) ||
             !HasBotLineOfSight(botId, bot.TargetPeerId, bot.GameObject, intendedTarget)) return;
-        PublishShotEffect(botId);
-        var origin = bot.GameObject.WorldPosition + Vector3.UnitY * 0.65f;
-        var aimPoint = ParticipantAimPoint(intendedTarget);
-        var direction = aimPoint - origin;
-        if (direction.LengthSquared() < 0.001f) return;
+        var origin = ParticipantAimPoint(bot.GameObject);
+        var direction = ParticipantAimPoint(intendedTarget) - origin;
+        if (direction.LengthSquared() < .001f) return;
         direction = ApplyBotSpread(Vector3.Normalize(direction), botAccuracyDegrees / BotPressure, bot);
-        if (!Physics.Raycast(origin, direction, MathF.Max(1.0f, botAttackRange), bot.GameObject, out var hit))
-            return;
-        var victimId = FindPeerForEntity(hit.Entity);
-        if (victimId == -1 || victimId == botId) return;
-        if (!_playerStates.TryGetValue(botId, out var shooter) ||
-            !_playerStates.TryGetValue(victimId, out var victim) ||
-            shooter.Team == victim.Team || victim.Health <= 0.0f)
-            return;
-
-        var damage = MathF.Max(0.0f, botDamage);
-        victim.Health = MathF.Max(0.0f, victim.Health - ApplyHumanArmour(victimId, damage));
-        victim.LastDamagedAt = _time;
-        victim.LastHitDirection = hit.Point - origin;
-        PublishHitEffect(victimId);
-        if (victim.Health <= 0.0f) RegisterKill(botId, victimId);
+        ResolveShot(botId, ShotRequest.From(origin, direction, bot.Loadout.Equipment.Weapons.Equipped.Id));
     }
 
     private void PublishShotEffect(int shooterPeerId)
@@ -1554,7 +1521,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
     private void PublishBotReload(int botId, BotController bot)
     {
-        var duration = MathF.Max(0.1f, botReloadDuration);
+        var duration = bot.Loadout.Equipment.Weapons.Equipped.ReloadSeconds;
         if (!IsDedicated) bot.GameObject.TryInvoke("PlayExternalReloadAnimation", duration);
         _server?.BroadcastJson(BotReloadEffectChannel, new BotReloadEffect(botId, duration));
     }
@@ -2060,13 +2027,14 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         if (instance.GetComponent<RigidbodyComponent>() is { } body) body.Velocity = Vector3.Zero;
 
         var replacement = new BotController(
-            instance, respawnPosition, unchecked((uint)Random.Shared.NextInt64(1, 1L << 32)), botMagazineSize);
+            instance, respawnPosition, unchecked((uint)Random.Shared.NextInt64(1, 1L << 32)));
         _bots[peerId] = replacement;
         _remotePlayers[peerId] = new RemotePlayer(instance, respawnPosition, 0.0f);
         instance.TryInvoke(
             "ResetExternalNavigation",
             respawnPosition.X, respawnPosition.Y, respawnPosition.Z);
         ConfigureNameplate(peerId, instance);
+        PresentBotWeapon(replacement);
         return replacement;
     }
 
@@ -2085,14 +2053,15 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     }
 
     private sealed class BotController(
-        GameObject gameObject, Vector3 spawnPosition, uint seed, int magazineSize)
+        GameObject gameObject, Vector3 spawnPosition, uint seed)
     {
         public GameObject GameObject { get; } = gameObject;
         public RigidbodyComponent? Body { get; } = gameObject.GetComponent<RigidbodyComponent>();
         public Vector3 SpawnPosition { get; } = spawnPosition;
         public BotTargetReaction TargetReaction { get; } = new();
         public float NextShotAt { get; set; }
-        public int MagazineAmmo { get; set; } = Math.Max(1, magazineSize);
+        public BotEquipmentState Loadout { get; } = new();
+        public int PresentedWeapon { get; set; } = -1;
         public BotCombatMovement CombatMovement { get; } = new();
         public int ShotsInBurst { get; set; }
         public int BurstLimit { get; set; } = 5;
@@ -2103,7 +2072,6 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         public Vector3? DefusalWaypoint { get; set; }
         public Vector3 ProgressPosition { get; set; } = spawnPosition;
         public float LastProgressAt { get; set; }
-        public float ReloadCompleteAt { get; set; }
         public float NextNavigationAt { get; set; }
         public Vector3 PreviousPosition { get; set; } = spawnPosition;
         public int TargetPeerId { get; set; } = int.MinValue;
@@ -2153,7 +2121,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         float X, float Y, float Z,
         float Pitch, float Yaw, float Roll,
         float RotationX, float RotationY, float RotationZ, float RotationW,
-        bool Crouching = false)
+        bool Crouching = false, int WeaponSlot = -1)
     {
         public Vector3 Position => new(X, Y, Z);
         public bool HasQuaternion =>

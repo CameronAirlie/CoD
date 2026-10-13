@@ -75,10 +75,12 @@ for name in ['inventory', 'hud']:
     save(f'UI/{name}.rcss', Template(source.read_text()).substitute(tokens))
 generated += [ASSETS / f'UI/{name}.rml' for name in ['inventory', 'hud']]
 generated += [ASSETS / f'Scripts/{name}.cs' for name in [
-    'EconomyRules', 'MultiplayerSession.Economy', 'MultiplayerSession.Throwables',
+    'EconomyRules', 'BotEquipmentRules', 'MultiplayerSession.BotEquipment',
+    'MultiplayerSession.Economy', 'MultiplayerSession.Throwables',
     'GrenadeRules', 'MultiplayerSession.Grenades', 'MultiplayerSession',
     'MultiplayerSession.Authority', 'MultiplayerSession.Defusal', 'EnemySoldierBot',
-    'PlayerController', 'InventoryMenu', 'UIManager', 'PlayerHud']]
+    'PlayerController', 'InventoryMenu', 'UIManager', 'PlayerHud', 'WeaponCatalog',
+    'MultiplayerSession.Objectives', 'DedicatedServerSettings']]
 manifest = ROOT / 'CoDplutoproject.plutoproject'
 lines = manifest.read_text().splitlines()
 for path in generated:

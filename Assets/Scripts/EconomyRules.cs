@@ -33,7 +33,8 @@ public sealed class EconomyAccount
         if (item.WeaponSlot >= 0 && Owns(item.WeaponSlot)) { result = "Already owned."; return false; }
         if (Money < item.Price) { result = "Not enough money."; return false; }
         if (item.Throwable is { } kind && !supply.TryAdd(kind)) { result = "Throwable inventory full."; return false; }
-        if (item.WeaponSlot >= 0) WeaponMask |= 1 << item.WeaponSlot;
+        // One sidearm and one primary. Buying a primary replaces the old one.
+        if (item.WeaponSlot >= 0) WeaponMask = (1 << 1) | (1 << item.WeaponSlot);
         Money -= item.Price; result = $"Purchased {item.Name}."; return true;
     }
 }

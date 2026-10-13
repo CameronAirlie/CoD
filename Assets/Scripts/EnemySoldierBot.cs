@@ -147,6 +147,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         UpdateNavigationTarget();
         SetAnimationFloat(movementSpeedParameter, 0.0f);
         SetAnimationBool(hasTargetParameter, false);
+        if (!_externalNavigationControl) MultiplayerSession.UpdateOfflineBotEquipment(GameObject, _currentHealth);
     }
 
     public override void OnUpdate(float deltaTime)
@@ -181,6 +182,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         }
 
 
+        if (!_externalNavigationControl) MultiplayerSession.UpdateOfflineBotEquipment(GameObject, _currentHealth);
         // TDM bots are directed by MultiplayerSession, while the native
         // NavAgentComponent on this prefab remains responsible for pathfinding,
         // collision-safe movement, and local avoidance.
@@ -467,6 +469,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     public override void OnDestroy()
     {
+        MultiplayerSession.UnregisterOfflineBot(GameObject);
         _networkNameplateDocument?.Dispose();
         _networkNameplateDocument = null;
     }
@@ -679,6 +682,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
 
     private void UpdateWeapon()
     {
+        if (target is not null && MultiplayerSession.TryOfflineBotCombat(GameObject, target, _currentHealth)) return;
         if (_shotsLeft <= 0)
         {
             if (_time < _nextBurstAt)
@@ -759,6 +763,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             return;
 
         _dead = true;
+        MultiplayerSession.OfflineBotDied(GameObject);
         MultiplayerSession.RewardOfflineKill();
         _externalAiming = false;
         _navigationDestination = GameObject.WorldPosition;

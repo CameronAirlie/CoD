@@ -473,18 +473,18 @@ ASSET	project://Scripts/CombatFeedback.cs	4930	Script
 ASSET	project://Scripts/CombatFeedbackMath.cs	590	Script
 ASSET	project://Scripts/CombatTargeting.cs	1121	Script
 ASSET	project://Scripts/DamageFeedbackState.cs	605	Script
-ASSET	project://Scripts/DedicatedServerSettings.cs	12316	Script
+ASSET	project://Scripts/DedicatedServerSettings.cs	12160	Script
 ASSET	project://Scripts/DefusalBotTactics.cs	2335	Script
 ASSET	project://Scripts/DefusalMarker.cs	2668	Script
 ASSET	project://Scripts/DefusalRules.cs	6678	Script
-ASSET	project://Scripts/EnemySoldierBot.cs	37812	Script
+ASSET	project://Scripts/EnemySoldierBot.cs	38281	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4254	Script
 ASSET	project://Scripts/FairBotPlanner.cs	1015	Script
 ASSET	project://Scripts/FirstPersonHands.cs	2506	Script
 ASSET	project://Scripts/GameGraphicsSettings.cs	4262	Script
 ASSET	project://Scripts/GameModeHud.cs	9510	Script
 ASSET	project://Scripts/GameplaySounds.cs	5357	Script
-ASSET	project://Scripts/GrenadeRules.cs	5888	Script
+ASSET	project://Scripts/GrenadeRules.cs	5941	Script
 ASSET	project://Scripts/HandMotion.cs	1951	Script
 ASSET	project://Scripts/HardpointMarker.cs	2223	Script
 ASSET	project://Scripts/HardpointRules.cs	3562	Script
@@ -492,17 +492,17 @@ ASSET	project://Scripts/InventoryMenu.cs	9407	Script
 ASSET	project://Scripts/InventoryRules.cs	1089	Script
 ASSET	project://Scripts/MatchContracts.cs	1165	Script
 ASSET	project://Scripts/MultiplayerLaunch.cs	1510	Script
-ASSET	project://Scripts/MultiplayerSession.Authority.cs	19115	Script
+ASSET	project://Scripts/MultiplayerSession.Authority.cs	19169	Script
 ASSET	project://Scripts/MultiplayerSession.Defusal.cs	14257	Script
-ASSET	project://Scripts/MultiplayerSession.Grenades.cs	15385	Script
-ASSET	project://Scripts/MultiplayerSession.Objectives.cs	6887	Script
-ASSET	project://Scripts/MultiplayerSession.cs	99410	Script
+ASSET	project://Scripts/MultiplayerSession.Grenades.cs	15998	Script
+ASSET	project://Scripts/MultiplayerSession.Objectives.cs	6890	Script
+ASSET	project://Scripts/MultiplayerSession.cs	98109	Script
 ASSET	project://Scripts/NetworkParticipantHitbox.cs	389	Script
 ASSET	project://Scripts/ObjectiveStatus.cs	1062	Script
 ASSET	project://Scripts/PauseMenu.cs	271	Script
-ASSET	project://Scripts/PlayerController.cs	48986	Script
+ASSET	project://Scripts/PlayerController.cs	48992	Script
 ASSET	project://Scripts/PlayerHealth.cs	10619	Script
-ASSET	project://Scripts/PlayerHud.cs	19828	Script
+ASSET	project://Scripts/PlayerHud.cs	19926	Script
 ASSET	project://Scripts/PlayerInventory.cs	6249	Script
 ASSET	project://Scripts/PlayerSettings.cs	4209	Script
 ASSET	project://Scripts/RoundProgression.cs	2194	Script
@@ -514,7 +514,7 @@ ASSET	project://Scripts/TeamNameplate.cs	291	Script
 ASSET	project://Scripts/TitleScreen.cs	4790	Script
 ASSET	project://Scripts/UIManager.cs	7237	Script
 ASSET	project://Scripts/VehicleSpeedometer.cs	6352	Script
-ASSET	project://Scripts/WeaponCatalog.cs	3324	Script
+ASSET	project://Scripts/WeaponCatalog.cs	3430	Script
 ASSET	project://Scripts/WeaponHandBinding.cs	3957	Script
 ASSET	project://Sounds/Gameplay/Explosions/grenade_ufx_1.wav	308780	Audio
 ASSET	project://Sounds/Gameplay/Firearms/Fire/assault_rifle_fire_ufx_1.wav	308780	Audio
@@ -1233,7 +1233,7 @@ ASSET	project://UI/hardpoint-marker.rcss.in	818	Unknown
 ASSET	project://UI/hardpoint-marker.rml	204	RML Document
 ASSET	project://UI/hud.rcss	7548	Unknown
 ASSET	project://UI/hud.rcss.in	7561	Unknown
-ASSET	project://UI/hud.rml	3384	RML Document
+ASSET	project://UI/hud.rml	3383	RML Document
 ASSET	project://UI/inventory.rcss	3157	Unknown
 ASSET	project://UI/inventory.rcss.in	2839	Unknown
 ASSET	project://UI/inventory.rml	3077	RML Document
@@ -1298,8 +1298,8 @@ ASSET	project://Particles/Grenades/SmokeCloud.plutoparticles	528	Particle System
 ASSET	project://Prefabs/Grenades/SmokeCloud.plutoprefab	195	Prefab
 ASSET	project://Particles/Grenades/Fire.plutoparticles	521	Particle System
 ASSET	project://Prefabs/Grenades/Fire.plutoprefab	183	Prefab
-ASSET	project://Scripts/EconomyRules.cs	2242	Script
-ASSET	project://Scripts/MultiplayerSession.Economy.cs	4346	Script
+ASSET	project://Scripts/EconomyRules.cs	2333	Script
+ASSET	project://Scripts/MultiplayerSession.Economy.cs	4412	Script
 ASSET	project://Scripts/MultiplayerSession.Throwables.cs	6560	Script
 BUILD_ALWAYS_INCLUDE	project://Prefabs/Grenades/SmokeCloud.plutoprefab
 BUILD_ALWAYS_INCLUDE	project://Prefabs/Grenades/Fire.plutoprefab
@@ -1312,3 +1312,5 @@ BUILD_ALWAYS_INCLUDE	project://Prefabs/Grenades/SmokeGrenade.plutoprefab
 ASSET	project://Materials/Grenades/Molotov.plutomaterial	110	Material
 ASSET	project://Prefabs/Grenades/Molotov.plutoprefab	1355	Prefab
 BUILD_ALWAYS_INCLUDE	project://Prefabs/Grenades/Molotov.plutoprefab
+ASSET	project://Scripts/BotEquipmentRules.cs	3137	Script
+ASSET	project://Scripts/MultiplayerSession.BotEquipment.cs	7670	Script

@@ -15,7 +15,7 @@ public sealed partial class MultiplayerSession
         {
             var actor = PlutoGE.ScriptCore.GameObject.Find(name)!;
             _remotePlayers[id] = new(actor, actor.WorldPosition, 0);
-            _bots[id] = new(actor, actor.WorldPosition, 1, 30);
+            _bots[id] = new(actor, actor.WorldPosition, 1);
             _playerStates[id] = new(team, true) { Health = 200 };
             _peerNames[id] = name;
         }
@@ -78,6 +78,21 @@ public sealed partial class MultiplayerSession
         human.Input.Accept(PlayerCommand.Idle with { Sequence = human.Input.LastSequence + 1, Slot = 0 }, _time);
         _movementAccumulator = 0; TickHumans(1f / 60);
         if (!wallet.Owns(0) || human.Equipment.Weapons.SelectedSlot != 0) throw new InvalidOperationException("Purchased rifle did not equip on host.");
+        wallet.Credit(3200); AcceptPurchase(0, "lmg");
+        void RequestSlot(int slot)
+        {
+            human.Input.Accept(PlayerCommand.Idle with { Sequence = human.Input.LastSequence + 1, Slot = slot }, _time);
+            _movementAccumulator = 0; TickHumans(1f / 60);
+        }
+        RequestSlot(0);
+        if (wallet.Owns(0) || !wallet.Owns(1) || !wallet.Owns(2) || human.Equipment.Weapons.SelectedSlot != 1)
+            throw new InvalidOperationException("Replacing a primary retained a third weapon or allowed the removed weapon to equip.");
+        RequestSlot(2);
+        if (human.Equipment.Weapons.SelectedSlot != 2) throw new InvalidOperationException("Primary weapon switch failed.");
+        RequestSlot(1);
+        if (human.Equipment.Weapons.SelectedSlot != 1) throw new InvalidOperationException("Pistol weapon switch failed.");
+        human.Loadout = CombatLoadout.Defender; SpawnHuman(0);
+        if (human.Equipment.Weapons.SelectedSlot != 1) throw new InvalidOperationException("Class choice bypassed pistol-first spawn.");
         var origin = new Vector3(0, .7f, 0);
         _playerStates[7].Health = 200; // Restore the victim killed by the frag assertions.
         DetonateThrowable(new(0, PlayerTeam.Alpha, new(GrenadeRules.Molotov, origin, Vector3.UnitX)), origin);
@@ -101,6 +116,7 @@ public sealed partial class MultiplayerSession
             throw new InvalidOperationException("Flash exposure or cover rejection failed.");
         _time += 5; UpdateThrowableAreas();
         if (IsBlinded(_remotePlayers[7].GameObject)) throw new InvalidOperationException("Flash blindness failed to expire.");
+        CheckNativeBotEquipment();
     }
 }
 

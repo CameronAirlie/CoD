@@ -25,7 +25,8 @@ and foot placement are first-pass assets intended for correction in Blender.
 Network protocol 13 adds host-to-client bot reload effects on channel 20.
 Rebuild both peers. Late joiners do not reconstruct an already-running reload
 gesture; subsequent reloads animate normally. The authored clip is two seconds;
-changing botReloadDuration changes gameplay/IK release timing, not clip speed.
+The equipped WeaponCatalog definition controls gameplay/IK release timing,
+not clip speed; the separate botReloadDuration override has been retired.
 
 Tools/create_bot_animations.py runs inside the original review Blender scene
 after importing the M16 source. It refuses to replace existing named actions.

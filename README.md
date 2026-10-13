@@ -60,7 +60,9 @@ Assets/
 
 Main, Foundry and the Player prefab include an original **P-12 pistol**, **AR-24
 assault rifle** and **MG-60 machine gun**, each with its own hand rig and five
-skeletal animations. During play use **1 / 2 / 3** to equip, **Q** to cycle and
+skeletal animations. Carry a pistol and one primary; buying another primary
+replaces the old one. Every spawn equips the pistol. During play use **1** for
+the primary, **2** for the pistol, **Q** to switch and
 **R** to reload. Magazines persist across switches; reserve ammunition is shared.
 Preparation-phase number keys retain their class-selection behavior. Networking
 uses protocol 17; rebuild both peers. See [weapon setup and validation](Docs/Weapons.md).
@@ -68,6 +70,8 @@ uses protocol 17; rebuild both peers. See [weapon setup and validation](Docs/Wea
 Press **G** to throw and **T** to cycle frag, flashbang, smoke and molotov.
 Press **J** to use armour and **B** (or **I**) to open the buy/inventory menu.
 Players start with a pistol, $800 and two frags; buy the other weapons and utility.
+Bots follow the same economy, weapon ownership and finite-ammo rules, and buy
+and throw their own utility. Hold right mouse while pressing G for a short throw.
 Kills award $300; round wins/losses award $3,250/$1,400, capped at $16,000.
 Buying is available during warmup and the first 20 seconds of play (any time
 while alive offline). Purchased weapons are lost on death; money persists for

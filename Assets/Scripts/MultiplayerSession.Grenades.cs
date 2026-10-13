@@ -67,7 +67,7 @@ public sealed partial class MultiplayerSession
             (GrenadesOffline || CanFight) && !IsUsingObjective && _inventory?.IsUsing != true && _time >= _nextLocalThrowAt && ThrowableCount(SelectedThrowable) > 0)
         {
             var aim = _playerController.GrenadeAim;
-            var request = GrenadeThrow.From(aim.Direction, SelectedThrowable);
+            var request = GrenadeThrow.From(aim.Direction, SelectedThrowable, Input.IsMouseButtonDown(MouseButton.Right) ? .5f : 1);
             _nextLocalThrowAt = _time + GrenadeRules.ThrowCooldown;
             _playerController.PlayGameplayCue("Melee/Throw/throw_heavy_ufx_1.ogg", .45f);
             if (_server is not null || GrenadesOffline) AcceptGrenade(0, request);
@@ -112,14 +112,14 @@ public sealed partial class MultiplayerSession
     {
         if ((!GrenadesOffline && (_server is null || _matchPhase != MatchPhase.Playing)) ||
             !GrenadeRules.IsFinite(request.Direction) || request.Direction.LengthSquared() < .5f ||
-            request.Direction.LengthSquared() > 2 || _grenades.Count >= 64) return;
+            request.Direction.LengthSquared() > 2 || !float.IsFinite(request.Strength) || request.Strength < .2f || request.Strength > 1 || _grenades.Count >= 64) return;
         var definition = GrenadeRules.Find(request.Kind);
         if (definition is null) return;
         var actor = GetParticipantObject(owner);
         if (actor is null || !actor.IsValid) return;
         GrenadeSupply supply;
         PlayerTeam? team = null;
-        if (GrenadesOffline)
+        if (GrenadesOffline && owner == 0)
         {
             if (_playerHealth?.IsDead == true) return;
             supply = _offlineGrenades;
@@ -139,7 +139,7 @@ public sealed partial class MultiplayerSession
         var launch = origin + direction * .4f;
         if (Physics.Raycast(origin, direction, .5f, actor, out var obstruction))
             launch = obstruction.Point + obstruction.Normal * .09f;
-        _grenades.Add(++_nextGrenadeId, new(owner, team, new(definition, launch, direction)));
+        _grenades.Add(++_nextGrenadeId, new(owner, team, new(definition, launch, direction, request.Strength)));
         SendGrenadeSupply(owner, supply.Remaining);
     }
 
@@ -166,6 +166,13 @@ public sealed partial class MultiplayerSession
     {
         if (GrenadesOffline)
         {
+            if (grenade.Owner != 0)
+            {
+                var target = ParticipantAimPoint(GameObject);
+                var damage = GrenadeRules.Damage(grenade.Projectile.Definition, Vector3.Distance(point, target));
+                if (BlastReaches(point, target, GameObject)) DamageOfflinePlayer(grenade.Owner, damage);
+                return;
+            }
             foreach (var actor in GameObject.FindByTag("Enemy"))
             {
                 var target = actor.WorldPosition + Vector3.UnitY * .6f;
@@ -194,7 +201,7 @@ public sealed partial class MultiplayerSession
 
     private void SendGrenadeSupply(int owner, int count)
     {
-        var supply = GrenadesOffline ? _offlineGrenades : _playerStates.GetValueOrDefault(owner)?.Grenades;
+        var supply = GrenadesOffline && owner == 0 ? _offlineGrenades : _playerStates.GetValueOrDefault(owner)?.Grenades;
         var counts = supply?.Snapshot() ?? new int[4];
         if (owner == 0) { _remainingGrenades = count; _throwableCounts = counts; }
         else if (!_bots.ContainsKey(owner)) _server?.SendJson(owner, GrenadeSupplyChannel, new GrenadeInventory(count, counts));
@@ -283,10 +290,10 @@ public sealed partial class MultiplayerSession
     }
 
     private sealed record ActiveGrenade(int Owner, PlayerTeam? Team, GrenadeProjectile Projectile);
-    private sealed record GrenadeThrow(float X, float Y, float Z, string Kind = "frag")
+    private sealed record GrenadeThrow(float X, float Y, float Z, string Kind = "frag", float Strength = 1)
     {
         public Vector3 Direction => new(X, Y, Z);
-        public static GrenadeThrow From(Vector3 direction, string kind = "frag") => new(direction.X, direction.Y, direction.Z, kind);
+        public static GrenadeThrow From(Vector3 direction, string kind = "frag", float strength = 1) => new(direction.X, direction.Y, direction.Z, kind, strength);
     }
     private sealed record GrenadePosition(int Id, float X, float Y, float Z, string Kind = "frag") { public Vector3 Position => new(X, Y, Z); }
     private sealed record GrenadeFrame(GrenadePosition[] Items, ThrowableAreaFrame[]? Areas = null);

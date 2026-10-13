@@ -51,7 +51,7 @@ public sealed partial class MultiplayerSession : PlutoGE.ScriptCore.IServerComma
         {
             AdminLog("mode <Hardpoint|Defusal|tdm> [map] | map <name> | maps (switching disconnects players)");
             AdminLog("players | kick <peer-id> | bots [add [n]|remove [n|all]|set <n>] | get [setting] | set <setting> <value> | round <start|restart|end>");
-            AdminLog("Settings: bots, scorelimit (1..10000), matchduration (10..86400 seconds), warmup (1..300 seconds), respawndelay (0..60 seconds), botdamage (0..1000), botaccuracy (0..90 degrees).");
+            AdminLog("Settings: bots, scorelimit (1..10000), matchduration (10..86400 seconds), warmup (1..300 seconds), respawndelay (0..60 seconds), botaccuracy (0..90 degrees).");
             AdminLog("Changes last until server restart. bots is a population-fill target; humans replace bots. Port and player capacity are startup settings.");
             return true;
         }
@@ -114,7 +114,7 @@ public sealed partial class MultiplayerSession : PlutoGE.ScriptCore.IServerComma
                 case "get":
                     Require(args.Length <= 2, "Usage: get [setting]");
                     if (args.Length == 2) ShowAdminSetting(args[1]);
-                    else foreach (var name in new[] { "bots", "maxplayers", "port", "scorelimit", "matchduration", "warmup", "respawndelay", "botdamage", "botaccuracy" }) ShowAdminSetting(name);
+                    else foreach (var name in new[] { "bots", "maxplayers", "port", "scorelimit", "matchduration", "warmup", "respawndelay", "botaccuracy" }) ShowAdminSetting(name);
                     break;
                 case "set":
                     Require(args.Length == 3, "Usage: set <setting> <value>");
@@ -124,7 +124,6 @@ public sealed partial class MultiplayerSession : PlutoGE.ScriptCore.IServerComma
                     else if (key == "matchduration") matchDuration = AdminNumber(args[2], 10, 86400);
                     else if (key == "warmup") warmupDuration = AdminNumber(args[2], 1, 300);
                     else if (key == "respawndelay") combatRespawnDelay = AdminNumber(args[2], 0, 60);
-                    else if (key == "botdamage") botDamage = AdminNumber(args[2], 0, 1000);
                     else if (key == "botaccuracy") botAccuracyDegrees = AdminNumber(args[2], 0, 90);
                     else throw new ArgumentException("Unknown or read-only setting. Type help for writable settings.");
                     ShowAdminSetting(key);
@@ -176,7 +175,7 @@ public sealed partial class MultiplayerSession : PlutoGE.ScriptCore.IServerComma
             "port" => $"{serverPort} (startup only: COD_SERVER_PORT)",
             "scorelimit" => $"{scoreLimit}", "matchduration" => $"{matchDuration}",
             "warmup" => $"{warmupDuration}", "respawndelay" => $"{combatRespawnDelay}",
-            "botdamage" => $"{botDamage}", "botaccuracy" => $"{botAccuracyDegrees}",
+            "botaccuracy" => $"{botAccuracyDegrees}",
             _ => throw new ArgumentException("Unknown setting. Type get to list settings.")
         };
         AdminLog($"{key} = {value}");

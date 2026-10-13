@@ -27,6 +27,7 @@ public sealed partial class MultiplayerSession
 
     private EconomyAccount Account(int peer)
     {
+        if (GrenadesOffline && peer == 0) return _offlineAccount;
         if (!_accounts.TryGetValue(peer, out var account)) _accounts.Add(peer, account = new());
         return account;
     }
@@ -37,19 +38,20 @@ public sealed partial class MultiplayerSession
     }
     private void AcceptPurchase(int peer, string? id)
     {
-        var allowed = GrenadesOffline ? _playerHealth?.IsDead != true :
+        var localOffline = GrenadesOffline && peer == 0;
+        var allowed = localOffline ? _playerHealth?.IsDead != true :
             _playerStates.TryGetValue(peer, out var state) && state.Health > 0 &&
             !(_defusal?.Snapshot().Operator == peer) &&
-            (_matchPhase == MatchPhase.Warmup || _matchPhase == MatchPhase.Playing && _time <= _buyEndsAt);
+            (GrenadesOffline || _matchPhase == MatchPhase.Warmup || _matchPhase == MatchPhase.Playing && _time <= _buyEndsAt);
         if (!allowed) { SendEconomy(peer, "Buy time ended, or player cannot buy."); return; }
-        var supply = GrenadesOffline ? _offlineGrenades : _playerStates[peer].Grenades;
-        var account = GrenadesOffline ? _offlineAccount : Account(peer);
+        var supply = localOffline ? _offlineGrenades : _playerStates[peer].Grenades;
+        var account = Account(peer);
         account.TryBuy(id, supply, out var result);
         SendEconomy(peer, result); SendGrenadeSupply(peer, supply.Remaining);
     }
     private void SendEconomy(int peer, string message = "Choose an item to buy.")
     {
-        var account = GrenadesOffline ? _offlineAccount : Account(peer);
+        var account = Account(peer);
         var state = new EconomyState(account.Money, account.WeaponMask, message);
         if (peer == 0) ApplyEconomy(state);
         else if (!_bots.ContainsKey(peer)) _server?.SendJson(peer, EconomyChannel, state);
