@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "scene": "Assets/Scenes/Main.plutoscene",
+  "width": 1138,
+  "height": 634,
+  "frames": 600,
+  "warmup": 240,
+  "require_cascaded_shadows": true,
+  "component_overrides": [
+    {"entity": 6, "component": "LightComponent", "property": "CastsShadows", "value": "true"},
+    {"entity": 6, "component": "LightComponent", "property": "Shadow Method", "value": "0"},
+    {"entity": 6, "component": "LightComponent", "property": "Shadow Cascade Count", "value": "1"},
+    {"entity": 6, "component": "LightComponent", "property": "Shadow Resolution", "value": "2048"},
+    {"entity": 6, "component": "LightComponent", "property": "Shadow Softness (0 = Hard Shadows)", "value": "2.0"}
+  ],
+  "camera_anchor": {
+    "entity": 1,
+    "position": [-16.0, 1.5, 16.0],
+    "rotation": [0.0, 135.0, 0.0]
+  }
+}

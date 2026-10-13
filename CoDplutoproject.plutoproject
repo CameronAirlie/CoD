@@ -1205,6 +1205,9 @@ ASSET	project://UI/Artwork/loading-foundry.prompt.txt	982	Unknown
 ASSET	project://UI/Artwork/loading-foundry.tga	6293426	Texture
 ASSET	project://UI/Artwork/menu-background.png	1769367	Texture
 ASSET	project://UI/Artwork/menu-background.tga	4720595	Texture
+ASSET	project://UI/Artwork/title-compound.png	2227731	Texture
+ASSET	project://UI/Artwork/title-compound.prompt.txt	794	Unknown
+ASSET	project://UI/Artwork/title-compound.tga	6293426	Texture
 ASSET	project://UI/Icons/ammo.tga	5202	Texture
 ASSET	project://UI/Icons/armour.tga	5202	Texture
 ASSET	project://UI/Icons/arrow.tga	5202	Texture
@@ -1291,5 +1294,3 @@ ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_height.png	4112027	
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_metallic.psd	2732299	Unknown
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_normal-ogl.png	12312674	Texture
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_preview.jpg	628869	Texture
-ASSET	project://UI/Artwork/title-compound.png	2227731	Texture
-ASSET	project://UI/Artwork/title-compound.tga	6293426	Texture

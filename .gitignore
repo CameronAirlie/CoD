@@ -26,3 +26,9 @@ Assets/Managed/
 Server/bin/
 Server/obj/
 Server/*.log
+
+# Repeatable renderer benchmark captures and disposable manifests
+/BenchmarkResults/
+/.benchmark-*.plutoproject
+/.benchmark.lock
+/Tools/Benchmarks/__pycache__/
