@@ -64,5 +64,5 @@ public static class GameInput
         return value;
     }
     public static Vector2 MouseLook => new(MouseAxis("MouseLookHorizontal"), MouseAxis("MouseLookVertical"));
-    public static Vector2 StickLook => new(Axis("StickLookHorizontal"), Axis("StickLookVertical"));
+    public static Vector2 StickLook => new(ControllerAxis("StickLookHorizontal"), ControllerAxis("StickLookVertical"));
 }

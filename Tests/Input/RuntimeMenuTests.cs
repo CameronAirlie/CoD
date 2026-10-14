@@ -17,6 +17,7 @@ public static unsafe class RuntimeMenuTests
     private static readonly nint FalseText = Marshal.StringToCoTaskMemUTF8("false");
     private static readonly List<string> Revealed = [];
     private static float _leftX, _leftY;
+    private static float _rightX;
     private static int _cursor = 1;
     private static bool _mouseHeld, _spaceHeld;
     private static bool _domReady = true;
@@ -34,7 +35,7 @@ public static unsafe class RuntimeMenuTests
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])] private static void SetFlag(int value) => _cursor = value;
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])] private static Vector3 Vector() => default;
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])] private static float Axis(int packed) =>
-        (GamepadAxis)(packed & 0xffff) switch { GamepadAxis.LeftX => _leftX, GamepadAxis.LeftY => _leftY, _ => 0 };
+        (GamepadAxis)(packed & 0xffff) switch { GamepadAxis.LeftX => _leftX, GamepadAxis.LeftY => _leftY, GamepadAxis.RightX => _rightX, _ => 0 };
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])] private static int SetText(nint _, nint id, nint text)
     { Text[Decode(id)] = Decode(text); return 1; }
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])] private static int SetClass(nint _, nint id, nint name, int enabled)
@@ -75,6 +76,12 @@ public static unsafe class RuntimeMenuTests
             (nint)(delegate* unmanaged[Cdecl]<int,int>)&ButtonPressed,
             (nint)(delegate* unmanaged[Cdecl]<int,float>)&Axis) == 1, "Input callback registration failed.");
         typeof(GameInput).GetField("_map", BindingFlags.NonPublic | BindingFlags.Static)!.SetValue(null, map);
+        map.Actions.Single(action => action.Name == "StickLookHorizontal").Bindings.Add(new() { Kind = InputBindingKind.Key, Key = KeyCode.Space });
+        _spaceHeld = true;
+        Check(GameInput.StickLook == Vector2.Zero, "Keyboard binding was treated as controller look.");
+        _spaceHeld = false; _rightX = .6f;
+        Check(MathF.Abs(GameInput.StickLook.X - .6f) < .0001f, "Real controller look was filtered out.");
+        _rightX = 0;
         var rml = (delegate* unmanaged[Cdecl]<nint,nint,nint,nint,nint,nint,nint,nint,nint,nint,nint,nint,nint,nint,nint,nint,int>)Export("RegisterRmlUiApi");
         Check(rml(0, 0, (nint)(delegate* unmanaged[Cdecl]<nint,nint,nint,int>)&SetText, 0,
             (nint)(delegate* unmanaged[Cdecl]<nint,nint,nint,nint,int>)&SetAttribute,

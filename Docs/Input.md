@@ -27,6 +27,11 @@ the saved mouse sensitivity. Stick look uses the player's authored
 `controllerLookSpeed` (180 degrees per second by default) and the ADS multiplier.
 Gameplay remains blocked while the cursor is released for menus.
 
+Settings / Controls includes **Controller aim assist**, default 50% with 0% to turn
+it off. This applies subtle stick slowdown while using controller ADS near visible
+living enemies; it never pulls the crosshair or assists mouse movement. See
+[Player settings](PlayerSettings.md) for the limits and visibility rules.
+
 Menus use a Call of Duty-style controller flow alongside the existing native
 mouse/keyboard controls:
 

@@ -779,10 +779,51 @@ public sealed class PlayerController : ScriptBehaviour
         _recoilYawOffset = Damp(_recoilYawOffset, 0.0f, recoilRecovery, deltaTime);
         var sensitivity = mouseSensitivity * CoD.Scripts.PlayerSettings.Current.Sensitivity * (_aiming ? adsSensitivityMultiplier : 1.0f);
         var mouse = _mouseDelta;
-        var stick = GameInput.StickLook * controllerLookSpeed * deltaTime * (_aiming ? adsSensitivityMultiplier : 1.0f);
+        var stickInput = GameInput.StickLook;
+        var strength = CoD.Scripts.PlayerSettings.Current.ControllerAimAssist;
+        var controllerAds = GameInput.ControllerAxis("Aim") > .5f && !_reloading;
+        if (controllerAds && strength > 0 && mouse == Vector2.Zero && stickInput != Vector2.Zero)
+            stickInput = ControllerAimAssist.Apply(stickInput, mouse, controllerAds, strength, FindControllerAimAssistAngle(deltaTime));
+        var stick = stickInput * controllerLookSpeed * deltaTime * (_aiming ? adsSensitivityMultiplier : 1.0f);
         _yaw -= mouse.X * sensitivity + stick.X;
         _pitch = Math.Clamp(_pitch - mouse.Y * sensitivity - stick.Y, minimumPitch, maximumPitch);
         Rotation = new Vector3(0.0f, _yaw + _recoilYawOffset, 0.0f);
+    }
+
+    private GameObject[] _aimAssistOfflineTargets = [];
+    private float _aimAssistRefreshRemaining;
+    private float FindControllerAimAssistAngle(float deltaTime)
+    {
+        if (camera is null || _dead || _neutralSpectator || _multiplayer?.FlashOpacity > .01f || MultiplayerSession.IsBlinded(GameObject))
+            return float.PositiveInfinity;
+        var origin = camera.GameObject.WorldPosition;
+        var forward = camera.GameObject.Forward;
+        if (_multiplayer?.IsNetworkSession == true) return _multiplayer.ControllerAimAssistAngle(origin, forward);
+        _aimAssistRefreshRemaining -= deltaTime;
+        if (_aimAssistRefreshRemaining <= 0)
+        {
+            _aimAssistRefreshRemaining = .25f;
+            _aimAssistOfflineTargets = GameObject.FindByTag(damageableTag);
+        }
+        var best = ControllerAimAssist.ConeDegrees;
+        foreach (var target in _aimAssistOfflineTargets)
+        {
+            if (!target.IsValid || !target.Active || target.EntityId == GameObject.EntityId) continue;
+            // Only living combat actors qualify; tagged props/corpses never attract friction.
+            var bot = target.GetComponent<EnemySoldierBot>();
+            var health = target.GetComponent<PlayerHealth>();
+            if (bot?.IsAlive != true && !(health is { IsDead: false, CurrentHealth: > 0 })) continue;
+            var collider = target.GetComponent<ColliderComponent>();
+            var point = CombatTargeting.AimPoint(target.WorldPosition, collider?.Center ?? Vector3.Zero, collider?.Height ?? 1.5f);
+            var angle = ControllerAimAssist.Angle(origin, forward, point);
+            if (angle >= best || MultiplayerSession.SightBlocked(origin, point)) continue;
+            var ray = point - origin;
+            var length = ray.Length();
+            if (Physics.Raycast(origin, ray / length, length + .1f, GameObject, out var hit) &&
+                (hit.Entity.EntityId == target.EntityId || hit.Entity.GetComponent<NetworkParticipantHitbox>()?.ParticipantEntityId == target.EntityId))
+                best = angle;
+        }
+        return best;
     }
 
     private void UpdateMovement(float deltaTime)

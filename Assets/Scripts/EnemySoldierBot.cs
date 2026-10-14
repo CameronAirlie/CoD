@@ -118,6 +118,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
     private int _shotsLeft;
     private uint _randomState;
     private bool _dead;
+    public bool IsAlive => !_dead && _currentHealth > 0;
     private Vector3 _previousPosition;
     private Vector3 _latePreviousPosition;
     private Vector3 _navigationDestination;

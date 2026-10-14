@@ -2,7 +2,7 @@
 
 Borderless fullscreen applies to the standalone game. The native script bridge ignores fullscreen changes during play-in-editor, keeping the editor window mode independent of saved game preferences.
 
-Open SETTINGS from the title or pause menu. Five tabs organize preferences: Display (VSync, borderless fullscreen, and field of view), Graphics (quality), Audio (volumes), Interface (scale), and Controls (mouse sensitivity). Changes apply immediately; BACK closes the page and RESTORE DEFAULTS resets all preferences.
+Open SETTINGS from the title or pause menu. Five tabs organize preferences: Display (VSync, borderless fullscreen, and field of view), Graphics (quality), Audio (volumes), Interface (scale), and Controls (mouse sensitivity and controller aim assist). Changes apply immediately; BACK closes the page and RESTORE DEFAULTS resets all preferences.
 
 PlayerPreferences is a versioned, validated model. PlayerSettings owns persistence and application; GameGraphicsSettings binds document-scoped controls. Preferences are stored in LocalApplicationData/PlutoCombat/settings.json with temporary-file replacement. Existing graphics.json preferences migrate on first load. Unsupported display changes keep the previous preference and display a status message. Scene hosts reapply graphics quality on scene creation.
 
@@ -13,3 +13,9 @@ Engine and game ScriptCore assemblies must be updated together. The preference i
 Add preferences to PlayerPreferences and its validation, apply them in PlayerSettings, and add tab markup and bindings to the presenter. Keep title and pause settings markup synchronized. Run dotnet run --project Tests/Settings/Settings.Tests.csproj after building CoD.Scripts.csproj. In-game layout and native display behavior require a running engine.
 
 Field of view is a saved base vertical camera FOV, default 90 degrees, with a slider from 80 to 110 in one-degree steps. PlayerController applies it on creation and uses it for normal camera transitions. Authored ADS zoom and the sprint FOV boost remain active. Old settings files without this field use 90; invalid values are clamped or replaced with the default.
+
+Controller aim assist is a saved strength from 0 to 1, shown as 0–100% in five-percent steps. The default is 50%; 0% disables it. Older settings files use 50%, finite out-of-range values clamp, and non-finite values fall back to 50%. Restore Defaults resets this preference too. The setting is adjustable with mouse or controller in both title and pause menus.
+
+Assist is gentle ADS friction within four degrees and 35 world units of a living, visible enemy. The strongest slowdown is 25% at 100% strength (12.5% at the default), fading smoothly to zero at the cone edge. It scales only active gamepad stick motion while the controller ADS binding is held. Any simultaneous mouse look suppresses it. Mouse sensitivity and shot rays are unchanged; there is no snap, automatic tracking, or stationary-stick movement. Multiplayer targets use participant team/life state and child-hitbox ownership; offline targets must be living combat actors with the enemy tag. Cover, smoke and flash blindness block assist. Network authority still owns hit detection and damage.
+
+`Tests/Input/Input.Tests.csproj` includes aim-assist math, input-device separation, team eligibility, preference migration/validation/roundtrip, and synchronized Controls markup checks. In-engine target visibility and controller feel still require a hardware playtest.
