@@ -15,8 +15,8 @@ Parameter 0 "Power" "1.500000" 0
 Parameter 0 "Temporal Blend" "0.900000" 0
 Parameter 0 "History Depth Threshold" "0.020000" 0
 Parameter 0 "History Normal Threshold" "0.850000" 0
-Parameter 1 "Samples" "16" 0
-Parameter 1 "Blur Radius" "1" 0
+Parameter 1 "Samples" "32" 0
+Parameter 1 "Blur Radius" "2" 0
 Parameter 3 "Half Resolution" "true" 0
 Parameter 3 "AO Only" "false" 0
 Effect "VCTGI" 0 24
