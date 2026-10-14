@@ -356,9 +356,10 @@ ASSET	project://Imported/scene/Textures/Grass_green.014_baseColor.png	367821	Tex
 ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87934	Texture
 ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Input/car.plutoinput	3771	Input Mapping
+ASSET	project://Input/fps.plutoinput	13770	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	448000	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	149468	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	479744	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	160976	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	322048	Assembly
 ASSET	project://Managed/PlutoGE.ScriptCore.pdb	109356	Unknown
@@ -721,6 +722,10 @@ ASSET	project://Scripts/BotSpawnResolver.cs	1654	Script
 ASSET	project://Scripts/CombatFeedback.cs	4926	Script
 ASSET	project://Scripts/CombatFeedbackMath.cs	590	Script
 ASSET	project://Scripts/CombatTargeting.cs	1322	Script
+ASSET	project://Scripts/ControllerAimAssist.cs	1674	Script
+ASSET	project://Scripts/ControllerConfirmation.cs	1354	Script
+ASSET	project://Scripts/ControllerKeyboard.cs	4950	Script
+ASSET	project://Scripts/ControllerMenu.cs	4882	Script
 ASSET	project://Scripts/DamageFeedbackState.cs	605	Script
 ASSET	project://Scripts/DedicatedServerSettings.cs	12477	Script
 ASSET	project://Scripts/DefusalBotTactics.cs	2397	Script
@@ -732,6 +737,7 @@ ASSET	project://Scripts/EnemyWaveSpawner.cs	4384	Script
 ASSET	project://Scripts/FairBotPlanner.cs	1015	Script
 ASSET	project://Scripts/FirstPersonHands.cs	2576	Script
 ASSET	project://Scripts/GameGraphicsSettings.cs	6446	Script
+ASSET	project://Scripts/GameInput.cs	3383	Script
 ASSET	project://Scripts/GameModeHud.cs	11282	Script
 ASSET	project://Scripts/GameplaySounds.cs	5357	Script
 ASSET	project://Scripts/GrenadeRules.cs	6080	Script
@@ -741,7 +747,9 @@ ASSET	project://Scripts/HardpointRules.cs	3610	Script
 ASSET	project://Scripts/InventoryMenu.cs	15111	Script
 ASSET	project://Scripts/InventoryRules.cs	2100	Script
 ASSET	project://Scripts/MatchContracts.cs	7492	Script
+ASSET	project://Scripts/MenuNavigation.cs	4558	Script
 ASSET	project://Scripts/MultiplayerLaunch.cs	1634	Script
+ASSET	project://Scripts/MultiplayerSession.AimAssist.cs	2154	Script
 ASSET	project://Scripts/MultiplayerSession.Authority.cs	19958	Script
 ASSET	project://Scripts/MultiplayerSession.BotEquipment.cs	8301	Script
 ASSET	project://Scripts/MultiplayerSession.Defusal.cs	14489	Script
@@ -1535,10 +1543,10 @@ ASSET	project://UI/settings.rcss	3406	Unknown
 ASSET	project://UI/starter.rcss	1633	Unknown
 ASSET	project://UI/starter.rml	671	RML Document
 ASSET	project://UI/theme.rcss	6891	Unknown
-ASSET	project://UI/theme.rcss.in	4563	Unknown
+ASSET	project://UI/theme.rcss.in	6939	Unknown
 ASSET	project://UI/theme.tokens.json	356	Unknown
 ASSET	project://UI/title.rcss	4122	Unknown
-ASSET	project://UI/title.rcss.in	4079	Unknown
+ASSET	project://UI/title.rcss.in	4157	Unknown
 ASSET	project://UI/title.rml	9888	RML Document
 ASSET	project://UI/vehicle-speedometer.rcss	2990	Unknown
 ASSET	project://UI/vehicle-speedometer.rml	1698	RML Document
@@ -1581,11 +1589,3 @@ ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_height.png	4112027	
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_metallic.psd	2732299	Unknown
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_normal-ogl.png	12312674	Texture
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_preview.jpg	628869	Texture
-ASSET	project://Input/fps.plutoinput	13770	Input Mapping
-ASSET	project://Scripts/GameInput.cs	3383	Script
-ASSET	project://Scripts/MenuNavigation.cs	4558	Script
-ASSET	project://Scripts/ControllerMenu.cs	4882	Script
-ASSET	project://Scripts/ControllerKeyboard.cs	4950	Script
-ASSET	project://Scripts/ControllerConfirmation.cs	1354	Script
-ASSET	project://Scripts/ControllerAimAssist.cs	1674	Script
-ASSET	project://Scripts/MultiplayerSession.AimAssist.cs	2154	Script
