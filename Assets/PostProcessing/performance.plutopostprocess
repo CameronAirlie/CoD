@@ -1,5 +1,5 @@
 PostProcessPresetVersion 1 12
-Effect "SSR" 0 7
+Effect "SSR" 1 7
 Parameter 0 "Intensity" "0.800000" 0
 Parameter 0 "Max Ray Distance" "30.000000" 0
 Parameter 0 "Thickness" "0.350000" 0
@@ -20,14 +20,14 @@ Parameter 1 "Blur Radius" "1" 0
 Parameter 3 "Half Resolution" "true" 0
 Parameter 3 "AO Only" "false" 0
 Effect "VCTGI" 1 24
-Parameter 4 "Resolution" "1" 2 "64" "128"
+Parameter 4 "Resolution" "0" 2 "64" "128"
 Parameter 1 "Cascade Count" "2" 0
 Parameter 0 "Volume Size" "40.000000" 0
 Parameter 3 "World Cache" "true" 0
 Parameter 0 "Cache Size" "432.000000" 0
 Parameter 0 "Update Speed" "1.000000" 0
 Parameter 1 "Cache Updates" "64" 0
-Parameter 0 "Intensity" "4.000000" 0
+Parameter 0 "Intensity" "1.000000" 0
 Parameter 1 "Cone Count" "2" 0
 Parameter 4 "Trace Quality" "0" 2 "Balanced" "High"
 Parameter 3 "Inject Local Lights" "true" 0
@@ -110,23 +110,23 @@ Parameter 0 "Velocity Rejection Scale" "80.000000" 0
 Parameter 0 "Jitter Strength" "1.000000" 0
 Parameter 3 "Jitter Enabled" "true" 0
 Parameter 3 "Jitter Debug" "false" 0
-Effect "ColorGrading" 0 18
-Parameter 4 "Preset" "3" 9 "Custom" "Neutral" "Filmic" "Cinematic" "Teal & Orange" "Vintage" "Bleach Bypass" "Noir" "Dreamy"
-Parameter 0 "Brightness" "-0.020000" 0
-Parameter 0 "Contrast" "1.180000" 0
-Parameter 0 "Saturation" "0.920000" 0
-Parameter 0 "Temperature" "-0.050000" 0
-Parameter 0 "Tint" "0.030000" 0
-Parameter 0 "Vibrance" "0.120000" 0
-Parameter 0 "Lift" "-0.020000" 0
-Parameter 0 "Gamma" "0.940000" 0
-Parameter 0 "Gain" "1.060000" 0
-Parameter 0 "Fade" "0.020000" 0
-Parameter 0 "Vignette" "0.320000" 0
-Parameter 0 "Film Grain" "0.025000" 0
-Parameter 5 "Shadow Color" "0.000000,0.550000,0.480000,1.0" 0
+Effect "ColorGrading" 1 18
+Parameter 4 "Preset" "2" 9 "Custom" "Neutral" "Filmic" "Cinematic" "Teal & Orange" "Vintage" "Bleach Bypass" "Noir" "Dreamy"
+Parameter 0 "Brightness" "-0.010000" 0
+Parameter 0 "Contrast" "1.120000" 0
+Parameter 0 "Saturation" "0.960000" 0
+Parameter 0 "Temperature" "0.060000" 0
+Parameter 0 "Tint" "0.020000" 0
+Parameter 0 "Vibrance" "0.080000" 0
+Parameter 0 "Lift" "-0.010000" 0
+Parameter 0 "Gamma" "0.960000" 0
+Parameter 0 "Gain" "1.040000" 0
+Parameter 0 "Fade" "0.030000" 0
+Parameter 0 "Vignette" "0.200000" 0
+Parameter 0 "Film Grain" "0.035000" 0
+Parameter 5 "Shadow Color" "0.060264,0.428801,0.465116,1.0" 0
 Parameter 0 "Shadow Color Strength" "0.000000" 0
-Parameter 5 "Highlight Color" "1.000000,0.360000,0.080000,1.0" 0
+Parameter 5 "Highlight Color" "1.000000,0.750003,0.501661,1.0" 0
 Parameter 0 "Highlight Color Strength" "0.000000" 0
 Parameter 0 "Split Balance" "0.500000" 0
 Effect "SceneComposite" 1 2

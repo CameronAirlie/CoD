@@ -1,5 +1,5 @@
 PostProcessPresetVersion 1 14
-Effect "SSR" 0 7
+Effect "SSR" 1 7
 Parameter 0 "Intensity" "0.800000" 0
 Parameter 0 "Max Ray Distance" "30.000000" 0
 Parameter 0 "Thickness" "0.350000" 0
