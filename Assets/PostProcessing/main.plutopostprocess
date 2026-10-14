@@ -19,8 +19,8 @@ Parameter 1 "Samples" "16" 0
 Parameter 1 "Blur Radius" "1" 0
 Parameter 3 "Half Resolution" "true" 0
 Parameter 3 "AO Only" "false" 0
-Effect "VCTGI" 1 24
-Parameter 4 "Resolution" "0" 2 "64" "128"
+Effect "VCTGI" 0 24
+Parameter 4 "Resolution" "1" 2 "64" "128"
 Parameter 1 "Cascade Count" "2" 0
 Parameter 0 "Volume Size" "40.000000" 0
 Parameter 3 "World Cache" "true" 0
