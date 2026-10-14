@@ -3,6 +3,7 @@ NAME	CoD
 ASSET_DIR	Assets
 STARTUP_SCENE	project://Scenes/Title.plutoscene
 BUILD_USED_ASSETS_ONLY	1
+BUILD_ALWAYS_INCLUDE	project://Input/fps.plutoinput
 BUILD_ALWAYS_INCLUDE	project://Fonts/Georama.ttf
 BUILD_ALWAYS_INCLUDE	project://Fonts/Inter-OFL.txt
 BUILD_ALWAYS_INCLUDE	project://Fonts/Inter.ttf
@@ -1580,3 +1581,5 @@ ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_height.png	4112027	
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_metallic.psd	2732299	Unknown
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_normal-ogl.png	12312674	Texture
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_preview.jpg	628869	Texture
+ASSET	project://Input/fps.plutoinput	9925	Input Mapping
+ASSET	project://Scripts/GameInput.cs	1786	Script

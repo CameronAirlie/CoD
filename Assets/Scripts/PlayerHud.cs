@@ -224,7 +224,7 @@ public sealed class PlayerHud : ScriptBehaviour
         UpdateDeathEffect(deltaTime);
         _damageFeedback.Update(deltaTime);
         RenderDamageOverlay();
-        var scoreboardVisible = Input.IsKeyDown(KeyCode.Tab);
+        var scoreboardVisible = GameInput.Down("Scoreboard");
         var pov = _controller?.SpectatorView;
         if (_domReady && pov is not null && !SameSpectatorHud(pov, _renderedSpectatorView))
         {

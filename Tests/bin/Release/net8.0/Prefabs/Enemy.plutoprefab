@@ -20,7 +20,7 @@ PROPERTY	Speed	0	1.000000	0
 PROPERTY	Playing	4	true	0
 PROPERTY	Looping	4	true	0
 PROPERTY	Autoplay	4	true	0
-PROPERTY	PoseUpdateRate	0	30.000000	0
+PROPERTY	PoseUpdateRate	0	0	0
 PROPERTY	RagdollEnabled	4	false	0
 PROPERTY	RagdollWeight	0	1.000000	0
 PROPERTY	ClipCount	1	44	0
@@ -159,6 +159,8 @@ PROPERTY	Clips.43.ChannelCount	1	189	0
 END_COMPONENT
 COMPONENT	156	ScriptComponent	1
 PROPERTY	Source	2	CoD.Scripts.EnemySoldierBot	0
+PROPERTY	spectatorEyeHeight	0	0.500000	0
+PROPERTY	spectatorBodyMesh	9	160	0
 PROPERTY	remoteProxy	4	false	0
 PROPERTY	target	9	1	0
 PROPERTY	animationObject	9	156	0
@@ -211,7 +213,6 @@ PROPERTY	hasTargetParameter	2	HasTarget	0
 PROPERTY	shootTriggerParameter	2	Shoot	0
 PROPERTY	hitTriggerParameter	2	Hit	0
 PROPERTY	deathCleanupDelay	0	4.000000	0
-PROPERTY	nameplateMaximumDistance	0	20.000000	0
 PROPERTY	moveAnimation	2	Walk	0
 PROPERTY	tacticalRepathMin	0	0.650000	0
 PROPERTY	tacticalRepathMax	0	1.250000	0

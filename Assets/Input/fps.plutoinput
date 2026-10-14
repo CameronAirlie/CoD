@@ -1,0 +1,507 @@
+{
+  "Actions": [
+    {
+      "Name": "MoveHorizontal",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "D",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "Key",
+          "Key": "A",
+          "Scale": -1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadAxis",
+          "Axis": "LeftX",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "MoveVertical",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "W",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "Key",
+          "Key": "S",
+          "Scale": -1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadAxis",
+          "Axis": "LeftY",
+          "Scale": -1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "MouseLookHorizontal",
+      "Bindings": [
+        {
+          "Kind": "MouseAxis",
+          "MouseAxis": "X",
+          "Scale": 1,
+          "DeadZone": 0
+        }
+      ]
+    },
+    {
+      "Name": "MouseLookVertical",
+      "Bindings": [
+        {
+          "Kind": "MouseAxis",
+          "MouseAxis": "Y",
+          "Scale": 1,
+          "DeadZone": 0
+        }
+      ]
+    },
+    {
+      "Name": "StickLookHorizontal",
+      "Bindings": [
+        {
+          "Kind": "GamepadAxis",
+          "Axis": "RightX",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "StickLookVertical",
+      "Bindings": [
+        {
+          "Kind": "GamepadAxis",
+          "Axis": "RightY",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "Jump",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "Space",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "A",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "Sprint",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "LeftShift",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "LeftStick",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "Crouch",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "C",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "B",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "Reload",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "R",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "X",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "Interact",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "E",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "X",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "NextWeapon",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "Q",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "Y",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "HealthKit",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "H",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "DpadUp",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "ArmourPlate",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "J",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "DpadDown",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "ThrowGrenade",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "G",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "RightBumper",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "CycleThrowable",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "T",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "LeftBumper",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "Inventory",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "I",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "DpadRight",
+          "Scale": 1,
+          "DeadZone": 0.15
+        },
+        {
+          "Kind": "Key",
+          "Key": "B",
+          "Scale": 1,
+          "DeadZone": 0
+        }
+      ]
+    },
+    {
+      "Name": "Pause",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "Escape",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "Start",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "Scoreboard",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "Tab",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "Back",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "SpectateNext",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "E",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "RightBumper",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "SpectatePrevious",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "Q",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "LeftBumper",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "SpectateAlpha",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "F1",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "DpadLeft",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "SpectateBravo",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "F2",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "DpadRight",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "LoadoutAssault",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "D1",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "DpadLeft",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "LoadoutMedic",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "D2",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "DpadUp",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "LoadoutDefender",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "D3",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "DpadDown",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "WeaponPrimary",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "D1",
+          "Scale": 1,
+          "DeadZone": 0
+        }
+      ]
+    },
+    {
+      "Name": "WeaponSecondary",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "D2",
+          "Scale": 1,
+          "DeadZone": 0
+        }
+      ]
+    },
+    {
+      "Name": "WeaponHeavy",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "D3",
+          "Scale": 1,
+          "DeadZone": 0
+        }
+      ]
+    },
+    {
+      "Name": "Aim",
+      "Bindings": [
+        {
+          "Kind": "MouseButton",
+          "MouseButton": "Right",
+          "Scale": 1,
+          "DeadZone": 0.15
+        },
+        {
+          "Kind": "GamepadAxis",
+          "Axis": "LeftTrigger",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "Fire",
+      "Bindings": [
+        {
+          "Kind": "MouseButton",
+          "MouseButton": "Left",
+          "Scale": 1,
+          "DeadZone": 0.15
+        },
+        {
+          "Kind": "GamepadAxis",
+          "Axis": "RightTrigger",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    }
+  ]
+}

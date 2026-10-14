@@ -78,10 +78,10 @@ public sealed class UIManager : ScriptBehaviour
             ApplyPresentation();
         }
 
-        if ((Input.IsKeyPressed(KeyCode.I) || Input.IsKeyPressed(KeyCode.B)) && !_isPaused)
+        if (CoD.Scripts.GameInput.Pressed("Inventory") && !_isPaused)
             SetInventoryOpen(!_isInventoryOpen);
 
-        if (Input.IsKeyPressed(KeyCode.Escape))
+        if (CoD.Scripts.GameInput.Pressed("Pause"))
         {
             if (_isInventoryOpen)
                 SetInventoryOpen(false);

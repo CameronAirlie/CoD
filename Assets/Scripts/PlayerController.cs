@@ -228,6 +228,8 @@ public sealed class PlayerController : ScriptBehaviour
     [SerializedField] private UITextComponent? promptText = null;
 
     // Look and camera
+    [SerializedField, InputMappingAsset] private string inputMappingAsset = GameInput.DefaultAsset;
+    [SerializedField] private float controllerLookSpeed = 180.0f;
     [SerializedField] private float mouseSensitivity = 0.10f;
     [SerializedField] private float adsSensitivityMultiplier = 0.72f;
     [SerializedField] private float minimumPitch = -88.0f;
@@ -361,6 +363,7 @@ public sealed class PlayerController : ScriptBehaviour
 
     public override void OnCreate()
     {
+        GameInput.Configure(inputMappingAsset);
         Input.CursorLocked = true;
         _yaw = Rotation.Y;
         _pitch = camera?.GameObject.Rotation.X ?? 0.0f;
@@ -468,28 +471,28 @@ public sealed class PlayerController : ScriptBehaviour
         if (!cursorLocked) _triggerBuffer.Cancel();
         if (_multiplayer?.UsesServerAuthority == true)
         {
-            _mouseDelta = cursorLocked ? Input.MouseDelta : Vector2.Zero;
+            _mouseDelta = cursorLocked ? GameInput.MouseLook : Vector2.Zero;
             if (cursorLocked) UpdateLook(deltaTime);
             var slot = _requestedServerSlot >= 0 ? _requestedServerSlot : EquippedWeaponSlot;
             if (cursorLocked && _multiplayer.CurrentMatch?.Phase == MatchPhase.Playing)
             {
-                if (Input.IsKeyPressed(KeyCode.D1)) slot = PrimaryWeaponSlot;
-                if (Input.IsKeyPressed(KeyCode.D2)) slot = 1;
-                if (Input.IsKeyPressed(KeyCode.D3)) slot = 2;
-                if (Input.IsKeyPressed(KeyCode.Q)) slot = NextOwnedWeaponSlot(EquippedWeaponSlot);
+                if (GameInput.Pressed("WeaponPrimary")) slot = PrimaryWeaponSlot;
+                if (GameInput.Pressed("WeaponSecondary")) slot = 1;
+                if (GameInput.Pressed("WeaponHeavy")) slot = 2;
+                if (GameInput.Pressed("NextWeapon")) slot = NextOwnedWeaponSlot(EquippedWeaponSlot);
             }
             if (!_multiplayer.OwnsWeapon(slot)) slot = EquippedWeaponSlot;
             _requestedServerSlot = slot;
             _weaponDrawRemaining = MathF.Max(0, _weaponDrawRemaining - deltaTime);
-            _aiming = cursorLocked && Input.IsMouseButtonDown(MouseButton.Right) && !_reloading;
+            _aiming = cursorLocked && GameInput.Down("Aim") && !_reloading;
             _multiplayer.SubmitLocalInput(
-                cursorLocked ? (Input.IsKeyDown(KeyCode.D) ? 1 : 0) - (Input.IsKeyDown(KeyCode.A) ? 1 : 0) : 0,
-                cursorLocked ? (Input.IsKeyDown(KeyCode.W) ? 1 : 0) - (Input.IsKeyDown(KeyCode.S) ? 1 : 0) : 0,
-                _yaw, _pitch, cursorLocked && Input.IsKeyPressed(KeyCode.Space),
-                cursorLocked && Input.IsKeyDown(KeyCode.LeftShift), cursorLocked && Input.IsKeyDown(KeyCode.C),
-                _aiming, cursorLocked && Input.IsMouseButtonDown(MouseButton.Left),
-                cursorLocked && Input.IsKeyPressed(KeyCode.R), slot,
-                cursorLocked && Input.IsKeyPressed(KeyCode.H) ? 1 : cursorLocked && Input.IsKeyPressed(KeyCode.J) ? 2 : 0, deltaTime);
+                cursorLocked ? GameInput.Movement.X : 0,
+                cursorLocked ? GameInput.Movement.Y : 0,
+                _yaw, _pitch, cursorLocked && GameInput.Pressed("Jump"),
+                cursorLocked && GameInput.Down("Sprint"), cursorLocked && GameInput.Down("Crouch"),
+                _aiming, cursorLocked && GameInput.Down("Fire"),
+                cursorLocked && GameInput.Pressed("Reload"), slot,
+                cursorLocked && GameInput.Pressed("HealthKit") ? 1 : cursorLocked && GameInput.Pressed("ArmourPlate") ? 2 : 0, deltaTime);
             _shotCooldown = MathF.Max(0, _shotCooldown - deltaTime);
             UpdateFootsteps(deltaTime);
             UpdateCamera(deltaTime);
@@ -501,9 +504,9 @@ public sealed class PlayerController : ScriptBehaviour
 
         if (cursorLocked && _inventory is not null)
         {
-            if (Input.IsKeyPressed(KeyCode.H))
+            if (GameInput.Pressed("HealthKit"))
                 _inventory.BeginUseHealthKit();
-            else if (Input.IsKeyPressed(KeyCode.J))
+            else if (GameInput.Pressed("ArmourPlate"))
                 _inventory.BeginUseArmourPlate();
         }
 
@@ -517,14 +520,9 @@ public sealed class PlayerController : ScriptBehaviour
             return;
         }
 
-        // if (!GamePause.IsPaused && Input.IsKeyPressed(KeyCode.Escape))
-        // {
-        //     Input.CursorLocked = !Input.CursorLocked;
-        // }
-
         _shotCooldown = MathF.Max(0.0f, _shotCooldown - deltaTime);
         _weaponDrawRemaining = MathF.Max(0, _weaponDrawRemaining - deltaTime);
-        _mouseDelta = Input.MouseDelta;
+        _mouseDelta = GameInput.MouseLook;
         UpdateLook(deltaTime);
         if (_multiplayer?.IsPreparingRound == true || _multiplayer?.IsUsingObjective == true)
         { _horizontalVelocity = Vector3.Zero; _sprinting = false; }
@@ -753,10 +751,10 @@ public sealed class PlayerController : ScriptBehaviour
         {
             if (_neutralSpectator && Input.CursorLocked)
             {
-                if (Input.IsKeyPressed(KeyCode.F1)) _multiplayer.SetSpectatorTeam(PlayerTeam.Alpha);
-                if (Input.IsKeyPressed(KeyCode.F2)) _multiplayer.SetSpectatorTeam(PlayerTeam.Bravo);
+                if (GameInput.Pressed("SpectateAlpha")) _multiplayer.SetSpectatorTeam(PlayerTeam.Alpha);
+                if (GameInput.Pressed("SpectateBravo")) _multiplayer.SetSpectatorTeam(PlayerTeam.Bravo);
             }
-            var cycle = Input.CursorLocked ? (Input.IsKeyPressed(KeyCode.E) ? 1 : Input.IsKeyPressed(KeyCode.Q) ? -1 : 0) : 0;
+            var cycle = Input.CursorLocked ? (GameInput.Pressed("SpectateNext") ? 1 : GameInput.Pressed("SpectatePrevious") ? -1 : 0) : 0;
             _spectatorPeer = _multiplayer.SelectSpectatorTarget(_spectatorPeer, cycle);
             // Selection/input runs here; presentation runs once in LateUpdate after physics.
             if (_spectatorPeer.HasValue) return;
@@ -781,8 +779,9 @@ public sealed class PlayerController : ScriptBehaviour
         _recoilYawOffset = Damp(_recoilYawOffset, 0.0f, recoilRecovery, deltaTime);
         var sensitivity = mouseSensitivity * CoD.Scripts.PlayerSettings.Current.Sensitivity * (_aiming ? adsSensitivityMultiplier : 1.0f);
         var mouse = _mouseDelta;
-        _yaw -= mouse.X * sensitivity;
-        _pitch = Math.Clamp(_pitch - mouse.Y * sensitivity, minimumPitch, maximumPitch);
+        var stick = GameInput.StickLook * controllerLookSpeed * deltaTime * (_aiming ? adsSensitivityMultiplier : 1.0f);
+        _yaw -= mouse.X * sensitivity + stick.X;
+        _pitch = Math.Clamp(_pitch - mouse.Y * sensitivity - stick.Y, minimumPitch, maximumPitch);
         Rotation = new Vector3(0.0f, _yaw + _recoilYawOffset, 0.0f);
     }
 
@@ -794,12 +793,7 @@ public sealed class PlayerController : ScriptBehaviour
             _verticalVelocity = -2.0f;
         }
 
-        var input = Vector2.Zero;
-        if (Input.IsKeyDown(KeyCode.W)) input.Y += 1.0f;
-        if (Input.IsKeyDown(KeyCode.S)) input.Y -= 1.0f;
-        if (Input.IsKeyDown(KeyCode.D)) input.X += 1.0f;
-        if (Input.IsKeyDown(KeyCode.A)) input.X -= 1.0f;
-        if (input.LengthSquared() > 1.0f) input = Vector2.Normalize(input);
+        var input = GameInput.Movement;
 
         var forward = GameObject.Forward;
         var right = GameObject.Right;
@@ -810,16 +804,16 @@ public sealed class PlayerController : ScriptBehaviour
         var moveDirection = right * input.X + forward * input.Y;
         if (moveDirection.LengthSquared() > 1.0f) moveDirection = Vector3.Normalize(moveDirection);
 
-        _aiming = Input.IsMouseButtonDown(MouseButton.Right) && !_reloading;
-        var crouchHeld = Input.IsKeyDown(KeyCode.C);
-        var crouchPressed = Input.IsKeyPressed(KeyCode.C);
+        _aiming = GameInput.Down("Aim") && !_reloading;
+        var crouchHeld = GameInput.Down("Crouch");
+        var crouchPressed = GameInput.Pressed("Crouch");
         var wasSprinting = _sprinting;
-        var wantsSprint = _grounded && Input.IsKeyDown(KeyCode.LeftShift) &&
+        var wantsSprint = _grounded && GameInput.Down("Sprint") &&
                           input.Y > 0.1f && !_aiming && !crouchHeld && !_sliding;
         if (wantsSprint && _reloadAnimationActive)
             CancelReload();
         var canSprint = input.Y > 0.1f && !_aiming && !_reloading && !crouchHeld && !_sliding;
-        _sprinting = _grounded && Input.IsKeyDown(KeyCode.LeftShift) && canSprint;
+        _sprinting = _grounded && GameInput.Down("Sprint") && canSprint;
 
         if (_grounded && crouchPressed && wasSprinting && !_sliding &&
             _horizontalVelocity.Length() >= slideEntrySpeed)
@@ -857,7 +851,7 @@ public sealed class PlayerController : ScriptBehaviour
                 : ServerMotor.AirVelocity(_horizontalVelocity, moveDirection, speed, airAcceleration, deltaTime);
         }
 
-        if (_grounded && Input.IsKeyPressed(KeyCode.Space))
+        if (_grounded && GameInput.Pressed("Jump"))
         {
             _sliding = false;
             _slideTime = 0;
@@ -917,18 +911,18 @@ public sealed class PlayerController : ScriptBehaviour
     {
         if (_weapons is not null && _multiplayer?.CurrentMatch?.Phase is not (MatchPhase.Warmup or MatchPhase.Results))
         {
-            if (Input.IsKeyPressed(KeyCode.D1)) SelectWeaponSlot(PrimaryWeaponSlot);
-            else if (Input.IsKeyPressed(KeyCode.D2)) SelectWeaponSlot(1);
-            else if (Input.IsKeyPressed(KeyCode.D3)) SelectWeaponSlot(2);
-            else if (Input.IsKeyPressed(KeyCode.Q)) SelectWeaponSlot(NextOwnedWeaponSlot(EquippedWeaponSlot));
+            if (GameInput.Pressed("WeaponPrimary")) SelectWeaponSlot(PrimaryWeaponSlot);
+            else if (GameInput.Pressed("WeaponSecondary")) SelectWeaponSlot(1);
+            else if (GameInput.Pressed("WeaponHeavy")) SelectWeaponSlot(2);
+            else if (GameInput.Pressed("NextWeapon")) SelectWeaponSlot(NextOwnedWeaponSlot(EquippedWeaponSlot));
         }
         UpdateSpread(deltaTime);
-        if (Input.IsKeyPressed(KeyCode.R))
+        if (GameInput.Pressed("Reload"))
         {
             BeginReload();
         }
 
-        var fireHeld = Input.IsMouseButtonDown(MouseButton.Left);
+        var fireHeld = GameInput.Down("Fire");
         if (_triggerBuffer.Consume(fireHeld, automaticFire, _fireClock, _fireClock + _shotCooldown,
                 !_sprinting && !_sliding && !_reloading && _weaponDrawRemaining <= 0 &&
                 _inventory?.IsUsing != true && _multiplayer?.IsUsingObjective != true &&
@@ -1145,7 +1139,7 @@ public sealed class PlayerController : ScriptBehaviour
 
     private void UpdateInteraction(float deltaTime)
     {
-        if (Input.IsKeyPressed(KeyCode.E) && _interactionTarget is not null)
+        if (GameInput.Pressed("Interact") && _interactionTarget is not null)
         {
             _interactionTarget.TryInvoke(interactMethod, GameObject);
         }

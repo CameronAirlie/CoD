@@ -50,3 +50,8 @@ Tests/SpectatorPresentation/obj/
 Tests/CombatSpawns/bin/
 Tests/CombatSpawns/obj/
 !Tests/CombatSpawns/CombatSpawns.Tests.csproj
+
+!Tests/Input/
+Tests/Input/bin/
+Tests/Input/obj/
+!Tests/Input/Input.Tests.csproj

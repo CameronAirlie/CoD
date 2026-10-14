@@ -53,7 +53,7 @@ public sealed partial class MultiplayerSession
     private void UpdateGrenades(float deltaTime)
     {
         if (_shutDown) return;
-        if (!IsDedicated && Input.CursorLocked && Input.IsKeyPressed(KeyCode.T))
+        if (!IsDedicated && Input.CursorLocked && GameInput.Pressed("CycleThrowable"))
         {
             var index = GrenadeRules.Types.IndexOfKind(SelectedThrowable);
             for (var step = 1; step <= GrenadeRules.Types.Count; step++)
@@ -62,12 +62,12 @@ public sealed partial class MultiplayerSession
                 if (ThrowableCount(kind) > 0) { SelectedThrowable = kind; break; }
             }
         }
-        if (!IsDedicated && Input.CursorLocked && !GamePause.IsPaused && Input.IsKeyPressed(KeyCode.G) &&
+        if (!IsDedicated && Input.CursorLocked && !GamePause.IsPaused && GameInput.Pressed("ThrowGrenade") &&
             _playerController is not null && _playerHealth?.IsDead != true &&
             (GrenadesOffline || CanFight) && !IsUsingObjective && _inventory?.IsUsing != true && _time >= _nextLocalThrowAt && ThrowableCount(SelectedThrowable) > 0)
         {
             var aim = _playerController.GrenadeAim;
-            var request = GrenadeThrow.From(aim.Direction, SelectedThrowable, Input.IsMouseButtonDown(MouseButton.Right) ? .5f : 1);
+            var request = GrenadeThrow.From(aim.Direction, SelectedThrowable, GameInput.Down("Aim") ? .5f : 1);
             _nextLocalThrowAt = _time + GrenadeRules.ThrowCooldown;
             _playerController.PlayGameplayCue("Melee/Throw/throw_heavy_ufx_1.ogg", .45f);
             if (_server is not null || GrenadesOffline) AcceptGrenade(0, request);

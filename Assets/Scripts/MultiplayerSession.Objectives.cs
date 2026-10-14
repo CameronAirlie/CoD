@@ -128,9 +128,9 @@ public sealed partial class MultiplayerSession
         // Hardpoint selection lives in the B/I menu; number keys keep switching weapons.
         if (IsNeutralSpectator || UsesPresetLoadouts) return;
         if (CurrentMatch?.Phase is not (MatchPhase.Warmup or MatchPhase.Results)) return;
-        if (Input.IsKeyPressed(KeyCode.D1)) SelectLoadout(CombatLoadout.Assault);
-        if (Input.IsKeyPressed(KeyCode.D2)) SelectLoadout(CombatLoadout.Medic);
-        if (Input.IsKeyPressed(KeyCode.D3)) SelectLoadout(CombatLoadout.Defender);
+        if (GameInput.Pressed("LoadoutAssault")) SelectLoadout(CombatLoadout.Assault);
+        if (GameInput.Pressed("LoadoutMedic")) SelectLoadout(CombatLoadout.Medic);
+        if (GameInput.Pressed("LoadoutDefender")) SelectLoadout(CombatLoadout.Defender);
     }
 
     private bool TryObjectiveMovement(int botId, BotController bot, PlayerMatchState state, bool canThink)
