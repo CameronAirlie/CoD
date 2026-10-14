@@ -1504,7 +1504,7 @@ COMPONENT	61102	AnimationComponent	1
 PROPERTY	SourceAnimation	2	asset://3fa83290cbc75005aac517dcac086063#0	0
 PROPERTY	AnimationGraph	2	asset://8ea2a2e410c6557fbf252ddf57c5100f#0	0
 PROPERTY	CurrentClipIndex	6	10	15	ar_Idle	ar_Draw	ar_Fire	ar_Reload	ar_Sprint	ar_Idle	ar_Sprint	ar_Draw	ar_Fire	ar_Reload	ar_Idle	ar_Sprint	ar_Draw	ar_Fire	ar_Reload
-PROPERTY	Time	0	0.350751	0
+PROPERTY	Time	0	1.911206	0
 PROPERTY	Speed	0	1.000000	0
 PROPERTY	Playing	4	true	0
 PROPERTY	Looping	4	true	0
@@ -1596,7 +1596,7 @@ PROPERTY	OcclusionStrength	0	1.000000	0
 PROPERTY	AirAbsorptionStrength	0	1.000000	0
 PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
-ENTITY	61103	61102	1	Weapon Socket	-0.000000,0.001335,-0.000004	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	61103	61102	1	Weapon Socket	-0.000000,-0.000413,0.000000	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	61103	SkeletonAttachmentComponent	1
 PROPERTY	PositionOffset	3	0,0,0	0
 PROPERTY	RotationOffset	3	0,0,0	0
@@ -1627,7 +1627,7 @@ COMPONENT	61112	AnimationComponent	1
 PROPERTY	SourceAnimation	2	asset://2e321d21892c51d198e21da6d5bde44c#0	0
 PROPERTY	AnimationGraph	2	asset://ce6bb1d4e5405a17ad1b2d4a011e8f4f#0	0
 PROPERTY	CurrentClipIndex	6	10	15	pistol_Idle	pistol_Draw	pistol_Fire	pistol_Reload	pistol_Sprint	pistol_Idle	pistol_Sprint	pistol_Draw	pistol_Fire	pistol_Reload	pistol_Idle	pistol_Sprint	pistol_Draw	pistol_Fire	pistol_Reload
-PROPERTY	Time	0	0.350751	0
+PROPERTY	Time	0	1.911206	0
 PROPERTY	Speed	0	1.000000	0
 PROPERTY	Playing	4	true	0
 PROPERTY	Looping	4	true	0
@@ -1719,7 +1719,7 @@ PROPERTY	OcclusionStrength	0	1.000000	0
 PROPERTY	AirAbsorptionStrength	0	1.000000	0
 PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
-ENTITY	61113	61112	1	Weapon Socket	-0.000000,0.001335,-0.000004	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	61113	61112	1	Weapon Socket	-0.000000,-0.000413,0.000000	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	61113	SkeletonAttachmentComponent	1
 PROPERTY	PositionOffset	3	0,0,0	0
 PROPERTY	RotationOffset	3	0,0,0	0
@@ -1750,7 +1750,7 @@ COMPONENT	61122	AnimationComponent	1
 PROPERTY	SourceAnimation	2	asset://308886d339db5f05908a825d03a2d1dc#0	0
 PROPERTY	AnimationGraph	2	asset://753a8f13bec45d249d7187ee86841e14#0	0
 PROPERTY	CurrentClipIndex	6	10	15	lmg_Idle	lmg_Draw	lmg_Fire	lmg_Reload	lmg_Sprint	lmg_Idle	lmg_Sprint	lmg_Draw	lmg_Fire	lmg_Reload	lmg_Idle	lmg_Sprint	lmg_Draw	lmg_Fire	lmg_Reload
-PROPERTY	Time	0	0.350751	0
+PROPERTY	Time	0	1.911206	0
 PROPERTY	Speed	0	1.000000	0
 PROPERTY	Playing	4	true	0
 PROPERTY	Looping	4	true	0
@@ -1842,7 +1842,7 @@ PROPERTY	OcclusionStrength	0	1.000000	0
 PROPERTY	AirAbsorptionStrength	0	1.000000	0
 PROPERTY	LowPassStrength	0	0.000000	0
 END_COMPONENT
-ENTITY	61123	61122	1	Weapon Socket	-0.000000,0.001335,-0.000004	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
+ENTITY	61123	61122	1	Weapon Socket	-0.000000,-0.000413,0.000000	90.000008,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	61123	SkeletonAttachmentComponent	1
 PROPERTY	PositionOffset	3	0,0,0	0
 PROPERTY	RotationOffset	3	0,0,0	0
@@ -2005,8 +2005,8 @@ END_COMPONENT
 COMPONENT	22400	ScriptComponent	1
 PROPERTY	Source	2	PauseMenu	0
 PROPERTY	uiManagerObject	9	0	0
-PROPERTY	DocumentPath	2	UI/pause-menu.rml	0
 PROPERTY	documentPath	2	UI/pause-menu.rml	0
+PROPERTY	DocumentPath	2	UI/pause-menu.rml	0
 END_COMPONENT
 ENTITY	22401	1784	1	HUD	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	22401	RmlWidgetComponent	1

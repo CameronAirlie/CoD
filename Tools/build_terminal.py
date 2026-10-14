@@ -7,6 +7,7 @@ from pathlib import Path
 from collections import defaultdict
 from PIL import Image, ImageDraw, ImageFont
 import math, random, struct, re, uuid, io
+from fix_terminal_sign_uvs import SIGN_MATERIALS, sign_uvs
 ROOT=Path(__file__).resolve().parents[1]; A=ROOT/'Assets';generated=[]
 def save(rel,data):
  p=A/rel;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(data if isinstance(data,bytes) else data.encode())
@@ -79,6 +80,8 @@ def polygon(g,m,points,uv=None):
   tri=[points[k] for k in (0,j,j+1)];a,b,c=tri;u=[b[k]-a[k] for k in range(3)];v=[c[k]-a[k] for k in range(3)];n=(u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]);length=math.sqrt(sum(x*x for x in n))
   if length<1e-8:continue
   n=tuple(x/length for x in n)
+  if m in SIGN_MATERIALS and abs(n[1]) < .5:
+   uv=sign_uvs(points,n)
   for k,pt in zip((0,j,j+1),tri):meshes[g][m].append((*pt,*n,*uv[k],1.,0.,0.,1.,0.,0.,-1,-1,-1,-1,0.,0.,0.,0.))
 def box(g,m,pos,size,yaw=0,solid=False,render=True):
  if solid:collider(g,pos,size,(0,yaw,0))

@@ -133,10 +133,10 @@ RUNTIME_RENDER_SCALE	0.9
 RUNTIME_UPSCALE_SHARPNESS	0.5
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	-7.80331	9.58264	23.5892
+EDITOR_CAMERA_POSITION	-15.0268	7.40159	3.02372
 EDITOR_CAMERA_SPEED	6
 EDITOR_CAMERA_RUNTIME_UI	0
-EDITOR_CAMERA_ROTATION	-2948.69	-5.23945
+EDITOR_CAMERA_ROTATION	-2989.84	2.44057
 EDITOR_CAMERA_LENS	70	0.1	10000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/performance.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -356,8 +356,8 @@ ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87
 ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Input/car.plutoinput	3771	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	424960	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	116160	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	448000	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	149468	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	322048	Assembly
 ASSET	project://Managed/PlutoGE.ScriptCore.pdb	109356	Unknown
@@ -411,7 +411,7 @@ ASSET	project://Materials/Terminal/Concrete.plutomaterial	241	Material
 ASSET	project://Materials/Terminal/Dark.plutomaterial	239	Material
 ASSET	project://Materials/Terminal/Departures.plutomaterial	242	Material
 ASSET	project://Materials/Terminal/Gate.plutomaterial	236	Material
-ASSET	project://Materials/Terminal/Glass.plutomaterial	240	Material
+ASSET	project://Materials/Terminal/Glass.plutomaterial	653	Material
 ASSET	project://Materials/Terminal/Leaves.plutomaterial	238	Material
 ASSET	project://Materials/Terminal/Light.plutomaterial	254	Material
 ASSET	project://Materials/Terminal/Orange.plutomaterial	241	Material
@@ -709,7 +709,7 @@ ASSET	project://Scenes/Foundry.plutoscene	10048758	Scene
 ASSET	project://Scenes/Main.plutoscene	356621	Scene
 ASSET	project://Scenes/Shipment.plutoscene	318064	Scene
 ASSET	project://Scenes/Terminal.plutoscene	14806861	Scene
-ASSET	project://Scenes/Title.plutoscene	8913	Scene
+ASSET	project://Scenes/Title.plutoscene	8754	Scene
 ASSET	project://Scenes/car_scene.plutoscene	2993018	Scene
 ASSET	project://Scenes/island.plutoscene	8776931	Scene
 ASSET	project://Scenes/ragdoll_test.plutoscene	21181	Scene
@@ -1522,7 +1522,7 @@ ASSET	project://UI/hud.rcss.in	8920	Unknown
 ASSET	project://UI/hud.rml	3688	RML Document
 ASSET	project://UI/inventory.rcss	5151	Unknown
 ASSET	project://UI/inventory.rcss.in	5265	Unknown
-ASSET	project://UI/inventory.rml	4939	RML Document
+ASSET	project://UI/inventory.rml	4921	RML Document
 ASSET	project://UI/loading.plutoloading	72	Loading Screen
 ASSET	project://UI/loading.rcss	2545	Unknown
 ASSET	project://UI/loading.rcss.in	2588	Unknown
