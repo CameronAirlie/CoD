@@ -1,6 +1,6 @@
 <rml><head><title>Loadout / Inventory</title><link type="text/rcss" href="theme.rcss"/><link type="text/rcss" href="inventory.rcss"/></head>
-<body><div id="inventory-backdrop"><div id="inventory-panel" class="ui-panel">
-<div id="header"><div><div class="ui-eyebrow accent">02 / EQUIPMENT</div><div class="title ui-heading">LOADOUT</div></div><div class="ui-meta"><span id="inventory-mode">BUY / INVENTORY</span> / <span class="ui-key">I</span> CLOSE</div></div>
+<body id="menu-body"><div id="inventory-backdrop"><div id="inventory-panel" class="ui-panel">
+<div id="header"><div><div class="ui-eyebrow accent">02 / EQUIPMENT</div><div class="title ui-heading">LOADOUT</div></div><div class="ui-meta"><span id="inventory-mode">BUY / INVENTORY</span> / <span class="keyboard-only"><span class="ui-key">I</span> CLOSE</span><span class="controller-only">B BACK</span></div></div>
 <div id="loadout-selector">
 <div class="section-label"><span class="ui-eyebrow">CHOOSE YOUR LOADOUT</span><span class="ui-meta">SELECT ANYTIME / APPLIES NEXT SPAWN</span></div>
 <div id="loadout-state" class="ui-meta">CURRENT: ASSAULT / NEXT SPAWN: ASSAULT</div>
@@ -24,5 +24,5 @@
 </div>
 <div class="section-label"><span class="ui-eyebrow">SUPPLIES / DRAG TO REORDER</span><span id="inventory-capacity" class="capacity ui-meta">0/8 CAPACITY</span></div>
 <div id="inventory-grid"><div id="slot-0" class="slot"></div><div id="slot-1" class="slot"></div><div id="slot-2" class="slot"></div><div id="slot-3" class="slot"></div><div id="slot-4" class="slot"></div><div id="slot-5" class="slot"></div><div id="slot-6" class="slot"></div><div id="slot-7" class="slot"></div></div>
-<div id="footer"><span class="ui-meta"><span class="ui-key">H</span> MED KIT <span class="ui-key">J</span> ARMOUR / DOUBLE CLICK TO USE</span><span class="close-hint ui-meta">B / I / ESC CLOSE</span></div>
+<div id="footer"><span class="ui-meta"><span class="keyboard-only"><span class="ui-key">H</span> MED KIT <span class="ui-key">J</span> ARMOUR / DOUBLE CLICK TO USE</span><span class="controller-only">LS / D-PAD MOVE / A EQUIP-BUY-USE / X PICK UP / A PLACE</span></span><span class="close-hint ui-meta"><span class="keyboard-only">B / I / ESC CLOSE</span><span class="controller-only">B CANCEL / CLOSE</span></span></div>
 </div></div></body></rml>

@@ -467,7 +467,7 @@ public sealed class PlayerController : ScriptBehaviour
         if (_multiplayer?.UsesServerAuthority != true && _reloading) { _reloadTimeRemaining -= deltaTime; if (_reloadTimeRemaining <= 0) FinishReload(); }
         if (_multiplayer?.UsesServerAuthority != true) _inventory?.TickUse(deltaTime);
 
-        var cursorLocked = Input.CursorLocked;
+        var cursorLocked = GameInput.GameplayAllowed;
         if (!cursorLocked) _triggerBuffer.Cancel();
         if (_multiplayer?.UsesServerAuthority == true)
         {
@@ -749,12 +749,12 @@ public sealed class PlayerController : ScriptBehaviour
         _deathCameraTime += MathF.Max(0.0f, deltaTime);
         if ((_neutralSpectator || _deathCameraTime >= MathF.Max(.01f, deathCameraFallDuration)) && _multiplayer is not null)
         {
-            if (_neutralSpectator && Input.CursorLocked)
+            if (_neutralSpectator && GameInput.GameplayAllowed)
             {
                 if (GameInput.Pressed("SpectateAlpha")) _multiplayer.SetSpectatorTeam(PlayerTeam.Alpha);
                 if (GameInput.Pressed("SpectateBravo")) _multiplayer.SetSpectatorTeam(PlayerTeam.Bravo);
             }
-            var cycle = Input.CursorLocked ? (GameInput.Pressed("SpectateNext") ? 1 : GameInput.Pressed("SpectatePrevious") ? -1 : 0) : 0;
+            var cycle = GameInput.GameplayAllowed ? (GameInput.Pressed("SpectateNext") ? 1 : GameInput.Pressed("SpectatePrevious") ? -1 : 0) : 0;
             _spectatorPeer = _multiplayer.SelectSpectatorTarget(_spectatorPeer, cycle);
             // Selection/input runs here; presentation runs once in LateUpdate after physics.
             if (_spectatorPeer.HasValue) return;

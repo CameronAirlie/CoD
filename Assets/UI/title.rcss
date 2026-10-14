@@ -50,3 +50,5 @@
     #status { margin-top: 8dp; min-height: 24dp; }
     #instructions { display: none; }
 }
+
+.controller-connected #instructions { display: block; line-height: 18dp; }

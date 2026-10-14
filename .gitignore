@@ -54,4 +54,6 @@ Tests/CombatSpawns/obj/
 !Tests/Input/
 Tests/Input/bin/
 Tests/Input/obj/
+Tests/Input/Captures/
+Tests/Input/RenderFixtures/
 !Tests/Input/Input.Tests.csproj

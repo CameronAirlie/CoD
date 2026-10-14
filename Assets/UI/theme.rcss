@@ -54,3 +54,34 @@ scrollbarcorner { background-color: #1B1C20; }
 .alpha-emblem span { transform: rotate(-45deg); }
 .bravo-emblem { color: #FF9F43; border-color: #FF9F43; border-radius: 10dp; }
 .observer-emblem { display: inline-block; padding: 0 4dp; border: 1dp #A6A0B4; font-size: 10dp; line-height: 18dp; }
+
+/* Controller selection is a visible border and fill, independent of DOM keyboard focus. */
+.controller-only { display: none; }
+.controller-connected .controller-only { display: inline-block; }
+.controller-connected .keyboard-only { display: none; }
+.ui-button.controller-focus, .ui-tab.controller-focus, .ui-field.controller-focus,
+.shop-button.controller-focus, .weapon-card.controller-focus, .loadout-card.controller-focus,
+.slot.controller-focus, .keyboard-key.controller-focus, input.settings-slider.controller-focus {
+    border: 2dp #FFB31A; background-color: #35311f; color: #F2F4F5;
+}
+.ui-button.primary.controller-focus { background-color: #ffca58; color: #090B0D; border-color: #F2F4F5; }
+.menu-controller-hint { margin-top: 12dp; line-height: 18dp; }
+#keyboard-overlay { display: none; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: #090B0Df2; align-items: center; justify-content: center; }
+#keyboard-panel { width: 700dp; max-width: 92%; max-height: 90%; overflow-y: auto; }
+#keyboard-title { font-size: 28dp; line-height: 32dp; }
+#keyboard-value { height: auto; min-height: 46dp; margin-top: 12dp; word-break: break-all; white-space: pre-wrap; }
+#keyboard-length { text-align: right; margin: 4dp 0 12dp; }
+.keyboard-row { display: flex; justify-content: center; gap: 4dp; margin-bottom: 4dp; }
+.keyboard-key { box-sizing: border-box; width: 9%; height: 38dp; padding: 6dp 0; background-color: #111417; color: #F2F4F5; border: 1dp #2A3036; text-align: center; font-size: 18dp; }
+.keyboard-key:hover, .keyboard-key:focus { border-color: #FFB31A; }
+.keyboard-actions { display: flex; gap: 8dp; justify-content: center; margin-top: 8dp; }
+.keyboard-actions button { width: 24%; font-size: 15dp; }
+#keyboard-shift.selected { border-color: #FFB31A; }
+.keyboard-hint { margin-top: 12dp; line-height: 18dp; }
+
+#confirm-overlay { display: none; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: #090B0Df2; align-items: center; justify-content: center; }
+#confirm-panel { width: 540dp; max-width: 90%; max-height: 90%; overflow-y: auto; }
+#confirm-title { font-size: 30dp; line-height: 34dp; }
+#confirm-message { margin-top: 16dp; line-height: 20dp; }
+.confirm-actions { display: flex; gap: 12dp; margin-top: 24dp; }
+.confirm-actions button { width: 50%; }

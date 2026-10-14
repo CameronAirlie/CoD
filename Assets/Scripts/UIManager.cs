@@ -15,6 +15,10 @@ public sealed class UIManager : ScriptBehaviour
     private RmlWidgetComponent? _inventoryWidget;
     private RmlDocument? _pauseDocument;
     private RmlDocument? _hudDocument;
+    private CoD.Scripts.ControllerMenu? _controllerMenu;
+    private CoD.Scripts.SettingsMenu? _settings;
+    private CoD.Scripts.ControllerConfirmation? _confirmation;
+    private bool _settingsWasOpen;
     private CoD.Scripts.MultiplayerSession? _session;
     private string _switchTeamLabel = "";
     private CoD.Scripts.MultiplayerSession? Session => _session ??= GameObject.Find("Player")?.GetComponent<CoD.Scripts.MultiplayerSession>();
@@ -42,12 +46,15 @@ public sealed class UIManager : ScriptBehaviour
         if (!string.IsNullOrWhiteSpace(PauseDocumentPath))
         {
             _pauseDocument = new RmlDocument(PauseDocumentPath);
-            CoD.Scripts.GameGraphicsSettings.Bind(_pauseDocument);
-            _pauseDocument.OnClick("resume", Resume);
-            _pauseDocument.OnClick("switch-team", SwitchTeam);
-            _pauseDocument.OnClick("restart", Restart);
-            _pauseDocument.OnClick("main-menu", ReturnToMainMenu);
-            _pauseDocument.OnClick("quit", Quit);
+            _settings = CoD.Scripts.GameGraphicsSettings.Bind(_pauseDocument);
+            _confirmation = new(_pauseDocument);
+            _controllerMenu = new(_pauseDocument) { Back = Resume };
+            _controllerMenu.Add(new("resume", 0, 0, Resume));
+            _controllerMenu.Add(new("graphics-preset", 1, 0, _settings.Open), false);
+            _controllerMenu.Add(new("switch-team", 2, 0, SwitchTeam, () => Session is not null));
+            _controllerMenu.Add(new("restart", 3, 0, () => _confirmation.Open("RESTART?", "Restart this scene and leave the current match?", Restart)));
+            _controllerMenu.Add(new("main-menu", 4, 0, () => _confirmation.Open("LEAVE MATCH?", "Disconnect and return to the main menu?", ReturnToMainMenu)));
+            _controllerMenu.Add(new("quit", 5, 0, () => _confirmation.Open("QUIT GAME?", "Disconnect and close the game?", Quit)));
         }
         else
         {
@@ -78,16 +85,36 @@ public sealed class UIManager : ScriptBehaviour
             ApplyPresentation();
         }
 
-        if (CoD.Scripts.GameInput.Pressed("Inventory") && !_isPaused)
+        // D-pad right opens inventory in gameplay. Once open it navigates cards;
+        // B backs out, while the existing I/B keyboard shortcut still toggles it.
+        if (CoD.Scripts.GameInput.Pressed("Inventory") && !_isPaused &&
+            (!_isInventoryOpen || !CoD.Scripts.GameInput.ControllerPressed("Inventory")))
+        {
             SetInventoryOpen(!_isInventoryOpen);
+            return;
+        }
 
         if (CoD.Scripts.GameInput.Pressed("Pause"))
         {
+            if (_confirmation?.IsOpen == true) { _confirmation.Close(); return; }
+            if (_settings?.IsOpen == true && !CoD.Scripts.GameInput.ControllerPressed("Pause"))
+            { _settings.Close(); return; }
             if (_isInventoryOpen)
                 SetInventoryOpen(false);
             else
                 SetPaused(!_isPaused);
+            return;
         }
+        if (!_isPaused) return;
+        _controllerMenu?.RefreshHints();
+        var settingsOpen = _settings?.IsOpen == true || _confirmation?.IsOpen == true;
+        if (settingsOpen && !_settingsWasOpen) _controllerMenu?.Close();
+        if (!settingsOpen && _settingsWasOpen) _controllerMenu?.Open();
+        _settingsWasOpen = settingsOpen;
+        var frame = CoD.Scripts.MenuFrame.Read();
+        if (_confirmation?.IsOpen == true) _confirmation.Update(frame);
+        else if (settingsOpen) _settings?.Update(frame);
+        else _controllerMenu?.Update(frame);
     }
 
     public void SetPaused(bool isPaused)
@@ -116,6 +143,9 @@ public sealed class UIManager : ScriptBehaviour
         }
 
         _isPaused = isPaused;
+        _settingsWasOpen = false;
+        if (isPaused) _controllerMenu?.Open("resume");
+        else { _settings?.Close(); _confirmation?.Close(); _controllerMenu?.Close(); }
         ApplyPresentation();
     }
 
@@ -147,6 +177,7 @@ public sealed class UIManager : ScriptBehaviour
         SetWidgetVisible(_inventoryWidget, _isInventoryOpen);
 
         var gameplayVisible = !_isPaused && !_isInventoryOpen;
+        CoD.Scripts.GameInput.SetMenuCapture(!gameplayVisible);
         SetWidgetVisible(_hudWidget, gameplayVisible);
         if (!gameplayVisible)
             _hudDocument?.Hide();

@@ -126,7 +126,7 @@ public sealed partial class MultiplayerSession
     private void UpdateLoadoutSelection()
     {
         // Hardpoint selection lives in the B/I menu; number keys keep switching weapons.
-        if (IsNeutralSpectator || UsesPresetLoadouts) return;
+        if (IsNeutralSpectator || UsesPresetLoadouts || !GameInput.GameplayAllowed) return;
         if (CurrentMatch?.Phase is not (MatchPhase.Warmup or MatchPhase.Results)) return;
         if (GameInput.Pressed("LoadoutAssault")) SelectLoadout(CombatLoadout.Assault);
         if (GameInput.Pressed("LoadoutMedic")) SelectLoadout(CombatLoadout.Medic);

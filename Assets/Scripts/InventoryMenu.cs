@@ -21,6 +21,8 @@ public sealed class InventoryMenu : ScriptBehaviour
     private MultiplayerSession? _session;
     private string _shopPresentation = "";
     private string _throwablePresentation = "";
+    private ControllerMenu? _menu;
+    private bool _wasVisible;
 
     public override void OnCreate()
     {
@@ -44,24 +46,36 @@ public sealed class InventoryMenu : ScriptBehaviour
         if (string.IsNullOrWhiteSpace(_widget.Source))
             _widget.Source = documentPath;
         _document = _widget.Document;
+        _menu = new(_document) { Back = Back };
         _controller = player?.GetComponent<PlayerController>();
         _session = player?.GetComponent<MultiplayerSession>();
+        var purchaseIndex = 0;
         foreach (var item in EconomyRules.Catalog)
         {
             var id = item.Id;
-            _document.OnClick($"buy-{id}", () => _session?.Buy(id));
-            if (item.Throwable is { } kind) _document.OnClick($"select-{id}", () => _session?.SelectThrowable(kind));
+            var index = purchaseIndex++;
+            _menu.Add(new($"buy-{id}", index / 4, index % 4, () => _session?.Buy(id),
+                () => _session is { UsesPresetLoadouts: false } && _session.PurchaseUnavailableReason(item) is null));
         }
+        for (var index = 0; index < GrenadeRules.Types.Count; index++)
+        {
+            var kind = GrenadeRules.Types[index];
+            _menu.Add(new($"select-{kind}", 3, index, () => _session?.SelectThrowable(kind),
+                () => _session?.ThrowableCount(kind) > 0));
+        }
+        var loadoutIndex = 0;
         foreach (var preset in HardpointLoadouts.Catalog)
         {
             var choice = preset.Id;
-            _document.OnClick($"loadout-{choice}", () => _session?.SelectLoadout(choice));
+            _menu.Add(new($"loadout-{choice}", 0, loadoutIndex++, () => _session?.SelectLoadout(choice),
+                () => _session is { UsesPresetLoadouts: true, IsNeutralSpectator: false }));
         }
         if (_controller is not null) _controller.WeaponChanged += RenderWeapons;
         for (var index = 0; index < WeaponCatalog.SlotCount; index++)
         {
             var slot = index;
-            _document.OnClick($"weapon-{slot}", () => _controller?.SelectWeaponSlot(slot));
+            _menu.Add(new($"weapon-{slot}", 4, slot, () => _controller?.SelectWeaponSlot(slot),
+                () => _session?.OwnsWeapon(slot) == true));
         }
         RenderWeapons();
 
@@ -72,6 +86,10 @@ public sealed class InventoryMenu : ScriptBehaviour
         {
             var destination = index;
             _document.Element(SlotId(index)).On("dragdrop", () => DropOn(destination));
+            _menu.Add(new(SlotId(index), 5 + index / 4, index % 4,
+                () => { if (_draggedSlot >= 0) PlaceSlot(destination); else UseSlot(destination); },
+                () => _draggedSlot >= 0 || _slots[destination] is not null,
+                Secondary: () => BeginDrag(destination)), false);
         }
 
         RenderAll();
@@ -88,6 +106,11 @@ public sealed class InventoryMenu : ScriptBehaviour
 
     public override void OnUpdate(float deltaTime)
     {
+        var visible = _widget?.Visible == true && !Input.CursorLocked;
+        if (visible && !_wasVisible) _menu?.Open();
+        if (!visible && _wasVisible) { CancelDrag(); _menu?.Close(); }
+        _wasVisible = visible;
+        if (visible) _menu?.Update(MenuFrame.Read());
         if (_document is null || _session is null) return;
         // Include quantities and ownership, not only the wallet: throws and equipment loss
         // must invalidate purchase availability even when no transaction occurred.
@@ -139,6 +162,22 @@ public sealed class InventoryMenu : ScriptBehaviour
         _throwablePresentation = throwables;
         foreach (var kind in GrenadeRules.Types)
             _document.Element($"select-{kind}").Markup = $"{(_session.SelectedThrowable == kind ? "> " : "")}{GrenadeRules.Name(kind)} / {_session.ThrowableCount(kind)}";
+    }
+
+    private void Back()
+    {
+        if (_draggedSlot >= 0) { CancelDrag(); return; }
+        GameObject.FindWithTag("UIManager")?.GetComponent<UIManager>()?.SetInventoryOpen(false);
+    }
+    private void CancelDrag()
+    {
+        if (_draggedSlot >= 0) _document?.Element(SlotId(_draggedSlot)).SetClass("dragging", false);
+        _draggedSlot = -1;
+    }
+    private void PlaceSlot(int destination)
+    {
+        if (_draggedSlot == destination) CancelDrag();
+        else DropOn(destination);
     }
 
     private void BeginDrag(int source)

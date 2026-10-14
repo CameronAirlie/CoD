@@ -731,30 +731,30 @@ ASSET	project://Scripts/EnemySoldierBot.cs	40650	Script
 ASSET	project://Scripts/EnemyWaveSpawner.cs	4384	Script
 ASSET	project://Scripts/FairBotPlanner.cs	1015	Script
 ASSET	project://Scripts/FirstPersonHands.cs	2576	Script
-ASSET	project://Scripts/GameGraphicsSettings.cs	4262	Script
+ASSET	project://Scripts/GameGraphicsSettings.cs	6259	Script
 ASSET	project://Scripts/GameModeHud.cs	11282	Script
 ASSET	project://Scripts/GameplaySounds.cs	5357	Script
 ASSET	project://Scripts/GrenadeRules.cs	6080	Script
 ASSET	project://Scripts/HandMotion.cs	1951	Script
 ASSET	project://Scripts/HardpointMarker.cs	2224	Script
 ASSET	project://Scripts/HardpointRules.cs	3610	Script
-ASSET	project://Scripts/InventoryMenu.cs	13279	Script
+ASSET	project://Scripts/InventoryMenu.cs	15111	Script
 ASSET	project://Scripts/InventoryRules.cs	2100	Script
 ASSET	project://Scripts/MatchContracts.cs	7492	Script
 ASSET	project://Scripts/MultiplayerLaunch.cs	1634	Script
 ASSET	project://Scripts/MultiplayerSession.Authority.cs	19958	Script
 ASSET	project://Scripts/MultiplayerSession.BotEquipment.cs	8301	Script
-ASSET	project://Scripts/MultiplayerSession.Defusal.cs	14561	Script
+ASSET	project://Scripts/MultiplayerSession.Defusal.cs	14489	Script
 ASSET	project://Scripts/MultiplayerSession.Economy.cs	5738	Script
-ASSET	project://Scripts/MultiplayerSession.Grenades.cs	15998	Script
-ASSET	project://Scripts/MultiplayerSession.Objectives.cs	8719	Script
+ASSET	project://Scripts/MultiplayerSession.Grenades.cs	16001	Script
+ASSET	project://Scripts/MultiplayerSession.Objectives.cs	8763	Script
 ASSET	project://Scripts/MultiplayerSession.Spectating.cs	7368	Script
 ASSET	project://Scripts/MultiplayerSession.Throwables.cs	6675	Script
 ASSET	project://Scripts/MultiplayerSession.cs	103069	Script
 ASSET	project://Scripts/NetworkParticipantHitbox.cs	401	Script
 ASSET	project://Scripts/ObjectiveStatus.cs	1062	Script
 ASSET	project://Scripts/PauseMenu.cs	262	Script
-ASSET	project://Scripts/PlayerController.cs	57782	Script
+ASSET	project://Scripts/PlayerController.cs	57512	Script
 ASSET	project://Scripts/PlayerHealth.cs	11063	Script
 ASSET	project://Scripts/PlayerHud.cs	25165	Script
 ASSET	project://Scripts/PlayerInventory.cs	6249	Script
@@ -766,8 +766,8 @@ ASSET	project://Scripts/SupplyPickup.cs	4022	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
 ASSET	project://Scripts/TacticalUi.cs	1047	Script
 ASSET	project://Scripts/TeamNameplate.cs	293	Script
-ASSET	project://Scripts/TitleScreen.cs	5485	Script
-ASSET	project://Scripts/UIManager.cs	7885	Script
+ASSET	project://Scripts/TitleScreen.cs	6638	Script
+ASSET	project://Scripts/UIManager.cs	9981	Script
 ASSET	project://Scripts/VehicleSpeedometer.cs	6437	Script
 ASSET	project://Scripts/WeaponCatalog.cs	3503	Script
 ASSET	project://Scripts/WeaponHandBinding.cs	4019	Script
@@ -1523,23 +1523,23 @@ ASSET	project://UI/hud.rcss.in	8920	Unknown
 ASSET	project://UI/hud.rml	3688	RML Document
 ASSET	project://UI/inventory.rcss	5151	Unknown
 ASSET	project://UI/inventory.rcss.in	5265	Unknown
-ASSET	project://UI/inventory.rml	4921	RML Document
+ASSET	project://UI/inventory.rml	5229	RML Document
 ASSET	project://UI/loading.plutoloading	72	Loading Screen
 ASSET	project://UI/loading.rcss	2545	Unknown
 ASSET	project://UI/loading.rcss.in	2588	Unknown
 ASSET	project://UI/loading.rml	993	RML Document
 ASSET	project://UI/pause-menu.rcss	796	Unknown
 ASSET	project://UI/pause-menu.rcss.in	809	Unknown
-ASSET	project://UI/pause-menu.rml	6265	RML Document
+ASSET	project://UI/pause-menu.rml	7188	RML Document
 ASSET	project://UI/settings.rcss	3406	Unknown
 ASSET	project://UI/starter.rcss	1633	Unknown
 ASSET	project://UI/starter.rml	671	RML Document
-ASSET	project://UI/theme.rcss	4530	Unknown
+ASSET	project://UI/theme.rcss	6891	Unknown
 ASSET	project://UI/theme.rcss.in	4563	Unknown
 ASSET	project://UI/theme.tokens.json	356	Unknown
-ASSET	project://UI/title.rcss	4044	Unknown
+ASSET	project://UI/title.rcss	4122	Unknown
 ASSET	project://UI/title.rcss.in	4079	Unknown
-ASSET	project://UI/title.rml	8156	RML Document
+ASSET	project://UI/title.rml	9341	RML Document
 ASSET	project://UI/vehicle-speedometer.rcss	2990	Unknown
 ASSET	project://UI/vehicle-speedometer.rml	1698	RML Document
 ASSET	project://Weapons/Materials/Accent.plutomaterial	673	Material
@@ -1581,5 +1581,9 @@ ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_height.png	4112027	
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_metallic.psd	2732299	Unknown
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_normal-ogl.png	12312674	Texture
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_preview.jpg	628869	Texture
-ASSET	project://Input/fps.plutoinput	9925	Input Mapping
-ASSET	project://Scripts/GameInput.cs	1786	Script
+ASSET	project://Input/fps.plutoinput	13770	Input Mapping
+ASSET	project://Scripts/GameInput.cs	3363	Script
+ASSET	project://Scripts/MenuNavigation.cs	4558	Script
+ASSET	project://Scripts/ControllerMenu.cs	4882	Script
+ASSET	project://Scripts/ControllerKeyboard.cs	4950	Script
+ASSET	project://Scripts/ControllerConfirmation.cs	1354	Script

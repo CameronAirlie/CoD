@@ -27,11 +27,48 @@ the saved mouse sensitivity. Stick look uses the player's authored
 `controllerLookSpeed` (180 degrees per second by default) and the ADS multiplier.
 Gameplay remains blocked while the cursor is released for menus.
 
-Controller bindings open/close inventory and pause menus. The existing menu forms
-still use their mouse/keyboard interaction; controller focus navigation is not
-implemented by this gameplay migration.
+Menus use a Call of Duty-style controller flow alongside the existing native
+mouse/keyboard controls:
+
+| Menu action | Controller |
+|---|---|
+| Navigate cards/options | Left stick or D-pad |
+| Select / equip / buy / use | A |
+| Back / close / cancel a move | B |
+| Settings tabs | LB / RB |
+| Adjust selected slider/toggle/preset | Left / right |
+| Resume from pause | Start |
+| Pick up a supply slot to reorder | X; move to a slot and press A to place |
+| Open inventory in gameplay | D-pad right; inside inventory it navigates |
+
+Navigation skips hidden tabs, unavailable purchases and unowned equipment, keeps
+selection visible by scrolling, and uses a border/fill highlight separate from
+native keyboard focus. A held stick/D-pad waits 350 ms before repeating every
+100 ms, using an unscaled clock so paused menus remain usable. Stick activation
+uses 0.55 with a 0.30 release threshold. Buttons must be released when a menu or
+sub-menu opens, and after dismissal before gameplay resumes; accepting a menu
+cannot also jump, reload, fire or throw a grenade. Restart, leave-match and quit
+use a confirmation with Cancel selected first.
+
+On the title screen, select the callsign/address field and press A to open the
+controller keyboard. A types the selected key, X deletes, Y inserts a space,
+LB/RB move the caret, Start commits and B cancels. CAPS, CLEAR, DONE and CANCEL
+are also selectable buttons. Callsigns retain the 20-character limit; host
+addresses retain the 253-character limit and support hostname/IPv4/IPv6 syntax.
+Normal native text entry is still available with keyboard/mouse. Prompts use
+standard Xbox button labels (the same physical positions on other controllers).
+
+All `Menu*` bindings live in the FPS input asset. Keep these actions when authoring
+an alternate player mapping. Controller navigation filters controller bindings
+from that map; keyboard/mouse navigation remains with RmlUi to avoid duplicate
+Enter/arrow handling. The shared `ControllerMenu` invokes the same actions as
+mouse clicks without requiring changes to the native RmlUi bridge.
 
 Run `dotnet run --project Tests/Input/Input.Tests.csproj -c Release` for asset,
-action coverage, dual-device binding, and cooked inclusion checks. Verify stick
-feel, mouse speed, hotplugging, ADS, slide, objective holds, and menu gating in a
-running engine with a controller attached.
+action coverage, dual-device bindings, cooked inclusion, navigation/availability,
+repeat timing, slider limits, text editing and input-release guards. The suite
+also runs the actual controller/keyboard/confirmation code with simulated native
+input and DOM callbacks. Run `Tests/Settings/Settings.Tests.csproj` for preference
+and RML settings checks. Native interface-scale tests cover Vulkan/OpenGL; menu
+render captures were inspected at 0.75, 1 and 1.25 scale. Hardware feel, hotplugging
+and scene transitions still need a running game with a controller attached.

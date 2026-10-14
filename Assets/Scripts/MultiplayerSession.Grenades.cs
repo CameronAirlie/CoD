@@ -53,7 +53,7 @@ public sealed partial class MultiplayerSession
     private void UpdateGrenades(float deltaTime)
     {
         if (_shutDown) return;
-        if (!IsDedicated && Input.CursorLocked && GameInput.Pressed("CycleThrowable"))
+        if (!IsDedicated && GameInput.GameplayAllowed && GameInput.Pressed("CycleThrowable"))
         {
             var index = GrenadeRules.Types.IndexOfKind(SelectedThrowable);
             for (var step = 1; step <= GrenadeRules.Types.Count; step++)
@@ -62,7 +62,7 @@ public sealed partial class MultiplayerSession
                 if (ThrowableCount(kind) > 0) { SelectedThrowable = kind; break; }
             }
         }
-        if (!IsDedicated && Input.CursorLocked && !GamePause.IsPaused && GameInput.Pressed("ThrowGrenade") &&
+        if (!IsDedicated && GameInput.GameplayAllowed && !GamePause.IsPaused && GameInput.Pressed("ThrowGrenade") &&
             _playerController is not null && _playerHealth?.IsDead != true &&
             (GrenadesOffline || CanFight) && !IsUsingObjective && _inventory?.IsUsing != true && _time >= _nextLocalThrowAt && ThrowableCount(SelectedThrowable) > 0)
         {

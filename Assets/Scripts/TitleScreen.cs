@@ -17,11 +17,16 @@ public sealed class TitleScreen : ScriptBehaviour
     private bool _loading;
     private bool _defusalSelected;
     private bool _spectatorSelected;
+    private ControllerMenu? _menu;
+    private SettingsMenu? _settings;
+    private ControllerKeyboard? _keyboard;
+    private bool _inSubmenu;
     [SerializedField] private string defusalScene = "Terminal";
 
     public override void OnCreate()
     {
         Input.CursorLocked = false;
+        GameInput.SetMenuCapture(true);
         var widget = GameObject.GetComponent<RmlWidgetComponent>();
         if (widget is null)
         {
@@ -32,7 +37,9 @@ public sealed class TitleScreen : ScriptBehaviour
         if (string.IsNullOrWhiteSpace(widget.Source))
             widget.Source = documentPath;
         _document = widget.Document;
-        GameGraphicsSettings.Bind(_document);
+        _settings = GameGraphicsSettings.Bind(_document);
+        _keyboard = new(_document);
+        _menu = new(_document);
         _usernameInput = _document.Element("username");
         _addressInput = _document.Element("address");
         _statusLabel = _document.Element("status");
@@ -42,12 +49,16 @@ public sealed class TitleScreen : ScriptBehaviour
         _addressInput.On("input", SyncFields);
         _usernameInput.On("change", SyncFields);
         _addressInput.On("change", SyncFields);
-        _document.OnClick("mode-hardpoint", () => SelectMode(false));
-        _document.OnClick("mode-defusal", () => SelectMode(true));
-        _document.OnClick("role-player", () => SelectRole(false));
-        _document.OnClick("role-spectator", () => SelectRole(true));
-        _document.OnClick("host", () => Launch("Host"));
-        _document.OnClick("join", () => Launch("Client"));
+        _menu.Add(new("mode-hardpoint", 0, 0, () => SelectMode(false)));
+        _menu.Add(new("mode-defusal", 1, 0, () => SelectMode(true)));
+        _menu.Add(new("username", 2, 0, () => EditField("CALLSIGN", _usernameInput, 20)), false);
+        _menu.Add(new("address", 3, 0, () => EditField("HOST ADDRESS", _addressInput, 253)), false);
+        _menu.Add(new("role-player", 4, 0, () => SelectRole(false)));
+        _menu.Add(new("role-spectator", 4, 1, () => SelectRole(true)));
+        _menu.Add(new("host", 5, 0, () => Launch("Host")));
+        _menu.Add(new("join", 5, 1, () => Launch("Client")));
+        _menu.Add(new("graphics-preset", 6, 1, _settings.Open), false);
+        _menu.Open("mode-hardpoint");
         SetStatus("Enter a username, then host or join a game.");
     }
 
@@ -56,8 +67,21 @@ public sealed class TitleScreen : ScriptBehaviour
         if (_loading)
             return;
 
-        // Text entry, caret movement, and Tab focus traversal are handled by
-        // RmlUi while a form control has keyboard focus.
+        var frame = MenuFrame.Read();
+        _menu?.RefreshHints();
+        var submenu = _settings?.IsOpen == true || _keyboard?.IsOpen == true;
+        if (submenu && !_inSubmenu) _menu?.Close();
+        if (!submenu && _inSubmenu) _menu?.Open();
+        _inSubmenu = submenu;
+        if (_keyboard?.IsOpen == true) _keyboard.Update(frame);
+        else if (_settings?.IsOpen == true) _settings.Update(frame);
+        else _menu?.Update(frame);
+    }
+
+    private void EditField(string label, RmlElement? field, int limit)
+    {
+        if (field is null) return;
+        _keyboard?.Open(label, field["value"], limit, value => { field["value"] = value; SyncFields(); });
     }
 
     public override void OnDestroy()

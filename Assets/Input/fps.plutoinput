@@ -502,6 +502,195 @@
           "DeadZone": 0.15
         }
       ]
+    },
+    {
+      "Name": "MenuHorizontal",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "Right",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "Key",
+          "Key": "Left",
+          "Scale": -1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "DpadRight",
+          "Scale": 1,
+          "DeadZone": 0.15
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "DpadLeft",
+          "Scale": -1,
+          "DeadZone": 0.15
+        },
+        {
+          "Kind": "GamepadAxis",
+          "Axis": "LeftX",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "MenuVertical",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "Down",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "Key",
+          "Key": "Up",
+          "Scale": -1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "DpadDown",
+          "Scale": 1,
+          "DeadZone": 0.15
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "DpadUp",
+          "Scale": -1,
+          "DeadZone": 0.15
+        },
+        {
+          "Kind": "GamepadAxis",
+          "Axis": "LeftY",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "MenuAccept",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "Enter",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "A",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "MenuBack",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "Escape",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "B",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "MenuPreviousTab",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "Q",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "LeftBumper",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "MenuNextTab",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "E",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "RightBumper",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "MenuSecondary",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "Backspace",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "X",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "MenuSpace",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "Space",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "Y",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
+      "Name": "MenuDone",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "Enter",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "Start",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
     }
   ]
 }

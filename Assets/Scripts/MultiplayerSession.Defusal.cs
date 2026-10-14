@@ -129,7 +129,7 @@ public sealed partial class MultiplayerSession
     {
         if (IsDedicated || IsNeutralSpectator || !IsDefusal || _time < _nextBombInputAt) return;
         _nextBombInputAt = _time + .1f;
-        var held = Input.CursorLocked && GameInput.Down("Interact") &&
+        var held = GameInput.GameplayAllowed && GameInput.Down("Interact") &&
             GameInput.Movement.LengthSquared() < .01f && _playerController?.IsReloading != true && _inventory?.IsUsing != true;
         if (_server is not null) _bombHeldUntil[0] = held ? _time + .25f : 0;
         else _client?.SendJson(BombInputChannel, new BombInput(held));

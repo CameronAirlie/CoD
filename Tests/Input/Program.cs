@@ -14,6 +14,7 @@ var map = JsonSerializer.Deserialize<InputActionMap>(File.ReadAllText(Path.Combi
 var actions = map.Actions.ToDictionary(a => a.Name);
 Check(actions.Count == map.Actions.Count, "Duplicate action names.");
 var root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../"));
+MenuTests.Run(root);
 foreach (var file in Directory.EnumerateFiles(Path.Combine(root, "Assets/Scripts"), "*.cs"))
 {
     var source = File.ReadAllText(file);
@@ -38,4 +39,5 @@ Check(actions["MoveVertical"].Bindings.Single(b => b.Kind == InputBindingKind.Ga
 Check(actions["Aim"].Bindings.Any(b => b.Axis == GamepadAxis.LeftTrigger && b.Kind == InputBindingKind.GamepadAxis), "ADS trigger missing.");
 Check(actions["Fire"].Bindings.Any(b => b.Axis == GamepadAxis.RightTrigger && b.Kind == InputBindingKind.GamepadAxis), "Fire trigger missing.");
 Check(File.ReadAllText(Path.Combine(root, "CoDplutoproject.plutoproject")).Contains("BUILD_ALWAYS_INCLUDE\tproject://Input/fps.plutoinput"), "Cooked build omits FPS input asset.");
+RuntimeMenuTests.Run(map);
 Console.WriteLine($"FPS input checks passed: {actions.Count} actions, complete migrated action references and dual-device bindings.");
