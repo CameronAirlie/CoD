@@ -19,3 +19,13 @@ Controller aim assist is a saved strength from 0 to 1, shown as 0–100% in five
 Assist is gentle ADS friction within four degrees and 35 world units of a living, visible enemy. The strongest slowdown is 25% at 100% strength (12.5% at the default), fading smoothly to zero at the cone edge. It scales only active gamepad stick motion while the controller ADS binding is held. Any simultaneous mouse look suppresses it. Mouse sensitivity and shot rays are unchanged; there is no snap, automatic tracking, or stationary-stick movement. Multiplayer targets use participant team/life state and child-hitbox ownership; offline targets must be living combat actors with the enemy tag. Cover, smoke and flash blindness block assist. Network authority still owns hit detection and damage.
 
 `Tests/Input/Input.Tests.csproj` includes aim-assist math, input-device separation, team eligibility, preference migration/validation/roundtrip, and synchronized Controls markup checks. In-engine target visibility and controller feel still require a hardware playtest.
+
+Controller menu navigation now comes from PlutoGE.ScriptCore; the project facade preserves existing callers and GameInput supplies remapped menu frames. Prompt classes follow Input.UsingController (last meaningful input), rather than a connected-but-idle gamepad. Use Input.ActiveDevice or Input.ActiveGamepad for project labels and device-specific presentation.
+
+Developers can edit the meaning of Low/Medium/High/Ultra in the engine editor's
+**View > Quality Settings** pane. Shadow ceilings/method policy and allowed effect
+groups are project definitions, saved with **File > Save Project** (Ctrl+S) and
+included in exports. CoD still saves the player's selected tier in settings.json;
+applying that tier resolves the current project definition. Reapply a tier after
+editing its definition to refresh an existing preview. See the engine's
+`docs/GraphicsPresets.md` for effect scope and limits.

@@ -111,7 +111,7 @@ public sealed class UIManager : ScriptBehaviour
         if (settingsOpen && !_settingsWasOpen) _controllerMenu?.Close();
         if (!settingsOpen && _settingsWasOpen) _controllerMenu?.Open();
         _settingsWasOpen = settingsOpen;
-        var frame = CoD.Scripts.MenuFrame.Read();
+        var frame = CoD.Scripts.GameInput.ReadMenuFrame();
         if (_confirmation?.IsOpen == true) _confirmation.Update(frame);
         else if (settingsOpen) _settings?.Update(frame);
         else _controllerMenu?.Update(frame);

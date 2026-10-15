@@ -65,4 +65,10 @@ public static class GameInput
     }
     public static Vector2 MouseLook => new(MouseAxis("MouseLookHorizontal"), MouseAxis("MouseLookVertical"));
     public static Vector2 StickLook => new(ControllerAxis("StickLookHorizontal"), ControllerAxis("StickLookVertical"));
+    public static MenuFrame ReadMenuFrame() => new(
+        GameInput.ControllerAxis("MenuHorizontal"), GameInput.ControllerAxis("MenuVertical"),
+        GameInput.ControllerPressed("MenuAccept"), GameInput.ControllerPressed("MenuBack"),
+        GameInput.ControllerPressed("MenuPreviousTab"), GameInput.ControllerPressed("MenuNextTab"),
+        GameInput.ControllerPressed("MenuSecondary"), GameInput.ControllerPressed("MenuSpace"),
+        GameInput.ControllerPressed("MenuDone"), GameInput.MenuButtonsReleased);
 }

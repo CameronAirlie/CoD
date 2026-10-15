@@ -51,6 +51,13 @@ public static unsafe class RuntimeMenuTests
     { Revealed.Add(Decode(id)); return 1; }
     private static void Check(bool value, string message)
     { if (!value) throw new InvalidOperationException(message); }
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    private static float PreviousAxis(int axis) => 0;
+    private static int _activeDevice = 1;
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    private static int Device() => _connected ? _activeDevice : 0;
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    private static int ActivePad() => _connected ? 0 : -1;
     private static MenuFrame Frame(GamepadButton? button = null, bool held = false, float x = 0, float y = 0)
     {
         Down.Clear(); Pressed.Clear(); _leftX = x; _leftY = y;
@@ -59,7 +66,7 @@ public static unsafe class RuntimeMenuTests
             Down.Add((int)selected);
             if (!held) Pressed.Add((int)selected);
         }
-        return MenuFrame.Read();
+        return GameInput.ReadMenuFrame();
     }
     public static void Run(InputActionMap map)
     {
@@ -93,10 +100,14 @@ public static unsafe class RuntimeMenuTests
         var navigation = (delegate* unmanaged[Cdecl]<nint,int>)Export("RegisterRmlNavigationApi");
         Check(navigation((nint)(delegate* unmanaged[Cdecl]<nint,nint,int>)&Reveal) == 1, "Reveal callback registration failed.");
 
+        var history = (delegate* unmanaged[Cdecl]<nint,nint,nint,int>)Export("RegisterInputHistoryApi");
+        Check(history((nint)(delegate* unmanaged[Cdecl]<int,float>)&PreviousAxis,
+            (nint)(delegate* unmanaged[Cdecl]<int>)&Device,
+            (nint)(delegate* unmanaged[Cdecl]<int>)&ActivePad) == 1, "Device registration failed.");
         var doc = new RmlDocument("UI/title.rml");
         var accepted = 0;
         var backed = 0;
-        var menu = new ControllerMenu(doc) { Back = () => backed++ };
+        var menu = new CoD.Scripts.ControllerMenu(doc) { Back = () => backed++ };
         menu.Add(new("first", 0, 0, () => accepted++));
         menu.Add(new("second", 1, 0, () => accepted += 10));
         _domReady = false; menu.Open();
@@ -122,6 +133,13 @@ public static unsafe class RuntimeMenuTests
         menu.Update(Frame()); menu.Update(Frame(GamepadButton.A));
         Check(accepted == 2, "Controller did not recover after hotplug/release.");
         menu.Close();
+
+        _activeDevice = 0;
+        menu.RefreshHints();
+        Check(!Classes[("menu-body", "controller-connected")], "Idle connected pad overrode keyboard/mouse hints.");
+        _activeDevice = 1;
+        menu.RefreshHints();
+        Check(Classes[("menu-body", "controller-connected")], "Controller activity did not restore controller hints.");
 
         var keyboard = new ControllerKeyboard(doc);
         string? committed = null;

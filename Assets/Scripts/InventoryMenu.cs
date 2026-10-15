@@ -110,7 +110,7 @@ public sealed class InventoryMenu : ScriptBehaviour
         if (visible && !_wasVisible) _menu?.Open();
         if (!visible && _wasVisible) { CancelDrag(); _menu?.Close(); }
         _wasVisible = visible;
-        if (visible) _menu?.Update(MenuFrame.Read());
+        if (visible) _menu?.Update(GameInput.ReadMenuFrame());
         if (_document is null || _session is null) return;
         // Include quantities and ownership, not only the wallet: throws and equipment loss
         // must invalidate purchase availability even when no transaction occurred.
