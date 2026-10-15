@@ -1,0 +1,10 @@
+Color=1,1,1,1
+SurfaceType=Standard
+AlphaMode=Opaque
+CastsShadow=true
+TwoSided=true
+Metallic=0.2
+Roughness=0.08
+AlbedoTexture=project://Textures/Standoff/Glass.png
+NormalTexture=project://Textures/Standoff/Glass_N.png
+ShaderGraph=engine://builtin/shadergraph/default-lit

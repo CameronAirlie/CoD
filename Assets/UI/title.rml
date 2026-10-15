@@ -16,21 +16,25 @@
                 <div id="game-title" class="ui-heading">MULTIPLAYER</div>
                 <div class="menu-description">Choose your mission. Prepare for deployment.</div>
                 <div id="modes"><button tabindex="0" id="mode-hardpoint" class="ui-tab selected"><span
-                            class="mode-number">01</span> HARDPOINT <span class="mode-map">ARENA</span></button><button
+                            class="mode-number">01</span> HARDPOINT <span id="mode-hardpoint-map" class="mode-map">ARENA</span></button><button
                         tabindex="1" id="mode-defusal" class="ui-tab"><span class="mode-number">02</span> DEFUSAL <span
-                            class="mode-map">TERMINAL</span></button></div>
+                            id="mode-defusal-map" class="mode-map">TERMINAL</span></button></div>
+                <div id="map-select"><button tabindex="2" id="map-prev" class="ui-button map-arrow">&lt;</button><div
+                        id="map-label"><span class="ui-eyebrow">MAP <span id="map-count">1 / 3</span></span><span
+                            id="map-name">ARENA</span></div><button tabindex="3" id="map-next"
+                        class="ui-button map-arrow">&gt;</button></div>
                 <div class="connection ui-panel">
                     <div class="ui-eyebrow">OPERATOR / CONNECTION</div>
-                    <div class="field-row"><label for="username">CALLSIGN</label><input tabindex="2" id="username"
+                    <div class="field-row"><label for="username">CALLSIGN</label><input tabindex="4" id="username"
                             class="ui-field" type="text" value="Player" maxlength="20" /></div>
-                    <div class="field-row"><label for="address">HOST ADDRESS</label><input tabindex="3" id="address"
+                    <div class="field-row"><label for="address">HOST ADDRESS</label><input tabindex="5" id="address"
                             class="ui-field" type="text" value="127.0.0.1" maxlength="253" /></div>
                 </div>
-                <div id="join-role"><button tabindex="4" id="role-player" class="ui-tab selected">PLAY / JOIN A
-                        TEAM</button><button tabindex="5" id="role-spectator" class="ui-tab">SPECTATE / BOTH
+                <div id="join-role"><button tabindex="6" id="role-player" class="ui-tab selected">PLAY / JOIN A
+                        TEAM</button><button tabindex="7" id="role-spectator" class="ui-tab">SPECTATE / BOTH
                         TEAMS</button></div>
-                <div id="actions"><button tabindex="6" id="host" class="ui-button primary">HOST GAME <span
-                            class="action-arrow">&gt;</span></button><button tabindex="7" id="join"
+                <div id="actions"><button tabindex="8" id="host" class="ui-button primary">HOST GAME <span
+                            class="action-arrow">&gt;</span></button><button tabindex="9" id="join"
                         class="ui-button">JOIN GAME</button></div>
                 <div id="status">Enter a username, then host or join a game.</div>
                 <div id="instructions" class="ui-meta"><span id="input-hint-1" data-input-prompt="{MenuAccept} SELECT / {MenuBack} BACK"></span></div>

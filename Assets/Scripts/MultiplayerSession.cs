@@ -592,7 +592,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
                     return;
                 }
 
-                if (!Enum.IsDefined(welcome.Mode) || welcome.Scene is not ("Main" or "Foundry" or "Shipment" or "Terminal"))
+                if (!Enum.IsDefined(welcome.Mode) || !MapCatalog.IsKnownScene(welcome.Scene))
                 {
                     Debug.LogError("The server advertised an unsupported map or mode.");
                     _returnToTitle = true;

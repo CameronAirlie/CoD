@@ -11,6 +11,11 @@
 #modes button { display: block; width: 100%; height: 44dp; margin-bottom: 8dp; }
 .mode-number { margin-right: 16dp; color: ${muted}; font-size: 12dp; }
 .mode-map { float: right; color: ${muted}; font-size: 12dp; }
+#map-select { display: flex; align-items: center; gap: 8dp; margin-top: 4dp; }
+#map-select .map-arrow { width: 44dp; height: 44dp; line-height: 42dp; padding: 0; text-align: center; font-size: 18dp; }
+#map-label { flex: 1; height: 44dp; padding: 4dp 12dp; box-sizing: border-box; border: 1dp ${border}; background-color: ${panel}cc; }
+#map-label .ui-eyebrow { display: block; font-size: 10dp; }
+#map-name { display: block; font-family: TacticalDisplay; font-size: 16dp; line-height: 20dp; color: ${accent}; }
 .connection { margin-top: 24dp; padding: 16dp; }
 .field-row { display: flex; align-items: center; margin-top: 12dp; }
 .field-row label { width: 112dp; font-family: TacticalDisplay; font-size: 12dp; color: ${secondary}; }
@@ -40,6 +45,8 @@
     #game-title { font-size: 42dp; line-height: 46dp; }
     #modes { margin-top: 12dp; }
     #modes button { height: 34dp; padding: 6dp 12dp; margin-bottom: 4dp; }
+    #map-select .map-arrow, #map-label { height: 36dp; line-height: 34dp; }
+    #map-label { line-height: 14dp; padding: 2dp 10dp; }
     .connection { margin-top: 12dp; padding: 12dp; }
     .field-row { margin-top: 8dp; }
     .field-row input { height: 34dp; }

@@ -1,0 +1,10 @@
+Color=1,1,1,1
+SurfaceType=Standard
+AlphaMode=Opaque
+CastsShadow=true
+TwoSided=true
+Metallic=0
+Roughness=0.92
+AlbedoTexture=project://Textures/Standoff/ConcreteDark.png
+NormalTexture=project://Textures/Standoff/ConcreteDark_N.png
+ShaderGraph=engine://builtin/shadergraph/default-lit

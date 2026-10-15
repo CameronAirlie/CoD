@@ -22,6 +22,7 @@ public sealed class TitleScreen : ScriptBehaviour
     private ControllerKeyboard? _keyboard;
     private bool _inSubmenu;
     [SerializedField] private string defusalScene = "Terminal";
+    private int _hardpointMap, _defusalMap;
 
     public override void OnCreate()
     {
@@ -49,16 +50,21 @@ public sealed class TitleScreen : ScriptBehaviour
         _addressInput.On("input", SyncFields);
         _usernameInput.On("change", SyncFields);
         _addressInput.On("change", SyncFields);
+        _hardpointMap = IndexOf(MatchMode.Hardpoint, gameScene);
+        _defusalMap = IndexOf(MatchMode.Defusal, defusalScene);
         _menu.Add(new("mode-hardpoint", 0, 0, () => SelectMode(false)));
         _menu.Add(new("mode-defusal", 1, 0, () => SelectMode(true)));
-        _menu.Add(new("username", 2, 0, () => EditField("CALLSIGN", _usernameInput, 20)), false);
-        _menu.Add(new("address", 3, 0, () => EditField("HOST ADDRESS", _addressInput, 253)), false);
-        _menu.Add(new("role-player", 4, 0, () => SelectRole(false)));
-        _menu.Add(new("role-spectator", 4, 1, () => SelectRole(true)));
-        _menu.Add(new("host", 5, 0, () => Launch("Host")));
-        _menu.Add(new("join", 5, 1, () => Launch("Client")));
-        _menu.Add(new("graphics-preset", 6, 1, _settings.Open), false);
+        _menu.Add(new("map-prev", 2, 0, () => CycleMap(-1)));
+        _menu.Add(new("map-next", 2, 1, () => CycleMap(1)));
+        _menu.Add(new("username", 3, 0, () => EditField("CALLSIGN", _usernameInput, 20)), false);
+        _menu.Add(new("address", 4, 0, () => EditField("HOST ADDRESS", _addressInput, 253)), false);
+        _menu.Add(new("role-player", 5, 0, () => SelectRole(false)));
+        _menu.Add(new("role-spectator", 5, 1, () => SelectRole(true)));
+        _menu.Add(new("host", 6, 0, () => Launch("Host")));
+        _menu.Add(new("join", 6, 1, () => Launch("Client")));
+        _menu.Add(new("graphics-preset", 7, 1, _settings.Open), false);
         _menu.Open("mode-hardpoint");
+        SelectMode(false);
         SetStatus("Enter a username, then host or join a game.");
     }
 
@@ -119,7 +125,7 @@ public sealed class TitleScreen : ScriptBehaviour
             SetStatus("Enter a server address such as 127.0.0.1 or 127.0.0.1:7777.");
             return;
         }
-        _loading = SceneManager.LoadScene(_defusalSelected ? defusalScene : gameScene);
+        _loading = SceneManager.LoadScene(SelectedMap.Scene);
         SetStatus(_loading
             ? launchMode == "Host" ? "Starting host..." : "Joining game..."
             : "Could not load the game scene.");
@@ -134,22 +140,54 @@ public sealed class TitleScreen : ScriptBehaviour
         SetStatus(spectator ? "NEUTRAL SPECTATOR: Watch both teams. F1 / F2 choose a side; Q / E cycle players." : "PLAYER: Join a team and play the match.");
     }
 
+    private MatchMode SelectedMode => _defusalSelected ? MatchMode.Defusal : MatchMode.Hardpoint;
+    private MapInfo SelectedMap => MapCatalog.For(SelectedMode)[_defusalSelected ? _defusalMap : _hardpointMap];
+
+    private static int IndexOf(MatchMode mode, string scene)
+    {
+        var maps = MapCatalog.For(mode);
+        for (var i = 0; i < maps.Count; ++i)
+            if (maps[i].Scene.Equals(scene, StringComparison.OrdinalIgnoreCase)) return i;
+        return 0;
+    }
+
+    private void CycleMap(int direction)
+    {
+        if (_loading) return;
+        var count = MapCatalog.For(SelectedMode).Count;
+        if (_defusalSelected) _defusalMap = (_defusalMap + direction + count) % count;
+        else _hardpointMap = (_hardpointMap + direction + count) % count;
+        RefreshMission();
+        SetStatus($"MAP: {SelectedMap.DisplayName}. {SelectedMap.Brief}");
+    }
+
     private void SelectMode(bool defusal)
     {
         if (_loading) return;
         _defusalSelected = defusal;
         _document?.Element("mode-hardpoint").SetClass("selected", !defusal);
         _document?.Element("mode-defusal").SetClass("selected", defusal);
-        if (_document is not null)
-        {
-            _document.Element("mission-location").Markup = defusal ? defusalScene.ToUpperInvariant() : "ARENA";
-            _document.Element("mission-title").Markup = defusal ? "ONE LIFE. TWO SITES." : "HOLD THE LINE";
-            _document.Element("mission-description").Markup = defusal ? "Plant or defuse the bomb. Protect your squad. First to seven rounds wins." : "Capture the rotating hardpoint. Deny the enemy. Every second counts.";
-            _document.Element("mission-rule").Markup = defusal ? "PLANT / DEFUSE" : "CAPTURE / HOLD";
-            _document.Element("mission-life").Markup = defusal ? "ONE LIFE" : "ENABLED";
-        }
-        SetStatus(defusal ? $"{defusalScene.ToUpperInvariant()}: Two bomb sites. One life. First to 7 rounds. Select the same mode as your host." : "ARENA: Capture and hold the rotating hardpoint.");
+        RefreshMission();
+        SetStatus(defusal ? $"{SelectedMap.DisplayName}: Two bomb sites. One life. First to 7 rounds. Select the same mode as your host." : $"{SelectedMap.DisplayName}: Capture and hold the rotating hardpoint.");
     }
+
+    private void RefreshMission()
+    {
+        if (_document is null) return;
+        var defusal = _defusalSelected;
+        var map = SelectedMap;
+        var maps = MapCatalog.For(SelectedMode);
+        _document.Element("mode-hardpoint-map").Markup = MapCatalog.For(MatchMode.Hardpoint)[_hardpointMap].DisplayName;
+        _document.Element("mode-defusal-map").Markup = MapCatalog.For(MatchMode.Defusal)[_defusalMap].DisplayName;
+        _document.Element("map-name").Markup = map.DisplayName;
+        _document.Element("map-count").Markup = $"{IndexOf(SelectedMode, map.Scene) + 1} / {maps.Count}";
+        _document.Element("mission-location").Markup = map.DisplayName;
+        _document.Element("mission-title").Markup = defusal ? "ONE LIFE. TWO SITES." : "HOLD THE LINE";
+        _document.Element("mission-description").Markup = map.Brief + (defusal ? " Plant or defuse the bomb. First to seven rounds wins." : " Capture the rotating hardpoint. Every second counts.");
+        _document.Element("mission-rule").Markup = defusal ? "PLANT / DEFUSE" : "CAPTURE / HOLD";
+        _document.Element("mission-life").Markup = defusal ? "ONE LIFE" : "ENABLED";
+    }
+
     private void SetStatus(string message)
     {
         if (_statusLabel is not null)

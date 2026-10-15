@@ -1,0 +1,10 @@
+Color=1,1,1,1
+SurfaceType=Standard
+AlphaMode=Opaque
+CastsShadow=true
+TwoSided=true
+Metallic=0.7
+Roughness=0.5
+AlbedoTexture=project://Textures/Standoff/DarkMetal.png
+NormalTexture=project://Textures/Standoff/DarkMetal_N.png
+ShaderGraph=engine://builtin/shadergraph/default-lit

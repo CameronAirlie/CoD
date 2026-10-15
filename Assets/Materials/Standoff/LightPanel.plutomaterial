@@ -1,0 +1,11 @@
+Color=1,1,1,1
+SurfaceType=Standard
+AlphaMode=Opaque
+CastsShadow=true
+TwoSided=true
+Metallic=0
+Roughness=0.5
+AlbedoTexture=project://Textures/Standoff/LightPanel.png
+EmissionTexture=project://Textures/Standoff/LightPanel_E.png
+Emission=9,9,8.5
+ShaderGraph=engine://builtin/shadergraph/default-lit

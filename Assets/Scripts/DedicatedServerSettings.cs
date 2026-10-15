@@ -12,12 +12,10 @@ internal static class DedicatedServerSettings
     };
     public static string MapFor(string mode, string? map = null)
     {
-        var expected = mode == "Defusal" ? "Foundry" : "Main";
-        if (string.IsNullOrWhiteSpace(map)) return expected;
-        if (mode == "Defusal" && map.Equals("Terminal", StringComparison.OrdinalIgnoreCase)) return "Terminal";
-        if (mode != "Defusal" && map.Equals("Shipment", StringComparison.OrdinalIgnoreCase)) return "Shipment";
-        if (!map.Equals(expected, StringComparison.OrdinalIgnoreCase)) throw new ArgumentException($"{mode} supports map {expected}{(mode == "Defusal" ? " or Terminal" : " or Shipment")}.");
-        return expected;
+        var maps = MapCatalog.For(mode);
+        if (string.IsNullOrWhiteSpace(map)) return maps[0].Scene;
+        return MapCatalog.Find(MapCatalog.ParseMode(mode), map.Trim())?.Scene
+            ?? throw new ArgumentException($"{mode} supports maps: {MapCatalog.Describe(MapCatalog.ParseMode(mode))}.");
     }
     public static string Map => MapFor(Mode, Environment.GetEnvironmentVariable("PLUTOGE_SERVER_MAP") ?? Environment.GetEnvironmentVariable("COD_SERVER_MAP"));
     public static bool NeedsMap => Enabled && !PlutoGE.ScriptCore.SceneManager.GetActiveScene().Name.Equals(Map, StringComparison.OrdinalIgnoreCase);
@@ -61,7 +59,7 @@ public sealed partial class MultiplayerSession : PlutoGE.ScriptCore.IServerComma
         {
             try
             {
-                if (verb == "maps") { AdminLog("Defusal: Foundry, Terminal; Hardpoint / TeamDeathmatch: Main, Shipment."); return true; }
+                if (verb == "maps") { AdminLog($"Defusal: {MapCatalog.Describe(MatchMode.Defusal)}; Hardpoint / TeamDeathmatch: {MapCatalog.Describe(MatchMode.Hardpoint)}."); return true; }
                 Require(verb == "mode" ? args.Length is 2 or 3 : args.Length == 2, "Usage: mode <Hardpoint|Defusal|tdm> [map] | map <name>");
                 var nextMode = verb == "mode" ? DedicatedServerSettings.NormalizeMode(args[1]) : DedicatedServerSettings.Mode;
                 var nextMap = DedicatedServerSettings.MapFor(nextMode, verb == "map" ? args[1] : args.Length == 3 ? args[2] : null);

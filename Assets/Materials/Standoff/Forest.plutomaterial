@@ -1,0 +1,10 @@
+Color=1,1,1,1
+SurfaceType=Standard
+AlphaMode=Opaque
+CastsShadow=true
+TwoSided=true
+Metallic=0
+Roughness=1
+AlbedoTexture=project://Textures/Standoff/Forest.png
+NormalTexture=project://Textures/Standoff/Forest_N.png
+ShaderGraph=engine://builtin/shadergraph/default-lit
