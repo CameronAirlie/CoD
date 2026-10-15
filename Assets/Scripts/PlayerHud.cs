@@ -15,11 +15,13 @@ public sealed class PlayerHud : ScriptBehaviour
     [SerializedField] private float damageOverlayMaximumOpacity = 0.85f;
     [SerializedField] private float deathFadeDelay = 0.45f;
     [SerializedField] private float deathFadeDuration = 0.75f;
+    [SerializedField] private float minimapWorldSpan = 48.0f;
 
     private PlayerController? _controller;
     private PlayerHealth? _healthController;
     private MultiplayerSession? _multiplayer;
     private RmlDocument? _document;
+    private TacticalMapPresenter? _map;
     private RmlElement? _ammo;
     private RmlElement? _reserve;
     private RmlElement? _weaponName;
@@ -89,6 +91,7 @@ public sealed class PlayerHud : ScriptBehaviour
         }
 
         _document = new RmlDocument(documentPath);
+        _map = new TacticalMapPresenter(_document, SceneManager.GetActiveScene().Name, minimapWorldSpan);
         _ammo = _document.Element("ammo");
         _reserve = _document.Element("reserve");
         _weaponName = _document.Element("weapon-name");
@@ -233,6 +236,7 @@ public sealed class PlayerHud : ScriptBehaviour
                 if (hideVitals) _crosshair?.SetClass("hidden", true);
             }
         }
+        UpdateTacticalMap();
         UpdateDeathEffect(deltaTime);
         _damageFeedback.Update(deltaTime);
         RenderDamageOverlay();
@@ -314,6 +318,19 @@ public sealed class PlayerHud : ScriptBehaviour
             _hitVisible = false;
             _hitmarker?.SetClass("hidden", true);
         }
+    }
+
+    private void UpdateTacticalMap()
+    {
+        if (!_domReady || _map is null || player is null) return;
+        if (!GameInput.GameplayAllowed) _map.SetFullMapOpen(false);
+        else if (GameInput.Pressed("ShowMap")) _map.SetFullMapOpen(!_map.FullMapOpen);
+        // Observers centre the map on the teammate whose view they share.
+        if (_controller?.SpectatorView is { } view)
+            _map.Update(_multiplayer, view.Position, TacticalMap.Heading(view.Forward), true);
+        else
+            _map.Update(_multiplayer, player.WorldPosition, TacticalMap.Heading(player.Forward),
+                !_dead && _multiplayer?.IsNeutralSpectator != true);
     }
 
     private static bool SameSpectatorHud(SpectatorViewState a, SpectatorViewState? b) => b is not null &&

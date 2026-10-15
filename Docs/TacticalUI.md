@@ -81,3 +81,41 @@ Built-in imagegen was used. Final assets:
 Final prompt:
 
 > Use case: stylized-concept. Asset type: original main-menu background for a tactical FPS game, 16:9 wide composition. Scene: a dark abandoned industrial street, worn concrete and steel, subtle haze, a few distant amber lights. Subject: one modern tactical operator viewed from behind and slightly to the side, helmet, dark olive body armour, small backpack, rifle held lowered; three-quarter body visible. Style: cinematic realistic game key art, restrained and immersive, close to the soldier menu artwork in tactical FPS UI style guides. Composition: operator around 65% across the frame; leftmost 40% very dark, quiet and low detail for a menu; lower right also subdued for a small briefing panel. Palette: near-black charcoal #090B0D, desaturated olive and steel, sparse amber #FFB31A highlights. No text, no HUD, no logos, no watermarks, no faction symbols, no neon, no explosions. Render only background artwork; interface will be native code.
+
+## Minimap and tactical map
+
+The HUD shows a north-up minimap in the top-right corner, centred on the local player
+(or the teammate being spectated). Press **ShowMap** (M / right-stick click in
+`fps.plutoinput`) to toggle the full tactical map, which frames the whole layout.
+Opening a menu closes it. Both views draw the same contact list:
+
+- **You**: amber arrowhead at the centre of the minimap, rotated to your facing.
+- **Friendlies**: blue arrowheads showing position and facing for living teammates.
+- **Heard enemies**: red dots placed where an enemy fired an unsuppressed weapon. A dot
+  stays for `MultiplayerSession.mapNoiseRevealSeconds` (default 3) and fades over the last
+  `mapNoiseFadeSeconds` (default 1). It does not follow the enemy afterwards, and enemy
+  facing is never shown. `WeaponDefinition.Suppressed` (default false; no current weapon
+  is suppressed) keeps a weapon's shots off the map.
+
+Map outlines are baked from each scene's solid box colliders by
+`python Tools/build_minimaps.py`. Thin or flat slabs become faint floor fill; everything
+else is a filled obstacle with a merged outline, cropped to the navigation-mesh bounds.
+The tool writes `Assets/UI/Minimaps/<Scene>.tga`, regenerates `MinimapLayouts.cs` (the
+world square each image covers) and registers the images with BUILD_ALWAYS_INCLUDE
+because they are chosen at runtime. Rebake after changing a map's geometry, and add new
+playable scenes to its `SCENES` list. Scenes without a layout hide both views.
+
+Architecture: `TacticalMap.cs` holds the engine-independent model (projection, contacts,
+noise memory). `MultiplayerSession.Map.cs` builds contacts from replicated proxies, using
+the same team and alive checks as aim assist. `TacticalMapPresenter` (owned by PlayerHud)
+pools 24 marker elements per view, writes only changed styles, and sizes and offsets the
+map layers in percentages of a square frame, so RCSS can resize the frame freely.
+`PlayerHud.minimapWorldSpan` (default 48 m) sets the minimap zoom. Map frames use
+`clip: always`, because RmlUi does not clip a panned layer sitting at negative offsets.
+Enemy reveals are presentation only: clients already receive every proxy transform for
+rendering, so this is not an anti-cheat boundary.
+
+`dotnet run --project Tests/CoD.GameplayTests.csproj -c Release -- --tactical-ui` covers
+layouts for every MapCatalog scene, projection and centring, headings, enemy-facing
+privacy, suppression and reveal lifetime. The native preview renders `hud` and `hud-map`
+captures with representative Shipment contacts; marker rotation needs the running engine.

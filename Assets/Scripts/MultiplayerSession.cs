@@ -676,7 +676,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             {
                 var effect = message.GetJson<ShotEffect>();
                 if (effect is not null)
-                    PlayRemoteShotEffect(effect.ShooterPeerId);
+                    PlayRemoteShotEffect(effect.ShooterPeerId, effect.Loud);
             }
             else if (message.Channel == BotReloadEffectChannel)
             {
@@ -745,7 +745,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
 
         _lastAcceptedShotAt[shooterPeerId] = _time;
         _lastAcceptedWeapon[shooterPeerId] = shot.WeaponId;
-        PublishShotEffect(shooterPeerId);
+        PublishShotEffect(shooterPeerId, TacticalMap.RevealsShooter(weapon));
         if (!Physics.Raycast(
                 origin,
                 direction,
@@ -908,6 +908,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     {
         _spectatorViews.Remove(peerId);
         _spectatorViewBuffers.Remove(peerId);
+        MapNoise.Forget(peerId);
         if (_remotePlayers.Remove(peerId, out var remote))
         {
             // Native destruction is deferred until the end of the frame. Hide
@@ -926,6 +927,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             remote.GameObject.Destroy();
         }
         _remotePlayers.Clear();
+        MapNoise.Clear();
     }
 
     private void EnsureBotFill()
@@ -1562,11 +1564,11 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         ResolveShot(botId, ShotRequest.From(origin, direction, bot.Loadout.Equipment.Weapons.Equipped.Id));
     }
 
-    private void PublishShotEffect(int shooterPeerId)
+    private void PublishShotEffect(int shooterPeerId, bool loud)
     {
         if (_bots.TryGetValue(shooterPeerId, out var bot)) bot.SpectatorShots++;
-        PlayRemoteShotEffect(shooterPeerId);
-        _server?.BroadcastJson(ShotEffectChannel, new ShotEffect(shooterPeerId));
+        PlayRemoteShotEffect(shooterPeerId, loud);
+        _server?.BroadcastJson(ShotEffectChannel, new ShotEffect(shooterPeerId, loud));
     }
 
     private void PublishBotReload(int botId, BotController bot)
@@ -1576,11 +1578,14 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         _server?.BroadcastJson(BotReloadEffectChannel, new BotReloadEffect(botId, duration));
     }
 
-    private void PlayRemoteShotEffect(int shooterPeerId)
+    private void PlayRemoteShotEffect(int shooterPeerId, bool loud)
     {
         if (IsDedicated) return;
         if (_remotePlayers.TryGetValue(shooterPeerId, out var remote))
+        {
             remote.GameObject.TryInvoke("PlayExternalShootAnimation");
+            if (loud && remote.GameObject.IsValid) MapNoise.Report(shooterPeerId, remote.GameObject.WorldPosition, _time);
+        }
     }
 
     private void PublishHitEffect(int victimPeerId)
@@ -2061,7 +2066,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
     private sealed record PeerLeft(int PeerId);
     private sealed record PeerJoined(int PeerId, string Username);
     private sealed record PlayerDamage(float Amount, float SourceX = 0, float SourceY = 0, float SourceZ = 0);
-    private sealed record ShotEffect(int ShooterPeerId);
+    private sealed record ShotEffect(int ShooterPeerId, bool Loud = true);
     private sealed record BotReloadEffect(int BotId, float Duration);
     private sealed record HitEffect(int VictimPeerId);
     private sealed record DeathEffect(int PeerId, float X = 0, float Y = 0, float Z = 0);

@@ -40,7 +40,7 @@ public sealed partial class MultiplayerSession
         var ray = ParticipantAimPoint(target) - origin;
         if (ray.LengthSquared() < .001f) return true;
         var direction = ApplyBotSpread(Vector3.Normalize(ray), session.botAccuracyDegrees, bot);
-        session.PublishShotEffect(peer);
+        session.PublishShotEffect(peer, TacticalMap.RevealsShooter(equipment.Weapons.Equipped));
         if (Physics.Raycast(origin, direction, equipment.Weapons.Equipped.Range, actor, out var hit) &&
             (hit.Entity.EntityId == target.EntityId || hit.Entity.HasTag("Player")))
             session.DamageOfflinePlayer(peer, equipment.Weapons.Equipped.Damage *

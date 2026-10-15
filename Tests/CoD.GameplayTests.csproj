@@ -18,6 +18,10 @@
     <Compile Include="../Assets/Scripts/DefusalBotTactics.cs" Link="DefusalBotTactics.cs" />
     <Compile Include="TacticalUiTests.cs" />
     <Compile Include="../Assets/Scripts/TacticalUi.cs" Link="TacticalUi.cs" />
+    <Compile Include="TacticalMapTests.cs" />
+    <Compile Include="../Assets/Scripts/TacticalMap.cs" Link="TacticalMap.cs" />
+    <Compile Include="../Assets/Scripts/MinimapLayouts.cs" Link="MinimapLayouts.cs" />
+    <Compile Include="../Assets/Scripts/MapCatalog.cs" Link="MapCatalog.cs" />
     <Compile Include="../Assets/Scripts/GrenadeRules.cs" Link="GrenadeRules.cs" />
     <Compile Include="../Assets/Scripts/WeaponCatalog.cs" Link="WeaponCatalog.cs" />
     <Compile Include="../Assets/Scripts/HardpointRules.cs" Link="HardpointRules.cs" />

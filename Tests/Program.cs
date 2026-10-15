@@ -1,5 +1,11 @@
 using CoD.Scripts;
 
+if (args.Contains("--tactical-ui"))
+{
+    TacticalUiTests.Run(); TacticalMapTests.Run();
+    return;
+}
+
 if (args.Contains("--economy-grenades"))
 {
     GrenadeTests.Run(); EconomyTests.Run(); SpectatorViewTests.Run();
@@ -12,6 +18,7 @@ GrenadeTests.Run();
 EconomyTests.Run();
 SpectatorViewTests.Run();
 TacticalUiTests.Run();
+TacticalMapTests.Run();
 DefusalBotTacticsTests.Run();
 
 static void Require(bool condition, string message)

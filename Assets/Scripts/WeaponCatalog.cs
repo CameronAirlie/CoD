@@ -5,7 +5,8 @@ public enum WeaponType { AssaultRifle, Pistol, MachineGun }
 /// <summary>Immutable gameplay tuning shared by local simulation and host validation.</summary>
 public sealed record WeaponDefinition(string Id, string Name, WeaponType Type, int MagazineSize,
     bool Automatic, float RoundsPerMinute, float Damage, float Range, float ReloadSeconds,
-    float HipSpread, float AimSpread, float RecoilPitch, float RecoilYaw, float DrawSeconds, float ShotPitch)
+    float HipSpread, float AimSpread, float RecoilPitch, float RecoilYaw, float DrawSeconds, float ShotPitch,
+    bool Suppressed = false)
 {
     public float ShotInterval => 60 / RoundsPerMinute;
 }

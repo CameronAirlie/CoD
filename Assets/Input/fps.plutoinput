@@ -318,6 +318,23 @@
       ]
     },
     {
+      "Name": "ShowMap",
+      "Bindings": [
+        {
+          "Kind": "Key",
+          "Key": "M",
+          "Scale": 1,
+          "DeadZone": 0
+        },
+        {
+          "Kind": "GamepadButton",
+          "Button": "RightStick",
+          "Scale": 1,
+          "DeadZone": 0.15
+        }
+      ]
+    },
+    {
       "Name": "SpectateNext",
       "Bindings": [
         {

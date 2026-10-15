@@ -21,7 +21,7 @@ body { pointer-events: none; focus: none; }
 #match-clock { color: ${secondary}; font-family: TacticalDisplay; font-size: 16dp; }
 .alpha { color: ${friendly}; } .bravo { color: ${enemy}; }
 #score-goal { position: absolute; top: 120dp; left: 35%; right: 35%; text-align: center; font-family: TacticalDisplay; font-size: 11dp; color: ${secondary}; }
-#kill-feed { position: absolute; top: 32dp; right: 32dp; width: 280dp; text-align: right; font-family: TacticalDisplay; font-size: 13dp; }
+#kill-feed { position: absolute; top: 268dp; right: 32dp; width: 280dp; text-align: right; font-family: TacticalDisplay; font-size: 13dp; }
 .feed-entry { margin-bottom: 5dp; padding: 5dp 8dp; background-color: ${background}77; }
 #scoreboard { top: 22%; left: 22%; right: 22%; min-height: 260dp; background-color: ${panel}f2; border-top: 2dp ${accent}; }
 #scoreboard.hidden { visibility: hidden; }
@@ -67,7 +67,7 @@ body { pointer-events: none; focus: none; }
 #damage-overlay { background-color: #b0000014; border: 18dp ${critical}cc; box-sizing: border-box; }
 #death-red { background-color: #a80000; } #death-black { background-color: #000000; }
 #damage-overlay.hidden, #death-red.hidden, #death-black.hidden { visibility: hidden; }
-@media (max-width: 1100px) { #objective { width: 240dp; left: 24dp; padding: 10dp 12dp; } #kill-feed { width: 220dp; right: 24dp; } #compass { width: 240dp; margin-left: -120dp; } #vitals { left: 24dp; width: 210dp; } #weapon { right: 24dp; width: 210dp; } .armour-slot { width: 64dp; } #loadout-choice { top: 42%; max-width: 260dp; font-size: 11dp; line-height: 18dp; } }
+@media (max-width: 1100px) { #objective { width: 240dp; left: 24dp; padding: 10dp 12dp; } #kill-feed { width: 220dp; right: 24dp; top: 214dp; } #compass { width: 240dp; margin-left: -120dp; } #vitals { left: 24dp; width: 210dp; } #weapon { right: 24dp; width: 210dp; } .armour-slot { width: 64dp; } #loadout-choice { top: 42%; max-width: 260dp; font-size: 11dp; line-height: 18dp; } }
 
 #flash-overlay { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: white; opacity: 0; pointer-events: none; }
 
@@ -96,3 +96,38 @@ body { pointer-events: none; focus: none; }
 #hitmarker .hit-se { right: 2px; bottom: 6px; transform: rotate(45deg); }
 #hitmarker.headshot .hit-stroke { background-color: #ffdb83; }
 #hitmarker.elimination .hit-stroke { background-color: #ff5454; }
+
+/* Tactical map. Layers are sized/offset in % of a square frame by TacticalMapPresenter; north is up. */
+#minimap { top: 32dp; right: 32dp; width: 212dp; padding: 6dp; background-color: ${panel}b8; }
+#minimap.hidden, #tactical-map.hidden, .map-contact.hidden { display: none; }
+/* clip: always; RmlUi only scissors overflow it measures, and panned layers can sit at negative offsets. */
+.map-frame { position: relative; overflow: hidden; clip: always; background-color: ${background}cc; border: 1dp ${border}; }
+#minimap-frame { width: 100%; height: 198dp; box-sizing: border-box; }
+.map-layer { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+.map-image { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+.map-contacts { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+.minimap-north, .tactical-map-north { position: absolute; top: 9dp; left: 50%; width: 16dp; margin-left: -8dp; text-align: center; font-family: TacticalHeading; font-size: 12dp; color: ${accent}; font-effect: shadow(1dp 1dp ${background}); }
+.map-caption { margin-top: 5dp; font-family: TacticalDisplay; font-size: 10dp; letter-spacing: 1dp; color: ${secondary}; text-align: right; }
+.map-contact { position: absolute; width: 14dp; height: 14dp; margin-left: -7dp; margin-top: -7dp; }
+.map-arrow { display: block; width: 100%; height: 100%; image-color: ${friendly}; }
+.map-dot { display: none; }
+.map-contact.self { width: 18dp; height: 18dp; margin-left: -9dp; margin-top: -9dp; z-index: 2; }
+.map-contact.self .map-arrow { image-color: ${accent}; }
+.map-contact.enemy { width: 10dp; height: 10dp; margin-left: -5dp; margin-top: -5dp; z-index: 1; }
+.map-contact.enemy .map-arrow { display: none; }
+.map-contact.enemy .map-dot { display: block; box-sizing: border-box; width: 100%; height: 100%; border-radius: 5dp; background-color: ${enemy}; border: 1dp ${background}; }
+#tactical-map { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: ${background}99; z-index: 5; }
+#scoreboard { z-index: 6; }
+#tactical-map-panel { position: relative; padding: 14dp 16dp; background-color: ${panel}f2; border-top: 2dp ${accent}; }
+.tactical-map-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10dp; }
+#tactical-map-name { font-family: TacticalHeading; font-size: 24dp; line-height: 26dp; }
+.tactical-map-legend { font-family: TacticalDisplay; font-size: 11dp; letter-spacing: 1dp; }
+.tactical-map-legend span { margin-left: 14dp; }
+.legend-self { color: ${accent}; } .legend-friendly { color: ${friendly}; } .legend-enemy { color: ${enemy}; }
+#tactical-map-frame { width: 72vh; height: 72vh; }
+#tactical-map-frame .map-contact { width: 20dp; height: 20dp; margin-left: -10dp; margin-top: -10dp; }
+#tactical-map-frame .map-contact.self { width: 24dp; height: 24dp; margin-left: -12dp; margin-top: -12dp; }
+#tactical-map-frame .map-contact.enemy { width: 12dp; height: 12dp; margin-left: -6dp; margin-top: -6dp; }
+#tactical-map-frame .map-contact.enemy .map-dot { border-radius: 6dp; }
+#tactical-map-hint { margin-top: 8dp; text-align: right; }
+@media (max-width: 1100px) { #minimap { top: 24dp; right: 24dp; width: 172dp; } #minimap-frame { height: 158dp; } }

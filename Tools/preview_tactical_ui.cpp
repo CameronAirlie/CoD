@@ -100,8 +100,8 @@ int main(int argc,char** argv) try {
         if(!Rml::LoadFontFace(fontData.back(),family,Rml::Style::FontStyle::Normal,Rml::Style::FontWeight::Auto)) throw std::runtime_error("Font load failed: "+file);
     }
     auto context=Rml::CreateContext("Tactical UI",{1280,720});
-    for(std::string screen:{"title","pause-menu","inventory","hud","hardpoint-marker","defusal-marker","friendly-nameplate"}) {
-        auto document=context->LoadDocument((root/"Assets/UI"/(screen+".rml")).string());
+    for(std::string screen:{"title","pause-menu","inventory","hud","hud-map","hardpoint-marker","defusal-marker","friendly-nameplate"}) {
+        auto document=context->LoadDocument((root/"Assets/UI"/((screen=="hud-map" ? "hud" : screen)+".rml")).generic_string()); // RmlUi URLs need forward slashes.
         if(!document) throw std::runtime_error("Document load failed");
         document->Show();
         auto set=[&](const char* id,const char* markup) { auto e=document->GetElementById(id);if(e) e->SetInnerRML(markup); };
@@ -120,7 +120,21 @@ int main(int argc,char** argv) try {
                 slot->SetInnerRML(std::string("<img class=\"item-icon\" src=\"UI/Icons/")+icons[i]+".tga\"/><div class=\"item-type\">FIELD SUPPLY</div><div class=\"item-name\">"+names[i]+"</div><div class=\"item-count\">x"+(i==0 ? "150" : "1")+"</div>");
             }
         }
-        if(screen=="hud") {
+        if(screen=="hud" || screen=="hud-map") {
+            // Mirrors TacticalMapPresenter output for Shipment: 48m minimap span, self/friendly/heard enemy.
+            document->GetElementById("minimap")->SetClass("hidden",false);
+            document->GetElementById("minimap-image")->SetAttribute("src","Minimaps/Shipment.tga");
+            document->GetElementById("tactical-map-image")->SetAttribute("src","Minimaps/Shipment.tga");
+            auto layer=document->GetElementById("minimap-layer");
+            layer->SetProperty("width","95.83%");layer->SetProperty("height","95.83%");layer->SetProperty("left","14.37%");layer->SetProperty("top","-11.5%");
+            const char* contacts="<div class=\"map-contact self\" style=\"left: 37%; top: 64%;\"><img class=\"map-arrow\" src=\"Icons/map-arrow.tga\"/><div class=\"map-dot\"></div></div>"
+                "<div class=\"map-contact friendly\" style=\"left: 30%; top: 55%;\"><img class=\"map-arrow\" src=\"Icons/map-arrow.tga\"/><div class=\"map-dot\"></div></div>"
+                "<div class=\"map-contact friendly\" style=\"left: 46%; top: 72%;\"><img class=\"map-arrow\" src=\"Icons/map-arrow.tga\"/><div class=\"map-dot\"></div></div>"
+                "<div class=\"map-contact enemy\" style=\"left: 58%; top: 40%;\"><img class=\"map-arrow\" src=\"Icons/map-arrow.tga\"/><div class=\"map-dot\"></div></div>"
+                "<div class=\"map-contact enemy\" style=\"left: 74%; top: 30%; opacity: 0.5;\"><img class=\"map-arrow\" src=\"Icons/map-arrow.tga\"/><div class=\"map-dot\"></div></div>";
+            set("minimap-contacts",contacts);set("tactical-map-contacts",contacts);
+            set("minimap-caption","SHIPMENT / M MAP");set("tactical-map-name","SHIPMENT");set("tactical-map-hint","M CLOSE MAP");
+            document->GetElementById("tactical-map")->SetClass("hidden",screen!="hud-map");
             set("objective-status","CAPTURE / COURTYARD");set("objective-detail","NEUTRAL / 42m / NEXT ROTATION 00:35");set("objective-instruction","Hold the zone to score. Both teams inside = contested.");
             set("objective-rotation","CAPTURING / 62%");set("alpha-score","4");set("bravo-score","2");set("health-value","86");
             document->GetElementById("health")->SetAttribute("value",86);

@@ -75,9 +75,15 @@ BUILD_ALWAYS_INCLUDE	project://UI/Icons/armour.tga
 BUILD_ALWAYS_INCLUDE	project://UI/Icons/arrow.tga
 BUILD_ALWAYS_INCLUDE	project://UI/Icons/grenade.tga
 BUILD_ALWAYS_INCLUDE	project://UI/Icons/health.tga
+BUILD_ALWAYS_INCLUDE	project://UI/Icons/map-arrow.tga
 BUILD_ALWAYS_INCLUDE	project://UI/Icons/objective.tga
 BUILD_ALWAYS_INCLUDE	project://UI/MartianMono-OFL.txt
 BUILD_ALWAYS_INCLUDE	project://UI/MartianMono-StdRg.ttf
+BUILD_ALWAYS_INCLUDE	project://UI/Minimaps/Foundry.tga
+BUILD_ALWAYS_INCLUDE	project://UI/Minimaps/Main.tga
+BUILD_ALWAYS_INCLUDE	project://UI/Minimaps/Shipment.tga
+BUILD_ALWAYS_INCLUDE	project://UI/Minimaps/Standoff.tga
+BUILD_ALWAYS_INCLUDE	project://UI/Minimaps/Terminal.tga
 BUILD_ALWAYS_INCLUDE	project://UI/Weapons/ar.png
 BUILD_ALWAYS_INCLUDE	project://UI/Weapons/ar.tga
 BUILD_ALWAYS_INCLUDE	project://UI/Weapons/lmg.png
@@ -182,12 +188,6 @@ ASSET	project://Bots/Soldier/manifest.json	2281	Unknown
 ASSET	project://Data/4x4.plutoscriptable	2074	Scriptable Object
 ASSET	project://Data/AudiS5.plutoscriptable	2127	Scriptable Object
 ASSET	project://Data/Racecar.plutoscriptable	2071	Scriptable Object
-ASSET	project://Fonts/Georama.ttf	434664	Unknown
-ASSET	project://Fonts/Inter-OFL.txt	4470	Unknown
-ASSET	project://Fonts/Inter.ttf	876576	Unknown
-ASSET	project://Fonts/Rajdhani-Bold.ttf	400680	Unknown
-ASSET	project://Fonts/Rajdhani-OFL.txt	4466	Unknown
-ASSET	project://Fonts/Rajdhani-Regular.ttf	377860	Unknown
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_A_TPose_0.plutoclip	332294	Animation Clip
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Crouch_Fwd_Loop_1.plutoclip	273802	Animation Clip
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Crouch_Idle_Loop_2.plutoclip	383003	Animation Clip
@@ -938,7 +938,6 @@ ASSET	project://Scripts/ServerSimulation.cs	15403	Script
 ASSET	project://Scripts/SpectatorPresentation.cs	5578	Script
 ASSET	project://Scripts/SupplyPickup.cs	4022	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
-ASSET	project://Scripts/TacticalUi.cs	1047	Script
 ASSET	project://Scripts/TeamNameplate.cs	293	Script
 ASSET	project://Scripts/TitleScreen.cs	8459	Script
 ASSET	project://Scripts/UIManager.cs	10176	Script
@@ -1794,61 +1793,15 @@ ASSET	project://Textures/Terminal/Tile.png	53081	Texture
 ASSET	project://Textures/Terminal/White.png	53849	Texture
 ASSET	project://Textures/Terminal/Wood.png	52745	Texture
 ASSET	project://Textures/Terminal/Yellow.png	53760	Texture
-ASSET	project://UI/Artwork/loading-foundry.png	2173728	Texture
-ASSET	project://UI/Artwork/loading-foundry.prompt.txt	986	Unknown
-ASSET	project://UI/Artwork/loading-foundry.tga	6293426	Texture
-ASSET	project://UI/Artwork/menu-background.png	1769367	Texture
-ASSET	project://UI/Artwork/menu-background.tga	4720595	Texture
-ASSET	project://UI/Artwork/title-compound.png	2227731	Texture
-ASSET	project://UI/Artwork/title-compound.prompt.txt	794	Unknown
-ASSET	project://UI/Artwork/title-compound.tga	6293426	Texture
-ASSET	project://UI/Icons/ammo.tga	5202	Texture
-ASSET	project://UI/Icons/armour.tga	5202	Texture
-ASSET	project://UI/Icons/arrow.tga	5202	Texture
-ASSET	project://UI/Icons/grenade.tga	5202	Texture
-ASSET	project://UI/Icons/health.tga	5202	Texture
-ASSET	project://UI/Icons/objective.tga	5202	Texture
-ASSET	project://UI/MartianMono-OFL.txt	4483	Unknown
-ASSET	project://UI/MartianMono-StdRg.ttf	118624	Unknown
-ASSET	project://UI/Weapons/ar.png	161119	Texture
-ASSET	project://UI/Weapons/ar.tga	983579	Texture
-ASSET	project://UI/Weapons/lmg.png	158604	Texture
-ASSET	project://UI/Weapons/lmg.tga	983579	Texture
-ASSET	project://UI/Weapons/pistol.png	123405	Texture
-ASSET	project://UI/Weapons/pistol.tga	983579	Texture
-ASSET	project://UI/defusal-marker.rcss	443	Unknown
 ASSET	project://UI/defusal-marker.rcss.in	453	Unknown
-ASSET	project://UI/defusal-marker.rml	203	RML Document
-ASSET	project://UI/friendly-nameplate.rcss	629	Unknown
 ASSET	project://UI/friendly-nameplate.rcss.in	654	Unknown
-ASSET	project://UI/friendly-nameplate.rml	220	RML Document
-ASSET	project://UI/hardpoint-marker.rcss	792	Unknown
 ASSET	project://UI/hardpoint-marker.rcss.in	818	Unknown
-ASSET	project://UI/hardpoint-marker.rml	205	RML Document
-ASSET	project://UI/hud.rcss	8741	Unknown
 ASSET	project://UI/hud.rcss.in	8920	Unknown
-ASSET	project://UI/hud.rml	3622	RML Document
-ASSET	project://UI/inventory.rcss	5151	Unknown
 ASSET	project://UI/inventory.rcss.in	5265	Unknown
-ASSET	project://UI/inventory.rml	5032	RML Document
-ASSET	project://UI/loading.plutoloading	72	Loading Screen
-ASSET	project://UI/loading.rcss	2545	Unknown
 ASSET	project://UI/loading.rcss.in	2588	Unknown
-ASSET	project://UI/loading.rml	993	RML Document
-ASSET	project://UI/pause-menu.rcss	796	Unknown
 ASSET	project://UI/pause-menu.rcss.in	809	Unknown
-ASSET	project://UI/pause-menu.rml	12442	RML Document
-ASSET	project://UI/settings.rcss	3406	Unknown
-ASSET	project://UI/starter.rcss	1633	Unknown
-ASSET	project://UI/starter.rml	671	RML Document
-ASSET	project://UI/theme.rcss	6891	Unknown
 ASSET	project://UI/theme.rcss.in	6939	Unknown
-ASSET	project://UI/theme.tokens.json	356	Unknown
-ASSET	project://UI/title.rcss	4766	Unknown
 ASSET	project://UI/title.rcss.in	4806	Unknown
-ASSET	project://UI/title.rml	15942	RML Document
-ASSET	project://UI/vehicle-speedometer.rcss	2990	Unknown
-ASSET	project://UI/vehicle-speedometer.rml	1698	RML Document
 ASSET	project://Weapons/Materials/Accent.plutomaterial	673	Material
 ASSET	project://Weapons/Materials/Brass.plutomaterial	166	Material
 ASSET	project://Weapons/Materials/Glove.plutomaterial	168	Material
@@ -1888,3 +1841,62 @@ ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_height.png	4112027	
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_metallic.psd	2732299	Unknown
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_normal-ogl.png	12312674	Texture
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_preview.jpg	628869	Texture
+ASSET	project://UI/Minimaps/Main.tga	4194322	Texture
+ASSET	project://UI/Minimaps/Shipment.tga	4194322	Texture
+ASSET	project://UI/Minimaps/Standoff.tga	4194322	Texture
+ASSET	project://UI/Minimaps/Foundry.tga	4194322	Texture
+ASSET	project://UI/Minimaps/Terminal.tga	4194322	Texture
+ASSET	project://UI/defusal-marker.rcss	443	Unknown
+ASSET	project://UI/defusal-marker.rml	203	RML Document
+ASSET	project://UI/friendly-nameplate.rcss	629	Unknown
+ASSET	project://UI/friendly-nameplate.rml	220	RML Document
+ASSET	project://UI/hardpoint-marker.rcss	792	Unknown
+ASSET	project://UI/hardpoint-marker.rml	205	RML Document
+ASSET	project://UI/hud.rcss	12877	Unknown
+ASSET	project://UI/hud.rml	5189	RML Document
+ASSET	project://UI/inventory.rcss	5151	Unknown
+ASSET	project://UI/inventory.rml	5032	RML Document
+ASSET	project://UI/loading.plutoloading	72	Loading Screen
+ASSET	project://UI/loading.rcss	2545	Unknown
+ASSET	project://UI/loading.rml	993	RML Document
+ASSET	project://UI/MartianMono-OFL.txt	4483	Unknown
+ASSET	project://UI/MartianMono-StdRg.ttf	118624	Unknown
+ASSET	project://UI/pause-menu.rcss	796	Unknown
+ASSET	project://UI/pause-menu.rml	12442	RML Document
+ASSET	project://UI/settings.rcss	3406	Unknown
+ASSET	project://UI/starter.rcss	1633	Unknown
+ASSET	project://UI/starter.rml	671	RML Document
+ASSET	project://UI/theme.rcss	6891	Unknown
+ASSET	project://UI/theme.tokens.json	356	Unknown
+ASSET	project://UI/title.rcss	4766	Unknown
+ASSET	project://UI/title.rml	15942	RML Document
+ASSET	project://UI/vehicle-speedometer.rcss	2990	Unknown
+ASSET	project://UI/vehicle-speedometer.rml	1698	RML Document
+ASSET	project://Fonts/Georama.ttf	434664	Unknown
+ASSET	project://Fonts/Inter-OFL.txt	4470	Unknown
+ASSET	project://Fonts/Inter.ttf	876576	Unknown
+ASSET	project://Fonts/Rajdhani-Bold.ttf	400680	Unknown
+ASSET	project://Fonts/Rajdhani-OFL.txt	4466	Unknown
+ASSET	project://Fonts/Rajdhani-Regular.ttf	377860	Unknown
+ASSET	project://UI/Icons/ammo.tga	5202	Texture
+ASSET	project://UI/Icons/armour.tga	5202	Texture
+ASSET	project://UI/Icons/arrow.tga	5202	Texture
+ASSET	project://UI/Icons/grenade.tga	5202	Texture
+ASSET	project://UI/Icons/health.tga	5202	Texture
+ASSET	project://UI/Icons/map-arrow.tga	5202	Texture
+ASSET	project://UI/Icons/objective.tga	5202	Texture
+ASSET	project://UI/Weapons/ar.png	161119	Texture
+ASSET	project://UI/Weapons/ar.tga	983579	Texture
+ASSET	project://UI/Weapons/lmg.png	158604	Texture
+ASSET	project://UI/Weapons/lmg.tga	983579	Texture
+ASSET	project://UI/Weapons/pistol.png	123405	Texture
+ASSET	project://UI/Weapons/pistol.tga	983579	Texture
+ASSET	project://UI/Artwork/loading-foundry.png	2173728	Texture
+ASSET	project://UI/Artwork/loading-foundry.prompt.txt	986	Unknown
+ASSET	project://UI/Artwork/loading-foundry.tga	6293426	Texture
+ASSET	project://UI/Artwork/menu-background.png	1769367	Texture
+ASSET	project://UI/Artwork/menu-background.tga	4720595	Texture
+ASSET	project://UI/Artwork/title-compound.png	2227731	Texture
+ASSET	project://UI/Artwork/title-compound.prompt.txt	794	Unknown
+ASSET	project://UI/Artwork/title-compound.tga	6293426	Texture
+ASSET	project://Scripts/TacticalUi.cs	1047	Script

@@ -23,6 +23,26 @@
             <span class="team-score bravo-team"><span class="team-emblem bravo-emblem"><span>B</span></span><span class="score-team-name">BRAVO</span><span id="bravo-score">0</span></span>
         </div>
 
+        <div id="minimap" class="panel hidden">
+            <div id="minimap-frame" class="map-frame">
+                <div id="minimap-layer" class="map-layer"><img id="minimap-image" class="map-image"/><div id="minimap-contacts" class="map-contacts"></div></div>
+            </div>
+            <div class="minimap-north">N</div>
+            <div id="minimap-caption" class="map-caption"></div>
+        </div>
+        <div id="tactical-map" class="hidden">
+            <div id="tactical-map-panel" class="panel">
+                <div class="tactical-map-header">
+                    <div><div class="eyebrow">TACTICAL MAP</div><div id="tactical-map-name">MAP</div></div>
+                    <div class="tactical-map-legend"><span class="legend-self">YOU</span><span class="legend-friendly">FRIENDLY</span><span class="legend-enemy">HEARD ENEMY</span></div>
+                </div>
+                <div id="tactical-map-frame" class="map-frame">
+                    <div id="tactical-map-layer" class="map-layer"><img id="tactical-map-image" class="map-image"/><div id="tactical-map-contacts" class="map-contacts"></div></div>
+                    <div class="tactical-map-north">N</div>
+                </div>
+                <div id="tactical-map-hint" class="ui-meta"></div>
+            </div>
+        </div>
         <div id="score-goal"></div>
         <div id="kill-feed"></div>
 

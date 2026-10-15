@@ -28,4 +28,25 @@ for name, strokes in paths.items():
             pixels.extend((245,244,242,round(coverage/9*255)))
     header = struct.pack('<BBBHHBHHHHBB',0,0,2,0,0,0,0,0,36,36,32,40)
     (out / f'{name}.tga').write_bytes(header + pixels)
-print('Created six tactical outline icons.')
+
+def inside(px, py, polygon):
+    hit = False
+    for (ax, ay), (bx, by) in zip(polygon, polygon[1:] + polygon[:1]):
+        if (ay > py) != (by > py) and px < ax + (py - ay) * (bx - ax) / (by - ay): hit = not hit
+    return hit
+
+# Filled map arrowhead pointing north. White fill is tinted with RCSS image-color; the dark
+# rim stays dark so markers remain legible over the map outline.
+arrow = [(18, 3), (31, 31), (18, 24), (5, 31)]
+rim = list(zip(arrow, arrow[1:] + arrow[:1]))
+pixels = bytearray()
+for y in range(36):
+    for x in range(36):
+        samples = [(x + (sx + .5) / 4, y + (sy + .5) / 4) for sy in range(4) for sx in range(4)]
+        fill = sum(inside(px, py, arrow) for px, py in samples) / 16
+        edge = sum(min(distance(px, py, a, b) for a, b in rim) < 1.6 for px, py in samples) / 16
+        alpha = max(fill, edge)
+        shade = 245 if alpha == 0 else round(245 * max(0, fill - edge) / alpha + 9 * min(edge, alpha) / alpha)
+        pixels.extend((shade, shade, shade, round(alpha * 255)))
+(out / 'map-arrow.tga').write_bytes(struct.pack('<BBBHHBHHHHBB',0,0,2,0,0,0,0,0,36,36,32,40) + pixels)
+print('Created six tactical outline icons and the map arrowhead.')
