@@ -1,7 +1,7 @@
 """Render review screenshots of a scene with the real runtime (no gameplay scripts).
 
 Usage: python Tools/capture_scene_shots.py <Scene> <shots.json> <outdir> [runtime.exe] [--headless]
-shots.json: [{"name": "street", "pos": [x, y, z], "target": [x, y, z], "fov": 70}, ...]
+shots.json: [{"name": "street", "pos": [x, y, z], "target": [x, y, z], "fov": 70}, ...]; "down": true looks straight down with north (-Z) up; "ortho": height requests orthographic projection
 Each shot strips the player rig and HUD, adds a free camera, launches the runtime windowed
 and captures the window client area from the screen (Windows only; needs an unlocked desktop).
 --headless renders with PlutoGERenderSceneShot instead (works while locked; no particles or UI).
@@ -30,10 +30,13 @@ def strip_scene(text):
     return head + ''.join(kept)
 
 
-def camera(pos, target, fov):
+def camera(pos, target, fov, ortho=None, down=False):
     dx, dy, dz = (target[k] - pos[k] for k in range(3))
-    yaw = math.degrees(math.atan2(-dx, -dz))
-    pitch = math.degrees(math.atan2(dy, math.hypot(dx, dz)))
+    if ortho or down:
+        yaw, pitch = 0.0, -90.0  # straight down, north (-Z) at the top of the image
+    else:
+        yaw = math.degrees(math.atan2(-dx, -dz))
+        pitch = math.degrees(math.atan2(dy, math.hypot(dx, dz)))
     v = lambda a: ','.join(f'{x:.5f}' for x in a)
     return (f'ENTITY\t999990\t0\t1\tCAMERA - Review\t{v(pos)}\t{v((pitch, yaw, 0))}\t1,1,1\n'
             'COMPONENT\t999990\tCameraComponent\t1\n'
@@ -92,10 +95,10 @@ def main():
               if l.split('\t')[0] not in ('ASSET_DIR', 'STARTUP_SCENE', 'WINDOW_SIZE', 'VSYNC', 'GRAPHICS_API', 'FULLSCREEN', 'WINDOW_MODE')]
     for shot in shots:
         scene_path = work / f'{scene_name}-{shot["name"]}.plutoscene'
-        scene_path.write_text(base + camera(shot['pos'], shot['target'], shot.get('fov', 70)))
+        scene_path.write_text(base + camera(shot['pos'], shot['target'], shot.get('fov', 70), shot.get('ortho'), shot.get('down', False)))
         if headless:
             ppm = work / f'{shot["name"]}.ppm'
-            result = subprocess.run([str(LAB), str(ROOT), str(scene_path), str(ppm), 'Review', '--size', f'{WIDTH}x{HEIGHT}'], cwd=LAB.parent, capture_output=True, text=True)
+            result = subprocess.run([str(LAB), str(ROOT), str(scene_path), str(ppm), 'Review', '--size', shot.get('size', f'{WIDTH}x{HEIGHT}')], cwd=LAB.parent, capture_output=True, text=True)
             if result.returncode != 0:
                 print('FAILED', shot['name'], result.stdout[-400:], result.stderr[-800:]); continue
             Image.open(ppm).save(outdir / f'{shot["name"]}.png'); ppm.unlink()

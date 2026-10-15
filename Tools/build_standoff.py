@@ -1,8 +1,8 @@
 """Generate a Standoff-inspired Hardpoint village with native LPGM geometry.
 
-Reference: user-supplied Black Ops II "Standoff" screenshots and aerial view. The plan is traced
-from the aerial in pixel coordinates (1053 x 603 display crop) and converted with S metres per
-pixel; north (top of the aerial) is -Z. All geometry, textures and audio are generated here
+Reference: user-supplied Black Ops II "Standoff" screenshots, aerial view and minimap. The plan is
+traced from the 2048x2048 minimap in pixel coordinates and converted with S metres per pixel (scale
+from the minimap's tank outline); north (top of the minimap) is -Z. All geometry, textures and audio are generated here
 procedurally; nothing is copied from the original game.
 Run: python Tools/build_standoff.py   (needs Pillow + numpy). Rebuilds Standoff assets only.
 """
@@ -14,8 +14,8 @@ from PIL import Image
 import standoff_textures as tex
 
 ROOT = Path(__file__).resolve().parents[1]; A = ROOT / 'Assets'; generated = []
-S = .105
-def P(px, py, y=0.0): return ((px - 526) * S, y, (py - 300) * S)
+S = .08
+def P(px, py, y=0.0): return ((px - 1020) * S, y, (py - 1020) * S)
 def R(px0, py0, px1, py1):
     """Pixel rectangle -> (centre x, centre z, width x, depth z)."""
     x0, _, z0 = P(px0, py0); x1, _, z1 = P(px1, py1)
@@ -506,6 +506,95 @@ def ground_rect(g, m, px0, py0, px1, py1, y=.02):
     poly(g, m, [(x0, y, z0), (x1, y, z0), (x1, y, z1), (x0, y, z1)], None, (0, 1, 0))
 
 # ------------------------------------------------------------------ map content
+# All coordinates below are pixels in the user's 2048x2048 Standoff minimap (north up).
+# Playable boundary traced along the minimap's white outline.
+BOUNDARY = [(1335, 318), (1268, 313), (1228, 389), (1215, 438), (1190, 489), (1131, 494), (1130, 516), (1048, 516), (1045, 450),
+            (981, 450), (980, 484), (933, 484), (931, 476), (752, 477), (750, 492), (714, 498), (713, 597), (664, 598), (663, 739),
+            (626, 740), (626, 836), (470, 838), (470, 941), (492, 943), (492, 987), (471, 990), (471, 1249), (501, 1251), (500, 1277),
+            (471, 1278), (471, 1418), (502, 1420), (502, 1446), (477, 1447), (477, 1531), (498, 1533), (498, 1703), (509, 1731),
+            (635, 1730), (636, 1526), (914, 1525), (970, 1498), (1083, 1498), (1084, 1416), (1076, 1414), (1077, 1318), (1226, 1322),
+            (1249, 1303), (1250, 1275), (1501, 1275), (1502, 1179), (1520, 1178), (1540, 1161), (1573, 1160), (1578, 813), (1477, 811),
+            (1477, 644), (1438, 642), (1439, 454), (1336, 451)]
+INTERIORS = []   # (name, outline) of enterable buildings: volumes and navigation checks are derived from these.
+
+def spans(poly, y):
+    xs = []
+    for (x0, y0), (x1, y1) in zip(poly, poly[1:] + poly[:1]):
+        if min(y0, y1) <= y < max(y0, y1): xs.append(x0 + (y - y0) * (x1 - x0) / (y1 - y0))
+    xs.sort(); return list(zip(xs[::2], xs[1::2]))
+def inside(poly, x, y): return any(a <= x <= b for a, b in spans(poly, y))
+
+def fill(g, m, outline, y, step=6, flip=False):
+    """Scanline-filled planar polygon (concave allowed) at height y."""
+    ys = [p[1] for p in outline]
+    py = min(ys)
+    while py < max(ys):
+        for a, b in spans(outline, py + step / 2):
+            x0, _, z0 = P(a, py); x1, _, z1 = P(b, min(py + step, max(ys)))
+            poly_pts = [(x0, y, z0), (x1, y, z0), (x1, y, z1), (x0, y, z1)]
+            poly(g, m, poly_pts, None, (0, -1 if flip else 1, 0))
+        py += step
+
+def closed(g, rect, floors, wall, roof='Slate', ridge='x', rise=None, windows='WindowPlain', doors=None, gable=None, roof_type='gable', sides='NSEW', plinth='StoneDark', extra=.3):
+    """Inaccessible (hatched) building block: solid collision, facade decals and a roof."""
+    return house(g, *rect, floors, wall, roof, ridge, rise, windows, doors, roof_type, gable=gable, sides=sides, plinth=plinth, extra_height=extra)
+
+def shell(name, outline, H, wall, doors, roofs, floor='Concrete', windows='WindowPlain', skip=(), lining='InteriorWall', light=(1, .9, .75), window_y=(1.75,), ceiling=3.4):
+    """Enterable building. Walls follow the outline with full-height door gaps (render-only lintels),
+    so the top-down navmesh sees the floor; roofs and ceilings are render-only for the same reason.
+    doors: [(px, py, width_m)] on outline edges. roofs: [(rect, type, material, ridge, rise)]."""
+    g = name
+    INTERIORS.append((name, outline))
+    world = [P(x, y) for x, y in outline]
+    cx = sum(p[0] for p in world) / len(world); cz = sum(p[2] for p in world) / len(world)
+    for k, ((ax, ay), (bx, by)) in enumerate(zip(outline, outline[1:] + outline[:1])):
+        a, b = P(ax, ay), P(bx, by); L = math.dist((a[0], a[2]), (b[0], b[2]))
+        if L < .05: continue
+        ux, uz = (b[0] - a[0]) / L, (b[2] - a[2]) / L
+        # Outward normal: the side whose sample point lies outside the outline.
+        nx, nz = uz, -ux
+        mx, mz = (a[0] + b[0]) / 2 + nx * .5, (a[2] + b[2]) / 2 + nz * .5
+        if inside(outline, mx / S + 1020, mz / S + 1020): nx, nz = -nx, -nz
+        fyaw = math.degrees(math.atan2(nx, nz))
+        openings = []
+        for dx, dy, w in doors:
+            d = P(dx, dy); t = (d[0] - a[0]) * ux + (d[2] - a[2]) * uz
+            off = abs((d[0] - a[0]) * uz - (d[2] - a[2]) * ux)
+            if off < .6 and -.1 < t < L + .1: openings.append((max(0, t - w / 2), min(L, t + w / 2), H))
+        if k not in skip:
+            wall_run(g, wall, (a[0], a[2]), (b[0], b[2]), 0, H, .3, openings)
+            pos = 0
+            for s0, s1 in sorted((o[0], o[1]) for o in openings) + [(L, L)]:
+                if s0 - pos > .05:
+                    m = (pos + s0) / 2
+                    box(g, 'StoneDark', (a[0] + ux * m + nx * .05, .3, a[2] + uz * m + nz * .05), (.42, .6, s0 - pos), math.degrees(math.atan2(ux, uz)), bottom=False)
+                pos = s1
+            for s0, s1, _ in openings:
+                m = (s0 + s1) / 2; px_, pz_ = a[0] + ux * m, a[2] + uz * m
+                box(g, wall, (px_, (2.5 + H) / 2, pz_), (.3, H - 2.5, s1 - s0), math.degrees(math.atan2(ux, uz)))
+                decal(g, 'PlanksDark', (px_ + nx * .16, 2.55, pz_ + nz * .16), fyaw, s1 - s0 + .3, .18, 0)
+            # Exterior windows between openings.
+            count = int(L / 3.2)
+            for i in range(count):
+                t = (i + .5) * L / count
+                if any(s0 - .9 < t < s1 + .9 for s0, s1, _ in openings): continue
+                for wy in window_y:
+                    if wy + .8 > H: continue
+                    decal(g, windows, (a[0] + ux * t + nx * .16, wy, a[2] + uz * t + nz * .16), fyaw, 1.05, 1.55)
+            # Interior lining.
+            ins = (-nx * .16, -nz * .16)
+            poly(g, lining, [(a[0] + ins[0], 0, a[2] + ins[1]), (b[0] + ins[0], 0, b[2] + ins[1]), (b[0] + ins[0], ceiling, b[2] + ins[1]), (a[0] + ins[0], ceiling, a[2] + ins[1])], None, (-nx, 0, -nz))
+    fill(g, floor, outline, .025)
+    fill(g, 'Ceiling', outline, ceiling, flip=True)
+    for rect, kind, mat, ridge, rise in roofs:
+        rcx, rcz, rw, rd = R(*rect)
+        box(g, 'Concrete', (rcx, H - .1, rcz), (rw + .2, .2, rd + .2), bottom=False)
+        if kind == 'gable': gable_roof(g, mat, rcx, rcz, rw, rd, H, rise, 0, ridge, gable=wall)
+        elif kind == 'hip': hip_roof(g, mat, rcx, rcz, rw, rd, H, rise)
+        else: box(g, mat, (rcx, H + .1, rcz), (rw + .3, .25, rd + .3))
+    point_light(name + ' light', (cx, ceiling - .4, cz), light, 6, max(6, math.sqrt(len(outline)) * 4))
+    return cx, cz
+
 def build_ground():
     g = 'Ground'
     box(g, 'Grass', (0, -.5, 0), (420, 1, 420), render=False, solid=True)
@@ -513,141 +602,358 @@ def build_ground():
         for j in range(-5, 5):
             x0, z0 = i * 40, j * 40
             poly('Terrain grass', 'Grass', [(x0, 0, z0), (x0 + 40, 0, z0), (x0 + 40, 0, z0 + 40), (x0, 0, z0 + 40)], None, (0, 1, 0))
-    # Furrowed field (top-left of the aerial) continuing north beyond the boundary.
-    poly('Farm field', 'Field', [P(-60, -260, .02), P(275, -260, .02), P(265, 95, .02), P(-60, 70, .02)], None, (0, 1, 0))
-    poly('Farm field', 'Field', [P(560, -420, .02), P(900, -420, .02), P(900, -140, .02), P(560, -140, .02)], None, (0, 1, 0))
-    # Worn dirt track curving down the west meadow.
-    path = [(-40, 160), (40, 190), (110, 240), (160, 300), (190, 345)]
-    for (a, b) in zip(path, path[1:]):
-        ax, _, az = P(*a); bx, _, bz = P(*b); dx, dz = bx - ax, bz - az; l = math.hypot(dx, dz); nx, nz = -dz / l * 1.7, dx / l * 1.7
-        poly('Farm field', 'Dirt', [(ax - nx, .015, az - nz), (bx - nx, .015, bz - nz), (bx + nx, .015, bz + nz), (ax + nx, .015, az + nz)], None, (0, 1, 0))
-    # Asphalt road network traced from the aerial.
-    for r in [(330, 40, 565, 195), (455, 195, 510, 425), (180, 355, 720, 425), (700, 140, 770, 470), (565, 145, 700, 205),
-              (-60, 335, 180, 385), (215, 130, 255, 355), (290, -40, 335, 140), (700, 470, 770, 650), (600, 40, 700, 145)]:
-        ground_rect('Roads', 'Asphalt', *r, .03)
-    ground_rect('Roads', 'Concrete', 615, 425, 955, 650, .035)
-    ground_rect('Roads', 'Concrete', 770, 190, 958, 205, .035)
-    # Cobbled sidewalks and yards.
-    for r in [(515, 195, 700, 300), (510, 300, 520, 500), (330, 0, 565, 40), (245, 145, 452, 350), (680, 300, 700, 500), (430, 425, 510, 460)]:
-        ground_rect('Sidewalks', 'Cobble', *r, .05)
-    ground_rect('Yards', 'Dirt', 100, 340, 215, 540, .025)
-    ground_rect('Yards', 'Dirt', 230, 390, 380, 600, .028)
-    ground_rect('Yards', 'Dirt', 780, 30, 930, 200, .025)
-    # Yellow-painted kerbs like the reference streets.
-    for a, b in [((330, 195), (455, 195)), ((510, 195), (565, 195)), ((455, 195), (455, 355)), ((510, 205), (510, 355)),
-                 ((510, 355), (700, 355)), ((255, 355), (455, 355)), ((180, 425), (430, 425)), ((510, 425), (615, 425)),
-                 ((700, 205), (700, 355)), ((770, 140), (770, 200)), ((565, 145), (565, 195)), ((330, 40), (330, 140))]:
+    # Fields beyond the boundary.
+    for r in [(560, 60, 1000, 440), (1460, 250, 1900, 620), (120, 1520, 470, 1950), (1120, 1560, 1600, 1950)]:
+        x0, _, z0 = P(r[0], r[1], .02); x1, _, z1 = P(r[2], r[3])
+        poly('Farm field', 'Field', [(x0, .02, z0), (x1, .02, z0), (x1, .02, z1), (x0, .02, z1)], None, (0, 1, 0))
+    # Playable streets: asphalt across the whole traced footprint, overlays for yards and walks.
+    fill('Roads', 'Asphalt', BOUNDARY, .03, 8)
+    for r, m in [((474, 845, 556, 1525), 'Grass'), ((500, 1530, 632, 1728), 'Dirt'), ((1218, 330, 1332, 505), 'Dirt'),
+                 ((583, 910, 673, 996), 'Dirt'), ((1326, 646, 1438, 705), 'Dirt'), ((800, 700, 925, 800), 'Cobble'),
+                 ((930, 677, 1130, 697), 'Cobble'), ((955, 842, 973, 1162), 'Cobble'), ((1235, 1146, 1500, 1274), 'Concrete'),
+                 ((1500, 1000, 1574, 1176), 'Concrete'), ((633, 1484, 912, 1522), 'Grass'), ((1085, 1325, 1225, 1415), 'Dirt')]:
+        ground_rect('Yards', m, *r, .045)
+    for a, b in [((930, 697), (1130, 697)), ((955, 842), (955, 1160)), ((800, 800), (925, 800)), ((1235, 1146), (1235, 1274))]:
         curb('Kerbs', a, b)
 
-def build_compound():
-    g = 'Chimney house'
-    cx, cz, w, d, H = house(g, 290, 205, 440, 290, 2, 'PlasterCream', 'Slate', 'x', 2.8, 'WindowGreen', {'N': (1, 3), 'S': (2,)}, gable='PlasterCream')
-    # Tall brick chimney and the covered porch with blue doors.
-    x, _, z = P(305, 222); box(g, 'Brick', (x, (H + 6) / 2, z), (1.2, H + 6, 1.2), solid=True); box(g, 'Concrete', (x, H + 6.1, z), (1.45, .25, 1.45))
-    x0, _, z0 = P(305, 205)
+def build_boundary():
+    # Invisible perimeter collision plus visible stone walls, hedges and fences along the white outline.
+    rnd = random.Random(8)
+    for k, ((ax, ay), (bx, by)) in enumerate(zip(BOUNDARY, BOUNDARY[1:] + BOUNDARY[:1])):
+        a, b = P(ax, ay), P(bx, by); L = math.dist((a[0], a[2]), (b[0], b[2]))
+        if L < .3: continue
+        yaw = math.degrees(math.atan2(b[0] - a[0], b[2] - a[2]))
+        box('Boundary', 'Hedge', ((a[0] + b[0]) / 2, 3, (a[2] + b[2]) / 2), (.6, 6, L + .3), yaw, solid=True, render=False)
+        kind = k % 3 if L > 3 else 0
+        if kind == 0: wall_run('Boundary walls', 'Stone', (a[0], a[2]), (b[0], b[2]), 0, 1.8, .45, solid=False, cap='Concrete')
+        elif kind == 1:
+            n = max(1, int(L / 2.2))
+            for i in range(n):
+                t = (i + .5) / n; blob('Boundary hedges', 'Hedge', (a[0] + (b[0] - a[0]) * t, 1.0, a[2] + (b[2] - a[2]) * t), (1.5, 1.4, 1.5), f'bh{k}-{i}', .22, 7, 4)
+        else: wood_fence('Boundary fences', (ax, ay), (bx, by), 1.6)
+
+def build_market():
+    # North building: white two-storey market with red shutters; enterable ground floor.
+    shell('Market', [(930, 505), (1028, 505), (1028, 538), (1130, 538), (1130, 677), (930, 677)], 6.6, 'PlasterWhite',
+          [(1130, 575, 2.4), (1000, 677, 2.6), (930, 625, 2.4)],
+          [((930, 538, 1130, 677), 'gable', 'Slate', 'x', 3.2), ((930, 505, 1028, 538), 'gable', 'Slate', 'x', 1.4)],
+          floor='PlanksDark', windows='WindowShutter', window_y=(1.75, 4.95))
+    closed('Market stair tower', (983, 452, 1046, 505), 2, 'PlasterWhite', 'Slate', 'x', 1.6, 'WindowShutter', roof_type='hip', sides='SEW')
+    closed('Market annex', (821, 580, 930, 655), 1, 'Stone', 'Slate', 'x', 1.8, 'WindowBroken', {'W': (0,)}, gable='Stone')
+    x, _, z = P(1060, 677); decal('Market', 'SignMarket', (x, 4.1, z + .17), 0, 6, 1.5, 0)
+    for k, px in enumerate((950, 1040, 1080, 1110)):
+        x, _, z = P(px, 677); decal('Market', ['PosterA', 'PosterB', 'PosterC', 'PosterA'][k], (x, 1.5, z + .18), 0, 1.2, .9, 0)
+    # Interior: long shop counter, shelving and stock.
+    g = 'Market interior'
+    x0, _, z0 = P(1000, 610); x1, _, _ = P(1095, 610)
+    box(g, 'PlanksDark', ((x0 + x1) / 2, .55, z0), (x1 - x0, 1.1, .7), solid=True); box(g, 'Concrete', ((x0 + x1) / 2, 1.12, z0), (x1 - x0 + .1, .06, .8))
+    for px in (945, 965):
+        x, _, z = P(px, 590); box(g, 'DarkMetal', (x, .9, z), (.6, 1.8, 4.5), solid=True); decal(g, 'ShelfGoods', (x + .31, .95, z), 90, 4.4, 1.6, 0)
+    crates(g, 1105, 655, 0, 4, 31); crates(g, 960, 655, 90, 3, 32)
+    crates('Market props', 1060, 705, 0, 6, 8); crates('Market props', 960, 712, 0, 4, 9)
+    box('Market props', 'WhitePaint', P(1145, 641, .9), (.9, 1.8, 1.1), solid=True)
+    dumpster('Market props', 778, 553, 10)
+    x0, _, z0 = P(760, 636); x1, _, z1 = P(854, 660)
+    wall_run('Market props', 'Concrete', (x0, z0), (x1, z1), 0, 1.1, .3, cap='Concrete')
+
+def build_barn():
+    closed('Barn loft', (1326, 455, 1438, 526), 2, 'Planks', 'Corrugated', 'x', 2.2, 'WindowBroken', gable='Planks', plinth='Concrete', sides='EW')
+    shell('Barn', [(1326, 526), (1438, 526), (1438, 645), (1326, 645)], 4.2, 'Planks',
+          [(1326, 568, 2.6), (1382, 645, 3.2)], [], floor='Dirt', windows='WindowBroken', skip=(0,), lining='Planks', ceiling=4.1)
+    g = 'Barn'
+    x0, _, z0 = P(1326, 526); x1, _, z1 = P(1438, 645); cz = (z0 + z1) / 2
+    # Half-collapsed roof: one surviving pitch, the other fallen into the barn.
+    poly(g, 'Corrugated', [(x0 - .3, 4.2, z0), (x1 + .3, 4.2, z0), (x1 + .3, 6.2, cz), (x0 - .3, 6.2, cz)], None, (0, 1, -1))
+    poly(g, 'Corrugated', [(x0 + 1, .4, cz + 2.4), (x0 + 5, .5, cz + 2.8), (x0 + 5, 3.4, cz), (x0 + 1, 3.1, cz - .4)], None, (0, 1, .5))
     for k in range(5):
-        px = 305 + k * 30; x, _, z = P(px, 191); beam(g, 'PlanksDark', (x, 0, z), (x, 2.9, z), .16)
-    pcx, pcz, pw, pd = R(295, 186, 435, 205)
-    poly(g, 'Corrugated', [(pcx - pw / 2, 2.95, pcz - pd / 2), (pcx + pw / 2, 2.95, pcz - pd / 2), (pcx + pw / 2, 3.45, pcz + pd / 2), (pcx - pw / 2, 3.45, pcz + pd / 2)], None, (0, 1, -.3))
-    box(g, 'Concrete', (pcx, .1, pcz), (pw, .2, pd), solid=True)
-    for px in (340, 400): x, _, z = P(px, 205); decal(g, 'DoorBlue', (x, 1.15, z), 180, 1.2, 2.3, .05)
-    # Lower rear wing and wooden shed.
-    house('Chimney house wing', 345, 290, 440, 340, 1, 'PlasterCream', 'Slate', 'z', 2.2, 'WindowGreen', {'S': (1,)}, sides='SEW')
-    house('Compound shed', 250, 285, 300, 340, 1, 'Planks', 'Corrugated', 'z', 1.4, 'WindowBroken', {'E': (0,)}, plinth='Concrete')
-    stone_wall('Compound walls', [(242, 140), (242, 240)]); stone_wall('Compound walls', [(242, 275), (242, 350), (380, 350)])
-    stone_wall('Compound walls', [(242, 140), (330, 140)]); stone_wall('Compound walls', [(372, 140), (452, 140), (452, 205)])
-    stone_wall('Compound walls', [(452, 245), (452, 350), (420, 350)])
-    dumpster('Compound props', 335, 175, 0); dumpster('Compound props', 360, 175, 5)
-    crates('Compound props', 425, 170, 90, 5, 3)
-    hay_stack('Compound props', 270, 255, 10, [(0, 0, 0, 0), (1.2, 0, 0, 3), (.6, 1, 0, -4), (0, 0, .7, 0)])
-    tree('Compound trees', 395, 315, 1.15, 11)
+        x = x0 + 1 + k * 1.8; beam(g, 'PlanksDark', (x, 4.2, z1), (x, 6.2, cz), .14)
+        beam(g, 'PlanksDark', (x, 4.2, z0), (x, 6.2, cz), .14)
+    hay_stack('Barn props', 1415, 545, 0, [(0, 0, 0, 0), (1.2, 0, 0, 0), (0, 1, 0, 8), (0, 0, .6, 0), (1.2, 0, .6, 0)])
+    hay_stack('Barn props', 1350, 610, 90, [(0, 0, 0, 0), (0, 1, 0, 4)])
+    for a, b in [((1381, 649), (1381, 672)), ((1381, 690), (1381, 711))]: wood_fence('Barn fence', a, b)
+
+def build_warehouse():
+    # East L-shaped white warehouse (white roof in the aerial), enterable with two closed wings.
+    shell('Warehouse', [(1346, 713), (1420, 713), (1420, 862), (1507, 862), (1507, 909), (1426, 909), (1426, 975), (1323, 975),
+                        (1323, 877), (1391, 877), (1391, 766), (1346, 766)], 4.8, 'PlasterGrey',
+          [(1346, 740, 2.2), (1380, 975, 2.6), (1507, 885, 2.2)],
+          [((1346, 713, 1420, 877), 'gable', 'CanopyMetal', 'z', 1.8), ((1323, 877, 1507, 975), 'gable', 'CanopyMetal', 'x', 1.6)],
+          windows='WindowBarred', skip=(4, 5, 8, 9))
+    closed('Warehouse west wing', (1319, 766, 1391, 877), 1, 'PlasterGrey', 'CanopyMetal', 'z', 1.4, 'WindowBarred', roof_type='hip', sides='WN', extra=1.6)
+    closed('Warehouse store room', (1426, 909, 1507, 975), 1, 'PlasterGrey', 'CanopyMetal', 'x', .1, 'WindowBarred', roof_type='flat', sides='E', extra=1.5)
+    closed('Warehouse porch', (1328, 737, 1347, 766), 0, 'Concrete', 'Concrete', roof_type='flat', sides='', extra=.5)
+    x, _, z = P(1420, 790); decal('Warehouse', 'SignBrick', (x + .17, 3.6, z), 90, 4.5, 1.1, 0)
+    g = 'Warehouse interior'
+    crates(g, 1360, 800, 0, 6, 41); crates(g, 1400, 940, 90, 5, 42); crates(g, 1470, 885, 0, 3, 43)
+    for py in (735, 760):
+        x, _, z = P(1395, py); box(g, 'DarkMetal', (x, 1.1, z), (3.5, 2.2, .6), solid=True); decal(g, 'ShelfGoods', (x, 1.1, z + .31), 0, 3.4, 1.9, 0)
+    dumpster('Warehouse props', 1398, 985, 0)
+    x, _, z = P(1510, 976); barrel('Warehouse props', x, z, 'RedPaint')
 
 def build_church():
+    # Centre block: stone presbytery and houses (closed), bell tower, enterable ground floor and bakery.
+    closed('Presbytery', (974, 839, 1118, 944), 2, 'Stone', 'Slate', 'x', 3.6, 'WindowShutter', {'N': (1,), 'W': (0,)}, gable='Stone')
+    closed('Presbytery east', (1118, 858, 1206, 927), 2, 'PlasterWhite', 'Slate', 'z', 2.4, 'WindowGreen', roof_type='hip')
+    closed('Presbytery tower wing', (1118, 808, 1152, 858), 2, 'Stone', 'Slate', 'z', 2.0, 'WindowPlain', roof_type='hip', sides='NW')
+    closed('Church side room', (1206, 873, 1228, 916), 1, 'Stone', 'Slate', 'z', 1.0, 'WindowPlain', sides='E')
+    closed('Centre house', (1026, 944, 1124, 1030), 2, 'PlasterCream', 'Slate', 'z', 3.0, 'WindowGreen', {'W': (1,)}, gable='PlasterCream')
+    closed('Centre east house', (1204, 950, 1251, 1045), 1, 'PlasterGrey', 'Slate', 'z', 1.6, 'WindowPlain', sides='NES')
+    for px in (1010, 1080):
+        x, _, z = P(px, 839)
+        box('Presbytery', 'Stone', (x, 7.9, z + .9), (1.8, 2.0, 1.4)); gable_roof('Presbytery', 'Slate', x, z + .9, 1.8, 1.6, 8.9, .8, 0, 'z', .15)
+        decal('Presbytery', 'WindowPlain', (x, 7.9, z + .19), 180, .8, 1.1, 0)
+    build_tower((1152, 808, 1204, 858))
+    shell('Church hall', [(1124, 927), (1204, 927), (1204, 1138), (1052, 1138), (1052, 1030), (1124, 1030)], 6.4, 'Stone',
+          [(1204, 1095, 2.6), (1052, 1084, 2.4)],
+          [((1052, 1030, 1204, 1138), 'gable', 'Slate', 'x', 3.0), ((1124, 927, 1204, 1030), 'gable', 'Slate', 'z', 2.6)],
+          floor='PlanksDark', windows='WindowShutter', skip=(0, 2, 4, 5), window_y=(1.75, 4.8))
+    g = 'Church hall interior'
+    for a, b, gap in [((1160, 950), (1160, 1110), None), ((1098, 1030), (1098, 1072), None)]:
+        x0, _, z0 = P(*a); x1, _, z1 = P(*b); wall_run(g, 'InteriorWall', (x0, z0), (x1, z1), 0, 3.4, .2)
+    for px, py in [(1080, 1110), (1185, 960)]:
+        x, _, z = P(px, py); box(g, 'PlanksDark', (x, .8, z), (2.2, .1, 1.1), solid=True)
+        for dx in (-.9, .9):
+            for dz in (-.4, .4): box(g, 'PlanksDark', (x + dx, .4, z + dz), (.08, .8, .08))
+    crates(g, 1135, 1120, 0, 4, 51)
+    # Bakery along the south side of the block.
+    closed('Bakery', (963, 1140, 1185, 1231), 2, 'PlasterOchre', 'Slate', 'x', 3.4, 'WindowShutter', {'S': (2, 5)}, gable='PlasterOchre')
+    x, _, z = P(1075, 1231); decal('Bakery', 'SignBakery', (x, 4.4, z + .2), 0, 5, 1.25, 0)
+    x, _, z = P(1150, 1231); decal('Bakery', 'SignCafe', (x, 4.4, z + .2), 0, 3.5, .9, 0)
+    for a, b in [((953, 1166), (953, 1222))]:
+        x0, _, z0 = P(*a); x1, _, z1 = P(*b); wall_run('Bakery', 'Stone', (x0, z0), (x1, z1), 0, 1.6, .4, cap='Concrete')
+    # Ruined stone shed west of the block and the low walls around it.
+    closed('Ruined shed', (916, 996, 970, 1084), 1, 'StoneDark', 'Corrugated', 'z', 1.0, 'WindowBroken', gable='StoneDark', extra=-.4)
+    for pts in [[(925, 886), (925, 808), (1037, 808)], [(925, 941), (925, 990)], [(925, 1094), (925, 1110), (939, 1135)], [(871, 1248), (871, 1229), (911, 1229), (911, 1219)]]:
+        stone_wall('Low walls', pts, 1.2, pillars=False)
+
+def build_tower(rect):
     g = 'Church tower'
-    cx, cz, w, d = R(520, 198, 558, 238); top = 15
-    # Tower shell with a blown-out upper east corner where the fire burns.
-    for side, (nx, nz) in enumerate(((0, 1), (0, -1), (1, 0), (-1, 0))):
-        if (nx, nz) == (0, 1):
-            box(g, 'StoneDark', (cx, 5, cz + d / 2 - .3), (w, 10, .6), solid=True)
-            box(g, 'StoneDark', (cx - w / 2 + .5, 12.5, cz + d / 2 - .3), (1.0, 5, .6))
-            box(g, 'StoneDark', (cx + w / 2 - .35, 11.0, cz + d / 2 - .3), (.7, 2.0, .6))
-            box(g, 'StoneDark', (cx + .3, 14.4, cz + d / 2 - .3), (w - .6, 1.2, .6))
-        else:
-            box(g, 'StoneDark', (cx + nx * (w / 2 - .3), top / 2, cz + nz * (d / 2 - .3)), (.6 if nx else w, top, d if nx else .6), solid=True)
-    for y in (4.5, 9.5): box(g, 'Concrete', (cx, y, cz), (w + .25, .25, d + .25), top=False, bottom=False)
+    cx, cz, w, d = R(*rect); top = 16
+    # Shell with a blown-out upper east face where the fire burns (faces the warehouse street).
+    box(g, 'StoneDark', (cx - w / 2 + .3, top / 2, cz), (.6, top, d), solid=True)
+    box(g, 'StoneDark', (cx, top / 2, cz - d / 2 + .3), (w, top, .6), solid=True)
+    box(g, 'StoneDark', (cx, top / 2, cz + d / 2 - .3), (w, top, .6), solid=True)
+    box(g, 'StoneDark', (cx + w / 2 - .3, 5.5, cz), (.6, 11, d), solid=True)
+    box(g, 'StoneDark', (cx + w / 2 - .3, 13.5, cz - d / 2 + .5), (.6, 5, 1.0))
+    box(g, 'StoneDark', (cx + w / 2 - .3, 12.0, cz + d / 2 - .35), (.6, 2.0, .7))
+    box(g, 'StoneDark', (cx + w / 2 - .3, 15.4, cz + .3), (.6, 1.2, d - .6))
+    for y in (5.0, 10.5): box(g, 'Concrete', (cx, y, cz), (w + .25, .25, d + .25), top=False, bottom=False)
     box(g, 'Concrete', (cx, top + .15, cz), (w + .5, .3, d + .5))
     spire(g, 'Slate', cx, cz, w + .3, top + .3, 5.5)
     box(g, 'Steel', (cx, top + 6.2, cz), (.06, 1.4, .06)); box(g, 'Steel', (cx, top + 6.4, cz), (.6, .06, .06))
-    box(g, 'PlanksDark', (cx, 10, cz), (w - 1.2, .25, d - 1.2))
-    for yaw, (dx, dz) in ((90, (1, 0)), (180, (0, -1)), (-90, (-1, 0))):
-        decal(g, 'WindowBroken', (cx + dx * w / 2, 12.2, cz + dz * d / 2), yaw, .9, 1.8, .03)
-    decal(g, 'DoorWood', (cx - w / 2, 1.3, cz), -90, 1.5, 2.6, .03)
-    # Charred interior, debris pile below the breach.
-    box(g, 'Rubber', (cx, 12.3, cz + d / 2 - .7), (w - .6, 4.5, .1))
-    rnd2 = random.Random(5)
+    box(g, 'PlanksDark', (cx, 11, cz), (w - 1.2, .25, d - 1.2))
+    for yaw, (dx, dz) in ((0, (0, 1)), (180, (0, -1)), (-90, (-1, 0))):
+        decal(g, 'WindowBroken', (cx + dx * w / 2, 13.2, cz + dz * d / 2), yaw, .9, 1.8, .03)
+    decal(g, 'DoorWood', (cx, 1.3, cz - d / 2), 180, 1.5, 2.6, .03)
+    box(g, 'Rubber', (cx + w / 2 - .7, 13.3, cz), (.1, 4.5, d - .6))
+    rnd = random.Random(5)
     for k in range(9):
-        a = (cx + rnd2.uniform(-1.6, 1.6), 10.15, cz + rnd2.uniform(-.4, 1.6)); b = add(a, (rnd2.uniform(-1.4, 1.4), rnd2.uniform(.1, 1.6), rnd2.uniform(-.6, .6)))
-        beam(g, 'Embers', a, b, rnd2.uniform(.14, .26))
-    box(g, 'Embers', (cx, 10.16, cz + .4), (w - 1.3, .06, d - 1.3))
+        a = (cx + rnd.uniform(-.4, 1.6), 11.15, cz + rnd.uniform(-1.6, 1.6)); b = add(a, (rnd.uniform(-.6, .6), rnd.uniform(.1, 1.6), rnd.uniform(-1.4, 1.4)))
+        beam(g, 'Embers', a, b, rnd.uniform(.14, .26))
+    box(g, 'Embers', (cx + .4, 11.16, cz), (w - 1.3, .06, d - 1.3))
     rnd = random.Random(7)
     for k in range(26):
-        x = cx + rnd.uniform(-2.5, 2.5); z = cz + d / 2 + rnd.uniform(.3, 3.2); s = rnd.uniform(.25, .7)
+        x = cx + w / 2 + rnd.uniform(.3, 3.4); z = cz + rnd.uniform(-2.5, 2.5); s = rnd.uniform(.25, .7)
         box('Church rubble', rnd.choice(['StoneDark', 'Stone', 'Slate', 'PlanksDark']), (x, s / 2 * .8, z), (s, s * .8, s * 1.2), rnd.uniform(0, 90))
-    # Stone presbytery with steep roof and dormers (reference shot 1).
-    g = 'Church house'
-    cx, cz, w, d, H = house(g, 562, 205, 700, 293, 2, 'Stone', 'Slate', 'x', 4.2, 'WindowShutter', {'W': (0,), 'S': (1,)}, gable='Stone')
-    for px in (600, 660):
-        x, _, z = P(px, 293)
-        box(g, 'Stone', (x, H + 1.2, z - .9), (1.8, 2.0, 1.4)); gable_roof(g, 'Slate', x, z - .9, 1.8, 1.6, H + 2.2, .8, 0, 'z', .15)
-        decal(g, 'WindowPlain', (x, H + 1.2, z - .2), 0, .8, 1.1)
-    stone_wall('Church walls', [(515, 245), (515, 300)])
-    stone_wall('Church walls', [(515, 300), (560, 300)])
-    for a, b in (((515, 245), (515, 300)), ((515, 300), (560, 300))):
-        ax, _, az = P(*a); bx, _, bz = P(*b); n = int(math.hypot(bx - ax, bz - az) / .18)
-        for k in range(n):
-            t = (k + .5) / n; beam('Church walls', 'DarkMetal', (ax + (bx - ax) * t, 1.75, az + (bz - az) * t), (ax + (bx - ax) * t, 2.55, az + (bz - az) * t), .025)
-        beam('Church walls', 'DarkMetal', (ax, 2.45, az), (bx, 2.45, bz), .04)
-    for py in (232, 245):
-        x, _, z = P(515, py); box('Church walls', 'StoneDark', (x, 1.3, z), (.7, 2.6, .7), solid=True); blob('Church walls', 'Stone', (x, 2.8, z), (.3, .3, .3), f'cap{py}', .05, 8, 5)
-    sedan('Church street', 482, 228, 165)
-    van('Church street', 488, 315, 172)
-    jersey('Church street', 528, 340, 0, 3); jersey('Church street', 548, 340, 90, 2)
-    tree('Church trees', 708, 300, 1.25, 21)
+    global TOWER_FIRE
+    TOWER_FIRE = (cx + w / 2 - .6, 12.6, cz)
 
-def build_bakery():
-    g = 'Bakery'
-    # Two blocks bridged by an upper floor: a covered east-west passage runs underneath.
-    for (r, doors) in [((522, 305, 680, 380), {'W': (1,)}), ((522, 410, 680, 500), {'E': (1,)})]:
-        cx, cz, w, d = R(*r)
-        box(g, 'PlasterOchre', (cx, 3.4, cz), (w, 6.8, d), solid=True, bottom=False)
-        box(g, 'StoneDark', (cx, .35, cz), (w + .12, .7, d + .12), bottom=False)
-        for side in 'NSEW': facade(g, cx, cz, w, d, 0, side, 2, 'WindowShutter', door=doors.get(side))
-    cx, cz, w, d = R(522, 380, 680, 410)
-    box(g, 'PlasterOchre', (cx, 5.1, cz), (w, 3.4, d))
-    box(g, 'InteriorWall', (cx, 3.35, cz), (w, .1, d))
-    for side in 'WE': facade(g, cx, cz, w, d, 0, side, 1, 'WindowShutter', y0=3.4)
-    cx, cz, w, d = R(522, 305, 680, 500)
-    box(g, 'Concrete', (cx, 6.7, cz), (w + .2, .25, d + .2), bottom=False)
-    gable_roof(g, 'Slate', cx, cz, w, d, 6.8, 4.0, 0, 'z', gable='PlasterOchre')
-    x, _, z = P(522, 340); decal(g, 'SignBakery', (x, 4.6, z), -90, 5, 1.25, .06)
-    x, _, z = P(522, 455); decal(g, 'SignCafe', (x, 4.6, z), -90, 4, 1.0, .06)
-    for px in (560, 620):
-        x, _, z = P(px, 500); decal(g, 'PosterB' if px == 560 else 'PosterA', (x, 1.6, z), 0, 1.3, 1.0, .05)
-    point_light('Bakery passage light', (cx, 3.0, cz), (1, .85, .65), 6, 8)
-    crates('Bakery props', 540, 520, 0, 6, 5); crates('Bakery props', 662, 290, 90, 3, 6)
+def build_compound():
+    # West-centre farmhouse with the tall chimney (hatched on the minimap) and its walled yard.
+    closed('Chimney house', (673, 905, 786, 1112), 2, 'PlasterCream', 'Slate', 'z', 3.0, 'WindowGreen', {'E': (1, 4), 'N': (1,)}, gable='PlasterCream')
+    closed('Chimney house wing', (578, 996, 673, 1089), 2, 'PlasterCream', 'Slate', 'x', 2.6, 'WindowGreen', {'S': (1,)}, sides='NSW', gable='PlasterCream')
+    closed('Compound shed', (686, 882, 722, 905), 0, 'Planks', 'Corrugated', 'x', .5, 'WindowBroken', roof_type='gable', sides='N', plinth='Concrete', extra=2.4)
+    x, _, z = P(700, 930); H = 2 * FLOOR + .3
+    box('Chimney house', 'Brick', (x, (H + 6.5) / 2, z), (1.2, H + 6.5, 1.2), solid=True); box('Chimney house', 'Concrete', (x, H + 6.6, z), (1.45, .25, 1.45))
+    # Porch with blue doors on the east face.
+    x0, _, z0 = P(786, 960); x1, _, z1 = P(786, 1060)
+    for t in (0, .5, 1): beam('Chimney house', 'PlanksDark', (x0 + 1.8, 0, z0 + (z1 - z0) * t), (x0 + 1.8, 2.9, z0 + (z1 - z0) * t), .16)
+    poly('Chimney house', 'Corrugated', [(x0, 3.45, z0), (x0, 3.45, z1), (x0 + 2.0, 2.95, z1), (x0, 2.95, z0)][:3] + [(x0 + 2.0, 2.95, z0)], None, (.3, 1, 0))
+    for pts in [[(583, 910), (630, 910)], [(649, 910), (673, 910)], [(583, 910), (583, 935)], [(583, 969), (583, 996)]]:
+        stone_wall('Compound walls', pts)
+    x0, _, z0 = P(508, 1076); x1, _, z1 = P(578, 1076)
+    wood_fence('Compound walls', (508, 1076), (578, 1076)); cylinder('Compound walls', 'Concrete', (x0, 0, z0), (x0, 1.4, z0), .15, 8)
+    hay_stack('Compound props', 600, 925, 10, [(0, 0, 0, 0), (1.2, 0, 0, 3), (.6, 1, 0, -4), (0, 0, .7, 0)])
+    dumpster('Compound props', 783, 1115, 0)
+    box('Compound props', 'DarkMetal', P(529, 876, .5), (3.6, 1.0, 1.6), solid=True); box('Compound props', 'YellowPaint', P(529, 876, 1.1), (3.0, .2, 1.4))
 
-def build_market():
-    g = 'Market'
-    cx, cz, w, d, H = house(g, 570, -10, 725, 135, 2, 'PlasterWhite', 'Slate', 'x', 4.0, 'WindowShutter', {'S': (1, 3), 'W': (1,)}, gable='PlasterWhite')
-    x, _, z = P(648, 135); decal(g, 'SignMarket', (x, 4.2, z), 0, 6, 1.5, .06)
-    for k, px in enumerate((590, 610, 690, 708)):
-        x, _, z = P(px, 135); decal(g, ['PosterA', 'PosterB', 'PosterC', 'PosterA'][k], (x, 1.5, z), 0, 1.2, .9, .05)
-    x, _, z = P(705, 135); box(g, 'Steel', (x, 5.1, z + .3), (.8, .5, .5))
-    crates('Market props', 630, 150, 0, 6, 8); crates('Market props', 710, 150, 0, 4, 9)
-    van('Market props', 655, 178, 90, 'VanDark')
-    # Lattice windmill and outbuilding in the field behind (reference shot 4).
+def build_south():
+    # Blue-roofed warehouse + rear rooms (enterable) and the yellow hotel (enterable).
+    shell('South warehouse', [(633, 1237), (792, 1237), (792, 1479), (675, 1479), (675, 1372), (633, 1372)], 5.2, 'PlasterGrey',
+          [(633, 1300, 2.6), (765, 1237, 2.4), (792, 1415, 2.4), (720, 1479, 2.4)],
+          [((633, 1237, 792, 1372), 'gable', 'CorrugatedBlue', 'z', 2.2), ((675, 1372, 792, 1479), 'gable', 'Slate', 'x', 2.0)],
+          windows='WindowBarred')
+    g = 'South warehouse interior'
+    for a, b, ops in [((690, 1277), (792, 1277), [(2.4, 4.2, 3.4)]), ((690, 1277), (690, 1372), [(3.0, 5.2, 3.4)]),
+                      ((675, 1372), (792, 1372), [(1.6, 4.4, 3.4)]), ((740, 1378), (740, 1479), [(3.6, 5.6, 3.4)])]:
+        x0, _, z0 = P(*a); x1, _, z1 = P(*b); wall_run(g, 'InteriorWall', (x0, z0), (x1, z1), 0, 3.4, .2, ops)
+    crates(g, 660, 1260, 0, 5, 61); crates(g, 770, 1450, 90, 4, 62)
+    closed('South warehouse store', (642, 1392, 675, 1479), 1, 'Stone', 'Slate', 'z', 1.0, 'WindowPlain', sides='W')
+    closed('South warehouse link', (792, 1277, 860, 1371), 1, 'Brick', 'Slate', 'x', 1.6, 'WindowBarred', sides='N', extra=1.0)
+    x, _, z = P(633, 1340); decal('South warehouse', 'Garage', (x - .17, 1.8, z), -90, 3.6, 3.2, 0)
+    shell('Hotel', [(860, 1274), (984, 1274), (984, 1371), (860, 1371)], 4.0, 'PlasterYellow',
+          [(900, 1274, 2.4), (950, 1371, 2.4), (984, 1320, 2.2)],
+          [((860, 1274, 984, 1371), 'gable', 'Terracotta', 'x', 2.0)], floor='StoreFloor', windows='WindowBlue')
+    cx, cz, w, d = R(860, 1274, 984, 1371)
+    box('Hotel', 'Steel', (cx, 7.1, cz), (8.2, 1.5, .08))
+    for k, letter in enumerate('HOTEL'):
+        x = cx - 3.2 + k * 1.6
+        decal('Hotel', 'Letter' + letter, (x, 7.1, cz), 0, 1.4, 1.4, .06)
+        decal('Hotel', 'Letter' + letter, (2 * cx - x, 7.1, cz), 180, 1.4, 1.4, .06)
+        beam('Hotel', 'Steel', (x, 5.6, cz), (x, 6.4, cz), .06)
+    box('Hotel', 'WhitePaint', (cx + 2.5, 2.6, cz - d / 2 - .35), (.9, .6, .6))
+    stone_wall('Hotel yard', [(886, 1399), (886, 1427), (984, 1427), (984, 1371)], 1.4)
+    # West edge: lean-to shed, bench and fence line.
+    closed('Edge shed', (476, 1291, 498, 1405), 0, 'Planks', 'Corrugated', 'x', .3, 'WindowBroken', roof_type='flat', sides='E', plinth='Concrete', extra=2.6)
+    box('Edge props', 'PlanksDark', P(519, 1340, .45), (2.2, .1, 1.4), solid=True)
+    wood_fence('Edge props', (533, 1250), (533, 1450), 1.2)
+
+def build_gas_station():
+    # U store (enterable) with a forecourt canopy on its east side (minimap bottom-right).
+    shell('Gas store', [(1275, 1150), (1390, 1150), (1390, 1264), (1275, 1264)], 4.0, 'PlasterGrey',
+          [(1390, 1185, 2.6), (1310, 1150, 2.4)], [((1275, 1150, 1390, 1264), 'flat', 'ConcreteDark', 'x', 0)],
+          floor='StoreFloor', windows='WindowPlain', lining='InteriorWall', light=(.85, .93, 1))
+    closed('Gas store back room', (1237, 1136, 1275, 1239), 1, 'PlasterGrey', 'ConcreteDark', roof_type='flat', sides='W', extra=.5)
+    g = 'Gas store interior'
+    x0, _, z0 = P(1275, 1150); x1, _, z1 = P(1390, 1264)
+    closed('Gas store toilets', (1328, 1224, 1383, 1264), 0, 'InteriorWall', 'Ceiling', roof_type='flat', sides='N', plinth='Concrete', extra=3.0)
+    for k in range(4):
+        x = x0 + 1.3 + k * 2.2
+        box(g, 'DarkMetal', (x, 1.15, z0 + .55), (2.1, 2.3, .8), solid=True); decal(g, 'Fridge', (x, 1.15, z0 + .96), 0, 2.0, 2.1, .01)
+    for k in range(2):
+        x = x0 + 2.6 + k * 2.6
+        box(g, 'DarkMetal', (x, .8, z0 + 4.2), (.9, 1.6, 3.4), solid=True)
+        for s in (-90, 90): decal(g, 'ShelfGoods', (x + (.46 if s == 90 else -.46), .85, z0 + 4.2), s, 3.3, 1.4, .01)
+    box(g, 'WhitePaint', (x0 + 1.6, .6, z1 - 1.8), (1.0, 1.0, 2.6), solid=True); box(g, 'Concrete', (x0 + 1.6, 1.13, z1 - 1.8), (1.2, .06, 2.8))
+    decal(g, 'LogoU', (x0 + 2.12, .6, z1 - 1.8), 90, .8, .8, .01)
+    for k in range(2):
+        for j in range(2): box(g, 'LightPanel', (x0 + 2.5 + k * 4, 3.34, z0 + 2.5 + j * 4.5), (1.2, .04, .6))
+    sound('Store chiller hum', (x0 + 4, 1.5, z0 + 1), 'chiller_hum.wav', .35, 12, True, 1)
+    decal('Gas store', 'Fascia', (x1 + .17, 3.4, (z0 + z1) / 2), 90, z1 - z0, .9, 0)
+    decal('Gas store', 'Fascia', ((x0 + x1) / 2, 3.4, z0 - .17), 180, x1 - x0, .9, 0)
+    decal('Gas store', 'LogoU', (x0 - .17, 2.6, (z0 + z1) / 2), -90, 1.4, 1.4, 0)
+    # Canopy: barrel vault running north-south, blue columns on the minimap's pillar marks.
+    g = 'Gas canopy'
+    cx0, _, cz0 = P(1392, 1144); cx1, _, cz1 = P(1500, 1270)
+    W = cx1 - cx0; segs = 12; prof = lambda t: (cx0 + W * t, 5.6 + 1.3 * math.sin(math.pi * t))
+    for k in range(segs):
+        xa, ya = prof(k / segs); xb, yb = prof((k + 1) / segs)
+        poly(g, 'CanopyMetal', [(xa, ya, cz0), (xb, yb, cz0), (xb, yb, cz1), (xa, ya, cz1)], None, (0, 1, 0))
+        poly(g, 'CanopyMetal', [(xa, ya - .25, cz0), (xb, yb - .25, cz0), (xb, yb - .25, cz1), (xa, ya - .25, cz1)], None, (0, -1, 0))
+        for zz in (cz0, cz1): poly(g, 'ColumnBlue', [(xa, ya - .25, zz), (xa, ya, zz), (xb, yb, zz), (xb, yb - .25, zz)], None, (0, 0, 1 if zz == cz1 else -1))
+        for zz in (cz0 + 1.5, (cz0 + cz1) / 2, cz1 - 1.5): beam(g, 'ColumnBlue', (xa, ya - .35, zz), (xb, yb - .35, zz), .25, .3)
+    for px, py in [(1456, 1146), (1455, 1205), (1453, 1266), (1400, 1146), (1400, 1266)]:
+        box(g, 'ColumnBlue', P(px, py, 2.9), (.4, 5.8, .4), solid=True)
+    for k in range(5):
+        box(g, 'LightPanel', (cx0 + 1.2 + k * 1.7, 6.45 + (1.0 if 1 <= k <= 3 else 0), (cz0 + cz1) / 2), (.35, .04, 1.0))
+    x, _, z = P(1455, 1205)
+    box(g, 'Concrete', (x, .1, z), (1.4, .2, 4.4), solid=True)
+    for dz in (-1.2, 1.2):
+        box(g, 'WhitePaint', (x, .95, z + dz), (.6, 1.5, .5), solid=True); box(g, 'ColumnBlue', (x, 1.75, z + dz), (.65, .15, .55))
+        decal(g, 'LogoU', (x + .31, 1.35, z + dz), 90, .3, .3, .01); decal(g, 'LogoU', (x - .31, 1.35, z + dz), -90, .3, .3, .01)
+    for zz in (cz0 + 2, (cz0 + cz1) / 2, cz1 - 2):
+        prev = None
+        for k in range(17):
+            t = k / 16; p = (cx0 + .5 + (W - 1) * t, 5.1 - .4 * 4 * t * (1 - t), zz)
+            if prev: beam('Gas bunting', 'Rubber', prev, p, .015)
+            if k % 2 == 0 and k < 16:
+                poly('Gas bunting', 'Flags', [p, (p[0] + .5, p[1] - .03, zz), (p[0] + .25, p[1] - .4, zz)], [((k // 2 % 8) / 8, 0), ((k // 2 % 8 + 1) / 8, 0), ((k // 2 % 8 + .5) / 8, 1)], (0, 0, 1))
+            prev = p
+    x, _, z = P(1560, 1145)
+    box(g, 'ColumnBlue', (x, 3, z), (.35, 6, .35), solid=True); box(g, 'YellowPaint', (x, 6.6, z), (.3, 1.8, 1.8))
+    decal(g, 'LogoU', (x + .16, 6.6, z), 90, 1.5, 1.5, .01); decal(g, 'LogoU', (x - .16, 6.6, z), -90, 1.5, 1.5, .01)
+    crates('Gas props', 1300, 1135, 0, 4, 14)
+    hay_stack('Gas props', 1250, 1105, 0, [(0, 0, 0, 0), (1.2, 0, 0, 2), (0, 0, .58, 0), (1.2, 0, .58, -3), (.6, 1, .3, 10)])
+    # Brick warehouse just beyond the east boundary (reference shot 5, right).
+    house('Brick warehouse', 1600, 980, 1720, 1380, 2, 'Brick', 'Slate', 'z', 3.0, 'WindowBarred', {'W': (2, 6)}, gable='Brick')
+    x, _, z = P(1600, 1150); decal('Brick warehouse', 'SignBrick', (x - .06, 5.1, z), -90, 5, 1.25, 0)
+
+def build_plaza():
+    g = 'Plaza monument'
+    x, _, z = P(856, 760)
+    cylinder(g, 'Stone', (x, 0, z), (x, .45, z), 1.6, 16); cylinder(g, 'Concrete', (x, .45, z), (x, .55, z), 1.7, 16)
+    collider((x, .3, z), (3.0, .6, 3.0))
+    box(g, 'StoneDark', (x, 1.6, z), (1.1, 2.1, 1.1), solid=True); box(g, 'Concrete', (x, 2.75, z), (1.4, .2, 1.4))
+    blob(g, 'DarkMetal', (x, 3.6, z), (.35, .75, .3), 'statue', .1, 8, 6); blob(g, 'DarkMetal', (x, 4.55, z), (.22, .25, .22), 'head', .05, 8, 5)
+    beam(g, 'DarkMetal', (x + .2, 4.1, z), (x + .7, 4.9, z - .2), .12)
+    # Vehicles exactly where the minimap draws them.
+    tank('Plaza', 768, 792, -147, 30); tank('West road', 616, 1191, -62, -25)
+    van('Vehicles', 1255, 627, 7, 'VanDark'); sedan('Vehicles', 1044, 720, 90)
+    sedan('Vehicles', 1310, 878, 0, 'VanBlue'); sedan('Vehicles', 795, 938, -5)
+    van('Vehicles', 883, 1028, 21); van('Vehicles', 870, 1153, -21); van('Vehicles', 548, 1321, 0)
+    tractor('Vehicles', 1215, 708, 63)
+    x, _, z = P(1250, 726); box('Vehicles', 'PlanksDark', (x, .9, z), (2.2, .2, 3.4), 63, True)
+    hay_stack('Vehicles', 1250, 726, 63, [(0, 1.5, 0, 0), (0, 1.5, .6, 0)])
+    for px, py, yaw in [(900, 690, 0), (1180, 700, 0), (1280, 1000, 90), (1000, 1260, 180), (600, 1150, 90), (820, 1180, 270), (1460, 830, 270), (560, 900, 90)]:
+        lamp('Street lamps', px, py, yaw)
+    for px, py in [(560, 860), (800, 700), (1000, 700), (1240, 790), (1300, 1050), (1500, 1100), (540, 1200), (560, 1500)]:
+        pole('Power lines', px, py)
+    wires('Power lines', [0, 1, 2, 3, 4, 5]); wires('Power lines', [0, 6, 7])
+
+def barrel(g, x, z, paint, tipped=False):
+    if tipped: cylinder(g, paint, (x - .45, .3, z), (x + .45, .3, z), .3, 10)
+    else:
+        cylinder(g, paint, (x, 0, z), (x, .9, z), .3, 10)
+        for y in (.3, .6): cylinder(g, 'DarkMetal', (x, y, z), (x, y + .03, z), .31, 10, False)
+
+def build_clutter():
+    rnd = random.Random(99)
+    for px, py, paint in [(760, 580, 'RedPaint'), (1150, 705, 'DumpsterGreen'), (1300, 700, 'ColumnBlue'), (560, 985, 'RedPaint'),
+                          (1000, 1290, 'DumpsterGreen'), (1470, 1010, 'ColumnBlue'), (1230, 1150, 'RedPaint'), (930, 1460, 'DumpsterGreen')]:
+        x, _, z = P(px, py); barrel('Clutter', x, z, paint, rnd.random() < .3); collider((x, .45, z), (.6, .9, .6))
+    for px, py in [(520, 1180), (1250, 1080), (1100, 1300), (640, 860)]:
+        x, _, z = P(px, py)
+        for k in range(rnd.randint(2, 4)): cylinder('Clutter', 'Rubber', (x + k * .1, k * .25, z), (x + k * .1, k * .25 + .24, z), .38, 12)
+    for px, py, yaw in [(1100, 1280, 15), (620, 1520, 70), (1025, 1288, 30), (900, 830, 0), (1480, 1050, 90)]:
+        x, _, z = P(px, py)
+        for k in range(rnd.randint(1, 3)): box('Clutter', 'Planks', (x, .07 + k * .14, z), (1.2, .12, 1.0), yaw + rnd.uniform(-6, 6))
+    for k in range(70):
+        px, py = rnd.uniform(1180, 1320), rnd.uniform(760, 900)
+        if inside([(1118, 808), (1206, 808), (1206, 930), (1118, 930)], px, py): continue
+        x, _, z = P(px, py); sz = rnd.uniform(.08, .3)
+        box('Street debris', rnd.choice(['Stone', 'StoneDark', 'Concrete', 'Brick']), (x, sz * .35, z), (sz, sz * .7, sz * 1.3), rnd.uniform(0, 90))
+    for px, py, y in [(1080, 640, 6.8), (1460, 940, 5.2), (700, 1000, 6.9), (930, 1300, 4.5)]:
+        x, _, z = P(px, py)
+        cylinder('Rooftop details', 'Steel', (x, y, z), (x, y + .5, z), .03, 6)
+        cylinder('Rooftop details', 'WhitePaint', (x, y + .5, z), (x + .12, y + .6, z + .25), .45, 12, True, .05)
+        beam('Rooftop details', 'Steel', (x, y, z), (x, y + 2.2, z), .03)
+        for k in range(4): beam('Rooftop details', 'Steel', (x - .6, y + 1.4 + k * .22, z), (x + .6, y + 1.4 + k * .22, z), .02)
+    for k, (px, py, s) in enumerate([(520, 900, 1.1), (560, 1460, 1.2), (900, 1470, 1.0), (1230, 1090, .9), (1520, 1080, 1.0), (680, 1600, 1.2)]):
+        tree('Trees', px, py, s, 30 + k)
+
+def build_backdrop():
+    g = 'Mountains'
+    rnd = random.Random(42); seg = 144
+    raw = [80 + 40 * math.sin(k * .19) + 22 * math.sin(k * .53 + 1) + rnd.uniform(-6, 6) for k in range(seg)]
+    heights = [(raw[k - 1] + 2 * raw[k] + raw[(k + 1) % seg]) / 4 for k in range(seg)]
+    rings = [(220, 0), (270, .2), (330, .5), (400, .8), (480, 1.0), (570, .9)]
+    def pt(k, r):
+        a = k % seg * math.tau / seg; radius, f = rings[r]; return (math.cos(a) * radius, heights[k % seg] * f - 1, math.sin(a) * radius)
+    for k in range(seg):
+        for r in range(len(rings) - 1):
+            q = [pt(k, r), pt(k + 1, r), pt(k + 1, r + 1), pt(k, r + 1)]
+            poly(g, 'Forest' if r < 2 else 'ForestFar', q, None, (-q[0][0], 300, -q[0][2]))
+    rnd = random.Random(3)
+    for k in range(90):
+        a = rnd.random() * math.tau; r = rnd.uniform(68, 140)
+        x, z = math.cos(a) * r, math.sin(a) * r
+        if inside(BOUNDARY, x / S + 1020, z / S + 1020): continue
+        if rnd.random() < .5: conifer('Treeline', x, z, rnd.uniform(9, 15), k)
+        else:
+            s = rnd.uniform(1.2, 1.8); rad = 3 * s
+            cylinder('Treeline', 'Bark', (x, 0, z), (x, 5 * s, z), .3 * s, 6, False)
+            blob('Treeline', 'LeavesDark', (x, 6.5 * s, z), (rad, rad * .9, rad), f'bg{k}', .3)
+    for k, (px, py) in enumerate([(300, 700), (280, 1100), (300, 1400), (760, 1820), (1200, 1500), (1720, 700), (1700, 520), (850, 300), (1500, 250)]):
+        house('Distant houses', px, py, px + 90, py + 70, 1 + k % 2, ['PlasterCream', 'PlasterWhite', 'PlasterOchre'][k % 3], ['Slate', 'Terracotta'][k % 2], 'x', 2.4, 'WindowPlain', solid=False)
+    # Water tower and windmill beyond the north boundary (reference shots 3 and 4).
+    g = 'Water tower'
+    x, _, z = P(620, 330)
+    for a in range(4):
+        ang = a * math.tau / 4 + math.pi / 4; beam(g, 'Steel', (x + math.cos(ang) * 2.6, 0, z + math.sin(ang) * 2.6), (x + math.cos(ang) * 1.8, 11, z + math.sin(ang) * 1.8), .22)
+    for y in (3.5, 7.5): cylinder(g, 'Steel', (x, y, z), (x, y + .12, z), 2.4, 8)
+    cylinder(g, 'PlasterGrey', (x, 11, z), (x, 14.5, z), 2.6, 16); cylinder(g, 'Slate', (x, 14.5, z), (x, 16, z), 2.8, 16, True, .2)
     g = 'Windmill'
-    x, _, z = P(660, -175)
+    x, _, z = P(1080, 230)
     for sx in (-1, 1):
         for sz in (-1, 1): beam(g, 'Steel', (x + sx * 1.6, 0, z + sz * 1.6), (x + sx * .25, 13, z + sz * .25), .1)
     for y in range(2, 13, 3):
@@ -658,330 +964,38 @@ def build_market():
     for k in range(14):
         a = k * math.tau / 14
         poly(g, 'Steel', [hub, add(hub, (math.cos(a) * 2.6, math.sin(a) * 2.6, 0)), add(hub, (math.cos(a + .25) * 2.6, math.sin(a + .25) * 2.6, 0))], None, (0, 0, 1))
-    beam(g, 'Steel', (x, 13.4, z - .2), (x, 13.4, z - 2.6), .08); poly(g, 'Steel', [(x, 13.0, z - 2.0), (x, 14.2, z - 2.0), (x, 14.0, z - 3.4), (x, 13.2, z - 3.4)], None, (1, 0, 0))
-    house('North farmstead', 780, -330, 900, -250, 1, 'PlasterCream', 'Terracotta', 'x', 2.0, 'WindowPlain', solid=False)
 
-def build_barn():
-    g = 'Ruined barn'
-    cx, cz, w, d = R(800, 50, 900, 190)
-    x0, z0, x1, z1 = cx - w / 2, cz - d / 2, cx + w / 2, cz + d / 2
-    wall_run(g, 'Planks', (x0, z0), (x1, z0), 0, 4.2, .2)
-    wall_run(g, 'Planks', (x0, z0), (x0, z1), 0, 4.2, .2, [(4, 7, 4.2)])
-    wall_run(g, 'Planks', (x1, z0), (x1, z1), 0, 2.4, .2, [(9, 12, 2.4)])
-    wall_run(g, 'Planks', (x0, z1), (x1, z1), 0, 3.0, .2, [(3.5, 7, 3.0)])
-    box(g, 'StoneDark', (cx, .25, cz), (w + .2, .5, d + .2), render=True, bottom=False, top=False)
-    # Collapsed roof: one surviving pitch, the other fallen into the barn.
-    poly(g, 'Corrugated', [(x0 - .3, 4.2, z0 - .3), (x1 + .3, 4.2, z0 - .3), (x1 + .3, 6.3, cz - 1), (x0 - .3, 6.3, cz - 1)], None, (0, 1, -1))
-    poly(g, 'Corrugated', [(x0 + 1, .4, cz + 2), (x0 + 6, .5, cz + 2.5), (x0 + 6, 3.6, cz - .5), (x0 + 1, 3.3, cz - 1)], None, (0, 1, .5))
-    for k in range(6):
-        x = x0 + 1 + k * 1.8; beam(g, 'PlanksDark', (x, 4.2, z0), (x, 6.3, cz - 1), .14)
-        if k % 2: beam(g, 'PlanksDark', (x, 6.3, cz - 1), (x + .6, 1.2, z1 - 1.5), .14)
-    hay_stack('Barn props', 860, 160, 0, [(0, 0, 0, 0), (1.2, 0, 0, 0), (0, 1, 0, 8), (0, 0, .6, 0), (1.2, 0, .6, 0)])
-    tractor('Barn props', 830, 95, -30)
-    wood_fence('Barn fence', (775, 20), (940, 20)); wood_fence('Barn fence', (940, 20), (940, 205))
-
-def build_store():
-    g = 'Store'
-    x0, _, z0 = P(782, 205); x1, _, z1 = P(946, 400)
-    W, D = x1 - x0, z1 - z0; cx, cz = (x0 + x1) / 2, (z0 + z1) / 2
-    H1, H2 = 3.9, 3.3
-    # Raised slab, storefront with real openings and glazing, side and rear doors.
-    box(g, 'StoreFloor', (cx, .075, cz), (W, .15, D), solid=True, bottom=False)
-    front = [(1.6, 5.4, 2.8), (7.2, 10.2, H1), (11.9, 15.7, 2.8)]
-    wall_run(g, 'PlasterGrey', (x0, z1), (x1, z1), 0, H1, .3, [(a, b, t) for a, b, t in front if b - a < 3.5], True)
-    box(g, 'PlasterGrey', (x0 + 8.7, H1 - .55, z1), (3.0, 1.1, .3))  # render-only lintel keeps the door navigable
-    for a, b, t in front:
-        if b - a >= 3:
-            box(g, 'WindowGlass', (x0 + (a + b) / 2, .95 + 1.0, z1), (b - a, 2.0, .05), solid=True)
-            box(g, 'PlasterGrey', (x0 + (a + b) / 2, .45, z1), (b - a, .9, .3))
-    wall_run(g, 'PlasterGrey', (x0, z0), (x0, z1), 0, H1, .3, [(12.6, 15.4, H1)])
-    box(g, 'PlasterGrey', (x0, H1 - .6, z0 + 14.0), (.3, 1.2, 2.8))
-    wall_run(g, 'PlasterGrey', (x1, z0), (x1, z1), 0, H1, .3)
-    wall_run(g, 'PlasterGrey', (x0, z0), (x1, z0), 0, H1, .3, [(12.8, 15.6, 2.7)])
-    # Upper storey over the rear half, reached by the interior stair.
-    zmid = z0 + 9.5
-    box(g, 'ConcreteDark', (cx, H1 + .1, (z0 + zmid - 3.4) / 2), (W, .2, zmid - 3.4 - z0), solid=True)
-    box(g, 'ConcreteDark', ((x0 + 4.2 + x1) / 2, H1 + .1, zmid - 1.7), (x1 - x0 - 4.2, .2, 3.4), solid=True)
-    box(g, 'ConcreteDark', (x0 + .6, H1 + .1, zmid - 1.7), (1.2, .2, 3.4), solid=True)
-    box(g, 'Ceiling', (cx, H1 - .02, (z0 + zmid) / 2 + 1.8), (W - .4, .02, zmid - z0 - 3.6))
-    box(g, 'Ceiling', (cx, H1 - .02, (zmid + z1) / 2), (W - .4, .02, z1 - zmid - .4))
-    box(g, 'ConcreteDark', (cx, H1 + .1, (zmid + z1) / 2), (W, .2, z1 - zmid), bottom=False)
-    for a, b in (((x0, z0), (x1, z0)), ((x0, z0), (x0, zmid)), ((x1, z0), (x1, zmid)), ((x0, zmid), (x1, zmid))):
-        wall_run(g, 'PlasterGrey', a, b, H1 + .2, H2, .3, [(1.2, 4.2, H1 + .2 + H2)] if a == (x0, zmid) else [])
-    box(g, 'ConcreteDark', (cx, H1 + H2 + .3, (z0 + zmid) / 2), (W + .3, .3, zmid - z0 + .3))
-    gable_roof(g, 'CanopyMetal', cx, (z0 + zmid) / 2, W, zmid - z0, H1 + H2 + .45, 2.2, 0, 'z', gable='PlasterGrey')
-    poly(g, 'CanopyMetal', [(x0 - .3, H1 + .45, z1 + .3), (x1 + .3, H1 + .45, z1 + .3), (x1 + .3, H1 + 1.3, zmid), (x0 - .3, H1 + 1.3, zmid)], None, (0, 1, .2))
-    facade(g, cx, (z0 + zmid) / 2, W, zmid - z0, 0, 'N', 1, 'WindowBarred', y0=H1 + .2, spacing=4)
-    facade(g, cx, (z0 + zmid) / 2, W, zmid - z0, 0, 'E', 1, 'WindowPlain', y0=H1 + .2, spacing=4)
-    facade(g, cx, (z0 + zmid) / 2, W, zmid - z0, 0, 'W', 1, 'WindowPlain', y0=H1 + .2, spacing=4)
-    facade(g, cx, (z0 + zmid) / 2, W, zmid - z0, 0, 'S', 1, 'WindowPlain', y0=H1 + .2, spacing=4)
-    box(g, 'Steel', (x0 + 3, H1 + .75, z1 - 2), (1.2, .9, .8)); box(g, 'Steel', (x0 + 8, H1 + .75, z1 - 2), (1.2, .9, .8))
-    # Yellow fascia band with the U logo above the storefront (reference shot 5).
-    decal(g, 'Fascia', (cx, H1 - .45, z1 + .15), 0, W, 1.0, .02)
-    decal(g, 'LogoU', (x0 - .15, 2.9, z0 + 7), -90, 1.4, 1.4, .02)
-    # Interior: lining, chiller wall, aisles, counter, stair to the upper office.
-    g = 'Store interior'
-    for (a, b, yaw) in (((x0 + .16, z0), (x0 + .16, z1), 90), ((x1 - .16, z0), (x1 - .16, z1), -90)):
-        poly(g, 'InteriorWall', [(a[0], .15, a[1]), (b[0], .15, b[1]), (b[0], H1, b[1]), (a[0], H1, a[1])], None, face_dir(yaw))
-    poly(g, 'InteriorWall', [(x0, .15, z0 + .16), (x1, .15, z0 + .16), (x1, H1, z0 + .16), (x0, H1, z0 + .16)], None, (0, 0, 1))
-    for k in range(6):
-        z = z0 + 2.2 + k * 2.3
-        box(g, 'DarkMetal', (x1 - .55, 1.3, z), (.8, 2.3, 2.2), solid=True)
-        decal(g, 'Fridge', (x1 - .95, 1.25, z), -90, 2.1, 2.1, .02)
-    for k in range(3):
-        x = x0 + 6.4 + k * 3.1
-        box(g, 'DarkMetal', (x, .85, z0 + 10), (1.1, 1.4, 6.5), solid=True)
-        for s in (-90, 90): decal(g, 'ShelfGoods', (x + (.56 if s == 90 else -.56), .95, z0 + 10), s, 6.3, 1.2, .01)
-    box(g, 'WhitePaint', (x0 + 3.2, .65, z1 - 3), (3.2, 1.0, .8), solid=True); box(g, 'Concrete', (x0 + 3.2, 1.18, z1 - 3), (3.4, .08, 1.0))
-    decal(g, 'LogoU', (x0 + 3.2, .65, z1 - 2.6), 0, .8, .8, .02)
-    box(g, 'DarkMetal', (x0 + 3.2, 2.2, z1 - 3.6), (3.0, 1.2, .3)); decal(g, 'ShelfGoods', (x0 + 3.2, 2.2, z1 - 3.45), 0, 2.9, 1.1, .01)
-    for z in (z0 + 7.5, z0 + 13.5): box(g, 'Concrete', (cx, H1 / 2, z), (.6, H1, .6), solid=True)
-    steps = 14
-    for k in range(steps):
-        y = (k + 1) * (H1 + .2) / steps; z = zmid + 1.6 - k * (5.0 / steps)
-        box(g, 'Concrete', (x0 + 2.7, y - .1, z), (3.0, .2 + (y if k == 0 else .1), .4))
-    # One smooth ramp collider under the visual steps: 0.4 m navmesh sampling aliases on
-    # individual treads and reads them as impassable 0.5 m+ jumps.
-    run, rise = 5.0, H1 + .2 - .15
-    i = entity('Store stair collision', (x0 + 2.7, .15 + rise / 2 - .1, zmid + 1.6 + .18 - run / 2), (math.degrees(math.atan2(rise, run)), 0, 0), (3.0, .2, math.hypot(run, rise) + .3))
-    add_scene(comp(i, 'ColliderComponent', [('Shape', 6, '0	5	Box	Sphere	Capsule	Terrain	Mesh'), ('Size', 3, '1,1,1'), ('Is Trigger', 4, 'false'), ('Blocks Audio', 4, 'true')]))
-    beam(g, 'Steel', (x0 + 4.25, 1, zmid + 1.6), (x0 + 4.25, H1 + 1.1, zmid - 3.4), .06)
-    box(g, 'Concrete', (x0 + 2.7, H1 + .1, zmid - 4.2), (3.0, .2, 1.6), solid=True)
-    for k in range(4):
-        x = x0 + 3 + k * 3.8
-        for z in (z0 + 11.5, z0 + 16.5):
-            box(g, 'LightPanel', (x, H1 - .06, z), (1.2, .04, .6))
-    for k, pos in enumerate([(x0 + 4, 3.3, z0 + 13), (x0 + 12, 3.3, z0 + 13), (x0 + 6, 3.3, z0 + 17), (x0 + 13, 3.3, z0 + 17.5)]):
-        point_light(f'Store light {k}', pos, (.85, .93, 1), 7, 9)
-    point_light('Store upstairs light', (cx, H1 + 2.8, z0 + 5), (1, .9, .75), 5, 9)
-    box(g, 'PlanksDark', (x0 + 9, H1 + .65, z0 + 4), (2.2, .1, 1.1), solid=True)
-    crates('Store interior', 840, 225, 0, 4, 12)
-    sound('Store chiller hum', (x1 - 1, 1.5, z0 + 9), 'chiller_hum.wav', .35, 12, True, 1)
-
-def build_gas_station():
-    g = 'Gas canopy'
-    x0, _, z0 = P(640, 440); x1, _, z1 = P(865, 592)
-    cx, cz = (x0 + x1) / 2, (z0 + z1) / 2; W, D = x1 - x0, z1 - z0
-    # Barrel-vaulted canopy along X with the sweeping end arch (reference shot 5).
-    segs = 14; prof = lambda t: (cz - D / 2 + D * t, 6.2 + 1.6 * math.sin(math.pi * t))
-    for k in range(segs):
-        za, ya = prof(k / segs); zb, yb = prof((k + 1) / segs)
-        poly(g, 'CanopyMetal', [(x0, ya, za), (x1, ya, za), (x1, yb, zb), (x0, yb, zb)], None, (0, 1, 0))
-        poly(g, 'CanopyMetal', [(x0, ya - .25, za), (x1, ya - .25, za), (x1, yb - .25, zb), (x0, yb - .25, zb)], None, (0, -1, 0))
-    for x in (x0, x1):
-        for k in range(segs):
-            za, ya = prof(k / segs); zb, yb = prof((k + 1) / segs)
-            poly(g, 'ColumnBlue', [(x, ya - .25, za), (x, ya, za), (x, yb, zb), (x, yb - .25, zb)], None, (1 if x == x1 else -1, 0, 0))
-    for x in (x0 + 2, x0 + W * .5, x1 - 2):
-        for k in range(segs):
-            za, ya = prof(k / segs); zb, yb = prof((k + 1) / segs); beam(g, 'ColumnBlue', (x, ya - .35, za), (x, yb - .35, zb), .25, .3)
-    # Free-standing end arch sweeping from roof height down to the forecourt.
-    arc = [(x1 + 1.0 + 6 * (1 - math.cos(t * math.pi / 2)), 7.6 * math.sin((1 - t) * math.pi / 2) + .1) for t in [i / 10 for i in range(11)]]
-    for (xa, ya), (xb, yb) in zip(arc, arc[1:]):
-        for zz in (z0 + 1, z1 - 1): beam(g, 'CanopyMetal', (xa, ya, zz), (xb, yb, zz), .35, .5)
-    for k in range(6): beam(g, 'Steel', (arc[k][0], arc[k][1], z0 + 1), (arc[k][0], arc[k][1], z1 - 1), .08)
-    for x in (x0 + 2, x0 + W * .5, x1 - 2):
-        for z in (z0 + 2.2, z1 - 2.2):
-            box(g, 'ColumnBlue', (x, 3.2, z), (.45, 6.4, .45), solid=True)
-    for k in range(6):
-        for z in (cz - 3, cz + 3): box(g, 'LightPanel', (x0 + 3 + k * 3.6, 7.45 + (-.2 if abs(z - cz) > 2 else 0), z), (1.0, .04, .35))
-    # Pump islands.
-    for x in (x0 + 7, x0 + 15):
-        box(g, 'Concrete', (x, .1, cz), (1.6, .2, 6.5), solid=True)
-        for dz in (-1.5, 1.5):
-            box(g, 'WhitePaint', (x, .95, cz + dz), (.7, 1.5, .5), solid=True); box(g, 'ColumnBlue', (x, 1.75, cz + dz), (.75, .15, .55))
-            decal(g, 'LogoU', (x + .36, 1.35, cz + dz), 90, .35, .35, .01); decal(g, 'LogoU', (x - .36, 1.35, cz + dz), -90, .35, .35, .01)
-            beam(g, 'Rubber', (x + .36, 1.2, cz + dz + .15), (x + .5, .5, cz + dz + .3), .04)
-    # Bunting strung across the canopy.
-    for z in (z0 + 3.5, cz, z1 - 3.5):
-        prev = None
-        for k in range(29):
-            t = k / 28; p = (x0 + 1 + (W - 2) * t, 5.6 - .5 * 4 * t * (1 - t), z)
-            if prev: beam(g, 'Rubber', prev, p, .015)
-            if k % 2 == 0 and k < 28:
-                q = (p[0] + .3, p[1] - .45, z)
-                poly('Gas bunting', 'Flags', [p, (p[0] + .6, p[1] - .03, z), q], [((k // 2 % 8) / 8, 0), ((k // 2 % 8 + 1) / 8, 0), ((k // 2 % 8 + .5) / 8, 1)], (0, 0, 1))
-            prev = p
-    # Price sign pylon.
-    x, _, z = P(945, 600)
-    box(g, 'ColumnBlue', (x, 3, z), (.35, 6, .35), solid=True); box(g, 'YellowPaint', (x, 6.6, z), (1.8, 1.8, .3))
-    decal(g, 'LogoU', (x, 6.6, z + .16), 0, 1.5, 1.5, .01); decal(g, 'LogoU', (x, 6.6, z - .16), 180, 1.5, 1.5, .01)
-    van('Gas props', 662, 470, 180)
-    crates('Gas props', 760, 420, 0, 5, 14)
-    hay_stack('Gas props', 735, 330, 90, [(0, 0, 0, 0), (1.2, 0, 0, 2), (0, 0, .58, 0), (1.2, 0, .58, -3), (.6, 1, .3, 10)])
-    van('Gas props', 735, 282, 0)
-    dumpster('Gas props', 900, 190, 0); dumpster('Gas props', 925, 190, 3)
-    # Long brick warehouse along the east edge (reference shot 5, right).
-    cx2, cz2, w2, d2, H = house('Brick warehouse', 958, 240, 1050, 640, 2, 'Brick', 'Slate', 'z', 3.0, 'WindowBarred', {'W': (2, 7)}, gable='Brick')
-    x, _, z = P(958, 400); decal('Brick warehouse', 'SignBrick', (x, 5.1, z), -90, 5, 1.25, .06)
-
-def build_south():
-    house('South warehouse', 232, 400, 375, 585, 1, 'PlasterGrey', 'CorrugatedBlue', 'z', 2.6, 'WindowBarred', extra_height=1.8, gable='Corrugated')
-    x, _, z = P(375, 470); decal('South warehouse', 'Garage', (x, 1.6, z), 90, 3.8, 3.2, .05)
-    house('Hotel', 400, 460, 492, 550, 1, 'PlasterYellow', 'Terracotta', 'x', 2.0, 'WindowBlue', {'N': (1,)}, extra_height=.6)
-    cx, cz, w, d = R(400, 460, 492, 550)
-    box('Hotel', 'Steel', (cx, 6.3, cz), (8.2, 1.5, .08))
-    for k, letter in enumerate('HOTEL'):
-        x = cx - 3.2 + k * 1.6
-        decal('Hotel', 'Letter' + letter, (x, 6.3, cz), 0, 1.4, 1.4, .06)
-        decal('Hotel', 'Letter' + letter, (2 * cx - x, 6.3, cz), 180, 1.4, 1.4, .06)
-        beam('Hotel', 'Steel', (x, 4.6, cz), (x, 5.6, cz), .06)
-    box('Hotel', 'WhitePaint', (cx + 2.5, 2.4, cz - d / 2 - .35), (.9, .6, .6))
-    van('Hotel props', 440, 395, 92)
-    crates('Hotel props', 505, 452, 0, 4, 15)
-    house('South cottage', 520, 540, 620, 610, 1, 'PlasterCream', 'Terracotta', 'x', 2.0, 'WindowGreen', {'N': (1,)})
-    tank('South road', 290, 368, 90, -20)
-    tank('Plaza', 448, 162, 125, 40)
-
-def build_west():
-    house('West cottage', 118, 372, 200, 448, 1, 'PlasterCream', 'Slate', 'z', 2.2, 'WindowPlain', {'E': (1,)}, gable='PlasterCream')
-    house('West cottage 2', 118, 458, 200, 530, 1, 'PlasterYellow', 'Slate', 'z', 2.2, 'WindowGreen', {'E': (0,)}, gable='PlasterYellow')
-    for a, b in [((100, 345), (100, 545)), ((100, 545), (210, 545)), ((210, 545), (210, 470)), ((210, 430), (210, 400))]:
-        fence_picket('West fences', a, b)
-    tractor('West yard', 182, 342, 30)
-    hay_stack('West yard', 140, 350, 0, [(0, 0, 0, 0), (1.2, 0, 0, 0), (.6, 1, 0, 6)])
-    wood_fence('Field fence', (-60, 95), (265, 95))
-    for k, (px, py, s) in enumerate([(230, 112, 1.2), (150, 255, 1.3), (70, 215, 1.0), (40, 330, 1.2), (195, 565, 1.1), (60, 470, 1.3), (20, 600, 1.2), (330, 620, 1.0)]):
-        tree('West trees', px, py, s, 30 + k)
-    # Water tower beyond the field (reference shot 3).
-    g = 'Water tower'
-    x, _, z = P(390, -165)
-    for a in range(4):
-        ang = a * math.tau / 4 + math.pi / 4; beam(g, 'Steel', (x + math.cos(ang) * 2.6, 0, z + math.sin(ang) * 2.6), (x + math.cos(ang) * 1.8, 11, z + math.sin(ang) * 1.8), .22)
-    for y in (3.5, 7.5): cylinder(g, 'Steel', (x, y, z), (x, y + .12, z), 2.4, 8)
-    cylinder(g, 'PlasterGrey', (x, 11, z), (x, 14.5, z), 2.6, 16); cylinder(g, 'Slate', (x, 14.5, z), (x, 16, z), 2.8, 16, True, .2)
-    house('North cottage', 370, -40, 460, 20, 1, 'PlasterWhite', 'Terracotta', 'x', 2.0, 'WindowGreen', {'S': (1,)})
-    house('North house', 200, -150, 290, -80, 2, 'PlasterOchre', 'Slate', 'x', 2.6, 'WindowShutter', solid=False)
-
-def build_plaza():
-    g = 'Plaza monument'
-    x, _, z = P(505, 158)
-    cylinder(g, 'Stone', (x, 0, z), (x, .45, z), 2.6, 16); cylinder(g, 'Concrete', (x, .45, z), (x, .55, z), 2.7, 16)
-    collider((x, .3, z), (4.6, .6, 4.6))
-    box(g, 'StoneDark', (x, 1.6, z), (1.4, 2.1, 1.4), solid=True); box(g, 'Concrete', (x, 2.75, z), (1.7, .2, 1.7))
-    blob(g, 'DarkMetal', (x, 3.6, z), (.35, .75, .3), 'statue', .1, 8, 6); blob(g, 'DarkMetal', (x, 4.55, z), (.22, .25, .22), 'head', .05, 8, 5)
-    beam(g, 'DarkMetal', (x + .2, 4.1, z), (x + .7, 4.9, z - .2), .12)
-    x, _, z = P(400, 180)
-    cylinder(g, 'Concrete', (x, 0, z), (x, .5, z), 1.8, 14); blob(g, 'Hedge', (x, .7, z), (1.6, .6, 1.6), 'planter', .2)
-    collider((x, .25, z), (3.4, .5, 3.4))
-    for k, (px, py, yaw) in enumerate([(340, 190, 0), (460, 120, 90), (565, 185, 180), (515, 370, 270), (513, 255, 270), (700, 250, 270), (770, 420, 270), (240, 385, 0), (620, 425, 0), (180, 330, 0)]):
-        lamp('Street lamps', px, py, yaw)
-    for k, (px, py) in enumerate([(-40, 330), (90, 330), (200, 330), (330, 335), (470, 340), (610, 345), (695, 300), (695, 180), (775, 30), (775, 120)]):
-        pole('Power lines', px, py)
-    wires('Power lines', list(range(6))); wires('Power lines', [5, 6, 7, 8, 9][::-1])
-    jersey('Plaza', 360, 60, 90, 3); jersey('Plaza', 590, 210, 10, 3)
-    crates('Plaza', 345, 115, 90, 4, 18)
-
-def barrel(g, x, z, paint, tipped=False):
-    if tipped: cylinder(g, paint, (x - .45, .3, z), (x + .45, .3, z), .3, 10)
-    else:
-        cylinder(g, paint, (x, 0, z), (x, .9, z), .3, 10)
-        for y in (.3, .6): cylinder(g, 'DarkMetal', (x, y, z), (x, y + .03, z), .31, 10, False)
-
-def build_clutter():
-    rnd = random.Random(99)
-    for px, py, paint in [(512, 205, 'RedPaint'), (515, 214, 'DumpsterGreen'), (700, 215, 'ColumnBlue'), (452, 420, 'RedPaint'),
-                          (775, 205, 'DumpsterGreen'), (950, 430, 'ColumnBlue'), (380, 395, 'DumpsterGreen'), (820, 160, 'RedPaint')]:
-        x, _, z = P(px, py); barrel('Clutter', x, z, paint, rnd.random() < .3)
-        collider((x, .45, z), (.6, .9, .6))
-    for px, py in [(300, 345), (520, 505), (690, 360), (930, 240), (210, 390)]:
-        x, _, z = P(px, py)
-        for k in range(rnd.randint(2, 4)):
-            cylinder('Clutter', 'Rubber', (x + k * .1, k * .25, z), (x + k * .1, k * .25 + .24, z), .38, 12)
-    for px, py, yaw in [(560, 300, 15), (610, 520, 70), (705, 370, 0), (958, 330, 90), (330, 380, 30), (860, 420, 10)]:
-        x, _, z = P(px, py)
-        for k in range(rnd.randint(1, 3)):
-            box('Clutter', 'Planks', (x, .07 + k * .14, z), (1.2, .12, 1.0), yaw + rnd.uniform(-6, 6))
-    # Broken masonry and paper litter along the streets near the burning tower.
-    for k in range(60):
-        px, py = rnd.uniform(450, 720), rnd.uniform(190, 430)
-        x, _, z = P(px, py); sz = rnd.uniform(.08, .3)
-        box('Street debris', rnd.choice(['Stone', 'StoneDark', 'Concrete', 'Brick']), (x, sz * .35, z), (sz, sz * .7, sz * 1.3), rnd.uniform(0, 90))
-    # Rooftop clutter: AC units and satellite dishes like the reference facades.
-    for px, py, y in [(430, 300, 1.8), (660, 300, 4.8), (600, 140, 4.6), (240, 480, 3.5)]:
-        x, _, z = P(px, py); box('Rooftop details', 'WhitePaint', (x, y, z + .3), (.9, .6, .5)); box('Rooftop details', 'DarkMetal', (x, y, z + .56), (.6, .45, .02))
-    for px, py, y in [(310, 250, 8.4), (650, 60, 9.6), (1000, 300, 9.2), (585, 245, 9.6)]:
-        x, _, z = P(px, py)
-        cylinder('Rooftop details', 'Steel', (x, y, z), (x, y + .5, z), .03, 6)
-        cylinder('Rooftop details', 'WhitePaint', (x, y + .5, z), (x + .12, y + .6, z + .25), .45, 12, True, .05)
-        beam('Rooftop details', 'Steel', (x, y, z), (x, y + 2.2, z), .03)
-        for k in range(4): beam('Rooftop details', 'Steel', (x - .6, y + 1.4 + k * .22, z), (x + .6, y + 1.4 + k * .22, z), .02)
-    # Flower boxes under ground-floor windows of the main street houses.
-    for px, py, yaw in [(300, 205, 180), (360, 205, 180), (420, 205, 180), (590, 293, 0), (640, 293, 0)]:
-        x, _, z = P(px, py); off = mul(face_dir(yaw), .25)
-        box('Clutter', 'PlanksDark', (x + off[0], .95, z + off[2]), (1.1, .25, .3), yaw); blob('Clutter', 'Hedge', (x + off[0], 1.15, z + off[2]), (.5, .2, .15), f'fb{px}', .3, 7, 4)
-
-def build_backdrop():
-    # Mountain ring with forested slopes (all reference views show wooded ranges).
-    g = 'Mountains'
-    rnd = random.Random(42); seg = 144
-    raw = [80 + 40 * math.sin(k * .19) + 22 * math.sin(k * .53 + 1) + rnd.uniform(-6, 6) for k in range(seg)]
-    heights = [(raw[k - 1] + 2 * raw[k] + raw[(k + 1) % seg]) / 4 for k in range(seg)]
-    rings = [(220, 0), (270, .2), (330, .5), (400, .8), (480, 1.0), (570, .9)]
-    def pt(k, r):
-        a = k % seg * math.tau / seg; radius, f = rings[r]; return (math.cos(a) * radius, heights[k % seg] * f - 1, math.sin(a) * radius * .85)
-    for k in range(seg):
-        for r in range(len(rings) - 1):
-            q = [pt(k, r), pt(k + 1, r), pt(k + 1, r + 1), pt(k, r + 1)]
-            poly(g, 'Forest' if r < 2 else 'ForestFar', q, None, (-q[0][0], 300, -q[0][2]))
-    # Treelines just past the playable boundary.
-    rnd = random.Random(3)
-    for k in range(70):
-        a = rnd.random() * math.tau; r = rnd.uniform(78, 140)
-        x, z = math.cos(a) * r, math.sin(a) * r * .75
-        if rnd.random() < .5: conifer('Treeline', x, z, rnd.uniform(9, 15), k)
-        else:
-            s = rnd.uniform(1.2, 1.8); rad = 3 * s
-            cylinder('Treeline', 'Bark', (x, 0, z), (x, 5 * s, z), .3 * s, 6, False)
-            blob('Treeline', 'LeavesDark', (x, 6.5 * s, z), (rad, rad * .9, rad), f'bg{k}', .3)
-    # Distant village rooftops to the east/south.
-    for k, (px, py) in enumerate([(1150, 250), (1180, 420), (1120, 650), (900, 760), (600, 780), (300, 760), (-150, 520), (-170, 250)]):
-        house('Distant houses', px, py, px + 80, py + 60, 1 + k % 2, ['PlasterCream', 'PlasterWhite', 'PlasterOchre'][k % 3], ['Slate', 'Terracotta'][k % 2], 'x', 2.4, 'WindowPlain', solid=False)
-    # Perimeter: invisible collision and hedgerows.
-    for (cx, cz, w, d) in [(0, -42, 130, 1), (0, 38, 130, 1), (-62, -2, 1, 82), (59, -2, 1, 82)]:
-        box('Boundary', 'Hedge', (cx, 3, cz), (w, 6, d), render=False, solid=True)
-    for a, b in [((-60, -120), (-60, 650)), ((-60, 650), (1090, 650))]:
-        ax, _, az = P(*a); bx, _, bz = P(*b)
-        L = math.hypot(bx - ax, bz - az); n = int(L / 3)
-        for k in range(n):
-            t = (k + .5) / n; blob('Hedgerow', 'Hedge', (ax + (bx - ax) * t, .9, az + (bz - az) * t), (1.9, 1.3, 1.9), f'h{a}{k}', .25, 7, 4)
-
+TOWER_FIRE = (0, 12, 0)
 def build_effects():
-    # Burning breach in the church tower: flames, embers, a heavy black smoke column.
-    cx, cz, w, d = R(520, 198, 558, 238)
-    fire = (cx + .2, 11.6, cz + d / 2 - .6)
+    fire = TOWER_FIRE
     particles('Tower fire', fire, 'TowerFire')
-    particles('Tower fire core', add(fire, (-.3, -.4, .4)), 'TowerFireCore')
+    particles('Tower fire core', add(fire, (-.4, -.3, .3)), 'TowerFireCore')
     particles('Tower embers', add(fire, (0, .4, 0)), 'Embers')
-    particles('Tower smoke', add(fire, (0, 1.2, .2)), 'TowerSmoke')
-    point_light('Tower fire light', add(fire, (0, 0, 1.4)), (1, .55, .2), 22, 16)
+    particles('Tower smoke', add(fire, (.2, 1.2, 0)), 'TowerSmoke')
+    point_light('Tower fire light', add(fire, (1.4, 0, 0)), (1, .55, .2), 22, 16)
     sound('Tower fire crackle', fire, 'fire_crackle.wav', .9, 45, True, 3)
-    # Distant fires and smouldering wreckage seen in reference shots 2 and 5.
-    for name, pos in [('Distant smoke east', P(1250, -350, 2)), ('Distant smoke north', P(100, -700, 4))]:
+    for name, pos in [('Distant smoke east', (160, 2, -120)), ('Distant smoke north', (-60, 4, -220))]:
         particles(name, pos, 'DistantSmoke')
-    x, _, z = P(930, 120)
-    particles('Barn smoulder', (x, .3, z), 'Smoulder')
-    x, _, z = P(305, 222)
-    particles('Chimney smoke', (x, 12.6, z), 'ChimneySmoke')
+    x, _, z = P(1395, 600); particles('Barn smoulder', (x, .3, z), 'Smoulder')
+    x, _, z = P(700, 930); particles('Chimney smoke', (x, 2 * FLOOR + 7.0, z), 'ChimneySmoke')
     sound('Village wind', (0, 6, 0), 'wind_loop.wav', .28, 400, False, 50)
 
 def build_volumes():
-    # Ambient light: coarse exterior volume plus dense interiors (smaller cells take priority).
-    ambient_volume('Ambient Light Volume Exterior', (-1, 7, -2), (124, 16, 80), 3.0)
-    x0, _, z0 = P(782, 205); x1, _, z1 = P(946, 400)
-    ambient_volume('Ambient Light Volume Store', ((x0 + x1) / 2, 3.7, (z0 + z1) / 2), (x1 - x0, 7.6, z1 - z0), .9)
-    cx, cz, w, d = R(522, 380, 680, 410); ambient_volume('Ambient Light Volume Bakery Passage', (cx, 1.8, cz), (w, 3.5, d), .6)
-    cx, cz, w, d = R(800, 50, 900, 190); ambient_volume('Ambient Light Volume Barn', (cx, 2.6, cz), (w, 5.2, d), 1.0)
-    cx, cz, w, d = R(640, 440, 865, 592); ambient_volume('Ambient Light Volume Gas Canopy', (cx, 4, cz), (w, 8, d), 1.5)
-    # Audio environments.
-    audio_volume('Audio Exterior Field', (-1, 10, -2), (140, 30, 90), 'Field', 0, .05, .45, .15, .35)
-    audio_volume('Audio Village Streets', (-3, 6, 0), (34, 14, 30), 'City', 1, .14, .9, .3, .6, .05, .09, .12)
-    x0, _, z0 = P(782, 205); x1, _, z1 = P(946, 400)
-    audio_volume('Audio Store Interior', ((x0 + x1) / 2, 3.7, (z0 + z1) / 2), (x1 - x0, 7.6, z1 - z0), 'Room', 3, .3, .8, .5, .7, 0, .1, .1, .05, 1)
-    cx, cz, w, d = R(522, 380, 680, 410); audio_volume('Audio Bakery Passage', (cx, 1.8, cz), (w, 3.6, d), 'Hall', 3, .35, 1.4, .5, .7, .1, .07, .2, 0, 1)
-    cx, cz, w, d = R(800, 50, 900, 190); audio_volume('Audio Barn', (cx, 2.6, cz), (w, 5.2, d), 'Room', 2, .2, .7, .4, .5, 0, .1, .1, .1, 1.5)
-    cx, cz, w, d = R(640, 440, 865, 592); audio_volume('Audio Gas Canopy', (cx, 4, cz), (w, 8, d), 'Custom', 2, .16, .9, .35, .5, .08, .1, .15, 0, 2)
-    cx, cz, w, d = R(520, 198, 558, 238); audio_volume('Audio Church Tower', (cx, 7.5, cz), (w, 15, d), 'Hall', 3, .45, 2.2, .6, .8, .15, .15, .25, 0, 1)
+    xs = [p[0] for p in BOUNDARY]; ys = [p[1] for p in BOUNDARY]
+    x0, _, z0 = P(min(xs), min(ys)); x1, _, z1 = P(max(xs), max(ys))
+    ambient_volume('Ambient Light Volume Exterior', ((x0 + x1) / 2, 8, (z0 + z1) / 2), (x1 - x0 + 4, 18, z1 - z0 + 4), 3.0)
+    audio_volume('Audio Exterior Field', ((x0 + x1) / 2, 10, (z0 + z1) / 2), (x1 - x0 + 20, 30, z1 - z0 + 20), 'Field', 0, .05, .45, .15, .35)
+    cx, cz, w, d = R(925, 800, 1260, 1240)
+    audio_volume('Audio Village Streets', (cx, 6, cz), (w, 14, d), 'City', 1, .14, .9, .3, .6, .05, .09, .12)
+    presets = {'Barn': ('Room', .2, .7), 'Church hall': ('Hall', .35, 1.4)}
+    for name, outline in INTERIORS:
+        px = [p[0] for p in outline]; py = [p[1] for p in outline]
+        cx, cz, w, d = R(min(px), min(py), max(px), max(py))
+        ambient_volume('Ambient Light Volume ' + name, (cx, 2.0, cz), (w, 4.0, d), .9)
+        preset, wet, decay = presets.get(name, ('Room', .3, .8))
+        audio_volume('Audio ' + name, (cx, 2.0, cz), (w, 4.0, d), preset, 3, wet, decay, .5, .7, 0, .1, .1, .05, 1)
+    cx, cz, w, d = R(1392, 1144, 1500, 1270); audio_volume('Audio Gas Canopy', (cx, 3.5, cz), (w, 7, d), 'Custom', 2, .16, .9, .35, .5, .08, .1, .15, 0, 2)
+    cx, cz, w, d = R(1152, 808, 1204, 858); audio_volume('Audio Church Tower', (cx, 8, cz), (w, 16, d), 'Hall', 3, .45, 2.2, .6, .8, .15, .15, .25, 0, 1)
 
 # ------------------------------------------------------------------ particles & audio assets
 FIRE_COMMON = 'ParticleSystemVersion=2\nPlayOnAwake=true\nLooping=true\nDuration=5\nSimulationSpace=World\nCollisionEnabled=false\nTrailsEnabled=false\n'
@@ -1100,13 +1114,13 @@ def main():
     keep = {1, 5, 6, 707, 1784}
     def retained(i): return i in keep or (parents[i] != 0 and retained(parents[i]))
     scene = 'SCENE\t1\n' + ''.join(b for i, b in byid.items() if retained(i))
-    spawn = P(60, 420, 1.2)
-    scene = re.sub(r'(^ENTITY\t1\t0\t1\tPlayer\t)[^\t]+\t[^\t]+', r'\g<1>' + vec(spawn) + '\t0,-90,0', scene, flags=re.M)
-    names = ['Gas Station', 'Store', 'Church', 'Plaza', 'Farm']
+    spawn = P(565, 1650, 1.2)
+    scene = re.sub(r'(^ENTITY\t1\t0\t1\tPlayer\t)[^\t]+\t[^\t]+', r'\g<1>' + vec(spawn) + '\t0,0,0', scene, flags=re.M)
+    names = ['Gas Station', 'Market', 'Church', 'Courtyard', 'Warehouse']
     scene = scene.replace('Hardpoint Courtyard|Hardpoint West|Hardpoint East', '|'.join('Hardpoint ' + n for n in names))
-    for key, val in [('hardpointRadius', '4.0'), ('botFallbackSpawnMinimumDistance', '10'), ('botFallbackSpawnRadius', '40')]:
+    for key, val in [('hardpointRadius', '3.5'), ('botFallbackSpawnMinimumDistance', '10'), ('botFallbackSpawnRadius', '40')]:
         scene = re.sub(r'(^PROPERTY\t' + key + r'\t0\t)[^\t]+', r'\g<1>' + val, scene, flags=re.M)
-    for key, v in [('Bounds Minimum', '-62,-1,-43'), ('Bounds Maximum', '60,12,39'), ('Cell Size', '0.4')]:
+    for key, v in [('Bounds Minimum', '-46,-1,-58'), ('Bounds Maximum', '46,14,58'), ('Cell Size', '0.4')]:
         scene = re.sub(r'(^PROPERTY\t' + key + r'\t\d\t)[^\t]+', r'\g<1>' + v, scene, flags=re.M)
     # Late-morning sun from the south-east, slightly hazy like the reference.
     el = math.radians(40); sun = vec(norm((-math.cos(el) * .7071, -math.sin(el), -math.cos(el) * .7071)))
@@ -1120,20 +1134,28 @@ def main():
         'PROPERTY\tColor\t3\t1.000000,0.900000,0.800000\t0', 'PROPERTY\tColor\t3\t1.000000,0.940000,0.860000\t0', 1)
     assert 'PROPERTY\tnavigationMesh\t9\t7243' in scene
     build_materials(); build_particles(); build_audio()
-    build_ground(); build_compound(); build_church(); build_bakery(); build_market(); build_barn(); build_store()
-    build_gas_station(); build_south(); build_west(); build_plaza(); build_clutter(); build_backdrop(); build_effects(); build_volumes()
-    for name, (px, py) in [('North West', (60, 140)), ('North East', (760, 30)), ('South East', (900, 560)), ('South West', (60, 420))]:
+    # Meshes from earlier layouts would otherwise linger in the project.
+    stale = A / 'Meshes/Standoff'
+    if stale.exists():
+        for f in stale.glob('*.plutomesh*'): f.unlink()
+    build_ground(); build_boundary(); build_market(); build_barn(); build_warehouse(); build_church(); build_compound()
+    build_south(); build_gas_station(); build_plaza(); build_clutter(); build_backdrop(); build_effects(); build_volumes()
+    for name, (px, py) in [('North West', (820, 530)), ('North East', (1290, 420)), ('South East', (1530, 1000)), ('South West', (565, 1650))]:
         entity('Spawn ' + name, P(px, py, 1))
-    for n, (name, (px, py, y)) in enumerate(zip(names, [(752, 515, .2), (832, 335, .3), (482, 268, .2), (430, 95, .2), (170, 310, .2)])):
+    for n, (name, (px, py, y)) in enumerate(zip(names, [(1425, 1205, .2), (1060, 645, .2), (1120, 1090, .2), (628, 952, .2), (740, 1320, .2)])):
         i = entity('Hardpoint ' + name, P(px, py, y))
         marker = byid[50101].replace('50101', str(i + 1)).replace('50100', str(i))
         marker = marker.replace('PROPERTY\tsiteIndex\t1\t0', 'PROPERTY\tsiteIndex\t1\t' + str(n))
         add_scene(marker); global nextid; nextid += 1
+    # Interior points the navigation smoke test must reach (one per enterable building).
+    for k, (px, py) in enumerate([(1380, 600), (1450, 890), (1180, 1000), (760, 1430), (920, 1320), (1365, 1175), (1060, 560)]):
+        entity(f'Nav Check {k}', P(px, py, .2))
     triangles = sum(export(g, parts) for g, parts in meshes.items() if any(parts.values()))
     scene = bake_ambient(scene)
     save('Scenes/Standoff.plutoscene', scene)
     manifest = ROOT / 'CoDplutoproject.plutoproject'; lines = manifest.read_text().splitlines()
     kinds = {'.plutoscene': 'Scene', '.plutomesh': 'Mesh', '.plutomaterial': 'Material', '.png': 'Texture', '.plutoparticles': 'Particle System', '.wav': 'Audio'}
+    lines = [l for l in lines if not (l.startswith('ASSET\tproject://Meshes/Standoff/') and not (A / l.split('\t')[1][len('project://'):]).exists())]
     for p in generated:
         ref = 'project://' + p.relative_to(A).as_posix(); entry = f'ASSET\t{ref}\t{p.stat().st_size}\t{kinds[p.suffix]}'
         existing = next((i for i, l in enumerate(lines) if l.startswith('ASSET\t' + ref + '\t')), None)
