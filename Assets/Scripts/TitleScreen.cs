@@ -67,6 +67,7 @@ public sealed class TitleScreen : ScriptBehaviour
         if (_loading)
             return;
 
+        if (_document is not null) GameInput.RefreshPrompts(_document);
         var frame = GameInput.ReadMenuFrame();
         _menu?.RefreshHints();
         var submenu = _settings?.IsOpen == true || _keyboard?.IsOpen == true;

@@ -36,14 +36,23 @@ public static unsafe class RuntimeMenuTests
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])] private static Vector3 Vector() => default;
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])] private static float Axis(int packed) =>
         (GamepadAxis)(packed & 0xffff) switch { GamepadAxis.LeftX => _leftX, GamepadAxis.LeftY => _leftY, GamepadAxis.RightX => _rightX, _ => 0 };
+    private static int _textWrites;
+    private static readonly List<nint> AttributeText = [];
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])] private static int SetText(nint _, nint id, nint text)
-    { Text[Decode(id)] = Decode(text); return 1; }
+    { _textWrites++; Text[Decode(id)] = Decode(text); return 1; }
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])] private static int SetClass(nint _, nint id, nint name, int enabled)
     { if (!_domReady) return 0; Classes[(Decode(id), Decode(name))] = enabled != 0; return 1; }
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])] private static int SetAttribute(nint _, nint id, nint name, nint value)
     { Attributes[(Decode(id), Decode(name))] = Decode(value); return 1; }
-    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])] private static nint GetAttribute(nint _, nint id, nint name) =>
-        Attributes.TryGetValue((Decode(id), Decode(name)), out var value) ? (value == "true" ? TrueText : FalseText) : 0;
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])] private static nint GetAttribute(nint _, nint id, nint name)
+    {
+        if (!Attributes.TryGetValue((Decode(id), Decode(name)), out var value)) return 0;
+        if (value == "true") return TrueText;
+        if (value == "false") return FalseText;
+        var pointer = Marshal.StringToCoTaskMemUTF8(value);
+        AttributeText.Add(pointer);
+        return pointer;
+    }
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])] private static int SetStyle(nint _, nint id, nint name, nint value)
     { Styles[(Decode(id), Decode(name))] = Decode(value); return 1; }
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])] private static int Event(nint _, nint __, nint ___) => 1;
@@ -141,6 +150,33 @@ public static unsafe class RuntimeMenuTests
         menu.RefreshHints();
         Check(Classes[("menu-body", "controller-connected")], "Controller activity did not restore controller hints.");
 
+        var promptMap = new InputActionMap { Actions = [new() { Name = "Interact", Bindings = [
+            new() { Kind = InputBindingKind.Key, Key = KeyCode.F },
+            new() { Kind = InputBindingKind.GamepadButton, Button = GamepadButton.Y }
+        ] }] };
+        var prompts = new RmlInputPrompts(doc, () => promptMap);
+        prompts.Bind("action-hint", "{Interact} USE <ITEM>");
+        _activeDevice = 0;
+        Check(GameInput.Prompt("ArmourPlate") == "J", "Project prompt ignored the configured asset's armour key.");
+        prompts.Refresh();
+        Check(Text["action-hint"] == "F USE &lt;ITEM&gt;", "Mapped KBM prompt or RML escaping failed.");
+        var writes = _textWrites;
+        prompts.Refresh();
+        Check(_textWrites == writes, "Unchanged prompt wrote DOM every frame.");
+        _activeDevice = 1; prompts.Refresh();
+        Check(Text["action-hint"] == "Y USE &lt;ITEM&gt;", "Prompt did not switch to controller mapping.");
+        promptMap.Actions[0].Bindings[1].Button = GamepadButton.B;
+        prompts.Refresh();
+        Check(Text["action-hint"] == "B USE &lt;ITEM&gt;", "Live remap left stale prompt.");
+        Attributes[("action-hint", "data-input-prompt")] = "HOLD {Interact}";
+        prompts.Refresh();
+        Check(Text["action-hint"] == "HOLD B", "Reloaded RML template was ignored.");
+        Attributes.Remove(("action-hint", "data-pluto-input-prompt"));
+        Text["action-hint"] = "";
+        prompts.Refresh();
+        Check(Text["action-hint"] == "HOLD B", "Recreated native DOM lost its prompt.");
+
+
         var keyboard = new ControllerKeyboard(doc);
         string? committed = null;
         keyboard.Open("CALLSIGN", "", 20, value => committed = value);
@@ -177,6 +213,7 @@ public static unsafe class RuntimeMenuTests
         Check(!GameInput.GameplayAllowed, "Keyboard Space activation leaked into jumping.");
         _spaceHeld = false; Check(GameInput.GameplayAllowed, "KBM release failed to restore gameplay.");
         _cursor = 0; Check(!GameInput.GameplayAllowed, "Unlocked cursor failed to block gameplay."); _cursor = 1;
+        foreach (var pointer in AttributeText) Marshal.FreeCoTaskMem(pointer);
         Marshal.FreeCoTaskMem(TrueText); Marshal.FreeCoTaskMem(FalseText);
         Console.WriteLine("PASS: actual asset/controller sampling, A/B navigation, highlight/reveal, controller keyboard, confirmation and gameplay capture through native callbacks.");
     }

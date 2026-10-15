@@ -24,6 +24,18 @@ public static class GameInput
         _map = InputActionMap.Load(asset);
         _controllerMap = null;
     }
+    public static string Prompt(string action) => InputPrompts.Binding(Map, action);
+    public static string FormatPrompt(string template) => InputPrompts.Format(Map, template);
+    private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<RmlDocument, RmlInputPrompts> Prompts = new();
+    public static void RefreshPrompts(RmlDocument document)
+    {
+        var prompts = Prompts.GetValue(document, doc => {
+            var result = new RmlInputPrompts(doc, () => Map);
+            result.LoadDocumentBindings();
+            return result;
+        });
+        prompts.Refresh();
+    }
     public static bool Down(string action) => Map.IsDown(action);
     public static bool Pressed(string action) => Map.WasPressed(action);
     public static float Axis(string action) => Map.GetAxis(action);

@@ -1,3 +1,4 @@
+using System.Xml.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -42,3 +43,15 @@ Check(actions["Fire"].Bindings.Any(b => b.Axis == GamepadAxis.RightTrigger && b.
 Check(File.ReadAllText(Path.Combine(root, "CoDplutoproject.plutoproject")).Contains("BUILD_ALWAYS_INCLUDE\tproject://Input/fps.plutoinput"), "Cooked build omits FPS input asset.");
 RuntimeMenuTests.Run(map);
 Console.WriteLine($"FPS input checks passed: {actions.Count} actions, complete migrated action references and dual-device bindings.");
+
+foreach (var path in Directory.EnumerateFiles(Path.Combine(root, "Assets/UI"), "*.rml"))
+{
+    var document = System.Xml.Linq.XDocument.Load(path);
+    foreach (var attribute in document.Descendants().Attributes("data-input-prompt"))
+    {
+        Check(attribute.Parent!.Attribute("id") is not null, $"Prompt has no stable ID in {path}");
+        foreach (Match token in Regex.Matches(attribute.Value, @"\{([A-Za-z0-9_.-]+)\}"))
+            Check(actions.ContainsKey(token.Groups[1].Value), $"Unknown prompt action {token.Groups[1].Value} in {path}");
+    }
+}
+Console.WriteLine("PASS: RML prompt tokens reference registered asset actions.");

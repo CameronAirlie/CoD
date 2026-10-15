@@ -1257,7 +1257,7 @@ public sealed class PlayerController : ScriptBehaviour
         _interactionTarget = target;
         if (promptText is not null)
         {
-            promptText.Text = target is null ? string.Empty : $"[E] {target.Name}";
+            promptText.Text = target is null ? string.Empty : $"[{GameInput.Prompt("Interact")}] {target.Name}";
         }
         InteractionTargetChanged?.Invoke(target);
     }

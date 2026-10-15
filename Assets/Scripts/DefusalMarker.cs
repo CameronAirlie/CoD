@@ -36,7 +36,7 @@ public sealed class DefusalMarker : ScriptBehaviour
             var range = player is null ? 0 : (int)(player.WorldPosition - position).Length();
             var local = Array.Find(match!.Players, p => p.PeerId == match.LocalPeerId);
             var attacker = local?.Team == bomb.Attackers;
-            var action = bomb.Bomb == BombState.Planted ? (attacker ? "DEFEND" : "HOLD E: DEFUSE") : (attacker ? "RECOVER" : "GUARD");
+            var action = bomb.Bomb == BombState.Planted ? (attacker ? "DEFEND" : GameInput.FormatPrompt("HOLD {Interact}: DEFUSE")) : (attacker ? "RECOVER" : "GUARD");
             label.Markup = $"{action} · {range}m";
             label.SetClass("contested", bomb.Bomb == BombState.Planted);
             return;

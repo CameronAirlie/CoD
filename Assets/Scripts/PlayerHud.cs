@@ -23,6 +23,8 @@ public sealed class PlayerHud : ScriptBehaviour
     private RmlElement? _ammo;
     private RmlElement? _reserve;
     private RmlElement? _weaponName;
+    private string _promptSignature = "";
+    private GameObject? _interactionTarget;
     private RmlElement? _weaponSlots;
     private RmlElement? _weaponState;
     private RmlElement? _compassTicks;
@@ -183,6 +185,14 @@ public sealed class PlayerHud : ScriptBehaviour
 
     public override void OnUpdate(float deltaTime)
     {
+        var promptSignature = GameInput.FormatPrompt("{Interact}|{WeaponPrimary}|{WeaponSecondary}|{NextWeapon}|{Reload}|{LoadoutAssault}|{LoadoutMedic}|{LoadoutDefender}");
+        if (_domReady && promptSignature != _promptSignature)
+        {
+            _promptSignature = promptSignature;
+            RenderWeapon();
+            OnInteractionChanged(_interactionTarget);
+        }
+
         _hudTime += MathF.Max(0.0f, deltaTime);
         if (_domReady && player is not null)
         {
@@ -203,8 +213,8 @@ public sealed class PlayerHud : ScriptBehaviour
                 : neutral ? _multiplayer!.SpectatorTeam : PlayerTeam.Spectator;
             var teamLabel = $"<span class=\"{TeamIdentity.CssClass(viewedTeam)}\">{TeamIdentity.EmblemMarkup(viewedTeam)} {TeamIdentity.Name(viewedTeam)}</span>";
             var spectator = !_dead && !neutral ? "" : _controller?.IsSpectating == true
-                ? $"{(neutral ? "NEUTRAL SPECTATOR / " : "")} {teamLabel} / {EscapeMarkup(_controller.SpectatorName)}<br/>Q PREVIOUS / E NEXT{(neutral ? " / F1 ALPHA / F2 BRAVO" : " TEAMMATE")}" : neutral
-                ? $"NEUTRAL SPECTATOR / {teamLabel}<br/>NO LIVE PLAYERS ON THIS SIDE / F1 ALPHA / F2 BRAVO"
+                ? $"{(neutral ? "NEUTRAL SPECTATOR / " : "")} {teamLabel} / {EscapeMarkup(_controller.SpectatorName)}<br/>{GameInput.Prompt("SpectatePrevious")} PREVIOUS / {GameInput.Prompt("SpectateNext")} NEXT{(neutral ? $" / {GameInput.Prompt("SpectateAlpha")} ALPHA / {GameInput.Prompt("SpectateBravo")} BRAVO" : " TEAMMATE")}" : neutral
+                ? $"NEUTRAL SPECTATOR / {teamLabel}<br/>NO LIVE PLAYERS ON THIS SIDE / {GameInput.Prompt("SpectateAlpha")} ALPHA / {GameInput.Prompt("SpectateBravo")} BRAVO"
                 : "NO TEAMMATES AVAILABLE<br/>WAITING TO RESPAWN";
             if (spectator != _spectatorPresentation)
             {
@@ -242,8 +252,8 @@ public sealed class PlayerHud : ScriptBehaviour
         var count = pov is null ? _multiplayer?.ThrowableCount(kind) ?? 0 : kind switch
         { "flash" => pov.Flashbang, "smoke" => pov.Smoke, "molotov" => pov.Molotov, _ => pov.Frag };
         var status = _multiplayer?.UsesPresetLoadouts == true
-            ? pov is null ? $"G {GrenadeRules.Name(kind)} / {count} / T CYCLE / B / I LOADOUTS" : $"{GrenadeRules.Name(kind)} / {count}"
-            : pov is null ? $"G {GrenadeRules.Name(kind)} / {count} / T CYCLE / ${_multiplayer?.Money ?? 0} / B BUY"
+            ? pov is null ? $"{GameInput.Prompt("ThrowGrenade")} {GrenadeRules.Name(kind)} / {count} / {GameInput.Prompt("CycleThrowable")} CYCLE / {GameInput.Prompt("Inventory")} LOADOUTS" : $"{GrenadeRules.Name(kind)} / {count}"
+            : pov is null ? $"{GameInput.Prompt("ThrowGrenade")} {GrenadeRules.Name(kind)} / {count} / {GameInput.Prompt("CycleThrowable")} CYCLE / ${_multiplayer?.Money ?? 0} / {GameInput.Prompt("Inventory")} BUY"
             : $"{GrenadeRules.Name(kind)} / {count} / ${pov.Money}";
         if (_domReady && _grenades is not null && status != _renderedThrowableStatus)
         { _grenades.Markup = status; _renderedThrowableStatus = status; }
@@ -324,12 +334,21 @@ public sealed class PlayerHud : ScriptBehaviour
         {
             if (_multiplayer?.UsesPresetLoadouts != true && _multiplayer?.CurrentMatch?.Phase is (MatchPhase.Warmup or MatchPhase.Results))
             {
-                _weaponSlots.Markup = "1 ASSAULT / 2 MEDIC / 3 DEFENDER<br/>WEAPON SWITCHING DURING PLAY";
+                _weaponSlots.Markup = GameInput.FormatPrompt("{LoadoutAssault} ASSAULT / {LoadoutMedic} MEDIC / {LoadoutDefender} DEFENDER") + "<br/>WEAPON SWITCHING DURING PLAY";
                 return;
             }
             var selected = _controller?.EquippedWeaponSlot ?? 0;
             var primary = _multiplayer?.OwnsWeapon(0) == true ? "AR" : _multiplayer?.OwnsWeapon(2) == true ? "MG" : "EMPTY";
-            _weaponSlots.Markup = $"{(selected != 1 ? $"[1 {primary}]" : $"1 {primary}")} &nbsp; {(selected == 1 ? "[2 PISTOL]" : "2 PISTOL")}<br/>Q SWITCH / R RELOAD";
+            // Direct weapon slots may have no controller binding; retain the weapon
+            // label and show the mapped cycle action instead of a phantom slot key.
+            static string SlotLabel(string action, string label)
+            {
+                var key = GameInput.Prompt(action);
+                return key == "UNBOUND" ? label : $"{key} {label}";
+            }
+            var primaryLabel = SlotLabel("WeaponPrimary", primary);
+            var pistolLabel = SlotLabel("WeaponSecondary", "PISTOL");
+            _weaponSlots.Markup = $"{(selected != 1 ? $"[{primaryLabel}]" : primaryLabel)} &nbsp; {(selected == 1 ? $"[{pistolLabel}]" : pistolLabel)}<br/>{GameInput.Prompt("NextWeapon")} SWITCH / {GameInput.Prompt("Reload")} RELOAD";
         }
     }
 
@@ -371,8 +390,9 @@ public sealed class PlayerHud : ScriptBehaviour
 
     private void OnInteractionChanged(GameObject? target)
     {
+        _interactionTarget = target;
         if (_interaction is not null)
-            _interaction.Markup = target is null ? string.Empty : $"<span class=\"ui-key\">E</span>{EscapeMarkup(target.Name)}";
+            _interaction.Markup = target is null ? string.Empty : $"<span class=\"ui-key\">{GameInput.Prompt("Interact")}</span>{EscapeMarkup(target.Name)}";
     }
 
     private void OnHealthChanged(float current, float maximum, int armour, int maximumArmour)

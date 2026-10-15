@@ -29,3 +29,12 @@ included in exports. CoD still saves the player's selected tier in settings.json
 applying that tier resolves the current project definition. Reapply a tier after
 editing its definition to refresh an existing preview. See the engine's
 `docs/GraphicsPresets.md` for effect scope and limits.
+
+Control prompts resolve action bindings from GameInput's configured input asset.
+Use `GameInput.Prompt("Interact")` for dynamic plain labels, or add a stable ID and
+`data-input-prompt="{MenuAccept} SELECT"` to an RML leaf. UI controllers call
+GameInput.RefreshPrompts on the document; the engine formats only the active
+device's bindings, escapes RML text and restores labels after DOM recreation.
+No literal keys/buttons or duplicate KBM/controller spans are needed. An unbound
+action on the active device displays UNBOUND. Configure/reload the input asset to
+pick up asset edits; binding changes within the active map refresh automatically.

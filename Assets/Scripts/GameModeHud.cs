@@ -59,7 +59,7 @@ public sealed class GameModeHud : ScriptBehaviour
         {
             Set("objective-status", match?.Phase == MatchPhase.Results ? "ROUND COMPLETE" : "PREPARE FOR THE ROUND");
             Set("objective-instruction", match?.Mode == MatchMode.Hardpoint ? "Hold the zone to score. Both teams inside = contested." : "Eliminate the opposing team.");
-            Set("objective-detail", match?.Phase == MatchPhase.Results ? "Choose your next loadout below." : "Choose loadout: 1 Assault / 2 Medic / 3 Defender");
+            Set("objective-detail", match?.Phase == MatchPhase.Results ? "Choose your next loadout below." : GameInput.FormatPrompt("Choose loadout: {LoadoutAssault} Assault / {LoadoutMedic} Medic / {LoadoutDefender} Defender"));
             Set("objective-rotation", "");
             foreach (var style in new[] { "neutral", "friendly", "enemy", "contested" }) _document.Element("objective").SetClass(style, false);
         }
@@ -71,13 +71,13 @@ public sealed class GameModeHud : ScriptBehaviour
         }
         else if (_inventory is not null)
         {
-            Set("supply-counts", $"H MED KITS {_inventory.HealthKits} | G PLATES {_inventory.ArmourPlates} | CAPACITY {_inventory.SlotsUsed}/{InventoryRules.Capacity}");
-            Set("supply-use", _inventory.IsUsing ? $"APPLYING SUPPLY {(int)(_inventory.UseProgress * 100)}% - DAMAGE INTERRUPTS" : match?.Mode == MatchMode.Defusal ? "HOLD E PLANT / DEFUSE | I INVENTORY" : "E COLLECT SUPPLIES | I INVENTORY");
+            Set("supply-counts", $"{GameInput.Prompt("HealthKit")} MED KITS {_inventory.HealthKits} | {GameInput.Prompt("ArmourPlate")} PLATES {_inventory.ArmourPlates} | CAPACITY {_inventory.SlotsUsed}/{InventoryRules.Capacity}");
+            Set("supply-use", _inventory.IsUsing ? $"APPLYING SUPPLY {(int)(_inventory.UseProgress * 100)}% - DAMAGE INTERRUPTS" : match?.Mode == MatchMode.Defusal ? GameInput.FormatPrompt("HOLD {Interact} PLANT / DEFUSE | {Inventory} INVENTORY") : GameInput.FormatPrompt("{Interact} COLLECT SUPPLIES | {Inventory} INVENTORY"));
         }
         var selecting = _session?.IsNeutralSpectator != true && match?.Phase is MatchPhase.Warmup or MatchPhase.Results;
         Set("loadout-choice", _session?.UsesPresetLoadouts == true && _session.IsNeutralSpectator != true
-            ? $"B / I LOADOUTS | CURRENT: {_session.ActiveLoadout.ToString().ToUpperInvariant()} | NEXT SPAWN: {_session.SelectedLoadout.ToString().ToUpperInvariant()}"
-            : selecting ? $"1 ASSAULT / START WITH AR: 150 AMMO / 1 KIT / 1 PLATE<br/>2 MEDIC / START WITH PISTOL: 60 AMMO / 3 KITS<br/>3 DEFENDER / START WITH MG: 90 AMMO / 1 KIT / 3 PLATES<br/>ALL CLASSES CARRY ALL THREE WEAPONS<br/>SELECTED: {_session?.SelectedLoadout.ToString().ToUpperInvariant()}" : "");
+            ? $"{GameInput.Prompt("Inventory")} LOADOUTS | CURRENT: {_session.ActiveLoadout.ToString().ToUpperInvariant()} | NEXT SPAWN: {_session.SelectedLoadout.ToString().ToUpperInvariant()}"
+            : selecting ? $"{GameInput.Prompt("LoadoutAssault")} ASSAULT / START WITH AR: 150 AMMO / 1 KIT / 1 PLATE<br/>{GameInput.Prompt("LoadoutMedic")} MEDIC / START WITH PISTOL: 60 AMMO / 3 KITS<br/>{GameInput.Prompt("LoadoutDefender")} DEFENDER / START WITH MG: 90 AMMO / 1 KIT / 3 PLATES<br/>ALL CLASSES CARRY ALL THREE WEAPONS<br/>SELECTED: {_session?.SelectedLoadout.ToString().ToUpperInvariant()}" : "");
         Set("combat-cue", pov is null && _feedback?.CueTime > 0 ? _feedback.LastCue : "");
         Set("round-progress", _session?.IsNeutralSpectator == true || _progression is null ? "" : match?.Phase == MatchPhase.Results && local is not null && (match.Mode != MatchMode.Defusal || match.Defusal?.MatchOver == true) ?
             $"{local.Kills} ELIMINATIONS | {(int)local.ObjectiveSeconds}s ON OBJECTIVE | +{_progression.LastMatchExperience} XP | LEVEL {_progression.Level}" : $"LEVEL {_progression.Level} | {_progression.TotalExperience} XP");
@@ -94,7 +94,7 @@ public sealed class GameModeHud : ScriptBehaviour
         var aliveA = match.Players.Count(p => p.Team == PlayerTeam.Alpha && p.Alive);
         var aliveB = match.Players.Count(p => p.Team == PlayerTeam.Bravo && p.Alive);
         var headline = attack ? "ATTACK / PLANT AT A OR B" : "DEFEND / PROTECT BOTH SITES";
-        var instruction = attack ? "Escort the carrier. Clear a site. Hold E to plant." : "Stop the attackers. Hold E beside a planted bomb to defuse.";
+        var instruction = attack ? GameInput.FormatPrompt("Escort the carrier. Clear a site. Hold {Interact} to plant.") : GameInput.FormatPrompt("Stop the attackers. Hold {Interact} beside a planted bomb to defuse.");
         var detail = $"ALIVE: ALPHA {aliveA} / BRAVO {aliveB} | ONE LIFE PER ROUND";
         var clock = "SIDES SWAP AFTER ROUND 6";
         if (match.Phase != MatchPhase.Playing)
@@ -108,7 +108,7 @@ public sealed class GameModeHud : ScriptBehaviour
             if (bomb.Bomb == BombState.Planted)
             {
                 headline = $"BOMB PLANTED / {(bomb.Site == 0 ? "A COURTYARD" : "B FOUNDRY")}";
-                instruction = attack ? "Protect the bomb until it detonates." : "Reach the bomb. Hold E for 5 seconds to defuse.";
+                instruction = attack ? "Protect the bomb until it detonates." : GameInput.FormatPrompt("Reach the bomb. Hold {Interact} for 5 seconds to defuse.");
                 clock = $"DETONATION IN {(int)MathF.Ceiling(bomb.Seconds)}s";
             }
             else if (bomb.Bomb == BombState.Dropped)
@@ -123,7 +123,7 @@ public sealed class GameModeHud : ScriptBehaviour
                     detail += $" | BOMB {(int)(origin - bomb.Position).Length()}m {Compass(CombatFeedbackMath.Bearing(facing, right, bomb.Position - origin))}";
                 }
             }
-            else if (bomb.Carrier == local?.PeerId) instruction = "YOU CARRY THE BOMB / Enter A or B, stop, and hold E for 3 seconds.";
+            else if (bomb.Carrier == local?.PeerId) instruction = GameInput.FormatPrompt("YOU CARRY THE BOMB / Enter A or B, stop, and hold {Interact} for 3 seconds.");
             else if (attack) instruction = "ESCORT YOUR BOMB CARRIER / Clear either site.";
             if (bomb.Operator is { } actor && bomb.Progress > 0)
                 instruction = $"{(actor == local?.PeerId ? "YOU ARE" : "PLAYER IS")} {(bomb.Bomb == BombState.Planted ? "DEFUSING" : "PLANTING")} / {(int)(bomb.Progress * 100)}%";

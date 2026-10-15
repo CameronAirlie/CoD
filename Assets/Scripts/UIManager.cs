@@ -74,6 +74,8 @@ public sealed class UIManager : ScriptBehaviour
 
     public override void OnUpdate(float deltaTime)
     {
+        if (_pauseDocument is not null) CoD.Scripts.GameInput.RefreshPrompts(_pauseDocument);
+        if (_hudDocument is not null) CoD.Scripts.GameInput.RefreshPrompts(_hudDocument);
         // Scene and RML initialization can change cursor capture after OnCreate.
         // Reapply the initial gameplay state once the scene is fully live.
         var label = Session?.IsNeutralSpectator == true ? "SWITCH VIEWED TEAM" : "SWITCH TEAM";

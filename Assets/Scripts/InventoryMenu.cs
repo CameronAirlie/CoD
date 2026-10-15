@@ -106,6 +106,7 @@ public sealed class InventoryMenu : ScriptBehaviour
 
     public override void OnUpdate(float deltaTime)
     {
+        if (_document is not null) GameInput.RefreshPrompts(_document);
         var visible = _widget?.Visible == true && !Input.CursorLocked;
         if (visible && !_wasVisible) _menu?.Open();
         if (!visible && _wasVisible) { CancelDrag(); _menu?.Close(); }

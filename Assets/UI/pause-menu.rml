@@ -20,9 +20,7 @@
                     TEAM</button><button id="restart" class="ui-button">RESTART CHECKPOINT</button>
                 <div class="ui-rule" /><button id="main-menu" class="ui-button">RETURN TO MAIN MENU</button><button
                     id="quit" class="ui-button">QUIT GAME</button>
-                <div class="hint ui-meta"><span class="keyboard-only"><span class="ui-key">ESC</span> RETURN TO
-                        GAME</span><span class="controller-only">LS / D-PAD MOVE / A SELECT / B BACK / START
-                        RESUME</span></div>
+                <div class="hint ui-meta"><span id="input-hint-1" data-input-prompt="{Pause} RETURN TO GAME / {MenuAccept} SELECT / {MenuBack} BACK"></span></div>
             </div>
         </div>
         <div id="settings-overlay">
@@ -151,9 +149,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="menu-controller-hint ui-meta"><span class="controller-only">LS / D-PAD MOVE / A SELECT / B
-                        BACK / LB-RB TABS / LEFT-RIGHT ADJUST</span><span class="keyboard-only">TAB NAVIGATE / ENTER
-                        SELECT / ARROWS ADJUST</span></div>
+                <div class="menu-controller-hint ui-meta"><span id="input-hint-2" data-input-prompt="{MenuAccept} SELECT / {MenuBack} BACK / {MenuPreviousTab} - {MenuNextTab} TABS / {MenuHorizontal} ADJUST"></span></div>
                 <div id="settings-status">Changes apply and save immediately.</div><button id="settings-reset"
                     class="ui-button">RESTORE DEFAULTS</button><button id="settings-close"
                     class="ui-button primary">BACK</button>
@@ -166,8 +162,7 @@
                 <div class="confirm-actions"><button id="confirm-cancel"
                         class="ui-button primary">CANCEL</button><button id="confirm-accept"
                         class="ui-button">CONFIRM</button></div>
-                <div class="menu-controller-hint ui-meta"><span class="controller-only">LEFT-RIGHT CHOOSE / A SELECT / B
-                        CANCEL</span><span class="keyboard-only">TAB NAVIGATE / ENTER SELECT / ESC CANCEL</span></div>
+                <div class="menu-controller-hint ui-meta"><span id="input-hint-3" data-input-prompt="{MenuHorizontal} CHOOSE / {MenuAccept} SELECT / {MenuBack} CANCEL"></span></div>
             </div>
         </div>
     </body>
