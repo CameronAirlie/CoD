@@ -39,6 +39,7 @@ public sealed class PlayerHud : ScriptBehaviour
     private RmlElement? _deathRed;
     private RmlElement? _deathBlack;
     private RmlElement? _crosshair;
+    private RmlElement? _hitmarker;
     private RmlElement? _matchPhase;
     private RmlElement? _matchClock;
     private RmlElement? _alphaScore;
@@ -103,6 +104,7 @@ public sealed class PlayerHud : ScriptBehaviour
         _deathRed = _document.Element("death-red");
         _deathBlack = _document.Element("death-black");
         _crosshair = _document.Element("crosshair");
+        _hitmarker = _document.Element("hitmarker");
         _matchPhase = _document.Element("match-phase");
         _matchClock = _document.Element("match-clock");
         _alphaScore = _document.Element("alpha-score");
@@ -306,13 +308,11 @@ public sealed class PlayerHud : ScriptBehaviour
 
         if (_hitTime <= 0.0f) return;
         _hitTime = MathF.Max(0.0f, _hitTime - MathF.Max(deltaTime, 0.0f));
+        _hitmarker?.SetStyle("opacity", Math.Clamp(_hitTime / .08f, 0, 1).ToString(CultureInfo.InvariantCulture));
         if (_hitTime <= 0.0f && _hitVisible)
         {
             _hitVisible = false;
-            foreach (var arm in _arms) arm.SetClass("hit", false);
-            _crosshair?.SetClass("headshot", false);
-            _crosshair?.SetClass("elimination", false);
-            _crosshair?.SetClass("armour-hit", false);
+            _hitmarker?.SetClass("hidden", true);
         }
     }
 
@@ -377,15 +377,13 @@ public sealed class PlayerHud : ScriptBehaviour
 
     private void OnHit(FpsHitEvent hit)
     {
-        _hitTime = hit.IsKill ? .3f : hit.IsHeadshot ? .18f : MathF.Max(0.01f, hitFlashDuration);
-        if (!_hitVisible)
-        {
-            _hitVisible = true;
-            foreach (var arm in _arms) arm.SetClass("hit", true);
-        }
-        _crosshair?.SetClass("headshot", hit.IsHeadshot);
-        _crosshair?.SetClass("elimination", hit.IsKill);
-        _crosshair?.SetClass("armour-hit", hit.HitArmour);
+        if (_dead || _multiplayer?.IsNeutralSpectator == true) return;
+        _hitTime = hit.IsKill ? .32f : hit.IsHeadshot ? .24f : MathF.Max(.18f, hitFlashDuration);
+        _hitVisible = true;
+        _hitmarker?.SetClass("hidden", false);
+        _hitmarker?.SetStyle("opacity", "1");
+        _hitmarker?.SetClass("headshot", hit.IsHeadshot);
+        _hitmarker?.SetClass("elimination", hit.IsKill);
     }
 
     private void OnInteractionChanged(GameObject? target)
@@ -418,6 +416,9 @@ public sealed class PlayerHud : ScriptBehaviour
     private void OnDied()
     {
         _dead = true;
+        _hitTime = 0;
+        _hitVisible = false;
+        _hitmarker?.SetClass("hidden", true);
         _deathTime = 0.0f;
         _damageOverlay?.SetClass("hidden", true);
         _deathRed?.SetClass("hidden", false);

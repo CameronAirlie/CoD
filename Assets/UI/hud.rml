@@ -39,6 +39,10 @@
             <div id="crosshair-left" class="arm left"></div>
             <div class="dot"></div>
         </div>
+        <div id="hitmarker" class="hidden">
+            <div class="hit-stroke hit-nw"></div><div class="hit-stroke hit-ne"></div>
+            <div class="hit-stroke hit-sw"></div><div class="hit-stroke hit-se"></div>
+        </div>
         <div id="interaction"></div>
         <div id="combat-cue"></div>
         <div id="loadout-choice" class="loadout"></div>

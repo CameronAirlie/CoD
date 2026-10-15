@@ -872,9 +872,9 @@ ASSET	project://Prefabs/Weapons/ar.plutoprefab	1705	Prefab
 ASSET	project://Prefabs/Weapons/lmg.plutoprefab	1708	Prefab
 ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1717	Prefab
 ASSET	project://Scenes/Foundry.plutoscene	10057066	Scene
-ASSET	project://Scenes/Main.plutoscene	356660	Scene
-ASSET	project://Scenes/Shipment.plutoscene	321374	Scene
-ASSET	project://Scenes/Standoff.plutoscene	27202462	Scene
+ASSET	project://Scenes/Main.plutoscene	356663	Scene
+ASSET	project://Scenes/Shipment.plutoscene	321377	Scene
+ASSET	project://Scenes/Standoff.plutoscene	18452404	Scene
 ASSET	project://Scenes/Terminal.plutoscene	14817968	Scene
 ASSET	project://Scenes/Title.plutoscene	8754	Scene
 ASSET	project://Scenes/car_scene.plutoscene	2993018	Scene
@@ -921,10 +921,10 @@ ASSET	project://Scripts/MultiplayerSession.BotEquipment.cs	8301	Script
 ASSET	project://Scripts/MultiplayerSession.Defusal.cs	14489	Script
 ASSET	project://Scripts/MultiplayerSession.Economy.cs	5738	Script
 ASSET	project://Scripts/MultiplayerSession.Grenades.cs	16001	Script
-ASSET	project://Scripts/MultiplayerSession.Objectives.cs	8763	Script
+ASSET	project://Scripts/MultiplayerSession.Objectives.cs	9199	Script
 ASSET	project://Scripts/MultiplayerSession.Spectating.cs	7368	Script
 ASSET	project://Scripts/MultiplayerSession.Throwables.cs	6675	Script
-ASSET	project://Scripts/MultiplayerSession.cs	103038	Script
+ASSET	project://Scripts/MultiplayerSession.cs	103299	Script
 ASSET	project://Scripts/NetworkParticipantHitbox.cs	401	Script
 ASSET	project://Scripts/ObjectiveStatus.cs	1062	Script
 ASSET	project://Scripts/PauseMenu.cs	262	Script

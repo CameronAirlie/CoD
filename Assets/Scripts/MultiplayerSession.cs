@@ -201,6 +201,13 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             _username = MultiplayerLaunch.Username;
         }
 
+        // Dedicated servers retain explicit launcher/admin population settings.
+        if (!IsDedicated && RulesMode == MatchMode.Hardpoint)
+        {
+            minimumParticipants = maximumParticipants = 12;
+            maximumBots = 12;
+        }
+
         ApplyLocalSpectatorRole(!mode.Equals("Offline", StringComparison.OrdinalIgnoreCase) && joinAsSpectator);
         if (mode.Equals("Host", StringComparison.OrdinalIgnoreCase))
             StartHost();
@@ -1304,9 +1311,13 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
             destination.X, destination.Y, destination.Z);
         bot.NavigationDestination = destination;
         bot.TargetPositionAtPlan = targetPosition;
+        // Routine objective refreshes must not erase the stuck watchdog.
+        if (!bot.HasNavigationDestination)
+        {
+            bot.ProgressPosition = bot.GameObject.WorldPosition;
+            bot.LastProgressAt = _time;
+        }
         bot.HasNavigationDestination = true;
-        bot.ProgressPosition = bot.GameObject.WorldPosition;
-        bot.LastProgressAt = _time;
         bot.NavigationMoveDeadline = _time + MathF.Max(1.0f, botNavigationMoveTimeout);
     }
 
@@ -2131,7 +2142,7 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         public int ShotsInBurst { get; set; }
         public int BurstLimit { get; set; } = 5;
         public float RangeMultiplier { get; } = 0.8f + ((seed >> 8) & 255u) / 255.0f * 0.4f;
-        public float ObjectiveApproachAngle { get; } = seed % 360u * MathF.PI / 180.0f;
+        public float ObjectiveApproachAngle { get; set; } = seed % 360u * MathF.PI / 180.0f;
         public DefusalApproachProgress DefusalApproach { get; } = new();
         public bool DefusalWaypointValidated { get; set; }
         public Vector3? DefusalWaypoint { get; set; }

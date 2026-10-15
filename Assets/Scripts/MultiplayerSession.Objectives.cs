@@ -55,7 +55,14 @@ public sealed partial class MultiplayerSession
     {
         if (RulesMode != MatchMode.Hardpoint) { _hardpoint = null; return; }
         var sites = new List<HardpointSite>();
-        foreach (var name in hardpointSiteNames.Split('|', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
+        // Prefab refresh can replace scene settings with the arena's site list.
+        var siteNames = SceneManager.GetActiveScene().Name switch
+        {
+            "Standoff" => "Hardpoint Gas Station|Hardpoint Market|Hardpoint Church|Hardpoint Courtyard|Hardpoint Warehouse",
+            "Shipment" => "Hardpoint Center|Hardpoint Gate|Hardpoint Blue|Hardpoint Forklift|Hardpoint Red",
+            _ => hardpointSiteNames
+        };
+        foreach (var name in siteNames.Split('|', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
         {
             var marker = GameObject.Find(name);
             if (marker is not null) sites.Add(new(name.Replace("Hardpoint ", ""), marker.WorldPosition));
@@ -146,6 +153,36 @@ public sealed partial class MultiplayerSession
         if (!retreating && closeThreat) return false;
         bot.IsEngaging = false; bot.TacticalSearchActive = false;
         bot.GameObject.TryInvoke("SetExternalAiming", false);
+        var position = bot.GameObject.WorldPosition;
+        var arrived = bot.HasNavigationDestination &&
+            HorizontalDistance(position, bot.NavigationDestination) <= MathF.Max(.1f, botNavigationArrivalDistance);
+        if (!bot.HasNavigationDestination || arrived || HorizontalDistance(position, bot.ProgressPosition) >= .5f)
+        {
+            bot.ProgressPosition = position;
+            bot.LastProgressAt = _time;
+        }
+        if (canThink && !arrived && bot.HasNavigationDestination &&
+            _time >= bot.LastProgressAt + MathF.Max(.5f, botStuckTimeout))
+        {
+            // Try a short reachable detour instead of repeatedly requesting the
+            // same blocked corner. No teleporting or crossing colliders.
+            bot.ObjectiveApproachAngle += MathF.PI * .5f;
+            for (var i = 0; i < 8; i++)
+            {
+                var angle = bot.ObjectiveApproachAngle + i * MathF.PI * .25f;
+                var candidate = position + new Vector3(MathF.Cos(angle), 0, MathF.Sin(angle)) * 2;
+                if (!TryProjectBotNavigationPosition(candidate, out var detour) ||
+                    HorizontalDistance(position, detour) < 1) continue;
+                var path = Navigation.FindPath(navigationMesh!, position, detour,
+                    botNavigationAgentRadius, botNavigationAgentHeight);
+                if (!path.Complete) continue;
+                SetBotDestination(bot, detour, _hardpoint.Site.Position);
+                bot.ProgressPosition = position;
+                bot.LastProgressAt = _time;
+                bot.NextNavigationAt = _time + 1.5f;
+                break;
+            }
+        }
         if (canThink && _time >= bot.NextNavigationAt)
         {
             var desired = BotObjectiveTactics.Destination(botId, _hardpoint.Snapshot(), state.Team,

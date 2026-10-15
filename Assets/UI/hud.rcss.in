@@ -85,3 +85,14 @@ body { pointer-events: none; focus: none; }
 
 .scoreboard-heading span { width: 10%; text-align: right; }
 .scoreboard-heading span:first-child { width: 65%; text-align: left; }
+
+/* Confirmed hits stay visible through ADS; geometry stays aligned to viewport centre. */
+#hitmarker { position: absolute; left: 50%; top: 50%; width: 36px; height: 36px; margin-left: -18px; margin-top: -18px; pointer-events: none; }
+#hitmarker.hidden { visibility: hidden; }
+#hitmarker .hit-stroke { position: absolute; width: 10px; height: 2px; background-color: white; border: 1px #101010dd; }
+#hitmarker .hit-nw { left: 2px; top: 6px; transform: rotate(45deg); }
+#hitmarker .hit-ne { right: 2px; top: 6px; transform: rotate(-45deg); }
+#hitmarker .hit-sw { left: 2px; bottom: 6px; transform: rotate(-45deg); }
+#hitmarker .hit-se { right: 2px; bottom: 6px; transform: rotate(45deg); }
+#hitmarker.headshot .hit-stroke { background-color: #ffdb83; }
+#hitmarker.elimination .hit-stroke { background-color: #ff5454; }
