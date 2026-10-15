@@ -1583,8 +1583,8 @@ public sealed partial class MultiplayerSession : ScriptBehaviour
         if (IsDedicated) return;
         if (_remotePlayers.TryGetValue(shooterPeerId, out var remote))
         {
-            remote.GameObject.TryInvoke("PlayExternalShootAnimation");
-            if (loud && remote.GameObject.IsValid) MapNoise.Report(shooterPeerId, remote.GameObject.WorldPosition, _time);
+            remote.GameObject.TryInvoke("PlayExternalShootAnimation", loud);
+            if (loud) ReportMapNoise(shooterPeerId);
         }
     }
 

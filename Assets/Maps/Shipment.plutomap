@@ -1,0 +1,8 @@
+{
+  "Name": "Shipment",
+  "Image": "project://Maps/Shipment.tga",
+  "CentreX": 0,
+  "CentreZ": 0,
+  "WorldSize": 46,
+  "North": "-Z"
+}

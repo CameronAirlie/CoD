@@ -449,12 +449,14 @@ public sealed class EnemySoldierBot : ScriptBehaviour
         UpdateNavigationTarget();
     }
 
-    public void PlayExternalShootAnimation()
+    /// <param name="loud">False for suppressed fire, which is only heard nearby.</param>
+    public void PlayExternalShootAnimation(bool loud)
     {
         if (!_externalNavigationControl) return;
         SetAnimationBool(hasTargetParameter, true);
         SetAnimationTrigger(shootTriggerParameter);
-        GameplaySounds.Play(_gunAudio, GameplaySounds.Shot(null));
+        GameplaySounds.PlayShot(_gunAudio, GameplaySounds.Shot(null),
+            loud ? WeaponCatalog.LoudAudibleRange : WeaponCatalog.SuppressedAudibleRange);
     }
 
     public void PlayExternalHitAnimation()
@@ -757,7 +759,7 @@ public sealed class EnemySoldierBot : ScriptBehaviour
             hit.Entity.TryInvoke(targetDamageMethod, damagePerShot);
         }
 
-        GameplaySounds.Play(_gunAudio, GameplaySounds.Shot(null));
+        GameplaySounds.PlayShot(_gunAudio, GameplaySounds.Shot(null), WeaponCatalog.LoudAudibleRange);
         SetAnimationTrigger(shootTriggerParameter);
     }
 

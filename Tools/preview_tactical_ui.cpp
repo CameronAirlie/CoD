@@ -21,6 +21,8 @@ public:
     std::vector<unsigned char> pixels;
     bool clipping = false;
     Rml::Rectanglei clip;
+    bool transformed = false;
+    Rml::Matrix4f transform = Rml::Matrix4f::Identity();
     std::map<uintptr_t, Geometry> meshes;
     std::map<uintptr_t, Texture> textures;
     uintptr_t next = 1;
@@ -45,13 +47,20 @@ public:
     void ReleaseTexture(Rml::TextureHandle id) override { textures.erase(id); }
     void EnableScissorRegion(bool enabled) override { clipping=enabled; }
     void SetScissorRegion(Rml::Rectanglei rectangle) override { clip=rectangle; }
+    // Rotated/scaled elements (map arrowheads, hit markers) are drawn in their transformed place.
+    void SetTransform(const Rml::Matrix4f* matrix) override { transformed=matrix!=nullptr; if(matrix) transform=*matrix; }
+    Rml::Vector2f Project(Rml::Vector2f p) const {
+        if(!transformed) return p;
+        auto v=transform*Rml::Vector4f(p.x,p.y,0,1);
+        return std::abs(v.w)>1e-6f ? Rml::Vector2f(v.x/v.w,v.y/v.w) : Rml::Vector2f(v.x,v.y);
+    }
     static float Edge(Rml::Vector2f a,Rml::Vector2f b,Rml::Vector2f p) { return (p.x-a.x)*(b.y-a.y)-(p.y-a.y)*(b.x-a.x); }
     void RenderGeometry(Rml::CompiledGeometryHandle id,Rml::Vector2f translation,Rml::TextureHandle tex) override {
         const auto& mesh=meshes.at(id);
         const Texture* texture=tex ? &textures.at(tex) : nullptr;
         for(size_t n=0;n<mesh.indices.size();n+=3) {
             auto a=mesh.vertices[mesh.indices[n]], b=mesh.vertices[mesh.indices[n+1]], c=mesh.vertices[mesh.indices[n+2]];
-            a.position+=translation;b.position+=translation;c.position+=translation;
+            a.position=Project(a.position+translation);b.position=Project(b.position+translation);c.position=Project(c.position+translation);
             float area=Edge(a.position,b.position,c.position); if(std::abs(area)<.0001f) continue;
             int x0=std::max(0,int(std::floor(std::min({a.position.x,b.position.x,c.position.x}))));
             int x1=std::min(width,int(std::ceil(std::max({a.position.x,b.position.x,c.position.x}))));
@@ -123,13 +132,13 @@ int main(int argc,char** argv) try {
         if(screen=="hud" || screen=="hud-map") {
             // Mirrors TacticalMapPresenter output for Shipment: 48m minimap span, self/friendly/heard enemy.
             document->GetElementById("minimap")->SetClass("hidden",false);
-            document->GetElementById("minimap-image")->SetAttribute("src","Minimaps/Shipment.tga");
-            document->GetElementById("tactical-map-image")->SetAttribute("src","Minimaps/Shipment.tga");
+            document->GetElementById("minimap-image")->SetAttribute("src","../Maps/Shipment.tga");
+            document->GetElementById("tactical-map-image")->SetAttribute("src","../Maps/Shipment.tga");
             auto layer=document->GetElementById("minimap-layer");
             layer->SetProperty("width","95.83%");layer->SetProperty("height","95.83%");layer->SetProperty("left","14.37%");layer->SetProperty("top","-11.5%");
-            const char* contacts="<div class=\"map-contact self\" style=\"left: 37%; top: 64%;\"><img class=\"map-arrow\" src=\"Icons/map-arrow.tga\"/><div class=\"map-dot\"></div></div>"
-                "<div class=\"map-contact friendly\" style=\"left: 30%; top: 55%;\"><img class=\"map-arrow\" src=\"Icons/map-arrow.tga\"/><div class=\"map-dot\"></div></div>"
-                "<div class=\"map-contact friendly\" style=\"left: 46%; top: 72%;\"><img class=\"map-arrow\" src=\"Icons/map-arrow.tga\"/><div class=\"map-dot\"></div></div>"
+            const char* contacts="<div class=\"map-contact self\" style=\"left: 37%; top: 64%; transform: rotate(35deg);\"><img class=\"map-arrow\" src=\"Icons/map-arrow.tga\"/><div class=\"map-dot\"></div></div>"
+                "<div class=\"map-contact friendly\" style=\"left: 30%; top: 55%; transform: rotate(-60deg);\"><img class=\"map-arrow\" src=\"Icons/map-arrow.tga\"/><div class=\"map-dot\"></div></div>"
+                "<div class=\"map-contact friendly\" style=\"left: 46%; top: 72%; transform: rotate(150deg);\"><img class=\"map-arrow\" src=\"Icons/map-arrow.tga\"/><div class=\"map-dot\"></div></div>"
                 "<div class=\"map-contact enemy\" style=\"left: 58%; top: 40%;\"><img class=\"map-arrow\" src=\"Icons/map-arrow.tga\"/><div class=\"map-dot\"></div></div>"
                 "<div class=\"map-contact enemy\" style=\"left: 74%; top: 30%; opacity: 0.5;\"><img class=\"map-arrow\" src=\"Icons/map-arrow.tga\"/><div class=\"map-dot\"></div></div>";
             set("minimap-contacts",contacts);set("tactical-map-contacts",contacts);

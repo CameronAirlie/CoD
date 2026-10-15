@@ -1,0 +1,8 @@
+{
+  "Name": "Main",
+  "Image": "project://Maps/Main.tga",
+  "CentreX": 0,
+  "CentreZ": 25.63,
+  "WorldSize": 108.259,
+  "North": "-Z"
+}

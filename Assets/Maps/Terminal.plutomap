@@ -1,0 +1,8 @@
+{
+  "Name": "Terminal",
+  "Image": "project://Maps/Terminal.tga",
+  "CentreX": -4.53,
+  "CentreZ": 0.16,
+  "WorldSize": 123.42,
+  "North": "-Z"
+}

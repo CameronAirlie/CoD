@@ -1,0 +1,8 @@
+{
+  "Name": "Standoff",
+  "Image": "project://Maps/Standoff.tga",
+  "CentreX": 0.85,
+  "CentreZ": 0.155,
+  "WorldSize": 122.052,
+  "North": "-Z"
+}

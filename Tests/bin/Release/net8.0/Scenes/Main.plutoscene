@@ -148,9 +148,9 @@ PROPERTY	combatRespawnDelay	0	5.000000	0
 PROPERTY	multiplayerRegenerationDelay	0	5.000000	0
 PROPERTY	multiplayerRegenerationPerSecond	0	3.000000	0
 PROPERTY	fillWithBots	4	true	0
-PROPERTY	minimumParticipants	1	6	0
-PROPERTY	maximumBots	1	5	0
-PROPERTY	maximumParticipants	1	0	0
+PROPERTY	minimumParticipants	1	12	0
+PROPERTY	maximumBots	1	12	0
+PROPERTY	maximumParticipants	1	12	0
 PROPERTY	botSpawnInterval	0	0.200000	0
 PROPERTY	botFallbackSpawnMinimumDistance	0	20.000000	0
 PROPERTY	botFallbackSpawnRadius	0	80.000000	0
@@ -2279,6 +2279,7 @@ PROPERTY	Cell Size	0	1.000000	0
 PROPERTY	Maximum Slope	0	45.000000	0
 PROPERTY	Maximum Step Height	0	0.500000	0
 PROPERTY	Baked	4	true	0
+PROPERTY	Static Objects Only	4	true	0
 END_COMPONENT
 ENTITY	1127	0	0	Enemy Wave Spawner	0.000000,1.501546,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 COMPONENT	1127	ScriptComponent	1

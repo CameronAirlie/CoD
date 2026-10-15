@@ -91,31 +91,37 @@ Opening a menu closes it. Both views draw the same contact list:
 
 - **You**: amber arrowhead at the centre of the minimap, rotated to your facing.
 - **Friendlies**: blue arrowheads showing position and facing for living teammates.
-- **Heard enemies**: red dots placed where an enemy fired an unsuppressed weapon. A dot
+- **Heard enemies**: red dots placed where an enemy fired an unsuppressed weapon. Kills do
+  not reveal the killer. Other players' gunshots are audible out to
+  `WeaponDefinition.AudibleRange`: 200 m unsuppressed (across every map), 25 m suppressed. The
+  host's `ShotEffect.Loud` flag selects the range for remote shots. A dot
   stays for `MultiplayerSession.mapNoiseRevealSeconds` (default 3) and fades over the last
   `mapNoiseFadeSeconds` (default 1). It does not follow the enemy afterwards, and enemy
   facing is never shown. `WeaponDefinition.Suppressed` (default false; no current weapon
   is suppressed) keeps a weapon's shots off the map.
 
-Map outlines are baked from each scene's solid box colliders by
-`python Tools/build_minimaps.py`. Thin or flat slabs become faint floor fill; everything
-else is a filled obstacle with a merged outline, cropped to the navigation-mesh bounds.
-The tool writes `Assets/UI/Minimaps/<Scene>.tga`, regenerates `MinimapLayouts.cs` (the
-world square each image covers) and registers the images with BUILD_ALWAYS_INCLUDE
-because they are chosen at runtime. Rebake after changing a map's geometry, and add new
-playable scenes to its `SCENES` list. Scenes without a layout hide both views.
+Map outlines come from the engine's top-down map bake: open a map and choose
+**File > Bake Top-Down Map**, or run headless
+`PlutoGEBakeMap CoDplutoproject.plutoproject Main Shipment Standoff Foundry Terminal`.
+Solid box colliders become outlined obstacles, thin or flat slabs become faint floors, and the
+result is cropped to the navigation-mesh bounds. The bake writes `Assets/Maps/<Scene>.tga` and
+`<Scene>.plutomap` and registers both for export. Rebake after changing a map's geometry. Tag
+decorative colliders `MapIgnore` to leave them off. Scenes without a layout hide both views.
 
-Architecture: `TacticalMap.cs` holds the engine-independent model (projection, contacts,
-noise memory). `MultiplayerSession.Map.cs` builds contacts from replicated proxies, using
-the same team and alive checks as aim assist. `TacticalMapPresenter` (owned by PlayerHud)
-pools 24 marker elements per view, writes only changed styles, and sizes and offsets the
-map layers in percentages of a square frame, so RCSS can resize the frame freely.
+Architecture: the engine's `PlutoGE.ScriptCore.Gameplay` supplies `MapLayout`, `MapContact`,
+`RmlMapView` and `RevealTracker` (see the engine RMLUI authoring guide, "Tactical maps").
+`TacticalMap.cs` holds CoD policy: contact styles and priorities, loud weapons, and the rule
+that enemy facing is never shown. `MultiplayerSession.Map.cs` builds contacts from replicated
+proxies, using the same team and alive checks as aim assist, and records reveals in a
+`RevealTracker`. `TacticalMapPresenter` (owned by PlayerHud) drives two `RmlMapView`s with 24
+pooled markers each, sizing the map layers in percentages of a square frame.
 `PlayerHud.minimapWorldSpan` (default 48 m) sets the minimap zoom. Map frames use
 `clip: always`, because RmlUi does not clip a panned layer sitting at negative offsets.
 Enemy reveals are presentation only: clients already receive every proxy transform for
 rendering, so this is not an anti-cheat boundary.
 
-`dotnet run --project Tests/CoD.GameplayTests.csproj -c Release -- --tactical-ui` covers
-layouts for every MapCatalog scene, projection and centring, headings, enemy-facing
-privacy, suppression and reveal lifetime. The native preview renders `hud` and `hud-map`
-captures with representative Shipment contacts; marker rotation needs the running engine.
+`dotnet run --project Tests/CoD.GameplayTests.csproj -c Release -- --tactical-ui` checks that
+every MapCatalog scene has a baked layout and image, enemy-facing privacy, marker priority,
+and suppression. Projection, centring, headings and reveal
+lifetime are covered by the engine's `PlutoGEGameplayMapTests`. The native preview renders
+`hud` and `hud-map` captures with representative Shipment contacts, including rotated arrowheads.

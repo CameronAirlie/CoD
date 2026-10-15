@@ -1,5 +1,6 @@
 using System.Globalization;
 using PlutoGE.ScriptCore;
+using PlutoGE.ScriptCore.Gameplay;
 
 namespace CoD.Scripts;
 
@@ -327,9 +328,9 @@ public sealed class PlayerHud : ScriptBehaviour
         else if (GameInput.Pressed("ShowMap")) _map.SetFullMapOpen(!_map.FullMapOpen);
         // Observers centre the map on the teammate whose view they share.
         if (_controller?.SpectatorView is { } view)
-            _map.Update(_multiplayer, view.Position, TacticalMap.Heading(view.Forward), true);
+            _map.Update(_multiplayer, view.Position, MapMath.Heading(view.Forward), true);
         else
-            _map.Update(_multiplayer, player.WorldPosition, TacticalMap.Heading(player.Forward),
+            _map.Update(_multiplayer, player.WorldPosition, MapMath.Heading(player.Forward),
                 !_dead && _multiplayer?.IsNeutralSpectator != true);
     }
 

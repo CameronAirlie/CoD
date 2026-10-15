@@ -581,9 +581,17 @@ def shell(name, outline, H, wall, doors, roofs, floor='Concrete', windows='Windo
                 for wy in window_y:
                     if wy + .8 > H: continue
                     decal(g, windows, (a[0] + ux * t + nx * .16, wy, a[2] + uz * t + nz * .16), fyaw, 1.05, 1.55)
-            # Interior lining.
+            # Interior lining. It is render-only, so it must leave the door gaps open: full height
+            # between openings, and only above the 2.5 m lintel across each opening.
             ins = (-nx * .16, -nz * .16)
-            poly(g, lining, [(a[0] + ins[0], 0, a[2] + ins[1]), (b[0] + ins[0], 0, b[2] + ins[1]), (b[0] + ins[0], ceiling, b[2] + ins[1]), (a[0] + ins[0], ceiling, a[2] + ins[1])], None, (-nx, 0, -nz))
+            def lining_quad(s0, s1, y0, y1):
+                p0 = (a[0] + ux * s0 + ins[0], a[2] + uz * s0 + ins[1]); p1 = (a[0] + ux * s1 + ins[0], a[2] + uz * s1 + ins[1])
+                poly(g, lining, [(p0[0], y0, p0[1]), (p1[0], y0, p1[1]), (p1[0], y1, p1[1]), (p0[0], y1, p0[1])], None, (-nx, 0, -nz))
+            pos = 0
+            for s0, s1 in sorted((o[0], o[1]) for o in openings) + [(L, L)]:
+                if s0 - pos > .01: lining_quad(pos, s0, 0, ceiling)
+                if s1 - s0 > .01 and ceiling > 2.5: lining_quad(s0, s1, 2.5, ceiling)
+                pos = max(pos, s1)
     fill(g, floor, outline, .025)
     fill(g, 'Ceiling', outline, ceiling, flip=True)
     for rect, kind, mat, ridge, rise in roofs:

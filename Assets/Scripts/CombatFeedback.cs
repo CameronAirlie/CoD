@@ -9,6 +9,8 @@ public sealed class CombatFeedback : ScriptBehaviour
     [SerializedField] private SoundEmitterComponent? cueAudio = null;
     [SerializedField] private float cameraImpulseScale = 1;
     [SerializedField] private float soundVolume = .55f;
+    // Eliminations are the most important confirmation and must cut through gunfire.
+    [SerializedField] private float killSoundVolume = 1f;
     private PlayerController? _controller;
     private PlayerHealth? _health;
     private MultiplayerSession? _session;
@@ -45,7 +47,7 @@ public sealed class CombatFeedback : ScriptBehaviour
     }
     private void OnHit(FpsHitEvent hit)
     {
-        if (hit.IsKill) Notify("ELIMINATED", "project://Sounds/feedback/kill.wav");
+        if (hit.IsKill) Notify("ELIMINATED", "project://Sounds/feedback/kill.wav", killSoundVolume);
         else if (hit.HitArmour) Notify("ARMOUR HIT", "project://Sounds/feedback/armour.wav");
         else if (hit.IsHeadshot) Notify("HEADSHOT", "project://Sounds/feedback/headshot.wav");
     }
@@ -79,13 +81,13 @@ public sealed class CombatFeedback : ScriptBehaviour
         }
         _previousMatch = match;
     }
-    private void Notify(string text, string clip)
+    private void Notify(string text, string clip, float? volume = null)
     {
         LastCue = text; CueTime = 1.5f; Cue?.Invoke(text);
         if (cueAudio is null || (_cueCooldown > 0 && text == _lastCue)) return;
         if (clip == "project://Sounds/feedback/objective.wav")
             clip = GameplaySounds.RuntimeClip(GameplaySounds.Root + "Misc/new_objective_ufx_1.ogg");
-        cueAudio.Clip = clip; cueAudio.PlayOneShot(Math.Clamp(soundVolume, 0, 1) * PlayerSettings.FeedbackGain, 1);
+        cueAudio.Clip = clip; cueAudio.PlayOneShot(Math.Clamp(volume ?? soundVolume, 0, 1) * PlayerSettings.FeedbackGain, 1);
         _lastCue = text; _cueCooldown = .25f;
     }
 }

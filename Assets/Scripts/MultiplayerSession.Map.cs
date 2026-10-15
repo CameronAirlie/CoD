@@ -1,5 +1,6 @@
 using System.Numerics;
 using PlutoGE.ScriptCore;
+using PlutoGE.ScriptCore.Gameplay;
 
 namespace CoD.Scripts;
 
@@ -12,15 +13,15 @@ public sealed partial class MultiplayerSession
 {
     [SerializedField] private float mapNoiseRevealSeconds = 3.0f;
     [SerializedField] private float mapNoiseFadeSeconds = 1.0f;
-    private MapNoiseMemory? _mapNoiseMemory;
-    private MapNoiseMemory MapNoise => _mapNoiseMemory ??= new(mapNoiseRevealSeconds, mapNoiseFadeSeconds);
+    private RevealTracker? _mapNoiseTracker;
+    private RevealTracker MapNoise => _mapNoiseTracker ??= new(mapNoiseRevealSeconds, mapNoiseFadeSeconds);
 
     /// <summary>Fills contacts for the local viewer. Self is centred on the spectated teammate when observing.</summary>
     public void CollectMapContacts(List<MapContact> contacts, Vector3 viewPosition, float viewHeading, bool includeSelf)
     {
         contacts.Clear();
         if (IsDedicated) return;
-        if (includeSelf) contacts.Add(new(_localPeerId, MapContactKind.Self, viewPosition, viewHeading));
+        if (includeSelf) contacts.Add(TacticalMap.Self(_localPeerId, viewPosition, viewHeading));
         var viewerTeam = MapViewerTeam();
         var observed = _playerController?.SpectatorView?.PeerId;
         foreach (var pair in _remotePlayers)
@@ -36,14 +37,18 @@ public sealed partial class MultiplayerSession
             {
                 // The observed teammate is drawn as the centred self marker.
                 if (pair.Key != observed || !includeSelf)
-                    contacts.Add(new(pair.Key, MapContactKind.Friendly, actor.WorldPosition, TacticalMap.Heading(actor.Forward)));
+                    contacts.Add(TacticalMap.Friendly(pair.Key, actor.WorldPosition, MapMath.Heading(actor.Forward)));
             }
-            else if (TeamIdentity.IsCombatTeam(team))
-            {
-                var opacity = MapNoise.Opacity(pair.Key, _time, out var heard);
-                if (opacity > 0) contacts.Add(MapContact.Enemy(pair.Key, heard, opacity));
-            }
+            else if (TeamIdentity.IsCombatTeam(team) && MapNoise.TryGet(pair.Key, RevealTracker.Everyone, _time, out var heard))
+                contacts.Add(TacticalMap.Enemy(pair.Key, heard.Position, heard.Opacity));
         }
+    }
+
+    /// <summary>Unsuppressed shots reveal the participant where they are now.</summary>
+    private void ReportMapNoise(int peer)
+    {
+        if (IsDedicated || !_remotePlayers.TryGetValue(peer, out var remote) || !remote.GameObject.IsValid) return;
+        MapNoise.Reveal(peer, remote.GameObject.WorldPosition, _time);
     }
 
     private PlayerTeam MapViewerTeam()

@@ -20,6 +20,14 @@ public static class GameplaySounds
         "ReloadRack" => Root + "Firearms/Racking/" + (id == "pistol" ? "pistol" : "assault_rifle") + "_racking_ufx_1.ogg",
         _ => null
     };
+    /// <summary>Plays a gunshot that other players hear out to audibleRange metres.</summary>
+    public static void PlayShot(SoundEmitterComponent? emitter, string clip, float audibleRange)
+    {
+        if (emitter is null) return;
+        emitter.MaxDistance = audibleRange;
+        Play(emitter, clip);
+    }
+
     public static void Play(SoundEmitterComponent? emitter, string clip, float volume = 1, float pitch = 1)
     {
         if (emitter is null) return;

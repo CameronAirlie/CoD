@@ -9,6 +9,8 @@ public sealed record WeaponDefinition(string Id, string Name, WeaponType Type, i
     bool Suppressed = false)
 {
     public float ShotInterval => 60 / RoundsPerMinute;
+    /// <summary>Metres at which other players stop hearing this weapon fire.</summary>
+    public float AudibleRange => Suppressed ? WeaponCatalog.SuppressedAudibleRange : WeaponCatalog.LoudAudibleRange;
 }
 
 public static class WeaponCatalog
@@ -21,6 +23,8 @@ public static class WeaponCatalog
         60, true, 780, 23, 200, 3.4f, 2.1f, .3f, .65f, .6f, .6f, .8f);
 
     public const int SlotCount = 3;
+    // Gunfire carries across every map; a suppressor (not yet in the catalogue) keeps it local.
+    public const float LoudAudibleRange = 200, SuppressedAudibleRange = 25;
     public static WeaponDefinition At(int slot) => slot switch
     {
         0 => AssaultRifle, 1 => Pistol, 2 => MachineGun,

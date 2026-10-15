@@ -1,0 +1,8 @@
+{
+  "Name": "Foundry",
+  "Image": "project://Maps/Foundry.tga",
+  "CentreX": 0,
+  "CentreZ": 0,
+  "WorldSize": 81,
+  "North": "-Z"
+}

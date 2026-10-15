@@ -79,11 +79,6 @@ BUILD_ALWAYS_INCLUDE	project://UI/Icons/map-arrow.tga
 BUILD_ALWAYS_INCLUDE	project://UI/Icons/objective.tga
 BUILD_ALWAYS_INCLUDE	project://UI/MartianMono-OFL.txt
 BUILD_ALWAYS_INCLUDE	project://UI/MartianMono-StdRg.ttf
-BUILD_ALWAYS_INCLUDE	project://UI/Minimaps/Foundry.tga
-BUILD_ALWAYS_INCLUDE	project://UI/Minimaps/Main.tga
-BUILD_ALWAYS_INCLUDE	project://UI/Minimaps/Shipment.tga
-BUILD_ALWAYS_INCLUDE	project://UI/Minimaps/Standoff.tga
-BUILD_ALWAYS_INCLUDE	project://UI/Minimaps/Terminal.tga
 BUILD_ALWAYS_INCLUDE	project://UI/Weapons/ar.png
 BUILD_ALWAYS_INCLUDE	project://UI/Weapons/ar.tga
 BUILD_ALWAYS_INCLUDE	project://UI/Weapons/lmg.png
@@ -116,6 +111,16 @@ BUILD_ALWAYS_INCLUDE	project://Prefabs/Grenades/Fire.plutoprefab
 BUILD_ALWAYS_INCLUDE	project://Prefabs/Grenades/Flashbang.plutoprefab
 BUILD_ALWAYS_INCLUDE	project://Prefabs/Grenades/SmokeGrenade.plutoprefab
 BUILD_ALWAYS_INCLUDE	project://Prefabs/Grenades/Molotov.plutoprefab
+BUILD_ALWAYS_INCLUDE	project://Maps/Main.tga
+BUILD_ALWAYS_INCLUDE	project://Maps/Main.plutomap
+BUILD_ALWAYS_INCLUDE	project://Maps/Shipment.tga
+BUILD_ALWAYS_INCLUDE	project://Maps/Shipment.plutomap
+BUILD_ALWAYS_INCLUDE	project://Maps/Standoff.tga
+BUILD_ALWAYS_INCLUDE	project://Maps/Standoff.plutomap
+BUILD_ALWAYS_INCLUDE	project://Maps/Foundry.tga
+BUILD_ALWAYS_INCLUDE	project://Maps/Foundry.plutomap
+BUILD_ALWAYS_INCLUDE	project://Maps/Terminal.tga
+BUILD_ALWAYS_INCLUDE	project://Maps/Terminal.plutomap
 SERVER_SCENE	project://Scenes/Main.plutoscene
 SERVER_OUTPUT	Build/DedicatedServer/CoDServer.exe
 SERVER_TICK_RATE	60
@@ -188,6 +193,12 @@ ASSET	project://Bots/Soldier/manifest.json	2281	Unknown
 ASSET	project://Data/4x4.plutoscriptable	2074	Scriptable Object
 ASSET	project://Data/AudiS5.plutoscriptable	2127	Scriptable Object
 ASSET	project://Data/Racecar.plutoscriptable	2071	Scriptable Object
+ASSET	project://Fonts/Georama.ttf	434664	Unknown
+ASSET	project://Fonts/Inter-OFL.txt	4470	Unknown
+ASSET	project://Fonts/Inter.ttf	876576	Unknown
+ASSET	project://Fonts/Rajdhani-Bold.ttf	400680	Unknown
+ASSET	project://Fonts/Rajdhani-OFL.txt	4466	Unknown
+ASSET	project://Fonts/Rajdhani-Regular.ttf	377860	Unknown
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_A_TPose_0.plutoclip	332294	Animation Clip
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Crouch_Fwd_Loop_1.plutoclip	273802	Animation Clip
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Crouch_Idle_Loop_2.plutoclip	383003	Animation Clip
@@ -369,6 +380,16 @@ ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	339968	Assembly
 ASSET	project://Managed/PlutoGE.ScriptCore.pdb	114124	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	369	Unknown
+ASSET	project://Maps/Foundry.plutomap	133	Unknown
+ASSET	project://Maps/Foundry.tga	4194322	Texture
+ASSET	project://Maps/Main.plutomap	136	Unknown
+ASSET	project://Maps/Main.tga	4194322	Texture
+ASSET	project://Maps/Shipment.plutomap	135	Unknown
+ASSET	project://Maps/Shipment.tga	4194322	Texture
+ASSET	project://Maps/Standoff.plutomap	147	Unknown
+ASSET	project://Maps/Standoff.tga	4194322	Texture
+ASSET	project://Maps/Terminal.plutomap	146	Unknown
+ASSET	project://Maps/Terminal.tga	4194322	Texture
 ASSET	project://Materials/BulletHole.plutomaterial	471	Material
 ASSET	project://Materials/Foundry/Brick.plutomaterial	412	Material
 ASSET	project://Materials/Foundry/Dark.plutomaterial	414	Material
@@ -535,7 +556,7 @@ ASSET	project://Meshes/Shipment/South_stack.plutomesh	262137	Mesh
 ASSET	project://Meshes/Shipment/West_passage.plutomesh	239581	Mesh
 ASSET	project://Meshes/Shipment/Yard.plutomesh	2460	Mesh
 ASSET	project://Meshes/Standoff/Bakery.plutomesh	133730	Mesh
-ASSET	project://Meshes/Standoff/Barn.plutomesh	84789	Mesh
+ASSET	project://Meshes/Standoff/Barn.plutomesh	86997	Mesh
 ASSET	project://Meshes/Standoff/Barn_fence.plutomesh	17994	Mesh
 ASSET	project://Meshes/Standoff/Barn_loft.plutomesh	33808	Mesh
 ASSET	project://Meshes/Standoff/Barn_props.plutomesh	46574	Mesh
@@ -547,7 +568,7 @@ ASSET	project://Meshes/Standoff/Centre_east_house.plutomesh	31766	Mesh
 ASSET	project://Meshes/Standoff/Centre_house.plutomesh	80552	Mesh
 ASSET	project://Meshes/Standoff/Chimney_house.plutomesh	140971	Mesh
 ASSET	project://Meshes/Standoff/Chimney_house_wing.plutomesh	65144	Mesh
-ASSET	project://Meshes/Standoff/Church_hall.plutomesh	96001	Mesh
+ASSET	project://Meshes/Standoff/Church_hall.plutomesh	98209	Mesh
 ASSET	project://Meshes/Standoff/Church_hall_interior.plutomesh	55686	Mesh
 ASSET	project://Meshes/Standoff/Church_rubble.plutomesh	86689	Mesh
 ASSET	project://Meshes/Standoff/Church_side_room.plutomesh	20162	Mesh
@@ -563,15 +584,15 @@ ASSET	project://Meshes/Standoff/Farm_field.plutomesh	2416	Mesh
 ASSET	project://Meshes/Standoff/Gas_bunting.plutomesh	112935	Mesh
 ASSET	project://Meshes/Standoff/Gas_canopy.plutomesh	166534	Mesh
 ASSET	project://Meshes/Standoff/Gas_props.plutomesh	50124	Mesh
-ASSET	project://Meshes/Standoff/Gas_store.plutomesh	76476	Mesh
+ASSET	project://Meshes/Standoff/Gas_store.plutomesh	78684	Mesh
 ASSET	project://Meshes/Standoff/Gas_store_back_room.plutomesh	20063	Mesh
 ASSET	project://Meshes/Standoff/Gas_store_interior.plutomesh	45695	Mesh
 ASSET	project://Meshes/Standoff/Gas_store_toilets.plutomesh	12065	Mesh
-ASSET	project://Meshes/Standoff/Hotel.plutomesh	108469	Mesh
+ASSET	project://Meshes/Standoff/Hotel.plutomesh	111781	Mesh
 ASSET	project://Meshes/Standoff/Hotel_yard.plutomesh	50127	Mesh
 ASSET	project://Meshes/Standoff/Kerbs.plutomesh	11249	Mesh
 ASSET	project://Meshes/Standoff/Low_walls.plutomesh	44485	Mesh
-ASSET	project://Meshes/Standoff/Market.plutomesh	135069	Mesh
+ASSET	project://Meshes/Standoff/Market.plutomesh	138381	Mesh
 ASSET	project://Meshes/Standoff/Market_annex.plutomesh	39580	Mesh
 ASSET	project://Meshes/Standoff/Market_interior.plutomesh	44878	Mesh
 ASSET	project://Meshes/Standoff/Market_props.plutomesh	75346	Mesh
@@ -586,7 +607,7 @@ ASSET	project://Meshes/Standoff/Presbytery_tower_wing.plutomesh	28340	Mesh
 ASSET	project://Meshes/Standoff/Roads.plutomesh	102877	Mesh
 ASSET	project://Meshes/Standoff/Rooftop_details.plutomesh	115155	Mesh
 ASSET	project://Meshes/Standoff/Ruined_shed.plutomesh	39341	Mesh
-ASSET	project://Meshes/Standoff/South_warehouse.plutomesh	147074	Mesh
+ASSET	project://Meshes/Standoff/South_warehouse.plutomesh	151490	Mesh
 ASSET	project://Meshes/Standoff/South_warehouse_interior.plutomesh	59010	Mesh
 ASSET	project://Meshes/Standoff/South_warehouse_link.plutomesh	20187	Mesh
 ASSET	project://Meshes/Standoff/South_warehouse_store.plutomesh	24056	Mesh
@@ -596,7 +617,7 @@ ASSET	project://Meshes/Standoff/Terrain_grass.plutomesh	55411	Mesh
 ASSET	project://Meshes/Standoff/Treeline.plutomesh	2776884	Mesh
 ASSET	project://Meshes/Standoff/Trees.plutomesh	2875246	Mesh
 ASSET	project://Meshes/Standoff/Vehicles.plutomesh	895062	Mesh
-ASSET	project://Meshes/Standoff/Warehouse.plutomesh	152419	Mesh
+ASSET	project://Meshes/Standoff/Warehouse.plutomesh	155731	Mesh
 ASSET	project://Meshes/Standoff/Warehouse_interior.plutomesh	64638	Mesh
 ASSET	project://Meshes/Standoff/Warehouse_porch.plutomesh	11933	Mesh
 ASSET	project://Meshes/Standoff/Warehouse_props.plutomesh	47512	Mesh
@@ -938,6 +959,7 @@ ASSET	project://Scripts/ServerSimulation.cs	15403	Script
 ASSET	project://Scripts/SpectatorPresentation.cs	5578	Script
 ASSET	project://Scripts/SupplyPickup.cs	4022	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
+ASSET	project://Scripts/TacticalUi.cs	1047	Script
 ASSET	project://Scripts/TeamNameplate.cs	293	Script
 ASSET	project://Scripts/TitleScreen.cs	8459	Script
 ASSET	project://Scripts/UIManager.cs	10176	Script
@@ -1793,15 +1815,62 @@ ASSET	project://Textures/Terminal/Tile.png	53081	Texture
 ASSET	project://Textures/Terminal/White.png	53849	Texture
 ASSET	project://Textures/Terminal/Wood.png	52745	Texture
 ASSET	project://Textures/Terminal/Yellow.png	53760	Texture
+ASSET	project://UI/Artwork/loading-foundry.png	2173728	Texture
+ASSET	project://UI/Artwork/loading-foundry.prompt.txt	986	Unknown
+ASSET	project://UI/Artwork/loading-foundry.tga	6293426	Texture
+ASSET	project://UI/Artwork/menu-background.png	1769367	Texture
+ASSET	project://UI/Artwork/menu-background.tga	4720595	Texture
+ASSET	project://UI/Artwork/title-compound.png	2227731	Texture
+ASSET	project://UI/Artwork/title-compound.prompt.txt	794	Unknown
+ASSET	project://UI/Artwork/title-compound.tga	6293426	Texture
+ASSET	project://UI/Icons/ammo.tga	5202	Texture
+ASSET	project://UI/Icons/armour.tga	5202	Texture
+ASSET	project://UI/Icons/arrow.tga	5202	Texture
+ASSET	project://UI/Icons/grenade.tga	5202	Texture
+ASSET	project://UI/Icons/health.tga	5202	Texture
+ASSET	project://UI/Icons/map-arrow.tga	5202	Texture
+ASSET	project://UI/Icons/objective.tga	5202	Texture
+ASSET	project://UI/MartianMono-OFL.txt	4483	Unknown
+ASSET	project://UI/MartianMono-StdRg.ttf	118624	Unknown
+ASSET	project://UI/Weapons/ar.png	161119	Texture
+ASSET	project://UI/Weapons/ar.tga	983579	Texture
+ASSET	project://UI/Weapons/lmg.png	158604	Texture
+ASSET	project://UI/Weapons/lmg.tga	983579	Texture
+ASSET	project://UI/Weapons/pistol.png	123405	Texture
+ASSET	project://UI/Weapons/pistol.tga	983579	Texture
+ASSET	project://UI/defusal-marker.rcss	443	Unknown
 ASSET	project://UI/defusal-marker.rcss.in	453	Unknown
+ASSET	project://UI/defusal-marker.rml	203	RML Document
+ASSET	project://UI/friendly-nameplate.rcss	629	Unknown
 ASSET	project://UI/friendly-nameplate.rcss.in	654	Unknown
+ASSET	project://UI/friendly-nameplate.rml	220	RML Document
+ASSET	project://UI/hardpoint-marker.rcss	792	Unknown
 ASSET	project://UI/hardpoint-marker.rcss.in	818	Unknown
+ASSET	project://UI/hardpoint-marker.rml	205	RML Document
+ASSET	project://UI/hud.rcss	12877	Unknown
 ASSET	project://UI/hud.rcss.in	8920	Unknown
+ASSET	project://UI/hud.rml	5189	RML Document
+ASSET	project://UI/inventory.rcss	5151	Unknown
 ASSET	project://UI/inventory.rcss.in	5265	Unknown
+ASSET	project://UI/inventory.rml	5032	RML Document
+ASSET	project://UI/loading.plutoloading	72	Loading Screen
+ASSET	project://UI/loading.rcss	2545	Unknown
 ASSET	project://UI/loading.rcss.in	2588	Unknown
+ASSET	project://UI/loading.rml	993	RML Document
+ASSET	project://UI/pause-menu.rcss	796	Unknown
 ASSET	project://UI/pause-menu.rcss.in	809	Unknown
+ASSET	project://UI/pause-menu.rml	12442	RML Document
+ASSET	project://UI/settings.rcss	3406	Unknown
+ASSET	project://UI/starter.rcss	1633	Unknown
+ASSET	project://UI/starter.rml	671	RML Document
+ASSET	project://UI/theme.rcss	6891	Unknown
 ASSET	project://UI/theme.rcss.in	6939	Unknown
+ASSET	project://UI/theme.tokens.json	356	Unknown
+ASSET	project://UI/title.rcss	4766	Unknown
 ASSET	project://UI/title.rcss.in	4806	Unknown
+ASSET	project://UI/title.rml	15942	RML Document
+ASSET	project://UI/vehicle-speedometer.rcss	2990	Unknown
+ASSET	project://UI/vehicle-speedometer.rml	1698	RML Document
 ASSET	project://Weapons/Materials/Accent.plutomaterial	673	Material
 ASSET	project://Weapons/Materials/Brass.plutomaterial	166	Material
 ASSET	project://Weapons/Materials/Glove.plutomaterial	168	Material
@@ -1841,62 +1910,3 @@ ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_height.png	4112027	
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_metallic.psd	2732299	Unknown
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_normal-ogl.png	12312674	Texture
 ASSET	project://whispy-grass-meadow-unity/wispy-grass-meadow_preview.jpg	628869	Texture
-ASSET	project://UI/Minimaps/Main.tga	4194322	Texture
-ASSET	project://UI/Minimaps/Shipment.tga	4194322	Texture
-ASSET	project://UI/Minimaps/Standoff.tga	4194322	Texture
-ASSET	project://UI/Minimaps/Foundry.tga	4194322	Texture
-ASSET	project://UI/Minimaps/Terminal.tga	4194322	Texture
-ASSET	project://UI/defusal-marker.rcss	443	Unknown
-ASSET	project://UI/defusal-marker.rml	203	RML Document
-ASSET	project://UI/friendly-nameplate.rcss	629	Unknown
-ASSET	project://UI/friendly-nameplate.rml	220	RML Document
-ASSET	project://UI/hardpoint-marker.rcss	792	Unknown
-ASSET	project://UI/hardpoint-marker.rml	205	RML Document
-ASSET	project://UI/hud.rcss	12877	Unknown
-ASSET	project://UI/hud.rml	5189	RML Document
-ASSET	project://UI/inventory.rcss	5151	Unknown
-ASSET	project://UI/inventory.rml	5032	RML Document
-ASSET	project://UI/loading.plutoloading	72	Loading Screen
-ASSET	project://UI/loading.rcss	2545	Unknown
-ASSET	project://UI/loading.rml	993	RML Document
-ASSET	project://UI/MartianMono-OFL.txt	4483	Unknown
-ASSET	project://UI/MartianMono-StdRg.ttf	118624	Unknown
-ASSET	project://UI/pause-menu.rcss	796	Unknown
-ASSET	project://UI/pause-menu.rml	12442	RML Document
-ASSET	project://UI/settings.rcss	3406	Unknown
-ASSET	project://UI/starter.rcss	1633	Unknown
-ASSET	project://UI/starter.rml	671	RML Document
-ASSET	project://UI/theme.rcss	6891	Unknown
-ASSET	project://UI/theme.tokens.json	356	Unknown
-ASSET	project://UI/title.rcss	4766	Unknown
-ASSET	project://UI/title.rml	15942	RML Document
-ASSET	project://UI/vehicle-speedometer.rcss	2990	Unknown
-ASSET	project://UI/vehicle-speedometer.rml	1698	RML Document
-ASSET	project://Fonts/Georama.ttf	434664	Unknown
-ASSET	project://Fonts/Inter-OFL.txt	4470	Unknown
-ASSET	project://Fonts/Inter.ttf	876576	Unknown
-ASSET	project://Fonts/Rajdhani-Bold.ttf	400680	Unknown
-ASSET	project://Fonts/Rajdhani-OFL.txt	4466	Unknown
-ASSET	project://Fonts/Rajdhani-Regular.ttf	377860	Unknown
-ASSET	project://UI/Icons/ammo.tga	5202	Texture
-ASSET	project://UI/Icons/armour.tga	5202	Texture
-ASSET	project://UI/Icons/arrow.tga	5202	Texture
-ASSET	project://UI/Icons/grenade.tga	5202	Texture
-ASSET	project://UI/Icons/health.tga	5202	Texture
-ASSET	project://UI/Icons/map-arrow.tga	5202	Texture
-ASSET	project://UI/Icons/objective.tga	5202	Texture
-ASSET	project://UI/Weapons/ar.png	161119	Texture
-ASSET	project://UI/Weapons/ar.tga	983579	Texture
-ASSET	project://UI/Weapons/lmg.png	158604	Texture
-ASSET	project://UI/Weapons/lmg.tga	983579	Texture
-ASSET	project://UI/Weapons/pistol.png	123405	Texture
-ASSET	project://UI/Weapons/pistol.tga	983579	Texture
-ASSET	project://UI/Artwork/loading-foundry.png	2173728	Texture
-ASSET	project://UI/Artwork/loading-foundry.prompt.txt	986	Unknown
-ASSET	project://UI/Artwork/loading-foundry.tga	6293426	Texture
-ASSET	project://UI/Artwork/menu-background.png	1769367	Texture
-ASSET	project://UI/Artwork/menu-background.tga	4720595	Texture
-ASSET	project://UI/Artwork/title-compound.png	2227731	Texture
-ASSET	project://UI/Artwork/title-compound.prompt.txt	794	Unknown
-ASSET	project://UI/Artwork/title-compound.tga	6293426	Texture
-ASSET	project://Scripts/TacticalUi.cs	1047	Script
