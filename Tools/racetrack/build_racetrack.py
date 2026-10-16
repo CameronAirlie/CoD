@@ -3,7 +3,10 @@
 Usage: python Tools/racetrack/build_racetrack.py [--project <CoD root>]
 
 Writes Assets/Scenes/Racetrack.plutoscene plus the Racetrack materials and
-textures, and registers new assets in CoDplutoproject.plutoproject. The car,
+textures, and registers new assets in CoDplutoproject.plutoproject. Once the
+scene exists it belongs to the editor (lighting bakes, probe captures and
+manual edits are saved into it), so it is only regenerated with --force;
+otherwise only materials and textures are refreshed. The car,
 follow camera, speedometer canvas, sky and sun are copied from car_scene so
 the racetrack always uses the current vehicle setup. Re-running regenerates
 the scene; existing .plutometa IDs are preserved.
@@ -278,9 +281,9 @@ MATERIALS = {
                   normal="project://whispy-grass-meadow-unity/wispy-grass-meadow_normal-ogl.png"),
     "Concrete": dict(color="0.85,0.85,0.83", uv="2,2", roughness=0.92,
                      albedo="project://Textures/Standoff/Concrete.png", normal="project://Textures/Standoff/Concrete_N.png"),
-    "SeatsBlue": dict(color="0.08,0.24,0.62", roughness=0.55),
-    "SeatsRed": dict(color="0.66,0.10,0.08", roughness=0.55),
-    "Metal": dict(color="0.17,0.18,0.20", metallic=0.8, roughness=0.35),
+    "SeatsBlue": dict(color="0.08,0.24,0.62", roughness=0.8),
+    "SeatsRed": dict(color="0.66,0.10,0.08", roughness=0.8),
+    "Metal": dict(color="0.17,0.18,0.20", metallic=0.8, roughness=0.7),
     "Banner": dict(color="0.42,0.22,0.95", roughness=0.4, emission="1.2,0.6,3.5"),
     "StartLight": dict(color="1,0.08,0.04", roughness=0.3, emission="40,2,1"),
     "Glass": dict(color="0.14,0.22,0.30", metallic=0.3, roughness=0.08, emission="0.15,0.3,0.45"),
@@ -621,13 +624,22 @@ def register(root: Path, files: list[Path], always_include: list[str]) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--project", type=Path, default=Path(__file__).resolve().parents[2])
-    root = parser.parse_args().project.resolve()
+    parser.add_argument("--force", action="store_true",
+                        help="regenerate the scene, discarding bakes and edits saved in the editor")
+    args = parser.parse_args()
+    root = args.project.resolve()
 
     samples, lap = layout.build_samples()
     curve = TrackCurve(samples, lap)
 
     textures = write_textures(root)
     materials = write_materials(root)
+    scene_path = root / OUTPUT_SCENE
+    if scene_path.exists() and not args.force:
+        register(root, textures + materials, [])
+        print(f"Updated Racetrack materials and textures; kept existing {scene_path.relative_to(root)} "
+              "(pass --force to regenerate it and lose editor bakes/edits).")
+        return
 
     writer = SceneWriter()
     ground = writer.entity("Ground", (-90.0, -0.5, 266.0), scale=(2400.0, 1.0, 2400.0), tags=("ground",))
@@ -641,7 +653,6 @@ def main() -> None:
     build_checkpoints(writer, curve)
     build_race_director(writer)
 
-    scene_path = root / OUTPUT_SCENE
     scene_path.write_text(writer.text(), encoding="utf-8")
     ensure_meta(scene_path)
 

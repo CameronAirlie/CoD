@@ -48,13 +48,13 @@ FIELD	FourthGearRatio	3	1.200000
 FIELD	FifthGearRatio	3	1.000000
 FIELD	SixthGearRatio	3	0.800000
 FIELD	UpshiftRpm	3	6800.000000
-FIELD	DownshiftRpm	3	2400.000000
+FIELD	DownshiftRpm	3	3600.000000
 FIELD	ShiftHysteresisRpm	3	100.000000
 FIELD	EngineResponse	3	30.000000
 FIELD	LaunchRpm	3	4500.000000
 FIELD	PeakTorqueRpm	3	4800.000000
 FIELD	ShiftDuration	3	0.500000
-FIELD	ManualTransmission	1	true
+FIELD	ManualTransmission	1	false
 FIELD	MaxSteerAngle	3	45.000000
 FIELD	SteerSharpness	3	12.000000
 FIELD	HighSpeedSteerFade	3	0.300000

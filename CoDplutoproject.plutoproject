@@ -153,10 +153,10 @@ RUNTIME_RENDER_SCALE	0.9
 RUNTIME_UPSCALE_SHARPNESS	0.5
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	-101.784	126.533	47.8879
+EDITOR_CAMERA_POSITION	92.0501	3.36882	-7.15584
 EDITOR_CAMERA_SPEED	6
 EDITOR_CAMERA_RUNTIME_UI	0
-EDITOR_CAMERA_ROTATION	-1706.82	-11.9595
+EDITOR_CAMERA_ROTATION	-1537.26	-3.07949
 EDITOR_CAMERA_LENS	70	0.1	10000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/performance.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -425,10 +425,10 @@ ASSET	project://Materials/Racetrack/Concrete.plutomaterial	731	Material
 ASSET	project://Materials/Racetrack/Glass.plutomaterial	659	Material
 ASSET	project://Materials/Racetrack/Grass.plutomaterial	786	Material
 ASSET	project://Materials/Racetrack/Kerb.plutomaterial	676	Material
-ASSET	project://Materials/Racetrack/Metal.plutomaterial	651	Material
+ASSET	project://Materials/Racetrack/Metal.plutomaterial	650	Material
 ASSET	project://Materials/Racetrack/Runoff.plutomaterial	737	Material
-ASSET	project://Materials/Racetrack/SeatsBlue.plutomaterial	649	Material
-ASSET	project://Materials/Racetrack/SeatsRed.plutomaterial	649	Material
+ASSET	project://Materials/Racetrack/SeatsBlue.plutomaterial	648	Material
+ASSET	project://Materials/Racetrack/SeatsRed.plutomaterial	648	Material
 ASSET	project://Materials/Racetrack/StartLight.plutomaterial	646	Material
 ASSET	project://Materials/Racetrack/TreeCanopy.plutomaterial	648	Material
 ASSET	project://Materials/Racetrack/TreeCanopyDark.plutomaterial	649	Material
@@ -912,7 +912,7 @@ ASSET	project://Prefabs/Weapons/lmg.plutoprefab	1708	Prefab
 ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1717	Prefab
 ASSET	project://Scenes/Foundry.plutoscene	10057066	Scene
 ASSET	project://Scenes/Main.plutoscene	356663	Scene
-ASSET	project://Scenes/Racetrack.plutoscene	784138	Scene
+ASSET	project://Scenes/Racetrack.plutoscene	15657615	Scene
 ASSET	project://Scenes/Shipment.plutoscene	321377	Scene
 ASSET	project://Scenes/Standoff.plutoscene	18511470	Scene
 ASSET	project://Scenes/Terminal.plutoscene	14817968	Scene

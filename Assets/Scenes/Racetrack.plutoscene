@@ -74,7 +74,7 @@ PROPERTY	Blocks Audio	4	false	0
 END_COMPONENT
 COMPONENT	18691	ScriptComponent	1
 PROPERTY	Source	2	PlutoGE.ScriptCore.Examples.RaycastVehicleController	0
-PROPERTY	vehicleSettings	2	project://Data/Racecar.plutoscriptable	0
+PROPERTY	vehicleSettings	2	project://Data/AudiS5.plutoscriptable	0
 PROPERTY	frontLeftWheelAnchor	9	20027	0
 PROPERTY	frontRightWheelAnchor	9	20035	0
 PROPERTY	rearLeftWheelAnchor	9	20043	0
@@ -16069,7 +16069,7 @@ PROPERTY	documentPath	2	UI/race-hud.rml	0
 PROPERTY	inputMappingAsset	2	project://Input/car.plutoinput	0
 PROPERTY	messageDuration	0	2.500000	0
 END_COMPONENT
-ENTITY	31142	0	1	Ambient Light Volume	-162.570984,8.827682,230.912933	0.000000,0.000000,0.000000	129.967438,8.279737,90.871407
+ENTITY	31142	0	0	Ambient Light Volume	-162.570984,8.827682,230.912933	0.000000,0.000000,0.000000	129.967438,8.279737,90.871407
 COMPONENT	31142	AmbientLightVolumeComponent	1
 PROPERTY	Size	3	10,10,10	0
 PROPERTY	Probe Spacing	0	1.000000	0
