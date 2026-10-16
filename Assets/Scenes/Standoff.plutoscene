@@ -1976,24 +1976,6 @@ PROPERTY	RenderRuntimeUI	4	true	0
 PROPERTY	PostProcessPresetAsset	2		0
 PROPERTY	PostProcessEffectCount	1	0	0
 END_COMPONENT
-ENTITY	21269	65717	1	RenderCamera	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
-COMPONENT	21269	CameraComponent	1
-PROPERTY	FOV	0	116.000000	0
-PROPERTY	Projection	6	0	2	Perspective	Orthographic
-PROPERTY	OrthographicHeight	0	10.000000	0
-PROPERTY	NearPlane	0	0.100000	0
-PROPERTY	FarPlane	0	100.000000	0
-PROPERTY	MainCamera	4	false	0
-PROPERTY	RenderType	6	0	2	Base	Overlay
-PROPERTY	OverlayOrder	1	0	0
-PROPERTY	RenderTags	2	Weapon	0
-PROPERTY	IgnoredTags	2		0
-PROPERTY	TargetTexture	2	project://Textures/RenderTexture.plutorendertexture	0
-PROPERTY	TransparentBackground	4	true	0
-PROPERTY	FilterLightsByTags	4	false	0
-PROPERTY	RenderRuntimeUI	4	true	0
-PROPERTY	PostProcessPresetAsset	2	project://PostProcessing/main.plutopostprocess	0
-END_COMPONENT
 ENTITY	65855	1	1	HitMarkerAudio	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
 PREFAB	65855	project://Prefabs/Player.plutoprefab	1195	0	0
 COMPONENT	65855	SoundEmitterComponent	1
@@ -2087,7 +2069,7 @@ PROPERTY	LightType	6	1	3	Point	Directional	Spot
 PROPERTY	Static	4	true	0
 PROPERTY	Shadow Method	6	1	2	Cascaded Shadow Maps (Legacy)	Virtual Shadow Maps (Default)
 PROPERTY	VSM Cluster Culling	4	true	0
-PROPERTY	VSM Pool Pages	1	256	0
+PROPERTY	VSM Pool Pages	1	576	0
 PROPERTY	VSM Spotlight Resolution	1	2048	0
 PROPERTY	VSM Maximum Page Age	1	8	0
 PROPERTY	VSM Allow Oversized Pages	4	true	0
