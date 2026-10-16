@@ -153,10 +153,10 @@ RUNTIME_RENDER_SCALE	0.9
 RUNTIME_UPSCALE_SHARPNESS	0.5
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	-21.6324	8.46655	22.6276
+EDITOR_CAMERA_POSITION	-11.6506	5.40789	15.7865
 EDITOR_CAMERA_SPEED	6
 EDITOR_CAMERA_RUNTIME_UI	0
-EDITOR_CAMERA_ROTATION	-1137.42	-16.3995
+EDITOR_CAMERA_ROTATION	-1133.58	-16.7595
 EDITOR_CAMERA_LENS	70	0.1	10000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/performance.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -917,7 +917,7 @@ ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1717	Prefab
 ASSET	project://Scenes/Foundry.plutoscene	10057066	Scene
 ASSET	project://Scenes/Main.plutoscene	356663	Scene
 ASSET	project://Scenes/Racetrack.plutoscene	15657615	Scene
-ASSET	project://Scenes/Shipment.plutoscene	15780808	Scene
+ASSET	project://Scenes/Shipment.plutoscene	15780802	Scene
 ASSET	project://Scenes/Standoff.plutoscene	18511470	Scene
 ASSET	project://Scenes/Terminal.plutoscene	14817968	Scene
 ASSET	project://Scenes/Title.plutoscene	8754	Scene

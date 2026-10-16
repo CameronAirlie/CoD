@@ -1,9 +1,7 @@
 """Dress Shipment with LeafSet foliage. Run from any directory; deterministic, re-runnable.
 
-The LeafSet kit (Assets/SourceModels/LeafSet/LeafSet.gltf) is 153 parts of eight plant
-species, all authored at the origin. This tool groups those parts into named foliage types
-(overgrowth patches, shrubs, weeds, ground mats and edge strips) on one instanced
-FoliageComponent, then places instances around the yard:
+Uses the LeafSet foliage types from foliage_kit.py (overgrowth patches, shrubs, weeds, ground mats
+and edge strips) on one instanced FoliageComponent, and places instances around the yard:
 
   * dense overgrowth in the unreachable strip between the fence and the yard edge,
   * patchy clusters along the inside of the fence and thickets in the corners,
@@ -21,163 +19,17 @@ Outputs (all replaced on re-run):
     painting LeafSet foliage onto other maps with the editor's foliage brush.
 Run Tools/build_shipment.py first if you regenerate the yard; it rewrites the scene.
 """
-from pathlib import Path
-import math, random, re, struct, uuid
+import math, random
 
-ROOT = Path(__file__).resolve().parents[1]
-A = ROOT / 'Assets'
+from foliage_kit import (A, FLAT_ROLES, PLAY_HEIGHT_LIMIT, load_types, dusty_materials, read_text, scene_blocks,
+                         summary, write_palette, write_scene)
+
 SCENE = A / 'Scenes/Shipment.plutoscene'
-PALETTE = 'Prefabs/Foliage/LeafSetFoliage.plutoprefab'
 FOLIAGE_ID = 90000
 FOLIAGE_NAME = 'Foliage (LeafSet)'
 SEED = 20261016
 
-def read_text(path):
-    """Text plus its line ending, so rewrites keep whatever the editor or git checkout produced."""
-    raw = path.read_bytes().decode('utf-8')
-    return raw.replace('\r\n', '\n'), '\r\n' if '\r\n' in raw else '\n'
-
-
-def write_text(path, text, newline='\n'):
-    path.write_bytes(text.replace('\n', newline).encode('utf-8'))
-
-# ---------------------------------------------------------------- imported LeafSet mesh
-
-def model_identity():
-    meta = (A / 'SourceModels/LeafSet/LeafSet.gltf.plutometa').read_text()
-    asset_id = re.search(r'^ID\t(\w+)', meta, re.M).group(1)
-    candidates = sorted((ROOT / 'Library/Artifacts').glob('*/Files/SourceModels/LeafSet/LeafSet.plutomodel'),
-                        key=lambda p: p.stat().st_mtime)
-    if not candidates:
-        raise SystemExit('LeafSet.gltf has not been imported yet; open the project in the editor first.')
-    model = candidates[-1]
-    object_id = re.search(r'^OBJECT\t(\d+)\tMesh\t', model.read_text(errors='replace'), re.M).group(1)
-    return asset_id, object_id, model.with_suffix('.plutomesh')
-
-
-def read_plutomesh(path):
-    """LPGM v5: 88-byte vertices, uint32 indices, submeshes with names and LOD ranges."""
-    data = path.read_bytes(); off = 0
-
-    def take(fmt):
-        nonlocal off
-        values = struct.unpack_from('<' + fmt, data, off); off += struct.calcsize('<' + fmt); return values
-    magic, version, vertex_count = take('IIQ')
-    if (magic, version) != (0x4d47504c, 5):
-        raise SystemExit(f'Unsupported mesh format in {path}')
-    positions = [struct.unpack_from('<3f', data, off + i * 88) for i in range(vertex_count)]
-    off += vertex_count * 88
-    (index_count,) = take('Q')
-    indices = struct.unpack_from(f'<{index_count}I', data, off); off += index_count * 4
-    (submesh_count,) = take('Q')
-    submeshes = {}
-    for index in range(submesh_count):
-        start, count, material, *_ = take('IIIi4f')
-        (length,) = take('Q'); name = data[off:off + length].decode(); off += length
-        (lods,) = take('Q'); off += lods * 16
-        submeshes[name] = (index, start, count, material)
-    return positions, indices, submeshes
-
-
-class Part:
-    """Geometry facts the FoliageComponent derives at runtime, computed identically."""
-
-    def __init__(self, positions, indices, index, start, count, material):
-        self.index, self.material = index, material
-        used = [positions[indices[k]] for k in range(start, start + count)]
-        lo = [min(p[a] for p in used) for a in range(3)]; hi = [max(p[a] for p in used) for a in range(3)]
-        center = [(lo[a] + hi[a]) / 2 for a in range(3)]
-        self.radius = max(math.dist(p, center) for p in used)          # Mesh::ComputeBounds
-        total, weighted = 0.0, [0.0, 0.0, 0.0]                          # area-weighted centroid
-        for k in range(start, start + count - 2, 3):
-            p0, p1, p2 = (positions[indices[k + j]] for j in range(3))
-            u = [p1[a] - p0[a] for a in range(3)]; v = [p2[a] - p0[a] for a in range(3)]
-            area = 0.5 * math.sqrt((u[1] * v[2] - u[2] * v[1]) ** 2 + (u[2] * v[0] - u[0] * v[2]) ** 2 + (u[0] * v[1] - u[1] * v[0]) ** 2)
-            if area > 0:
-                total += area
-                for a in range(3): weighted[a] += (p0[a] + p1[a] + p2[a]) / 3 * area
-        self.com = [w / total for w in weighted] if total else center
-        self.points = used
-
-
-class FoliageType:
-    def __init__(self, name, role, parts, tags, catalog):
-        self.name, self.role, self.tags = name, role, set(tags)
-        self.parts = [catalog[p] for p in parts]
-        materials = {p.material for p in self.parts}
-        if len(materials) != 1:
-            raise SystemExit(f'{name} mixes leaf atlases; a foliage type takes one material')
-        self.material = materials.pop()
-        weights = [max(1.0, p.radius * p.radius) for p in self.parts]  # ComputeSubmeshGroupCenterOfMass
-        self.com = [sum(p.com[a] * w for p, w in zip(self.parts, weights)) / sum(weights) for a in range(3)]
-        points = [q for p in self.parts for q in p.points]
-        self.min_y = min(q[1] for q in points); self.height = max(q[1] for q in points) - self.min_y
-        rel = [(q[0] - self.com[0], q[2] - self.com[2]) for q in points]
-        self.extent = (min(r[0] for r in rel), max(r[0] for r in rel), min(r[1] for r in rel), max(r[1] for r in rel))
-        self.radius = max(math.hypot(*r) for r in rel)
-        self.instances = []
-
-    def depth(self, scale):
-        """Half thickness across the long (local X) axis, for edge strips laid along walls."""
-        return max(-self.extent[2], self.extent[3]) * scale
-
-
-# Groups: (name, role, parts, tags). Parts are LeafSet node names; one type stacks its parts at a
-# shared origin, the way the kit's sprigs were authored. Tags steer which species grow where.
-GROUPS = [
-    *[(f'Overgrowth - {label} {n + 1}', 'patch', [part], tags) for label, parts, tags in [
-        ('Tall Grass', ['LeafSetA_23', 'LeafSetA_24'], ['dry', 'sun']),
-        ('Nettle', ['LeafSetB_20', 'LeafSetB_21'], ['sun']),
-        ('Brush', ['LeafSetC_16', 'LeafSetC_17'], ['dry', 'sun']),
-        ('Clover', ['LeafSetD_20', 'LeafSetD_21'], ['shade', 'wet']),
-        ('Dock', ['LeafSetE_13', 'LeafSetE_14'], ['wet', 'sun']),
-        ('Bramble', ['LeafSetF_19', 'LeafSetF_20'], ['sun']),
-        ('Creeper', ['LeafSetG_20', 'LeafSetG_21'], ['shade']),
-        ('Broadleaf', ['LeafSetH_14', 'LeafSetH_15'], ['shade', 'wet']),
-    ] for n, part in enumerate(parts)],
-    ('Shrub - Reeds', 'shrub', ['LeafSetA_17', 'LeafSetA_18', 'LeafSetA_15', 'LeafSetA_13'], ['dry', 'sun']),
-    ('Shrub - Nettle', 'shrub', ['LeafSetB_10', 'LeafSetB_11', 'LeafSetB_12', 'LeafSetB_9'], ['sun']),
-    ('Shrub - Brush', 'shrub', ['LeafSetC_12', 'LeafSetC_10'], ['dry', 'sun']),
-    ('Shrub - Sapling', 'shrub', ['LeafSetC_13', 'LeafSetC_9', 'LeafSetC_11'], ['dry', 'sun']),
-    ('Shrub - Dock', 'shrub', ['LeafSetE_9', 'LeafSetE_6', 'LeafSetE_7'], ['wet', 'sun']),
-    ('Shrub - Bramble', 'shrub', ['LeafSetF_16', 'LeafSetF_12', 'LeafSetF_15'], ['sun']),
-    ('Shrub - Creeper', 'shrub', ['LeafSetG_16', 'LeafSetG_12', 'LeafSetG_14'], ['shade']),
-    ('Shrub - Broadleaf', 'shrub', ['LeafSetH_12', 'LeafSetH_13', 'LeafSetH_9'], ['shade', 'wet']),
-    ('Weeds - Grass Tuft', 'weed', ['LeafSetA_3', 'LeafSetA_5', 'LeafSetA_2'], ['dry', 'sun', 'crack']),
-    ('Weeds - Grass Spray', 'weed', ['LeafSetA_13', 'LeafSetA_9'], ['dry', 'sun']),
-    ('Weeds - Clover Sprigs', 'weed', ['LeafSetD_8', 'LeafSetD_9', 'LeafSetD_5', 'LeafSetD_3'], ['shade', 'wet', 'crack']),
-    ('Weeds - Clover Clump', 'weed', ['LeafSetD_12', 'LeafSetD_13', 'LeafSetD_2', 'LeafSetD_4'], ['shade', 'wet']),
-    ('Weeds - Clover Patch', 'weed', ['LeafSetD_19'], ['shade', 'wet']),
-    ('Weeds - Pennywort', 'weed', ['LeafSetG_6', 'LeafSetG_7', 'LeafSetG_3', 'LeafSetG_4', 'LeafSetG_10'], ['shade', 'wet']),
-    ('Weeds - Creeper Patch', 'weed', ['LeafSetG_19'], ['shade']),
-    ('Weeds - Broadleaf', 'weed', ['LeafSetH_7', 'LeafSetH_3', 'LeafSetH_4'], ['shade', 'wet']),
-    ('Weeds - Broadleaf Low', 'weed', ['LeafSetH_5', 'LeafSetH_2'], ['shade', 'wet']),
-    ('Weeds - Sprouts', 'weed', ['LeafSetC_4', 'LeafSetC_5', 'LeafSetC_3'], ['dry', 'sun', 'crack']),
-    ('Weeds - Dock Rosette', 'weed', ['LeafSetE_2', 'LeafSetE_12'], ['wet', 'sun', 'crack']),
-    ('Ground - Clover Mat', 'mat', ['LeafSetD_18'], ['shade', 'wet']),
-    ('Ground - Leaf Litter', 'mat', ['LeafSetC_15'], ['dry', 'sun']),
-    ('Ground - Creeper Mat', 'mat', ['LeafSetG_18'], ['shade']),
-    ('Ground - Dock Mat', 'mat', ['LeafSetE_11'], ['wet']),
-    ('Ground - Bramble Mat', 'mat', ['LeafSetF_18'], ['sun']),
-    ('Edge Strip - Clover', 'strip', ['LeafSetD_17'], ['shade', 'wet']),
-    ('Edge Strip - Litter', 'strip', ['LeafSetC_14'], ['dry', 'sun']),
-    ('Edge Strip - Dock', 'strip', ['LeafSetE_10'], ['wet']),
-    ('Edge Strip - Bramble', 'strip', ['LeafSetF_17'], ['sun']),
-    ('Edge Strip - Creeper', 'strip', ['LeafSetG_17'], ['shade']),
-]
-# The kit's lime leaves read as freshly watered next to sun-baked asphalt and painted steel.
-# Yard weeds are dusty and olive, so foliage uses tinted copies of the imported leaf materials.
-DUSTY_TINT = '0.74,0.72,0.50,1'
-FLAT_ROLES = {'mat', 'strip'}
-DRAW_DISTANCE = {'patch': 0.0, 'shrub': 90.0, 'weed': 50.0, 'mat': 40.0, 'strip': 45.0}  # 0 inherits
-PLAY_HEIGHT_LIMIT = 0.5  # metres, for anything in the open playable yard
-
 # ---------------------------------------------------------------- yard layout
-
-def scene_blocks(text):
-    parts = re.split(r'(?=^ENTITY\t)', text, flags=re.M)
-    return parts[0], parts[1:]
-
 
 def obstacles_from_scene(blocks):
     """Ground-level box colliders (containers, covers, crates, forklift) as oriented rectangles."""
@@ -426,97 +278,26 @@ class Placer:
                 self.try_add({'weed'}, x + d * math.cos(heading), z + d * math.sin(heading), tags=['crack'],
                              scale=self.rng.uniform(.5, .8), tries=2, in_play=True, overlap=.3)
 
-# ---------------------------------------------------------------- serialization
-
-def dusty_materials(mesh_path, types):
-    """Tinted copies of the imported leaf materials; textures stay shared with the model."""
-    references = {}
-    for index in sorted({t.material for t in types}):
-        source = mesh_path.with_name(f'M_LeafSet_{index}.plutomaterial')
-        text, _ = read_text(source)
-        rel = f'Materials/Foliage/LeafSet_Dusty_{index}.plutomaterial'
-        (A / rel).parent.mkdir(parents=True, exist_ok=True)
-        write_text(A / rel, re.sub(r'^Color=.*$', 'Color=' + DUSTY_TINT, text, flags=re.M))
-        register(rel, 'Material')
-        references[index] = 'project://' + rel
-    return references
-
-
-def foliage_component(entity_id, types, asset_id, object_id, materials, with_instances=True):
-    mesh = f'asset://{asset_id}#{object_id}'
-    props = [('PaintEnabled', 4, 'false'), ('BrushMode', 2, 'Add'), ('BrushRadius', 0, '2.000000'), ('Density', 1, '2'),
-             ('MinScale', 0, '0.700000'), ('MaxScale', 0, '1.050000'), ('MaxDrawDistance', 0, '120.000000'),
-             ('MaxShadowDistance', 0, '45.000000'), ('MinRenderLod', 1, '0'), ('MinShadowLod', 1, '1'),
-             ('CastShadows', 4, 'true'), ('Static', 4, 'true'), ('SelectedType', 1, '0'),
-             ('FoliageTypeCount', 1, str(len(types)))]
-    for n, t in enumerate(types):
-        p = f'Type.{n}.'
-        instances = ';'.join(f'{k + 1},{x:.4f},{y:.4f},{z:.4f},0,{yaw:.2f},0,{s:.3f},{s:.3f},{s:.3f}'
-                             for k, (x, y, z, yaw, s) in enumerate(t.instances)) if with_instances else ''
-        props += [(p + 'Name', 2, t.name), (p + 'SourceMesh', 2, mesh), (p + 'ModelAssetId', 2, asset_id),
-                  (p + 'ModelObjectId', 2, object_id), (p + 'MaterialAsset', 2, materials[t.material]), (p + 'SubmeshIndex', 1, '-1'),
-                  (p + 'SubmeshIndices', 2, ','.join(str(part.index) for part in t.parts)),
-                  (p + 'UseGeneratedLods', 4, 'false'), (p + 'AlignToTerrainNormal', 4, 'false'),
-                  (p + 'AssetReference', 2, ''), (p + 'CellSize', 0, '24.000000'),
-                  (p + 'MaxDrawDistance', 0, f'{DRAW_DISTANCE[t.role]:.6f}'), (p + 'CollisionEnabled', 4, 'false'),
-                  (p + 'CollisionCenter', 3, '0.000000,1.000000,0.000000'), (p + 'CollisionRadius', 0, '0.350000'),
-                  (p + 'CollisionHeight', 0, '2.000000'), (p + 'Instances', 2, instances)]
-    return (f'COMPONENT\t{entity_id}\tFoliageComponent\t1\n' +
-            ''.join(f'PROPERTY\t{k}\t{kind}\t{v}\t0\n' for k, kind, v in props) + 'END_COMPONENT\n')
-
-
-def register(rel, kind):
-    path = A / rel
-    meta = Path(str(path) + '.plutometa')
-    if not meta.exists():
-        write_text(meta, 'PLUTOASSET\t1\nID\t' + uuid.uuid5(uuid.NAMESPACE_URL, 'cod/foliage/' + rel).hex + '\nIMPORTER_VERSION\t1\n')
-    manifest = ROOT / 'CoDplutoproject.plutoproject'
-    ref = 'project://' + rel
-    text, newline = read_text(manifest)
-    lines = [l for l in text.splitlines() if not l.startswith('ASSET\t' + ref + '\t')]
-    lines.append(f'ASSET\t{ref}\t{path.stat().st_size}\t{kind}')
-    write_text(manifest, '\n'.join(lines) + '\n', newline)
-
-
 def main():
-    asset_id, object_id, mesh_path = model_identity()
-    positions, indices, submeshes = read_plutomesh(mesh_path)
-    catalog = {name: Part(positions, indices, *info) for name, info in submeshes.items()}
-    types = [FoliageType(*group, catalog) for group in GROUPS]
-    for t in types:
-        if t.role in ('weed', 'mat', 'strip') and t.height > PLAY_HEIGHT_LIMIT + .05:
-            raise SystemExit(f'{t.name} is {t.height:.2f} m tall; too tall for the open yard')
-
+    types, asset_id, object_id, mesh_path = load_types()
     scene_text, scene_newline = read_text(SCENE)
     head, blocks = scene_blocks(scene_text)
-    parents = {int(b.split('\t')[1]): int(b.split('\t')[2]) for b in blocks}
-    names = {int(b.split('\t')[1]): b.split('\t')[4] for b in blocks}
+    parents = {int(b.split('	')[1]): int(b.split('	')[2]) for b in blocks}
+    names = {int(b.split('	')[1]): b.split('	')[4] for b in blocks}
     # Drop the earlier attempt (the whole kit stacked in one clump) and any previous run.
     drop = {i for i, n in names.items() if parents[i] == 0 and n in ('LeafSet', FOLIAGE_NAME)} | {FOLIAGE_ID}
 
     def dropped(i):
         return i in drop or (parents.get(i, 0) != 0 and dropped(parents[i]))
-    kept = [b for b in blocks if not dropped(int(b.split('\t')[1]))]
+    kept = [b for b in blocks if not dropped(int(b.split('	')[1]))]
     placer = Placer(types, obstacles_from_scene(kept))
     placer.outside_fence(); placer.corners(); placer.fence_line()
     placer.container_bases(); placer.props(); placer.drains_ring(); placer.cracks()
 
-    entity = f'ENTITY\t{FOLIAGE_ID}\t0\t1\t{FOLIAGE_NAME}\t0.000000,0.000000,0.000000\t0.000000,0.000000,0.000000\t1.000000,1.000000,1.000000\n'
     materials = dusty_materials(mesh_path, types)
-    write_text(SCENE, head + ''.join(kept) + entity + foliage_component(FOLIAGE_ID, types, asset_id, object_id, materials), scene_newline)
-
-    (A / PALETTE).parent.mkdir(parents=True, exist_ok=True)
-    write_text(A / PALETTE, 'SCENE\t1\nENTITY\t1\t0\t1\tLeafSet Foliage\t0.000000,0.000000,0.000000\t0.000000,0.000000,0.000000\t1.000000,1.000000,1.000000\n'
-               + foliage_component(1, types, asset_id, object_id, materials, with_instances=False))
-    register(PALETTE, 'Prefab')
-
-    removed = len(blocks) - len(kept)
-    total = sum(len(t.instances) for t in types)
-    by_role = {}
-    for t in types:
-        by_role[t.role] = by_role.get(t.role, 0) + len(t.instances)
-    print(f'Placed {total} foliage instances across {len(types)} types '
-          f'({", ".join(f"{n} {r}" for r, n in by_role.items())}); replaced {removed} previous foliage/LeafSet entities.')
+    write_scene(SCENE, [], kept, head, scene_newline, FOLIAGE_NAME, types, asset_id, object_id, materials, previous_id=FOLIAGE_ID)
+    write_palette(types, asset_id, object_id, materials)
+    print(f'Placed {summary(types)}; replaced {len(blocks) - len(kept)} previous foliage/LeafSet entities.')
 
 
 if __name__ == '__main__':
