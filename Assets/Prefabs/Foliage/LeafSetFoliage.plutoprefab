@@ -1,0 +1,783 @@
+SCENE	1
+ENTITY	1	0	1	LeafSet Foliage	0.000000,0.000000,0.000000	0.000000,0.000000,0.000000	1.000000,1.000000,1.000000
+COMPONENT	1	FoliageComponent	1
+PROPERTY	PaintEnabled	4	false	0
+PROPERTY	BrushMode	2	Add	0
+PROPERTY	BrushRadius	0	2.000000	0
+PROPERTY	Density	1	2	0
+PROPERTY	MinScale	0	0.700000	0
+PROPERTY	MaxScale	0	1.050000	0
+PROPERTY	MaxDrawDistance	0	120.000000	0
+PROPERTY	MaxShadowDistance	0	45.000000	0
+PROPERTY	MinRenderLod	1	0	0
+PROPERTY	MinShadowLod	1	1	0
+PROPERTY	CastShadows	4	true	0
+PROPERTY	Static	4	true	0
+PROPERTY	SelectedType	1	0	0
+PROPERTY	FoliageTypeCount	1	45	0
+PROPERTY	Type.0.Name	2	Overgrowth - Tall Grass 1	0
+PROPERTY	Type.0.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.0.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.0.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.0.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.0.SubmeshIndex	1	-1	0
+PROPERTY	Type.0.SubmeshIndices	2	20	0
+PROPERTY	Type.0.UseGeneratedLods	4	false	0
+PROPERTY	Type.0.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.0.AssetReference	2		0
+PROPERTY	Type.0.CellSize	0	24.000000	0
+PROPERTY	Type.0.MaxDrawDistance	0	0.000000	0
+PROPERTY	Type.0.CollisionEnabled	4	false	0
+PROPERTY	Type.0.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.0.CollisionRadius	0	0.350000	0
+PROPERTY	Type.0.CollisionHeight	0	2.000000	0
+PROPERTY	Type.0.Instances	2		0
+PROPERTY	Type.1.Name	2	Overgrowth - Tall Grass 2	0
+PROPERTY	Type.1.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.1.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.1.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.1.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.1.SubmeshIndex	1	-1	0
+PROPERTY	Type.1.SubmeshIndices	2	21	0
+PROPERTY	Type.1.UseGeneratedLods	4	false	0
+PROPERTY	Type.1.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.1.AssetReference	2		0
+PROPERTY	Type.1.CellSize	0	24.000000	0
+PROPERTY	Type.1.MaxDrawDistance	0	0.000000	0
+PROPERTY	Type.1.CollisionEnabled	4	false	0
+PROPERTY	Type.1.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.1.CollisionRadius	0	0.350000	0
+PROPERTY	Type.1.CollisionHeight	0	2.000000	0
+PROPERTY	Type.1.Instances	2		0
+PROPERTY	Type.2.Name	2	Overgrowth - Nettle 1	0
+PROPERTY	Type.2.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.2.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.2.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.2.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.2.SubmeshIndex	1	-1	0
+PROPERTY	Type.2.SubmeshIndices	2	41	0
+PROPERTY	Type.2.UseGeneratedLods	4	false	0
+PROPERTY	Type.2.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.2.AssetReference	2		0
+PROPERTY	Type.2.CellSize	0	24.000000	0
+PROPERTY	Type.2.MaxDrawDistance	0	0.000000	0
+PROPERTY	Type.2.CollisionEnabled	4	false	0
+PROPERTY	Type.2.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.2.CollisionRadius	0	0.350000	0
+PROPERTY	Type.2.CollisionHeight	0	2.000000	0
+PROPERTY	Type.2.Instances	2		0
+PROPERTY	Type.3.Name	2	Overgrowth - Nettle 2	0
+PROPERTY	Type.3.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.3.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.3.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.3.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.3.SubmeshIndex	1	-1	0
+PROPERTY	Type.3.SubmeshIndices	2	42	0
+PROPERTY	Type.3.UseGeneratedLods	4	false	0
+PROPERTY	Type.3.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.3.AssetReference	2		0
+PROPERTY	Type.3.CellSize	0	24.000000	0
+PROPERTY	Type.3.MaxDrawDistance	0	0.000000	0
+PROPERTY	Type.3.CollisionEnabled	4	false	0
+PROPERTY	Type.3.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.3.CollisionRadius	0	0.350000	0
+PROPERTY	Type.3.CollisionHeight	0	2.000000	0
+PROPERTY	Type.3.Instances	2		0
+PROPERTY	Type.4.Name	2	Overgrowth - Brush 1	0
+PROPERTY	Type.4.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.4.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.4.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.4.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.4.SubmeshIndex	1	-1	0
+PROPERTY	Type.4.SubmeshIndices	2	59	0
+PROPERTY	Type.4.UseGeneratedLods	4	false	0
+PROPERTY	Type.4.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.4.AssetReference	2		0
+PROPERTY	Type.4.CellSize	0	24.000000	0
+PROPERTY	Type.4.MaxDrawDistance	0	0.000000	0
+PROPERTY	Type.4.CollisionEnabled	4	false	0
+PROPERTY	Type.4.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.4.CollisionRadius	0	0.350000	0
+PROPERTY	Type.4.CollisionHeight	0	2.000000	0
+PROPERTY	Type.4.Instances	2		0
+PROPERTY	Type.5.Name	2	Overgrowth - Brush 2	0
+PROPERTY	Type.5.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.5.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.5.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.5.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.5.SubmeshIndex	1	-1	0
+PROPERTY	Type.5.SubmeshIndices	2	60	0
+PROPERTY	Type.5.UseGeneratedLods	4	false	0
+PROPERTY	Type.5.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.5.AssetReference	2		0
+PROPERTY	Type.5.CellSize	0	24.000000	0
+PROPERTY	Type.5.MaxDrawDistance	0	0.000000	0
+PROPERTY	Type.5.CollisionEnabled	4	false	0
+PROPERTY	Type.5.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.5.CollisionRadius	0	0.350000	0
+PROPERTY	Type.5.CollisionHeight	0	2.000000	0
+PROPERTY	Type.5.Instances	2		0
+PROPERTY	Type.6.Name	2	Overgrowth - Clover 1	0
+PROPERTY	Type.6.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.6.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.6.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.6.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.6.SubmeshIndex	1	-1	0
+PROPERTY	Type.6.SubmeshIndices	2	79	0
+PROPERTY	Type.6.UseGeneratedLods	4	false	0
+PROPERTY	Type.6.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.6.AssetReference	2		0
+PROPERTY	Type.6.CellSize	0	24.000000	0
+PROPERTY	Type.6.MaxDrawDistance	0	0.000000	0
+PROPERTY	Type.6.CollisionEnabled	4	false	0
+PROPERTY	Type.6.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.6.CollisionRadius	0	0.350000	0
+PROPERTY	Type.6.CollisionHeight	0	2.000000	0
+PROPERTY	Type.6.Instances	2		0
+PROPERTY	Type.7.Name	2	Overgrowth - Clover 2	0
+PROPERTY	Type.7.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.7.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.7.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.7.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.7.SubmeshIndex	1	-1	0
+PROPERTY	Type.7.SubmeshIndices	2	80	0
+PROPERTY	Type.7.UseGeneratedLods	4	false	0
+PROPERTY	Type.7.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.7.AssetReference	2		0
+PROPERTY	Type.7.CellSize	0	24.000000	0
+PROPERTY	Type.7.MaxDrawDistance	0	0.000000	0
+PROPERTY	Type.7.CollisionEnabled	4	false	0
+PROPERTY	Type.7.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.7.CollisionRadius	0	0.350000	0
+PROPERTY	Type.7.CollisionHeight	0	2.000000	0
+PROPERTY	Type.7.Instances	2		0
+PROPERTY	Type.8.Name	2	Overgrowth - Dock 1	0
+PROPERTY	Type.8.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.8.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.8.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.8.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.8.SubmeshIndex	1	-1	0
+PROPERTY	Type.8.SubmeshIndices	2	94	0
+PROPERTY	Type.8.UseGeneratedLods	4	false	0
+PROPERTY	Type.8.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.8.AssetReference	2		0
+PROPERTY	Type.8.CellSize	0	24.000000	0
+PROPERTY	Type.8.MaxDrawDistance	0	0.000000	0
+PROPERTY	Type.8.CollisionEnabled	4	false	0
+PROPERTY	Type.8.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.8.CollisionRadius	0	0.350000	0
+PROPERTY	Type.8.CollisionHeight	0	2.000000	0
+PROPERTY	Type.8.Instances	2		0
+PROPERTY	Type.9.Name	2	Overgrowth - Dock 2	0
+PROPERTY	Type.9.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.9.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.9.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.9.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.9.SubmeshIndex	1	-1	0
+PROPERTY	Type.9.SubmeshIndices	2	95	0
+PROPERTY	Type.9.UseGeneratedLods	4	false	0
+PROPERTY	Type.9.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.9.AssetReference	2		0
+PROPERTY	Type.9.CellSize	0	24.000000	0
+PROPERTY	Type.9.MaxDrawDistance	0	0.000000	0
+PROPERTY	Type.9.CollisionEnabled	4	false	0
+PROPERTY	Type.9.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.9.CollisionRadius	0	0.350000	0
+PROPERTY	Type.9.CollisionHeight	0	2.000000	0
+PROPERTY	Type.9.Instances	2		0
+PROPERTY	Type.10.Name	2	Overgrowth - Bramble 1	0
+PROPERTY	Type.10.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.10.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.10.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.10.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.10.SubmeshIndex	1	-1	0
+PROPERTY	Type.10.SubmeshIndices	2	114	0
+PROPERTY	Type.10.UseGeneratedLods	4	false	0
+PROPERTY	Type.10.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.10.AssetReference	2		0
+PROPERTY	Type.10.CellSize	0	24.000000	0
+PROPERTY	Type.10.MaxDrawDistance	0	0.000000	0
+PROPERTY	Type.10.CollisionEnabled	4	false	0
+PROPERTY	Type.10.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.10.CollisionRadius	0	0.350000	0
+PROPERTY	Type.10.CollisionHeight	0	2.000000	0
+PROPERTY	Type.10.Instances	2		0
+PROPERTY	Type.11.Name	2	Overgrowth - Bramble 2	0
+PROPERTY	Type.11.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.11.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.11.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.11.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.11.SubmeshIndex	1	-1	0
+PROPERTY	Type.11.SubmeshIndices	2	115	0
+PROPERTY	Type.11.UseGeneratedLods	4	false	0
+PROPERTY	Type.11.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.11.AssetReference	2		0
+PROPERTY	Type.11.CellSize	0	24.000000	0
+PROPERTY	Type.11.MaxDrawDistance	0	0.000000	0
+PROPERTY	Type.11.CollisionEnabled	4	false	0
+PROPERTY	Type.11.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.11.CollisionRadius	0	0.350000	0
+PROPERTY	Type.11.CollisionHeight	0	2.000000	0
+PROPERTY	Type.11.Instances	2		0
+PROPERTY	Type.12.Name	2	Overgrowth - Creeper 1	0
+PROPERTY	Type.12.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.12.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.12.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.12.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.12.SubmeshIndex	1	-1	0
+PROPERTY	Type.12.SubmeshIndices	2	136	0
+PROPERTY	Type.12.UseGeneratedLods	4	false	0
+PROPERTY	Type.12.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.12.AssetReference	2		0
+PROPERTY	Type.12.CellSize	0	24.000000	0
+PROPERTY	Type.12.MaxDrawDistance	0	0.000000	0
+PROPERTY	Type.12.CollisionEnabled	4	false	0
+PROPERTY	Type.12.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.12.CollisionRadius	0	0.350000	0
+PROPERTY	Type.12.CollisionHeight	0	2.000000	0
+PROPERTY	Type.12.Instances	2		0
+PROPERTY	Type.13.Name	2	Overgrowth - Creeper 2	0
+PROPERTY	Type.13.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.13.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.13.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.13.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.13.SubmeshIndex	1	-1	0
+PROPERTY	Type.13.SubmeshIndices	2	137	0
+PROPERTY	Type.13.UseGeneratedLods	4	false	0
+PROPERTY	Type.13.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.13.AssetReference	2		0
+PROPERTY	Type.13.CellSize	0	24.000000	0
+PROPERTY	Type.13.MaxDrawDistance	0	0.000000	0
+PROPERTY	Type.13.CollisionEnabled	4	false	0
+PROPERTY	Type.13.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.13.CollisionRadius	0	0.350000	0
+PROPERTY	Type.13.CollisionHeight	0	2.000000	0
+PROPERTY	Type.13.Instances	2		0
+PROPERTY	Type.14.Name	2	Overgrowth - Broadleaf 1	0
+PROPERTY	Type.14.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.14.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.14.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.14.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.14.SubmeshIndex	1	-1	0
+PROPERTY	Type.14.SubmeshIndices	2	151	0
+PROPERTY	Type.14.UseGeneratedLods	4	false	0
+PROPERTY	Type.14.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.14.AssetReference	2		0
+PROPERTY	Type.14.CellSize	0	24.000000	0
+PROPERTY	Type.14.MaxDrawDistance	0	0.000000	0
+PROPERTY	Type.14.CollisionEnabled	4	false	0
+PROPERTY	Type.14.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.14.CollisionRadius	0	0.350000	0
+PROPERTY	Type.14.CollisionHeight	0	2.000000	0
+PROPERTY	Type.14.Instances	2		0
+PROPERTY	Type.15.Name	2	Overgrowth - Broadleaf 2	0
+PROPERTY	Type.15.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.15.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.15.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.15.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.15.SubmeshIndex	1	-1	0
+PROPERTY	Type.15.SubmeshIndices	2	152	0
+PROPERTY	Type.15.UseGeneratedLods	4	false	0
+PROPERTY	Type.15.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.15.AssetReference	2		0
+PROPERTY	Type.15.CellSize	0	24.000000	0
+PROPERTY	Type.15.MaxDrawDistance	0	0.000000	0
+PROPERTY	Type.15.CollisionEnabled	4	false	0
+PROPERTY	Type.15.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.15.CollisionRadius	0	0.350000	0
+PROPERTY	Type.15.CollisionHeight	0	2.000000	0
+PROPERTY	Type.15.Instances	2		0
+PROPERTY	Type.16.Name	2	Shrub - Reeds	0
+PROPERTY	Type.16.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.16.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.16.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.16.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.16.SubmeshIndex	1	-1	0
+PROPERTY	Type.16.SubmeshIndices	2	11,14,15,10	0
+PROPERTY	Type.16.UseGeneratedLods	4	false	0
+PROPERTY	Type.16.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.16.AssetReference	2		0
+PROPERTY	Type.16.CellSize	0	24.000000	0
+PROPERTY	Type.16.MaxDrawDistance	0	90.000000	0
+PROPERTY	Type.16.CollisionEnabled	4	false	0
+PROPERTY	Type.16.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.16.CollisionRadius	0	0.350000	0
+PROPERTY	Type.16.CollisionHeight	0	2.000000	0
+PROPERTY	Type.16.Instances	2		0
+PROPERTY	Type.17.Name	2	Shrub - Nettle	0
+PROPERTY	Type.17.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.17.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.17.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.17.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.17.SubmeshIndex	1	-1	0
+PROPERTY	Type.17.SubmeshIndices	2	32,33,44,39	0
+PROPERTY	Type.17.UseGeneratedLods	4	false	0
+PROPERTY	Type.17.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.17.AssetReference	2		0
+PROPERTY	Type.17.CellSize	0	24.000000	0
+PROPERTY	Type.17.MaxDrawDistance	0	90.000000	0
+PROPERTY	Type.17.CollisionEnabled	4	false	0
+PROPERTY	Type.17.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.17.CollisionRadius	0	0.350000	0
+PROPERTY	Type.17.CollisionHeight	0	2.000000	0
+PROPERTY	Type.17.Instances	2		0
+PROPERTY	Type.18.Name	2	Shrub - Brush	0
+PROPERTY	Type.18.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.18.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.18.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.18.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.18.SubmeshIndex	1	-1	0
+PROPERTY	Type.18.SubmeshIndices	2	53,61	0
+PROPERTY	Type.18.UseGeneratedLods	4	false	0
+PROPERTY	Type.18.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.18.AssetReference	2		0
+PROPERTY	Type.18.CellSize	0	24.000000	0
+PROPERTY	Type.18.MaxDrawDistance	0	90.000000	0
+PROPERTY	Type.18.CollisionEnabled	4	false	0
+PROPERTY	Type.18.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.18.CollisionRadius	0	0.350000	0
+PROPERTY	Type.18.CollisionHeight	0	2.000000	0
+PROPERTY	Type.18.Instances	2		0
+PROPERTY	Type.19.Name	2	Shrub - Sapling	0
+PROPERTY	Type.19.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.19.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.19.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.19.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.19.SubmeshIndex	1	-1	0
+PROPERTY	Type.19.SubmeshIndices	2	55,48,54	0
+PROPERTY	Type.19.UseGeneratedLods	4	false	0
+PROPERTY	Type.19.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.19.AssetReference	2		0
+PROPERTY	Type.19.CellSize	0	24.000000	0
+PROPERTY	Type.19.MaxDrawDistance	0	90.000000	0
+PROPERTY	Type.19.CollisionEnabled	4	false	0
+PROPERTY	Type.19.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.19.CollisionRadius	0	0.350000	0
+PROPERTY	Type.19.CollisionHeight	0	2.000000	0
+PROPERTY	Type.19.Instances	2		0
+PROPERTY	Type.20.Name	2	Shrub - Dock	0
+PROPERTY	Type.20.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.20.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.20.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.20.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.20.SubmeshIndex	1	-1	0
+PROPERTY	Type.20.SubmeshIndices	2	96,91,89	0
+PROPERTY	Type.20.UseGeneratedLods	4	false	0
+PROPERTY	Type.20.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.20.AssetReference	2		0
+PROPERTY	Type.20.CellSize	0	24.000000	0
+PROPERTY	Type.20.MaxDrawDistance	0	90.000000	0
+PROPERTY	Type.20.CollisionEnabled	4	false	0
+PROPERTY	Type.20.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.20.CollisionRadius	0	0.350000	0
+PROPERTY	Type.20.CollisionHeight	0	2.000000	0
+PROPERTY	Type.20.Instances	2		0
+PROPERTY	Type.21.Name	2	Shrub - Bramble	0
+PROPERTY	Type.21.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.21.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.21.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.21.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.21.SubmeshIndex	1	-1	0
+PROPERTY	Type.21.SubmeshIndices	2	108,110,109	0
+PROPERTY	Type.21.UseGeneratedLods	4	false	0
+PROPERTY	Type.21.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.21.AssetReference	2		0
+PROPERTY	Type.21.CellSize	0	24.000000	0
+PROPERTY	Type.21.MaxDrawDistance	0	90.000000	0
+PROPERTY	Type.21.CollisionEnabled	4	false	0
+PROPERTY	Type.21.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.21.CollisionRadius	0	0.350000	0
+PROPERTY	Type.21.CollisionHeight	0	2.000000	0
+PROPERTY	Type.21.Instances	2		0
+PROPERTY	Type.22.Name	2	Shrub - Creeper	0
+PROPERTY	Type.22.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.22.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.22.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.22.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.22.SubmeshIndex	1	-1	0
+PROPERTY	Type.22.SubmeshIndices	2	130,126,131	0
+PROPERTY	Type.22.UseGeneratedLods	4	false	0
+PROPERTY	Type.22.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.22.AssetReference	2		0
+PROPERTY	Type.22.CellSize	0	24.000000	0
+PROPERTY	Type.22.MaxDrawDistance	0	90.000000	0
+PROPERTY	Type.22.CollisionEnabled	4	false	0
+PROPERTY	Type.22.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.22.CollisionRadius	0	0.350000	0
+PROPERTY	Type.22.CollisionHeight	0	2.000000	0
+PROPERTY	Type.22.Instances	2		0
+PROPERTY	Type.23.Name	2	Shrub - Broadleaf	0
+PROPERTY	Type.23.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.23.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.23.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.23.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.23.SubmeshIndex	1	-1	0
+PROPERTY	Type.23.SubmeshIndices	2	141,147,149	0
+PROPERTY	Type.23.UseGeneratedLods	4	false	0
+PROPERTY	Type.23.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.23.AssetReference	2		0
+PROPERTY	Type.23.CellSize	0	24.000000	0
+PROPERTY	Type.23.MaxDrawDistance	0	90.000000	0
+PROPERTY	Type.23.CollisionEnabled	4	false	0
+PROPERTY	Type.23.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.23.CollisionRadius	0	0.350000	0
+PROPERTY	Type.23.CollisionHeight	0	2.000000	0
+PROPERTY	Type.23.Instances	2		0
+PROPERTY	Type.24.Name	2	Weeds - Grass Tuft	0
+PROPERTY	Type.24.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.24.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.24.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.24.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.24.SubmeshIndex	1	-1	0
+PROPERTY	Type.24.SubmeshIndices	2	13,19,12	0
+PROPERTY	Type.24.UseGeneratedLods	4	false	0
+PROPERTY	Type.24.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.24.AssetReference	2		0
+PROPERTY	Type.24.CellSize	0	24.000000	0
+PROPERTY	Type.24.MaxDrawDistance	0	50.000000	0
+PROPERTY	Type.24.CollisionEnabled	4	false	0
+PROPERTY	Type.24.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.24.CollisionRadius	0	0.350000	0
+PROPERTY	Type.24.CollisionHeight	0	2.000000	0
+PROPERTY	Type.24.Instances	2		0
+PROPERTY	Type.25.Name	2	Weeds - Grass Spray	0
+PROPERTY	Type.25.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.25.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.25.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.25.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.25.SubmeshIndex	1	-1	0
+PROPERTY	Type.25.SubmeshIndices	2	10,4	0
+PROPERTY	Type.25.UseGeneratedLods	4	false	0
+PROPERTY	Type.25.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.25.AssetReference	2		0
+PROPERTY	Type.25.CellSize	0	24.000000	0
+PROPERTY	Type.25.MaxDrawDistance	0	50.000000	0
+PROPERTY	Type.25.CollisionEnabled	4	false	0
+PROPERTY	Type.25.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.25.CollisionRadius	0	0.350000	0
+PROPERTY	Type.25.CollisionHeight	0	2.000000	0
+PROPERTY	Type.25.Instances	2		0
+PROPERTY	Type.26.Name	2	Weeds - Clover Sprigs	0
+PROPERTY	Type.26.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.26.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.26.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.26.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.26.SubmeshIndex	1	-1	0
+PROPERTY	Type.26.SubmeshIndices	2	70,71,73,68	0
+PROPERTY	Type.26.UseGeneratedLods	4	false	0
+PROPERTY	Type.26.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.26.AssetReference	2		0
+PROPERTY	Type.26.CellSize	0	24.000000	0
+PROPERTY	Type.26.MaxDrawDistance	0	50.000000	0
+PROPERTY	Type.26.CollisionEnabled	4	false	0
+PROPERTY	Type.26.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.26.CollisionRadius	0	0.350000	0
+PROPERTY	Type.26.CollisionHeight	0	2.000000	0
+PROPERTY	Type.26.Instances	2		0
+PROPERTY	Type.27.Name	2	Weeds - Clover Clump	0
+PROPERTY	Type.27.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.27.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.27.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.27.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.27.SubmeshIndex	1	-1	0
+PROPERTY	Type.27.SubmeshIndices	2	76,77,67,62	0
+PROPERTY	Type.27.UseGeneratedLods	4	false	0
+PROPERTY	Type.27.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.27.AssetReference	2		0
+PROPERTY	Type.27.CellSize	0	24.000000	0
+PROPERTY	Type.27.MaxDrawDistance	0	50.000000	0
+PROPERTY	Type.27.CollisionEnabled	4	false	0
+PROPERTY	Type.27.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.27.CollisionRadius	0	0.350000	0
+PROPERTY	Type.27.CollisionHeight	0	2.000000	0
+PROPERTY	Type.27.Instances	2		0
+PROPERTY	Type.28.Name	2	Weeds - Clover Patch	0
+PROPERTY	Type.28.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.28.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.28.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.28.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.28.SubmeshIndex	1	-1	0
+PROPERTY	Type.28.SubmeshIndices	2	78	0
+PROPERTY	Type.28.UseGeneratedLods	4	false	0
+PROPERTY	Type.28.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.28.AssetReference	2		0
+PROPERTY	Type.28.CellSize	0	24.000000	0
+PROPERTY	Type.28.MaxDrawDistance	0	50.000000	0
+PROPERTY	Type.28.CollisionEnabled	4	false	0
+PROPERTY	Type.28.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.28.CollisionRadius	0	0.350000	0
+PROPERTY	Type.28.CollisionHeight	0	2.000000	0
+PROPERTY	Type.28.Instances	2		0
+PROPERTY	Type.29.Name	2	Weeds - Pennywort	0
+PROPERTY	Type.29.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.29.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.29.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.29.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.29.SubmeshIndex	1	-1	0
+PROPERTY	Type.29.SubmeshIndices	2	128,127,124,123,121	0
+PROPERTY	Type.29.UseGeneratedLods	4	false	0
+PROPERTY	Type.29.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.29.AssetReference	2		0
+PROPERTY	Type.29.CellSize	0	24.000000	0
+PROPERTY	Type.29.MaxDrawDistance	0	50.000000	0
+PROPERTY	Type.29.CollisionEnabled	4	false	0
+PROPERTY	Type.29.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.29.CollisionRadius	0	0.350000	0
+PROPERTY	Type.29.CollisionHeight	0	2.000000	0
+PROPERTY	Type.29.Instances	2		0
+PROPERTY	Type.30.Name	2	Weeds - Creeper Patch	0
+PROPERTY	Type.30.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.30.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.30.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.30.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.30.SubmeshIndex	1	-1	0
+PROPERTY	Type.30.SubmeshIndices	2	135	0
+PROPERTY	Type.30.UseGeneratedLods	4	false	0
+PROPERTY	Type.30.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.30.AssetReference	2		0
+PROPERTY	Type.30.CellSize	0	24.000000	0
+PROPERTY	Type.30.MaxDrawDistance	0	50.000000	0
+PROPERTY	Type.30.CollisionEnabled	4	false	0
+PROPERTY	Type.30.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.30.CollisionRadius	0	0.350000	0
+PROPERTY	Type.30.CollisionHeight	0	2.000000	0
+PROPERTY	Type.30.Instances	2		0
+PROPERTY	Type.31.Name	2	Weeds - Broadleaf	0
+PROPERTY	Type.31.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.31.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.31.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.31.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.31.SubmeshIndex	1	-1	0
+PROPERTY	Type.31.SubmeshIndices	2	142,143,144	0
+PROPERTY	Type.31.UseGeneratedLods	4	false	0
+PROPERTY	Type.31.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.31.AssetReference	2		0
+PROPERTY	Type.31.CellSize	0	24.000000	0
+PROPERTY	Type.31.MaxDrawDistance	0	50.000000	0
+PROPERTY	Type.31.CollisionEnabled	4	false	0
+PROPERTY	Type.31.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.31.CollisionRadius	0	0.350000	0
+PROPERTY	Type.31.CollisionHeight	0	2.000000	0
+PROPERTY	Type.31.Instances	2		0
+PROPERTY	Type.32.Name	2	Weeds - Broadleaf Low	0
+PROPERTY	Type.32.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.32.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.32.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.32.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.32.SubmeshIndex	1	-1	0
+PROPERTY	Type.32.SubmeshIndices	2	146,139	0
+PROPERTY	Type.32.UseGeneratedLods	4	false	0
+PROPERTY	Type.32.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.32.AssetReference	2		0
+PROPERTY	Type.32.CellSize	0	24.000000	0
+PROPERTY	Type.32.MaxDrawDistance	0	50.000000	0
+PROPERTY	Type.32.CollisionEnabled	4	false	0
+PROPERTY	Type.32.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.32.CollisionRadius	0	0.350000	0
+PROPERTY	Type.32.CollisionHeight	0	2.000000	0
+PROPERTY	Type.32.Instances	2		0
+PROPERTY	Type.33.Name	2	Weeds - Sprouts	0
+PROPERTY	Type.33.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.33.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.33.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.33.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.33.SubmeshIndex	1	-1	0
+PROPERTY	Type.33.SubmeshIndices	2	58,49,52	0
+PROPERTY	Type.33.UseGeneratedLods	4	false	0
+PROPERTY	Type.33.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.33.AssetReference	2		0
+PROPERTY	Type.33.CellSize	0	24.000000	0
+PROPERTY	Type.33.MaxDrawDistance	0	50.000000	0
+PROPERTY	Type.33.CollisionEnabled	4	false	0
+PROPERTY	Type.33.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.33.CollisionRadius	0	0.350000	0
+PROPERTY	Type.33.CollisionHeight	0	2.000000	0
+PROPERTY	Type.33.Instances	2		0
+PROPERTY	Type.34.Name	2	Weeds - Dock Rosette	0
+PROPERTY	Type.34.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.34.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.34.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.34.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.34.SubmeshIndex	1	-1	0
+PROPERTY	Type.34.SubmeshIndices	2	85,93	0
+PROPERTY	Type.34.UseGeneratedLods	4	false	0
+PROPERTY	Type.34.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.34.AssetReference	2		0
+PROPERTY	Type.34.CellSize	0	24.000000	0
+PROPERTY	Type.34.MaxDrawDistance	0	50.000000	0
+PROPERTY	Type.34.CollisionEnabled	4	false	0
+PROPERTY	Type.34.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.34.CollisionRadius	0	0.350000	0
+PROPERTY	Type.34.CollisionHeight	0	2.000000	0
+PROPERTY	Type.34.Instances	2		0
+PROPERTY	Type.35.Name	2	Ground - Clover Mat	0
+PROPERTY	Type.35.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.35.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.35.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.35.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.35.SubmeshIndex	1	-1	0
+PROPERTY	Type.35.SubmeshIndices	2	69	0
+PROPERTY	Type.35.UseGeneratedLods	4	false	0
+PROPERTY	Type.35.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.35.AssetReference	2		0
+PROPERTY	Type.35.CellSize	0	24.000000	0
+PROPERTY	Type.35.MaxDrawDistance	0	40.000000	0
+PROPERTY	Type.35.CollisionEnabled	4	false	0
+PROPERTY	Type.35.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.35.CollisionRadius	0	0.350000	0
+PROPERTY	Type.35.CollisionHeight	0	2.000000	0
+PROPERTY	Type.35.Instances	2		0
+PROPERTY	Type.36.Name	2	Ground - Leaf Litter	0
+PROPERTY	Type.36.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.36.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.36.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.36.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.36.SubmeshIndex	1	-1	0
+PROPERTY	Type.36.SubmeshIndices	2	56	0
+PROPERTY	Type.36.UseGeneratedLods	4	false	0
+PROPERTY	Type.36.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.36.AssetReference	2		0
+PROPERTY	Type.36.CellSize	0	24.000000	0
+PROPERTY	Type.36.MaxDrawDistance	0	40.000000	0
+PROPERTY	Type.36.CollisionEnabled	4	false	0
+PROPERTY	Type.36.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.36.CollisionRadius	0	0.350000	0
+PROPERTY	Type.36.CollisionHeight	0	2.000000	0
+PROPERTY	Type.36.Instances	2		0
+PROPERTY	Type.37.Name	2	Ground - Creeper Mat	0
+PROPERTY	Type.37.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.37.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.37.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.37.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.37.SubmeshIndex	1	-1	0
+PROPERTY	Type.37.SubmeshIndices	2	132	0
+PROPERTY	Type.37.UseGeneratedLods	4	false	0
+PROPERTY	Type.37.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.37.AssetReference	2		0
+PROPERTY	Type.37.CellSize	0	24.000000	0
+PROPERTY	Type.37.MaxDrawDistance	0	40.000000	0
+PROPERTY	Type.37.CollisionEnabled	4	false	0
+PROPERTY	Type.37.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.37.CollisionRadius	0	0.350000	0
+PROPERTY	Type.37.CollisionHeight	0	2.000000	0
+PROPERTY	Type.37.Instances	2		0
+PROPERTY	Type.38.Name	2	Ground - Dock Mat	0
+PROPERTY	Type.38.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.38.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.38.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.38.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.38.SubmeshIndex	1	-1	0
+PROPERTY	Type.38.SubmeshIndices	2	92	0
+PROPERTY	Type.38.UseGeneratedLods	4	false	0
+PROPERTY	Type.38.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.38.AssetReference	2		0
+PROPERTY	Type.38.CellSize	0	24.000000	0
+PROPERTY	Type.38.MaxDrawDistance	0	40.000000	0
+PROPERTY	Type.38.CollisionEnabled	4	false	0
+PROPERTY	Type.38.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.38.CollisionRadius	0	0.350000	0
+PROPERTY	Type.38.CollisionHeight	0	2.000000	0
+PROPERTY	Type.38.Instances	2		0
+PROPERTY	Type.39.Name	2	Ground - Bramble Mat	0
+PROPERTY	Type.39.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.39.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.39.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.39.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.39.SubmeshIndex	1	-1	0
+PROPERTY	Type.39.SubmeshIndices	2	111	0
+PROPERTY	Type.39.UseGeneratedLods	4	false	0
+PROPERTY	Type.39.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.39.AssetReference	2		0
+PROPERTY	Type.39.CellSize	0	24.000000	0
+PROPERTY	Type.39.MaxDrawDistance	0	40.000000	0
+PROPERTY	Type.39.CollisionEnabled	4	false	0
+PROPERTY	Type.39.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.39.CollisionRadius	0	0.350000	0
+PROPERTY	Type.39.CollisionHeight	0	2.000000	0
+PROPERTY	Type.39.Instances	2		0
+PROPERTY	Type.40.Name	2	Edge Strip - Clover	0
+PROPERTY	Type.40.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.40.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.40.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.40.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.40.SubmeshIndex	1	-1	0
+PROPERTY	Type.40.SubmeshIndices	2	63	0
+PROPERTY	Type.40.UseGeneratedLods	4	false	0
+PROPERTY	Type.40.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.40.AssetReference	2		0
+PROPERTY	Type.40.CellSize	0	24.000000	0
+PROPERTY	Type.40.MaxDrawDistance	0	45.000000	0
+PROPERTY	Type.40.CollisionEnabled	4	false	0
+PROPERTY	Type.40.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.40.CollisionRadius	0	0.350000	0
+PROPERTY	Type.40.CollisionHeight	0	2.000000	0
+PROPERTY	Type.40.Instances	2		0
+PROPERTY	Type.41.Name	2	Edge Strip - Litter	0
+PROPERTY	Type.41.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.41.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.41.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.41.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	0
+PROPERTY	Type.41.SubmeshIndex	1	-1	0
+PROPERTY	Type.41.SubmeshIndices	2	50	0
+PROPERTY	Type.41.UseGeneratedLods	4	false	0
+PROPERTY	Type.41.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.41.AssetReference	2		0
+PROPERTY	Type.41.CellSize	0	24.000000	0
+PROPERTY	Type.41.MaxDrawDistance	0	45.000000	0
+PROPERTY	Type.41.CollisionEnabled	4	false	0
+PROPERTY	Type.41.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.41.CollisionRadius	0	0.350000	0
+PROPERTY	Type.41.CollisionHeight	0	2.000000	0
+PROPERTY	Type.41.Instances	2		0
+PROPERTY	Type.42.Name	2	Edge Strip - Dock	0
+PROPERTY	Type.42.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.42.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.42.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.42.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.42.SubmeshIndex	1	-1	0
+PROPERTY	Type.42.SubmeshIndices	2	83	0
+PROPERTY	Type.42.UseGeneratedLods	4	false	0
+PROPERTY	Type.42.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.42.AssetReference	2		0
+PROPERTY	Type.42.CellSize	0	24.000000	0
+PROPERTY	Type.42.MaxDrawDistance	0	45.000000	0
+PROPERTY	Type.42.CollisionEnabled	4	false	0
+PROPERTY	Type.42.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.42.CollisionRadius	0	0.350000	0
+PROPERTY	Type.42.CollisionHeight	0	2.000000	0
+PROPERTY	Type.42.Instances	2		0
+PROPERTY	Type.43.Name	2	Edge Strip - Bramble	0
+PROPERTY	Type.43.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.43.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.43.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.43.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.43.SubmeshIndex	1	-1	0
+PROPERTY	Type.43.SubmeshIndices	2	102	0
+PROPERTY	Type.43.UseGeneratedLods	4	false	0
+PROPERTY	Type.43.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.43.AssetReference	2		0
+PROPERTY	Type.43.CellSize	0	24.000000	0
+PROPERTY	Type.43.MaxDrawDistance	0	45.000000	0
+PROPERTY	Type.43.CollisionEnabled	4	false	0
+PROPERTY	Type.43.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.43.CollisionRadius	0	0.350000	0
+PROPERTY	Type.43.CollisionHeight	0	2.000000	0
+PROPERTY	Type.43.Instances	2		0
+PROPERTY	Type.44.Name	2	Edge Strip - Creeper	0
+PROPERTY	Type.44.SourceMesh	2	asset://19bb276228b741a34f8e74e9b1d8e537#422876637223323412	0
+PROPERTY	Type.44.ModelAssetId	2	19bb276228b741a34f8e74e9b1d8e537	0
+PROPERTY	Type.44.ModelObjectId	2	422876637223323412	0
+PROPERTY	Type.44.MaterialAsset	2	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	0
+PROPERTY	Type.44.SubmeshIndex	1	-1	0
+PROPERTY	Type.44.SubmeshIndices	2	120	0
+PROPERTY	Type.44.UseGeneratedLods	4	false	0
+PROPERTY	Type.44.AlignToTerrainNormal	4	false	0
+PROPERTY	Type.44.AssetReference	2		0
+PROPERTY	Type.44.CellSize	0	24.000000	0
+PROPERTY	Type.44.MaxDrawDistance	0	45.000000	0
+PROPERTY	Type.44.CollisionEnabled	4	false	0
+PROPERTY	Type.44.CollisionCenter	3	0.000000,1.000000,0.000000	0
+PROPERTY	Type.44.CollisionRadius	0	0.350000	0
+PROPERTY	Type.44.CollisionHeight	0	2.000000	0
+PROPERTY	Type.44.Instances	2		0
+END_COMPONENT

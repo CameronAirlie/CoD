@@ -153,10 +153,10 @@ RUNTIME_RENDER_SCALE	0.9
 RUNTIME_UPSCALE_SHARPNESS	0.5
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	-14.0114	3.61738	15.786
+EDITOR_CAMERA_POSITION	-21.6324	8.46655	22.6276
 EDITOR_CAMERA_SPEED	6
 EDITOR_CAMERA_RUNTIME_UI	0
-EDITOR_CAMERA_ROTATION	-1477.98	-43.1595
+EDITOR_CAMERA_ROTATION	-1137.42	-16.3995
 EDITOR_CAMERA_LENS	70	0.1	10000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/performance.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -377,11 +377,11 @@ ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Input/car.plutoinput	4237	Input Mapping
 ASSET	project://Input/fps.plutoinput	14105	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	460800	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	126948	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	486400	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	163780	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.dll	360448	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	120028	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	120032	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	369	Unknown
 ASSET	project://Maps/Foundry.plutomap	141	Unknown
 ASSET	project://Maps/Foundry.tga	4194322	Texture
@@ -394,6 +394,8 @@ ASSET	project://Maps/Standoff.tga	4194322	Texture
 ASSET	project://Maps/Terminal.plutomap	154	Unknown
 ASSET	project://Maps/Terminal.tga	4194322	Texture
 ASSET	project://Materials/BulletHole.plutomaterial	471	Material
+ASSET	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	909	Material
+ASSET	project://Materials/Foliage/LeafSet_Dusty_1.plutomaterial	913	Material
 ASSET	project://Materials/Foundry/Brick.plutomaterial	412	Material
 ASSET	project://Materials/Foundry/Dark.plutomaterial	414	Material
 ASSET	project://Materials/Foundry/Paving.plutomaterial	412	Material
@@ -889,6 +891,7 @@ ASSET	project://Prefabs/ArmourPickup.plutoprefab	1900	Prefab
 ASSET	project://Prefabs/Audio/GameplayCue.plutoprefab	245	Prefab
 ASSET	project://Prefabs/Car.plutoprefab	33430	Prefab
 ASSET	project://Prefabs/Enemy.plutoprefab	19403	Prefab
+ASSET	project://Prefabs/Foliage/LeafSetFoliage.plutoprefab	39972	Prefab
 ASSET	project://Prefabs/Grenades/Fire.plutoprefab	183	Prefab
 ASSET	project://Prefabs/Grenades/Flash.plutoprefab	188	Prefab
 ASSET	project://Prefabs/Grenades/Flashbang.plutoprefab	930	Prefab
@@ -899,6 +902,7 @@ ASSET	project://Prefabs/Grenades/SmokeCloud.plutoprefab	195	Prefab
 ASSET	project://Prefabs/Grenades/SmokeGrenade.plutoprefab	951	Prefab
 ASSET	project://Prefabs/Grenades/Sparks.plutoprefab	190	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1932	Prefab
+ASSET	project://Prefabs/LeafSetA.plutoprefab	16296	Prefab
 ASSET	project://Prefabs/Lightsaber.plutoprefab	1949	Prefab
 ASSET	project://Prefabs/Player.plutoprefab	61014	Prefab
 ASSET	project://Prefabs/RemotePlayer.plutoprefab	7902	Prefab
@@ -913,7 +917,7 @@ ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1717	Prefab
 ASSET	project://Scenes/Foundry.plutoscene	10057066	Scene
 ASSET	project://Scenes/Main.plutoscene	356663	Scene
 ASSET	project://Scenes/Racetrack.plutoscene	15657615	Scene
-ASSET	project://Scenes/Shipment.plutoscene	15554867	Scene
+ASSET	project://Scenes/Shipment.plutoscene	15780808	Scene
 ASSET	project://Scenes/Standoff.plutoscene	18511470	Scene
 ASSET	project://Scenes/Terminal.plutoscene	14817968	Scene
 ASSET	project://Scenes/Title.plutoscene	8754	Scene
