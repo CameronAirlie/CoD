@@ -136,7 +136,7 @@ SERVER_ENV	COD_SERVER_MODE	Defusal
 SCRIPT_ASSEMBLY	project://Managed/CoD.Scripts.dll
 LOADING_SCREEN	project://UI/loading.plutoloading
 LOADING_ACCENT	0.65	0.68	0.72
-QUALITY_PRESET	0	1	512	1	40	0	0	0	0	0	1	0	0
+QUALITY_PRESET	0	1	512	1	40	1	0	0	0	0	0	0	0
 QUALITY_PRESET	1	1	1024	2	80	0	1	0	0	0	1	0	0
 QUALITY_PRESET	2	1	2048	4	150	0	1	1	1	1	1	0	0
 QUALITY_PRESET	3	1	4096	4	300	0	1	1	1	1	1	1	1
@@ -145,15 +145,15 @@ WINDOW_SIZE	800	600
 VSYNC	0
 GRAPHICS_API	Vulkan
 RUNTIME_UPSCALER	FSR2
-RUNTIME_UPSCALER_QUALITY	Quality
+RUNTIME_UPSCALER_QUALITY	Performance
 RUNTIME_RENDER_SCALE	0.9
 RUNTIME_UPSCALE_SHARPNESS	0.5
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	19.9199	14.5947	31.8105
+EDITOR_CAMERA_POSITION	-21.6817	13.3353	-22.8272
 EDITOR_CAMERA_SPEED	6
 EDITOR_CAMERA_RUNTIME_UI	0
-EDITOR_CAMERA_ROTATION	-1412.7	-10.3995
+EDITOR_CAMERA_ROTATION	-1563.06	1.60051
 EDITOR_CAMERA_LENS	70	0.1	10000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/performance.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -895,7 +895,7 @@ ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1717	Prefab
 ASSET	project://Scenes/Foundry.plutoscene	10057066	Scene
 ASSET	project://Scenes/Main.plutoscene	356663	Scene
 ASSET	project://Scenes/Shipment.plutoscene	321377	Scene
-ASSET	project://Scenes/Standoff.plutoscene	18451609	Scene
+ASSET	project://Scenes/Standoff.plutoscene	18511470	Scene
 ASSET	project://Scenes/Terminal.plutoscene	14817968	Scene
 ASSET	project://Scenes/Title.plutoscene	8754	Scene
 ASSET	project://Scenes/car_scene.plutoscene	2993018	Scene
