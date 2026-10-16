@@ -57,4 +57,5 @@ FIELD	ShiftDuration	3	0.500000
 FIELD	ManualTransmission	1	true
 FIELD	MaxSteerAngle	3	45.000000
 FIELD	SteerSharpness	3	12.000000
-FIELD	HighSpeedSteerFade	3	0.600000
+FIELD	HighSpeedSteerFade	3	0.300000
+FIELD	CounterSteerAuthority	3	1.000000

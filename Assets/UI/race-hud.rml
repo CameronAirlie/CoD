@@ -1,0 +1,19 @@
+<rml>
+<head>
+    <title>Race timing</title>
+    <link type="text/rcss" href="race-hud.rcss"/>
+</head>
+<body>
+    <div id="race-screen">
+        <div id="timing">
+            <div class="timing-head"><span class="caption">LAP</span><span id="lap-number">0</span></div>
+            <div id="current-time">0:00.000</div>
+            <div class="timing-row"><span class="caption">BEST</span><span id="best-time" class="time">-:--.---</span></div>
+            <div class="timing-row"><span class="caption">LAST</span><span id="last-time" class="time">-:--.---</span></div>
+            <div id="split-delta" class="hidden">+0.000</div>
+        </div>
+        <div id="race-message" class="hidden">LAP SET</div>
+        <div id="respawn-hint"><span class="key">T</span><span class="key">Y</span> RESET TO CHECKPOINT</div>
+    </div>
+</body>
+</rml>

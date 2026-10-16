@@ -30,6 +30,13 @@
       ]
     },
     {
+      "Name": "Respawn",
+      "Bindings": [
+        { "Kind": "Key", "Key": "T", "Button": "A", "Axis": "LeftX", "MouseButton": "Left", "MouseAxis": "X", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 },
+        { "Kind": "GamepadButton", "Key": "Space", "Button": "Y", "Axis": "LeftX", "MouseButton": "Left", "MouseAxis": "X", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 }
+      ]
+    },
+    {
       "Name": "Handbrake",
       "Bindings": [
         { "Kind": "Key", "Key": "Space", "Button": "A", "Axis": "LeftX", "MouseButton": "Left", "MouseAxis": "X", "Gamepad": 0, "Scale": 1, "DeadZone": 0.15 },

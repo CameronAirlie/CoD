@@ -1,0 +1,24 @@
+@font-face { font-family: InstrumentFont; src: url("../Fonts/Georama.ttf"); }
+body { width: 100%; height: 100%; margin: 0; color: #ffffff; font-family: InstrumentFont; pointer-events: none; focus: none; }
+div { display: block; }
+#race-screen { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+
+#timing { position: absolute; left: 32dp; top: 30dp; width: 236dp; box-sizing: border-box; padding: 14dp 18dp 16dp 18dp; background-color: #071019dc; border-left: 4dp #38bdf8; }
+.timing-head { display: flex; align-items: center; justify-content: space-between; }
+.caption { color: #7e8e9a; font-size: 11dp; letter-spacing: 2dp; }
+#lap-number { font-size: 22dp; font-weight: bold; }
+#current-time { margin-top: 4dp; font-size: 38dp; line-height: 42dp; font-weight: bold; letter-spacing: 1dp; }
+.timing-row { display: flex; justify-content: space-between; margin-top: 6dp; }
+.time { font-size: 16dp; color: #d9e4ec; }
+#split-delta { margin-top: 10dp; padding: 3dp 8dp; font-size: 18dp; font-weight: bold; text-align: center; background-color: #27333c; }
+#split-delta.ahead { background-color: #14532d; color: #6ee7a0; }
+#split-delta.behind { background-color: #5a1712; color: #ff8a80; }
+
+#race-message { position: absolute; left: 0; right: 0; top: 96dp; text-align: center; font-size: 30dp; font-weight: bold; letter-spacing: 4dp; color: #ffffff; }
+#race-message.best { color: #c084fc; }
+#race-message.reset { color: #fbbf24; font-size: 20dp; }
+
+#respawn-hint { position: absolute; left: 32dp; bottom: 30dp; color: #aab7c1; font-size: 11dp; letter-spacing: 1dp; }
+.key { display: inline-block; margin-right: 6dp; padding: 1dp 6dp; border: 1dp #7d8c97; color: #ffffff; background-color: #071019dc; }
+
+.hidden { display: none; }

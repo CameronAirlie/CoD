@@ -98,18 +98,6 @@ Parameter 0 "Adapt Down" "0.060000" 0
 Effect "ToneMapping" 1 2
 Parameter 0 "Exposure" "1.000000" 0
 Parameter 0 "Gamma" "2.200000" 0
-Effect "TAA" 1 11
-Parameter 4 "Quality" "0" 2 "Balanced" "High"
-Parameter 0 "History Weight" "0.900000" 0
-Parameter 0 "Stationary History Weight" "0.940000" 0
-Parameter 0 "Motion History Weight" "0.550000" 0
-Parameter 0 "Sharpening" "0.000000" 0
-Parameter 0 "Depth Rejection Threshold" "0.003500" 0
-Parameter 0 "Normal Rejection Threshold" "0.820000" 0
-Parameter 0 "Velocity Rejection Scale" "80.000000" 0
-Parameter 0 "Jitter Strength" "1.000000" 0
-Parameter 3 "Jitter Enabled" "true" 0
-Parameter 3 "Jitter Debug" "false" 0
 Effect "ColorGrading" 1 18
 Parameter 4 "Preset" "2" 9 "Custom" "Neutral" "Filmic" "Cinematic" "Teal & Orange" "Vintage" "Bleach Bypass" "Noir" "Dreamy"
 Parameter 0 "Brightness" "-0.010000" 0
@@ -124,11 +112,23 @@ Parameter 0 "Gain" "1.040000" 0
 Parameter 0 "Fade" "0.030000" 0
 Parameter 0 "Vignette" "0.200000" 0
 Parameter 0 "Film Grain" "0.035000" 0
-Parameter 5 "Shadow Color" "0.060264,0.428801,0.465116,1.0" 0
+Parameter 5 "Shadow Color" "0.000000,0.550000,0.480000,1.0" 0
 Parameter 0 "Shadow Color Strength" "0.000000" 0
-Parameter 5 "Highlight Color" "1.000000,0.750003,0.501661,1.0" 0
+Parameter 5 "Highlight Color" "1.000000,0.360000,0.080000,1.0" 0
 Parameter 0 "Highlight Color Strength" "0.000000" 0
 Parameter 0 "Split Balance" "0.500000" 0
 Effect "SceneComposite" 1 2
 Parameter 3 "Enable SSGI" "false" 0
 Parameter 4 "Indirect Debug View" "0" 5 "None" "LPV Only" "SSGI Only" "Combined Indirect" "RSM Only"
+Effect "TAA" 1 11
+Parameter 4 "Quality" "0" 2 "Balanced" "High"
+Parameter 0 "History Weight" "0.900000" 0
+Parameter 0 "Stationary History Weight" "0.940000" 0
+Parameter 0 "Motion History Weight" "0.550000" 0
+Parameter 0 "Sharpening" "0.180000" 0
+Parameter 0 "Depth Rejection Threshold" "0.003500" 0
+Parameter 0 "Normal Rejection Threshold" "0.820000" 0
+Parameter 0 "Velocity Rejection Scale" "80.000000" 0
+Parameter 0 "Jitter Strength" "1.000000" 0
+Parameter 3 "Jitter Enabled" "true" 0
+Parameter 3 "Jitter Debug" "false" 0

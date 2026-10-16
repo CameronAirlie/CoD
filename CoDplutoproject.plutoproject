@@ -121,6 +121,9 @@ BUILD_ALWAYS_INCLUDE	project://Maps/Foundry.tga
 BUILD_ALWAYS_INCLUDE	project://Maps/Foundry.plutomap
 BUILD_ALWAYS_INCLUDE	project://Maps/Terminal.tga
 BUILD_ALWAYS_INCLUDE	project://Maps/Terminal.plutomap
+BUILD_ALWAYS_INCLUDE	project://UI/race-hud.rcss
+BUILD_ALWAYS_INCLUDE	project://UI/race-hud.rml
+BUILD_ALWAYS_INCLUDE	project://Scenes/Racetrack.plutoscene
 SERVER_SCENE	project://Scenes/Main.plutoscene
 SERVER_OUTPUT	Build/DedicatedServer/CoDServer.exe
 SERVER_TICK_RATE	60
@@ -144,16 +147,16 @@ WINDOW_TITLE	CoD
 WINDOW_SIZE	800	600
 VSYNC	0
 GRAPHICS_API	Vulkan
-RUNTIME_UPSCALER	FSR2
-RUNTIME_UPSCALER_QUALITY	Performance
+RUNTIME_UPSCALER	None
+RUNTIME_UPSCALER_QUALITY	Quality
 RUNTIME_RENDER_SCALE	0.9
 RUNTIME_UPSCALE_SHARPNESS	0.5
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	-21.6817	13.3353	-22.8272
+EDITOR_CAMERA_POSITION	-101.784	126.533	47.8879
 EDITOR_CAMERA_SPEED	6
 EDITOR_CAMERA_RUNTIME_UI	0
-EDITOR_CAMERA_ROTATION	-1563.06	1.60051
+EDITOR_CAMERA_ROTATION	-1706.82	-11.9595
 EDITOR_CAMERA_LENS	70	0.1	10000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/performance.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -191,7 +194,7 @@ ASSET	project://Bots/Soldier/Soldier.plutomesh	9904786	Mesh
 ASSET	project://Bots/Soldier/Soldier_Game.plutomesh	8344844	Mesh
 ASSET	project://Bots/Soldier/manifest.json	2281	Unknown
 ASSET	project://Data/4x4.plutoscriptable	2094	Scriptable Object
-ASSET	project://Data/AudiS5.plutoscriptable	2127	Scriptable Object
+ASSET	project://Data/AudiS5.plutoscriptable	2106	Scriptable Object
 ASSET	project://Data/Racecar.plutoscriptable	2092	Scriptable Object
 ASSET	project://Fonts/Georama.ttf	434664	Unknown
 ASSET	project://Fonts/Inter-OFL.txt	4377	Unknown
@@ -371,14 +374,14 @@ ASSET	project://Imported/scene/Textures/Grass_green.007_normal.png	139268	Textur
 ASSET	project://Imported/scene/Textures/Grass_green.014_baseColor.png	367821	Texture
 ASSET	project://Imported/scene/Textures/Grass_green.014_metallicRoughness.png	87934	Texture
 ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
-ASSET	project://Input/car.plutoinput	3839	Input Mapping
+ASSET	project://Input/car.plutoinput	4237	Input Mapping
 ASSET	project://Input/fps.plutoinput	14105	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	481280	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	161736	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	460800	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	126948	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
-ASSET	project://Managed/PlutoGE.ScriptCore.dll	359936	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	119644	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.dll	360448	Assembly
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	120028	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	369	Unknown
 ASSET	project://Maps/Foundry.plutomap	141	Unknown
 ASSET	project://Maps/Foundry.tga	4194322	Texture
@@ -415,6 +418,21 @@ ASSET	project://Materials/Lightsaber_hilt.plutomaterial	431	Material
 ASSET	project://Materials/MuzzleFlash.plutomaterial	480	Material
 ASSET	project://Materials/NepalTerrain.plutomaterial	584	Material
 ASSET	project://Materials/Probe.plutomaterial	649	Material
+ASSET	project://Materials/Racetrack/Asphalt.plutomaterial	729	Material
+ASSET	project://Materials/Racetrack/Banner.plutomaterial	654	Material
+ASSET	project://Materials/Racetrack/Checker.plutomaterial	680	Material
+ASSET	project://Materials/Racetrack/Concrete.plutomaterial	731	Material
+ASSET	project://Materials/Racetrack/Glass.plutomaterial	659	Material
+ASSET	project://Materials/Racetrack/Grass.plutomaterial	786	Material
+ASSET	project://Materials/Racetrack/Kerb.plutomaterial	676	Material
+ASSET	project://Materials/Racetrack/Metal.plutomaterial	651	Material
+ASSET	project://Materials/Racetrack/Runoff.plutomaterial	737	Material
+ASSET	project://Materials/Racetrack/SeatsBlue.plutomaterial	649	Material
+ASSET	project://Materials/Racetrack/SeatsRed.plutomaterial	649	Material
+ASSET	project://Materials/Racetrack/StartLight.plutomaterial	646	Material
+ASSET	project://Materials/Racetrack/TreeCanopy.plutomaterial	648	Material
+ASSET	project://Materials/Racetrack/TreeCanopyDark.plutomaterial	649	Material
+ASSET	project://Materials/Racetrack/TreeTrunk.plutomaterial	649	Material
 ASSET	project://Materials/RenderMaterial.plutomaterial	687	Material
 ASSET	project://Materials/SSS.plutomaterial	509	Material
 ASSET	project://Materials/Shipment/Asphalt.plutomaterial	209	Material
@@ -856,13 +874,13 @@ ASSET	project://Particles/Grenades/Smoke.plutoparticles	518	Particle System
 ASSET	project://Particles/Grenades/SmokeCloud.plutoparticles	528	Particle System
 ASSET	project://Particles/Grenades/Sparks.plutoparticles	508	Particle System
 ASSET	project://Particles/MuzzleFlash.plutoparticles	861	Particle System
-ASSET	project://Particles/Standoff/ChimneySmoke.plutoparticles	904	Particle System
-ASSET	project://Particles/Standoff/DistantSmoke.plutoparticles	903	Particle System
+ASSET	project://Particles/Standoff/ChimneySmoke.plutoparticles	1518	Particle System
+ASSET	project://Particles/Standoff/DistantSmoke.plutoparticles	1538	Particle System
 ASSET	project://Particles/Standoff/Embers.plutoparticles	589	Particle System
 ASSET	project://Particles/Standoff/Smoulder.plutoparticles	906	Particle System
 ASSET	project://Particles/Standoff/TowerFire.plutoparticles	713	Particle System
 ASSET	project://Particles/Standoff/TowerFireCore.plutoparticles	557	Particle System
-ASSET	project://Particles/Standoff/TowerSmoke.plutoparticles	912	Particle System
+ASSET	project://Particles/Standoff/TowerSmoke.plutoparticles	1528	Particle System
 ASSET	project://Particles/smoke.plutoparticles	1517	Particle System
 ASSET	project://PostProcessing/main.plutopostprocess	6047	Post Process Preset
 ASSET	project://PostProcessing/performance.plutopostprocess	5623	Post Process Preset
@@ -894,11 +912,12 @@ ASSET	project://Prefabs/Weapons/lmg.plutoprefab	1708	Prefab
 ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1717	Prefab
 ASSET	project://Scenes/Foundry.plutoscene	10057066	Scene
 ASSET	project://Scenes/Main.plutoscene	356663	Scene
+ASSET	project://Scenes/Racetrack.plutoscene	784138	Scene
 ASSET	project://Scenes/Shipment.plutoscene	321377	Scene
 ASSET	project://Scenes/Standoff.plutoscene	18511470	Scene
 ASSET	project://Scenes/Terminal.plutoscene	14817968	Scene
 ASSET	project://Scenes/Title.plutoscene	8754	Scene
-ASSET	project://Scenes/car_scene.plutoscene	2993018	Scene
+ASSET	project://Scenes/car_scene.plutoscene	2990960	Scene
 ASSET	project://Scenes/island.plutoscene	8776970	Scene
 ASSET	project://Scenes/ragdoll_test.plutoscene	21181	Scene
 ASSET	project://Scripts/BotCombatMovement.cs	2384	Script
@@ -955,6 +974,7 @@ ASSET	project://Scripts/PlayerHealth.cs	11063	Script
 ASSET	project://Scripts/PlayerHud.cs	27843	Script
 ASSET	project://Scripts/PlayerInventory.cs	6249	Script
 ASSET	project://Scripts/PlayerSettings.cs	4471	Script
+ASSET	project://Scripts/RaceLapTimer.cs	10146	Script
 ASSET	project://Scripts/RoundProgression.cs	2235	Script
 ASSET	project://Scripts/ServerSimulation.cs	15403	Script
 ASSET	project://Scripts/SpectatorPresentation.cs	5578	Script
@@ -1655,6 +1675,8 @@ ASSET	project://Textures/Heightmaps/Essex/ongar_albedo_topo.png	190051	Texture
 ASSET	project://Textures/Heightmaps/Nepal/27_871_87_262_13_505_505_16bit.png	510693	Texture
 ASSET	project://Textures/Heightmaps/Nepal/27_871_87_262_13_505_505_albedo_topo.png	446489	Texture
 ASSET	project://Textures/MuzzleFlash/MuzzleFlash.png	90402	Texture
+ASSET	project://Textures/Racetrack/Checker.png	781	Texture
+ASSET	project://Textures/Racetrack/Kerb.png	17641	Texture
 ASSET	project://Textures/RenderTexture.plutorendertexture	45	Texture
 ASSET	project://Textures/Shipment/Asphalt.png	275330	Texture
 ASSET	project://Textures/Shipment/Blue.png	262016	Texture
@@ -1864,6 +1886,8 @@ ASSET	project://UI/loading.rml	993	RML Document
 ASSET	project://UI/pause-menu.rcss	796	Unknown
 ASSET	project://UI/pause-menu.rcss.in	809	Unknown
 ASSET	project://UI/pause-menu.rml	12442	RML Document
+ASSET	project://UI/race-hud.rcss	1730	Unknown
+ASSET	project://UI/race-hud.rml	841	RML Document
 ASSET	project://UI/settings.rcss	3406	Unknown
 ASSET	project://UI/starter.rcss	1653	Unknown
 ASSET	project://UI/starter.rml	688	RML Document
