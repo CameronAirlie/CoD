@@ -147,16 +147,16 @@ WINDOW_TITLE	CoD
 WINDOW_SIZE	800	600
 VSYNC	0
 GRAPHICS_API	Vulkan
-RUNTIME_UPSCALER	None
+RUNTIME_UPSCALER	FSR2
 RUNTIME_UPSCALER_QUALITY	Quality
 RUNTIME_RENDER_SCALE	0.9
 RUNTIME_UPSCALE_SHARPNESS	0.5
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	92.0501	3.36882	-7.15584
+EDITOR_CAMERA_POSITION	-14.0114	3.61738	15.786
 EDITOR_CAMERA_SPEED	6
 EDITOR_CAMERA_RUNTIME_UI	0
-EDITOR_CAMERA_ROTATION	-1537.26	-3.07949
+EDITOR_CAMERA_ROTATION	-1477.98	-43.1595
 EDITOR_CAMERA_LENS	70	0.1	10000
 EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/performance.plutopostprocess
 ASSET	engine://builtin/material/default	0	Material
@@ -194,7 +194,7 @@ ASSET	project://Bots/Soldier/Soldier.plutomesh	9904786	Mesh
 ASSET	project://Bots/Soldier/Soldier_Game.plutomesh	8344844	Mesh
 ASSET	project://Bots/Soldier/manifest.json	2281	Unknown
 ASSET	project://Data/4x4.plutoscriptable	2094	Scriptable Object
-ASSET	project://Data/AudiS5.plutoscriptable	2106	Scriptable Object
+ASSET	project://Data/AudiS5.plutoscriptable	2168	Scriptable Object
 ASSET	project://Data/Racecar.plutoscriptable	2092	Scriptable Object
 ASSET	project://Fonts/Georama.ttf	434664	Unknown
 ASSET	project://Fonts/Inter-OFL.txt	4377	Unknown
@@ -425,7 +425,7 @@ ASSET	project://Materials/Racetrack/Concrete.plutomaterial	731	Material
 ASSET	project://Materials/Racetrack/Glass.plutomaterial	659	Material
 ASSET	project://Materials/Racetrack/Grass.plutomaterial	786	Material
 ASSET	project://Materials/Racetrack/Kerb.plutomaterial	676	Material
-ASSET	project://Materials/Racetrack/Metal.plutomaterial	650	Material
+ASSET	project://Materials/Racetrack/Metal.plutomaterial	651	Material
 ASSET	project://Materials/Racetrack/Runoff.plutomaterial	737	Material
 ASSET	project://Materials/Racetrack/SeatsBlue.plutomaterial	648	Material
 ASSET	project://Materials/Racetrack/SeatsRed.plutomaterial	648	Material
@@ -435,7 +435,7 @@ ASSET	project://Materials/Racetrack/TreeCanopyDark.plutomaterial	649	Material
 ASSET	project://Materials/Racetrack/TreeTrunk.plutomaterial	649	Material
 ASSET	project://Materials/RenderMaterial.plutomaterial	687	Material
 ASSET	project://Materials/SSS.plutomaterial	509	Material
-ASSET	project://Materials/Shipment/Asphalt.plutomaterial	209	Material
+ASSET	project://Materials/Shipment/Asphalt.plutomaterial	724	Material
 ASSET	project://Materials/Shipment/Blue.plutomaterial	209	Material
 ASSET	project://Materials/Shipment/Cream.plutomaterial	210	Material
 ASSET	project://Materials/Shipment/Green.plutomaterial	210	Material
@@ -882,8 +882,8 @@ ASSET	project://Particles/Standoff/TowerFire.plutoparticles	713	Particle System
 ASSET	project://Particles/Standoff/TowerFireCore.plutoparticles	557	Particle System
 ASSET	project://Particles/Standoff/TowerSmoke.plutoparticles	1528	Particle System
 ASSET	project://Particles/smoke.plutoparticles	1517	Particle System
-ASSET	project://PostProcessing/main.plutopostprocess	6047	Post Process Preset
-ASSET	project://PostProcessing/performance.plutopostprocess	5623	Post Process Preset
+ASSET	project://PostProcessing/main.plutopostprocess	6089	Post Process Preset
+ASSET	project://PostProcessing/performance.plutopostprocess	5664	Post Process Preset
 ASSET	project://Prefabs/AmmoPickup.plutoprefab	1895	Prefab
 ASSET	project://Prefabs/ArmourPickup.plutoprefab	1900	Prefab
 ASSET	project://Prefabs/Audio/GameplayCue.plutoprefab	245	Prefab
@@ -913,7 +913,7 @@ ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1717	Prefab
 ASSET	project://Scenes/Foundry.plutoscene	10057066	Scene
 ASSET	project://Scenes/Main.plutoscene	356663	Scene
 ASSET	project://Scenes/Racetrack.plutoscene	15657615	Scene
-ASSET	project://Scenes/Shipment.plutoscene	321377	Scene
+ASSET	project://Scenes/Shipment.plutoscene	15554867	Scene
 ASSET	project://Scenes/Standoff.plutoscene	18511470	Scene
 ASSET	project://Scenes/Terminal.plutoscene	14817968	Scene
 ASSET	project://Scenes/Title.plutoscene	8754	Scene
@@ -1285,6 +1285,10 @@ ASSET	project://Sounds/melodyloops-shine-beyond-compressed.wav	3901788	Audio
 ASSET	project://Sounds/tyre_screech.wav	11720	Audio
 ASSET	project://SourceModels/FirstPersonHands/README.md	1200	Unknown
 ASSET	project://SourceModels/FirstPersonHands/SharedHands.blend	3120314	Unknown
+ASSET	project://SourceModels/LeafSet/LeafSet.gltf	14109379	Model
+ASSET	project://SourceModels/LeafSet/LeafSet.gltf.import	31853	Unknown
+ASSET	project://SourceModels/LeafSet/LeafSetTrim_1.material	5782746	Unknown
+ASSET	project://SourceModels/LeafSet/LeafSetTrim_2.material	41945647	Unknown
 ASSET	project://SourceModels/Solider/M_Solider_0.plutomaterial	671	Material
 ASSET	project://SourceModels/Solider/M_Solider_1.plutomaterial	677	Material
 ASSET	project://SourceModels/Solider/M_Solider_10.plutomaterial	677	Material
@@ -1902,7 +1906,7 @@ ASSET	project://UI/vehicle-speedometer.rml	1667	RML Document
 ASSET	project://Weapons/Materials/Accent.plutomaterial	673	Material
 ASSET	project://Weapons/Materials/Brass.plutomaterial	166	Material
 ASSET	project://Weapons/Materials/Glove.plutomaterial	168	Material
-ASSET	project://Weapons/Materials/Gunmetal.plutomaterial	166	Material
+ASSET	project://Weapons/Materials/Gunmetal.plutomaterial	652	Material
 ASSET	project://Weapons/Materials/Polymer.plutomaterial	170	Material
 ASSET	project://Weapons/Materials/Sand.plutomaterial	167	Material
 ASSET	project://Weapons/Materials/Sleeve.plutomaterial	164	Material

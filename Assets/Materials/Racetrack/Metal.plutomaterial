@@ -1,12 +1,12 @@
-Color=0.17,0.18,0.20,1
+Color=0.17,0.18,0.2,1
 SurfaceType=Standard
 AlphaMode=Opaque
 AlphaCutoff=0.5
 CastsShadow=true
 TwoSided=false
 UvScale=1,1
-Metallic=0.8
-Roughness=0.7
+Metallic=0.95
+Roughness=0.28
 EmissionTexture=
 EmissionChannelMask=false
 EmissionRed=1,0,0,1
