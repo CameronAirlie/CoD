@@ -6,9 +6,9 @@ namespace CoD.Scripts;
 public static class ControllerAimAssist
 {
     public const float DefaultStrength = .5f;
-    public const float ConeDegrees = 4;
+    public const float ConeDegrees = 7;
     public const float MaximumRange = 35;
-    public const float MaximumSlowdown = .25f;
+    public const float MaximumSlowdown = .65f;
     public static bool IsOpponent(PlayerTeam local, PlayerTeam target, bool alive) =>
         alive && TeamIdentity.IsCombatTeam(local) && TeamIdentity.IsCombatTeam(target) && local != target;
     public static float Angle(Vector3 origin, Vector3 forward, Vector3 point)
@@ -28,4 +28,27 @@ public static class ControllerAimAssist
         return stick * (1 - MaximumSlowdown * Math.Clamp(strength, 0, 1) * weight);
     }
     private static bool Finite(Vector3 value) => float.IsFinite(value.X) && float.IsFinite(value.Y) && float.IsFinite(value.Z);
+}
+
+/// <summary>Time-based turn boost; release and reversal reset the ramp.</summary>
+public struct ControllerLookAcceleration
+{
+    private Vector2 _previous;
+    private float _held;
+    public void Reset() { _previous = Vector2.Zero; _held = 0; }
+    public Vector2 Apply(Vector2 stick, float deltaTime)
+    {
+        if (!float.IsFinite(stick.X) || !float.IsFinite(stick.Y) || !float.IsFinite(deltaTime) || deltaTime <= 0)
+        { Reset(); return Vector2.Zero; }
+        var magnitude = stick.Length();
+        if (magnitude < .05f) { Reset(); return stick; }
+        if (magnitude < .65f || Vector2.Dot(stick, _previous) <= 0) _held = 0;
+        var before = _held;
+        _held = MathF.Min(.6f, _held + deltaTime);
+        _previous = stick;
+        var deflection = Math.Clamp((magnitude - .65f) / .35f, 0, 1);
+        // Integrate the ramp over each frame, including time beyond its cap.
+        var area = .5f * (_held * _held - before * before) / .6f + MathF.Max(0, deltaTime - (_held - before));
+        return stick * (1 + .75f * deflection * area / deltaTime);
+    }
 }

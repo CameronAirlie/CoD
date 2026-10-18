@@ -99,7 +99,7 @@ Parameter 0 "Adapt Down" "0.060000" 0
 Effect "ToneMapping" 1 2
 Parameter 0 "Exposure" "1.000000" 0
 Parameter 0 "Gamma" "2.200000" 0
-Effect "ColorGrading" 1 18
+Effect "ColorGrading" 0 18
 Parameter 4 "Preset" "0" 9 "Custom" "Neutral" "Filmic" "Cinematic" "Teal & Orange" "Vintage" "Bleach Bypass" "Noir" "Dreamy"
 Parameter 0 "Brightness" "0.000000" 0
 Parameter 0 "Contrast" "1.050000" 0

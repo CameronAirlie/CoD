@@ -19,7 +19,7 @@ public static class AimAssistTests
         Check(ControllerAimAssist.Apply(stick, Vector2.Zero, true, float.NaN, 0) == stick, "Non-finite settings corrupted aim.");
         var mild = ControllerAimAssist.Apply(stick, Vector2.Zero, true, .5f, 0);
         var full = ControllerAimAssist.Apply(stick, Vector2.Zero, true, 1, 0);
-        Check(Vector2.Distance(mild, stick * .875f) < .000001f && Vector2.Distance(full, stick * .75f) < .000001f,
+        Check(Vector2.Distance(mild, stick * .675f) < .000001f && Vector2.Distance(full, stick * .35f) < .000001f,
             "Slowdown cap or default strength changed.");
         var edge = ControllerAimAssist.Apply(stick, Vector2.Zero, true, 1, 3);
         Check(edge.Length() > full.Length() && edge.Length() < stick.Length(), "Cone falloff is discontinuous.");
@@ -46,11 +46,30 @@ public static class AimAssistTests
         Check(JsonSerializer.Deserialize<PlayerPreferences>("{}")!.ControllerAimAssist == .5f, "Older settings lost the assist default.");
         var preferences = new PlayerPreferences { ControllerAimAssist = .25f };
         Check(JsonSerializer.Deserialize<PlayerPreferences>(JsonSerializer.Serialize(preferences)) == preferences, "Assist persistence roundtrip failed.");
+        Check(JsonSerializer.Deserialize<PlayerPreferences>("{}")!.ControllerSensitivity == 1, "Old settings lost joystick default.");
+        Check(new PlayerPreferences { ControllerSensitivity = float.NaN }.Validate().ControllerSensitivity == 1 &&
+            new PlayerPreferences { ControllerSensitivity = 9 }.Validate().ControllerSensitivity == 3 &&
+            new PlayerPreferences { ControllerSensitivity = -1 }.Validate().ControllerSensitivity == .1f, "Joystick validation failed.");
+        float? referenceTurn = null;
+        foreach (var fps in new[] { 30, 60, 120 })
+        {
+            var ramp = new ControllerLookAcceleration();
+            float total = 0;
+            for (int frame = 0; frame < fps; frame++) total += ramp.Apply(Vector2.UnitX, 1f / fps).X / fps;
+            if (referenceTurn is { } expected) Check(MathF.Abs(total - expected) < .0001f, "Acceleration depends on frame rate.");
+            referenceTurn = total;
+            Check(MathF.Abs(ramp.Apply(Vector2.UnitX, 1f / fps).X - 1.75f) < .001f, "Turn boost cap failed.");
+            Check(MathF.Abs(ramp.Apply(-Vector2.UnitX, 1f / fps).X) < 1.05f, "Reversal retained boost.");
+            ramp.Apply(Vector2.Zero, 1f / fps);
+            Check(ramp.Apply(Vector2.UnitX, 1f / fps).X < 1.05f, "Release retained boost.");
+            Check(ramp.Apply(new Vector2(.3f, 0), 1f / fps).X == .3f, "Fine aim accelerated.");
+        }
         XElement? previous = null;
         foreach (var name in new[] { "title", "pause-menu" })
         {
             var doc = XDocument.Load(Path.Combine(root, "Assets/UI", name + ".rml"));
             var controls = doc.Descendants().Single(e => (string?)e.Attribute("id") == "settings-section-controls");
+            Check(controls.Descendants("input").Any(e => (string?)e.Attribute("id") == "setting-controller" && (string?)e.Attribute("max") == "3"), "Joystick slider missing.");
             var slider = controls.Descendants("input").Single(e => (string?)e.Attribute("id") == "setting-aim-assist");
             Check((string?)slider.Attribute("min") == "0" && (string?)slider.Attribute("max") == "1" &&
                 (string?)slider.Attribute("step") == "0.05" && (string?)slider.Attribute("value") == "0.5", "Aim assist slider bounds/default failed.");

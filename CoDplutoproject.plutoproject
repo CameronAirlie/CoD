@@ -147,18 +147,21 @@ WINDOW_TITLE	CoD
 WINDOW_SIZE	800	600
 VSYNC	0
 GRAPHICS_API	Vulkan
-RUNTIME_UPSCALER	FSR2
-RUNTIME_UPSCALER_QUALITY	Quality
+RUNTIME_UPSCALER	DLSS
+RUNTIME_UPSCALER_QUALITY	UltraPerformance
 RUNTIME_RENDER_SCALE	0.9
 RUNTIME_UPSCALE_SHARPNESS	0.5
 EDITOR_FONT_SIZE	16
 EDITOR_FONT	Georama
-EDITOR_CAMERA_POSITION	-11.6506	5.40789	15.7865
+EDITOR_CAMERA_POSITION	-10.4859	8.12545	-21.5818
 EDITOR_CAMERA_SPEED	6
 EDITOR_CAMERA_RUNTIME_UI	0
-EDITOR_CAMERA_ROTATION	-1133.58	-16.7595
+EDITOR_CAMERA_ROTATION	-1146.67	-7.5196
 EDITOR_CAMERA_LENS	70	0.1	10000
-EDITOR_CAMERA_POST_PROCESS_PRESET	project://PostProcessing/performance.plutopostprocess
+EDITOR_CAMERA_POST_PROCESS_PRESET	
+EDITOR_CAMERA_EFFECT	ToneMapping	1
+EDITOR_CAMERA_EFFECT_PARAM	0	Exposure	0	1.000000
+EDITOR_CAMERA_EFFECT_PARAM	0	Gamma	0	2.200000
 ASSET	engine://builtin/material/default	0	Material
 ASSET	engine://builtin/material/default-shaded	0	Material
 ASSET	engine://builtin/mesh/cube	0	Mesh
@@ -168,8 +171,8 @@ ASSET	engine://builtin/mesh/quad	0	Mesh
 ASSET	engine://builtin/mesh/sphere	0	Mesh
 ASSET	engine://builtin/shadergraph/default-lit	0	Shader Graph
 ASSET	engine://builtin/shadergraph/default-unlit	0	Shader Graph
-ASSET	project://AnimGraphs/enemy.plutoanimgraph	1548	Animation Graph
-ASSET	project://AnimGraphs/player.plutoanimgraph	1059	Animation Graph
+ASSET	project://AnimGraphs/enemy.plutoanimgraph	1582	Animation Graph
+ASSET	project://AnimGraphs/player.plutoanimgraph	1061	Animation Graph
 ASSET	project://Bots/Soldier/M16_HandSpace.plutomesh	3148716	Mesh
 ASSET	project://Bots/Soldier/P12_HandSpace.plutomesh	270504	Mesh
 ASSET	project://Bots/Soldier/Pistol_Aim.plutoclip	219824	Animation Clip
@@ -193,14 +196,14 @@ ASSET	project://Bots/Soldier/Soldier.plutoanimgraph	2532	Animation Graph
 ASSET	project://Bots/Soldier/Soldier.plutomesh	9904786	Mesh
 ASSET	project://Bots/Soldier/Soldier_Game.plutomesh	8344844	Mesh
 ASSET	project://Bots/Soldier/manifest.json	2281	Unknown
-ASSET	project://Data/4x4.plutoscriptable	2094	Scriptable Object
+ASSET	project://Data/4x4.plutoscriptable	2074	Scriptable Object
 ASSET	project://Data/AudiS5.plutoscriptable	2168	Scriptable Object
-ASSET	project://Data/Racecar.plutoscriptable	2092	Scriptable Object
+ASSET	project://Data/Racecar.plutoscriptable	2071	Scriptable Object
 ASSET	project://Fonts/Georama.ttf	434664	Unknown
-ASSET	project://Fonts/Inter-OFL.txt	4377	Unknown
+ASSET	project://Fonts/Inter-OFL.txt	4470	Unknown
 ASSET	project://Fonts/Inter.ttf	876576	Unknown
 ASSET	project://Fonts/Rajdhani-Bold.ttf	400680	Unknown
-ASSET	project://Fonts/Rajdhani-OFL.txt	4373	Unknown
+ASSET	project://Fonts/Rajdhani-OFL.txt	4466	Unknown
 ASSET	project://Fonts/Rajdhani-Regular.ttf	377860	Unknown
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_A_TPose_0.plutoclip	332294	Animation Clip
 ASSET	project://Imported/UAL1_Standard/Clips/UAL1_Standard_Crouch_Fwd_Loop_1.plutoclip	273802	Animation Clip
@@ -349,7 +352,7 @@ ASSET	project://Imported/grassv3/Textures/T_0.tga	2097170	Texture
 ASSET	project://Imported/grassv3/Textures/T_1.tga	2097170	Texture
 ASSET	project://Imported/grassv3/grassv3.plutomesh	7366	Mesh
 ASSET	project://Imported/grassv3/grassv3.plutomesh.materials	116	Unknown
-ASSET	project://Imported/grassv4/M_grassv4_0.plutomaterial	538	Material
+ASSET	project://Imported/grassv4/M_grassv4_0.plutomaterial	533	Material
 ASSET	project://Imported/grassv4/M_grassv4_1.plutomaterial	506	Material
 ASSET	project://Imported/grassv4/Textures/T_0.tga	2097170	Texture
 ASSET	project://Imported/grassv4/Textures/T_1.tga	2097170	Texture
@@ -377,21 +380,21 @@ ASSET	project://Imported/scene/scene.plutomesh	9949	Mesh
 ASSET	project://Input/car.plutoinput	4237	Input Mapping
 ASSET	project://Input/fps.plutoinput	14105	Input Mapping
 ASSET	project://Managed/CoD.Scripts.deps.json	844	Unknown
-ASSET	project://Managed/CoD.Scripts.dll	486400	Assembly
-ASSET	project://Managed/CoD.Scripts.pdb	163780	Unknown
+ASSET	project://Managed/CoD.Scripts.dll	487424	Assembly
+ASSET	project://Managed/CoD.Scripts.pdb	164092	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.deps.json	446	Unknown
-ASSET	project://Managed/PlutoGE.ScriptCore.dll	360448	Assembly
-ASSET	project://Managed/PlutoGE.ScriptCore.pdb	120032	Unknown
+ASSET	project://Managed/PlutoGE.ScriptCore.dll	363520	Assembly
+ASSET	project://Managed/PlutoGE.ScriptCore.pdb	120456	Unknown
 ASSET	project://Managed/PlutoGE.ScriptCore.runtimeconfig.json	369	Unknown
-ASSET	project://Maps/Foundry.plutomap	141	Unknown
+ASSET	project://Maps/Foundry.plutomap	133	Unknown
 ASSET	project://Maps/Foundry.tga	4194322	Texture
-ASSET	project://Maps/Main.plutomap	144	Unknown
+ASSET	project://Maps/Main.plutomap	136	Unknown
 ASSET	project://Maps/Main.tga	4194322	Texture
-ASSET	project://Maps/Shipment.plutomap	143	Unknown
+ASSET	project://Maps/Shipment.plutomap	135	Unknown
 ASSET	project://Maps/Shipment.tga	4194322	Texture
-ASSET	project://Maps/Standoff.plutomap	155	Unknown
+ASSET	project://Maps/Standoff.plutomap	147	Unknown
 ASSET	project://Maps/Standoff.tga	4194322	Texture
-ASSET	project://Maps/Terminal.plutomap	154	Unknown
+ASSET	project://Maps/Terminal.plutomap	146	Unknown
 ASSET	project://Maps/Terminal.tga	4194322	Texture
 ASSET	project://Materials/BulletHole.plutomaterial	471	Material
 ASSET	project://Materials/Foliage/LeafSet_Dusty_0.plutomaterial	909	Material
@@ -408,10 +411,10 @@ ASSET	project://Materials/Foundry/SiteB.plutomaterial	410	Material
 ASSET	project://Materials/Foundry/Steel.plutomaterial	414	Material
 ASSET	project://Materials/Foundry/Stone.plutomaterial	410	Material
 ASSET	project://Materials/Foundry/Wood.plutomaterial	410	Material
-ASSET	project://Materials/Grenades/Body.plutomaterial	159	Material
+ASSET	project://Materials/Grenades/Body.plutomaterial	166	Material
 ASSET	project://Materials/Grenades/Flashbang.plutomaterial	110	Material
 ASSET	project://Materials/Grenades/Molotov.plutomaterial	110	Material
-ASSET	project://Materials/Grenades/Particle.plutomaterial	181	Material
+ASSET	project://Materials/Grenades/Particle.plutomaterial	187	Material
 ASSET	project://Materials/Grenades/SmokeGrenade.plutomaterial	110	Material
 ASSET	project://Materials/Ground.plutomaterial	691	Material
 ASSET	project://Materials/GroundPlane.plutomaterial	550	Material
@@ -438,118 +441,118 @@ ASSET	project://Materials/Racetrack/TreeTrunk.plutomaterial	649	Material
 ASSET	project://Materials/RenderMaterial.plutomaterial	687	Material
 ASSET	project://Materials/SSS.plutomaterial	509	Material
 ASSET	project://Materials/Shipment/Asphalt.plutomaterial	724	Material
-ASSET	project://Materials/Shipment/Blue.plutomaterial	209	Material
-ASSET	project://Materials/Shipment/Cream.plutomaterial	210	Material
-ASSET	project://Materials/Shipment/Green.plutomaterial	210	Material
-ASSET	project://Materials/Shipment/Red.plutomaterial	208	Material
-ASSET	project://Materials/Shipment/Rubber.plutomaterial	208	Material
-ASSET	project://Materials/Shipment/Steel.plutomaterial	210	Material
-ASSET	project://Materials/Shipment/Wood.plutomaterial	206	Material
-ASSET	project://Materials/Shipment/Yellow.plutomaterial	211	Material
-ASSET	project://Materials/Standoff/Asphalt.plutomaterial	272	Material
-ASSET	project://Materials/Standoff/Bark.plutomaterial	266	Material
-ASSET	project://Materials/Standoff/Brick.plutomaterial	268	Material
-ASSET	project://Materials/Standoff/CanopyMetal.plutomaterial	282	Material
-ASSET	project://Materials/Standoff/Cardboard.plutomaterial	217	Material
-ASSET	project://Materials/Standoff/Ceiling.plutomaterial	271	Material
-ASSET	project://Materials/Standoff/Cobble.plutomaterial	270	Material
-ASSET	project://Materials/Standoff/ColumnBlue.plutomaterial	280	Material
-ASSET	project://Materials/Standoff/Concrete.plutomaterial	273	Material
-ASSET	project://Materials/Standoff/ConcreteDark.plutomaterial	282	Material
-ASSET	project://Materials/Standoff/Corrugated.plutomaterial	280	Material
-ASSET	project://Materials/Standoff/CorrugatedBlue.plutomaterial	288	Material
-ASSET	project://Materials/Standoff/DarkMetal.plutomaterial	277	Material
-ASSET	project://Materials/Standoff/Dirt.plutomaterial	266	Material
-ASSET	project://Materials/Standoff/DoorBlue.plutomaterial	216	Material
-ASSET	project://Materials/Standoff/DoorGreen.plutomaterial	217	Material
-ASSET	project://Materials/Standoff/DoorWhite.plutomaterial	217	Material
-ASSET	project://Materials/Standoff/DoorWood.plutomaterial	216	Material
-ASSET	project://Materials/Standoff/DumpsterGreen.plutomaterial	285	Material
-ASSET	project://Materials/Standoff/Embers.plutomaterial	342	Material
-ASSET	project://Materials/Standoff/Fascia.plutomaterial	214	Material
-ASSET	project://Materials/Standoff/Field.plutomaterial	268	Material
+ASSET	project://Materials/Shipment/Blue.plutomaterial	201	Material
+ASSET	project://Materials/Shipment/Cream.plutomaterial	202	Material
+ASSET	project://Materials/Shipment/Green.plutomaterial	202	Material
+ASSET	project://Materials/Shipment/Red.plutomaterial	200	Material
+ASSET	project://Materials/Shipment/Rubber.plutomaterial	200	Material
+ASSET	project://Materials/Shipment/Steel.plutomaterial	202	Material
+ASSET	project://Materials/Shipment/Wood.plutomaterial	198	Material
+ASSET	project://Materials/Shipment/Yellow.plutomaterial	203	Material
+ASSET	project://Materials/Standoff/Asphalt.plutomaterial	282	Material
+ASSET	project://Materials/Standoff/Bark.plutomaterial	276	Material
+ASSET	project://Materials/Standoff/Brick.plutomaterial	278	Material
+ASSET	project://Materials/Standoff/CanopyMetal.plutomaterial	292	Material
+ASSET	project://Materials/Standoff/Cardboard.plutomaterial	226	Material
+ASSET	project://Materials/Standoff/Ceiling.plutomaterial	281	Material
+ASSET	project://Materials/Standoff/Cobble.plutomaterial	280	Material
+ASSET	project://Materials/Standoff/ColumnBlue.plutomaterial	290	Material
+ASSET	project://Materials/Standoff/Concrete.plutomaterial	283	Material
+ASSET	project://Materials/Standoff/ConcreteDark.plutomaterial	292	Material
+ASSET	project://Materials/Standoff/Corrugated.plutomaterial	290	Material
+ASSET	project://Materials/Standoff/CorrugatedBlue.plutomaterial	298	Material
+ASSET	project://Materials/Standoff/DarkMetal.plutomaterial	287	Material
+ASSET	project://Materials/Standoff/Dirt.plutomaterial	276	Material
+ASSET	project://Materials/Standoff/DoorBlue.plutomaterial	225	Material
+ASSET	project://Materials/Standoff/DoorGreen.plutomaterial	226	Material
+ASSET	project://Materials/Standoff/DoorWhite.plutomaterial	226	Material
+ASSET	project://Materials/Standoff/DoorWood.plutomaterial	225	Material
+ASSET	project://Materials/Standoff/DumpsterGreen.plutomaterial	295	Material
+ASSET	project://Materials/Standoff/Embers.plutomaterial	354	Material
+ASSET	project://Materials/Standoff/Fascia.plutomaterial	223	Material
+ASSET	project://Materials/Standoff/Field.plutomaterial	278	Material
 ASSET	project://Materials/Standoff/FireEmissive.plutomaterial	652	Material
-ASSET	project://Materials/Standoff/Flags.plutomaterial	213	Material
-ASSET	project://Materials/Standoff/Forest.plutomaterial	267	Material
-ASSET	project://Materials/Standoff/ForestFar.plutomaterial	273	Material
-ASSET	project://Materials/Standoff/Fridge.plutomaterial	292	Material
-ASSET	project://Materials/Standoff/Garage.plutomaterial	216	Material
-ASSET	project://Materials/Standoff/Glass.plutomaterial	270	Material
-ASSET	project://Materials/Standoff/Grass.plutomaterial	268	Material
-ASSET	project://Materials/Standoff/Hay.plutomaterial	264	Material
-ASSET	project://Materials/Standoff/Hedge.plutomaterial	268	Material
-ASSET	project://Materials/Standoff/InteriorWall.plutomaterial	281	Material
-ASSET	project://Materials/Standoff/Leaves.plutomaterial	269	Material
-ASSET	project://Materials/Standoff/LeavesDark.plutomaterial	277	Material
-ASSET	project://Materials/Standoff/LetterE.plutomaterial	215	Material
-ASSET	project://Materials/Standoff/LetterH.plutomaterial	215	Material
-ASSET	project://Materials/Standoff/LetterL.plutomaterial	215	Material
-ASSET	project://Materials/Standoff/LetterO.plutomaterial	215	Material
-ASSET	project://Materials/Standoff/LetterT.plutomaterial	215	Material
-ASSET	project://Materials/Standoff/LightPanel.plutomaterial	296	Material
-ASSET	project://Materials/Standoff/LogoU.plutomaterial	284	Material
-ASSET	project://Materials/Standoff/PicketWhite.plutomaterial	280	Material
-ASSET	project://Materials/Standoff/Planks.plutomaterial	269	Material
-ASSET	project://Materials/Standoff/PlanksDark.plutomaterial	277	Material
-ASSET	project://Materials/Standoff/PlasterCream.plutomaterial	282	Material
-ASSET	project://Materials/Standoff/PlasterGrey.plutomaterial	280	Material
-ASSET	project://Materials/Standoff/PlasterOchre.plutomaterial	282	Material
-ASSET	project://Materials/Standoff/PlasterWhite.plutomaterial	282	Material
-ASSET	project://Materials/Standoff/PlasterYellow.plutomaterial	284	Material
-ASSET	project://Materials/Standoff/PosterA.plutomaterial	215	Material
-ASSET	project://Materials/Standoff/PosterB.plutomaterial	215	Material
-ASSET	project://Materials/Standoff/PosterC.plutomaterial	215	Material
-ASSET	project://Materials/Standoff/RedPaint.plutomaterial	273	Material
-ASSET	project://Materials/Standoff/Rubber.plutomaterial	269	Material
-ASSET	project://Materials/Standoff/SedanBrown.plutomaterial	280	Material
-ASSET	project://Materials/Standoff/ShelfGoods.plutomaterial	218	Material
-ASSET	project://Materials/Standoff/SignBakery.plutomaterial	218	Material
-ASSET	project://Materials/Standoff/SignBrick.plutomaterial	217	Material
-ASSET	project://Materials/Standoff/SignCafe.plutomaterial	216	Material
-ASSET	project://Materials/Standoff/SignMarket.plutomaterial	218	Material
-ASSET	project://Materials/Standoff/Slate.plutomaterial	268	Material
-ASSET	project://Materials/Standoff/Steel.plutomaterial	270	Material
-ASSET	project://Materials/Standoff/Stone.plutomaterial	267	Material
-ASSET	project://Materials/Standoff/StoneDark.plutomaterial	275	Material
-ASSET	project://Materials/Standoff/StoreFloor.plutomaterial	278	Material
-ASSET	project://Materials/Standoff/TankGreen.plutomaterial	277	Material
-ASSET	project://Materials/Standoff/Terracotta.plutomaterial	277	Material
-ASSET	project://Materials/Standoff/TractorRed.plutomaterial	279	Material
-ASSET	project://Materials/Standoff/VanBlue.plutomaterial	273	Material
-ASSET	project://Materials/Standoff/VanDark.plutomaterial	273	Material
-ASSET	project://Materials/Standoff/WhitePaint.plutomaterial	277	Material
-ASSET	project://Materials/Standoff/WindowBarred.plutomaterial	220	Material
-ASSET	project://Materials/Standoff/WindowBlue.plutomaterial	218	Material
-ASSET	project://Materials/Standoff/WindowBroken.plutomaterial	220	Material
-ASSET	project://Materials/Standoff/WindowGlass.plutomaterial	175	Material
-ASSET	project://Materials/Standoff/WindowGreen.plutomaterial	219	Material
-ASSET	project://Materials/Standoff/WindowPlain.plutomaterial	219	Material
-ASSET	project://Materials/Standoff/WindowShutter.plutomaterial	221	Material
-ASSET	project://Materials/Standoff/YellowPaint.plutomaterial	279	Material
-ASSET	project://Materials/Terminal/Airline.plutomaterial	248	Material
-ASSET	project://Materials/Terminal/Airport.plutomaterial	248	Material
-ASSET	project://Materials/Terminal/Asphalt.plutomaterial	246	Material
-ASSET	project://Materials/Terminal/Beauty.plutomaterial	247	Material
-ASSET	project://Materials/Terminal/Blue.plutomaterial	248	Material
-ASSET	project://Materials/Terminal/Books.plutomaterial	246	Material
-ASSET	project://Materials/Terminal/Burger.plutomaterial	247	Material
-ASSET	project://Materials/Terminal/CargoLabel.plutomaterial	251	Material
-ASSET	project://Materials/Terminal/Carpet.plutomaterial	245	Material
-ASSET	project://Materials/Terminal/Concrete.plutomaterial	250	Material
-ASSET	project://Materials/Terminal/Dark.plutomaterial	248	Material
-ASSET	project://Materials/Terminal/Departures.plutomaterial	251	Material
-ASSET	project://Materials/Terminal/Gate.plutomaterial	245	Material
+ASSET	project://Materials/Standoff/Flags.plutomaterial	222	Material
+ASSET	project://Materials/Standoff/Forest.plutomaterial	277	Material
+ASSET	project://Materials/Standoff/ForestFar.plutomaterial	283	Material
+ASSET	project://Materials/Standoff/Fridge.plutomaterial	303	Material
+ASSET	project://Materials/Standoff/Garage.plutomaterial	225	Material
+ASSET	project://Materials/Standoff/Glass.plutomaterial	280	Material
+ASSET	project://Materials/Standoff/Grass.plutomaterial	278	Material
+ASSET	project://Materials/Standoff/Hay.plutomaterial	274	Material
+ASSET	project://Materials/Standoff/Hedge.plutomaterial	278	Material
+ASSET	project://Materials/Standoff/InteriorWall.plutomaterial	291	Material
+ASSET	project://Materials/Standoff/Leaves.plutomaterial	279	Material
+ASSET	project://Materials/Standoff/LeavesDark.plutomaterial	287	Material
+ASSET	project://Materials/Standoff/LetterE.plutomaterial	224	Material
+ASSET	project://Materials/Standoff/LetterH.plutomaterial	224	Material
+ASSET	project://Materials/Standoff/LetterL.plutomaterial	224	Material
+ASSET	project://Materials/Standoff/LetterO.plutomaterial	224	Material
+ASSET	project://Materials/Standoff/LetterT.plutomaterial	224	Material
+ASSET	project://Materials/Standoff/LightPanel.plutomaterial	307	Material
+ASSET	project://Materials/Standoff/LogoU.plutomaterial	295	Material
+ASSET	project://Materials/Standoff/PicketWhite.plutomaterial	290	Material
+ASSET	project://Materials/Standoff/Planks.plutomaterial	279	Material
+ASSET	project://Materials/Standoff/PlanksDark.plutomaterial	287	Material
+ASSET	project://Materials/Standoff/PlasterCream.plutomaterial	292	Material
+ASSET	project://Materials/Standoff/PlasterGrey.plutomaterial	290	Material
+ASSET	project://Materials/Standoff/PlasterOchre.plutomaterial	292	Material
+ASSET	project://Materials/Standoff/PlasterWhite.plutomaterial	292	Material
+ASSET	project://Materials/Standoff/PlasterYellow.plutomaterial	294	Material
+ASSET	project://Materials/Standoff/PosterA.plutomaterial	224	Material
+ASSET	project://Materials/Standoff/PosterB.plutomaterial	224	Material
+ASSET	project://Materials/Standoff/PosterC.plutomaterial	224	Material
+ASSET	project://Materials/Standoff/RedPaint.plutomaterial	283	Material
+ASSET	project://Materials/Standoff/Rubber.plutomaterial	279	Material
+ASSET	project://Materials/Standoff/SedanBrown.plutomaterial	290	Material
+ASSET	project://Materials/Standoff/ShelfGoods.plutomaterial	227	Material
+ASSET	project://Materials/Standoff/SignBakery.plutomaterial	227	Material
+ASSET	project://Materials/Standoff/SignBrick.plutomaterial	226	Material
+ASSET	project://Materials/Standoff/SignCafe.plutomaterial	225	Material
+ASSET	project://Materials/Standoff/SignMarket.plutomaterial	227	Material
+ASSET	project://Materials/Standoff/Slate.plutomaterial	278	Material
+ASSET	project://Materials/Standoff/Steel.plutomaterial	280	Material
+ASSET	project://Materials/Standoff/Stone.plutomaterial	277	Material
+ASSET	project://Materials/Standoff/StoneDark.plutomaterial	285	Material
+ASSET	project://Materials/Standoff/StoreFloor.plutomaterial	288	Material
+ASSET	project://Materials/Standoff/TankGreen.plutomaterial	287	Material
+ASSET	project://Materials/Standoff/Terracotta.plutomaterial	287	Material
+ASSET	project://Materials/Standoff/TractorRed.plutomaterial	289	Material
+ASSET	project://Materials/Standoff/VanBlue.plutomaterial	283	Material
+ASSET	project://Materials/Standoff/VanDark.plutomaterial	283	Material
+ASSET	project://Materials/Standoff/WhitePaint.plutomaterial	287	Material
+ASSET	project://Materials/Standoff/WindowBarred.plutomaterial	229	Material
+ASSET	project://Materials/Standoff/WindowBlue.plutomaterial	227	Material
+ASSET	project://Materials/Standoff/WindowBroken.plutomaterial	229	Material
+ASSET	project://Materials/Standoff/WindowGlass.plutomaterial	183	Material
+ASSET	project://Materials/Standoff/WindowGreen.plutomaterial	228	Material
+ASSET	project://Materials/Standoff/WindowPlain.plutomaterial	228	Material
+ASSET	project://Materials/Standoff/WindowShutter.plutomaterial	230	Material
+ASSET	project://Materials/Standoff/YellowPaint.plutomaterial	289	Material
+ASSET	project://Materials/Terminal/Airline.plutomaterial	239	Material
+ASSET	project://Materials/Terminal/Airport.plutomaterial	239	Material
+ASSET	project://Materials/Terminal/Asphalt.plutomaterial	237	Material
+ASSET	project://Materials/Terminal/Beauty.plutomaterial	238	Material
+ASSET	project://Materials/Terminal/Blue.plutomaterial	239	Material
+ASSET	project://Materials/Terminal/Books.plutomaterial	237	Material
+ASSET	project://Materials/Terminal/Burger.plutomaterial	238	Material
+ASSET	project://Materials/Terminal/CargoLabel.plutomaterial	242	Material
+ASSET	project://Materials/Terminal/Carpet.plutomaterial	236	Material
+ASSET	project://Materials/Terminal/Concrete.plutomaterial	241	Material
+ASSET	project://Materials/Terminal/Dark.plutomaterial	239	Material
+ASSET	project://Materials/Terminal/Departures.plutomaterial	242	Material
+ASSET	project://Materials/Terminal/Gate.plutomaterial	236	Material
 ASSET	project://Materials/Terminal/Glass.plutomaterial	656	Material
-ASSET	project://Materials/Terminal/Leaves.plutomaterial	247	Material
-ASSET	project://Materials/Terminal/Light.plutomaterial	264	Material
-ASSET	project://Materials/Terminal/Orange.plutomaterial	250	Material
-ASSET	project://Materials/Terminal/Red.plutomaterial	247	Material
-ASSET	project://Materials/Terminal/Rubber.plutomaterial	247	Material
-ASSET	project://Materials/Terminal/Steel.plutomaterial	249	Material
-ASSET	project://Materials/Terminal/Tile.plutomaterial	245	Material
-ASSET	project://Materials/Terminal/White.plutomaterial	249	Material
-ASSET	project://Materials/Terminal/Wood.plutomaterial	245	Material
-ASSET	project://Materials/Terminal/Yellow.plutomaterial	250	Material
+ASSET	project://Materials/Terminal/Leaves.plutomaterial	238	Material
+ASSET	project://Materials/Terminal/Light.plutomaterial	254	Material
+ASSET	project://Materials/Terminal/Orange.plutomaterial	241	Material
+ASSET	project://Materials/Terminal/Red.plutomaterial	238	Material
+ASSET	project://Materials/Terminal/Rubber.plutomaterial	238	Material
+ASSET	project://Materials/Terminal/Steel.plutomaterial	240	Material
+ASSET	project://Materials/Terminal/Tile.plutomaterial	236	Material
+ASSET	project://Materials/Terminal/White.plutomaterial	240	Material
+ASSET	project://Materials/Terminal/Wood.plutomaterial	236	Material
+ASSET	project://Materials/Terminal/Yellow.plutomaterial	241	Material
 ASSET	project://Materials/Terrain.plutomaterial	643	Material
 ASSET	project://Materials/TerrainEssex.plutomaterial	695	Material
 ASSET	project://Materials/smoke.plutomaterial	560	Material
@@ -871,17 +874,17 @@ ASSET	project://Packs/AnimationPack/UAL1_Standard_RM.glb	7620504	Model
 ASSET	project://Packs/AnimationPack/Walk_Formal_Loop.plutoclip	195803	Animation Clip
 ASSET	project://Packs/AnimationPack/Walk_Loop.plutoclip	195796	Animation Clip
 ASSET	project://Particles/Grenades/Fire.plutoparticles	521	Particle System
-ASSET	project://Particles/Grenades/Flash.plutoparticles	504	Particle System
-ASSET	project://Particles/Grenades/Smoke.plutoparticles	518	Particle System
+ASSET	project://Particles/Grenades/Flash.plutoparticles	528	Particle System
+ASSET	project://Particles/Grenades/Smoke.plutoparticles	542	Particle System
 ASSET	project://Particles/Grenades/SmokeCloud.plutoparticles	528	Particle System
-ASSET	project://Particles/Grenades/Sparks.plutoparticles	508	Particle System
+ASSET	project://Particles/Grenades/Sparks.plutoparticles	532	Particle System
 ASSET	project://Particles/MuzzleFlash.plutoparticles	861	Particle System
 ASSET	project://Particles/Standoff/ChimneySmoke.plutoparticles	1518	Particle System
 ASSET	project://Particles/Standoff/DistantSmoke.plutoparticles	1538	Particle System
-ASSET	project://Particles/Standoff/Embers.plutoparticles	589	Particle System
-ASSET	project://Particles/Standoff/Smoulder.plutoparticles	906	Particle System
-ASSET	project://Particles/Standoff/TowerFire.plutoparticles	713	Particle System
-ASSET	project://Particles/Standoff/TowerFireCore.plutoparticles	557	Particle System
+ASSET	project://Particles/Standoff/Embers.plutoparticles	617	Particle System
+ASSET	project://Particles/Standoff/Smoulder.plutoparticles	951	Particle System
+ASSET	project://Particles/Standoff/TowerFire.plutoparticles	746	Particle System
+ASSET	project://Particles/Standoff/TowerFireCore.plutoparticles	583	Particle System
 ASSET	project://Particles/Standoff/TowerSmoke.plutoparticles	1528	Particle System
 ASSET	project://Particles/smoke.plutoparticles	1517	Particle System
 ASSET	project://PostProcessing/main.plutopostprocess	6089	Post Process Preset
@@ -891,18 +894,18 @@ ASSET	project://Prefabs/ArmourPickup.plutoprefab	1900	Prefab
 ASSET	project://Prefabs/Audio/GameplayCue.plutoprefab	245	Prefab
 ASSET	project://Prefabs/Car.plutoprefab	33430	Prefab
 ASSET	project://Prefabs/Enemy.plutoprefab	19403	Prefab
-ASSET	project://Prefabs/Foliage/LeafSetFoliage.plutoprefab	39972	Prefab
+ASSET	project://Prefabs/Foliage/LeafSetFoliage.plutoprefab	40755	Prefab
 ASSET	project://Prefabs/Grenades/Fire.plutoprefab	183	Prefab
-ASSET	project://Prefabs/Grenades/Flash.plutoprefab	188	Prefab
+ASSET	project://Prefabs/Grenades/Flash.plutoprefab	193	Prefab
 ASSET	project://Prefabs/Grenades/Flashbang.plutoprefab	930	Prefab
-ASSET	project://Prefabs/Grenades/Frag.plutoprefab	430	Prefab
+ASSET	project://Prefabs/Grenades/Frag.plutoprefab	440	Prefab
 ASSET	project://Prefabs/Grenades/Molotov.plutoprefab	1355	Prefab
-ASSET	project://Prefabs/Grenades/Smoke.plutoprefab	188	Prefab
+ASSET	project://Prefabs/Grenades/Smoke.plutoprefab	193	Prefab
 ASSET	project://Prefabs/Grenades/SmokeCloud.plutoprefab	195	Prefab
 ASSET	project://Prefabs/Grenades/SmokeGrenade.plutoprefab	951	Prefab
-ASSET	project://Prefabs/Grenades/Sparks.plutoprefab	190	Prefab
+ASSET	project://Prefabs/Grenades/Sparks.plutoprefab	195	Prefab
 ASSET	project://Prefabs/HealthPickup.plutoprefab	1932	Prefab
-ASSET	project://Prefabs/LeafSetA.plutoprefab	16296	Prefab
+ASSET	project://Prefabs/LeafSetA.plutoprefab	16634	Prefab
 ASSET	project://Prefabs/Lightsaber.plutoprefab	1949	Prefab
 ASSET	project://Prefabs/Player.plutoprefab	61014	Prefab
 ASSET	project://Prefabs/RemotePlayer.plutoprefab	7902	Prefab
@@ -916,12 +919,12 @@ ASSET	project://Prefabs/Weapons/lmg.plutoprefab	1708	Prefab
 ASSET	project://Prefabs/Weapons/pistol.plutoprefab	1717	Prefab
 ASSET	project://Scenes/Foundry.plutoscene	10057066	Scene
 ASSET	project://Scenes/Main.plutoscene	356663	Scene
-ASSET	project://Scenes/Racetrack.plutoscene	15657615	Scene
-ASSET	project://Scenes/Shipment.plutoscene	15780802	Scene
-ASSET	project://Scenes/Standoff.plutoscene	18511470	Scene
+ASSET	project://Scenes/Racetrack.plutoscene	15653545	Scene
+ASSET	project://Scenes/Shipment.plutoscene	15785478	Scene
+ASSET	project://Scenes/Standoff.plutoscene	18804251	Scene
 ASSET	project://Scenes/Terminal.plutoscene	14817968	Scene
 ASSET	project://Scenes/Title.plutoscene	8754	Scene
-ASSET	project://Scenes/car_scene.plutoscene	2990960	Scene
+ASSET	project://Scenes/car_scene.plutoscene	2993018	Scene
 ASSET	project://Scenes/island.plutoscene	8776970	Scene
 ASSET	project://Scenes/ragdoll_test.plutoscene	21181	Scene
 ASSET	project://Scripts/BotCombatMovement.cs	2384	Script
@@ -931,9 +934,9 @@ ASSET	project://Scripts/BotSpawnResolver.cs	1654	Script
 ASSET	project://Scripts/CombatFeedback.cs	5125	Script
 ASSET	project://Scripts/CombatFeedbackMath.cs	590	Script
 ASSET	project://Scripts/CombatTargeting.cs	1322	Script
-ASSET	project://Scripts/ControllerAimAssist.cs	1705	Script
-ASSET	project://Scripts/ControllerConfirmation.cs	1389	Script
-ASSET	project://Scripts/ControllerKeyboard.cs	5064	Script
+ASSET	project://Scripts/ControllerAimAssist.cs	2811	Script
+ASSET	project://Scripts/ControllerConfirmation.cs	1354	Script
+ASSET	project://Scripts/ControllerKeyboard.cs	4950	Script
 ASSET	project://Scripts/ControllerMenu.cs	238	Script
 ASSET	project://Scripts/DamageFeedbackState.cs	605	Script
 ASSET	project://Scripts/DedicatedServerSettings.cs	12269	Script
@@ -942,24 +945,24 @@ ASSET	project://Scripts/DefusalMarker.cs	2704	Script
 ASSET	project://Scripts/DefusalRules.cs	6715	Script
 ASSET	project://Scripts/EconomyRules.cs	2862	Script
 ASSET	project://Scripts/EnemySoldierBot.cs	40939	Script
-ASSET	project://Scripts/EnemyWaveSpawner.cs	4254	Script
+ASSET	project://Scripts/EnemyWaveSpawner.cs	4384	Script
 ASSET	project://Scripts/FairBotPlanner.cs	1015	Script
-ASSET	project://Scripts/FirstPersonHands.cs	2506	Script
-ASSET	project://Scripts/GameGraphicsSettings.cs	6446	Script
+ASSET	project://Scripts/FirstPersonHands.cs	2576	Script
+ASSET	project://Scripts/GameGraphicsSettings.cs	6625	Script
 ASSET	project://Scripts/GameInput.cs	4592	Script
 ASSET	project://Scripts/GameModeHud.cs	11760	Script
 ASSET	project://Scripts/GameplaySounds.cs	5680	Script
 ASSET	project://Scripts/GrenadeRules.cs	6080	Script
 ASSET	project://Scripts/HandMotion.cs	1951	Script
-ASSET	project://Scripts/HardpointMarker.cs	2223	Script
+ASSET	project://Scripts/HardpointMarker.cs	2224	Script
 ASSET	project://Scripts/HardpointRules.cs	3610	Script
 ASSET	project://Scripts/InventoryMenu.cs	15193	Script
 ASSET	project://Scripts/InventoryRules.cs	2100	Script
-ASSET	project://Scripts/MapCatalog.cs	2274	Script
+ASSET	project://Scripts/MapCatalog.cs	2311	Script
 ASSET	project://Scripts/MatchContracts.cs	7492	Script
 ASSET	project://Scripts/MenuNavigation.cs	65	Script
 ASSET	project://Scripts/MultiplayerLaunch.cs	1634	Script
-ASSET	project://Scripts/MultiplayerSession.AimAssist.cs	2204	Script
+ASSET	project://Scripts/MultiplayerSession.AimAssist.cs	2199	Script
 ASSET	project://Scripts/MultiplayerSession.Authority.cs	19958	Script
 ASSET	project://Scripts/MultiplayerSession.BotEquipment.cs	8357	Script
 ASSET	project://Scripts/MultiplayerSession.Defusal.cs	14489	Script
@@ -968,29 +971,29 @@ ASSET	project://Scripts/MultiplayerSession.Grenades.cs	16001	Script
 ASSET	project://Scripts/MultiplayerSession.Map.cs	3632	Script
 ASSET	project://Scripts/MultiplayerSession.Objectives.cs	10893	Script
 ASSET	project://Scripts/MultiplayerSession.Spectating.cs	7368	Script
-ASSET	project://Scripts/MultiplayerSession.Throwables.cs	6560	Script
+ASSET	project://Scripts/MultiplayerSession.Throwables.cs	6675	Script
 ASSET	project://Scripts/MultiplayerSession.cs	103697	Script
-ASSET	project://Scripts/NetworkParticipantHitbox.cs	389	Script
+ASSET	project://Scripts/NetworkParticipantHitbox.cs	401	Script
 ASSET	project://Scripts/ObjectiveStatus.cs	1062	Script
-ASSET	project://Scripts/PauseMenu.cs	271	Script
-ASSET	project://Scripts/PlayerController.cs	60128	Script
+ASSET	project://Scripts/PauseMenu.cs	262	Script
+ASSET	project://Scripts/PlayerController.cs	60438	Script
 ASSET	project://Scripts/PlayerHealth.cs	11063	Script
-ASSET	project://Scripts/PlayerHud.cs	27843	Script
+ASSET	project://Scripts/PlayerHud.cs	27302	Script
 ASSET	project://Scripts/PlayerInventory.cs	6249	Script
-ASSET	project://Scripts/PlayerSettings.cs	4471	Script
+ASSET	project://Scripts/PlayerSettings.cs	4593	Script
 ASSET	project://Scripts/RaceLapTimer.cs	10146	Script
 ASSET	project://Scripts/RoundProgression.cs	2235	Script
 ASSET	project://Scripts/ServerSimulation.cs	15403	Script
 ASSET	project://Scripts/SpectatorPresentation.cs	5578	Script
 ASSET	project://Scripts/SupplyPickup.cs	4022	Script
 ASSET	project://Scripts/SupplySpawner.cs	2901	Script
-ASSET	project://Scripts/TacticalMap.cs	1096	Script
-ASSET	project://Scripts/TacticalMapPresenter.cs	3855	Script
-ASSET	project://Scripts/TacticalUi.cs	1020	Script
-ASSET	project://Scripts/TeamNameplate.cs	291	Script
+ASSET	project://Scripts/TacticalMap.cs	1074	Script
+ASSET	project://Scripts/TacticalMapPresenter.cs	3768	Script
+ASSET	project://Scripts/TacticalUi.cs	1047	Script
+ASSET	project://Scripts/TeamNameplate.cs	293	Script
 ASSET	project://Scripts/TitleScreen.cs	8459	Script
 ASSET	project://Scripts/UIManager.cs	10176	Script
-ASSET	project://Scripts/VehicleSpeedometer.cs	6352	Script
+ASSET	project://Scripts/VehicleSpeedometer.cs	6437	Script
 ASSET	project://Scripts/WeaponCatalog.cs	3915	Script
 ASSET	project://Scripts/WeaponHandBinding.cs	4019	Script
 ASSET	project://Sounds/Ambient/chiller_hum.wav	837944	Audio
@@ -1287,12 +1290,13 @@ ASSET	project://Sounds/gun_shot.wav	59456	Audio
 ASSET	project://Sounds/hitmarker.wav	7684	Audio
 ASSET	project://Sounds/melodyloops-shine-beyond-compressed.wav	3901788	Audio
 ASSET	project://Sounds/tyre_screech.wav	11720	Audio
-ASSET	project://SourceModels/FirstPersonHands/README.md	1200	Unknown
+ASSET	project://SourceModels/FirstPersonHands/README.md	1223	Unknown
 ASSET	project://SourceModels/FirstPersonHands/SharedHands.blend	3120314	Unknown
-ASSET	project://SourceModels/LeafSet/LeafSet.gltf	14109379	Model
-ASSET	project://SourceModels/LeafSet/LeafSet.gltf.import	31853	Unknown
+ASSET	project://SourceModels/LeafSet/LeafSet.gltf	14120412	Model
+ASSET	project://SourceModels/LeafSet/LeafSet.gltf.import	32918	Unknown
 ASSET	project://SourceModels/LeafSet/LeafSetTrim_1.material	5782746	Unknown
 ASSET	project://SourceModels/LeafSet/LeafSetTrim_2.material	41945647	Unknown
+ASSET	project://SourceModels/Solider/.plutoge-cache/meshes/16745122003057529403-19.pmesh	339890956	Unknown
 ASSET	project://SourceModels/Solider/M_Solider_0.plutomaterial	671	Material
 ASSET	project://SourceModels/Solider/M_Solider_1.plutomaterial	677	Material
 ASSET	project://SourceModels/Solider/M_Solider_10.plutomaterial	677	Material
@@ -1444,21 +1448,18 @@ ASSET	project://SourceModels/UAL1_Standard/UAL1_Standard.plutomesh	1090675	Mesh
 ASSET	project://SourceModels/UAL1_Standard/UAL1_Standard_RM.glb	7620504	Model
 ASSET	project://SourceModels/UAL1_Standard/Walk_Formal_Loop.plutoclip	195803	Animation Clip
 ASSET	project://SourceModels/UAL1_Standard/Walk_Loop.plutoclip	195796	Animation Clip
-ASSET	project://SourceModels/Weapons/README.md	862	Unknown
+ASSET	project://SourceModels/Weapons/README.md	877	Unknown
 ASSET	project://SourceModels/Weapons/ar.blend	176719	Unknown
-ASSET	project://SourceModels/Weapons/ar.blend1	176616	Unknown
 ASSET	project://SourceModels/Weapons/ar.glb	597468	Model
 ASSET	project://SourceModels/Weapons/ar_aim.png	393470	Texture
 ASSET	project://SourceModels/Weapons/ar_hip.png	408597	Texture
 ASSET	project://SourceModels/Weapons/ar_preview.png	453697	Texture
 ASSET	project://SourceModels/Weapons/lmg.blend	189164	Unknown
-ASSET	project://SourceModels/Weapons/lmg.blend1	189070	Unknown
 ASSET	project://SourceModels/Weapons/lmg.glb	597900	Model
 ASSET	project://SourceModels/Weapons/lmg_aim.png	399862	Texture
 ASSET	project://SourceModels/Weapons/lmg_hip.png	412801	Texture
 ASSET	project://SourceModels/Weapons/lmg_preview.png	463069	Texture
 ASSET	project://SourceModels/Weapons/pistol.blend	149020	Unknown
-ASSET	project://SourceModels/Weapons/pistol.blend1	148920	Unknown
 ASSET	project://SourceModels/Weapons/pistol.glb	296996	Model
 ASSET	project://SourceModels/Weapons/pistol_aim.png	379566	Texture
 ASSET	project://SourceModels/Weapons/pistol_hip.png	379929	Texture
@@ -1572,9 +1573,9 @@ ASSET	project://SourceModels/grass_green/M_grass_green_6.plutomaterial	682	Mater
 ASSET	project://SourceModels/grass_green/M_grass_green_7.plutomaterial	626	Material
 ASSET	project://SourceModels/grass_green/M_grass_green_8.plutomaterial	626	Material
 ASSET	project://SourceModels/grass_green/M_grass_green_9.plutomaterial	626	Material
-ASSET	project://SourceModels/grass_green/grass_green.gltf	29601	Model
+ASSET	project://SourceModels/grass_green/grass_green.gltf	31169	Model
 ASSET	project://SourceModels/grass_green/grass_green.plutomesh	10141	Mesh
-ASSET	project://SourceModels/grass_green/license.txt	692	Unknown
+ASSET	project://SourceModels/grass_green/license.txt	702	Unknown
 ASSET	project://SourceModels/grass_green/scene.bin	2320	Unknown
 ASSET	project://SourceModels/grass_green/textures/Grass_green.007_normal.png	139268	Texture
 ASSET	project://SourceModels/grass_green/textures/Grass_green.014_baseColor.png	367821	Texture
@@ -1586,9 +1587,9 @@ ASSET	project://SourceModels/grass_patch/Grass_green.014_metallicRoughness.png	8
 ASSET	project://SourceModels/grass_patch/M_grass_patch_0.plutomaterial	646	Material
 ASSET	project://SourceModels/grass_patch/M_grass_patch_1.plutomaterial	702	Material
 ASSET	project://SourceModels/grass_patch/M_grass_patch_2.plutomaterial	490	Material
-ASSET	project://SourceModels/grass_patch/grass_patch.gltf	29601	Model
+ASSET	project://SourceModels/grass_patch/grass_patch.gltf	31169	Model
 ASSET	project://SourceModels/grass_patch/grass_patch.plutomesh	9320	Mesh
-ASSET	project://SourceModels/grass_patch/license.txt	692	Unknown
+ASSET	project://SourceModels/grass_patch/license.txt	702	Unknown
 ASSET	project://SourceModels/grass_patch/scene.bin	2320	Unknown
 ASSET	project://SourceModels/grass_patch/textures/Grass_green.007_normal.png	139268	Texture
 ASSET	project://SourceModels/grass_patch/textures/Grass_green.014_baseColor.png	367821	Texture
@@ -1614,6 +1615,7 @@ ASSET	project://SourceModels/grassv4/Texture 0.tga	2097170	Texture
 ASSET	project://SourceModels/grassv4/Texture 1.tga	2097170	Texture
 ASSET	project://SourceModels/grassv4/grassv4.glb	538732	Model
 ASSET	project://SourceModels/grassv4/grassv4.plutomesh	7102	Mesh
+ASSET	project://SourceModels/m16_assault_rifle/.plutoge-cache/meshes/8213550524711900007-19.pmesh	15330308	Unknown
 ASSET	project://SourceModels/m16_assault_rifle/M_m16_assault_rifle_0.plutomaterial	825	Material
 ASSET	project://SourceModels/m16_assault_rifle/M_m16_assault_rifle_1.plutomaterial	637	Material
 ASSET	project://SourceModels/m16_assault_rifle/Textures/T_0.tga	4194322	Texture
@@ -1621,15 +1623,15 @@ ASSET	project://SourceModels/m16_assault_rifle/Textures/T_1.tga	4194322	Texture
 ASSET	project://SourceModels/m16_assault_rifle/Textures/T_2.tga	4194322	Texture
 ASSET	project://SourceModels/m16_assault_rifle/m16_assault_rifle.glb	5060768	Model
 ASSET	project://SourceModels/m16_assault_rifle/m16_assault_rifle.plutomesh	2746490	Mesh
-ASSET	project://SourceModels/pine_tree/.plutoge-cache/meshes/7926698830897143094-1.pmesh	473559	Unknown
+ASSET	project://SourceModels/pine_tree/.plutoge-cache/meshes/7476251161630818917.pmesh	534603	Unknown
 ASSET	project://SourceModels/pine_tree/.plutoge-cache/meshes/7926698830897143094.pmesh	534663	Unknown
 ASSET	project://SourceModels/pine_tree/.plutoge-cache/meshes/9056569313017772201.pmesh	533809	Unknown
 ASSET	project://SourceModels/pine_tree/M_pine_tree_0.plutomaterial	573	Material
 ASSET	project://SourceModels/pine_tree/M_pine_tree_1.plutomaterial	612	Material
 ASSET	project://SourceModels/pine_tree/M_pine_tree_2.plutomaterial	506	Material
 ASSET	project://SourceModels/pine_tree/imgui.ini	1805	Unknown
-ASSET	project://SourceModels/pine_tree/license.txt	664	Unknown
-ASSET	project://SourceModels/pine_tree/pine_tree.gltf	7042	Model
+ASSET	project://SourceModels/pine_tree/license.txt	674	Unknown
+ASSET	project://SourceModels/pine_tree/pine_tree.gltf	7437	Model
 ASSET	project://SourceModels/pine_tree/pine_tree.plutomesh	533531	Mesh
 ASSET	project://SourceModels/pine_tree/scene.bin	189516	Unknown
 ASSET	project://SourceModels/pine_tree/textures/Leavs_baseColor.png	345552	Texture
@@ -1850,7 +1852,7 @@ ASSET	project://Textures/Terminal/White.png	53849	Texture
 ASSET	project://Textures/Terminal/Wood.png	52745	Texture
 ASSET	project://Textures/Terminal/Yellow.png	53760	Texture
 ASSET	project://UI/Artwork/loading-foundry.png	2173728	Texture
-ASSET	project://UI/Artwork/loading-foundry.prompt.txt	982	Unknown
+ASSET	project://UI/Artwork/loading-foundry.prompt.txt	986	Unknown
 ASSET	project://UI/Artwork/loading-foundry.tga	6293426	Texture
 ASSET	project://UI/Artwork/menu-background.png	1769367	Texture
 ASSET	project://UI/Artwork/menu-background.tga	4720595	Texture
@@ -1874,13 +1876,13 @@ ASSET	project://UI/Weapons/pistol.png	123405	Texture
 ASSET	project://UI/Weapons/pistol.tga	983579	Texture
 ASSET	project://UI/defusal-marker.rcss	443	Unknown
 ASSET	project://UI/defusal-marker.rcss.in	453	Unknown
-ASSET	project://UI/defusal-marker.rml	202	RML Document
+ASSET	project://UI/defusal-marker.rml	203	RML Document
 ASSET	project://UI/friendly-nameplate.rcss	629	Unknown
 ASSET	project://UI/friendly-nameplate.rcss.in	654	Unknown
-ASSET	project://UI/friendly-nameplate.rml	211	RML Document
+ASSET	project://UI/friendly-nameplate.rml	220	RML Document
 ASSET	project://UI/hardpoint-marker.rcss	792	Unknown
 ASSET	project://UI/hardpoint-marker.rcss.in	818	Unknown
-ASSET	project://UI/hardpoint-marker.rml	204	RML Document
+ASSET	project://UI/hardpoint-marker.rml	205	RML Document
 ASSET	project://UI/hud.rcss	12877	Unknown
 ASSET	project://UI/hud.rcss.in	13107	Unknown
 ASSET	project://UI/hud.rml	5189	RML Document
@@ -1893,20 +1895,20 @@ ASSET	project://UI/loading.rcss.in	2588	Unknown
 ASSET	project://UI/loading.rml	993	RML Document
 ASSET	project://UI/pause-menu.rcss	796	Unknown
 ASSET	project://UI/pause-menu.rcss.in	809	Unknown
-ASSET	project://UI/pause-menu.rml	12442	RML Document
-ASSET	project://UI/race-hud.rcss	1730	Unknown
-ASSET	project://UI/race-hud.rml	841	RML Document
+ASSET	project://UI/pause-menu.rml	12987	RML Document
+ASSET	project://UI/race-hud.rcss	1754	Unknown
+ASSET	project://UI/race-hud.rml	860	RML Document
 ASSET	project://UI/settings.rcss	3406	Unknown
-ASSET	project://UI/starter.rcss	1653	Unknown
-ASSET	project://UI/starter.rml	688	RML Document
+ASSET	project://UI/starter.rcss	1633	Unknown
+ASSET	project://UI/starter.rml	671	RML Document
 ASSET	project://UI/theme.rcss	6891	Unknown
 ASSET	project://UI/theme.rcss.in	6939	Unknown
 ASSET	project://UI/theme.tokens.json	356	Unknown
 ASSET	project://UI/title.rcss	4766	Unknown
 ASSET	project://UI/title.rcss.in	4806	Unknown
-ASSET	project://UI/title.rml	15942	RML Document
+ASSET	project://UI/title.rml	16487	RML Document
 ASSET	project://UI/vehicle-speedometer.rcss	2990	Unknown
-ASSET	project://UI/vehicle-speedometer.rml	1667	RML Document
+ASSET	project://UI/vehicle-speedometer.rml	1698	RML Document
 ASSET	project://Weapons/Materials/Accent.plutomaterial	673	Material
 ASSET	project://Weapons/Materials/Brass.plutomaterial	166	Material
 ASSET	project://Weapons/Materials/Glove.plutomaterial	168	Material

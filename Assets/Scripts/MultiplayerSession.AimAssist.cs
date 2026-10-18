@@ -42,7 +42,7 @@ public sealed partial class MultiplayerSession
             if (angle >= best || SightBlocked(origin, point)) continue;
             var ray = point - origin;
             var length = ray.Length();
-            if (Physics.Raycast(origin, ray / length, length + .1f, GameObject, out var hit) && FindPeerForEntity(hit.Entity) == pair.Key)
+            if (!Physics.Raycast(origin, ray / length, length, GameObject, out var hit) || FindPeerForEntity(hit.Entity) == pair.Key)
                 best = angle;
         }
         return best;

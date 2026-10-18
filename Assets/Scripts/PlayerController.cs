@@ -428,6 +428,7 @@ public sealed class PlayerController : ScriptBehaviour
         _fireClock += deltaTime;
         if (_dead || _neutralSpectator)
         {
+            _controllerLookAcceleration.Reset();
             // Physics extrapolation and built-in camera rigs run after OnUpdate.
             // Reapply the world pose on the render timeline so the dead owner's
             // parent transform cannot lower or roll the spectator camera.
@@ -459,6 +460,7 @@ public sealed class PlayerController : ScriptBehaviour
         _fireClock += deltaTime;
         if (_dead || _neutralSpectator)
         {
+            _controllerLookAcceleration.Reset();
             UpdateDeathCamera(deltaTime);
             return;
         }
@@ -468,7 +470,7 @@ public sealed class PlayerController : ScriptBehaviour
         if (_multiplayer?.UsesServerAuthority != true) _inventory?.TickUse(deltaTime);
 
         var cursorLocked = GameInput.GameplayAllowed;
-        if (!cursorLocked) _triggerBuffer.Cancel();
+        if (!cursorLocked) { _triggerBuffer.Cancel(); _controllerLookAcceleration.Reset(); }
         if (_multiplayer?.UsesServerAuthority == true)
         {
             _mouseDelta = cursorLocked ? GameInput.MouseLook : Vector2.Zero;
@@ -773,18 +775,20 @@ public sealed class PlayerController : ScriptBehaviour
             t);
     }
 
+    private ControllerLookAcceleration _controllerLookAcceleration;
+
     private void UpdateLook(float deltaTime)
     {
         _recoilPitchOffset = Damp(_recoilPitchOffset, 0.0f, recoilRecovery, deltaTime);
         _recoilYawOffset = Damp(_recoilYawOffset, 0.0f, recoilRecovery, deltaTime);
         var sensitivity = mouseSensitivity * CoD.Scripts.PlayerSettings.Current.Sensitivity * (_aiming ? adsSensitivityMultiplier : 1.0f);
         var mouse = _mouseDelta;
-        var stickInput = GameInput.StickLook;
+        var stickInput = _controllerLookAcceleration.Apply(GameInput.StickLook, deltaTime);
         var strength = CoD.Scripts.PlayerSettings.Current.ControllerAimAssist;
         var controllerAds = GameInput.ControllerAxis("Aim") > .5f && !_reloading;
         if (controllerAds && strength > 0 && mouse == Vector2.Zero && stickInput != Vector2.Zero)
             stickInput = ControllerAimAssist.Apply(stickInput, mouse, controllerAds, strength, FindControllerAimAssistAngle(deltaTime));
-        var stick = stickInput * controllerLookSpeed * deltaTime * (_aiming ? adsSensitivityMultiplier : 1.0f);
+        var stick = stickInput * controllerLookSpeed * CoD.Scripts.PlayerSettings.Current.ControllerSensitivity * deltaTime * (_aiming ? adsSensitivityMultiplier : 1.0f);
         _yaw -= mouse.X * sensitivity + stick.X;
         _pitch = Math.Clamp(_pitch - mouse.Y * sensitivity - stick.Y, minimumPitch, maximumPitch);
         Rotation = new Vector3(0.0f, _yaw + _recoilYawOffset, 0.0f);
@@ -819,8 +823,8 @@ public sealed class PlayerController : ScriptBehaviour
             if (angle >= best || MultiplayerSession.SightBlocked(origin, point)) continue;
             var ray = point - origin;
             var length = ray.Length();
-            if (Physics.Raycast(origin, ray / length, length + .1f, GameObject, out var hit) &&
-                (hit.Entity.EntityId == target.EntityId || hit.Entity.GetComponent<NetworkParticipantHitbox>()?.ParticipantEntityId == target.EntityId))
+            if (!Physics.Raycast(origin, ray / length, length, GameObject, out var hit) ||
+                hit.Entity.EntityId == target.EntityId || hit.Entity.GetComponent<NetworkParticipantHitbox>()?.ParticipantEntityId == target.EntityId)
                 best = angle;
         }
         return best;
