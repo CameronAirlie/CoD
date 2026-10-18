@@ -40,7 +40,7 @@ public static class GameInput
     public static bool Pressed(string action) => Map.WasPressed(action);
     public static float Axis(string action) => Map.GetAxis(action);
     private static readonly MenuCapture Capture = new();
-    public static void SetMenuCapture(bool open) => Capture.Set(open);
+    public static void SetMenuCapture(bool open) { Capture.Set(open); if (open) ControllerVibration.Stop(); }
     public static bool GameplayAllowed => Capture.Allows(Input.CursorLocked,
         !Capture.RequiresNeutral || MenuButtonsReleased && DismissActions.All(action => !Down(action)));
     private static readonly string[] DismissActions =
@@ -83,4 +83,78 @@ public static class GameInput
         GameInput.ControllerPressed("MenuPreviousTab"), GameInput.ControllerPressed("MenuNextTab"),
         GameInput.ControllerPressed("MenuSecondary"), GameInput.ControllerPressed("MenuSpace"),
         GameInput.ControllerPressed("MenuDone"), GameInput.MenuButtonsReleased);
+}
+
+/// <summary>Independent envelopes prevent rapid shots from masking a damage pulse.</summary>
+public sealed class VibrationMixer
+{
+    private readonly Vector2[] _motors = new Vector2[3];
+    private readonly float[] _remaining = new float[3];
+    private readonly float[] _duration = new float[3];
+    public void Pulse(int channel, Vector2 motors, float seconds)
+    {
+        if (channel < 0 || channel >= 3 || !float.IsFinite(seconds) || seconds <= 0 || seconds > 5 ||
+            !float.IsFinite(motors.X) || !float.IsFinite(motors.Y)) return;
+        _motors[channel] = Vector2.Clamp(motors, Vector2.Zero, Vector2.One);
+        _remaining[channel] = _duration[channel] = seconds;
+    }
+    public Vector2 Advance(float seconds)
+    {
+        if (!float.IsFinite(seconds) || seconds < 0) { Clear(); return Vector2.Zero; }
+        var result = Vector2.Zero;
+        for (int i = 0; i < 3; i++)
+        {
+            _remaining[i] = MathF.Max(0, _remaining[i] - seconds);
+            if (_remaining[i] > 0) result = Vector2.Max(result, _motors[i] * (_remaining[i] / _duration[i]));
+        }
+        return result;
+    }
+    public void Clear() { Array.Clear(_remaining); }
+}
+
+/// <summary>Local player's controller feedback. Native timed output provides a watchdog.</summary>
+public static class ControllerVibration
+{
+    private static readonly VibrationMixer Mixer = new();
+    private static int _pad = -1;
+    private static bool _outputActive;
+    private static bool Allowed => Input.UsingController && Input.ActiveGamepad >= 0 &&
+        PlayerSettings.Current.ControllerVibration > 0 && GameInput.GameplayAllowed;
+    private static void Pulse(int channel, Vector2 motors, float seconds)
+    {
+        if (!Allowed) return;
+        if (_pad >= 0 && _pad != Input.ActiveGamepad) Stop();
+        _pad = Input.ActiveGamepad;
+        Mixer.Pulse(channel, motors, seconds);
+        Update(0, true); // Start immediately, including at low frame rates.
+    }
+    public static void Shot() => Pulse(0, new(.25f, .65f), .10f);
+    public static void Damage(float amount)
+    {
+        if (!Allowed || !float.IsFinite(amount) || amount <= 0) return;
+        float intensity = Math.Clamp(amount / 60, .35f, 1);
+        Pulse(1, new Vector2(.9f, .45f) * intensity, .30f);
+    }
+    public static void Reload() => Pulse(2, new(.18f, .3f), .12f);
+    public static void Update(float seconds, bool alive)
+    {
+        if (!alive || !Allowed) { Stop(); return; }
+        if (_pad >= 0 && _pad != Input.ActiveGamepad) Stop();
+        _pad = Input.ActiveGamepad;
+        var output = Mixer.Advance(seconds) * PlayerSettings.Current.ControllerVibration;
+        if (output == Vector2.Zero)
+        {
+            if (_outputActive) Input.StopGamepadVibration(_pad);
+            _outputActive = false;
+            return;
+        }
+        _outputActive = Input.TrySetGamepadVibration(output.X, output.Y, .10f, _pad);
+    }
+    public static void Stop()
+    {
+        Mixer.Clear();
+        if (_pad >= 0) Input.StopGamepadVibration(_pad);
+        _pad = -1;
+        _outputActive = false;
+    }
 }

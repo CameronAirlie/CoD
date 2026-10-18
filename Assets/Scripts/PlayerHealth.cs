@@ -87,7 +87,10 @@ public sealed class PlayerHealth : ScriptBehaviour
         _health = Math.Clamp(health, 0, maximumHealth); _armourSlots = Math.Clamp(armour, 0, maximumArmourSlots);
         _dead = _health <= 0;
         if (damageFeedback && !wasDead && (_health < previous || _armourSlots < previousArmour))
+        {
             _controller?.PlayGameplayCue(GameplaySounds.PlayerHit, .75f);
+            _controller?.VibrateDamage(MathF.Max(previous - _health, (previousArmour - _armourSlots) * 25));
+        }
         if (damageFeedback && _health < previous)
         {
             _lastDamageAt = _time; DamageTaken?.Invoke();
@@ -175,6 +178,7 @@ public sealed class PlayerHealth : ScriptBehaviour
         }
         _health = MathF.Max(0.0f, _health - remainingDamage);
         _controller?.PlayGameplayCue(GameplaySounds.PlayerHit, .75f);
+        _controller?.VibrateDamage(amount);
         if (_damageImage is not null)
             SetDamageOverlayAlpha(MathF.Max(
                 _damageOverlayAlpha, Math.Clamp(damageFlashAlpha, 0.0f, 1.0f)));

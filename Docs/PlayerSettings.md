@@ -2,7 +2,7 @@
 
 Borderless fullscreen applies to the standalone game. The native script bridge ignores fullscreen changes during play-in-editor, keeping the editor window mode independent of saved game preferences.
 
-Open SETTINGS from the title or pause menu. Five tabs organize preferences: Display (VSync, borderless fullscreen, and field of view), Graphics (quality), Audio (volumes), Interface (scale), and Controls (mouse sensitivity, joystick sensitivity and controller aim assist). Changes apply immediately; BACK closes the page and RESTORE DEFAULTS resets all preferences.
+Open SETTINGS from the title or pause menu. Five tabs organize preferences: Display (VSync, borderless fullscreen, and field of view), Graphics (quality), Audio (volumes), Interface (scale), and Controls (mouse sensitivity, joystick sensitivity, controller aim assist and vibration). Changes apply immediately; BACK closes the page and RESTORE DEFAULTS resets all preferences.
 
 PlayerPreferences is a versioned, validated model. PlayerSettings owns persistence and application; GameGraphicsSettings binds document-scoped controls. Preferences are stored in LocalApplicationData/PlutoCombat/settings.json with temporary-file replacement. Existing graphics.json preferences migrate on first load. Unsupported display changes keep the previous preference and display a status message. Scene hosts reapply graphics quality on scene creation.
 
@@ -40,3 +40,9 @@ action on the active device displays UNBOUND. Configure/reload the input asset t
 pick up asset edits; binding changes within the active map refresh automatically.
 
 Joystick sensitivity is saved independently of mouse sensitivity (0.1–3x, default 1x). Deliberate stick deflections above 65% gain up to 75% extra turn speed over 0.6 seconds. Small aim corrections remain unaccelerated; release, reversal, death and menu capture reset the ramp. ADS scaling still applies. Target visibility accepts a clear ray to the aim point even when no target collider covers that point; an intervening physics hit still blocks assistance.
+
+Controller vibration is a saved strength slider (0–100%, default 100%, five-percent steps) in both Controls menus. 0% stops current output immediately and disables new pulses. Old settings default to 100%; invalid values follow normal preference validation. Restore Defaults includes vibration.
+
+Shots produce a short high-frequency pulse; damage produces a longer low-frequency pulse proportional to damage, including armour hits; a completed reload produces a light click. Independent linear envelopes combine by the maximum on each motor. This covers local and network-owner feedback, never remote actors or spectator playback. Pause/menu capture, switching to mouse/keyboard, death and player destruction clear pending pulses. Focus loss, script input disable, disconnect/remapping and window close also stop native output. Native timed pulses expire after at most 100ms without refresh from CoD.
+
+The initial backend supports Windows XInput-compatible controllers (including devices exposed through an XInput compatibility driver). DirectInput-only controllers and other platforms currently return unavailable. Actual motor feel and device compatibility require a hardware playtest. See the engine's `docs/ControllerVibration.md` for the API and design.

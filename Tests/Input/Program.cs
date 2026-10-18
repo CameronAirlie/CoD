@@ -17,6 +17,7 @@ Check(actions.Count == map.Actions.Count, "Duplicate action names.");
 var root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../"));
 MenuTests.Run(root);
 AimAssistTests.Run(root);
+VibrationTests.Run(root);
 foreach (var file in Directory.EnumerateFiles(Path.Combine(root, "Assets/Scripts"), "*.cs"))
 {
     var source = File.ReadAllText(file);

@@ -12,6 +12,7 @@ public sealed record PlayerPreferences
     public float Effects { get; init; } = 1;
     public float Feedback { get; init; } = 1;
     public float Sensitivity { get; init; } = 1;
+    public float ControllerVibration { get; init; } = 1;
     public float ControllerSensitivity { get; init; } = 1;
     public float ControllerAimAssist { get; init; } = CoD.Scripts.ControllerAimAssist.DefaultStrength;
     public float Scale { get; init; } = 1;
@@ -20,6 +21,7 @@ public sealed record PlayerPreferences
         Quality = Enum.IsDefined(Quality) ? Quality : GraphicsPreset.High,
         Master = Bound(Master, 0, 1), Effects = Bound(Effects, 0, 1), Feedback = Bound(Feedback, 0, 1),
         Sensitivity = Bound(Sensitivity, .1f, 3), ControllerSensitivity = Bound(ControllerSensitivity, .1f, 3), Scale = Bound(Scale, .75f, 1.25f),
+        ControllerVibration = Bound(ControllerVibration, 0, 1),
         ControllerAimAssist = float.IsFinite(ControllerAimAssist) ? Math.Clamp(ControllerAimAssist, 0, 1) : CoD.Scripts.ControllerAimAssist.DefaultStrength,
         FieldOfView = float.IsFinite(FieldOfView) ? Math.Clamp(FieldOfView, 80, 110) : 90 };
     private static float Bound(float x, float min, float max) => float.IsFinite(x) ? Math.Clamp(x, min, max) : 1;
@@ -48,6 +50,7 @@ public static class PlayerSettings
         Application.Fullscreen = value.Fullscreen;
         bool fullscreen = Application.Fullscreen == value.Fullscreen;
         bool interfaceScale = UISettings.IsSupported && UISettings.TrySetInterfaceScale(value.Scale);
+        if (value.ControllerVibration == 0) CoD.Scripts.ControllerVibration.Stop();
         Current = value with { Quality = quality ? value.Quality : Current.Quality,
             VSync = vsync ? value.VSync : Current.VSync, Fullscreen = fullscreen ? value.Fullscreen : Current.Fullscreen,
             Scale = interfaceScale ? value.Scale : Current.Scale };

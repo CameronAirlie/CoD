@@ -111,6 +111,7 @@ public sealed class PlayerController : ScriptBehaviour
     }
     public override void OnDestroy()
     {
+        ControllerVibration.Stop();
         _gameplayAudio?.Dispose();
         if (_inventory is not null) _inventory.Changed -= OnInventoryChanged;
         ClearSpectatorPresentation();
@@ -119,6 +120,7 @@ public sealed class PlayerController : ScriptBehaviour
     private readonly FirstPersonHands _hands = new();
     private GameplayAudio? _gameplayAudio;
     private float _footstepDistance;
+    public void VibrateDamage(float amount) { if (!_dead && !_neutralSpectator) ControllerVibration.Damage(amount); }
     public void PlayGameplayCue(string clip, float volume = .65f) => _gameplayAudio?.Play(clip, volume);
     public void PlayGameplayCueAt(string clip, Vector3 position, float volume = .7f) => _gameplayAudio?.PlayAt(clip, position, volume);
     private WeaponLoadout? _weapons;
@@ -446,6 +448,7 @@ public sealed class PlayerController : ScriptBehaviour
     }
     public override void OnUpdate(float deltaTime)
     {
+        ControllerVibration.Update(deltaTime, !_dead && !_neutralSpectator);
         ClearPresentationCameraOffset();
         // Scripts are created in component order. MultiplayerSession can be
         // unavailable in OnCreate, so resolve it again before choosing movement
@@ -552,6 +555,7 @@ public sealed class PlayerController : ScriptBehaviour
 
     public void ApplyServerState(MultiplayerSession.OwnerState state)
     {
+        bool sameLife = _serverLife == state.Life;
         if (_serverLife != state.Life)
         {
             _serverLife = state.Life; _requestedServerSlot = state.Slot;
@@ -560,6 +564,7 @@ public sealed class PlayerController : ScriptBehaviour
         _horizontalVelocity = new Vector3(state.VelocityX, 0, state.VelocityZ);
         if (_weapons is not null && _weapons.SelectedSlot != state.Slot)
         { _weapons.Select(state.Slot); ApplyEquippedWeapon(); WeaponChanged?.Invoke(); }
+        if (sameLife && _reloading && !state.Reloading && state.Magazine > _ammo) ControllerVibration.Reload();
         _ammo = state.Magazine; _reserveAmmo = state.Reserve;
         _reloading = _reloadAnimationActive = state.Reloading;
         if (_hands.Equipped is not null) _hands.SetReload(state.Reloading);
@@ -585,6 +590,7 @@ public sealed class PlayerController : ScriptBehaviour
             return;
 
         _dead = true;
+        ControllerVibration.Stop();
         _spectatorPeer = null;
         _deathCameraTime = 0.0f;
         _horizontalVelocity = Vector3.Zero;
@@ -1042,6 +1048,7 @@ public sealed class PlayerController : ScriptBehaviour
         _shotCooldown = 60.0f / MathF.Max(1.0f, roundsPerMinute);
         var shotPitch = (_weapons?.Equipped.ShotPitch ?? 1) * (0.97f + NextFloat() * 0.06f);
         _presentationShots++;
+        ControllerVibration.Shot();
         if (_weapons is not null) _hands.Equipped?.PlayShot(shotPitch);
         else { GameplaySounds.Play(shotAudio, GameplaySounds.Shot(null), 1, shotPitch); muzzleFlash?.Emit(1); }
         if (_hands.Equipped is not null) _hands.Fire();
@@ -1138,6 +1145,7 @@ public sealed class PlayerController : ScriptBehaviour
         var needed = Math.Max(0, magazineSize - _ammo);
         var transferred = _inventory?.TakeAmmo(needed) ?? Math.Min(needed, _reserveAmmo);
         _ammo += transferred;
+        if (transferred > 0) ControllerVibration.Reload();
         _reserveAmmo = _inventory?.ReserveAmmo ?? _reserveAmmo - transferred;
         _reloading = false;
         // ReloadFinish commits the gameplay state, but the animation layer is

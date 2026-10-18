@@ -33,7 +33,8 @@ public sealed class SettingsMenu
         Slider("feedback", "audio", 2, 0, 1, .01f, v => v.Feedback, (v, x) => v with { Feedback = x });
         Slider("mouse", "controls", 0, .1f, 3, .05f, v => v.Sensitivity, (v, x) => v with { Sensitivity = x });
         Slider("controller", "controls", 1, .1f, 3, .05f, v => v.ControllerSensitivity, (v, x) => v with { ControllerSensitivity = x });
-        Slider("aim-assist", "controls", 2, 0, 1, .05f, v => v.ControllerAimAssist, (v, x) => v with { ControllerAimAssist = x });
+        Slider("aim-assist", "controls", 3, 0, 1, .05f, v => v.ControllerAimAssist, (v, x) => v with { ControllerAimAssist = x });
+        Slider("vibration", "controls", 2, 0, 1, .05f, v => v.ControllerVibration, (v, x) => v with { ControllerVibration = x });
         Slider("fov", "display", 2, 80, 110, 1, v => v.FieldOfView, (v, x) => v with { FieldOfView = x });
         Slider("scale", "interface", 0, .75f, 1.25f, .01f, v => v.Scale, (v, x) => v with { Scale = x });
         _menu.Add(new("settings-reset", 10, 0, () => Change(new())));
@@ -102,11 +103,11 @@ public sealed class SettingsMenu
         _document.Element("setting-quality").Markup = v.Quality.ToString().ToUpperInvariant();
         _document.Element("setting-vsync").Markup = v.VSync ? "ON" : "OFF";
         _document.Element("setting-fullscreen").Markup = v.Fullscreen ? "ON" : "OFF";
-        foreach (var pair in new[] { ("master", v.Master), ("effects", v.Effects), ("feedback", v.Feedback), ("mouse", v.Sensitivity), ("controller", v.ControllerSensitivity), ("aim-assist", v.ControllerAimAssist), ("scale", v.Scale), ("fov", v.FieldOfView) })
+        foreach (var pair in new[] { ("master", v.Master), ("effects", v.Effects), ("feedback", v.Feedback), ("mouse", v.Sensitivity), ("controller", v.ControllerSensitivity), ("aim-assist", v.ControllerAimAssist), ("vibration", v.ControllerVibration), ("scale", v.Scale), ("fov", v.FieldOfView) })
         {
             _document.Element("setting-" + pair.Item1)["value"] = pair.Item2.ToString("0.00", CultureInfo.InvariantCulture);
             _document.Element("setting-" + pair.Item1 + "-value").Markup =
-                pair.Item1 is "master" or "effects" or "feedback" or "aim-assist"
+                pair.Item1 is "master" or "effects" or "feedback" or "aim-assist" or "vibration"
                     ? (pair.Item2 * 100).ToString("0", CultureInfo.InvariantCulture) + "%"
                     : pair.Item1 == "fov" ? pair.Item2.ToString("0", CultureInfo.InvariantCulture) + "&#176;"
                     : pair.Item2.ToString("0.00", CultureInfo.InvariantCulture) + "x";
